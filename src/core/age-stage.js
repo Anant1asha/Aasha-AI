@@ -1,0 +1,2 @@
+export function ageStage(classLevel){const g=Number(classLevel);if(!Number.isInteger(g)||g<1||g>10)throw new Error('Class must be 1–10');return g<=2?'foundation':g<=5?'primary':g<=8?'middle':'secondary'}
+export const STAGE_RULES={foundation:{classes:[1,2],ui:'high_visual_low_text'},primary:{classes:[3,5],ui:'visual_guided'},middle:{classes:[6,8],ui:'balanced'},secondary:{classes:[9,10],ui:'dense_analytical'}};
