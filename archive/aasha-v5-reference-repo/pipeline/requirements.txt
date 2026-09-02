@@ -1,0 +1,16 @@
+# Core: zero required third-party packages — the pipeline runs with stdlib +
+# MockProvider out of the box (see docs/OPEN_SOURCE_TOOLING.md for why this
+# is deliberate, not a missing dependency list).
+
+# Install these to enable full functionality:
+pymupdf>=1.24        # Stage 1 ingest — real PDF parsing (pipeline/ingest/)
+                      # Without it, use --stub-text for offline/demo runs.
+
+# Optional, for full-fidelity QA (render-every-step + flow simulation):
+# Install jsdom via npm instead — see pipeline/qa/README.md:
+#   npm install jsdom
+
+# No SDK packages required for LLM providers — llm_adapter.py talks to
+# OpenAI/Anthropic/Gemini directly over stdlib urllib. Set the relevant
+# API key as an environment variable:
+#   OPENAI_API_KEY / ANTHROPIC_API_KEY / GEMINI_API_KEY

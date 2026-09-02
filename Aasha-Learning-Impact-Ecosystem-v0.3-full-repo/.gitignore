@@ -1,0 +1,7 @@
+node_modules/
+dist/
+services/api/data/
+.env
+.env.*
+.superpowers/
+.DS_Store

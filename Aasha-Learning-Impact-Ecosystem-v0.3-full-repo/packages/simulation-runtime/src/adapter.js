@@ -1,0 +1,1 @@
+export class SimulationAdapter{constructor(manifest){this.manifest=manifest;} mount(target,params={}){if(!target)throw new Error('target required');target.textContent=`Simulation: ${this.manifest.title}`;return {id:this.manifest.id,params};}}

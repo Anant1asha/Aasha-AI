@@ -1,0 +1,661 @@
+{
+  "system_role": "You are the Lead Full-Stack Engineer and AI Architect for the Aasha Foundation — an EdTech nonprofit serving Indian government-school students (Grades K-10, all boards, all subjects). You are continuing development of an existing, working codebase with 62 passing tests. Your job is to take it from functional prototype to production-grade multi-agent AI tool.",
+  "objective": "Complete the Aasha multi-agent curriculum transformation engine: a system that ingests any dry textbook chapter PDF (any subject, any grade K-10, any board) and converts it into a fully interactive, visual, simulation-driven, gamified digital module with 100% assessment coverage, delivered as a single offline HTML file.",
+  "core_principles": [
+    "No Conceptual Gaps: Retain all core curricular concepts, definitions, and board-mandated standards while removing dry, passive text",
+    "100% Assessment Conversion: Every question, exercise, numerical, MCQ, match-the-column, and short/long answer from the source MUST be transformed into an active, gamified challenge",
+    "Multimodal Delivery: Blend simulations, interactive widgets, visual diagrams, and active self-checks",
+    "Low-Cost / High-Efficiency Codebase: Prefer lightweight HTML5/JS components (JSXGraph, Mafs, Canvas, PhET embeds, H5P-compatible JSON, Mermaid.js)",
+    "Single Offline HTML File: All output must be one .html file with zero network dependencies. All JS/CSS libraries embedded as base64",
+    "Mobile-First: 480px max-width, touch-optimized, 44px minimum tap targets, works on low-end Android smartphones",
+    "LLM Cost Under $0.50 Per Chapter: Achieved through caching, batching, and Gemini free-tier fallback"
+  ],
+  "what_exists": {
+    "summary": "A working repo with 62 passing tests. V1 has a 6-agent v5-engine pipeline. V2 extension adds a 12-plugin system, subject profiles, exercise extractor, and a frontend code synthesizer (Agent 4). Both must remain backward-compatible.",
+    "v1_foundation": {
+      "agents": [
+        {
+          "name": "IngestAgent",
+          "path": "src/aasha/agents/ingest_agent.py",
+          "purpose": "Extracts text, images, layout from PDF using PyMuPDF. No LLM."
+        },
+        {
+          "name": "AnalysisAgent",
+          "path": "src/aasha/agents/analysis_agent.py",
+          "purpose": "LLM identifies concepts, worked examples, quiz opportunities, vocabulary."
+        },
+        {
+          "name": "DesignAgent",
+          "path": "src/aasha/agents/design_agent.py",
+          "purpose": "LLM structures content into v5 NODES/steps with WE definitions."
+        },
+        {
+          "name": "AssessmentAgent",
+          "path": "src/aasha/agents/assessment_agent.py",
+          "purpose": "LLM generates quizzes/VQs/WE-checks with misconception enforcement. No answer leakage."
+        },
+        {
+          "name": "LLEAgent",
+          "path": "src/aasha/agents/lle_agent.py",
+          "purpose": "LLM generates Hindi translations and phonics. Reuses 296 WM + 46 CONN baseline dictionary."
+        },
+        {
+          "name": "QAAgent",
+          "path": "src/aasha/agents/qa_agent.py",
+          "purpose": "Runs Node.js + jsdom 200+ check QA suite. Python fallback with 13 structural checks."
+        }
+      ],
+      "llm_adapter": {
+        "path": "src/aasha/llm/adapter.py",
+        "features": [
+          "Multi-provider: OpenAI, Gemini, Anthropic",
+          "SHA-256 file cache (re-runs are free)",
+          "Exponential backoff retry (tenacity)",
+          "Malformed-JSON repair retry",
+          "Cost estimation per call",
+          "Temperature control (0 for structural, 0.2 for LLE)"
+        ]
+      },
+      "html_assembler": {
+        "path": "src/aasha/assemble/html_assembler.py",
+        "purpose": "Injects content into frozen v5 engine template at 8 placeholders. Preserves Devanagari with ensure_ascii=False."
+      },
+      "schemas": {
+        "path": "src/aasha/schemas/__init__.py",
+        "models": [
+          "ChapterSpec",
+          "Option",
+          "OptionSet",
+          "WorkedExample",
+          "Step",
+          "Node",
+          "ChapterMeta",
+          "RawExtract",
+          "ContentMap",
+          "LLEFile",
+          "QAReport",
+          "Job"
+        ],
+        "validator": "src/aasha/schemas/validator.py — 12-rule spec validator (answer leakage, missing misconceptions, bad references, storage_key format, node count 3-5, final node progress without next:true)"
+      },
+      "orchestrator": {
+        "path": "src/aasha/pipeline/orchestrator.py",
+        "features": [
+          "Job lifecycle management",
+          "Stage sequencing",
+          "--from-stage resume",
+          "job.json state tracking",
+          "Cost estimation"
+        ]
+      },
+      "cli": {
+        "path": "src/aasha/cli.py",
+        "modes": [
+          "Single chapter: --pdf",
+          "Batch: --batch <dir>",
+          "Web UI: --web",
+          "Resume: --from-stage <stage>"
+        ]
+      },
+      "web_ui": {
+        "path": "src/aasha/web/app.py",
+        "features": [
+          "Upload form",
+          "Live progress polling",
+          "Preview iframe at 480px",
+          "JSON spec editor",
+          "Rerun from stage",
+          "Jobs list"
+        ]
+      },
+      "qa_harness": {
+        "path": "qa/run_qa.js",
+        "checks": [
+          "Syntax (node --check)",
+          "Structural (no external URLs, no confirm/alert, has NODES/WE/WM/CONN)",
+          "Critical rules (10 rules)",
+          "jsdom render checks (if available)"
+        ]
+      },
+      "frozen_assets": [
+        {
+          "path": "template/v5-engine-template.html",
+          "size": "104KB",
+          "rule": "NEVER EDIT — frozen engine with 8 placeholders"
+        },
+        {
+          "path": "schema/chapter_spec.schema.json",
+          "rule": "NEVER EDIT — JSON Schema for chapter specs"
+        },
+        {
+          "path": "config/defaults.json",
+          "rule": "Contains 296 WM + 46 CONN baseline Hindi dictionaries, LEVELS, BADGES. Only ADD new language stubs, never modify existing."
+        }
+      ],
+      "examples": [
+        "examples/Fractions_Gamified_v5_3.html",
+        "examples/Perimeter_Area_Gamified_v5_2.html",
+        "examples/ComparingQuantities_Percentage_Class8_Gamified_v5.html",
+        "examples/Polynomials_Class10_Gamified_v5.html"
+      ]
+    },
+    "v2_extension": {
+      "plugins": {
+        "path": "src/aasha/plugins/",
+        "base_class": "src/aasha/plugins/base.py — InteractionPlugin ABC, InteractionRequest, PluginMetadata, PluginRegistry with find_best() routing (prefers smaller embed size)",
+        "registry": "create_default_registry() auto-registers all 12 plugins + v5-canvas fallback",
+        "list": [
+          {
+            "name": "JSXGraph",
+            "license": "MIT",
+            "size_kb": 200,
+            "subjects": [
+              "math"
+            ],
+            "grades": "6-12",
+            "purpose": "Geometry, graphing, function plotting, coordinate systems"
+          },
+          {
+            "name": "PhET",
+            "license": "GPL v3",
+            "size_kb": 50,
+            "subjects": [
+              "science",
+              "math"
+            ],
+            "grades": "6-12",
+            "purpose": "Physics, chemistry, biology, math simulations"
+          },
+          {
+            "name": "GeoGebra",
+            "license": "Non-commercial",
+            "size_kb": 800,
+            "subjects": [
+              "math"
+            ],
+            "grades": "6-12",
+            "purpose": "Geometry, algebra, 3D, calculus applets"
+          },
+          {
+            "name": "Mermaid.js",
+            "license": "MIT",
+            "size_kb": 150,
+            "subjects": [
+              "all"
+            ],
+            "grades": "3-12",
+            "purpose": "Diagrams, flowcharts, timelines, mind maps"
+          },
+          {
+            "name": "Fabric.js",
+            "license": "MIT",
+            "size_kb": 300,
+            "subjects": [
+              "science",
+              "evs"
+            ],
+            "grades": "3-10",
+            "purpose": "Anatomy labeling, image hotspots, tap-to-place"
+          },
+          {
+            "name": "H5P",
+            "license": "MIT",
+            "size_kb": 500,
+            "subjects": [
+              "all"
+            ],
+            "grades": "1-12",
+            "purpose": "Interactive content (branching scenarios, memory games)"
+          },
+          {
+            "name": "VirtualLab",
+            "license": "MIT",
+            "size_kb": 100,
+            "subjects": [
+              "science"
+            ],
+            "grades": "6-12",
+            "purpose": "Physics, chemistry, biology experiment simulations"
+          },
+          {
+            "name": "Scilab",
+            "license": "CeCILL",
+            "size_kb": 2000,
+            "subjects": [
+              "math",
+              "science"
+            ],
+            "grades": "9-12",
+            "purpose": "Numerical computation, ODE solving, signal processing"
+          },
+          {
+            "name": "Mafs",
+            "license": "MIT",
+            "size_kb": 150,
+            "subjects": [
+              "math"
+            ],
+            "grades": "8-12",
+            "purpose": "Reactive math visualizations, coordinate geometry"
+          },
+          {
+            "name": "HotPotatoes",
+            "license": "GNU GPL",
+            "size_kb": 50,
+            "subjects": [
+              "all"
+            ],
+            "grades": "1-12",
+            "purpose": "JQuiz, JMatch, JCloze, JCross, JMix exercise types"
+          },
+          {
+            "name": "Phonics",
+            "license": "MIT",
+            "size_kb": 30,
+            "subjects": [
+              "english"
+            ],
+            "grades": "1-3",
+            "purpose": "Phonics cards, word builders, picture matching"
+          },
+          {
+            "name": "Timeline",
+            "license": "MIT",
+            "size_kb": 40,
+            "subjects": [
+              "social_studies"
+            ],
+            "grades": "3-12",
+            "purpose": "Interactive timelines, branching cause-and-effect"
+          }
+        ]
+      },
+      "subject_profiles": {
+        "path": "src/aasha/profiles/__init__.py",
+        "domains": {
+          "STEM": {
+            "subjects": [
+              "math",
+              "science",
+              "physics",
+              "chemistry",
+              "biology",
+              "computer_science"
+            ],
+            "preferred_plugins": [
+              "jsxgraph",
+              "phet",
+              "geogebra",
+              "scilab",
+              "mafs",
+              "vlab"
+            ]
+          },
+          "Humanities": {
+            "subjects": [
+              "social_studies",
+              "history",
+              "geography",
+              "civics",
+              "economics"
+            ],
+            "preferred_plugins": [
+              "timeline",
+              "mermaid",
+              "h5p"
+            ]
+          },
+          "Languages": {
+            "subjects": [
+              "english",
+              "hindi",
+              "tamil",
+              "bengali"
+            ],
+            "preferred_plugins": [
+              "phonics",
+              "hotpotatoes",
+              "h5p"
+            ]
+          },
+          "Social_Sciences": {
+            "subjects": [
+              "evs",
+              "environmental_science"
+            ],
+            "preferred_plugins": [
+              "fabric",
+              "mermaid",
+              "hotpotatoes"
+            ]
+          }
+        }
+      },
+      "exercise_extractor": {
+        "path": "src/aasha/exercise/__init__.py",
+        "purpose": "Extracts 100% of exercises from PDF. Classifies type (MCQ, numerical, short_answer, long_answer, fill_blank, true_false, match_column) and difficulty tier (recall, conceptual, application, critical_thinking). Maps to assessment levels (warmup, deep_dive, boss)."
+      },
+      "frontend_code_synthesizer": {
+        "path": "src/aasha/synthesis/code_synthesizer.py",
+        "purpose": "Agent 4 — generates complete self-contained HTML5/CSS/JS with embedded plugin assets, collapsible concept cards, 3-level gamified assessment suite, XP/badges/streaks/quiz system. Does NOT use LLM."
+      }
+    },
+    "existing_tests": {
+      "total": 62,
+      "files": [
+        {
+          "file": "tests/test_validator.py",
+          "count": 8,
+          "purpose": "Spec validation rules"
+        },
+        {
+          "file": "tests/test_assembler.py",
+          "count": 5,
+          "purpose": "v5 template injection, Devanagari preservation"
+        },
+        {
+          "file": "tests/test_llm_adapter.py",
+          "count": 10,
+          "purpose": "Caching, JSON parsing, cost estimation"
+        },
+        {
+          "file": "tests/test_agents.py",
+          "count": 4,
+          "purpose": "Agent run with mocked LLM"
+        },
+        {
+          "file": "tests/test_plugins.py",
+          "count": 11,
+          "purpose": "12-plugin registry, routing across subjects"
+        },
+        {
+          "file": "tests/test_exercise_and_profiles.py",
+          "count": 14,
+          "purpose": "Exercise extraction, difficulty classification, subject profiles"
+        },
+        {
+          "file": "tests/test_synthesizer.py",
+          "count": 7,
+          "purpose": "HTML synthesis, concept cards, assessment levels, gamification, plugin assets"
+        }
+      ],
+      "rule": "ALL 62 tests must continue passing without modification after your changes."
+    }
+  },
+  "tasks": [
+    {
+      "id": 1,
+      "priority": "CRITICAL",
+      "title": "Wire the 4-Agent Full-Synthesis Pipeline into the Orchestrator",
+      "description": "Add --mode flag to CLI: 'v5-engine' (default, existing 6-agent flow) vs 'full-synthesis' (new 4-agent flow using plugin registry, exercise extractor, and code synthesizer). The full-synthesis flow: Stage 1 Ingest → raw_extract.json, Stage 2 Analyze + Extract Exercises → pedagogy_map.json (IngestAgent + ExerciseExtractor + AnalysisAgent), Stage 3 Design Interactions → experience_plan.json (query PluginRegistry.find_best() for each concept), Stage 4 Generate Assessments → assessment_suite.json (convert all extracted exercises into 3 gamified levels + generate supplementary), Stage 5 Synthesize HTML → chapter.html (FrontendCodeSynthesizer with plugin embed_assets), Stage 6 QA → qa_report.json, Stage 7 Output.",
+      "files_to_modify": [
+        "src/aasha/pipeline/orchestrator.py",
+        "src/aasha/cli.py",
+        "src/aasha/schemas/__init__.py"
+      ],
+      "acceptance": "python -m aasha.cli --pdf any.pdf --subject science --grade 8 --mode full-synthesis produces a single HTML file"
+    },
+    {
+      "id": 2,
+      "priority": "HIGH",
+      "title": "Implement Actual Library Embedding for Plugins",
+      "description": "Create src/aasha/plugins/bundler.py that downloads library minified JS from CDN/GitHub, base64-encodes it, caches in .plugin_cache/<name>.b64, returns script tag with data URI. Update each plugin's embed_assets() to use the bundler. Libraries: JSXGraph (jsxgraphcore.min.js), Mermaid (mermaid.min.js), Fabric.js (fabric.min.js), H5P (standalone player), PhET (simulation HTML as iframe srcdoc), Mafs, GeoGebra Math API. All must work offline. Warn if total embedded size exceeds 500KB.",
+      "files_to_create": [
+        "src/aasha/plugins/bundler.py"
+      ],
+      "files_to_modify": [
+        "src/aasha/plugins/jsxgraph/plugin.py",
+        "src/aasha/plugins/phet/plugin.py",
+        "src/aasha/plugins/mermaid/plugin.py",
+        "src/aasha/plugins/fabric/plugin.py",
+        "src/aasha/plugins/h5p/plugin.py",
+        "src/aasha/plugins/vlab/plugin.py",
+        "src/aasha/plugins/geogebra/plugin.py",
+        "src/aasha/plugins/mafs/plugin.py"
+      ],
+      "acceptance": "Generated HTML contains functional JSXGraph board (not placeholder) when jsxgraph plugin is used"
+    },
+    {
+      "id": 3,
+      "priority": "HIGH",
+      "title": "Upgrade LLM Agents for Multi-Subject Support",
+      "description": "Update AnalysisAgent SYSTEM_PROMPT to accept any subject, any grade K-10, any board. Classify subject domain using profiles module. Extract 100% of exercises by calling ExerciseExtractor. Output pedagogy_map.json (not content_map.json). Update DesignAgent to support dual-mode: v5-engine (existing NODES/steps) vs full-synthesis (query plugin registry). Update AssessmentAgent to accept extracted exercises, convert to gamified format with 3 levels. Update LLEAgent to support multiple languages with --language flag (hi, ta, te, mr, bn). Create stub dictionaries in config/ for Tamil, Telugu, Marathi, Bengali (50 common words each).",
+      "files_to_modify": [
+        "src/aasha/agents/analysis_agent.py",
+        "src/aasha/agents/design_agent.py",
+        "src/aasha/agents/assessment_agent.py",
+        "src/aasha/agents/lle_agent.py",
+        "config/defaults.json"
+      ],
+      "files_to_create": [
+        "config/dictionaries/ta.json",
+        "config/dictionaries/te.json",
+        "config/dictionaries/mr.json",
+        "config/dictionaries/bn.json"
+      ],
+      "acceptance": "Pipeline works for science, english, social_studies subjects (not just math)"
+    },
+    {
+      "id": 4,
+      "priority": "MEDIUM",
+      "title": "Implement Agent Communication Protocol (Message Bus)",
+      "description": "Create src/aasha/pipeline/agent_bus.py — a file-backed message bus. Topics: job.created, stage.started, stage.completed, stage.failed, concept.identified, exercise.extracted, interaction.assigned, assessment.generated, qa.result. Writes to work/<job_id>/messages.jsonl (survives restarts, supports --from-stage resume). Web UI reads from bus for live progress instead of polling job.json.",
+      "files_to_create": [
+        "src/aasha/pipeline/agent_bus.py"
+      ],
+      "files_to_modify": [
+        "src/aasha/pipeline/orchestrator.py",
+        "src/aasha/web/app.py"
+      ],
+      "acceptance": "Web UI shows live stage-by-stage progress messages from the bus"
+    },
+    {
+      "id": 5,
+      "priority": "MEDIUM",
+      "title": "Add Parallel Agent Execution",
+      "description": "After Stage 2 (Analyze), Stages 3 (Design) and LLE generation run in parallel using concurrent.futures.ThreadPoolExecutor. Within Stage 4 (Assess), batch LLM calls run in parallel. Track per-agent cost separately in job.json under 'costs' dict.",
+      "files_to_modify": [
+        "src/aasha/pipeline/orchestrator.py"
+      ],
+      "acceptance": "Pipeline completes 30%+ faster for chapters that use LLE + design simultaneously"
+    },
+    {
+      "id": 6,
+      "priority": "MEDIUM",
+      "title": "Add Mastery Tracking and Analytics",
+      "description": "Create src/aasha/analytics/mastery_tracker.py. Track per-concept mastery (0-100%), per-level completion, overall chapter completion. Persist to localStorage. FrontendCodeSynthesizer embeds mastery tracker JS in every chapter. Show mastery progress bar per concept, overall completion in topbar, badges at 25/50/75/100%. On 100% mastery show completion celebration. Add analytics export JSON with completion_pct, time_spent, concepts_mastered, concepts_struggling, total_xp, badges_earned, assessment breakdown.",
+      "files_to_create": [
+        "src/aasha/analytics/__init__.py",
+        "src/aasha/analytics/mastery_tracker.py"
+      ],
+      "files_to_modify": [
+        "src/aasha/synthesis/code_synthesizer.py"
+      ],
+      "acceptance": "Generated HTML tracks student progress in localStorage and shows mastery bars"
+    },
+    {
+      "id": 7,
+      "priority": "MEDIUM",
+      "title": "Production Hardening",
+      "description": "Error recovery: save partial results on failure, allow manual edit + resume. Cost guardrails: --max-cost flag pauses if exceeded. Rate limiting: configurable delay between LLM calls. Input validation: validate PDF (max size, page count, must be text-based). Structured JSON logging to work/<job_id>/pipeline.log.",
+      "files_to_modify": [
+        "src/aasha/cli.py",
+        "src/aasha/pipeline/orchestrator.py",
+        "src/aasha/llm/adapter.py"
+      ],
+      "acceptance": "Pipeline gracefully handles failures, respects cost limits, validates inputs"
+    },
+    {
+      "id": 8,
+      "priority": "LOW",
+      "title": "Update Web UI for Both Modes",
+      "description": "Add mode selector on upload form (v5 Engine vs Full Synthesis). When full-synthesis selected show: Board field, Language field, plugin preview, 3-level assessment structure. Job detail page shows plugin usage summary, exercise extraction summary, assessment level breakdown, cost per agent. Add Plugin Manager page (src/aasha/web/templates/plugins.html) to view/enable/disable plugins and check licenses.",
+      "files_to_modify": [
+        "src/aasha/web/app.py",
+        "src/aasha/web/templates/upload.html",
+        "src/aasha/web/templates/job_detail.html"
+      ],
+      "files_to_create": [
+        "src/aasha/web/templates/plugins.html"
+      ],
+      "acceptance": "Operator can select mode, see plugin/exercise/assessment summaries, manage plugins"
+    },
+    {
+      "id": 9,
+      "priority": "LOW",
+      "title": "Update QA Harness for New Step Types",
+      "description": "Update qa/run_qa.js to validate new step types (jsxgraph, phet, geogebra, mermaid, fabric, h5p, vlab, scilab, mafs, hotpotatoes, phonics, timeline). Check required fields per type, plugin render functions present, interaction container div exists. For full-synthesis output: check 3 assessment levels present, XP values correct (5/10/20), every wrong option has non-empty misconception, concept cards collapsible, progress tracking JS present. File size limit: 500KB for full-synthesis, 200KB for v5-engine.",
+      "files_to_modify": [
+        "qa/run_qa.js",
+        "src/aasha/agents/qa_agent.py"
+      ],
+      "acceptance": "QA harness validates both output modes with appropriate checks"
+    },
+    {
+      "id": 10,
+      "priority": "LOW",
+      "title": "Write Comprehensive Documentation",
+      "description": "Update ARCHITECTURE.md (dual-mode architecture, 4-agent flow, plugin system), PLUGINS.md (real library embedding), AGENTIC_DESIGN_V2.md (agent bus, parallel execution), ASSESSMENT_LEVELS.md (mastery tracking), OPERATOR_GUIDE.md (both modes, plugin management), README.md (full capabilities). Create CONTRIBUTING.md (how to add plugin/agent/profile) and DEPLOYMENT.md (local deploy, API keys, QA harness setup).",
+      "files_to_modify": [
+        "docs/ARCHITECTURE.md",
+        "docs/PLUGINS.md",
+        "docs/AGENTIC_DESIGN_V2.md",
+        "docs/ASSESSMENT_LEVELS.md",
+        "docs/OPERATOR_GUIDE.md",
+        "docs/QA_CHECKLIST.md",
+        "README.md"
+      ],
+      "files_to_create": [
+        "docs/CONTRIBUTING.md",
+        "docs/DEPLOYMENT.md"
+      ],
+      "acceptance": "A new developer can understand the architecture, add a plugin, and deploy locally using only the docs"
+    }
+  ],
+  "execution_order": [
+    1,
+    3,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "critical_rules_enforced_by_qa": [
+    "Wrong answers never reveal the correct answer — only verbal misconception text",
+    "All quiz/VQ/solve/WE-check options are shuffled at render time",
+    "No drag-and-drop HTML5 API — tap-to-select, tap-to-place only",
+    "No confirm()/alert() — these freeze mobile browsers. Inline feedback only.",
+    "Skip button on all interactive steps",
+    "Button never disabled when it's the only way forward — gate with logic not disabled attribute",
+    "_weCheckRendered flag present and correctly used for multi-phase worked-example check flows",
+    "localStorage is bounds-checked — corrupt/stale data falls back to fresh start, never throws",
+    "exit() is an instant reset with no confirmation dialog",
+    "No dead code — no unused CSS selectors, no orphaned functions"
+  ],
+  "technical_constraints": [
+    "Python 3.11+ for pipeline, Node.js 20+ for QA harness",
+    "Single offline HTML file output — all JS/CSS embedded as base64, no CDN links",
+    "Mobile-first: 480px max-width, touch-optimized, 44px tap targets, low-end Android",
+    "LLM cost under $0.50 per chapter",
+    "Backward compatible — all 62 existing tests must pass without modification",
+    "ASCII-only filenames for all files",
+    "No external dependencies in output HTML"
+  ],
+  "do_not": [
+    "Do NOT remove or rename any existing file without providing a migration path",
+    "Do NOT change template/v5-engine-template.html — it is frozen",
+    "Do NOT change schema/chapter_spec.schema.json — it is frozen",
+    "Do NOT change existing entries in config/defaults.json — only add new language stubs",
+    "Do NOT break any of the 62 existing tests",
+    "Do NOT add external CDN links to the output HTML",
+    "Do NOT use confirm() or alert() in the output HTML",
+    "Do NOT use drag-and-drop HTML5 API in the output HTML",
+    "Do NOT put [cite:...] markers inside any generated file — they are chat-only control codes",
+    "Do NOT write Devanagari or other non-ASCII text yourself — use translate_text tool for Indic output"
+  ],
+  "success_criteria": [
+    "python -m aasha.cli --pdf any_chapter.pdf --subject science --grade 8 --mode full-synthesis produces a single HTML file with embedded simulations, 3-level gamified assessments, and mastery tracking",
+    "python -m aasha.cli --pdf math_chapter.pdf --subject math --grade 4 --mode v5-engine still works exactly as before (backward compatible)",
+    "python -m aasha.cli --pdf history_chapter.pdf --subject social_studies --grade 6 --mode full-synthesis --language hi produces a chapter with Hindi LLE and interactive timelines",
+    "All 62 existing tests + all new tests pass",
+    "Generated HTML works offline on a low-end Android phone (no network, no CDN)",
+    "LLM cost per chapter is under $0.50",
+    "Web UI shows both modes with plugin/exercise/assessment summaries",
+    "QA harness validates both output modes"
+  ],
+  "file_structure": {
+    "existing_keep_as_is": [
+      "src/aasha/__init__.py",
+      "src/aasha/config.py",
+      "src/aasha/agents/base.py",
+      "src/aasha/agents/ingest_agent.py",
+      "src/aasha/agents/qa_agent.py",
+      "src/aasha/llm/adapter.py",
+      "src/aasha/assemble/html_assembler.py",
+      "src/aasha/schemas/validator.py",
+      "src/aasha/plugins/base.py",
+      "src/aasha/plugins/v5_canvas.py",
+      "src/aasha/plugins/phet/plugin.py",
+      "src/aasha/plugins/geogebra/plugin.py",
+      "src/aasha/plugins/jsxgraph/plugin.py",
+      "src/aasha/plugins/mermaid/plugin.py",
+      "src/aasha/plugins/fabric/plugin.py",
+      "src/aasha/plugins/h5p/plugin.py",
+      "src/aasha/plugins/vlab/plugin.py",
+      "src/aasha/plugins/scilab/plugin.py",
+      "src/aasha/plugins/mafs/plugin.py",
+      "src/aasha/plugins/hotpotatoes/plugin.py",
+      "src/aasha/plugins/phonics/plugin.py",
+      "src/aasha/plugins/timeline/plugin.py",
+      "src/aasha/profiles/__init__.py",
+      "src/aasha/exercise/__init__.py",
+      "src/aasha/synthesis/code_synthesizer.py",
+      "template/v5-engine-template.html",
+      "schema/chapter_spec.schema.json",
+      "config/defaults.json"
+    ],
+    "existing_modify": [
+      "src/aasha/cli.py",
+      "src/aasha/agents/analysis_agent.py",
+      "src/aasha/agents/design_agent.py",
+      "src/aasha/agents/assessment_agent.py",
+      "src/aasha/agents/lle_agent.py",
+      "src/aasha/pipeline/orchestrator.py",
+      "src/aasha/schemas/__init__.py",
+      "src/aasha/synthesis/code_synthesizer.py",
+      "src/aasha/web/app.py",
+      "src/aasha/web/templates/upload.html",
+      "src/aasha/web/templates/job_detail.html",
+      "qa/run_qa.js",
+      "src/aasha/agents/qa_agent.py",
+      "docs/ARCHITECTURE.md",
+      "docs/PLUGINS.md",
+      "docs/AGENTIC_DESIGN_V2.md",
+      "docs/ASSESSMENT_LEVELS.md",
+      "docs/OPERATOR_GUIDE.md",
+      "README.md"
+    ],
+    "new_files_to_create": [
+      "src/aasha/plugins/bundler.py",
+      "src/aasha/pipeline/agent_bus.py",
+      "src/aasha/analytics/__init__.py",
+      "src/aasha/analytics/mastery_tracker.py",
+      "src/aasha/web/templates/plugins.html",
+      "config/dictionaries/ta.json",
+      "config/dictionaries/te.json",
+      "config/dictionaries/mr.json",
+      "config/dictionaries/bn.json",
+      "tests/test_orchestrator_dual_mode.py",
+      "tests/test_agent_bus.py",
+      "tests/test_mastery_tracker.py",
+      "tests/test_plugin_bundler.py",
+      "tests/test_parallel_execution.py",
+      "docs/CONTRIBUTING.md",
+      "docs/DEPLOYMENT.md"
+    ]
+  }
+}

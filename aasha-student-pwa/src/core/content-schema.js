@@ -1,0 +1,19 @@
+export const CONTENT_SCHEMA_VERSION=1;
+export function validateChapter(chapter){
+  const errors=[];
+  if(!chapter?.id||!chapter.title||!Number.isInteger(chapter.grade)||chapter.grade<1||chapter.grade>10) errors.push('Chapter requires id, title and grade 1–10.');
+  if(!Array.isArray(chapter.nodes)||!chapter.nodes.length) errors.push('Chapter requires learning nodes.');
+  const ids=new Set();
+  for(const n of chapter.nodes||[]){
+    if(!n.id||ids.has(n.id)) errors.push(`Invalid/duplicate node id: ${n.id}`); ids.add(n.id);
+    if(!n.objective) errors.push(`Node ${n.id} missing objective.`);
+    if(!Array.isArray(n.steps)||!n.steps.length) errors.push(`Node ${n.id} missing steps.`);
+  }
+  for(const n of chapter.nodes||[]) for(const d of n.dependencies||[]) if(!ids.has(d)) errors.push(`Node ${n.id} depends on missing node ${d}.`);
+  return {valid:!errors.length,errors};
+}
+export function validateQuestion(q,nodeIds){
+  const errors=[]; if(!q.id||!q.node_id)errors.push('Question needs id and node_id.'); if(!nodeIds.has(q.node_id))errors.push('Question node_id is not present.');
+  if(!Array.isArray(q.options)||q.options.length<2)errors.push('Question needs at least 2 options.'); if(!Number.isInteger(q.correct_index))errors.push('Question needs correct_index.');
+  return {valid:!errors.length,errors};
+}

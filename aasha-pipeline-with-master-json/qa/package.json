@@ -1,0 +1,13 @@
+{
+  "name": "aasha-qa-harness",
+  "version": "1.0.0",
+  "description": "QA harness for Aasha v5 gamified HTML chapters",
+  "main": "run_qa.js",
+  "scripts": {
+    "qa": "node run_qa.js"
+  },
+  "dependencies": {
+    "jsdom": "^24.0.0"
+  },
+  "license": "MIT"
+}

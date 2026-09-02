@@ -1,0 +1,17 @@
+{
+  "name": "annnath-aasha-learning-impact-ecosystem",
+  "private": true,
+  "version": "0.3.0",
+  "type": "module",
+  "workspaces": ["apps/*", "packages/*", "services/*"],
+  "scripts": {
+    "test": "node --test tests/unit/*.test.js tests/integration/*.test.js",
+    "lint": "node scripts/check-structure.mjs",
+    "validate": "npm run lint && npm test",
+    "dev:learner": "node apps/learner-web/src/server.js",
+    "dev:api": "node services/api/src/server.js",
+    "build:content": "node services/content-pipeline/src/build.js",
+    "seed": "node scripts/seed.mjs"
+  },
+  "engines": {"node": ">=20"}
+}

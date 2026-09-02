@@ -1,0 +1,2 @@
+export function computeMasteryByNode(results){ const map={}; for(const r of results) map[r.nodeId]=r.mastery?1:Math.max(map[r.nodeId]??0,r.accuracy); return map; }
+export function progressionAuthority({orderedNodeIds,masteryByNode,requiredMastery=.75}){ let unlocked=[]; for(const id of orderedNodeIds){ const m=masteryByNode[id]??0; if(m>=requiredMastery) unlocked.push(id); else break; } return {unlocked,authority:'teas',next:orderedNodeIds[unlocked.length]??null}; }

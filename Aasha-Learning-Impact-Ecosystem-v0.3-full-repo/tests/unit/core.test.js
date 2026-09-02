@@ -1,0 +1,18 @@
+import test from 'node:test'; import assert from 'node:assert/strict';
+import { stageForClass } from '../../packages/shared-types/src/index.js';
+import { validateChapter } from '../../packages/content-schema/src/index.js';
+import { TLNEngine } from '../../packages/tln-engine/src/index.js';
+import { assessNode } from '../../packages/assessment-engine/src/index.js';
+import { progressionAuthority } from '../../packages/teas-engine/src/index.js';
+import { RewardLedger } from '../../packages/reward-engine/src/index.js';
+import { aggregateImpact, donorSafe } from '../../packages/impact-engine/src/index.js';
+import { AssetRegistry } from '../../packages/asset-registry/src/index.js';
+import { assertAiAction } from '../../packages/ai-governance/src/index.js';
+import fs from 'node:fs';
+const chapter=JSON.parse(fs.readFileSync(new URL('../../content/class-06/fractions.json',import.meta.url)));
+test('Class 1-10 stage mapping',()=>{assert.equal(stageForClass(1),'foundation');assert.equal(stageForClass(5),'primary');assert.equal(stageForClass(8),'middle');assert.equal(stageForClass(10),'secondary')});
+test('chapter schema and TLN order',()=>{const c=validateChapter(chapter);const ids=new TLNEngine(c).orderedNodes().map(n=>n.id);assert.deepEqual(ids,['parts','equivalent','add'])});
+test('assessment and TEAS separate mastery from progression',()=>{const r=assessNode({nodeId:'parts',attempts:[{correct:true},{correct:true},{correct:false},{correct:true}]});assert.equal(r.mastery,true);const p=progressionAuthority({orderedNodeIds:['parts','equivalent'],masteryByNode:{parts:1,equivalent:0}});assert.deepEqual(p.unlocked,['parts']);assert.equal(p.authority,'teas')});
+test('reward ledger is idempotent',()=>{const l=new RewardLedger(),e={eventId:'e1'};assert.equal(l.issue(e,{coins:5,verified:true}).balance,5);assert.equal(l.issue(e,{coins:5,verified:true}).reason,'duplicate');assert.equal(l.balance,5);assert.equal(l.issue({eventId:'e2'},{coins:5,verified:false}).reason,'verification_required')});
+test('impact reporting is aggregate-only',()=>{const r=aggregateImpact([{type:'assessment',learnerId:'a',payload:{accuracy:.8}},{type:'attempt',learnerId:'a',payload:{}},{type:'assessment',learnerId:'b',payload:{accuracy:.6}}]);const d=donorSafe(r);assert.equal(d.studentsReached,2);assert.equal('learnerId' in d,false)});
+test('approved assets and AI governance',()=>{const reg=new AssetRegistry([{id:'s1',title:'Open simulation',sourceUrl:'https://example.org',license:'MIT',version:'1',reviewState:'approved'}]);assert.equal(reg.approved().length,1);assert.equal(assertAiAction('draft_questions'),true);assert.throws(()=>assertAiAction('decide_progression'))});

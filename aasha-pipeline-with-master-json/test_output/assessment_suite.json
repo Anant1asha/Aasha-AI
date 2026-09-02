@@ -1,0 +1,65 @@
+{
+  "warmup": [
+    {
+      "id": "q_w1",
+      "node_id": "node_1",
+      "question": "Identify the coefficient in -4xy",
+      "opts": [
+        {
+          "t": "-4",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "4",
+          "c": false,
+          "m": "Notice the negative sign in front of the term."
+        }
+      ],
+      "xp": 5,
+      "hint": "Look at the signed number"
+    }
+  ],
+  "deep_dive": [
+    {
+      "id": "q_d1",
+      "node_id": "node_2",
+      "question": "Simplify 2x(3x + 4)",
+      "opts": [
+        {
+          "t": "6x\u00b2 + 8x",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "6x + 8x",
+          "c": false,
+          "m": "Multiply the variables: x times x equals x squared."
+        }
+      ],
+      "xp": 10,
+      "hint": "Distribute 2x to both terms"
+    }
+  ],
+  "boss": [
+    {
+      "id": "q_b1",
+      "node_id": "node_2",
+      "question": "Multiply (x + 2)(x + 3)",
+      "opts": [
+        {
+          "t": "x\u00b2 + 5x + 6",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "x\u00b2 + 6",
+          "c": false,
+          "m": "Remember the middle terms when expanding (2x + 3x)."
+        }
+      ],
+      "xp": 20,
+      "hint": "Use FOIL method"
+    }
+  ]
+}

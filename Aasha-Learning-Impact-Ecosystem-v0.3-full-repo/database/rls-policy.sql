@@ -1,0 +1,5 @@
+-- Provider-neutral policy intent. Enforce equivalent RLS in the chosen PostgreSQL platform.
+-- learners: a learner may read only their own persistence record when an authenticated identity exists.
+-- teachers: may read only assigned cohort aggregates.
+-- donors: aggregate reporting only.
+-- audit_log: append-only; administrative read only.

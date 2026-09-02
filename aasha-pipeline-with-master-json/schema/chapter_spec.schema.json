@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aasha-foundation/schema/chapter_spec.schema.json",
+  "title": "Aasha v5 Chapter Spec",
+  "description": "The central intermediate JSON that the HTML assembler consumes. Validate every generated or hand-edited chapter_spec.json against this before injecting into template/v5-engine-template.html.",
+  "type": "object",
+  "required": ["chapter", "NODES"],
+  "additionalProperties": false,
+  "properties": {
+    "chapter": {
+      "type": "object",
+      "required": ["title", "subject", "grade", "storage_key"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "subject": { "type": "string", "enum": ["math", "science", "english", "evs"] },
+        "grade": { "type": "integer", "minimum": 3, "maximum": 8 },
+        "storage_key": { "type": "string", "pattern": "^aasha_[a-z0-9]+_v5$" },
+        "emoji": { "type": "string" },
+        "hero_image": { "type": "string" }
+      }
+    },
+    "LEVELS": {
+      "type": "array",
+      "description": "Optional override of the default XP-tier progression in config/defaults.json.",
+      "items": {
+        "type": "object",
+        "required": ["xp", "name", "ic"],
+        "properties": {
+          "xp": { "type": "integer", "minimum": 0 },
+          "name": { "type": "string" },
+          "ic": { "type": "string" }
+        }
+      }
+    },
+    "BADGES": {
+      "type": "array",
+      "description": "3-5 badges tied to this chapter's node-completion milestones.",
+      "minItems": 3,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "ic", "desc"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "ic": { "type": "string" },
+          "desc": { "type": "string" }
+        }
+      }
+    },
+    "WE": {
+      "type": "object",
+      "description": "Worked-example definitions, keyed by id, referenced from NODES via 'WE.<key>'.",
+      "additionalProperties": { "$ref": "#/definitions/workedExample" }
+    },
+    "SOLVE": {
+      "type": "object",
+      "description": "Guided multi-step solve definitions, keyed by id, referenced from NODES via 'SOLVE.<key>'.",
+      "additionalProperties": { "$ref": "#/definitions/solveDefinition" }
+    },
+    "NODES": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 5,
+      "items": { "$ref": "#/definitions/node" }
+    }
+  },
+  "definitions": {
+    "option": {
+      "type": "object",
+      "required": ["t", "c", "m"],
+      "properties": {
+        "t": { "type": "string", "minLength": 1 },
+        "c": { "type": "boolean" },
+        "m": {
+          "type": "string",
+          "description": "Non-empty, verbal, specific misconception for wrong options. Empty string when c=true. Must never contain the correct option's text (checked at validation time, not expressible in JSON Schema alone)."
+        }
+      }
+    },
+    "optionSet": {
+      "type": "object",
+      "required": ["q", "opts"],
+      "properties": {
+        "q": { "type": "string", "minLength": 1 },
+        "visual": { "type": "string" },
+        "opts": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 4,
+          "items": { "$ref": "#/definitions/option" }
+        }
+      }
+    },
+    "workedExample": {
+      "type": "object",
+      "required": ["title", "question", "steps", "check"],
+      "properties": {
+        "title": { "type": "string" },
+        "question": { "type": "string" },
+        "steps": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": ["text", "c"],
+            "properties": {
+              "text": { "type": "string" },
+              "c": { "type": "string", "enum": ["blue", "green"] },
+              "final": { "type": "boolean" },
+              "check": { "$ref": "#/definitions/optionSet" }
+            }
+          }
+        },
+        "check": {
+          "$ref": "#/definitions/optionSet",
+          "description": "End-of-WE check. Required on every WE."
+        }
+      }
+    },
+    "solveDefinition": {
+      "type": "object",
+      "required": ["title", "question", "steps"],
+      "properties": {
+        "title": { "type": "string" },
+        "question": { "type": "string" },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["prompt", "type"],
+            "properties": {
+              "prompt": { "type": "string" },
+              "type": { "type": "string", "enum": ["mcq", "input"] },
+              "opts": { "type": "array", "items": { "$ref": "#/definitions/option" } },
+              "answer": { "type": "string" },
+              "m": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "step": {
+      "type": "object",
+      "required": ["t"],
+      "properties": {
+        "t": {
+          "type": "string",
+          "enum": [
+            "intro", "text", "quiz", "vq", "worked", "solve",
+            "dd_build", "dd_match",
+            "ix_pizza", "ix_bar", "ix_area", "ix_slider",
+            "video", "progress", "phet"
+          ]
+        },
+        "hero": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "ctx": { "type": "string" },
+        "q": { "$ref": "#/definitions/optionSet" },
+        "we": { "type": "string", "pattern": "^WE\\." },
+        "sl": { "type": "string", "pattern": "^SOLVE\\." },
+        "instruction": { "type": "string" },
+        "slices": { "type": "integer" },
+        "parts": { "type": "integer" },
+        "rows": { "type": "integer" },
+        "cols": { "type": "integer" },
+        "base_num": { "type": "integer" },
+        "base_den": { "type": "integer" },
+        "target_num": { "type": "integer" },
+        "target_den": { "type": "integer" },
+        "pairs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "required": ["a", "b"],
+            "properties": { "a": { "type": "string" }, "b": { "type": "string" } }
+          }
+        },
+        "animation": { "type": "string" },
+        "srcdoc_b64": { "type": "string" },
+        "xp": { "type": "integer" },
+        "next": { "type": "boolean" }
+      }
+    },
+    "node": {
+      "type": "object",
+      "required": ["title", "steps"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "emoji": { "type": "string" },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/step" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises'; import { join } from 'node:path'; import { validateChapter } from '../../../packages/content-schema/src/index.js';
+const root=join(process.cwd(),'content'); const out=join(process.cwd(),'dist/content'); await mkdir(out,{recursive:true});
+for(const gradeDir of await readdir(root,{withFileTypes:true})){if(!gradeDir.isDirectory())continue; for(const f of await readdir(join(root,gradeDir.name))){if(!f.endsWith('.json'))continue;const ch=JSON.parse(await readFile(join(root,gradeDir.name,f),'utf8'));const v=validateChapter(ch);await writeFile(join(out,f),JSON.stringify(v,null,2));console.log('built',f);}}

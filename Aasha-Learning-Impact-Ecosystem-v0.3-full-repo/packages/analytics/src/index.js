@@ -1,0 +1,1 @@
+export function kpis(events){return {sessions:new Set(events.filter(e=>e.type==='session_started').map(e=>e.payload?.sessionId)).size,attempts:events.filter(e=>e.type==='attempt').length,assessments:events.filter(e=>e.type==='assessment').length,completion:events.filter(e=>e.type==='node_completed').length};}

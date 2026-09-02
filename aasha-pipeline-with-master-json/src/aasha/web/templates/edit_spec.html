@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Edit Spec — Aasha Pipeline</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;font-size:15px}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;gap:16px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#3b82f6;text-decoration:none}
+.nav-link{color:#64748b;text-decoration:none;font-size:.9rem}
+.container{max-width:960px;margin:0 auto;padding:24px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{margin-bottom:12px;font-size:1.1rem}
+.editor{width:100%;height:500px;font-family:'Courier New',monospace;font-size:.85rem;padding:12px;border:1px solid #e2e8f0;border-radius:6px;line-height:1.5}
+.error{color:#ef4444;font-size:.85rem;margin-top:8px}
+.bottom-bar{position:sticky;bottom:0;background:#fff;border-top:1px solid #e2e8f0;padding:12px 24px;display:flex;gap:8px;justify-content:flex-end}
+.btn{padding:10px 24px;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:.95rem;text-decoration:none}
+.btn-primary{background:#3b82f6;color:#fff}
+.btn-secondary{background:#e2e8f0;color:#1e293b}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav-brand">Aasha Pipeline</a>
+  <a href="/job/{{ job_id }}" class="nav-link">Back to Job</a>
+</nav>
+<div class="container">
+  <div class="card">
+    <h2>Edit Chapter Spec</h2>
+    <p style="font-size:.85rem;color:#64748b;margin-bottom:12px">
+      Edit the JSON spec below, then click "Re-run Assembly + QA" to regenerate the HTML.
+      This costs $0 in LLM calls (stages 7-8 only).
+    </p>
+    {% if error %}
+    <div class="error">JSON Error: {{ error }}</div>
+    {% endif %}
+    <form method="POST" action="/job/{{ job_id }}/edit">
+      <textarea class="editor" name="spec">{{ spec }}</textarea>
+      <div class="bottom-bar">
+        <a href="/job/{{ job_id }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save Spec</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+// After saving, offer to re-run
+const urlParams = new URLSearchParams(window.location.search);
+</script>
+</body>
+</html>

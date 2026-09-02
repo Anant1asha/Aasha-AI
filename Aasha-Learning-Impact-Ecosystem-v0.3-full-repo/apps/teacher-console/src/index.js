@@ -1,0 +1,1 @@
+export function teacherSummary(events){const byNode={};for(const e of events.filter(e=>e.type==='assessment')){const n=e.payload?.nodeId;(byNode[n]??=[]).push(e.payload.accuracy??0)}return Object.entries(byNode).map(([node,vals])=>({node,averageAccuracy:vals.reduce((a,b)=>a+b,0)/vals.length,attempts:vals.length}));}

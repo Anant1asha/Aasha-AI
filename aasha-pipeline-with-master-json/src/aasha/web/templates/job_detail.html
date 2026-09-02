@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Job — {{ job.id[:8] }} — Aasha Pipeline</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;font-size:15px}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;gap:16px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#3b82f6;text-decoration:none}
+.nav-link{color:#64748b;text-decoration:none;font-size:.9rem}
+.container{max-width:960px;margin:0 auto;padding:24px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{margin-bottom:12px;font-size:1.1rem}
+.timeline{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px}
+.stage{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:80px}
+.stage-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700}
+.stage-dot.pending{background:#e2e8f0;color:#94a3b8}
+.stage-dot.running{background:#3b82f6;color:#fff;animation:pulse 1.5s infinite}
+.stage-dot.done{background:#22c55e;color:#fff}
+.stage-dot.failed{background:#ef4444;color:#fff}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.stage-name{font-size:.7rem;color:#64748b;text-align:center}
+.stage-dur{font-size:.65rem;color:#94a3b8}
+.log-panel{background:#1e293b;color:#a7f3d0;font-family:'Courier New',monospace;font-size:.8rem;padding:12px;border-radius:6px;height:240px;overflow-y:auto;white-space:pre-wrap}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.meta{font-size:.85rem}
+.meta dt{font-weight:600;color:#64748b}
+.meta dd{margin-bottom:8px;margin-left:0}
+.btn{padding:8px 16px;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:.85rem;text-decoration:none;display:inline-block;margin-right:8px}
+.btn-primary{background:#3b82f6;color:#fff}
+.btn-secondary{background:#e2e8f0;color:#1e293b}
+.preview-frame{width:100%;height:600px;border:1px solid #e2e8f0;border-radius:6px;background:#fff}
+.failure-card{background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:16px}
+.failure-list{font-size:.85rem;color:#991b1b;margin-top:8px}
+.failure-list li{margin-bottom:4px}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav-brand">Aasha Pipeline</a>
+  <a href="/jobs" class="nav-link">Jobs</a>
+</nav>
+<div class="container">
+  <div class="card">
+    <h2>Job {{ job.id[:8] }} — {{ job.input.source_pdf }}</h2>
+    <div class="timeline" id="timeline">
+      {% for stage in job.stages %}
+      <div class="stage">
+        <div class="stage-dot {{ stage.status }}" id="stage-{{ stage.name }}">{{ loop.index }}</div>
+        <div class="stage-name">{{ stage.name }}</div>
+        <div class="stage-dur">{% if stage.duration_s > 0 %}{{ stage.duration_s|round(1) }}s{% endif %}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Live Log</h2>
+    <div class="log-panel" id="logPanel"></div>
+  </div>
+
+  <div class="card" id="resultCard" style="display:none">
+    <h2>Result</h2>
+    <div class="result-grid">
+      <div>
+        <h3 style="font-size:.95rem;margin-bottom:8px">Preview</h3>
+        <iframe class="preview-frame" id="previewFrame" src=""></iframe>
+      </div>
+      <div>
+        <h3 style="font-size:.95rem;margin-bottom:8px">Metadata</h3>
+        <dl class="meta">
+          <dt>Status</dt><dd id="metaStatus">{{ job.status }}</dd>
+          <dt>Duration</dt><dd id="metaDuration">—</dd>
+          <dt>LLM Cost Total</dt><dd id="metaCost">${{ "%.4f"|format(job.cost_usd) }}</dd>
+          <dt>Costs by Agent</dt><dd id="metaCostsBreakdown">
+            {% if job.costs %}
+              <ul style="margin-left: 16px; font-size: 0.8rem; color: #64748b;">
+              {% for agent, cost in job.costs.items() %}
+                <li>{{ agent }}: ${{ "%.4f"|format(cost) }}</li>
+              {% endfor %}
+              </ul>
+            {% else %}
+              —
+            {% endif %}
+          </dd>
+          <dt>Plugin Summary</dt><dd id="metaPlugins">—</dd>
+          <dt>Exercises</dt><dd id="metaExercises">—</dd>
+          <dt>Assessments</dt><dd id="metaAssessments">—</dd>
+          <dt>QA Checks</dt><dd id="metaQA">—</dd>
+        </dl>
+        <div id="actionButtons" style="margin-top:16px">
+          <a href="#" class="btn btn-primary" id="dlHtml">Download HTML</a>
+          <a href="#" class="btn btn-secondary" id="dlSpec">Download Spec</a>
+          <a href="/job/{{ job.id }}/edit" class="btn btn-secondary">Edit Spec</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card failure-card" id="failureCard" style="display:none">
+    <h2 style="color:#991b1b">Failed</h2>
+    <p id="failureStage"></p>
+    <p id="failureMsg"></p>
+    <ul class="failure-list" id="failureList"></ul>
+    <div style="margin-top:12px">
+      <a href="/job/{{ job.id }}/edit" class="btn btn-primary">Edit & Resume</a>
+    </div>
+  </div>
+</div>
+<script>
+const jobId = "{{ job.id }}";
+const logPanel = document.getElementById('logPanel');
+let lastLogLen = 0;
+
+async function poll() {
+  const resp = await fetch('/api/job/' + jobId);
+  const job = await resp.json();
+  
+  // Update timeline
+  job.stages.forEach(stage => {
+    const el = document.getElementById('stage-' + stage.name);
+    if (el) {
+      el.className = 'stage-dot ' + stage.status;
+    }
+  });
+
+  // Update meta
+  document.getElementById('metaStatus').textContent = job.status;
+  if (job.cost_usd > 0) {
+    document.getElementById('metaCost').textContent = '$' + job.cost_usd.toFixed(4);
+  }
+  
+  if (job.costs && Object.keys(job.costs).length > 0) {
+    const list = Object.entries(job.costs)
+      .map(([agent, cost]) => `<li>${agent}: $${cost.toFixed(4)}</li>`)
+      .join('');
+    document.getElementById('metaCostsBreakdown').innerHTML = `<ul style="margin-left:16px; font-size:0.8rem; color:#64748b;">${list}</ul>`;
+  }
+
+  // Populate from messages if available
+  if (job.messages && job.messages.length > 0) {
+    let exCount = 0;
+    let plugins = 0;
+    let assessXp = 0;
+    let qaPass = '—';
+    for (const m of job.messages) {
+      if (m.type === 'exercise.extracted') exCount += m.payload.count || 0;
+      if (m.type === 'interaction.assigned') plugins += m.payload.concepts || 0;
+      if (m.type === 'assessment.generated') assessXp += m.payload.total_xp || 0;
+      if (m.type === 'qa.result') qaPass = m.payload.passed ? 'Passed' : 'Failed';
+    }
+    if (exCount > 0) document.getElementById('metaExercises').textContent = `${exCount} extracted`;
+    if (plugins > 0) document.getElementById('metaPlugins').textContent = `${plugins} interactions`;
+    if (assessXp > 0) document.getElementById('metaAssessments').textContent = `${assessXp} XP total (Warmup/DeepDive/Boss)`;
+    document.getElementById('metaQA').textContent = qaPass;
+  }
+
+  // Show result if completed
+  if (job.status === 'completed' && job.outputs.html) {
+    document.getElementById('resultCard').style.display = 'block';
+    document.getElementById('previewFrame').src = '/job/' + jobId + '/preview';
+    document.getElementById('dlHtml').href = '/job/' + jobId + '/download/html';
+    document.getElementById('dlSpec').href = '/job/' + jobId + '/download/spec';
+  }
+
+  // Show failure
+  if (job.status === 'failed' || job.status === 'qa_failed') {
+    document.getElementById('failureCard').style.display = 'block';
+    document.getElementById('failureStage').textContent = 'Failed at: ' + (job.error_stage || 'unknown');
+    document.getElementById('failureMsg').textContent = job.error_message || '';
+  }
+
+  // Continue polling if still running
+  if (['queued','running','ingesting','analyzing','designing','assessing','lle','assembling','qa_running','ingested','analyzed','designed','assessed','lle_done','assembled'].includes(job.status)) {
+    setTimeout(poll, 2000);
+  }
+}
+
+poll();
+</script>
+</body>
+</html>

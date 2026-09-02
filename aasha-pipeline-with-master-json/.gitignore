@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project artifacts
+jobs/*
+output/*
+.llm_cache/*
+work/*
+!jobs/.gitkeep
+!output/.gitkeep
+!.llm_cache/.gitkeep
+
+# Secrets
+.env
+.env.local
+
+# Node
+node_modules/
+npm-debug.log*

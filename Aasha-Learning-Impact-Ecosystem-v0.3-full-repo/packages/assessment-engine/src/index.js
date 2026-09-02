@@ -1,0 +1,3 @@
+import { summarizeAttempts } from '../../question-engine/src/index.js';
+export function assessNode({nodeId,attempts,masteryThreshold=.75}){ const s=summarizeAttempts(attempts); return {nodeId,...s,mastery:s.accuracy>=masteryThreshold,misconception:s.accuracy<0.5?'needs_foundation':s.accuracy<masteryThreshold?'needs_practice':null}; }
+export function remediationFor(result){ if(result.misconception==='needs_foundation') return {type:'reteach',intensity:'high'}; if(result.misconception==='needs_practice') return {type:'guided_practice',intensity:'medium'}; return {type:'advance',intensity:'none'}; }

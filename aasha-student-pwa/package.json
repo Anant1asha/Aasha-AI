@@ -1,0 +1,8 @@
+{
+  "name": "aasha-learning-impact-beta",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Annanth Aasha Foundation offline-first Learning + Impact Beta foundation",
+  "type": "module",
+  "scripts": {"test": "node --test", "check": "node --check src/app.js && node --check src/core/*.js && node --check src/content/*.js"}
+}

@@ -1,0 +1,27 @@
+{
+  "chapter_title": "Class 8 Algebraic Expressions",
+  "subject": "math",
+  "grade": 8,
+  "concepts": [
+    {
+      "name": "Terms and Coefficients",
+      "summary": "Variables, constants, and terms in algebra.",
+      "key_ideas": [
+        "variable",
+        "coefficient"
+      ],
+      "difficulty": "easy",
+      "plugin": "jsxgraph"
+    },
+    {
+      "name": "Multiplication of Monomials",
+      "summary": "Distributive law and powers.",
+      "key_ideas": [
+        "distributive",
+        "powers"
+      ],
+      "difficulty": "medium",
+      "plugin": "mermaid"
+    }
+  ]
+}

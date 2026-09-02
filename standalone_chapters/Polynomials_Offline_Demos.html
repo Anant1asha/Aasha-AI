@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 10 Polynomials — Offline Interactive Demos</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, system-ui, sans-serif; margin: 0; background:#0f172a; color:#e2e8f0; }
+  header { background:#1e293b; padding:18px 24px; border-bottom:1px solid #334155; }
+  h1 { margin:0 0 4px; font-size:20px; color:#f8fafc; }
+  header p { margin:0; font-size:13px; color:#94a3b8; }
+  .tabs { display:flex; gap:6px; padding:12px 24px; background:#1e293b; border-bottom:1px solid #334155; flex-wrap:wrap; }
+  .tab { padding:9px 16px; background:#334155; color:#cbd5e1; border:none; border-radius:7px 7px 0 0; cursor:pointer; font-size:13px; font-weight:500; }
+  .tab.active { background:#3b82f6; color:#fff; }
+  .panel { display:none; padding:20px 24px; }
+  .panel.active { display:block; }
+  .controls { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:14px; background:#1e293b; padding:14px; border-radius:10px; }
+  label { font-size:13px; color:#cbd5e1; display:flex; align-items:center; gap:6px; }
+  input[type=number] { width:70px; background:#0f172a; color:#e2e8f0; border:1px solid #475569; border-radius:5px; padding:5px 7px; }
+  select { background:#0f172a; color:#e2e8f0; border:1px solid #475569; border-radius:5px; padding:5px 7px; }
+  canvas { background:#fff; border-radius:8px; display:block; max-width:100%; }
+  .info { background:#1e293b; border-radius:10px; padding:14px; margin-top:14px; font-size:13px; line-height:1.6; }
+  .info b { color:#fbbf24; }
+  .roots { color:#34d399; font-weight:600; }
+  .note { font-size:12px; color:#94a3b8; margin-top:10px; }
+  button.act { background:#3b82f6; color:#fff; border:none; padding:7px 14px; border-radius:6px; cursor:pointer; font-size:13px; }
+  button.act:hover { background:#2563eb; }
+  pre { background:#0f172a; padding:12px; border-radius:8px; overflow:auto; font-size:12px; color:#a5b4fc; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Class 10 Polynomials — Offline Interactive Demos</h1>
+  <p>Single HTML file, zero external dependencies. Works fully offline. Demonstrates the vanilla-JS approach recommended in the report.</p>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab(0)">1. Graph & Zeros (Quadratic/Cubic)</button>
+  <button class="tab" onclick="showTab(1)">2. Factor Theorem Demo</button>
+  <button class="tab" onclick="showTab(2)">3. Remainder Theorem</button>
+</div>
+
+<!-- PANEL 0: Graphing + zero finder, pure vanilla canvas -->
+<div class="panel active" id="p0">
+  <div class="controls">
+    <label>Degree:
+      <select id="deg" onchange="rebuild()">
+        <option value="2">Quadratic (ax²+bx+c)</option>
+        <option value="3">Cubic (ax³+bx²+cx+d)</option>
+      </select>
+    </label>
+    <label>a = <input type="number" id="ca" value="1" step="0.5" onchange="draw()"></label>
+    <label>b = <input type="number" id="cb" value="0" step="0.5" onchange="draw()"></label>
+    <label>c = <input type="number" id="cc" value="-4" step="0.5" onchange="draw()"></label>
+    <label id="dlab" style="display:none">d = <input type="number" id="cd" value="0" step="0.5" onchange="draw()"></label>
+  </div>
+  <canvas id="cv0" width="760" height="460"></canvas>
+  <div class="info" id="info0"></div>
+  <p class="note">Drag coefficients with the number inputs. The curve updates live; x-intercepts (zeros) are marked with green dots.</p>
+</div>
+
+<!-- PANEL 1: Factor theorem -->
+<div class="panel" id="p1">
+  <div class="controls">
+    <label>p(x) = x² -
+      <select id="fa" onchange="factorDemo()">
+        <option value="5">5x + 6</option>
+        <option value="7">7x + 12</option>
+        <option value="6">6x + 8</option>
+        <option value="3">3x + 2</option>
+      </select>
+    </label>
+    <label>Test factor (x − k), k =
+      <select id="fk" onchange="factorDemo()">
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="1">1</option>
+      </select>
+    </label>
+  </div>
+  <canvas id="cv1" width="760" height="420"></canvas>
+  <div class="info" id="info1"></div>
+  <p class="note">If p(k)=0, then (x−k) is a factor of p(x). Watch the curve cross the x-axis exactly at k.</p>
+</div>
+
+<!-- PANEL 2: Remainder theorem -->
+<div class="panel" id="p2">
+  <div class="controls">
+    <label>p(x) = <select id="rp" onchange="remDemo()">
+      <option value="x3-2x2-5x+6">x³ − 2x² − 5x + 6</option>
+      <option value="x3-x-6">x³ − x − 6</option>
+      <option value="x2-4">x² − 4</option>
+    </select></label>
+    <label>Divide by (x − k), k =
+      <input type="number" id="rk" value="2" step="1" onchange="remDemo()">
+    </label>
+  </div>
+  <canvas id="cv2" width="760" height="420"></canvas>
+  <div class="info" id="info2"></div>
+  <p class="note">Remainder Theorem: remainder when p(x) is divided by (x−k) equals p(k). That is the y-value at the orange point.</p>
+</div>
+
+<script>
+// ---------- Shared plotting helpers ----------
+function makeAxes(ctx, w, h, xMin, xMax, yMin, yMax){
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0,0,w,h);
+  // grid
+  ctx.strokeStyle = "#e2e8f0"; ctx.lineWidth = 1;
+  const sx = w/(xMax-xMin), sy = h/(yMax-yMin);
+  ctx.beginPath();
+  for(let i=Math.ceil(xMin); i<=xMax; i++){ const x=(i-xMin)*sx; ctx.moveTo(x,0); ctx.lineTo(x,h); }
+  for(let j=Math.ceil(yMin); j<=yMax; j++){ const y=h-(j-yMin)*sy; ctx.moveTo(0,y); ctx.lineTo(w,y); }
+  ctx.stroke();
+  // axes
+  ctx.strokeStyle="#475569"; ctx.lineWidth=1.5;
+  ctx.beginPath();
+  const y0=h-(-yMin)*sy, x0=(-xMin)*sx;
+  ctx.moveTo(0,y0); ctx.lineTo(w,y0);
+  ctx.moveTo(x0,0); ctx.lineTo(x0,h);
+  ctx.stroke();
+  // labels
+  ctx.fillStyle="#64748b"; ctx.font="11px sans-serif";
+  for(let i=Math.ceil(xMin); i<=xMax; i++){ if(i===0)continue; const x=(i-xMin)*sx; ctx.fillText(i, x-5, y0+13); }
+  for(let j=Math.ceil(yMin); j<=yMax; j++){ if(j===0)continue; const y=h-(j-yMin)*sy; ctx.fillText(j, x0+5, y+4); }
+  ctx.fillText("0", x0+5, y0+13);
+  return {sx, sy, x0, y0};
+}
+function plotCurve(ctx, w, h, f, xMin, xMax, yMin, yMax, color){
+  const sx=w/(xMax-xMin), sy=h/(yMax-yMin);
+  ctx.strokeStyle=color; ctx.lineWidth=2.5; ctx.beginPath();
+  let started=false;
+  for(let px=0; px<=w; px++){
+    const x = xMin + px/sx;
+    const y = f(x);
+    if(!isFinite(y) || y<yMin-1000 || y>yMax+1000){ started=false; continue; }
+    const py = h-(y-yMin)*sy;
+    if(!started){ ctx.moveTo(px,py); started=true; } else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+}
+// ---------- Panel 0: grapher + zero finder ----------
+function coeffs(){
+  const a=parseFloat(document.getElementById('ca').value)||0;
+  const b=parseFloat(document.getElementById('cb').value)||0;
+  const c=parseFloat(document.getElementById('cc').value)||0;
+  const d=parseFloat(document.getElementById('cd').value)||0;
+  const deg=parseInt(document.getElementById('deg').value);
+  return {a,b,c,d,deg};
+}
+function rebuild(){
+  const deg=parseInt(document.getElementById('deg').value);
+  document.getElementById('dlab').style.display = deg===3 ? 'flex':'none';
+  draw();
+}
+function poly(x,a,b,c,d,deg){ return deg===2 ? a*x*x+b*x+c : a*x*x*x+b*x*x+c*x+d; }
+// numerical root finding via fine sampling + bisection
+function findRoots(f, xMin, xMax, step){
+  const roots=[]; let prev=f(xMin);
+  for(let x=xMin+step; x<=xMax; x+=step){
+    const cur=f(x);
+    if(prev===0) roots.push(x-step);
+    else if(prev*cur<0){
+      // bisection
+      let lo=x-step, hi=x;
+      for(let i=0;i<60;i++){ const mid=(lo+hi)/2; const fm=f(mid); if(prev*fm<=0) hi=mid; else lo=mid; }
+      roots.push((lo+hi)/2);
+    }
+    prev=cur;
+  }
+  if(f(xMax)===0) roots.push(xMax);
+  // dedupe
+  const out=[]; roots.forEach(r=>{ if(!out.length||Math.abs(r-out[out.length-1])>1e-4) out.push(r); });
+  return out;
+}
+function draw(){
+  const {a,b,c,d,deg}=coeffs();
+  const f=x=>poly(x,a,b,c,d,deg);
+  const cv=document.getElementById('cv0'); const ctx=cv.getContext('2d');
+  const w=cv.width, h=cv.height;
+  const xMin=-7, xMax=7, yMin=-12, yMax=12;
+  makeAxes(ctx,w,h,xMin,xMax,yMin,yMax);
+  plotCurve(ctx,w,h,f,xMin,xMax,yMin,yMax,"#3b82f6");
+  // roots
+  const roots=findRoots(f, xMin, xMax, 0.05);
+  const sx=w/(xMax-xMin), sy=h/(yMax-yMin);
+  roots.forEach(r=>{
+    const px=(r-xMin)*sx, py=h-(0-yMin)*sy;
+    ctx.beginPath(); ctx.arc(px,py,6,0,2*Math.PI); ctx.fillStyle="#10b981"; ctx.fill();
+    ctx.fillStyle="#065f46"; ctx.font="bold 12px sans-serif";
+    ctx.fillText("x="+r.toFixed(2), px+9, py-9);
+  });
+  // info
+  const expr = deg===2 ? `${a}x² + ${b}x + ${c}` : `${a}x³ + ${b}x² + ${c}x + ${d}`;
+  const rstr = roots.length ? roots.map(r=>r.toFixed(3)).join(", ") : "none (no real zeros in view)";
+  document.getElementById('info0').innerHTML =
+    `<b>p(x) = ${expr}</b><br>` +
+    `Zeros (x-intercepts): <span class="roots">${rstr}</span><br>` +
+    `Number of real zeros visible: ${roots.length} &mdash; this matches the degree when all roots are real.`;
+}
+// ---------- Panel 1: factor theorem ----------
+function factorDemo(){
+  const k=parseFloat(document.getElementById('fk').value);
+  const a=parseFloat(document.getElementById('fa').value);
+  // p(x)=x^2 - a*x + (a-1) ... pick product so factor demo is clean
+  let c;
+  if(a===5) c=6; else if(a===7) c=12; else if(a===6) c=8; else c=2;
+  const f=x=>x*x - a*x + c;
+  const cv=document.getElementById('cv1'); const ctx=cv.getContext('2d');
+  const w=cv.width,h=cv.height, xMin=-2,xMax=8,yMin=-8,yMax=10;
+  makeAxes(ctx,w,h,xMin,xMax,yMin,yMax);
+  plotCurve(ctx,w,h,f,xMin,xMax,yMin,yMax,"#8b5cf6");
+  // mark point (k, f(k))
+  const sx=w/(xMax-xMin), sy=h/(yMax-yMin);
+  const px=(k-xMin)*sx, py=h-(f(k)-yMin)*sy;
+  ctx.beginPath(); ctx.arc(px,py,7,0,2*Math.PI); ctx.fillStyle="#f59e0b"; ctx.fill();
+  ctx.fillStyle="#7c2d12"; ctx.font="bold 12px sans-serif";
+  ctx.fillText(`(${k}, ${f(k)})`, px+10, py-10);
+  const isFactor = Math.abs(f(k))<1e-6;
+  document.getElementById('info1').innerHTML =
+    `<b>p(x) = x² − ${a}x + ${c}</b><br>`+
+    `p(${k}) = ${f(k)}<br>`+
+    (isFactor
+      ? `Since p(${k}) = 0, by the <b>Factor Theorem</b>, (x − ${k}) is a <span class="roots">factor</span> of p(x).`
+      : `Since p(${k}) ≠ 0, (x − ${k}) is <b>NOT</b> a factor of p(x).`);
+}
+// ---------- Panel 2: remainder theorem ----------
+function parsePoly(s){
+  // simple parser for the options provided
+  const t=s.replace(/-/g,'+-').replace(/\^/g,'');
+  const terms=t.split('+').filter(x=>x);
+  let coeffs=[0,0,0,0];
+  terms.forEach(trm=>{
+    let coef=1, pow=0;
+    const m=trm.match(/^(-?\d*\.?\d*)x(?:3|2)?$/);
+    if(m){
+      coef = m[1]===''1 || m[1]===''? 1 : (m[1]==='-'?-1:parseFloat(m[1]));
+      pow = trm.endsWith('3')?3: trm.endsWith('2')?2:1;
+    } else { coef=parseFloat(trm); pow=0; }
+    coeffs[pow]+=coef;
+  });
+  return coeffs; // index = power
+}
+function remDemo(){
+  const expr=document.getElementById('rp').value;
+  const cf=parsePoly(expr);
+  const f=x=>cf[0]+cf[1]*x+cf[2]*x*x+cf[3]*x*x*x;
+  const k=parseFloat(document.getElementById('rk').value)||0;
+  const cv=document.getElementById('cv2'); const ctx=cv.getContext('2d');
+  const w=cv.width,h=cv.height, xMin=-4,xMax=4,yMin=-12,yMax=12;
+  makeAxes(ctx,w,h,xMin,xMax,yMin,yMax);
+  plotCurve(ctx,w,h,f,xMin,xMax,yMin,yMax,"#06b6d4");
+  const sx=w/(xMax-xMin), sy=h/(yMax-yMin);
+  const px=(k-xMin)*sx, py=h-(f(k)-yMin)*sy;
+  ctx.beginPath(); ctx.arc(px,py,7,0,2*Math.PI); ctx.fillStyle="#f59e0b"; ctx.fill();
+  ctx.fillStyle="#7c2d12"; ctx.font="bold 12px sans-serif";
+  ctx.fillText(`p(${k}) = ${f(k).toFixed(3)}`, px+10, py-10);
+  const rem=f(k);
+  document.getElementById('info2').innerHTML =
+    `<b>p(x) = ${expr}</b><br>`+
+    `Dividing p(x) by (x − ${k}), the <b>remainder = p(${k}) = ${rem.toFixed(3)}</b><br>`+
+    (Math.abs(rem)<1e-6 ? `Remainder is 0, so (x − ${k}) is a <span class="roots">factor</span>.` : `Remainder is non-zero, so (x − ${k}) is not a factor.`);
+}
+function showTab(i){
+  document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));
+  document.querySelectorAll('.panel').forEach((p,idx)=>p.classList.toggle('active',idx===i));
+  if(i===0)draw(); if(i===1)factorDemo(); if(i===2)remDemo();
+}
+// init
+draw(); factorDemo(); remDemo();
+</script>
+</body>
+</html>

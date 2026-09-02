@@ -1,0 +1,27 @@
+import {recordEvent} from './events.js';
+export function computeMastery(state,nodeId){
+  const answers=state.events.filter(e=>e.event_type==='answer_submitted'&&e.payload.node_id===nodeId);
+  if(!answers.length)return {attempts:0,correct:0,accuracy:0,mastery:0,misconceptions:[]};
+  const correct=answers.filter(e=>e.payload.result==='correct').length;
+  const accuracy=Math.round(correct/answers.length*100);
+  const recent=answers.slice(-5); const recentAcc=Math.round(recent.filter(e=>e.payload.result==='correct').length/recent.length*100);
+  const mastery=Math.round(accuracy*.6+recentAcc*.4);
+  const misconceptions=[...new Set(answers.filter(e=>e.payload.result!=='correct'&&e.payload.misconception).map(e=>e.payload.misconception))];
+  return {attempts:answers.length,correct,accuracy,recent_accuracy:recentAcc,mastery,misconceptions};
+}
+export function refreshMastery(state,chapter){
+  const out={}; for(const n of chapter.nodes) out[n.id]=computeMastery(state,n.id); state.mastery=out; return out;
+}
+export function progressionDecision(state,nodeId){
+  const m=state.mastery[nodeId]||{attempts:0,mastery:0};
+  if(m.attempts===0)return {action:'learn',reason:'No assessment evidence yet'};
+  if(m.mastery<50)return {action:'remediate',reason:'Evidence shows a significant learning gap'};
+  if(m.mastery<75)return {action:'practice',reason:'More practice should consolidate the concept'};
+  return {action:'advance',reason:'Sufficient deterministic mastery evidence'};
+}
+export function submitAssessment(state,question,selected,responseTimeMs){
+  const correct=selected===question.correct_index;
+  recordEvent(state,'answer_submitted',{question_id:question.id,node_id:question.node_id,result:correct?'correct':'incorrect',response_time_ms:responseTimeMs,misconception:correct?null:question.misconception});
+  refreshMastery(state,{nodes:[{id:question.node_id}]});
+  return {correct};
+}

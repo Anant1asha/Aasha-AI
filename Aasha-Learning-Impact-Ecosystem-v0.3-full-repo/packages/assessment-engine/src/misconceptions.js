@@ -1,0 +1,1 @@
+export function classifyMisconception({accuracy,responseTimeMs=0,wrongOptionRate=0}){if(accuracy<.5&&wrongOptionRate>.5)return 'core_concept';if(accuracy<.75)return responseTimeMs>20000?'fluency':'practice';return null;}

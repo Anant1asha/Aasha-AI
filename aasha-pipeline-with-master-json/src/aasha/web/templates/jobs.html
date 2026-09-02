@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Jobs — Aasha Pipeline</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;font-size:15px}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;gap:16px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#3b82f6;text-decoration:none}
+.nav-link{color:#64748b;text-decoration:none;font-size:.9rem}
+.container{max-width:960px;margin:0 auto;padding:24px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{margin-bottom:16px;font-size:1.1rem}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{text-align:left;padding:8px;border-bottom:2px solid #e2e8f0;color:#64748b;font-weight:600}
+td{padding:8px;border-bottom:1px solid #e2e8f0}
+td a{color:#3b82f6;text-decoration:none}
+.badge{padding:2px 8px;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge.completed{background:#dcfce7;color:#166534}
+.badge.failed,.badge.qa_failed{background:#fee2e2;color:#991b1b}
+.badge.running,.badge.pending,.badge.queued{background:#dbeafe;color:#1e40af}
+.empty{text-align:center;padding:32px;color:#64748b}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav-brand">Aasha Pipeline</a>
+  <a href="/jobs" class="nav-link">Jobs</a>
+</nav>
+<div class="container">
+  <div class="card">
+    <h2>Jobs</h2>
+    {% if jobs %}
+    <table>
+      <thead>
+        <tr><th>Job ID</th><th>Source PDF</th><th>Status</th><th>Created</th><th>Cost</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for job in jobs %}
+        <tr>
+          <td>{{ job.id[:8] }}</td>
+          <td>{{ job.source_pdf }}</td>
+          <td><span class="badge {{ job.status }}">{{ job.status }}</span></td>
+          <td>{{ job.created_at[:19] }}</td>
+          <td>${{ "%.2f"|format(job.cost_usd) }}</td>
+          <td><a href="/job/{{ job.id }}">Open</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty">No jobs yet. <a href="/">Upload a PDF</a> to get started.</div>
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

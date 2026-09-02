@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aasha-pipeline"
+version = "1.0.0"
+description = "Multi-agent AI pipeline that converts NCERT textbook PDFs into gamified HTML chapters"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Aasha Foundation", email = "dev@aashafoundation.org"}
+]
+keywords = ["education", "edtech", "agentic-ai", "multi-agent", "html", "ncert", "gamification"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "flask>=3.0",
+    "pydantic>=2.5",
+    "pyyaml>=6.0",
+    "jsonschema>=4.20",
+    "pymupdf>=1.24",
+    "tenacity>=8.2",
+    "openai>=1.10",
+    "google-generativeai>=0.4",
+    "anthropic>=0.18",
+    "requests>=2.31",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-mock>=3.10",
+]
+
+[project.scripts]
+aasha = "aasha.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

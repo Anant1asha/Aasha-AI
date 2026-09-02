@@ -1,0 +1,2 @@
+export function validateAsset(a){for(const k of ['id','title','sourceUrl','license','version','reviewState'])if(!a[k])throw new Error(`asset.${k} required`); if(a.license==='proprietary'&&a.reviewState!=='approved')throw new Error('proprietary assets require approval');return a;}
+export class AssetRegistry {constructor(assets=[]){this.assets=new Map(assets.map(a=>[a.id,validateAsset(a)]));}approved(){return [...this.assets.values()].filter(a=>a.reviewState==='approved');}get(id){return this.assets.get(id);}}

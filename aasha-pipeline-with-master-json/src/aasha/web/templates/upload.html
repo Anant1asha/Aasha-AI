@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aasha Pipeline</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;font-size:15px}
+.nav{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;gap:16px}
+.nav-brand{font-weight:700;font-size:1.1rem;color:#3b82f6}
+.nav-link{color:#64748b;text-decoration:none;font-size:.9rem}
+.nav-link:hover{color:#3b82f6}
+.container{max-width:960px;margin:0 auto;padding:24px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card h2{margin-bottom:16px;font-size:1.2rem}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;margin-bottom:4px;font-weight:600;font-size:.9rem}
+.form-group select,.form-group input[type=text]{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:.95rem}
+.drop-zone{border:2px dashed #cbd5e1;border-radius:8px;padding:48px 24px;text-align:center;color:#64748b;cursor:pointer;transition:border-color .2s}
+.drop-zone:hover,.drop-zone.dragover{border-color:#3b82f6;color:#3b82f6}
+.drop-zone input{display:none}
+.drop-zone .filename{font-weight:600;color:#1e293b;margin-top:8px}
+.form-row{display:flex;gap:12px}
+.form-row .form-group{flex:1}
+.btn{padding:10px 24px;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:.95rem;transition:background .15s}
+.btn-primary{background:#3b82f6;color:#fff}
+.btn-primary:hover{background:#2563eb}
+.btn-primary:disabled{background:#cbd5e1;cursor:not-allowed}
+.note{font-size:.8rem;color:#64748b;margin-top:12px}
+.jobs-preview{margin-top:24px}
+.jobs-preview h3{font-size:.95rem;margin-bottom:8px}
+.jobs-preview table{width:100%;font-size:.85rem;border-collapse:collapse}
+.jobs-preview th,.jobs-preview td{padding:6px 8px;text-align:left;border-bottom:1px solid #e2e8f0}
+.badge{padding:2px 8px;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge.completed{background:#dcfce7;color:#166534}
+.badge.failed,.badge.qa_failed{background:#fee2e2;color:#991b1b}
+.badge.running,.badge.pending,.badge.queued{background:#dbeafe;color:#1e40af}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <span class="nav-brand">Aasha Pipeline</span>
+  <a href="/jobs" class="nav-link">Jobs</a>
+</nav>
+<div class="container">
+  <div class="card">
+    <h2>Generate a Chapter</h2>
+    <form id="uploadForm">
+      <div class="form-group">
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <div>Drop a PDF here or click to browse</div>
+          <div class="filename" id="filename"></div>
+          <input type="file" id="fileInput" name="pdf" accept=".pdf">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Subject</label>
+          <select name="subject">
+            <option value="math">Math</option>
+            <option value="science">Science</option>
+            <option value="english">English</option>
+            <option value="evs">EVS</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Grade</label>
+          <select name="grade">
+            <option value="3">3</option><option value="4" selected>4</option>
+            <option value="5">5</option><option value="6">6</option>
+            <option value="7">7</option><option value="8">8</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Provider</label>
+          <select name="provider">
+            <option value="openai" selected>OpenAI</option>
+            <option value="gemini">Gemini</option>
+            <option value="anthropic">Anthropic</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mode</label>
+          <select name="mode" id="modeSelect">
+            <option value="v5-engine" selected>V5 Engine (Standard)</option>
+            <option value="full-synthesis">Full Synthesis</option>
+          </select>
+        </div>
+      </div>
+      
+      <div id="fullSynthesisOptions" style="display:none; margin-bottom: 16px; padding: 16px; background: #f1f5f9; border-radius: 8px;">
+        <h4 style="margin-bottom: 12px;">Full Synthesis Options</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Board</label>
+            <select name="board">
+              <option value="CBSE">CBSE</option>
+              <option value="ICSE">ICSE</option>
+              <option value="State">State</option>
+              <option value="IB">IB</option>
+              <option value="Cambridge">Cambridge</option>
+              <option value="NIOS">NIOS</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Language</label>
+            <select name="language">
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
+              <option value="bn">Bengali</option>
+              <option value="ta">Tamil</option>
+              <option value="te">Telugu</option>
+              <option value="mr">Marathi</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Plugin Overrides</label>
+          <div style="display:flex; gap: 12px; font-size: 0.9rem;">
+            <label><input type="checkbox" name="plugin_desmos" checked> Desmos</label>
+            <label><input type="checkbox" name="plugin_geogebra" checked> GeoGebra</label>
+            <label><input type="checkbox" name="plugin_phet" checked> PhET</label>
+          </div>
+        </div>
+        <div class="note">
+          <strong>Assessment Structure:</strong> Generates 3 levels of assessment (Recall, Apply, Synthesize).
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Generate</button>
+      <div class="note">Cost target: under $0.50 per chapter. Output: a single offline HTML file.</div>
+    </form>
+  </div>
+
+  {% if jobs %}
+  <div class="jobs-preview">
+    <h3>Recent Jobs</h3>
+    <table>
+      <thead><tr><th>PDF</th><th>Status</th><th>Created</th></tr></thead>
+      <tbody>
+        {% for job in jobs %}
+        <tr>
+          <td>{{ job.source_pdf }}</td>
+          <td><span class="badge {{ job.status }}">{{ job.status }}</span></td>
+          <td>{{ job.created_at[:19] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+<script>
+const fileInput = document.getElementById('fileInput');
+const dropZone = document.getElementById('dropZone');
+const submitBtn = document.getElementById('submitBtn');
+const filename = document.getElementById('filename');
+const form = document.getElementById('uploadForm');
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files.length) {
+    filename.textContent = fileInput.files[0].name;
+    submitBtn.disabled = false;
+  }
+});
+['dragover','dragenter'].forEach(e => dropZone.addEventListener(e, ev => {ev.preventDefault(); dropZone.classList.add('dragover');}));
+['dragleave','drop'].forEach(e => dropZone.addEventListener(e, ev => {ev.preventDefault(); dropZone.classList.remove('dragover');}));
+dropZone.addEventListener('drop', ev => {
+  if (ev.dataTransfer.files.length) {
+    fileInput.files = ev.dataTransfer.files;
+    filename.textContent = fileInput.files[0].name;
+    submitBtn.disabled = false;
+  }
+});
+
+const modeSelect = document.getElementById('modeSelect');
+const fullSynthesisOptions = document.getElementById('fullSynthesisOptions');
+if (modeSelect && fullSynthesisOptions) {
+  modeSelect.addEventListener('change', (e) => {
+    fullSynthesisOptions.style.display = (e.target.value === 'full-synthesis') ? 'block' : 'none';
+  });
+}
+
+form.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const formData = new FormData(form);
+  submitBtn.textContent = 'Uploading...';
+  submitBtn.disabled = true;
+  const resp = await fetch('/api/upload', {method:'POST', body:formData});
+  const data = await resp.json();
+  if (data.job_id) {
+    window.location.href = '/job/' + data.job_id;
+  } else {
+    alert('Error: ' + (data.error || 'Unknown'));
+    submitBtn.textContent = 'Generate';
+    submitBtn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+import {recordEvent} from './events.js';
+export const REWARD_POLICY={quiz_correct:2,concept_mastery:10,content_complete:10,manual_seva:10};
+export function awardQuizReward(state,{event_id,result}){
+  if(result!=='correct')return {coins_delta:0,xp_delta:0};
+  if(state.reward_ledger.some(x=>x.source_event_id===event_id))return {coins_delta:0,xp_delta:0,duplicate:true};
+  const coins=REWARD_POLICY.quiz_correct,xp=5; state.coins+=coins;state.xp+=xp;state.streak+=1;state.last_answer_at=new Date().toISOString();
+  const entry={ledger_id:`RW-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,source_event_id:event_id,coins_delta:coins,xp_delta:xp,verification_status:'manual_beta',reason:'verified learning interaction',timestamp:new Date().toISOString()};
+  state.reward_ledger.push(entry);recordEvent(state,'reward_issued',{ledger_id:entry.ledger_id,source_event_id:event_id,verification_status:entry.verification_status,coins_delta:coins,xp_delta:xp});
+  if(state.xp>=50&&!state.badges.includes('learning_champion'))state.badges.push('learning_champion');
+  return {coins_delta:coins,xp_delta:xp};
+}
+export function verifyRewardManually(state,ledgerId,verifierRef){
+  const item=state.reward_ledger.find(x=>x.ledger_id===ledgerId);if(!item)return false;item.verification_status='manual_verified';item.verifier_ref=verifierRef;item.verified_at=new Date().toISOString();return true;
+}

@@ -1,0 +1,1 @@
+export function adminPolicy(role){return {canManageCohorts:['admin'].includes(role),canValidateContent:['admin','teacher'].includes(role),canVerifyEvidence:['admin','verifier'].includes(role),canIssueManualRewards:['admin','verifier'].includes(role)};}

@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Aasha — Comparing Quantities & Percentage (Class 8)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0f4ff;--surface:#fff;--text:#1e293b;--muted:#64748b;
+  --blue:#3b82f6;--blue-dk:#2563eb;--blue-lt:#dbeafe;
+  --green:#22c55e;--green-dk:#16a34a;--green-lt:#dcfce7;
+  --red:#ef4444;--red-lt:#fee2e2;
+  --amber:#f59e0b;--amber-lt:#fef3c7;
+  --purple:#8b5cf6;--purple-lt:#ede9fe;
+  --pink:#ec4899;--teal:#14b8a6;
+  --border:#e2e8f0;
+  --shadow:0 2px 8px rgba(0,0,0,.06);--shadow-lg:0 8px 24px rgba(0,0,0,.15);
+  --radius:16px;--radius-sm:12px;--radius-xs:8px;
+  --brand:#1e3a5f;--brand-lt:#2d5a8e;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+
+/* Brand Header */
+.brand-header{background:linear-gradient(135deg,var(--brand),var(--brand-lt));padding:8px 14px;display:flex;align-items:center;gap:10px;color:#fff}
+.brand-logo{width:42px;height:42px;flex-shrink:0}
+.brand-logo svg{width:100%;height:100%}
+.brand-info{flex:1;min-width:0}
+.brand-name{font-size:.78rem;font-weight:800;letter-spacing:.02em;line-height:1.2}
+.brand-name-hi{font-size:.68rem;opacity:.85;line-height:1.2}
+.brand-tagline{font-size:.6rem;opacity:.7;margin-top:1px}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.06);position:sticky;top:0;z-index:50}
+.exit-btn{background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;padding:4px}
+.progress-track{flex:1;height:10px;background:var(--border);border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0}
+.stat{display:inline-flex;align-items:center;gap:3px;font-size:.72rem;font-weight:700;padding:3px 7px;border-radius:16px;white-space:nowrap;transition:transform .2s}
+.stat.coins{color:var(--amber);background:var(--amber-lt)}
+.stat.xp{color:var(--purple);background:var(--purple-lt)}
+.stat.lvl{color:var(--blue);background:var(--blue-lt)}
+.stat.streak{color:#ef4444;background:var(--red-lt)}
+.stat.bump{transform:scale(1.3)}
+
+/* Screen */
+.screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 14px 90px;min-height:calc(100vh - 120px);animation:slideIn .35s ease}
+@keyframes slideIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+
+/* MathIsolation: true */
+.math{font-family:'Cambria Math',serif;font-style:italic;font-weight:600}
+
+/* Intro */
+.intro-icon{font-size:3.2rem;margin-bottom:8px;text-align:center;animation:pop .5s ease}
+.intro-title{font-size:1.15rem;font-weight:800;text-align:center;margin-bottom:6px}
+.intro-sub{color:var(--muted);font-size:.85rem;font-weight:600;text-align:center;margin-bottom:12px}
+
+/* Instruction */
+.instruction{text-align:center;font-size:1.15rem;font-weight:800;color:#fff;margin:10px auto;padding:12px 18px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:14px;max-width:420px;box-shadow:0 3px 8px rgba(0,0,0,.15);line-height:1.5}
+.hint{font-size:.7rem;color:var(--muted);text-align:center;margin:6px 0}
+
+/* LLE Text */
+.lle-text{font-size:1.15rem;line-height:2.8;color:var(--text);max-width:400px;margin:10px auto;text-align:left}
+.lle-text-sm{font-size:.95rem;line-height:2.2;color:var(--text);max-width:380px;margin:6px auto;text-align:left}
+.word{cursor:pointer;border-radius:3px;padding:0 1px;transition:background .15s;border-bottom:1px dotted rgba(0,0,0,.2)}.word:hover{background:#e0e7ff}
+.connective{color:var(--blue);font-weight:700;cursor:pointer;border-bottom:2px dotted var(--blue);padding:0 1px}
+.connective-hi{color:var(--purple);font-size:.85em;font-weight:600}
+
+/* Fraction display */
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.85em;line-height:1;margin:0 2px}
+.frac-top{border-bottom:1.5px solid currentColor;padding:0 4px}
+.frac-bot{padding:0 4px}
+.frac-display{text-align:center;font-size:2rem;font-weight:800;margin:8px 0}
+
+/* Cards */
+.card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:14px;max-width:400px;width:100%;margin:0 auto 8px;box-shadow:var(--shadow)}
+.card-caption{text-align:center;font-size:.78rem;color:var(--muted);margin-top:6px;line-height:1.4}
+.canvas-visual{display:block;margin:0 auto;border-radius:var(--radius-xs)}
+
+/* Game card */
+.game-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:14px;max-width:400px;width:100%;margin:0 auto;box-shadow:var(--shadow)}
+.game-card canvas{display:block;margin:0 auto;cursor:pointer;border-radius:var(--radius-xs);touch-action:none}
+
+/* Worked Example */
+.we-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:14px;max-width:400px;width:100%;margin:0 auto;box-shadow:var(--shadow)}
+.we-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--blue);margin-bottom:6px}
+.we-question{margin-bottom:10px}
+.we-step{padding:10px 12px;background:var(--blue-lt);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;margin-bottom:6px;animation:stepReveal .35s ease}
+.we-step.green{background:var(--green-lt);border-left-color:var(--green)}
+.we-step.amber{background:var(--amber-lt);border-left-color:var(--amber)}
+.we-step.final{padding:10px;background:var(--green-lt);border:2px solid var(--green);border-radius:10px;margin-top:6px;text-align:center;font-weight:700;color:var(--green-dk)}
+.we-num{display:inline-block;width:20px;height:20px;background:var(--blue);color:#fff;border-radius:50%;text-align:center;font-size:.65rem;font-weight:700;line-height:20px;margin-right:6px}
+.we-step.green .we-num{background:var(--green)}.we-step.amber .we-num{background:var(--amber)}
+.we-visual{margin:8px 0}
+@keyframes stepReveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Quiz */
+.quiz-question{margin-bottom:14px;max-width:380px;margin-left:auto;margin-right:auto}
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;padding:12px;margin-bottom:7px;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;background:var(--surface)}
+.quiz-opt:hover{border-color:var(--blue)}
+.quiz-opt.selected{border-color:var(--blue);background:var(--blue-lt)}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-lt)}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-lt)}
+.quiz-radio{width:20px;height:20px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;margin-top:1px;transition:all .15s}
+.quiz-opt.selected .quiz-radio{border-color:var(--blue);background:var(--blue)}
+.quiz-opt.correct .quiz-radio{border-color:var(--green);background:var(--green)}
+.quiz-opt.wrong .quiz-radio{border-color:var(--red);background:var(--red)}
+.quiz-opt-text{flex:1;color:var(--text);font-size:1rem;line-height:1.6}
+.instruction .lle-text-sm,.instruction .lle-text,.instruction .word{color:inherit}
+.instruction .connective{color:#fff;font-weight:800;border-bottom-color:#fff}
+.instruction .connective-hi{color:#e0e7ff}
+
+/* Feedback */
+.feedback{padding:12px;border-radius:var(--radius-sm);margin:8px auto;max-width:380px;font-size:.85rem;text-align:center;line-height:1.4;animation:stepReveal .3s ease}
+.feedback.ok{background:var(--green-lt);border:1px solid #86efac;color:#166534}
+.feedback.no{background:var(--red-lt);border:1px solid #fca5a5;color:#991b1b}
+.misconception{background:var(--red-lt);border:1px solid #fca5a5;border-radius:10px;padding:10px;margin:8px auto;max-width:380px;font-size:.8rem;color:#991b1b;line-height:1.4;animation:stepReveal .3s ease}
+
+/* Visual quiz */
+.vq-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:380px;margin:0 auto}
+.vq-opt{padding:10px;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;background:var(--surface);text-align:center}
+.vq-opt:hover{border-color:var(--blue)}
+.vq-opt.selected{border-color:var(--blue);background:var(--blue-lt)}
+.vq-opt.correct{border-color:var(--green);background:var(--green-lt)}
+.vq-opt.wrong{border-color:var(--red);background:var(--red-lt)}
+.vq-opt canvas{display:block;margin:0 auto;border-radius:6px}
+
+/* Drag-drop */
+.dd-label{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:6px;font-weight:600}
+
+.dd-zone.over{border-color:var(--green);background:var(--green-lt)}
+.dd-zone.wrong{border-color:var(--red);background:var(--red-lt)}
+
+.dd-item:hover{border-color:var(--blue);transform:scale(1.05)}
+.dd-item.dragging{opacity:.5}
+.dd-item.placed{background:var(--blue-lt);border-color:var(--blue)}
+
+/* Input */
+input[type=text]{width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:1rem;margin-bottom:8px}
+input[type=text]:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px var(--blue-lt)}
+input[type=range]{width:100%;max-width:260px;accent-color:var(--blue);height:6px}
+
+/* Tap area */
+.tap-area{display:flex;gap:3px;justify-content:center;margin:12px auto;max-width:280px}
+.tap-cell{flex:1;height:42px;border-radius:var(--radius-xs);border:3px solid var(--border);background:#f1f5f9;cursor:pointer;transition:all .15s;touch-action:none}
+.tap-cell.tapped{background:var(--green);border-color:var(--green);transform:scale(1.05)}
+.tap-count{text-align:center;font-size:1.2rem;font-weight:800;margin-top:6px}
+
+/* Fraction label (vertical) */
+.flb{display:flex;flex-direction:column;align-items:center;gap:2px;margin:8px auto}
+.fn{font-size:2rem;font-weight:800;line-height:1;cursor:pointer}.fn:hover{transform:scale(1.1)}
+.fln{width:48px;height:3px;background:var(--text);border-radius:2px}
+
+/* Slider */
+.slider-area{text-align:center;margin:12px auto}
+.slider-display{font-size:1.6rem;font-weight:800;margin-bottom:6px}
+
+/* Milestone / Progress */
+.milestone-icon{font-size:3.5rem;margin-bottom:6px;animation:pop .5s ease}
+.milestone-text{font-size:1.1rem;font-weight:700;text-align:center}
+.milestone-reward{font-size:1.8rem;font-weight:800;color:var(--amber);margin:6px 0;animation:pop .4s ease .2s both}
+.milestone-next{font-size:.8rem;color:var(--muted);margin-top:10px}
+
+/* Complete */
+.complete-icon{font-size:4rem;margin-bottom:8px;animation:pop .6s ease}
+.complete-title{font-size:1.3rem;font-weight:800;margin-bottom:6px}
+.complete-coins{font-size:2.5rem;font-weight:800;color:var(--amber);margin:10px 0}
+.star-row{display:flex;gap:4px;justify-content:center;margin:8px 0}
+.star-row span{font-size:1.8rem}
+.chip{padding:3px 8px;border-radius:20px;font-size:.65rem;font-weight:600}
+
+/* Bottom bar */
+.bottom-bar{position:sticky;bottom:0;left:0;right:0;background:var(--surface);padding:10px 16px;box-shadow:0 -1px 3px rgba(0,0,0,.06);z-index:50}
+.btn{width:100%;padding:13px;border:none;border-radius:13px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-dk)}.btn-primary:disabled{background:#cbd5e1;cursor:not-allowed;color:#fff}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:var(--green-dk)}
+.btn-amber{background:var(--amber);color:#fff}
+
+/* Dialogs (native <dialog>) */
+dialog{border:none;border-radius:18px;padding:24px;max-width:300px;width:100%;text-align:center;box-shadow:var(--shadow-lg);color:var(--text);animation:dlgIn .25s ease}
+@keyframes dlgIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
+.dlg-word{font-size:1.5rem;font-weight:800}
+.dlg-hindi{font-size:1.2rem;color:var(--purple);font-weight:600;margin-top:4px}
+.dlg-desc{font-size:.8rem;color:var(--muted);margin-top:8px;line-height:1.4}
+.dlg-btn{margin-top:14px;padding:8px 24px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:.85rem}
+.dlg-btn:hover{background:var(--blue-dk)}
+.lu-icon{font-size:3rem}.lu-title{font-size:1.2rem;font-weight:800;color:var(--amber);margin-top:4px}.lu-sub{font-size:.85rem;color:var(--muted);margin-top:6px}
+
+/* Badge toast */
+.badge-toast{position:fixed;top:110px;left:50%;transform:translateX(-50%);background:#fff;border-radius:14px;padding:12px 20px;box-shadow:var(--shadow-lg);z-index:95;text-align:center;animation:pop .4s ease}
+.badge-toast-icon{font-size:2rem}.badge-toast-name{font-size:.8rem;font-weight:800;color:var(--amber)}.badge-toast-desc{font-size:.68rem;color:var(--muted)}
+
+/* Streak combo indicator */
+.combo-indicator{position:fixed;top:110px;right:16px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;border-radius:12px;padding:6px 12px;font-size:.75rem;font-weight:800;z-index:90;display:none;box-shadow:0 4px 12px rgba(245,158,11,.4);animation:pop .3s ease}
+.combo-indicator.show{display:block}
+
+/* CSS 3D */
+.css3d-scene{perspective:700px;width:100%;max-width:360px;margin:0 auto;padding:20px 0;touch-action:none}
+.css3d-blocks{display:flex;gap:8px;justify-content:center;transform-style:preserve-3d;transition:transform .1s linear;transform:rotateX(-15deg) rotateY(-20deg)}
+.css3d-block{width:40px;transition:transform .3s}
+.css3d-block-filled{height:60px;background:linear-gradient(135deg,var(--blue),var(--blue-dk));border-radius:6px;box-shadow:0 4px 8px rgba(59,130,246,.3);border:1px solid rgba(255,255,255,.2)}
+.css3d-block-empty{height:8px;background:var(--border);border-radius:3px;margin-top:26px}
+.css3d-label{text-align:center;font-size:1.2rem;font-weight:800;margin-top:8px;color:var(--blue)}
+.css3d-controls{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.css3d-btn{padding:6px 14px;background:var(--blue-lt);border:1px solid var(--blue);border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600;color:var(--blue)}
+.css3d-btn:hover{background:var(--blue);color:#fff}
+
+/* Confetti canvas */
+#confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200}
+
+/* Chapter map dialog */
+.chap-map{max-width:360px}
+.chap-map-title{font-size:1.1rem;font-weight:800;margin-bottom:10px}
+.chap-map-list{display:flex;flex-direction:column;gap:6px;max-height:400px;overflow-y:auto}
+.chap-map-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;font-size:.82rem;text-align:left}
+.chap-map-item.done{background:var(--green-lt);border:1px solid #86efac}
+.chap-map-item.current{background:var(--blue-lt);border:1px solid var(--blue);font-weight:600}
+.chap-map-item.locked{opacity:.4}
+.chap-map-ic{font-size:1.2rem}
+
+/* Number line interactive */
+.numline-container{position:relative;width:100%;max-width:320px;margin:0 auto;height:80px;touch-action:none}
+.btn-back{background:var(--surface);color:var(--muted);border:1.5px solid var(--border);padding:10px 16px;border-radius:12px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;flex-shrink:0}.btn-back:active{background:var(--border);transform:scale(.96)}.btn-back:disabled{opacity:.3;pointer-events:none}.bottom-bar{display:flex;gap:8px;align-items:center}.bottom-bar .btn-primary{flex:1}
+.dd-tap-item{padding:10px 14px;border:2px solid var(--border);border-radius:10px;background:var(--surface);cursor:pointer;font-weight:700;font-size:1rem;transition:all .15s;text-align:center;user-select:none}.dd-tap-item:active{transform:scale(.95)}.dd-tap-item.selected{border-color:var(--blue);background:var(--blue-lt);box-shadow:0 0 0 3px var(--blue-lt)}.dd-tap-item.placed{opacity:.3;pointer-events:none}.dd-tap-zone{padding:8px;border:2px dashed var(--border);border-radius:10px;background:var(--surface);cursor:pointer;transition:all .15s;text-align:center;user-select:none;min-height:50px;display:flex;align-items:center;justify-content:center}.dd-tap-zone:active{transform:scale(.95)}.dd-tap-zone.wrong{border-color:var(--red);background:#fee2e2}.dd-tap-zone.correct{border-color:var(--green);background:var(--green-lt)}.dd-placed-piece{display:inline-block;margin:2px;font-size:24px;color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand-header">
+    <div class="brand-logo">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="water" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1e40af"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#60a5fa"/>
+          </linearGradient>
+          <linearGradient id="vine" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#15803d"/><stop offset="50%" stop-color="#22c55e"/><stop offset="100%" stop-color="#4ade80"/>
+          </linearGradient>
+          <linearGradient id="medal" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fbbf24"/><stop offset="50%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#d97706"/>
+          </linearGradient>
+        </defs>
+        <!-- Left loop: water (infinity left) -->
+        <path d="M 48 50 C 48 28, 28 18, 16 28 C 6 36, 8 50, 20 56 C 30 60, 42 56, 48 50 Z" fill="url(#water)" opacity="0.92"/>
+        <!-- Water highlights -->
+        <path d="M 32 30 C 26 32, 22 38, 24 44" stroke="#bfdbfe" stroke-width="2" fill="none" opacity="0.7"/>
+        <circle cx="20" cy="40" r="1.5" fill="#dbeafe" opacity="0.8"/>
+        <circle cx="26" cy="48" r="1" fill="#dbeafe" opacity="0.6"/>
+        <!-- Right loop: vine (infinity right) -->
+        <path d="M 52 50 C 52 72, 72 82, 84 72 C 94 64, 92 50, 80 44 C 70 40, 58 44, 52 50 Z" fill="url(#vine)" opacity="0.92"/>
+        <!-- Vine leaves -->
+        <ellipse cx="70" cy="38" rx="5" ry="2.5" fill="#22c55e" transform="rotate(-30 70 38)"/>
+        <ellipse cx="78" cy="36" rx="4.5" ry="2.5" fill="#16a34a" transform="rotate(20 78 36)"/>
+        <ellipse cx="62" cy="62" rx="4" ry="2" fill="#4ade80" transform="rotate(40 62 62)"/>
+        <ellipse cx="76" cy="64" rx="4" ry="2.5" fill="#22c55e" transform="rotate(-25 76 64)"/>
+        <ellipse cx="86" cy="56" rx="3.5" ry="2" fill="#15803d" transform="rotate(15 86 56)"/>
+        <!-- Center crossing -->
+        <ellipse cx="50" cy="50" rx="5" ry="4" fill="#1e3a5f" opacity="0.3"/>
+        <!-- Book in lower-left loop -->
+        <g transform="translate(22 44) rotate(-8)">
+          <rect x="-6" y="-4" width="12" height="8" rx="1" fill="#dbeafe" stroke="#1e40af" stroke-width="0.6"/>
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="#3b82f6" stroke-width="0.5"/>
+          <line x1="-4" y1="-1" x2="-1" y2="-1" stroke="#93c5fd" stroke-width="0.4"/>
+          <line x1="-4" y1="1" x2="-1" y2="1" stroke="#93c5fd" stroke-width="0.4"/>
+          <line x1="1" y1="-1" x2="4" y2="-1" stroke="#93c5fd" stroke-width="0.4"/>
+          <line x1="1" y1="1" x2="4" y2="1" stroke="#93c5fd" stroke-width="0.4"/>
+        </g>
+        <!-- Water drop upper-right loop -->
+        <path d="M 68 30 C 66 33, 64 36, 66 38 C 67 39, 69 39, 70 38 C 72 36, 70 33, 68 30 Z" fill="#60a5fa" opacity="0.9"/>
+        <circle cx="67" cy="34" r="1" fill="#dbeafe" opacity="0.8"/>
+        <!-- Gold medal on far right -->
+        <g transform="translate(88 68)">
+          <circle r="7" fill="url(#medal)" stroke="#b45309" stroke-width="0.6"/>
+          <text x="0" y="1.5" text-anchor="middle" font-size="3" font-weight="bold" fill="#78350f">MERIT</text>
+          <text x="0" y="5" text-anchor="middle" font-size="3" font-weight="bold" fill="#78350f">2024</text>
+          <path d="M -5 -6 L -7 -11 M 5 -6 L 7 -11" stroke="#d97706" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Small leaf at bottom -->
+        <ellipse cx="50" cy="92" rx="3" ry="1.5" fill="#22c55e" transform="rotate(0 50 92)"/>
+      </svg>
+    </div>
+    <div class="brand-info">
+      <div class="brand-name">Annanth Aasha Foundation</div>
+      <div class="brand-name-hi">अनन्त आशा फाउंडेशन</div>
+      <div class="brand-tagline">Safe Learning. Real Impact.</div>
+    </div>
+  </div>
+  <div class="topbar">
+    <button class="exit-btn" onclick="App.exit()">✕</button>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="stat lvl" id="statLvl" onclick="App.showMap()">Lv 1</span>
+    <span class="stat coins">🪙 <span id="statCoins">0</span></span>
+    <span class="stat xp">⭐ <span id="statXp">0</span></span>
+    <span class="stat streak" id="statStreakWrap" style="display:none">🔥 <span id="statStreak">0</span></span>
+  </div>
+  <div class="screen" id="screen"></div>
+  <div class="bottom-bar" id="bottomBar" style="display:none"><button class="btn btn-back" id="backBtn" onclick="App.goBack()">&#8592; Back</button><button class="btn btn-primary" id="continueBtn" onclick="App.next()">Continue</button></div>
+</div>
+
+<dialog id="wordDialog"><div class="dlg-word" id="dlgWord"></div><div class="dlg-hindi" id="dlgHindi"></div><div class="dlg-desc" id="dlgDesc"></div><button class="dlg-btn" onclick="document.getElementById('wordDialog').close()">OK</button></dialog>
+<dialog id="levelUpDialog"><div class="lu-icon" id="luIcon">🎉</div><div class="lu-title" id="luTitle">Level Up!</div><div class="lu-sub" id="luSub">You earned 0 XP. Keep going!</div><button class="dlg-btn" onclick="document.getElementById('levelUpDialog').close()">Awesome!</button></dialog>
+<dialog id="chapterMapDialog" class="chap-map"><div class="chap-map-title">📊 Chapter Progress</div><div class="chap-map-list" id="chapMapList"></div><button class="dlg-btn" onclick="document.getElementById('chapterMapDialog').close()">Continue Learning</button></dialog>
+
+<div class="combo-indicator" id="comboInd"></div>
+<canvas id="confettiCanvas"></canvas>
+
+<script>
+var WM={a:"एक (ए)",the:"यह/वह (द)",is:"है (इज़)",are:"हैं (आर)",was:"था (वाज़)",we:"हम (वी)",you:"तुम (यू)",they:"वे (दे)",it:"यह (इट)",this:"यह (दिस)",that:"वह (दैट)",part:"भाग (पार्ट)",parts:"भागों (पार्ट्स)",whole:"पूर्ण (होल)",equal:"बराबर (इक्वल)",number:"संख्या (नंबर)",top:"ऊपरी (टॉप)",bottom:"निचली (बॉटम)",total:"कुल (टोटल)",piece:"टुकड़ा (पीस)",pieces:"टुकड़े (पीसेज़)",amount:"मात्रा (अमाउंट)",value:"मान (वैल्यू)",same:"समान (सेम)",different:"अलग (डिफरेंट)",fraction:"भिन्न (फ्रैक्शन)",fractions:"भिन्न (फ्रैक्शन्स)",numerator:"अंश (न्यूमरेटर)",denominator:"हर (डिनॉमिनेटर)",proper:"उचित (प्रॉपर)",improper:"अनुचित (इम्प्रॉपर)",mixed:"मिश्रित (मिक्स्ड)",equivalent:"तुल्य (इक्विवलेंट)",divide:"विभाजित (डिवाइड)",divided:"बाँटा (डिवाइडेड)",take:"लेना (टेक)",taken:"लिया (टेकन)",show:"दिखाना (शो)",shows:"दिखाता (शोज़)",tells:"बताता (टेल्स)",called:"कहलाता (कॉल्ड)",find:"खोजना (फाइंड)",multiply:"गुणा करना (मल्टिप्लाई)",add:"जोड़ना (ऐड)",subtract:"घटाना (सबट्रैक्ट)",compare:"तुलना (कंपेयर)",of:"का (ऑफ)",into:"में (इनटू)",on:"पर (ऑन)",to:"को (टू)",from:"से (फ्रॉम)",by:"से (बाय)",and:"और (ऐंड)",or:"या (ऑर)",not:"नहीं (नॉट)",each:"हर (ईच)",all:"सभी (ऑल)",has:"है (हैज़)",have:"है (हैव)",more:"अधिक (मोर)",less:"कम (लेस)",greater:"बड़ा (ग्रेटर)",smaller:"छोटा (स्मॉलर)",than:"से (दैन)",what:"क्या (व्हट)",which:"कौन (विच)",when:"जब (वेन)",then:"तब (देन)",there:"वहाँ (देयर)",can:"सकते है (कैन)",two:"दो (टू)",three:"तीन (थ्री)",four:"चार (फोर)",five:"पाँच (फाइव)",six:"छह (सिक्स)",seven:"सात (सेवन)",eight:"आठ (एट)",one:"एक (वन)",example:"उदाहरण (एग्ज़ैम्पल)",means:"अर्थ (मीन्स)",written:"लिखा (रिटन)",always:"हमेशा (ऑल्वेज़)",never:"कभी नहीं (नेवर)",both:"दोनों (बोथ)",type:"प्रकार (टाइप)",types:"प्रकार (टाइप्स)",together:"साथ (टुगेदर)",just:"बस (जस्ट)",also:"भी (ऑल्सो)",only:"केवल (ओन्ली)",first:"पहले (फर्स्ट)",way:"तरीका (वे)",answer:"उत्तर (आंसर)",correct:"सही (करेक्ट)",wrong:"गलत (रॉंग)",question:"प्रश्न (क्वेस्चन)",solve:"हल (सॉल्व)",solution:"हल (सॉल्यूशन)",step:"चरण (स्टेप)",convert:"बदलना (कन्वर्ट)",because:"क्योंकि (बिकॉज़)",since:"चूंकि (सिंस)",write:"लिखो (राइट)",shaded:"भरा (शेडेड)",filled:"भरा (फिल्ड)",empty:"खाली (एम्प्टी)",bar:"पट्टी (बार)",left:"शेष (लेफ्ट)",right:"दायाँ (राइट)",check:"जाँच (चेक)",problem:"समस्या (प्रॉब्लम)",sum:"योग (सम)",students:"छात्र (स्टूडेंट्स)",school:"विद्यालय (स्कूल)",girls:"लड़कियाँ (गर्ल्स)",how:"कैसे (हाउ)",remainder:"शेष (रिमेंडर)",quotient:"भागफल (क्वोशेंट)",new:"नया (न्यू)",stays:"रहता (स्टेज़)",becomes:"बनता (बिकम्स)",factor:"गुणक (फैक्टर)",common:"साझा (कॉमन)",multiple:"गुणज (मल्टिपल)",larger:"बड़ा (लार्जर)",remaining:"शेष (रिमेनिंग)",gave:"दिया (गेव)",ate:"खाया (एट)",pizza:"पिज़्ज़ा (पिज़्ज़ा)",chocolate:"चॉकलेट (चॉकलेट)",cake:"केक (केक)",did:"किया (डिड)",many:"कई (मेनी)",much:"कितना (मच)",got:"प्राप्त (गॉट)",need:"जरूरत (नीड)",must:"अनिवार्य (मस्ट)",product:"गुणनफल (प्रॉडक्ट)",inverse:"व्युत्क्रम (इन्वर्स)",reciprocal:"प्रतिलोम (रिसिप्रोकल)",flip:"उलटना (फ्लिप)",times:"गुना (टाइम्स)",plus:"जोड़ (प्लस)",minus:"घटाव (माइनस)",difference:"अंतर (डिफरेंस)",result:"परिणाम (रिज़ल्ट)",change:"बदलने (चेंज)",keep:"रखना (कीप)",cross:"क्रस (क्रॉस)",method:"विधि (मेथड)",why:"क्यों (वाय)",use:"उपयोग (यूज़)",split:"बाँटना (स्प्लिट)",share:"बाँटना (शेयर)",half:"आधा (हाफ)",third:"तिहाई (थर्ड)",quarter:"चौथाई (क्वार्टर)",operation:"संक्रिया (ऑपरेशन)",addition:"जोड़ (अडिशन)",subtraction:"घटाव (सबट्रैक्शन)",multiplication:"गुणन (मल्टिप्लिकेशन)",division:"भाग (डिविज़न)",missing:"लापता (मिसिंग)",formula:"सूत्र (फॉर्मूला)",rule:"नियम (रूल)",practice:"अभ्यास (प्रैक्टिस)",hint:"संकेत (हिंट)",remember:"याद रखें (रिमेंबर)",level:"स्तर (लेवल)",score:"अंक (स्कोर)",complete:"पूर्ण (कम्प्लीट)",start:"शुरू (स्टार्ट)",unequal:"असमान (अनइक्वल)",simplify:"सरल करना (सिम्प्लिफाई)",convert2:"रूपांतरित करना (कन्वर्ट)",divisor:"भाजक (डिवाइज़र)",dividend:"भाज्य (डिविडेंड)",ribbon:"फीता (रिबन)",rope:"रस्सी (रोप)",cloth:"कपड़ा (क्लॉथ)",cost:"मूल्य (कॉस्ट)",distance:"दूरी (डिस्टेंस)",walk:"चलना (वॉक)",slice:"कतरा (स्लाइस)",perimeter:"परिधि (पेरिमीटर)",area:"क्षेत्रफल (एरिया)",length:"लंबाई (लेंथ)",width:"चौड़ाई (विड्थ)",breadth:"चौड़ाई (ब्रेड्थ)",side:"भुजा (साइड)",sides:"भुजाएँ (साइड्स)",rectangle:"आयत (रेक्टैंगल)",square:"वर्ग (स्क्वेयर)",triangle:"त्रिभुज (ट्रायएंगल)",polygon:"बहुभुज (पॉलीगॉन)",hexagon:"षट्भुज (हेक्सागॉन)",regular:"समान (रेगुलर)",shape:"आकार (शेप)",shapes:"आकार (शेप्स)",figure:"आकृति (फिगर)",boundary:"परिसीमा (बाउंड्री)",measure:"माप (मेज़र)",measuring:"मापन (मेज़रिंग)",ruler:"पैमाना (रूलर)",centimetre:"सेंटीमीटर (सेंटीमीटर)",metre:"मीटर (मीटर)",unit:"इकाई (यूनिट)",tile:"टाइल (टाइल)",tiling:"टाइलिंग (टाइलिंग)",price:"मूल्य (प्राइस)",rate:"दर (रेट)",per:"प्रति (पर)",floor:"फर्श (फ्लोर)",room:"कमरा (रूम)",field:"खेत (फील्ड)",garden:"बगीचा (गार्डन)",fence:"बाड़ (फेंस)",wall:"दीवार (वॉल)",door:"दरवाज़ा (डोर)",window:"खिड़की (विंडो)",table:"मेज़ (टेबल)",book:"किताब (बुक)",paper:"कागज़ (पेपर)",box:"डिब्बा (बॉक्स)",line:"रेखा (लाइन)",point:"बिंदु (पॉइंट)",angle:"कोण (एंगल)",corner:"कोना (कॉर्नर)",straight:"सीधा (स्ट्रेट)",curved:"घुमावदार (कर्व्ड)",closed:"बंद (क्लोज़्ड)",open:"खुला (ओपन)",plane:"समतल (प्लेन)",surface:"सतह (सरफेस)",space:"स्थान (स्पेस)",inside:"अंदर (इनसाइड)",outside:"बाहर (आउटसाइड)",around:"चारों ओर (अराउंड)",count:"गिनना (काउंट)",counting:"गिनती (काउंटिंग)",calculation:"गणना (कैल्कुलेशन)",calculate:"गणना करना (कैल्कुलेट)",final:"अंतिम (फाइनल)",decimal:"दशमलव (डेसिमल)",place:"स्थान (प्लेस)",ones:"इकाई (वन्स)",tens:"दहाई (टेन्स)",hundreds:"सैकड़ा (हंड्रेड्स)",metres:"मीटर (मीटर्स)",centimetres:"सेंटीमीटर (सेंटीमीटर्स)",squares:"वर्ग (स्क्वेयर्स)",grid:"जाली (ग्रिड)",cells:"कोशिकाएँ (सेल्स)",estimate:"अनुमान (एस्टिमेट)",approximate:"लगभग (अप्रॉक्सिमेट)",exact:"सटीक (एग्ज़ैक्ट)",real:"वास्तविक (रियल)",life:"जीवन (लाइफ)","real-life":"वास्तविक जीवन (रियल-लाइफ)",word:"शब्द (वर्ड)",words:"शब्द (वर्ड्स)",problems:"समस्याएँ (प्रॉब्लम्स)",understand:"समझना (अंडरस्टैंड)",understood:"समझा (अंडरस्टूड)",learn:"सीखना (लर्न)",learning:"सीखना (लर्निंग)",think:"सोचना (थिंक)",try:"कोशिश (ट्राय)",again:"फिर से (अगेन)",next:"अगला (नेक्स्ट)",back:"पीछे (बैक)",continue:"जारी रखें (कंटिन्यू)",done:"हो गया (डन)",finish:"समाप्त (फिनिश)",tap:"टैप करें (टैप)",click:"क्लिक (क्लिक)",select:"चुनें (सिलेक्ट)",choose:"चुनें (चूज़)",drag:"खींचें (ड्रैग)",move:"खिसकाएँ (मूव)",slider:"स्लाइडर (स्लाइडर)",button:"बटन (बटन)",red:"लाल (रेड)",blue:"नीला (ब्लू)",green:"हरा (ग्रीन)",yellow:"पीला (येलो)",colour:"रंग (कलर)",color:"रंग (कलर)",fifth:"पाँचवाँ (फिफ्थ)",sixth:"छठा (सिक्स्थ)",seventh:"सातवाँ (सेवेंथ)",eighth:"आठवाँ (एट्थ)",ninth:"नौवाँ (नाइंथ)",tenth:"दसवाँ (टेंथ)",lowest:"न्यूनतम (लोएस्ट)",terms:"पद (टर्म्स)",polynomial:"बहुपद (पॉलीनोमियल)",polynomials:"बहुपद (पॉलीनोमियल्स)",coefficient:"गुणांक (कोएफिशिएंट)",coefficients:"गुणांक (कोएफिशिएंट्स)",variable:"चर (वैरिएबल)",variables:"चर (वैरिएबल्स)",constant:"अचर (कॉन्स्टेंट)",degree:"घात (डिग्री)",zero:"शून्य (ज़ीरो)",zeros:"शून्यक (ज़ीरोस)",root:"मूल (रूट)",roots:"मूल (रूट्स)",factor:"गुणनखंड (फैक्टर)",factors:"गुणनखंड (फैक्टर्स)",factorise:"गुणनखंड करना (फैक्टराइज़)",remainder:"शेषफल (रिमेंडर)",quotient:"भागफल (क्वोशेंट)",dividend:"भाज्य (डिविडेंड)",divisor:"भाजक (डिवाइज़र)",linear:"रैखिक (लीनियर)",quadratic:"द्विघात (क्वाड्रैटिक)",cubic:"त्रिघात (क्यूबिक)",monomial:"एकपदी (मोनोमियल)",binomial:"द्विपदी (बाइनोमियल)",trinomial:"त्रिपदी (ट्राइनोमियल)",identity:"सर्वसमिका (आइडेंटिटी)",expansion:"प्रसार (एक्सपैंशन)",expression:"व्यंजक (एक्सप्रेशन)",term:"पद (टर्म)",terms:"पद (टर्म्स)",expand:"प्रसारित करना (एक्सपैंड)",simplify:"सरल करना (सिम्प्लिफाई)",evaluate:"मान निकालना (इवैल्यूएट)",substitute:"प्रतिस्थापित करना (सब्स्टीट्यूट)",theorem:"प्रमेय (थियरम)",prove:"सिद्ध करना (प्रूव)",verify:"सत्यापित करना (वेरिफाई)",graph:"आलेख (ग्राफ)",parabola:"परवलय (पैराबोला)",axis:"अक्ष (एक्सिस)",intersect:"प्रतिच्छेद करना (इंटरसेक्ट)",point:"बिंदु (पॉइंट)",curve:"वक्र (कर्व)",maximum:"अधिकतम (मैक्सिमम)",minimum:"न्यूनतम (मिनिमम)",alpha:"अल्फा (अल्फा)",beta:"बीटा (बीटा)",gamma:"गामा (गामा)",relation:"संबंध (रिलेशन)",relationship:"संबंध (रिलेशनशिप)",formula:"सूत्र (फॉर्मूला)",value:"मान (वैल्यू)",positive:"धनात्मक (पॉजिटिव)",negative:"ऋणात्मक (नेगेटिव)",integer:"पूर्णांक (इंटीजर)",rational:"परिमेय (रैशनल)",irrational:"अपरिमेय (इरैशनल)",real:"वास्तविक (रियल)",obtain:"प्राप्त करना (ऑब्टेन)",determine:"निर्धारित करना (डिटरमाइन)",given:"दिया गया (गिवन)",hence:"अतः (हेंस)",using:"उपयोग करके (यूज़िंग)",method:"विधि (मेथड)",concept:"अवधारणा (कॉन्सेप्ट)",application:"अनुप्रयोग (एप्लिकेशन)",worksheet:"अभ्यास पत्र (वर्कशीट)",exam:"परीक्षा (एग्ज़ाम)",board:"बोर्ड (बोर्ड)",mark:"अंक (मार्क)",marks:"अंक (मार्क्स)",section:"खंड (सेक्शन)",part:"भाग (पार्ट)",divide:"विभाजित करना (डिवाइड)",division:"विभाजन (डिविज़न)",square:"वर्ग (स्क्वायर)",cube:"घन (क्यूब)",power:"घात (पावर)",exponent:"घातांक (एक्सपोनेंट)",base:"आधार (बेस)",zeroes:"शून्यक (ज़ीरोस)",ratio:"अनुपात (रेशियो)",ratios:"अनुपात (रेशियोस)",proportion:"समानुपात (प्रोपोर्शन)",percentage:"प्रतिशत (परसेंटेज)",percent:"प्रतिशत (परसेंट)",discount:"छूट (डिस्काउंट)",profit:"लाभ (प्रॉफिट)",loss:"हानि (लॉस)",cost:"लागत (कॉस्ट)",price:"मूल्य (प्राइस)",selling:"विक्रय (सेलिंग)",marked:"अंकित (मार्क्ड)",tax:"कर (टैक्स)",interest:"ब्याज (इंटरेस्ट)",principal:"मूलधन (प्रिंसिपल)",amount:"राशि (अमाउंट)",simple:"साधारण (सिंपल)",compound:"चक्रवृद्धि (कंपाउंड)",rate:"दर (रेट)",increase:"वृद्धि (इनक्रीज़)",decrease:"कमी (डिक्रीज़)",original:"मूल (ओरिजिनल)",convert:"रूपांतरित करना (कन्वर्ट)",conversion:"रूपांतरण (कन्वर्शन)",calculate:"गणना करना (कैलकुलेट)",market:"बाजार (मार्केट)",seller:"विक्रेता (सेलर)",buyer:"खरीदार (बायर)",cp:"क्रय मूल्य (सीपी)",sp:"विक्रय मूल्य (एसपी)",mp:"अंकित मूल्य (एमपी)",gst:"वस्तु एवं सेवा कर (जीएसटी)",formula:"सूत्र (फॉर्मूला)",per:"प्रति (पर)",hundred:"सौ (हंड्रेड)",total:"कुल (टोटल)",difference:"अंतर (डिफरेंस)",compare:"तुलना करना (कंपेयर)",equivalent:"तुल्य (इक्विवैलेंट)",equal:"बराबर (इक्वल)",rupees:"रुपये (रुपीस)",money:"धन (मनी)",invest:"निवेश करना (इन्वेस्ट)",loan:"ऋण (लोन)",deposit:"जमा (डिपॉजिट)",savings:"बचत (सेविंग्स)",bank:"बैंक (बैंक)",annually:"वार्षिक (एन्युअली)",compounded:"चक्रवृद्धि (कंपाउंडेड)",successive:"क्रमिक (सक्सेसिव)",depreciation:"मूल्यह्रास (डेप्रिशिएशन)",population:"जनसंख्या (पॉपुलेशन)",growth:"वृद्धि (ग्रोथ)",year:"वर्ष (इयर)",years:"वर्ष (इयर्स)",half:"आधा (हाफ)",quarter:"चौथाई (क्वार्टर)"};
+
+
+var CONN={"if":"यदि (इफ)","because":"क्योंकि (बिकॉज़)","therefore":"इसलिए (देयरफोर)","however":"हालांकि (हाउएवर)","so that":"ताकि (सो दैट)","in order to":"के लिए (इन ऑर्डर टू)","which means":"जिसका अर्थ है (विच मीन्स)","although":"यद्यपि (ऑलदो)","unless":"जब तक (अनलेस)","due to":"के कारण (ड्यू टू)","for example":"उदाहरण के लिए (फॉर एग्ज़ैम्पल)","such that":"जैसे कि (सच दैट)","since":"चूंकि (सिंस)","then":"तब (देन)","when":"जब (वेन)","while":"जबकि (व्हाइल)","even though":"भले ही (ईवन दो)","instead of":"के बजाय (इनस्टेड ऑफ)","that is why":"इसीलिए (दैट इज़ वाय)","in other words":"दूसरे शब्दों में (इन अदर वर्ड्स)","whereas":"जबकि (वेयरैज़)","furthermore":"इसके अलावा (फर्दरमोर)","in contrast":"इसके विपरीत (इन कॉन्ट्रास्ट)","so":"इसलिए (सो)","because of":"के कारण (बिकॉज़ ऑफ)","as a result":"परिणामस्वरूप (ऐज़ अ रिज़ल्ट)","consequently":"परिणामस्वरूप (कॉन्सीक्वेंटली)","otherwise":"अन्यथा (अदरवाइज़)","similarly":"इसी तरह (सिमिलर्ली)","on the other hand":"दूसरी ओर (ऑन द अदर हैंड)","that is":"अर्थात (दैट इज़)","namely":"यथा (नेम्ली)","thus":"इस प्रकार (दस)","hence":"अतः (हेंस)","yet":"फिर भी (येट)","still":"फिर भी (स्टिल)","afterwards":"बाद में (आफ्टरवर्ड्स)","finally":"अंत में (फाइनली)","firstly":"पहले (फर्स्टली)","secondly":"दूसरा (सेकंडली)","next":"अगला (नेक्स्ट)","also":"भी (ऑल्सो)","but":"परंतु (बट)","or":"या (ऑर)","nor":"न ही (नॉर)","whether":"क्या (वदर)"};
+
+function rt(text,sm){
+  var cls=sm?'lle-text-sm':'lle-text';var html=text;
+  html=html.replace(/(\d+)\/(\d+)/g,'<span class="frac"><span class="frac-top">$1</span><span class="frac-bot">$2</span></span>');
+  var keys=Object.keys(CONN).sort(function(a,b){return b.length-a.length});
+  var connCount=0,result='',i=0;
+  while(i<html.length){
+    var ch=html[i];
+    if(ch==='.'||ch==='!'||ch==='?'){connCount=0;result+=ch;i++;continue;}
+    if(ch==='<'){var ci=html.indexOf('>',i);if(ci>=0){result+=html.substring(i,ci+1);i=ci+1;continue;}}
+    var matched=false;
+    if(i===0||!/[a-zA-Z]/.test(html[i-1])){
+      for(var k=0;k<keys.length;k++){
+        var c=keys[k];var sub=html.substring(i,i+c.length);
+        if(sub.toLowerCase()===c.toLowerCase()){
+          var ai=i+c.length;
+          if(ai<html.length&&/[a-zA-Z]/.test(html[ai]))continue;
+          var hi=CONN[c];connCount++;
+          if(connCount<=2){
+            result+='<span class="connective" data-w="'+sub+'" data-h="'+hi+'">'+sub+' <span class="connective-hi">('+hi+')</span></span>';
+          }else{
+            result+='<span class="word" data-w="'+sub.toLowerCase()+'" data-h="'+hi+'">'+sub+'</span>';
+          }
+          i+=c.length;matched=true;break;
+        }
+      }
+    }
+    if(matched)continue;
+    if(/[a-zA-Z]/.test(ch)){
+      var ws=i;while(i<html.length&&/[a-zA-Z]/.test(html[i]))i++;
+      var word=html.substring(ws,i);var cw=word.toLowerCase();var hi=WM[cw];
+      if(hi)result+='<span class="word" data-w="'+cw+'" data-h="'+hi+'">'+word+'</span>';
+      else result+='<span class="word" data-w="'+cw+'" data-h="">'+word+'</span>';
+    }else{result+=ch;i++;}
+  }
+  return '<div class="'+cls+'">'+result+'</div>';
+}
+
+document.addEventListener('click',function(e){
+  var el=e.target.closest('.connective');if(el){showWord(el.getAttribute('data-w'),el.getAttribute('data-h'),'Connecting word');return}
+  el=e.target.closest('.word');if(el){showWord(el.getAttribute('data-w'),el.getAttribute('data-h')||'—',el.getAttribute('data-h')?'':'Hindi meaning not available');return}
+});
+function showWord(w,h,d){var dlg=document.getElementById('wordDialog');document.getElementById('dlgWord').textContent=w;var hi=h||'';if(hi==='—'||hi==='')hi='इस शब्द का हिंदी अर्थ अभी उपलब्ध नहीं है';document.getElementById('dlgHindi').textContent=hi;document.getElementById('dlgDesc').textContent=d||'';if(!dlg.open)dlg.showModal();}
+// ═══ CANVAS VISUAL ENGINE (enhanced with animation) ═══
+var COLORS={blue:'#3b82f6',green:'#22c55e',purple:'#8b5cf6',amber:'#f59e0b',red:'#ef4444',pink:'#ec4899',teal:'#14b8a6'};
+
+function drawFracBar(canvas,num,den,color,progress){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var p=progress!==undefined?progress:1;
+  var segW=w/den;
+  for(var i=0;i<den;i++){
+    var fillPct=i<num?p:0;
+    ctx.fillStyle=i<num?(COLORS[color]||color):'#e2e8f0';
+    if(i<num){
+      ctx.fillRect(i*segW+2,2,(segW-4)*fillPct,h-4);
+      if(fillPct<1){ctx.fillStyle='#e2e8f0';ctx.fillRect(i*segW+2+(segW-4)*fillPct,2,(segW-4)*(1-fillPct),h-4);}
+    }else{
+      ctx.fillRect(i*segW+2,2,segW-4,h-4);
+    }
+    ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.5;ctx.strokeRect(i*segW+2,2,segW-4,h-4);
+  }
+}
+
+function animateFracBar(canvas,num,den,color){
+  var start=performance.now(),dur=600;
+  function frame(t){
+    var e=Math.min((t-start)/dur,1);
+    var eased=1-Math.pow(1-e,3);
+    drawFracBar(canvas,num,den,color,eased);
+    if(e<1)requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function drawPizza(canvas,fillStates,total){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var cx=w/2,cy=h/2,r=Math.min(w,h)/2-10;
+  ctx.fillStyle='#fef3c7';ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#b45309';ctx.lineWidth=3;ctx.stroke();
+  var angle=2*Math.PI/total;
+  for(var i=0;i<total;i++){
+    var start=i*angle-Math.PI/2,end=(i+1)*angle-Math.PI/2;
+    ctx.strokeStyle='#b45309';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(start)*r,cy+Math.sin(start)*r);ctx.stroke();
+    if(fillStates[i]){ctx.fillStyle='rgba(251,191,116,0.85)';ctx.beginPath();ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,start,end);ctx.closePath();ctx.fill();}
+  }
+}
+
+function drawAreaModel(canvas,rows,cols,fillRows,fillCols,progress){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var p=progress!==undefined?progress:1;
+  var cellW=w/cols,cellH=h/rows;
+  for(var r=0;r<rows;r++){for(var c=0;c<cols;c++){
+    var x=c*cellW,y=r*cellH;var shaded=r<fillRows&&c<fillCols;
+    if(shaded){
+      ctx.fillStyle='#3b82f6';
+      ctx.globalAlpha=p;ctx.fillRect(x+1,y+1,cellW-2,cellH-2);ctx.globalAlpha=1;
+    }else{ctx.fillStyle='#e2e8f0';ctx.fillRect(x+1,y+1,cellW-2,cellH-2);}
+    ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;ctx.strokeRect(x+1,y+1,cellW-2,cellH-2);
+  }}
+}
+
+function animateAreaModel(canvas,rows,cols,fillRows,fillCols){
+  var start=performance.now(),dur=700;
+  function frame(t){
+    var e=Math.min((t-start)/dur,1);var eased=1-Math.pow(1-e,3);
+    drawAreaModel(canvas,rows,cols,fillRows,fillCols,eased);
+    if(e<1)requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function drawNumLine(canvas,markers){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var pad=30,lineY=h/2,lineW=w-pad*2,lineX=pad;
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(lineX,lineY);ctx.lineTo(lineX+lineW,lineY);ctx.stroke();
+  // ticks
+  for(var t=0;t<=4;t++){
+    var tx=lineX+(lineW*t/4);
+    ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(tx,lineY-5);ctx.lineTo(tx,lineY+5);ctx.stroke();
+  }
+  ctx.fillStyle='#64748b';ctx.font='12px sans-serif';ctx.textAlign='center';
+  ctx.strokeStyle='#64748b';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(lineX,lineY-8);ctx.lineTo(lineX,lineY+8);ctx.stroke();
+  ctx.fillText('0',lineX,lineY+24);
+  ctx.beginPath();ctx.moveTo(lineX+lineW,lineY-8);ctx.lineTo(lineX+lineW,lineY+8);ctx.stroke();
+  ctx.fillText('1',lineX+lineW,lineY+24);
+  for(var i=0;i<markers.length;i++){
+    var m=markers[i];var mx=lineX+m.pos*lineW;
+    // glow
+    ctx.fillStyle=m.color;ctx.globalAlpha=0.3;ctx.beginPath();ctx.arc(mx,lineY,14,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+    ctx.fillStyle=m.color;ctx.beginPath();ctx.arc(mx,lineY,8,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=m.color;ctx.font='bold 13px sans-serif';ctx.fillText(m.frac,mx,lineY-14);
+  }
+}
+
+// ═══ INTERACTIVE CANVAS: Pizza (tap to fill) ═══
+function setupPizzaCanvas(canvasId,total,onUpdate){
+  var canvas=document.getElementById(canvasId);if(!canvas)return;
+  var states=[];for(var i=0;i<total;i++)states.push(false);
+  drawPizza(canvas,states,total);
+  var r=canvas.width/2,cx=canvas.width/2,cy=canvas.height/2;
+  var angle=2*Math.PI/total;
+  function getSlice(x,y){
+    var dx=x-cx,dy=y-cy,dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist>r)return-1;
+    var theta=Math.atan2(dy,dx)+Math.PI/2;if(theta<0)theta+=2*Math.PI;
+    return Math.floor(theta/angle)%total;
+  }
+  function handle(e){
+    e.preventDefault();var rect=canvas.getBoundingClientRect();var scale=canvas.width/rect.width;
+    var x=((e.clientX||e.touches[0].clientX)-rect.left)*scale;
+    var y=((e.clientY||e.touches[0].clientY)-rect.top)*scale;
+    var idx=getSlice(x,y);if(idx<0)return;
+    states[idx]=!states[idx];drawPizza(canvas,states,total);playTone(states[idx]?'tap':'untap');
+    var filled=states.filter(function(s){return s}).length;
+    if(onUpdate)onUpdate(filled,total);
+  }
+  canvas.addEventListener('click',handle);canvas.addEventListener('touchstart',handle,{passive:false});
+}
+
+// ═══ INTERACTIVE CANVAS: Fraction bar (tap to fill) ═══
+function setupBarCanvas(canvasId,den,onUpdate){
+  var canvas=document.getElementById(canvasId);if(!canvas)return;
+  var states=[];for(var i=0;i<den;i++)states.push(false);
+  function draw(){
+    var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+    var segW=w/den;
+    for(var i=0;i<den;i++){
+      ctx.fillStyle=states[i]?'#3b82f6':'#e2e8f0';ctx.fillRect(i*segW+2,2,segW-4,h-4);
+      ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.5;ctx.strokeRect(i*segW+2,2,segW-4,h-4);
+    }
+  }
+  draw();
+  function handle(e){
+    e.preventDefault();var rect=canvas.getBoundingClientRect();var scale=canvas.width/rect.width;
+    var x=((e.clientX||e.touches[0].clientX)-rect.left)*scale;
+    var idx=Math.floor(x/(canvas.width/den));if(idx<0||idx>=den)return;
+    states[idx]=!states[idx];draw();playTone(states[idx]?'tap':'untap');
+    var filled=states.filter(function(s){return s}).length;
+    if(onUpdate)onUpdate(filled,den);
+  }
+  canvas.addEventListener('click',handle);canvas.addEventListener('touchstart',handle,{passive:false});
+}
+
+// ═══ INTERACTIVE CANVAS: Area model ═══
+function setupAreaCanvas(canvasId,rows,cols,fillRows,fillCols){
+  var canvas=document.getElementById(canvasId);if(!canvas)return;
+  animateAreaModel(canvas,rows,cols,fillRows,fillCols);
+}
+
+// ═══ CSS 3D BLOCKS (with drag rotate + auto-spin) ═══
+var _rotY=-20,_rotX=-15,_autoSpin=null,_dragging3D=false;
+function setupCSS3D(containerId,num,den){
+  var container=document.getElementById(containerId);if(!container)return;
+  var isProper=num<den;
+  var label=isProper?'proper fraction':(num===den?'whole number':'improper fraction');
+  var html='<div class="css3d-scene"><div class="css3d-blocks" id="css3dBlocks">';
+  for(var i=0;i<den;i++){
+    var filled=i<num;
+    html+='<div class="css3d-block"><div class="'+(filled?'css3d-block-filled':'css3d-block-empty')+'"></div></div>';
+  }
+  html+='</div></div>';
+  html+='<div class="css3d-controls"><button class="css3d-btn" onclick="rot3D(-15)">↺</button><button class="css3d-btn" onclick="rot3D(15)">↻</button><button class="css3d-btn" onclick="toggleAutoSpin()">🔄 Auto</button></div>';
+  html+='<div class="css3d-label">'+num+' / '+den+' = '+label+'</div>';
+  container.innerHTML=html;
+  _rotY=-20;_rotX=-15;
+  update3D();
+  // drag support
+  var scene=document.getElementById('css3dBlocks');
+  var sx,sy,rx,ry;
+  function dStart(e){_dragging3D=true;stopAutoSpin();var t=e.touches?e.touches[0]:e;sx=t.clientX;sy=t.clientY;rx=_rotX;ry=_rotY;e.preventDefault();}
+  function dMove(e){if(!_dragging3D)return;var t=e.touches?e.touches[0]:e;_rotY=ry+(t.clientX-sx)*0.5;_rotX=rx-(t.clientY-sy)*0.5;update3D();e.preventDefault();}
+  function dEnd(){_dragging3D=false;}
+  scene.addEventListener('mousedown',dStart);scene.addEventListener('touchstart',dStart,{passive:false});
+  document.addEventListener('mousemove',dMove);document.addEventListener('touchmove',dMove,{passive:false});
+  document.addEventListener('mouseup',dEnd);document.addEventListener('touchend',dEnd);
+}
+function update3D(){var el=document.getElementById('css3dBlocks');if(el)el.style.transform='rotateX('+_rotX+'deg) rotateY('+_rotY+'deg)';}
+function rot3D(d){_rotY+=d;update3D();}
+function toggleAutoSpin(){if(_autoSpin)stopAutoSpin();else startAutoSpin();}
+function startAutoSpin(){_autoSpin=setInterval(function(){if(!_dragging3D){_rotY+=2;update3D();}},50);}
+function stopAutoSpin(){if(_autoSpin){clearInterval(_autoSpin);_autoSpin=null;}}
+
+// ═══ TOUCH DRAG-DROP ═══
+
+// ═══ WEB AUDIO SOUND EFFECTS ═══
+var _audioCtx=null;
+function getAudio(){if(!_audioCtx){try{_audioCtx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}return _audioCtx;}
+function playTone(type){
+  var ctx=getAudio();if(!ctx)return;
+  var now=ctx.currentTime;
+  var freqs={tap:523,untap:392,correct:[523,659,784],wrong:[311,233],levelup:[523,659,784,1047],complete:[523,659,784,1047,1319]};
+  var f=freqs[type]||523;
+  if(typeof f==='number'){
+    var osc=ctx.createOscillator(),gain=ctx.createGain();
+    osc.frequency.value=f;osc.type='sine';
+    gain.gain.setValueAtTime(0.15,now);gain.gain.exponentialRampToValueAtTime(0.001,now+0.3);
+    osc.connect(gain);gain.connect(ctx.destination);osc.start(now);osc.stop(now+0.3);
+  }else{
+    for(var i=0;i<f.length;i++){
+      var osc=ctx.createOscillator(),gain=ctx.createGain();
+      osc.frequency.value=f[i];osc.type='sine';
+      var t=now+i*0.1;
+      gain.gain.setValueAtTime(0.15,t);gain.gain.exponentialRampToValueAtTime(0.001,t+0.25);
+      osc.connect(gain);gain.connect(ctx.destination);osc.start(t);osc.stop(t+0.25);
+    }
+  }
+}
+
+// ═══ CONFETTI SYSTEM ═══
+var _confetti=[],_confettiRAF=null;
+function fireConfetti(count){
+  var canvas=document.getElementById('confettiCanvas');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  var ctx=canvas.getContext('2d');
+  var colors=['#3b82f6','#22c55e','#f59e0b','#8b5cf6','#ec4899','#14b8a6'];
+  count=count||50;
+  for(var i=0;i<count;i++){
+    _confetti.push({
+      x:canvas.width/2+(Math.random()-0.5)*100,y:canvas.height/3,
+      vx:(Math.random()-0.5)*8,vy:-Math.random()*8-4,
+      g:0.3,size:Math.random()*6+4,color:colors[Math.floor(Math.random()*colors.length)],
+      rot:Math.random()*360,vrot:(Math.random()-0.5)*10,life:1
+    });
+  }
+  if(!_confettiRAF)_confettiRAF=requestAnimationFrame(updateConfetti);
+}
+function updateConfetti(){
+  var canvas=document.getElementById('confettiCanvas');var ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(var i=_confetti.length-1;i>=0;i--){
+    var p=_confetti[i];
+    p.x+=p.vx;p.y+=p.vy;p.vy+=p.g;p.rot+=p.vrot;p.life-=0.008;
+    if(p.y>canvas.height+20||p.life<=0){_confetti.splice(i,1);continue;}
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+    ctx.globalAlpha=Math.max(p.life,0);ctx.fillStyle=p.color;
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+    ctx.restore();
+  }
+  if(_confetti.length>0){_confettiRAF=requestAnimationFrame(updateConfetti);}
+  else{_confettiRAF=null;ctx.clearRect(0,0,canvas.width,canvas.height);}
+}
+
+// ═══ STAT BUMP ANIMATION ═══
+function bumpStat(id){
+  var el=document.getElementById(id);if(!el)return;
+  el.classList.add('bump');setTimeout(function(){el.classList.remove('bump');},300);
+}
+
+// ── Gamification ──
+var LEVELS=[{xp:0,name:"Beginner",ic:"🌱"},{xp:50,name:"Learner",ic:"📘"},{xp:120,name:"Scholar",ic:"📚"},{xp:200,name:"Expert",ic:"🎓"},{xp:350,name:"Master",ic:"🏆"}];
+var BADGES=[{id:"first",name:"First Steps",ic:"👣",desc:"Complete your first concept"},{id:"add",name:"Addition Ace",ic:"➕",desc:"Master fraction addition"},{id:"mult",name:"Multiply Master",ic:"✖️",desc:"Master fraction multiplication"},{id:"div",name:"Division Dynamo",ic:"➗",desc:"Master fraction division"},{id:"champ",name:"Chapter Champion",ic:"🏆",desc:"Complete the chapter"}];
+var earnedBadges={};
+// ═══ SHAPE DRAWING FUNCTIONS (Perimeter & Area) ═══
+
+function drawRectShape(canvas,l,b,color,label){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var maxL=w-80,maxB=h-80;var scale=Math.min(maxL/l,maxB/b);
+  var dw=l*scale,dh=b*scale;var dx=(w-dw)/2,dy=(h-dh)/2;
+  ctx.fillStyle=(COLORS[color]||color)+'30';ctx.fillRect(dx,dy,dw,dh);
+  ctx.strokeStyle=COLORS[color]||color;ctx.lineWidth=3;ctx.strokeRect(dx,dy,dw,dh);
+  // side labels
+  ctx.fillStyle='#1e293b';ctx.font='bold 13px sans-serif';ctx.textAlign='center';
+  ctx.fillText(l+' cm',dx+dw/2,dy-8);
+  ctx.save();ctx.translate(dx-12,dy+dh/2);ctx.rotate(-Math.PI/2);
+  ctx.fillText(b+' cm',0,0);ctx.restore();
+  if(label){ctx.font='bold 14px sans-serif';ctx.fillStyle=COLORS[color]||color;
+    ctx.fillText(label,dx+dw/2,dy+dh+24);}
+}
+
+function drawSquareShape(canvas,s,color,label){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var sz=Math.min(w,h)-60;var dx=(w-sz)/2,dy=(h-sz)/2;
+  ctx.fillStyle=(COLORS[color]||color)+'30';ctx.fillRect(dx,dy,sz,sz);
+  ctx.strokeStyle=COLORS[color]||color;ctx.lineWidth=3;ctx.strokeRect(dx,dy,sz,sz);
+  ctx.fillStyle='#1e293b';ctx.font='bold 13px sans-serif';ctx.textAlign='center';
+  ctx.fillText(s+' cm',dx+sz/2,dy-8);
+  ctx.save();ctx.translate(dx-12,dy+sz/2);ctx.rotate(-Math.PI/2);
+  ctx.fillText(s+' cm',0,0);ctx.restore();
+  if(label){ctx.font='bold 14px sans-serif';ctx.fillStyle=COLORS[color]||color;
+    ctx.fillText(label,dx+sz/2,dy+sz+24);}
+}
+
+function drawGridShape(canvas,rows,cols,color,label){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var pad=20;var gw=w-pad*2,gh=h-pad*2;
+  var cellW=gw/cols,cellH=gh/rows;var gx=pad,gy=pad;
+  for(var r=0;r<rows;r++){for(var c=0;c<cols;c++){
+    var x=gx+c*cellW,y=gy+r*cellH;
+    ctx.fillStyle=(COLORS[color]||color)+'40';ctx.fillRect(x,y,cellW-1,cellH-1);
+    ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;ctx.strokeRect(x,y,cellW-1,cellH-1);
+  }}
+  ctx.fillStyle='#1e293b';ctx.font='bold 12px sans-serif';ctx.textAlign='center';
+  ctx.fillText(cols+' cols',gx+gw/2,gy-6);
+  ctx.save();ctx.translate(gx-6,gy+gh/2);ctx.rotate(-Math.PI/2);
+  ctx.fillText(rows+' rows',0,0);ctx.restore();
+  if(label){ctx.font='bold 13px sans-serif';ctx.fillStyle=COLORS[color]||color;
+    ctx.fillText(label,gx+gw/2,gy+gh+16);}
+}
+
+function drawLShape(canvas,color,label){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var pad=30;var gw=w-pad*2,gh=h-pad*2;
+  // L-shape: top-left rectangle (4 cols x 2 rows) + bottom-left rectangle (2 cols x 3 rows)
+  // Total: 4 wide x 5 tall, with notch cut from bottom-right
+  var totalW=4,totalH=5,notchW=2,notchH=3;
+  var scale=Math.min(gw/totalW,gh/totalH);
+  var dw=totalW*scale,dh=totalH*scale;var dx=(w-dw)/2,dy=(h-dh)/2;
+  var nw=notchW*scale,nh=notchH*scale;
+  // Fill the L-shape using two rectangles
+  ctx.fillStyle=(COLORS[color]||color)+'40';
+  // Top rectangle (full width, top 2 rows)
+  var topH=(totalH-notchH)*scale;
+  ctx.fillRect(dx,dy,dw,topH);
+  // Bottom-left rectangle (notchW wide, bottom notchH rows)
+  ctx.fillRect(dx,dy+topH,nw,nh);
+  // Outline
+  ctx.strokeStyle=COLORS[color]||color;ctx.lineWidth=3;
+  ctx.beginPath();
+  ctx.moveTo(dx,dy);ctx.lineTo(dx+dw,dy);ctx.lineTo(dx+dw,dy+topH);
+  ctx.lineTo(dx+nw,dy+topH);ctx.lineTo(dx+nw,dy+dh);
+  ctx.lineTo(dx,dy+dh);ctx.closePath();ctx.stroke();
+  // Split line (dashed)
+  ctx.setLineDash([5,4]);ctx.strokeStyle=(COLORS[color]||color)+'80';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(dx,dy+topH);ctx.lineTo(dx+nw,dy+topH);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(dx+nw,dy+topH);ctx.lineTo(dx+nw,dy+dh);ctx.stroke();
+  ctx.setLineDash([]);
+  // Labels
+  ctx.fillStyle='#1e293b';ctx.font='bold 11px sans-serif';ctx.textAlign='center';
+  ctx.fillText('4',dx+dw/2,dy+topH/2+4);
+  ctx.fillText('2',dx+nw/2,dy+topH+nh/2+4);
+  if(label){ctx.font='bold 13px sans-serif';ctx.fillStyle=COLORS[color]||color;
+    ctx.fillText(label,dx+dw/2,dy+dh+18);}
+}
+
+function drawPerimCompare(canvas,shapes,label){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var n=shapes.length;var sectionW=w/n;var colors=['#3b82f6','#22c55e','#f59e0b'];
+  for(var i=0;i<n;i++){
+    var s=shapes[i];var sx=i*sectionW+10,sw=sectionW-20;
+    var maxDim=Math.min(sw,h-50);var sc=maxDim/Math.max(s.l,s.b);
+    var dw=s.l*sc,dh=s.b*sc;var dx=sx+(sw-dw)/2,dy=(h-dh-20)/2;
+    ctx.fillStyle=colors[i%3]+'30';ctx.fillRect(dx,dy,dw,dh);
+    ctx.strokeStyle=colors[i%3];ctx.lineWidth=2.5;ctx.strokeRect(dx,dy,dw,dh);
+    ctx.fillStyle='#1e293b';ctx.font='bold 10px sans-serif';ctx.textAlign='center';
+    ctx.fillText(s.l+'×'+s.b,sx+sw/2,dy-6);
+    ctx.fillStyle=colors[i%3];ctx.font='bold 11px sans-serif';
+    ctx.fillText('P='+s.p,sx+sw/2,dy+dh+16);
+    ctx.fillStyle='#64748b';ctx.font='10px sans-serif';
+    ctx.fillText('A='+s.a,sx+sw/2,dy+dh+30);
+  }
+  if(label){ctx.fillStyle='#64748b';ctx.font='11px sans-serif';ctx.textAlign='center';
+    ctx.fillText(label,w/2,h-4);}
+}
+
+// ── Interactive shape canvas helpers ──
+
+function drawShapeOnCanvas(canvas,shapeIdx){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var cx=w/2,cy=h/2,r=Math.min(w,h)/2-20;
+  var sides=[4,4,3,5][shapeIdx];var names=['Square','Rectangle','Triangle','Pentagon'];
+  var sideLen=[8,0,0,0]; // for rectangle we use l,b
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=3;ctx.fillStyle='#3b82f630';
+  if(shapeIdx===1){
+    // Rectangle
+    var dw=140,dh=80;var dx=cx-dw/2,dy=cy-dh/2;
+    ctx.fillRect(dx,dy,dw,dh);ctx.strokeRect(dx,dy,dw,dh);
+    ctx.fillStyle='#1e293b';ctx.font='bold 12px sans-serif';ctx.textAlign='center';
+    ctx.fillText('10 cm',dx+dw/2,dy-6);
+    ctx.save();ctx.translate(dx-10,dy+dh/2);ctx.rotate(-Math.PI/2);
+    ctx.fillText('6 cm',0,0);ctx.restore();
+  }else{
+    // Regular polygon
+    ctx.beginPath();
+    for(var i=0;i<sides;i++){
+      var a=i*2*Math.PI/sides-Math.PI/2;
+      var px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r;
+      if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
+    }
+    ctx.closePath();ctx.fill();ctx.stroke();
+    // Side label
+    var sideLenLabel=shapeIdx===0?'8 cm':(shapeIdx===2?'7 cm':'5 cm');
+    ctx.fillStyle='#1e293b';ctx.font='bold 12px sans-serif';ctx.textAlign='center';
+    var a0=-Math.PI/2+Math.PI/sides;
+    ctx.fillText(sideLenLabel,cx+Math.cos(a0)*(r-20),cy+Math.sin(a0)*(r-20)+4);
+  }
+  // Name + perimeter
+  var perim=shapeIdx===1?(2*(10+6)):(sides*[8,0,7,5][shapeIdx]);
+  var sideVal=[8,0,7,5][shapeIdx];
+  if(shapeIdx===0)perim=4*8;else if(shapeIdx===2)perim=3*7;else if(shapeIdx===3)perim=5*5;
+  ctx.fillStyle='#3b82f6';ctx.font='bold 14px sans-serif';ctx.textAlign='center';
+  ctx.fillText(names[shapeIdx],cx,cy-r-16);
+  ctx.fillStyle='#16a34a';ctx.font='bold 13px sans-serif';
+  ctx.fillText('P = '+perim+' cm',cx,cy+r+22);
+}
+
+function drawRectLab(canvas,l,b){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var maxL=w-60,maxB=h-60;var scale=Math.min(maxL/Math.max(l,1),maxB/Math.max(b,1));
+  var dw=l*scale,dh=b*scale;var dx=(w-dw)/2,dy=(h-dh)/2-8;
+  ctx.fillStyle='#3b82f630';ctx.fillRect(dx,dy,dw,dh);
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=3;ctx.strokeRect(dx,dy,dw,dh);
+  ctx.fillStyle='#1e293b';ctx.font='bold 13px sans-serif';ctx.textAlign='center';
+  ctx.fillText(l+' cm',dx+dw/2,dy-6);
+  ctx.save();ctx.translate(dx-12,dy+dh/2);ctx.rotate(-Math.PI/2);
+  ctx.fillText(b+' cm',0,0);ctx.restore();
+  var p=2*(l+b);
+  ctx.fillStyle='#16a34a';ctx.font='bold 15px sans-serif';ctx.textAlign='center';
+  ctx.fillText('P = 2 × ('+l+' + '+b+') = '+p+' cm',w/2,h-8);
+}
+
+function drawAreaGridCanvas(canvas,rows,cols){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var pad=15;var gw=w-pad*2,gh=h-pad*2;
+  var cellW=gw/cols,cellH=gh/rows;
+  for(var r=0;r<rows;r++){for(var c=0;c<cols;c++){
+    var x=pad+c*cellW,y=pad+r*cellH;
+    ctx.fillStyle='#3b82f640';ctx.fillRect(x,y,cellW-1.5,cellH-1.5);
+    ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;ctx.strokeRect(x,y,cellW-1.5,cellH-1.5);
+  }}
+  ctx.fillStyle='#1e293b';ctx.font='bold 13px sans-serif';ctx.textAlign='center';
+  ctx.fillText(cols+' × '+rows+' = '+(cols*rows)+' sq units',w/2,h-4);
+}
+
+function drawAreaSplitCanvas(canvas){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  var pad=20;var gw=w-pad*2,gh=h-pad*2;
+  var totalW=4,totalH=5,notchW=2,notchH=3;
+  var scale=Math.min(gw/totalW,gh/totalH);
+  var dw=totalW*scale,dh=totalH*scale;var dx=(w-dw)/2,dy=(h-dh-20)/2;
+  var nw=notchW*scale,nh=notchH*scale,topH=(totalH-notchH)*scale;
+  // Rectangle A (top, full width, 2 rows tall) - blue
+  ctx.fillStyle='#3b82f640';ctx.fillRect(dx,dy,dw,topH);
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=2.5;ctx.strokeRect(dx,dy,dw,topH);
+  // Rectangle B (bottom-left, 2 wide, 3 tall) - green
+  ctx.fillStyle='#22c55e40';ctx.fillRect(dx,dy+topH,nw,nh);
+  ctx.strokeStyle='#22c55e';ctx.lineWidth=2.5;ctx.strokeRect(dx,dy+topH,nw,nh);
+  // Labels
+  ctx.fillStyle='#1e293b';ctx.font='bold 11px sans-serif';ctx.textAlign='center';
+  ctx.fillText('A',dx+dw/2,dy+topH/2+4);
+  ctx.fillText('B',dx+nw/2,dy+topH+nh/2+4);
+  ctx.fillStyle='#3b82f6';ctx.font='bold 11px sans-serif';
+  ctx.fillText('4×2=8',dx+dw/2,dy+topH/2+18);
+  ctx.fillStyle='#22c55e';
+  ctx.fillText('2×3=6',dx+nw/2,dy+topH+nh/2+18);
+  ctx.fillStyle='#16a34a';ctx.font='bold 13px sans-serif';
+  ctx.fillText('Total = 8 + 6 = 14 sq units',w/2,h-4);
+}
+
+function drawPerimVsAreaCanvas(canvas){
+  var ctx=canvas.getContext('2d');var w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);
+  // Three rectangles with same perimeter (16) but different areas
+  var rects=[{l:5,b:3,a:15},{l:4,b:4,a:16},{l:6,b:2,a:12}];
+  var colors=['#3b82f6','#22c55e','#f59e0b'];
+  var sectionW=w/3;
+  for(var i=0;i<3;i++){
+    var r=rects[i];var sx=i*sectionW+8,sw=sectionW-16;
+    var maxDim=Math.min(sw,h-55);var sc=maxDim/6; // max side is 6
+    var dw=r.l*sc,dh=r.b*sc;var dx=sx+(sw-dw)/2,dy=10;
+    ctx.fillStyle=colors[i]+'30';ctx.fillRect(dx,dy,dw,dh);
+    ctx.strokeStyle=colors[i];ctx.lineWidth=2;ctx.strokeRect(dx,dy,dw,dh);
+    ctx.fillStyle='#1e293b';ctx.font='bold 9px sans-serif';ctx.textAlign='center';
+    ctx.fillText(r.l+'×'+r.b,sx+sw/2,dy-2);
+    ctx.fillStyle=colors[i];ctx.font='bold 10px sans-serif';
+    ctx.fillText('P=16',sx+sw/2,dy+dh+14);
+    ctx.fillStyle='#64748b';ctx.font='9px sans-serif';
+    ctx.fillText('A='+r.a,sx+sw/2,dy+dh+26);
+  }
+  ctx.fillStyle='#64748b';ctx.font='10px sans-serif';ctx.textAlign='center';
+  ctx.fillText('Same P=16, but areas differ!',w/2,h-4);
+}
+
+
+// ── Worked Examples (Perimeter & Area) ──
+var WE={
+we_ratio:{title:"Solved: Finding Ratio",question:"In a class, 20 girls and 15 boys. Find the ratio of girls to boys.",steps:[
+{text:"Step 1: Write girls : boys = 20 : 15.",c:"blue",check:{q:"What is the correct order for ratio of girls to boys?",opts:[{t:"girls first, then boys",c:true,m:""},{t:"boys first, then girls",c:false,m:"The ratio of girls to boys means girls come first. Order matters."}]}},
+{text:"Step 2: Simplify by HCF(20,15)=5: 20/5 : 15/5 = 4 : 3.",c:"blue"},
+{text:"Answer: Ratio = 4 : 3",c:"green",final:true}],check:{q:"How do you simplify a ratio?",opts:[{t:"Divide both terms by their HCF",c:true,m:""},{t:"Subtract smaller from larger",c:false,m:"Subtraction does not simplify. Divide both by HCF."},{t:"Multiply both by 2",c:false,m:"Multiplying makes it bigger. Divide by HCF to simplify."}]}},
+we_percent:{title:"Solved: Finding Percentage",question:"45 out of 60 students passed. What percentage passed?",steps:[
+{text:"Step 1: Percentage = (Part / Whole) x 100 = (45 / 60) x 100.",c:"blue",check:{q:"What is the percentage formula?",opts:[{t:"(Part / Whole) x 100",c:true,m:""},{t:"(Whole / Part) x 100",c:false,m:"This is the reciprocal. Use (Part / Whole) x 100."},{t:"Part x Whole",c:false,m:"Multiply is wrong. Divide part by whole, then multiply by 100."}]}},
+{text:"Step 2: (45/60) x 100 = 0.75 x 100 = 75%.",c:"blue"},
+{text:"Answer: 75% passed.",c:"green",final:true}],check:{q:"If 30 out of 50 are present, what percentage?",opts:[{t:"60%",c:true,m:""},{t:"30%",c:false,m:"30/50 x 100 = 60%. You need to multiply by 100."},{t:"50%",c:false,m:"30/50 x 100 = 60%. The total is 50, not the percentage."}]}},
+we_convert:{title:"Solved: Fraction to Percentage",question:"Convert 3/5 to a percentage.",steps:[
+{text:"Step 1: Multiply by 100: 3/5 x 100.",c:"blue",check:{q:"How do you convert a fraction to a percentage?",opts:[{t:"Multiply the fraction by 100",c:true,m:""},{t:"Divide the fraction by 100",c:false,m:"Multiplying by 100 converts to percentage."},{t:"Add 100 to the fraction",c:false,m:"Adding does not convert. Multiply by 100."}]}},
+{text:"Step 2: 3/5 x 100 = 300/5 = 60.",c:"blue"},
+{text:"Answer: 3/5 = 60%",c:"green",final:true}],check:{q:"Convert 7/20 to a percentage.",opts:[{t:"35%",c:true,m:""},{t:"7%",c:false,m:"7/20 x 100 = 35%. Multiply by 100."},{t:"20%",c:false,m:"7/20 x 100 = 35%. The denominator is not the percentage."}]}},
+we_increase:{title:"Solved: Percentage Increase",question:"Price increased from Rs 250 to Rs 300. Find percentage increase.",steps:[
+{text:"Step 1: % Increase = (Increase / Original) x 100.",c:"blue",check:{q:"What is the formula for percentage increase?",opts:[{t:"(Increase / Original) x 100",c:true,m:""},{t:"(Original / Increase) x 100",c:false,m:"This is the reciprocal. Divide increase by original value."},{t:"(New / Original) x 100",c:false,m:"This gives new as percentage of original, not the increase."}]}},
+{text:"Step 2: Increase = 300 - 250 = Rs 50.",c:"blue"},
+{text:"Step 3: % Increase = (50/250) x 100 = 20%.",c:"blue"},
+{text:"Answer: 20% increase.",c:"green",final:true}],check:{q:"Salary increases from Rs 10,000 to Rs 12,000. Percentage increase?",opts:[{t:"20%",c:true,m:""},{t:"2%",c:false,m:"Increase = 2000. (2000/10000) x 100 = 20%."},{t:"120%",c:false,m:"That is new salary as percentage of old. The increase is 20%."}]}},
+we_profit:{title:"Solved: Profit and Loss",question:"Buy at Rs 800, sell at Rs 1000. Find profit percentage.",steps:[
+{text:"Step 1: Profit = SP - CP = 1000 - 800 = Rs 200.",c:"blue",check:{q:"When does a shopkeeper make a profit?",opts:[{t:"When SP is greater than CP",c:true,m:""},{t:"When CP is greater than SP",c:false,m:"If CP > SP, it is a loss. Profit requires SP > CP."},{t:"When both are equal",c:false,m:"If SP = CP, no profit and no loss."}]}},
+{text:"Step 2: Profit% = (Profit / CP) x 100 = (200/800) x 100 = 25%.",c:"blue"},
+{text:"Answer: Profit = Rs 200, Profit% = 25%",c:"green",final:true}],check:{q:"Buy for Rs 1200, sell for Rs 900. Loss percentage?",opts:[{t:"25%",c:true,m:""},{t:"30%",c:false,m:"Loss = 300. (300/1200) x 100 = 25%. Divide by CP."},{t:"33%",c:false,m:"(300/1200) x 100 = 25%. You divided by SP."}]}},
+we_discount:{title:"Solved: Discount Calculation",question:"15% discount on marked price of Rs 1200. Find selling price.",steps:[
+{text:"Step 1: Discount = 15% of 1200 = (15/100) x 1200 = Rs 180.",c:"blue",check:{q:"Discount is always calculated on which price?",opts:[{t:"Marked Price (MP)",c:true,m:""},{t:"Selling Price (SP)",c:false,m:"Discount is on Marked Price. SP comes after discount."},{t:"Cost Price (CP)",c:false,m:"Discount is on Marked Price, not Cost Price."}]}},
+{text:"Step 2: SP = MP - Discount = 1200 - 180 = Rs 1020.",c:"blue"},
+{text:"Answer: SP = Rs 1020",c:"green",final:true}],check:{q:"Marked price Rs 500, discount 20%. Selling price?",opts:[{t:"Rs 400",c:true,m:""},{t:"Rs 100",c:false,m:"Discount = 100. SP = 500 - 100 = 400."},{t:"Rs 480",c:false,m:"20% of 500 = 100. SP = 500 - 100 = 400."}]}},
+we_si:{title:"Solved: Simple Interest",question:"Find SI on Rs 5000 at 8% per annum for 3 years.",steps:[
+{text:"Step 1: SI = (P x R x T) / 100.",c:"blue",check:{q:"What is the formula for Simple Interest?",opts:[{t:"SI = (P x R x T) / 100",c:true,m:""},{t:"SI = P + R + T",c:false,m:"SI uses multiplication and division by 100, not addition."},{t:"SI = P x R x T x 100",c:false,m:"Divide by 100, not multiply. Rate is a percentage."}]}},
+{text:"Step 2: SI = (5000 x 8 x 3) / 100 = 120000 / 100 = Rs 1200.",c:"blue"},
+{text:"Step 3: Amount = P + SI = 5000 + 1200 = Rs 6200.",c:"blue"},
+{text:"Answer: SI = Rs 1200, Amount = Rs 6200",c:"green",final:true}],check:{q:"Find SI on Rs 2000 at 5% for 2 years.",opts:[{t:"Rs 200",c:true,m:""},{t:"Rs 20",c:false,m:"SI = (2000 x 5 x 2)/100 = 200. Check division by 100."},{t:"Rs 2000",c:false,m:"SI = 200. You forgot to divide by 100."}]}},
+we_ci:{title:"Solved: Compound Interest",question:"Find CI on Rs 10,000 at 10% per annum for 2 years.",steps:[
+{text:"Step 1: A = P(1 + R/100)^n.",c:"blue",check:{q:"What is the compound interest amount formula?",opts:[{t:"A = P(1 + R/100)^n",c:true,m:""},{t:"A = P + R + n",c:false,m:"CI uses the compound formula with exponent n, not addition."},{t:"A = P x R x n / 100",c:false,m:"That is the SI formula. CI uses A = P(1 + R/100)^n."}]}},
+{text:"Step 2: A = 10000 x (1 + 10/100)^2 = 10000 x (11/10)^2 = 10000 x 121/100 = 12100.",c:"blue"},
+{text:"Step 3: CI = A - P = 12100 - 10000 = Rs 2100.",c:"blue"},
+{text:"Answer: Amount = Rs 12,100, CI = Rs 2,100",c:"green",final:true}],check:{q:"Why is CI more than SI for same P, R, and time (more than 1 year)?",opts:[{t:"Because interest is added to principal each year, so you earn interest on interest",c:true,m:""},{t:"Because the rate is higher for CI",c:false,m:"The rate is the same. CI earns interest on interest."},{t:"Because the principal is larger for CI",c:false,m:"The principal is the same initially. CI adds interest back each year."}]}},
+we_ci_diff:{title:"Solved: SI vs CI Difference",question:"Find the difference between CI and SI on Rs 8000 at 5% for 2 years.",steps:[
+{text:"Step 1: SI = (8000 x 5 x 2)/100 = Rs 800.",c:"blue"},
+{text:"Step 2: A = 8000 x (1 + 5/100)^2 = 8000 x (21/20)^2 = 8820. CI = 820.",c:"blue",check:{q:"For 2 years, what is the shortcut formula for CI - SI?",opts:[{t:"Difference = P x (R/100)^2",c:true,m:""},{t:"Difference = P x R x T / 100",c:false,m:"That is the SI formula. The difference is P x (R/100)^2."},{t:"Difference = P x R x R",c:false,m:"The shortcut is P x (R/100)^2. Remember to divide R by 100 first."}]}},
+{text:"Step 3: Difference = CI - SI = 820 - 800 = Rs 20.",c:"blue"},
+{text:"Step 4: Verify: P x (R/100)^2 = 8000 x (5/100)^2 = 8000 x 0.0025 = Rs 20.",c:"blue"},
+{text:"Answer: CI - SI = Rs 20",c:"green",final:true}],check:{q:"The difference between CI and SI for 2 years is:",opts:[{t:"Equal to P x (R/100)^2",c:true,m:""},{t:"Equal to P x R x T / 100",c:false,m:"That is the SI formula. The difference is P x (R/100)^2."},{t:"Always zero",c:false,m:"The difference is zero only if rate is 0%."}]}},
+we_tax:{title:"Solved: GST Calculation",question:"Marked price Rs 2500. GST is 12%. Find total bill.",steps:[
+{text:"Step 1: GST = 12% of 2500 = (12/100) x 2500 = Rs 300.",c:"blue",check:{q:"GST is calculated on which price?",opts:[{t:"The marked price (price before tax)",c:true,m:""},{t:"The selling price (price after tax)",c:false,m:"GST is added to the marked price."},{t:"The cost price",c:false,m:"GST is on the marked price, not the cost price."}]}},
+{text:"Step 2: Total = 2500 + 300 = Rs 2800.",c:"blue"},
+{text:"Answer: Total bill = Rs 2800 (GST = Rs 300)",c:"green",final:true}],check:{q:"Marked price Rs 1000, GST 18%. Total bill?",opts:[{t:"Rs 1180",c:true,m:""},{t:"Rs 180",c:false,m:"GST = 180. Total = 1000 + 180 = 1180."},{t:"Rs 1000",c:false,m:"The total bill includes GST: 1000 + 180 = 1180."}]}},
+we_exam1:{title:"Solved: Exam - Population Growth",question:"Population is 80,000. Increases at 5% per year. Population after 2 years?",steps:[
+{text:"Step 1: Use compound formula: A = P(1 + R/100)^n.",c:"blue",check:{q:"Population growth uses which formula?",opts:[{t:"Compound interest formula A = P(1 + R/100)^n",c:true,m:""},{t:"Simple interest formula",c:false,m:"Population growth is compounded each year."},{t:"Linear growth formula",c:false,m:"Population grows exponentially."}]}},
+{text:"Step 2: A = 80000 x (1 + 5/100)^2 = 80000 x (21/20)^2 = 88200.",c:"blue"},
+{text:"Answer: Population = 88,200",c:"green",final:true}],check:{q:"Population 10000, grows at 10%. After 1 year?",opts:[{t:"11000",c:true,m:""},{t:"10000",c:false,m:"10000 x 1.10 = 11000."},{t:"1000",c:false,m:"10% of 10000 = 1000 is the increase. New population = 11000."}]}},
+we_exam2:{title:"Solved: Exam - Successive Discount",question:"Two successive discounts of 20% and 10% on marked price Rs 1000. Find final price.",steps:[
+{text:"Step 1: First discount 20% of 1000 = Rs 200. Price = 1000 - 200 = Rs 800.",c:"blue",check:{q:"When two discounts are given successively, the second is applied on:",opts:[{t:"The price after the first discount",c:true,m:""},{t:"The original marked price",c:false,m:"The second discount is on the reduced price."},{t:"The sum of both discounts",c:false,m:"Each discount applies to the new reduced price."}]}},
+{text:"Step 2: Second discount 10% of 800 = Rs 80. Final price = 800 - 80 = Rs 720.",c:"blue"},
+{text:"Step 3: Total discount = 1000 - 720 = Rs 280. Single equivalent = 28%.",c:"blue"},
+{text:"Answer: Final price = Rs 720 (equivalent to 28% single discount)",c:"green",final:true}],check:{q:"Two successive discounts of 10% and 10% equal a single discount of:",opts:[{t:"19%",c:true,m:""},{t:"20%",c:false,m:"First: 10% of 100 = 10, price = 90. Second: 10% of 90 = 9, price = 81. Total = 19%."},{t:"10%",c:false,m:"Successive discounts are not additive. 10% + 10% gives 19% total."}]}},
+we_exam3:{title:"Solved: Exam - Find Original Price",question:"After 10% discount, selling price is Rs 540. What was the marked price?",steps:[
+{text:"Step 1: If discount is 10%, customer pays 90% of MP. So SP = 90% of MP.",c:"blue",check:{q:"If discount is 10%, what percentage of MP does the customer pay?",opts:[{t:"90%",c:true,m:""},{t:"10%",c:false,m:"10% is the discount. Customer pays 100% - 10% = 90%."},{t:"110%",c:false,m:"Customer pays less than marked price. 100% - 10% = 90%."}]}},
+{text:"Step 2: 90% of MP = 540. MP x (90/100) = 540.",c:"blue"},
+{text:"Step 3: MP = 540 x (100/90) = 54000/90 = Rs 600.",c:"blue"},
+{text:"Step 4: Verify: 10% of 600 = 60. 600 - 60 = 540. Correct!",c:"blue"},
+{text:"Answer: Marked price = Rs 600",c:"green",final:true}],check:{q:"After 20% discount, price is Rs 400. Original price?",opts:[{t:"Rs 500",c:true,m:""},{t:"Rs 480",c:false,m:"80% of MP = 400. MP = 400 x 100/80 = 500."},{t:"Rs 320",c:false,m:"80% of MP = 400. MP = 400/0.8 = 500."}]}}
+};
+
+// ── Solve Problems (Perimeter & Area) ──
+var SOLVE={
+sl_rectPerim:{title:"Solve: Perimeter of Rectangle",question:"A rectangle has length = 7 cm and breadth = 4 cm. Find the perimeter.",steps:[
+  {prompt:"What formula do you use for the perimeter of a rectangle?",type:"mcq",opts:[
+    {t:"P = 2 × (length + breadth)",c:true,m:""},
+    {t:"P = length × breadth",c:false,m:"That is the AREA formula, not perimeter. Perimeter is the distance around."},
+    {t:"P = length + breadth",c:false,m:"This only adds two sides. A rectangle has 4 sides. Use 2 × (l + b)."},
+    {t:"P = 4 × length",c:false,m:"That is for a SQUARE. A rectangle has different length and breadth."}]},
+  {prompt:"What is length + breadth?",type:"input",answer:"11",m:"7 + 4 = 11. Add the length and breadth together."},
+  {prompt:"Now multiply by 2. What is 2 × 11?",type:"input",answer:"22",m:"2 × 11 = 22. The perimeter is 22 cm."},
+  {prompt:"Write the final answer with units.",type:"input",answer:"22 cm",m:"The perimeter is 22 cm. Always include the unit!"}]},
+sl_sqSide:{title:"Solve: Find Side from Perimeter",question:"The perimeter of a square is 24 cm. Find the side.",steps:[
+  {prompt:"What is the formula for the perimeter of a square?",type:"mcq",opts:[
+    {t:"P = 4 × side",c:true,m:""},
+    {t:"P = side × side",c:false,m:"That is the AREA formula. Perimeter = 4 × side."},
+    {t:"P = 2 × side",c:false,m:"A square has 4 sides, not 2. Use 4 × side."},
+    {t:"P = side + side",c:false,m:"This only adds 2 sides. A square has 4 equal sides."}]},
+  {prompt:"If P = 4 × side, and P = 24, what is side?",type:"mcq",opts:[
+    {t:"side = 24 ÷ 4 = 6",c:true,m:""},
+    {t:"side = 24 × 4 = 96",c:false,m:"You multiplied. To find side from perimeter, DIVIDE by 4."},
+    {t:"side = 24 - 4 = 20",c:false,m:"Subtracting does not work here. Divide: 24 ÷ 4 = 6."},
+    {t:"side = 24 + 4 = 28",c:false,m:"Adding does not work. Divide: 24 ÷ 4 = 6."}]},
+  {prompt:"Write the final answer with units.",type:"input",answer:"6 cm",m:"side = 24 ÷ 4 = 6 cm. Each side of the square is 6 cm."}]},
+sl_hexPerim:{title:"Solve: Perimeter of Regular Hexagon",question:"A regular hexagon has side = 8 cm. Find the perimeter.",steps:[
+  {prompt:"How many sides does a hexagon have?",type:"mcq",opts:[
+    {t:"6 sides",c:true,m:""},
+    {t:"5 sides",c:false,m:"That is a pentagon. A hexagon has 6 sides."},
+    {t:"8 sides",c:false,m:"That is an octagon. A hexagon has 6 sides."},
+    {t:"4 sides",c:false,m:"That is a quadrilateral. A hexagon has 6 sides."}]},
+  {prompt:"A regular hexagon has all sides equal. What is P = 6 × 8?",type:"input",answer:"48",m:"6 × 8 = 48. Count: 8+8+8+8+8+8 = 48."},
+  {prompt:"Write the final answer with units.",type:"input",answer:"48 cm",m:"Perimeter = 6 × 8 = 48 cm."}]},
+sl_wireSquare:{title:"Solve: Wire Bent into Square",question:"A wire is bent into a square with side = 10 cm. What is the length of the wire?",steps:[
+  {prompt:"The wire forms the boundary of the square. What does the length of the wire equal?",type:"mcq",opts:[
+    {t:"The perimeter of the square",c:true,m:""},
+    {t:"The area of the square",c:false,m:"Area is the space inside. The wire is the boundary, so it equals the perimeter."},
+    {t:"Half the perimeter",c:false,m:"The wire goes all the way around, so it equals the full perimeter."},
+    {t:"The side of the square",c:false,m:"The wire goes around all 4 sides, not just one."}]},
+  {prompt:"What is P = 4 × 10?",type:"input",answer:"40",m:"4 × 10 = 40. The perimeter is 40 cm."},
+  {prompt:"Write the final answer with units.",type:"input",answer:"40 cm",m:"The wire length = perimeter = 4 × 10 = 40 cm."}]},
+sl_rectArea:{title:"Solve: Area of Rectangle",question:"A rectangle has length = 10 m and breadth = 6 m. Find the area.",steps:[
+  {prompt:"What formula do you use for the area of a rectangle?",type:"mcq",opts:[
+    {t:"A = length × breadth",c:true,m:""},
+    {t:"A = 2 × (length + breadth)",c:false,m:"That is the PERIMETER formula. Area = length × breadth."},
+    {t:"A = length + breadth",c:false,m:"Adding gives perimeter (partially), not area. Area = l × b."},
+    {t:"A = 4 × length",c:false,m:"That is the perimeter of a square. Area of rectangle = l × b."}]},
+  {prompt:"What is 10 × 6?",type:"input",answer:"60",m:"10 × 6 = 60. The area is 60 square metres."},
+  {prompt:"Write the final answer with units.",type:"input",answer:"60 sq m",m:"Area = 10 × 6 = 60 sq m. Area is always in square units."}]},
+sl_sqArea:{title:"Solve: Area of Square",question:"A square has side = 9 cm. Find the area.",steps:[
+  {prompt:"What is the formula for the area of a square?",type:"mcq",opts:[
+    {t:"A = side × side",c:true,m:""},
+    {t:"A = 4 × side",c:false,m:"That is the PERIMETER. Area = side × side."},
+    {t:"A = side + side",c:false,m:"Adding does not give area. Area = side × side."},
+    {t:"A = 2 × side",c:false,m:"That is not correct. Area = side × side (side squared)."}]},
+  {prompt:"What is 9 × 9?",type:"input",answer:"81",m:"9 × 9 = 81. The area is 81 square cm."},
+  {prompt:"Write the final answer with units.",type:"input",answer:"81 sq cm",m:"Area = 9 × 9 = 81 sq cm."}]},
+sl_parkPerim:{title:"Solve: Perimeter of Rectangular Park",question:"A rectangular park is 100 m long and 80 m wide. Find the perimeter.",steps:[
+  {prompt:"What formula do you use?",type:"mcq",opts:[
+    {t:"P = 2 × (length + breadth)",c:true,m:""},
+    {t:"P = length × breadth",c:false,m:"That gives AREA, not perimeter. Perimeter = 2 × (l + b)."},
+    {t:"P = length + breadth",c:false,m:"This only adds 2 sides. Use 2 × (l + b) for all 4 sides."},
+    {t:"P = 4 × length",c:false,m:"That is for a square. A park is a rectangle with different sides."}]},
+  {prompt:"What is 100 + 80?",type:"input",answer:"180",m:"100 + 80 = 180."},
+  {prompt:"Now multiply by 2. What is 2 × 180?",type:"input",answer:"360",m:"2 × 180 = 360. The perimeter is 360 m."},
+  {prompt:"Write the final answer with units.",type:"input",answer:"360 m",m:"Perimeter = 2 × (100 + 80) = 2 × 180 = 360 m."}]}
+};
+
+// ── Concept Nodes (Perimeter & Area) ──
+var NODES=[
+{title:'Comparing Quantities',icon:'%',steps:[
+{t:'intro',icon:'%',title:'Comparing Quantities & Percentage',sub:'तुलना और प्रतिशत · Class 8 Mathematics'},
+{t:'text',title:'What are Ratios?',text:'A ratio compares two quantities. It is written as a : b (read as "a is to b"). For example, if there are 3 apples and 2 oranges, the ratio of apples to oranges is 3 : 2. Ratios are always simplified to their lowest form by dividing both terms by their HCF.'},
+{t:'quiz',q:{q:'In a basket, 6 red balls and 4 green balls. Ratio of red to green?',opts:[
+{t:'3 : 2',c:true,m:''},
+{t:'2 : 3',c:false,m:'Red to green means red first. 6:4 = 3:2, not 2:3.'},
+{t:'6 : 4',c:false,m:'Not simplified. Divide both by HCF(2) to get 3:2.'},
+{t:'4 : 6',c:false,m:'This is green to red. Red to green is 6:4 = 3:2.'}
+]}},
+{t:'worked',we:WE.we_ratio},
+{t:'quiz',q:{q:'Ratio of 15 to 25 in simplest form?',opts:[
+{t:'3 : 5',c:true,m:''},
+{t:'15 : 25',c:false,m:'Not simplified. HCF is 5. 15/5:25/5 = 3:5.'},
+{t:'5 : 3',c:false,m:'This is 25 to 15 (reverse). 15 to 25 is 3:5.'},
+{t:'1 : 2',c:false,m:'HCF of 15 and 25 is 5. 15/5:25/5 = 3:5.'}
+]}},
+{t:'text',title:'Proportion',text:'When two ratios are equal, they are in proportion. For example, 1:2 = 2:4 means 1, 2, 2, 4 are in proportion. Written as 1:2 :: 2:4. In a proportion, Product of extremes = Product of means (1st x 4th = 2nd x 3rd).'},
+{t:'quiz',q:{q:'Are ratios 10:15 and 20:30 in proportion?',opts:[
+{t:'Yes, because 10 x 30 = 15 x 20',c:true,m:''},
+{t:'No, because the numbers are different',c:false,m:'Check: 10x30=300 and 15x20=300. They are equal!'},
+{t:'Cannot be determined',c:false,m:'Use product of extremes = product of means. 10x30=300=15x20. Yes!'}
+]}},
+{t:'progress',xp:30,tokens:0,text:'Great work! Ratios and proportions mastered!',next:true}
+]},
+{title:'Understanding Percentage',icon:'100',steps:[
+{t:'text',title:'What is Percentage?',text:'Percentage means "per hundred" or "out of 100". The symbol % means /100. So 50% means 50 out of 100, or 50/100 or 0.5. Percentages are used everywhere: exam scores (85%), discounts (20% off), battery (75%), etc.'},
+{t:'quiz',q:{q:'What does 25% mean?',opts:[
+{t:'25 out of 100',c:true,m:''},
+{t:'25 out of 25',c:false,m:'25% means 25 out of 100 (per hundred).'},
+{t:'100 out of 25',c:false,m:'25% means 25 per 100, not 100 per 25.'},
+{t:'25 out of 50',c:false,m:'25 out of 50 is 50%, not 25%.'}
+]}},
+{t:'sim',instruction:'Try the Percentage Explorer! Drag the slider and tap fractions to convert.',b64:'PCFET0NUWVBFIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD0iVVRGLTgiPjxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsaW5pdGlhbC1zY2FsZT0xLjAiPjxzdHlsZT4qe2JveC1zaXppbmc6Ym9yZGVyLWJveDttYXJnaW46MDtwYWRkaW5nOjB9Ym9keXtmb250LWZhbWlseTotYXBwbGUtc3lzdGVtLFNlZ29lIFVJLFJvYm90byxzYW5zLXNlcmlmO2JhY2tncm91bmQ6I2YwZjRmZjtjb2xvcjojMWUyOTNiO3BhZGRpbmc6NnB4fS53cmFwe21heC13aWR0aDozNDBweDttYXJnaW46MCBhdXRvfS5iYXItd3JhcHtiYWNrZ3JvdW5kOiNlMmU4ZjA7Ym9yZGVyLXJhZGl1czoxMHB4O2hlaWdodDozMnB4O292ZXJmbG93OmhpZGRlbjttYXJnaW46NnB4IDB9LmJhci1maWxse2hlaWdodDoxMDAlO2JhY2tncm91bmQ6bGluZWFyLWdyYWRpZW50KDkwZGVnLCMzYjgyZjYsIzhiNWNmNik7Ym9yZGVyLXJhZGl1czoxMHB4O2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OmNlbnRlcjtjb2xvcjojZmZmO2ZvbnQtd2VpZ2h0OjcwMDtmb250LXNpemU6MTNweH1pbnB1dFt0eXBlPXJhbmdlXXt3aWR0aDoxMDAlO2FjY2VudC1jb2xvcjojM2I4MmY2O21hcmdpbjo0cHggMH0uY3RybHN7ZGlzcGxheTpmbGV4O2dhcDo2cHg7YWxpZ24taXRlbXM6Y2VudGVyO2ZsZXgtd3JhcDp3cmFwO21hcmdpbjo0cHggMH1pbnB1dFt0eXBlPW51bWJlcl17d2lkdGg6NjBweDtiYWNrZ3JvdW5kOiNmOGZhZmM7Ym9yZGVyOjFweCBzb2xpZCAjY2JkNWUxO2JvcmRlci1yYWRpdXM6NXB4O3BhZGRpbmc6M3B4IDVweDtmb250LXNpemU6MTJweH0uaW5mb3tiYWNrZ3JvdW5kOiNmZmY7Ym9yZGVyLXJhZGl1czo4cHg7cGFkZGluZzo4cHg7bWFyZ2luOjRweCAwO2ZvbnQtc2l6ZToxM3B4O2JvcmRlcjoxcHggc29saWQgI2UyZThmMH0uaW5mbyBie2NvbG9yOiMzYjgyZjZ9LmZyYWMtZ3JpZHtkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOnJlcGVhdCg0LDFmcik7Z2FwOjRweDttYXJnaW46NHB4IDB9LmZyYWMtYm94e2JhY2tncm91bmQ6I2ZmZjtib3JkZXI6MXB4IHNvbGlkICNlMmU4ZjA7Ym9yZGVyLXJhZGl1czo2cHg7cGFkZGluZzo1cHg7dGV4dC1hbGlnbjpjZW50ZXI7Zm9udC1zaXplOjEwcHg7Y3Vyc29yOnBvaW50ZXJ9LmZyYWMtYm94OmhvdmVye2JvcmRlci1jb2xvcjojM2I4MmY2fS5mcmFjLWJveC5hY3RpdmV7YmFja2dyb3VuZDojZGJlYWZlO2JvcmRlci1jb2xvcjojM2I4MmY2fS5oaW50e2ZvbnQtc2l6ZToxMHB4O2NvbG9yOiM2NDc0OGI7bWFyZ2luLXRvcDo0cHh9PC9zdHlsZT48L2hlYWQ+PGJvZHk+PGRpdiBjbGFzcz0id3JhcCI+PGRpdiBjbGFzcz0iaW5mbyI+PGI+UGVyY2VudGFnZSBFeHBsb3JlcjwvYj48YnI+RHJhZyBzbGlkZXIgdG8gc2VlIHBlcmNlbnRhZ2VzLiBUYXAgYSBmcmFjdGlvbiB0byBjb252ZXJ0ITwvZGl2PjxpbnB1dCB0eXBlPSJyYW5nZSIgaWQ9InNsaWRlciIgbWluPSIwIiBtYXg9IjEwMCIgdmFsdWU9IjUwIiBzdGVwPSIxIiBvbmlucHV0PSJ1cGRhdGUoKSI+PGRpdiBjbGFzcz0iYmFyLXdyYXAiPjxkaXYgY2xhc3M9ImJhci1maWxsIiBpZD0iYmFyIiBzdHlsZT0id2lkdGg6NTAlIj41MCU8L2Rpdj48L2Rpdj48ZGl2IGNsYXNzPSJjdHJscyI+PGxhYmVsIHN0eWxlPSJmb250LXNpemU6MTFweDtmb250LXdlaWdodDo2MDA7Y29sb3I6IzQ3NTU2OSI+VG90YWwgaXRlbXM6PC9sYWJlbD48aW5wdXQgdHlwZT0ibnVtYmVyIiBpZD0idG90YWwiIHZhbHVlPSIxMDAiIG1pbj0iMSIgb25pbnB1dD0idXBkYXRlKCkiPjwvZGl2PjxkaXYgY2xhc3M9ImluZm8iIGlkPSJyZXN1bHQiPjwvZGl2PjxkaXYgY2xhc3M9ImZyYWMtZ3JpZCIgaWQ9ImZyYWNzIj48L2Rpdj48ZGl2IGNsYXNzPSJoaW50Ij5QZXJjZW50YWdlIG1lYW5zIG91dCBvZiAxMDAuIEJsdWUgYmFyIHNob3dzIHlvdXIgc2VsZWN0ZWQgcGVyY2VudCE8L2Rpdj48L2Rpdj48c2NyaXB0PmZ1bmN0aW9uIHVwZGF0ZSgpe3ZhciBwPXBhcnNlSW50KGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJzbGlkZXIiKS52YWx1ZSk7dmFyIHQ9cGFyc2VGbG9hdChkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgidG90YWwiKS52YWx1ZSl8fDEwMDt2YXIgYmFyPWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJiYXIiKTtiYXIuc3R5bGUud2lkdGg9cCsiJSI7YmFyLnRleHRDb250ZW50PXArIiUiO3ZhciBpdGVtcz1NYXRoLnJvdW5kKHAvMTAwKnQpO3ZhciBmcmFjU3RyPXArIi8xMDAiO2lmKHAlMjA9PT0wJiZwPjApZnJhY1N0cj1wKyIvMTAwID0gIisocC8yMCkrIi81IjtpZihwJTI1PT09MCYmcD4wKWZyYWNTdHI9cCsiLzEwMCA9ICIrKHAvMjUpKyIvNCI7aWYocCUxMD09PTAmJnA+MClmcmFjU3RyPXArIi8xMDAgPSAiKyhwLzEwKSsiLzEwIjtkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgicmVzdWx0IikuaW5uZXJIVE1MPSI8Yj4iK3ArIiU8L2I+IG9mICIrdCsiID0gPGI+IitpdGVtcysiPC9iPjxicj5BcyBmcmFjdGlvbjogPGI+IitmcmFjU3RyKyI8L2I+PGJyPkFzIGRlY2ltYWw6IDxiPiIrKHAvMTAwKS50b0ZpeGVkKDIpKyI8L2I+Ijt9dmFyIGZyYWNzPVtbMTAsIjEwJSIsIjEvMTAiXSxbMjAsIjIwJSIsIjEvNSJdLFsyNSwiMjUlIiwiMS80Il0sWzUwLCI1MCUiLCIxLzIiXSxbNzUsIjc1JSIsIjMvNCJdLFszMywiMzMlIiwiMS8zIl0sWzY2LCI2NiUiLCIyLzMiXSxbMTAwLCIxMDAlIiwiMS8xIl1dO3ZhciBncmlkPWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJmcmFjcyIpO2ZyYWNzLmZvckVhY2goZnVuY3Rpb24oZil7dmFyIGQ9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7ZC5jbGFzc05hbWU9ImZyYWMtYm94IjtkLmlubmVySFRNTD1mWzFdKyI8YnI+PSAiK2ZbMl07ZC5vbmNsaWNrPWZ1bmN0aW9uKCl7ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoInNsaWRlciIpLnZhbHVlPWZbMF07dXBkYXRlKCk7dmFyIGJveGVzPWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoIi5mcmFjLWJveCIpO2Zvcih2YXIgaT0wO2k8Ym94ZXMubGVuZ3RoO2krKylib3hlc1tpXS5jbGFzc0xpc3QucmVtb3ZlKCJhY3RpdmUiKTt0aGlzLmNsYXNzTGlzdC5hZGQoImFjdGl2ZSIpO307Z3JpZC5hcHBlbmRDaGlsZChkKTt9KTt1cGRhdGUoKTs8L3NjcmlwdD48L2JvZHk+PC9odG1sPg==',height:420,think:'What happens to the decimal when you go from 50% to 25%? Why?'},
+{t:'worked',we:WE.we_percent},
+{t:'quiz',q:{q:'In a class of 40 students, 8 are absent. What percentage are absent?',opts:[
+{t:'20%',c:true,m:''},
+{t:'8%',c:false,m:'(8/40) x 100 = 20%. The number absent is 8, but percentage is 20%.'},
+{t:'32%',c:false,m:'Absent = (8/40) x 100 = 20%. You calculated present instead.'},
+{t:'40%',c:false,m:'(8/40) x 100 = 20%. Divide absent by total, then multiply by 100.'}
+]}},
+{t:'worked',we:WE.we_convert},
+{t:'quiz',q:{q:'Convert 0.45 to a percentage.',opts:[
+{t:'45%',c:true,m:''},
+{t:'4.5%',c:false,m:'0.45 x 100 = 45%. Move decimal two places right.'},
+{t:'0.45%',c:false,m:'0.45 x 100 = 45%. Multiply by 100 to convert.'},
+{t:'450%',c:false,m:'0.45 x 100 = 45%, not 450%. Move two places: 0.45 becomes 45.'}
+]}},
+{t:'progress',xp:40,tokens:0,text:'Excellent! Percentage concepts cleared!',next:true}
+]},
+{title:'Percentage Increase & Decrease',icon:'up',steps:[
+{t:'text',title:'Percentage Change',text:'Percentage Increase = (Increase / Original Value) x 100. Percentage Decrease = (Decrease / Original Value) x 100. The key is to always divide by the ORIGINAL value, not the new value.'},
+{t:'worked',we:WE.we_increase},
+{t:'quiz',q:{q:'Price drops from Rs 200 to Rs 150. Percentage decrease?',opts:[
+{t:'25%',c:true,m:''},
+{t:'33%',c:false,m:'Decrease = 50. (50/200) x 100 = 25%. Divide by ORIGINAL (200), not new (150).'},
+{t:'50%',c:false,m:'(50/200) x 100 = 25%. The decrease amount is 50 but percentage is 25%.'},
+{t:'75%',c:false,m:'150/200 x 100 = 75% is new as % of old. The decrease is 25%.'}
+]}},
+{t:'quiz',q:{q:'Number increases from 40 to 50. Percentage increase?',opts:[
+{t:'25%',c:true,m:''},
+{t:'20%',c:false,m:'Increase = 10. (10/40) x 100 = 25%. You divided by 50 (new) instead of 40 (original).'},
+{t:'10%',c:false,m:'Increase = 10. But percentage = (10/40) x 100 = 25%.'},
+{t:'80%',c:false,m:'40/50 x 100 = 80% is old as % of new. The increase is 25%.'}
+]}},
+{t:'progress',xp:35,tokens:0,text:'Well done! Increase/decrease mastered!',next:true}
+]},
+{title:'Profit, Loss & Discount',icon:'Rs',steps:[
+{t:'text',title:'Profit and Loss Basics',text:'Cost Price (CP) = what shopkeeper pays. Selling Price (SP) = what customer pays. If SP > CP: Profit = SP - CP. If CP > SP: Loss = CP - SP. Profit% = (Profit / CP) x 100. Loss% = (Loss / CP) x 100. Always divide by CP!'},
+{t:'sim',instruction:'Try the Profit/Loss Calculator! Enter different CP and SP values.',b64:'PCFET0NUWVBFIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD0iVVRGLTgiPjxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsaW5pdGlhbC1zY2FsZT0xLjAiPjxzdHlsZT4qe2JveC1zaXppbmc6Ym9yZGVyLWJveDttYXJnaW46MDtwYWRkaW5nOjB9Ym9keXtmb250LWZhbWlseTotYXBwbGUtc3lzdGVtLFNlZ29lIFVJLFJvYm90byxzYW5zLXNlcmlmO2JhY2tncm91bmQ6I2YwZjRmZjtjb2xvcjojMWUyOTNiO3BhZGRpbmc6NnB4fS53cmFwe21heC13aWR0aDozNDBweDttYXJnaW46MCBhdXRvfS5jYXJke2JhY2tncm91bmQ6I2ZmZjtib3JkZXItcmFkaXVzOjEwcHg7cGFkZGluZzoxMHB4O21hcmdpbjo2cHggMDtib3JkZXI6MXB4IHNvbGlkICNlMmU4ZjB9LmN0cmxze2Rpc3BsYXk6ZmxleDtmbGV4LWRpcmVjdGlvbjpjb2x1bW47Z2FwOjZweH0ucm93e2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOjZweH1sYWJlbHtmb250LXNpemU6MTJweDtmb250LXdlaWdodDo2MDA7Y29sb3I6IzQ3NTU2OTtmbGV4OjF9aW5wdXRbdHlwZT1udW1iZXJde3dpZHRoOjkwcHg7YmFja2dyb3VuZDojZjhmYWZjO2JvcmRlcjoxcHggc29saWQgI2NiZDVlMTtib3JkZXItcmFkaXVzOjVweDtwYWRkaW5nOjRweCA2cHg7Zm9udC1zaXplOjEzcHh9LnJlc3VsdHtiYWNrZ3JvdW5kOiNmZmY7Ym9yZGVyLXJhZGl1czo4cHg7cGFkZGluZzoxMHB4O21hcmdpbjo2cHggMDtmb250LXNpemU6MTRweDtib3JkZXI6MnB4IHNvbGlkICNlMmU4ZjA7dGV4dC1hbGlnbjpjZW50ZXJ9LnByb2ZpdHtjb2xvcjojMTZhMzRhO2ZvbnQtd2VpZ2h0OjcwMDtib3JkZXItY29sb3I6IzIyYzU1ZTtiYWNrZ3JvdW5kOiNkY2ZjZTd9Lmxvc3N7Y29sb3I6I2RjMjYyNjtmb250LXdlaWdodDo3MDA7Ym9yZGVyLWNvbG9yOiNlZjQ0NDQ7YmFja2dyb3VuZDojZmVlMmUyfS5uZXV0cmFse2NvbG9yOiM2NDc0OGI7Zm9udC13ZWlnaHQ6NjAwfS5oaW50e2ZvbnQtc2l6ZToxMHB4O2NvbG9yOiM2NDc0OGI7bWFyZ2luLXRvcDo0cHg7dGV4dC1hbGlnbjpjZW50ZXJ9LmZvcm11bGF7YmFja2dyb3VuZDojMWUyOTNiO2NvbG9yOiNhNWI0ZmM7cGFkZGluZzo2cHggMTBweDtib3JkZXItcmFkaXVzOjZweDtmb250LXNpemU6MTFweDttYXJnaW46NHB4IDB9PC9zdHlsZT48L2hlYWQ+PGJvZHk+PGRpdiBjbGFzcz0id3JhcCI+PGRpdiBjbGFzcz0iaW5mbyIgc3R5bGU9ImJhY2tncm91bmQ6I2ZmZjtib3JkZXItcmFkaXVzOjhweDtwYWRkaW5nOjhweDttYXJnaW46NHB4IDA7Zm9udC1zaXplOjEzcHg7Ym9yZGVyOjFweCBzb2xpZCAjZTJlOGYwIj48Yj5Qcm9maXQgLyBMb3NzIENhbGN1bGF0b3I8L2I+PGJyPkVudGVyIENvc3QgUHJpY2UgYW5kIFNlbGxpbmcgUHJpY2UgdG8gc2VlIHByb2ZpdCBvciBsb3NzITwvZGl2PjxkaXYgY2xhc3M9ImNhcmQiPjxkaXYgY2xhc3M9ImN0cmxzIj48ZGl2IGNsYXNzPSJyb3ciPjxsYWJlbD5Db3N0IFByaWNlIChDUCk6IFJzPC9sYWJlbD48aW5wdXQgdHlwZT0ibnVtYmVyIiBpZD0iY3AiIHZhbHVlPSIxMDAiIG9uaW5wdXQ9ImNhbGMoKSI+PC9kaXY+PGRpdiBjbGFzcz0icm93Ij48bGFiZWw+U2VsbGluZyBQcmljZSAoU1ApOiBSczwvbGFiZWw+PGlucHV0IHR5cGU9Im51bWJlciIgaWQ9InNwIiB2YWx1ZT0iMTIwIiBvbmlucHV0PSJjYWxjKCkiPjwvZGl2PjwvZGl2PjwvZGl2PjxkaXYgY2xhc3M9ImZvcm11bGEiPlByb2ZpdCA9IFNQIC0gQ1AgfCBQcm9maXQlID0gKFByb2ZpdCAvIENQKSB4IDEwMDwvZGl2PjxkaXYgY2xhc3M9ImZvcm11bGEiPkxvc3MgPSBDUCAtIFNQIHwgTG9zcyUgPSAoTG9zcyAvIENQKSB4IDEwMDwvZGl2PjxkaXYgY2xhc3M9InJlc3VsdCIgaWQ9InJlc3VsdCI+RW50ZXIgdmFsdWVzLi4uPC9kaXY+PGRpdiBjbGFzcz0iaGludCI+VHJ5IGRpZmZlcmVudCB2YWx1ZXMhIFByb2ZpdCBoYXBwZW5zIHdoZW4gU1AgPiBDUC48L2Rpdj48L2Rpdj48c2NyaXB0PmZ1bmN0aW9uIGNhbGMoKXt2YXIgY3A9cGFyc2VGbG9hdChkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgiY3AiKS52YWx1ZSl8fDA7dmFyIHNwPXBhcnNlRmxvYXQoZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoInNwIikudmFsdWUpfHwwO3ZhciByPWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJyZXN1bHQiKTtpZihzcD5jcCl7dmFyIHA9c3AtY3A7dmFyIHBwPShwL2NwKjEwMCkudG9GaXhlZCgyKTtyLmNsYXNzTmFtZT0icmVzdWx0IHByb2ZpdCI7ci5pbm5lckhUTUw9IlBST0ZJVDogUnMgIitwLnRvRml4ZWQoMikrIjxicj5Qcm9maXQgJTogIitwcCsiJSI7fWVsc2UgaWYoY3A+c3Ape3ZhciBsPWNwLXNwO3ZhciBscD0obC9jcCoxMDApLnRvRml4ZWQoMik7ci5jbGFzc05hbWU9InJlc3VsdCBsb3NzIjtyLmlubmVySFRNTD0iTE9TUzogUnMgIitsLnRvRml4ZWQoMikrIjxicj5Mb3NzICU6ICIrbHArIiUiO31lbHNle3IuY2xhc3NOYW1lPSJyZXN1bHQgbmV1dHJhbCI7ci5pbm5lckhUTUw9Ik5vIFByb2ZpdCwgTm8gTG9zczxicj5DUCA9IFNQID0gUnMgIitjcDt9fWNhbGMoKTs8L3NjcmlwdD48L2JvZHk+PC9odG1sPg==',height:380,think:'If CP = 100 and SP = 80, is it profit or loss? What is the percentage?'},
+{t:'worked',we:WE.we_profit},
+{t:'quiz',q:{q:'Buy pen for Rs 50, sell for Rs 60. Profit percentage?',opts:[
+{t:'20%',c:true,m:''},
+{t:'10%',c:false,m:'Profit = 10. (10/50) x 100 = 20%. Divide by CP (50), not SP (60).'},
+{t:'16.67%',c:false,m:'(10/60) x 100 = 16.67% uses SP. Always divide by CP: (10/50) x 100 = 20%.'},
+{t:'Rs 10',c:false,m:'Rs 10 is the profit amount, not the percentage. Percentage = 20%.'}
+]}},
+{t:'text',title:'Discount',text:'Discount is a reduction on Marked Price (MP). Discount = MP - SP. Discount% = (Discount / MP) x 100. Always divide by Marked Price!'},
+{t:'worked',we:WE.we_discount},
+{t:'quiz',q:{q:'TV marked Rs 20,000, discount 15%. Selling price?',opts:[
+{t:'Rs 17,000',c:true,m:''},
+{t:'Rs 3,000',c:false,m:'Discount = 3000. SP = 20000 - 3000 = 17000.'},
+{t:'Rs 18,500',c:false,m:'15% of 20000 = 3000. SP = 20000 - 3000 = 17000.'},
+{t:'Rs 23,000',c:false,m:'A discount REDUCES the price. SP = 17000.'}
+]}},
+{t:'progress',xp:40,tokens:0,text:'Great! Profit, loss, and discount cleared!',next:true}
+]},
+{title:'Tax (GST)',icon:'GST',steps:[
+{t:'text',title:'Goods and Services Tax (GST)',text:'GST is a tax added to the price of goods and services. It is calculated as a percentage of the marked price. Total Bill = Marked Price + GST. GST Amount = (GST% / 100) x Marked Price.'},
+{t:'worked',we:WE.we_tax},
+{t:'quiz',q:{q:'Phone costs Rs 15,000. GST is 18%. How much tax?',opts:[
+{t:'Rs 2,700',c:true,m:''},
+{t:'Rs 15,000',c:false,m:'GST = 18% of 15000 = 2700. The marked price is 15000, tax is 2700.'},
+{t:'Rs 18,000',c:false,m:'GST = 0.18 x 15000 = 2700. Multiply by 18/100, not 18.'},
+{t:'Rs 17,700',c:false,m:'The QUESTION asks for tax (2700), not total bill (17700). Read carefully!'}
+]}},
+{t:'quiz',q:{q:'Total bill including 12% GST is Rs 5600. Marked price before GST?',opts:[
+{t:'Rs 5,000',c:true,m:''},
+{t:'Rs 4,928',c:false,m:'Total = 112% of MP. MP = 5600/1.12 = 5000.'},
+{t:'Rs 6,272',c:false,m:'Total = 112% of MP. MP = 5600/1.12 = 5000.'},
+{t:'Rs 4,480',c:false,m:'MP = 5600/1.12 = 5000. Check: 5000 x 1.12 = 5600.'}
+]}},
+{t:'progress',xp:35,tokens:0,text:'GST concepts mastered!',next:true}
+]},
+{title:'Simple Interest',icon:'SI',steps:[
+{t:'text',title:'What is Simple Interest?',text:'Simple Interest is interest calculated only on the original principal. Formula: SI = (P x R x T) / 100. Where P = Principal, R = Rate per year, T = Time in years. Total Amount = P + SI.'},
+{t:'worked',we:WE.we_si},
+{t:'quiz',q:{q:'Find SI on Rs 8000 at 10% per annum for 2 years.',opts:[
+{t:'Rs 1,600',c:true,m:''},
+{t:'Rs 800',c:false,m:'SI = (8000 x 10 x 2)/100 = 1600.'},
+{t:'Rs 16,000',c:false,m:'SI = 1600. You forgot to divide by 100.'},
+{t:'Rs 8,000',c:false,m:'SI = 1600. The principal 8000 is not the interest.'}
+]}},
+{t:'quiz',q:{q:'In how many years will Rs 2000 double at 8% per annum SI?',opts:[
+{t:'12.5 years',c:true,m:''},
+{t:'8 years',c:false,m:'T = (100 x SI)/(P x R) = (100 x 2000)/(2000 x 8) = 100/8 = 12.5 years.'},
+{t:'25 years',c:false,m:'T = 100/8 = 12.5 years. Check: 2000 x 8 x 12.5 / 100 = 2000.'},
+{t:'4 years',c:false,m:'T = 100/8 = 12.5 years.'}
+]}},
+{t:'progress',xp:35,tokens:0,text:'Simple interest mastered!',next:true}
+]},
+{title:'Compound Interest',icon:'CI',steps:[
+{t:'text',title:'What is Compound Interest?',text:'Compound Interest is interest on principal PLUS accumulated interest. Each year interest is added to principal, and next year interest is calculated on the new amount. Formula: A = P(1 + R/100)^n. CI = A - P.'},
+{t:'sim',instruction:'See how Compound Interest grows faster than Simple Interest! Change the values and watch the chart.',b64:'PCFET0NUWVBFIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD0iVVRGLTgiPjxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsaW5pdGlhbC1zY2FsZT0xLjAiPjxzdHlsZT4qe2JveC1zaXppbmc6Ym9yZGVyLWJveDttYXJnaW46MDtwYWRkaW5nOjB9Ym9keXtmb250LWZhbWlseTotYXBwbGUtc3lzdGVtLFNlZ29lIFVJLFJvYm90byxzYW5zLXNlcmlmO2JhY2tncm91bmQ6I2YwZjRmZjtjb2xvcjojMWUyOTNiO3BhZGRpbmc6NnB4fS53cmFwe21heC13aWR0aDozNDBweDttYXJnaW46MCBhdXRvfS5jYXJke2JhY2tncm91bmQ6I2ZmZjtib3JkZXItcmFkaXVzOjEwcHg7cGFkZGluZzoxMHB4O21hcmdpbjo2cHggMDtib3JkZXI6MXB4IHNvbGlkICNlMmU4ZjB9LnJvd3tkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2dhcDo0cHg7bWFyZ2luOjRweCAwfWxhYmVse2ZvbnQtc2l6ZToxMXB4O2ZvbnQtd2VpZ2h0OjYwMDtjb2xvcjojNDc1NTY5O2ZsZXg6MX1pbnB1dFt0eXBlPW51bWJlcl17d2lkdGg6NzBweDtiYWNrZ3JvdW5kOiNmOGZhZmM7Ym9yZGVyOjFweCBzb2xpZCAjY2JkNWUxO2JvcmRlci1yYWRpdXM6NXB4O3BhZGRpbmc6M3B4IDVweDtmb250LXNpemU6MTJweH1jYW52YXN7YmFja2dyb3VuZDojZmZmO2JvcmRlci1yYWRpdXM6OHB4O2Rpc3BsYXk6YmxvY2s7d2lkdGg6MTAwJTttYXgtd2lkdGg6MzIwcHg7bWFyZ2luOjRweCBhdXRvO2JvcmRlcjoxcHggc29saWQgI2UyZThmMH0uaW5mb3tiYWNrZ3JvdW5kOiNmZmY7Ym9yZGVyLXJhZGl1czo4cHg7cGFkZGluZzo2cHggOHB4O21hcmdpbjo0cHggMDtmb250LXNpemU6MTJweDtib3JkZXI6MXB4IHNvbGlkICNlMmU4ZjB9LmluZm8gYntjb2xvcjojM2I4MmY2fS5oaW50e2ZvbnQtc2l6ZToxMHB4O2NvbG9yOiM2NDc0OGI7bWFyZ2luLXRvcDo0cHh9PC9zdHlsZT48L2hlYWQ+PGJvZHk+PGRpdiBjbGFzcz0id3JhcCI+PGRpdiBjbGFzcz0iaW5mbyI+PGI+U0kgdnMgQ0kgR3Jvd3RoIENoYXJ0PC9iPjxicj5TZWUgaG93IENvbXBvdW5kIEludGVyZXN0IGdyb3dzIGZhc3RlciB0aGFuIFNpbXBsZSBJbnRlcmVzdCE8L2Rpdj48ZGl2IGNsYXNzPSJjYXJkIj48ZGl2IGNsYXNzPSJyb3ciPjxsYWJlbD5QcmluY2lwYWwgKFJzKTo8L2xhYmVsPjxpbnB1dCB0eXBlPSJudW1iZXIiIGlkPSJwIiB2YWx1ZT0iMTAwMCIgb25pbnB1dD0iZHJhdygpIj48L2Rpdj48ZGl2IGNsYXNzPSJyb3ciPjxsYWJlbD5SYXRlICglKTo8L2xhYmVsPjxpbnB1dCB0eXBlPSJudW1iZXIiIGlkPSJyIiB2YWx1ZT0iMTAiIG9uaW5wdXQ9ImRyYXcoKSI+PC9kaXY+PGRpdiBjbGFzcz0icm93Ij48bGFiZWw+WWVhcnM6PC9sYWJlbD48aW5wdXQgdHlwZT0ibnVtYmVyIiBpZD0ieSIgdmFsdWU9IjUiIG1pbj0iMSIgbWF4PSIxMCIgb25pbnB1dD0iZHJhdygpIj48L2Rpdj48L2Rpdj48Y2FudmFzIGlkPSJjdiIgd2lkdGg9IjMyMCIgaGVpZ2h0PSIyMDAiPjwvY2FudmFzPjxkaXYgY2xhc3M9ImluZm8iIGlkPSJyZXN1bHQiPjwvZGl2PjxkaXYgY2xhc3M9ImhpbnQiPkJsdWUgPSBDb21wb3VuZCBJbnRlcmVzdCB8IE9yYW5nZSA9IFNpbXBsZSBJbnRlcmVzdDwvZGl2PjwvZGl2PjxzY3JpcHQ+ZnVuY3Rpb24gZHJhdygpe3ZhciBQPXBhcnNlRmxvYXQoZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoInAiKS52YWx1ZSl8fDEwMDA7dmFyIFI9cGFyc2VGbG9hdChkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgiciIpLnZhbHVlKXx8MTA7dmFyIFk9TWF0aC5taW4ocGFyc2VJbnQoZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoInkiKS52YWx1ZSl8fDUsMTApO3ZhciBjdj1kb2N1bWVudC5nZXRFbGVtZW50QnlJZCgiY3YiKTt2YXIgY3R4PWN2LmdldENvbnRleHQoIjJkIik7dmFyIHc9Y3Yud2lkdGgsaD1jdi5oZWlnaHQ7Y3R4LmZpbGxTdHlsZT0iI2ZmZiI7Y3R4LmZpbGxSZWN0KDAsMCx3LGgpO3ZhciBtYXhWYWw9UCpNYXRoLnBvdygxK1IvMTAwLFkpO3ZhciBiYXJXPXcvKFkqMisyKTt2YXIgcGFkZGluZz0xNTtmb3IodmFyIHlyPTE7eXI8PVk7eXIrKyl7dmFyIHNpPVArUCpSKnlyLzEwMDt2YXIgY2k9UCpNYXRoLnBvdygxK1IvMTAwLHlyKTt2YXIgc2lIPShzaS9tYXhWYWwpKihoLTM1KTt2YXIgY2lIPShjaS9tYXhWYWwpKihoLTM1KTt2YXIgeDE9cGFkZGluZysoeXItMSkqMipiYXJXO3ZhciB4Mj14MStiYXJXO2N0eC5maWxsU3R5bGU9IiNmNTllMGIiO2N0eC5maWxsUmVjdCh4MSxoLTE1LXNpSCxiYXJXLTMsc2lIKTtjdHguZmlsbFN0eWxlPSIjM2I4MmY2IjtjdHguZmlsbFJlY3QoeDIsaC0xNS1jaUgsYmFyVy0zLGNpSCk7Y3R4LmZpbGxTdHlsZT0iIzY0NzQ4YiI7Y3R4LmZvbnQ9IjlweCBzYW5zLXNlcmlmIjtjdHguZmlsbFRleHQoIlkiK3lyLHgxK2JhclcvMixoLTUpO31jdHguZmlsbFN0eWxlPSIjZjU5ZTBiIjtjdHguZmlsbFJlY3QoNSw1LDEwLDEwKTtjdHguZmlsbFRleHQoIlNJIiwxOCwxMyk7Y3R4LmZpbGxTdHlsZT0iIzNiODJmNiI7Y3R4LmZpbGxSZWN0KDUwLDUsMTAsMTApO2N0eC5maWxsVGV4dCgiQ0kiLDYzLDEzKTt2YXIgc2k9UCtQKlIqWS8xMDA7dmFyIGNpPVAqTWF0aC5wb3coMStSLzEwMCxZKTtkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgicmVzdWx0IikuaW5uZXJIVE1MPSJBZnRlciAiK1krIiB5ZWFyczo8YnI+PGI+U0kgVG90YWw6PC9iPiBScyAiK3NpLnRvRml4ZWQoMCkrIiAoaW50ZXJlc3Q6IFJzICIrKHNpLVApLnRvRml4ZWQoMCkrIik8YnI+PGI+Q0kgVG90YWw6PC9iPiBScyAiK2NpLnRvRml4ZWQoMCkrIiAoaW50ZXJlc3Q6IFJzICIrKGNpLVApLnRvRml4ZWQoMCkrIik8YnI+PGI+RXh0cmEgZnJvbSBDSTo8L2I+IFJzICIrKGNpLXNpKS50b0ZpeGVkKDApO31kcmF3KCk7PC9zY3JpcHQ+PC9ib2R5PjwvaHRtbD4=',height:360,think:'After 5 years, how much MORE does CI earn compared to SI? Why?'},
+{t:'worked',we:WE.we_ci},
+{t:'quiz',q:{q:'Find CI on Rs 5000 at 10% per annum for 2 years.',opts:[
+{t:'Rs 1,050',c:true,m:''},
+{t:'Rs 1,000',c:false,m:'A = 5000 x 1.21 = 6050. CI = 1050. 1000 would be SI.'},
+{t:'Rs 500',c:false,m:'A = 5000 x 1.21 = 6050. CI = 1050. You calculated 1 year only.'},
+{t:'Rs 1,100',c:false,m:'A = 5000 x 1.21 = 6050. CI = 1050.'}
+]}},
+{t:'worked',we:WE.we_ci_diff},
+{t:'quiz',q:{q:'Difference between CI and SI on Rs 10,000 at 10% for 2 years?',opts:[
+{t:'Rs 100',c:true,m:''},
+{t:'Rs 1,000',c:false,m:'Shortcut: P x (R/100)^2 = 10000 x 0.01 = 100.'},
+{t:'Rs 10',c:false,m:'P x (R/100)^2 = 10000 x 0.01 = 100.'},
+{t:'Rs 0',c:false,m:'CI and SI differ when time > 1 year. Difference = 100.'}
+]}},
+{t:'progress',xp:40,tokens:0,text:'Compound interest conquered!',next:true}
+]},
+{title:'Exam Worksheet',icon:'pen',steps:[
+{t:'text',title:'Top Board Exam Questions',text:'These are actual board exam questions covering all concepts. Each requires applying multiple formulas together. Read carefully, identify which formula to use, and solve step by step.'},
+{t:'worked',we:WE.we_exam1},
+{t:'quiz',q:{q:'EXAM Q1: Population 2,00,000, increases at 4% per year. After 2 years?',opts:[
+{t:'2,16,320',c:true,m:''},
+{t:'2,16,000',c:false,m:'A = 200000 x (1.04)^2 = 216320. You used SI instead of compound.'},
+{t:'2,08,000',c:false,m:'200000 x 1.04 = 208000 is after 1 year, not 2.'},
+{t:'2,40,000',c:false,m:'A = 200000 x (1.04)^2 = 216320.'}
+]}},
+{t:'worked',we:WE.we_exam2},
+{t:'quiz',q:{q:'EXAM Q2: Two successive discounts 15% and 5% on Rs 2000. Final price?',opts:[
+{t:'Rs 1,615',c:true,m:''},
+{t:'Rs 1,600',c:false,m:'First: 15% of 2000 = 300, price = 1700. Second: 5% of 1700 = 85. Final = 1615.'},
+{t:'Rs 1,700',c:false,m:'That is after first discount only. Apply second: 1700 - 85 = 1615.'},
+{t:'Rs 1,800',c:false,m:'First discount: 15% of 2000 = 300. Price = 1700. Second: 5% of 1700 = 85. Final = 1615.'}
+]}},
+{t:'worked',we:WE.we_exam3},
+{t:'quiz',q:{q:'EXAM Q3: Car depreciates 10% yearly. Present value Rs 5,00,000. After 2 years?',opts:[
+{t:'Rs 4,05,000',c:true,m:''},
+{t:'Rs 4,50,000',c:false,m:'After 1 year: 450000. After 2 years: 450000 x 0.9 = 405000.'},
+{t:'Rs 4,00,000',c:false,m:'500000 x 0.9 x 0.9 = 405000. Not 400000.'},
+{t:'Rs 4,95,000',c:false,m:'Depreciation: 500000 x 0.9^2 = 405000.'}
+]}},
+{t:'quiz',q:{q:'EXAM Q4: Rs 6,000 at 10% CI. Interest earned in 2nd year?',opts:[
+{t:'Rs 660',c:true,m:''},
+{t:'Rs 600',c:false,m:'End of year 1: 6600. Interest in year 2 = 10% of 6600 = 660.'},
+{t:'Rs 1,260',c:false,m:'That is total CI for 2 years. 2nd year alone = 660.'},
+{t:'Rs 1,200',c:false,m:'That is 2 years SI. CI in 2nd year = 660.'}
+]}},
+{t:'quiz',q:{q:'EXAM Q5: Shopkeeper offers 15% discount and still makes 5% profit. CP is Rs 800. Marked price?',opts:[
+{t:'Rs 988.24',c:true,m:''},
+{t:'Rs 920',c:false,m:'SP = 800 x 1.05 = 840. This is 85% of MP. MP = 840/0.85 = 988.24.'},
+{t:'Rs 1000',c:false,m:'SP = 840. MP = 840/0.85 = 988.24.'},
+{t:'Rs 840',c:false,m:'Rs 840 is the selling price. MP = 840 / 0.85 = 988.24.'}
+]}},
+{t:'progress',xp:50,tokens:0,text:'Chapter complete! All concepts mastered!'}
+]}
+];
+
+
+// ── App ──
+var App={
+  nIdx:0,sIdx:0,coins:0,xp:0,level:1,streak:0,selOpt:null,answered:false,
+  weStepIdx:0,solveStepIdx:0,solveAnswered:false,retryTimer:null,
+  tapCount:0,tapped:{},
+
+  init:function(){
+    try{var s=JSON.parse(localStorage.getItem('aasha_cq_v8')||'{}');
+    if(s.nIdx!==undefined&&s.ver==='v5f'&&s.nIdx>=0&&s.nIdx<NODES.length&&s.sIdx>=0&&s.sIdx<NODES[s.nIdx].steps.length){this.nIdx=s.nIdx;this.sIdx=s.sIdx;this.coins=s.coins||0;this.xp=s.xp||0;this.level=s.level||1;this.streak=s.streak||0;earnedBadges=s.badges||{};}}catch(e){}
+    this.render();
+  },
+  save:function(){try{localStorage.setItem('aasha_cq_v8',JSON.stringify({ver:'v5f',nIdx:this.nIdx,sIdx:this.sIdx,coins:this.coins,xp:this.xp,level:this.level,streak:this.streak,badges:earnedBadges}))}catch(e){}},
+  updateStats:function(){
+    document.getElementById('statCoins').textContent=this.coins;
+    document.getElementById('statXp').textContent=this.xp;
+    document.getElementById('statLvl').textContent='Lv '+this.level;
+    var sw=document.getElementById('statStreakWrap');
+    if(this.streak>=2){sw.style.display='inline-flex';document.getElementById('statStreak').textContent=this.streak;}
+    else{sw.style.display='none';}
+  },
+  checkLevelUp:function(){
+    var nl=1;for(var i=LEVELS.length-1;i>=0;i--){if(this.xp>=LEVELS[i].xp){nl=i+1;break}}
+    if(nl>this.level){
+      this.level=nl;var lv=LEVELS[this.level-1];
+      var d=document.getElementById('levelUpDialog');
+      document.getElementById('luIcon').textContent=lv.ic;
+      document.getElementById('luTitle').textContent='Level '+this.level+': '+lv.name+'!';
+      document.getElementById('luSub').textContent='You earned '+this.xp+' XP. Keep going!';
+      if(!d.open)d.showModal();
+      playTone('levelup');fireConfetti(80);
+    }
+  },
+  checkBadges:function(){
+    var checks=[{idx:1,id:"first"},{idx:6,id:"add"},{idx:9,id:"mult"},{idx:10,id:"div"},{idx:10,id:"champ"}];
+    for(var i=0;i<checks.length;i++){var c=checks[i];
+      if(this.nIdx>=c.idx&&!earnedBadges[c.id]){
+        earnedBadges[c.id]=true;
+        var b=BADGES.filter(function(x){return x.id===c.id})[0];
+        if(b)this.showBadge(b);
+      }
+    }
+  },
+  showBadge:function(b){
+    var t=document.createElement('div');t.className='badge-toast';
+    t.innerHTML='<div class="badge-toast-icon">'+b.ic+'</div><div class="badge-toast-name">'+b.name+'</div><div class="badge-toast-desc">'+b.desc+'</div>';
+    document.body.appendChild(t);setTimeout(function(){try{t.remove()}catch(e){}},3000);
+  },
+  awardXP:function(amount){
+    var bonus=0;
+    if(this.streak>=3)bonus=Math.floor(amount*0.5);
+    else if(this.streak>=2)bonus=Math.floor(amount*0.25);
+    var total=amount+bonus;
+    this.xp+=total;
+    if(bonus>0){this.showCombo(bonus);}
+    bumpStat('statXp');
+    this.updateStats();var bk=document.getElementById("backBtn");if(bk){bk.disabled=(this.nIdx===0&&this.sIdx===0);}
+  },
+  showCombo:function(bonus){
+    var ci=document.getElementById('comboInd');
+    ci.textContent='🔥 +'+bonus+' XP combo!';
+    ci.classList.add('show');
+    setTimeout(function(){ci.classList.remove('show');},2000);
+  },
+  showMap:function(){
+    var html='';
+    for(var i=0;i<NODES.length;i++){
+      var n=NODES[i],cls='';
+      if(i<this.nIdx)cls='done';
+      else if(i===this.nIdx)cls='current';
+      else cls='locked';
+      var ic=cls==='done'?'✓':(cls==='current'?'▶':'🔒');
+      html+='<div class="chap-map-item '+cls+'"><span class="chap-map-ic">'+n.icon+'</span><span><strong>'+n.title+'</strong><br><span style="font-size:.72rem;color:var(--muted)">'+n.title_hi+'</span></span><span style="margin-left:auto">'+ic+'</span></div>';
+    }
+    document.getElementById('chapMapList').innerHTML=html;
+    var d=document.getElementById('chapterMapDialog');if(!d.open)d.showModal();
+  },
+  exit:function(){this.save();this.nIdx=0;this.sIdx=0;this.tapCount=0;this.tapped={};this.weStepIdx=0;this.solveStepIdx=0;this.solveAnswered=false;this.answered=false;this.selOpt=null;this._qOpts=null;this._slqOpts=null;this.render();},
+  clearRetry:function(){if(this.retryTimer){clearTimeout(this.retryTimer);this.retryTimer=null;}},
+
+  render:function(){
+    this.clearRetry();stopAutoSpin();
+    var node=NODES[this.nIdx],step=node.steps[this.sIdx];
+    var total=0;for(var i=0;i<NODES.length;i++)total+=NODES[i].steps.length;
+    var done=0;for(var i=0;i<this.nIdx;i++)done+=NODES[i].steps.length;done+=this.sIdx+1;
+    document.getElementById('progressFill').style.width=(done/total*100)+'%';
+    this.updateStats();
+    var sc=document.getElementById('screen'),bb=document.getElementById('bottomBar'),cb=document.getElementById('continueBtn');
+    sc.style.animation='none';sc.offsetHeight;sc.style.animation='';
+
+    if(step.t==='intro')this.renderIntro(step,cb);
+    else if(step.t==='text')this.renderText(step,cb);
+    else if(step.t==='ctx_visual')this.renderCtxVisual(step,cb);
+    else if(step.t==='canvas_visual')this.renderCanvasVisual(step,cb);
+    else if(step.t==='ix_pizza')this.renderIXPizza(step,cb);
+    else if(step.t==='ix_bar')this.renderIXBar(step,cb);
+    else if(step.t==='ix_area')this.renderIXArea(step,cb);
+    else if(step.t==='ix_tap')this.renderIXTap(step,cb);
+    else if(step.t==='ix_tap_label')this.renderIXTapLabel(step,cb);
+    else if(step.t==='ix_slider')this.renderIXSlider(step,cb);
+    else if(step.t==='css3d')this.renderCSS3D(step,cb);
+    else if(step.t==='worked')this.renderWorked(step,cb);
+    else if(step.t==='solve')this.renderSolve(step,cb);
+    else if(step.t==='dd_build')this.renderDDBuild(step,cb);
+    else if(step.t==='dd_match')this.renderDDMatch(step,cb);
+    else if(step.t==='vq')this.renderVQ(step,cb);
+    else if(step.t==='quiz')this.renderQuiz(step,cb);
+    else if(step.t==='video')this.renderVideo(step,cb);
+    else if(step.t==='sim')this.renderSim(step,cb);
+    else if(step.t==='progress')this.renderProgress(step,node,cb);
+    else if(step.t==='ix_shape')this.renderIXShape(step,cb);
+    else if(step.t==='ix_rect_lab')this.renderIXRectLab(step,cb);
+    else if(step.t==='ix_area_grid')this.renderIXAreaGrid(step,cb);
+    else if(step.t==='ix_area_split')this.renderIXAreaSplit(step,cb);
+    else if(step.t==='ix_perim_vs_area')this.renderIXPerimVsArea(step,cb);
+  },
+
+  renderIntro:function(step,cb){
+    var subHtml=rt(step.sub,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'');
+    document.getElementById('screen').innerHTML='<div style="text-align:center"><div class="intro-icon">'+step.icon+'</div><div class="intro-title">'+step.title+'</div><div class="intro-sub">'+subHtml+'</div></div>';
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Start';cb.className='btn btn-primary';cb.disabled=false;
+  },
+  renderText:function(step,cb){
+    document.getElementById('screen').innerHTML=rt(step.text)+'<div class="hint">🔵 नीले शब्द = कनेक्टिंग वर्ड · किसी भी शब्द पर टैप करें हिंदी अर्थ देखने के लिए</div>';
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+
+  // ── Static visual (from stable Aasha: fraction label, compare bars, pizza, numline) ──
+  renderCtxVisual:function(step,cb){
+    var v=step.vis,html='';
+    if(v.type==='flab_ctx'){
+      html='<div class="card"><div class="flb"><div class="fn" style="color:var(--blue)">'+v.num+'</div><div class="fln"></div><div class="fn" style="color:var(--purple)">'+v.den+'</div></div><div style="display:flex;gap:40px;margin-top:4px;font-size:.7rem;justify-content:center"><span style="color:var(--blue);font-weight:600">↑ '+v.numLabel+'</span><span style="color:var(--purple);font-weight:600">↑ '+v.denLabel+'</span></div><div class="card-caption">'+v.caption+'</div></div>';
+    }
+    else if(v.type==='fbar_ctx'){
+      html='<div class="card"><canvas id="cv" width="320" height="50" class="canvas-visual"></canvas><div class="frac-display"><span class="frac"><span class="frac-top">'+v.num+'</span><span class="frac-bot">'+v.den+'</span></span></div><div class="card-caption">'+v.caption+'</div></div>';
+    }
+    document.getElementById('screen').innerHTML=html;
+    if(v.type==='fbar_ctx'){animateFracBar(document.getElementById('cv'),v.num,v.den,v.color);}
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+
+  // ── Canvas visual (from v3.1: bars, compare, add_merge, numline, division) ──
+  renderCanvasVisual:function(step,cb){
+    var d=step.draw,html='<div class="card">';
+    if(d.type==='fbar'){html+='<canvas id="cv" width="320" height="50" class="canvas-visual"></canvas><div class="frac-display"><span class="frac"><span class="frac-top">'+d.num+'</span><span class="frac-bot">'+d.den+'</span></span></div>';}
+    else if(d.type==='cmp'){
+      for(var i=0;i<d.bars.length;i++){var b=d.bars[i];
+        html+='<canvas id="cv'+i+'" width="320" height="40" class="canvas-visual"></canvas><div style="text-align:center;font-size:.8rem;font-weight:600;margin-bottom:4px">'+b.num+'/'+b.den+'</div>';
+      }
+      if(d.eq)html+='<div style="text-align:center;font-size:1rem;font-weight:700;color:var(--green);margin:4px 0">'+d.eq+'</div>';
+    }
+    else if(d.type==='add_merge'){
+      html+='<canvas id="cv0" width="320" height="40" class="canvas-visual"></canvas><div style="text-align:center;font-size:1.2rem;font-weight:800;color:var(--green)">+</div><canvas id="cv1" width="320" height="40" class="canvas-visual"></canvas><div style="text-align:center;font-size:1.2rem;font-weight:800;color:var(--green)">=</div><canvas id="cv2" width="320" height="40" class="canvas-visual"></canvas>';
+    }
+    else if(d.type==='numline'){html+='<canvas id="cv" width="320" height="80" class="canvas-visual"></canvas>';}
+    else if(d.type==='division'){
+      html+='<div style="text-align:center;font-size:1.2rem;font-weight:700;margin:8px 0"><span class="frac"><span class="frac-top">'+d.a_num+'</span><span class="frac-bot">'+d.a_den+'</span></span> ÷ <span class="frac"><span class="frac-top">'+d.b_num+'</span><span class="frac-bot">'+d.b_den+'</span></span></div><div style="text-align:center;font-size:.9rem;color:var(--amber);margin:8px 0">Flip the second → <span class="frac"><span class="frac-top">'+d.b_den+'</span><span class="frac-bot">'+d.b_num+'</span></span></div><div style="text-align:center;font-size:1.2rem;font-weight:700;color:var(--green)">= <span class="frac"><span class="frac-top">'+(d.a_num*d.b_den)+'</span><span class="frac-bot">'+(d.a_den*d.b_num)+'</span></span></div>';
+    }
+    else if(d.type==='rect'){html+='<canvas id="cv" width="320" height="220" class="canvas-visual"></canvas>';}
+    else if(d.type==='square'){html+='<canvas id="cv" width="280" height="240" class="canvas-visual"></canvas>';}
+    else if(d.type==='grid'){html+='<canvas id="cv" width="320" height="240" class="canvas-visual"></canvas>';}
+    else if(d.type==='lshape'){html+='<canvas id="cv" width="280" height="260" class="canvas-visual"></canvas>';}
+    else if(d.type==='perim_compare'){html+='<canvas id="cv" width="320" height="180" class="canvas-visual"></canvas>';}
+    html+='<div class="card-caption">'+step.caption+'</div></div>';
+    document.getElementById('screen').innerHTML=html;
+    if(d.type==='fbar'){animateFracBar(document.getElementById('cv'),d.num,d.den,d.color);}
+    else if(d.type==='cmp'){for(var i=0;i<d.bars.length;i++){animateFracBar(document.getElementById('cv'+i),d.bars[i].num,d.bars[i].den,d.bars[i].color);}}
+    else if(d.type==='add_merge'){animateFracBar(document.getElementById('cv0'),d.a_num,d.a_den,d.color_a);animateFracBar(document.getElementById('cv1'),d.b_num,d.b_den,d.color_b);animateFracBar(document.getElementById('cv2'),d.a_num+d.b_num,d.a_den,d.color_a);}
+    else if(d.type==='numline'){drawNumLine(document.getElementById('cv'),d.markers);}
+    else if(d.type==='rect'){drawRectShape(document.getElementById('cv'),d.l,d.b,d.color,d.label);}
+    else if(d.type==='square'){drawSquareShape(document.getElementById('cv'),d.s,d.color,d.label);}
+    else if(d.type==='grid'){drawGridShape(document.getElementById('cv'),d.rows,d.cols,d.color,d.label);}
+    else if(d.type==='lshape'){drawLShape(document.getElementById('cv'),d.color,d.label);}
+    else if(d.type==='perim_compare'){drawPerimCompare(document.getElementById('cv'),[{l:5,b:3,p:16,a:15},{l:4,b:4,p:16,a:16},{l:6,b:2,p:16,a:12}],d.label);}
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+
+  // ── Interactive: Pizza ──
+  renderIXPizza:function(step,cb){
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="game-card"><canvas id="ixPizza" width="260" height="260" style="width:100%;max-width:260px"></canvas><div id="ixFrac" style="text-align:center;font-size:1.8rem;font-weight:800;margin-top:8px">0/'+step.total+'</div></div>'+(step.text?'<div style="margin-top:8px">'+rt(step.text,true)+'</div>':'');
+    setupPizzaCanvas('ixPizza',step.total,function(filled,total){
+      document.getElementById('ixFrac').innerHTML='<span class="frac"><span class="frac-top">'+filled+'</span><span class="frac-bot">'+total+'</span></span>';
+      cb.disabled=false;
+    });
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+  // ── Interactive: Bar ──
+  renderIXBar:function(step,cb){
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="game-card"><canvas id="ixBar" width="360" height="60" style="width:100%;max-width:360px"></canvas><div id="ixFrac" style="text-align:center;font-size:1.8rem;font-weight:800;margin-top:8px">0/'+step.den+'</div></div>'+(step.text?'<div style="margin-top:8px">'+rt(step.text,true)+'</div>':'');
+    setupBarCanvas('ixBar',step.den,function(filled,den){
+      document.getElementById('ixFrac').innerHTML='<span class="frac"><span class="frac-top">'+filled+'</span><span class="frac-bot">'+den+'</span></span>';
+      cb.disabled=false;
+    });
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+  // ── Interactive: Area Model ──
+  renderIXArea:function(step,cb){
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="game-card"><canvas id="ixArea" width="280" height="180" style="width:100%;max-width:280px"></canvas></div>'+(step.text?'<div style="margin-top:8px">'+rt(step.text,true)+'</div>':'');
+    setupAreaCanvas('ixArea',step.rows,step.cols,step.fillRows,step.fillCols);
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+  // ── Interactive: Tap blocks ──
+  renderIXTap:function(step,cb){
+    var s='';for(var i=0;i<step.den;i++)s+='<div class="tap-cell" onclick="App.tapB('+i+')" data-i="'+i+'"></div>';
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="tap-area">'+s+'</div><div class="tap-count" id="tCount">0 tapped</div>';
+    this._ix=step;this.tapCount=0;this.tapped={};
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=true;
+  },
+  tapB:function(i){
+    if(this.tapped[i])return;this.tapped[i]=true;
+    var bs=document.querySelectorAll('.tap-cell');
+    for(var j=0;j<bs.length;j++)if(bs[j].getAttribute('data-i')==i)bs[j].classList.add('tapped');
+    this.tapCount++;playTone('tap');
+    document.getElementById('tCount').textContent=this.tapCount+' tapped';
+    if(this.tapCount>=this._ix.correct){
+      document.getElementById('tCount').innerHTML='<span style="color:var(--green)">✓ '+this._ix.ok+'</span>';
+      document.getElementById('continueBtn').disabled=false;
+    }
+  },
+  // ── Interactive: Tap label ──
+  renderIXTapLabel:function(step,cb){
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="flb"><div class="fn" style="cursor:pointer;color:var(--blue)" onclick="App.tapLab(\'top\')">'+step.num+'</div><div class="fln"></div><div class="fn" style="cursor:pointer;color:var(--purple)" onclick="App.tapLab(\'bottom\')">'+step.den+'</div></div><div id="labFb" style="text-align:center;font-size:.85rem;margin-top:12px"></div>';
+    this._ix=step;
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=true;
+  },
+  tapLab:function(w){
+    if(w===this._ix.correct){
+      document.getElementById('labFb').innerHTML='<span style="color:var(--green)">'+this._ix.ok+'</span>';
+      playTone('correct');
+      document.getElementById('continueBtn').disabled=false;
+    }else{
+      document.getElementById('labFb').innerHTML='<span style="color:var(--red)">Not quite. Numerator is the TOP number.</span>';
+      playTone('wrong');
+    }
+  },
+  // ── Interactive: Slider ──
+  renderIXSlider:function(step,cb){
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="slider-area"><div class="slider-display" id="slD">'+step.startN+'/'+step.startD+'</div><input type="range" min="'+step.range[0]+'" max="'+step.range[1]+'" value="'+step.range[0]+'" oninput="App.updSl(this.value,'+step.startN+','+step.startD+')"></div><div id="slF" style="text-align:center;font-size:.85rem;margin-top:8px">Move the slider!</div>';
+    this._ix=step;
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=true;
+  },
+  updSl:function(v,n,d){
+    var m=parseInt(v);
+    document.getElementById('slD').textContent=(n*m)+'/'+(d*m)+' = '+n+'/'+d;
+    document.getElementById('slF').innerHTML='<span style="color:var(--green)">'+this._ix.ok+'</span>';
+    playTone('tap');
+    document.getElementById('continueBtn').disabled=false;
+  },
+
+  // ── CSS 3D ──
+  renderCSS3D:function(step,cb){
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="game-card" id="css3dContainer"></div>'+(step.text?'<div style="margin-top:8px">'+rt(step.text,true)+'</div>':'')+'<div class="hint">Drag the blocks or use buttons to rotate</div>';
+    setupCSS3D('css3dContainer',step.num,step.den);
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+
+  // ── Worked Example ──
+  selWECheck:function(i){if(this.weCheckAnswered)return;this.selOpt=i;var opts=document.querySelectorAll('#weCheckArea .quiz-opt');for(var j=0;j<opts.length;j++)opts[j].classList.remove('selected');document.getElementById('wco'+i).classList.add('selected');document.getElementById('continueBtn').disabled=false;},
+  checkWECheck:function(){if(!this._weCheckRendered){this.showNextWE(NODES[this.nIdx].steps[this.sIdx].we,document.getElementById("continueBtn"));return;}var fbEl=document.getElementById("weCheckFb");if(!fbEl){return;}var we=NODES[this.nIdx].steps[this.sIdx].we;var opts=this._weCheckOpts||we.check.opts;var opt=this.selOpt!=null?opts[this.selOpt]:null;if(!opt){this.weCheckAnswered=false;return;}this.weCheckAnswered=true;var fb=document.getElementById('weCheckFb');var qopts=document.querySelectorAll('#weCheckArea .quiz-opt');for(var i=0;i<qopts.length;i++)qopts[i].style.pointerEvents='none';if(opt.c){fb.innerHTML='<div class="feedback ok">\u2713 Great! You understood it. +3 XP</div>';this.weChecked=true;this.awardXP(3);this.updateStats();playTone('correct');document.getElementById('continueBtn').textContent='Continue \u2192';document.getElementById('continueBtn').disabled=false;}else{fb.innerHTML='<div class="feedback no">\u2717 Not quite.</div>'+(opt.m?'<div class="misconception">'+rt('\u26a0 '+opt.m,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div>':'');playTone('wrong');document.getElementById('continueBtn').textContent='Try again';var self=this;this.retryTimer=setTimeout(function(){self.weCheckAnswered=false;self.selOpt=null;for(var i=0;i<qopts.length;i++){qopts[i].classList.remove('selected','wrong');qopts[i].style.pointerEvents='';}fb.innerHTML='';document.getElementById('continueBtn').textContent='Check';document.getElementById('continueBtn').disabled=true;},5000);}}
+  ,
+  selWEStepCheck:function(i){if(this.weStepCheckAnswered)return;this.selStepOpt=i;var opts=document.querySelectorAll('#weStepCheckArea .quiz-opt');for(var j=0;j<opts.length;j++)opts[j].classList.remove('selected');document.getElementById('wsco'+i).classList.add('selected');document.getElementById('continueBtn').disabled=false;},
+  checkWEStepCheck:function(){if(this.selStepOpt==null)return;var step=NODES[this.nIdx].steps[this.sIdx].we.steps[this.weStepIdx-1];var opts=this._weStepCheckOpts||step.check.opts;var opt=opts[this.selStepOpt];if(!opt)return;this.weStepCheckAnswered=true;var fb=document.getElementById('weStepCheckFb');var qopts=document.querySelectorAll('#weStepCheckArea .quiz-opt');for(var i=0;i<qopts.length;i++)qopts[i].style.pointerEvents='none';if(opt.c){if(fb)fb.innerHTML='<div class="feedback ok">\u2713 Correct! You got it. +2 XP</div>';this.weStepCheckPassed=true;this.awardXP(2);this.updateStats();playTone('correct');var we=NODES[this.nIdx].steps[this.sIdx].we;var cb=document.getElementById('continueBtn');if(this.weStepIdx>=we.steps.length){if(we.check){cb.textContent='Check \u2192';cb.disabled=false;}else{cb.textContent='Continue \u2192';cb.disabled=false;}}else{cb.textContent='Next Step \u2192';cb.disabled=false;}}else{if(fb)fb.innerHTML='<div class="feedback no">\u2717 Not quite.</div>'+(opt.m?'<div class="misconception">'+rt('\u26a0 '+opt.m,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div>':'');playTone('wrong');document.getElementById('continueBtn').textContent='Try again';var self=this;this.retryTimer=setTimeout(function(){self.weStepCheckAnswered=false;self.selStepOpt=null;for(var i=0;i<qopts.length;i++){qopts[i].classList.remove('selected','wrong');qopts[i].style.pointerEvents='';}if(fb)fb.innerHTML='';document.getElementById('continueBtn').textContent='Check';document.getElementById('continueBtn').disabled=true;},5000);}},
+  renderWorked:function(step,cb){this.weStepIdx=0;this.weChecked=false;this.weCheckAnswered=false;this._weCheckRendered=false;this.weStepCheckPassed=false;this.weStepCheckAnswered=false;this.selStepOpt=null;this.selOpt=null;var we=step.we;
+    document.getElementById('screen').innerHTML='<div class="we-card"><div class="we-tag">'+we.title+'</div><div class="we-question">'+rt(we.question,true)+'</div><div id="weSteps"></div></div>';
+    this.showNextWE(we,cb);
+  },
+  showNextWE:function(we,cb){
+    if(this.weStepIdx>=we.steps.length){
+      if(we.check&&!this.weChecked){
+        this._weCheckOpts=we.check.opts.slice().sort(function(){return Math.random()-0.5;});this.selOpt=null;this.weCheckAnswered=false;
+        var cq='<div class="we-step" style="margin-top:6px;border-top:2px dashed var(--blue);border-radius:0;padding:8px 0 0 0;background:transparent"><span class="we-num">?</span><b>Quick Check!</b> '+rt(we.check.q,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div>';
+        var optsHtml='<div style="margin-top:6px" id="weCheckArea">';
+        for(var i=0;i<this._weCheckOpts.length;i++){optsHtml+='<div class="quiz-opt" onclick="App.selWECheck('+i+')" id="wco'+i+'"><div class="quiz-radio"></div><div class="quiz-opt-text">'+rt(this._weCheckOpts[i].t,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div></div>';}
+        optsHtml+='</div><div id="weCheckFb"></div>';
+        var c=document.getElementById('weSteps');var div=document.createElement('div');div.innerHTML=cq+optsHtml;
+        c.appendChild(div);this.weChecked=false;this.weCheckAnswered=false;this._weCheckRendered=true;
+        cb.textContent='Check';cb.disabled=true;return;
+      }
+      cb.textContent='Continue \u2192';cb.disabled=false;return;
+    }
+    var s=we.steps[this.weStepIdx];var c=document.getElementById('weSteps');var div=document.createElement('div');
+    var cls=s.c==='green'?'green':(s.c==='amber'?'amber':'');div.className='we-step '+cls;
+    var inner=rt(s.text,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'');
+    if(s.final){div.classList.add('final');div.innerHTML=inner;playTone('correct');}
+    else{div.innerHTML='<span class="we-num">'+(this.weStepIdx+1)+'</span>'+inner;playTone('tap');}
+    c.appendChild(div);this.weStepIdx++;
+    if(s.check){
+      this._weStepCheckOpts=s.check.opts.slice().sort(function(){return Math.random()-0.5;});
+      this.weStepCheckAnswered=false;this.weStepCheckPassed=false;this.selStepOpt=null;
+      var scq='<div style="margin-top:6px;border-left:3px solid var(--blue);padding:6px 10px;background:var(--blue-lt);border-radius:0 8px 8px 0"><div style="font-size:.8rem;font-weight:700;color:var(--blue)">Check before continuing:</div><div style="margin-top:4px">'+rt(s.check.q,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div style="margin-top:6px" id="weStepCheckArea">';
+      for(var i=0;i<this._weStepCheckOpts.length;i++){scq+='<div class="quiz-opt" onclick="App.selWEStepCheck('+i+')" id="wsco'+i+'"><div class="quiz-radio"></div><div class="quiz-opt-text">'+rt(this._weStepCheckOpts[i].t,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div></div>';}
+      scq+='</div><div id="weStepCheckFb"></div></div>';
+      var scdiv=document.createElement('div');scdiv.innerHTML=scq;c.appendChild(scdiv);
+      cb.textContent='Check';cb.disabled=true;
+    } else {
+      if(this.weStepIdx>=we.steps.length){
+        if(we.check){cb.textContent='Check \u2192';cb.disabled=false;}
+        else{cb.textContent='Continue \u2192';cb.disabled=false;}
+      }
+      else{cb.textContent='Next Step \u2192';cb.disabled=false;}
+    }
+  },
+
+  // ── Solve ──
+  renderSolve:function(step,cb){this.solveStepIdx=0;this.solveAnswered=false;this.selOpt=null;
+    this.solveStepIdx=0;this.solveAnswered=false;var sl=step.sl;
+    document.getElementById('screen').innerHTML='<div class="we-card"><div class="we-tag">'+sl.title+'</div><div class="we-question">'+rt(sl.question,true)+'</div><div id="slArea"></div></div>';
+    this.showSolveStep(sl,cb);
+  },
+  showSolveStep:function(sl,cb){
+    if(this.solveStepIdx>=sl.steps.length){
+      document.getElementById('slArea').innerHTML='<div class="we-step final">✓ Problem solved! All steps correct.</div>';
+      cb.textContent='Continue →';cb.disabled=false;return;
+    }
+    var step=sl.steps[this.solveStepIdx];var area=document.getElementById('slArea');this.solveAnswered=false;
+    var promptHtml='<div class="we-step" style="margin-top:8px"><span class="we-num">'+(this.solveStepIdx+1)+'</span>'+rt(step.prompt,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div>';
+    var inputHtml='';
+    if(step.type==='mcq'){this._slqOpts=step.opts.slice().sort(function(){return Math.random()-0.5});inputHtml='<div style="margin-top:8px">';for(var i=0;i<this._slqOpts.length;i++){inputHtml+='<div class="quiz-opt" onclick="App.selSolve('+i+')" id="so'+i+'"><div class="quiz-radio"></div><div class="quiz-opt-text">'+rt(this._slqOpts[i].t,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div></div>';}inputHtml+='</div>';}
+    else if(step.type==='input'){inputHtml='<div style="margin-top:8px"><input type="text" id="slInput" placeholder="Type your answer..." oninput="document.getElementById(\'continueBtn\').disabled=this.value.trim()?false:true"><div style="font-size:.7rem;color:#64748b;margin-top:4px" class="format-hint">Write fractions as numerator/denominator, e.g. 3/4. Use numbers only for numeric answers.</div></div>';}
+    area.innerHTML=promptHtml+inputHtml+'<div id="slFb"></div>';
+    cb.textContent='Check';cb.disabled=true;
+  },
+  selSolve:function(i){if(this.solveAnswered)return;this.selOpt=i;var opts=document.querySelectorAll('#slArea .quiz-opt');for(var j=0;j<opts.length;j++)opts[j].classList.remove('selected');document.getElementById('so'+i).classList.add('selected');document.getElementById('continueBtn').disabled=false;document.getElementById('continueBtn').textContent='Check';},
+  checkSolve:function(){
+    var sl=NODES[this.nIdx].steps[this.sIdx].sl,step=sl.steps[this.solveStepIdx];this.solveAnswered=true;
+    var fb=document.getElementById('slFb'),correct=false,misc='';
+    if(step.type==='mcq'){var slqOpts=this._slqOpts||step.opts;var opt=slqOpts[this.selOpt];correct=opt.c;var opts=document.querySelectorAll('#slArea .quiz-opt');for(var i=0;i<opts.length;i++){opts[i].style.pointerEvents='none';if(i===this.selOpt&&!opt.c)opts[i].classList.add('wrong');}if(!opt.c)misc=opt.m;}
+    else if(step.type==='input'){var val=document.getElementById('slInput').value.trim();var ans=step.answer;correct=(val===ans||val===ans.replace(/\s/g,''));document.getElementById('slInput').disabled=true;if(!correct)misc=step.m;}
+    if(correct){
+      fb.innerHTML='<div class="feedback ok">✓ Correct! +5 XP</div>';
+      this.streak++;this.awardXP(5);this.updateStats();playTone('correct');
+      document.getElementById('continueBtn').textContent='Next Step →';document.getElementById('continueBtn').disabled=false;
+    }else{
+      this.streak=0;this.updateStats();playTone('wrong');
+      fb.innerHTML='<div class="feedback no">✗ Not quite.</div>'+(misc?'<div class="misconception">'+rt('⚠ '+misc,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div>':'');
+      document.getElementById('continueBtn').textContent='Try again';
+      var self=this;this.retryTimer=setTimeout(function(){
+        self.solveAnswered=false;self.selOpt=null;
+        if(step.type==='mcq'){var o2=document.querySelectorAll('#slArea .quiz-opt');for(var i=0;i<o2.length;i++){o2[i].classList.remove('selected','correct','wrong');o2[i].style.pointerEvents='';}}
+        else{var inp=document.getElementById('slInput');if(inp){inp.disabled=false;inp.value='';}}
+        fb.innerHTML='';document.getElementById('continueBtn').textContent='Check';document.getElementById('continueBtn').disabled=true;
+      },5000);
+    }
+  },
+
+  // ── Drag-Drop Build ──
+  renderDDBuild:function(step,cb){var self=this;var placed=0;var piecesHtml='';for(var i=0;i<step.target_den;i++)piecesHtml+='<div class="dd-tap-item" onclick="App.tapDDPiece('+i+')" id="dd'+i+'">\u25A1</div>';document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,"").replace(/<\/div>$/,"")+'</div><div class="dd-label">Tap pieces to add (need '+step.target_num+'):</div><div class="dd-zone" id="dropZone" style="min-height:60px;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;align-items:center"></div><div class="frac-display" id="ddFrac">0/'+step.target_den+'</div><div class="dd-label">Available pieces - tap one:</div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:300px;margin:0 auto" id="ddPieces">'+piecesHtml+'</div><div id="ddFb"></div><div style="text-align:center;margin-top:8px"><a onclick="App.advance()" style="font-size:.75rem;color:var(--muted);cursor:pointer;text-decoration:underline">Skip this activity →</a></div>';document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=true;self._ddTarget=step.target_num;self._ddDen=step.target_den;self._ddPlaced=0;},
+
+  // ── Drag-Drop Match ──
+  tapDDPiece:function(i){var el=document.getElementById("dd"+i);if(!el||el.classList.contains("placed"))return;el.classList.add("placed");el.style.opacity="0.3";el.style.pointerEvents="none";var zone=document.getElementById("dropZone");var piece=document.createElement("div");piece.className="dd-placed-piece";piece.textContent="\u25A0";zone.appendChild(piece);playTone("tap");this._ddPlaced++;document.getElementById("ddFrac").innerHTML='<span class="frac"><span class="frac-top">'+this._ddPlaced+'</span><span class="frac-bot">'+this._ddDen+'</span></span>';if(this._ddPlaced>=this._ddTarget){document.getElementById("ddFb").innerHTML='<div class="feedback ok">\u2713 Correct! '+this._ddTarget+'/'+this._ddDen+'!</div>';this.streak++;this.awardXP(10);this.updateStats();playTone("correct");fireConfetti(30);document.getElementById("continueBtn").textContent="Continue \u2192";document.getElementById("continueBtn").disabled=false;}},
+  renderDDMatch:function(step,cb){var self=this;var totalPairs=step.pairs.length;var rightShuffled=step.pairs.slice().sort(function(){return Math.random()-0.5;});var leftHtml='',rightHtml='';for(var i=0;i<step.pairs.length;i++)leftHtml+='<div class="dd-tap-item" onclick="App.tapMatchSrc('+i+')" id="ml'+i+'" data-match="'+step.pairs[i].a+'" data-b="'+step.pairs[i].b+'">'+step.pairs[i].a+'</div>';for(var i=0;i<rightShuffled.length;i++){rightHtml+='<div class="dd-tap-zone" onclick="App.tapMatchDst('+i+')" id="mz'+i+'" data-accept="'+rightShuffled[i].a+'" data-display="'+rightShuffled[i].b+'" style="min-height:50px;min-width:70px"><div style="font-size:.8rem;color:var(--muted)">'+rightShuffled[i].b+' = ?</div></div>';}document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,"").replace(/<\/div>$/,"")+'</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto"><div><div class="dd-label">Tap a fraction:</div>'+leftHtml+'</div><div><div class="dd-label">Tap its match:</div>'+rightHtml+'</div></div><div id="ddFb"></div><div style="text-align:center;margin-top:8px"><a onclick="App.advance()" style="font-size:.75rem;color:var(--muted);cursor:pointer;text-decoration:underline">Skip this activity →</a></div>';document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=true;self._ddMatchPairs=step.pairs;self._ddMatchSelected=null;self._ddMatchSide=null;self._ddMatched=0;self._ddTotalPairs=totalPairs;},
+
+  // ── Visual Quiz ──
+  tapMatchSrc:function(i){var el=document.getElementById("ml"+i);if(!el||el.classList.contains("placed"))return;var prev=document.querySelector(".dd-tap-item.selected");if(prev)prev.classList.remove("selected");el.classList.add("selected");this._ddMatchSelected=i;this._ddMatchSide='left';playTone("tap");},
+  tapMatchDst:function(i){if(this._ddMatchSelected===null||this._ddMatchSide!=='left'){document.getElementById("ddFb").innerHTML='<div class="feedback no" style="font-size:.8rem">Tap a fraction on the left first, then tap its match!</div>';setTimeout(function(){var fb=document.getElementById("ddFb");if(fb)fb.innerHTML="";},2000);return;}var src=document.getElementById("ml"+this._ddMatchSelected);var zone=document.getElementById("mz"+i);if(!src||!zone||src.classList.contains("placed"))return;var srcMatch=src.getAttribute("data-match");var zoneAccept=zone.getAttribute("data-accept");if(srcMatch===zoneAccept){src.classList.add("placed");src.classList.remove("selected");zone.classList.add("correct");zone.style.borderColor="var(--green)";zone.style.background="var(--green-lt)";zone.innerHTML='<div style="font-weight:700;color:var(--green)">'+src.getAttribute("data-match")+" = "+zone.getAttribute("data-display")+" \u2713</div>";this._ddMatched++;playTone("correct");this._ddMatchSelected=null;this._ddMatchSide=null;if(this._ddMatched>=this._ddTotalPairs){document.getElementById("ddFb").innerHTML='<div class="feedback ok">\u2713 All matched! Great job!</div>';this.streak++;this.awardXP(10);this.updateStats();fireConfetti(40);document.getElementById("continueBtn").textContent="Continue \u2192";document.getElementById("continueBtn").disabled=false;}}else{zone.classList.add("wrong");playTone("wrong");document.getElementById("ddFb").innerHTML='<div class="feedback no">\u2717 Not a match. Think: are these fractions equal?</div>';var self=this;setTimeout(function(){zone.classList.remove("wrong");var fb=document.getElementById("ddFb");if(fb)fb.innerHTML="";},2000);}},
+  renderVQ:function(step,cb){
+    this.selOpt=null;this.answered=false;var opts='';
+    this._qOpts=step.q.opts.slice().sort(function(){return Math.random()-0.5});
+    for(var i=0;i<this._qOpts.length;i++){var o=this._qOpts[i];opts+='<div class="vq-opt" onclick="App.selVQ('+i+')" id="vqo'+i+'"><canvas width="140" height="30" id="vqc'+i+'"></canvas><div style="font-size:.75rem;margin-top:4px">'+o.num+'/'+o.den+'</div></div>';}
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.q.q,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="vq-grid">'+opts+'</div><div id="vqf"></div>';
+    for(var i=0;i<step.q.opts.length;i++)animateFracBar(document.getElementById('vqc'+i),step.q.opts[i].num,step.q.opts[i].den,step.q.opts[i].color);
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Check';cb.className='btn btn-primary';cb.disabled=true;
+  },
+  selVQ:function(i){if(this.answered)return;this.selOpt=i;var opts=document.querySelectorAll('.vq-opt');for(var j=0;j<opts.length;j++)opts[j].classList.remove('selected');document.getElementById('vqo'+i).classList.add('selected');document.getElementById('continueBtn').disabled=false;},
+  checkVQ:function(){
+    var step=NODES[this.nIdx].steps[this.sIdx],qOpts=this._qOpts||step.q.opts,opt=qOpts[this.selOpt];this.answered=true;
+    var opts=document.querySelectorAll('.vq-opt');for(var i=0;i<opts.length;i++){opts[i].style.pointerEvents='none';if(i===this.selOpt&&!opt.c)opts[i].classList.add('wrong');}
+    var fb=document.getElementById('vqf');
+    if(opt.c){fb.innerHTML='<div class="feedback ok">✓ Correct! +5 XP</div>';this.streak++;this.awardXP(5);this.updateStats();playTone('correct');fireConfetti(20);document.getElementById('continueBtn').textContent='Continue →';}
+    else{this.streak=0;this.updateStats();playTone('wrong');var m=opt.m?'<div class="misconception">'+rt('⚠ '+opt.m,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div>':'';fb.innerHTML='<div class="feedback no">✗ Not quite.</div>'+m;document.getElementById('continueBtn').textContent='Try again';var self=this;this.retryTimer=setTimeout(function(){self.answered=false;self.selOpt=null;for(var i=0;i<opts.length;i++){opts[i].classList.remove('selected','correct','wrong');opts[i].style.pointerEvents='';}fb.innerHTML='';document.getElementById('continueBtn').textContent='Check';document.getElementById('continueBtn').disabled=true;},5000);}
+  },
+
+  // ── Quiz ──
+  renderQuiz:function(step,cb){
+    this.selOpt=null;this.answered=false;var opts='';
+    this._qOpts=step.q.opts.slice().sort(function(){return Math.random()-0.5});
+    for(var i=0;i<this._qOpts.length;i++)opts+='<div class="quiz-opt" onclick="App.selQuiz('+i+')" id="qo'+i+'"><div class="quiz-radio"></div><div class="quiz-opt-text">'+rt(this._qOpts[i].t,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div></div>';
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.q.q,true).replace(/^<div class="lle-text">/,'').replace(/<\/div>$/,'')+'</div><div style="max-width:380px;margin:0 auto">'+opts+'</div><div id="qf"></div>';
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Check';cb.className='btn btn-primary';cb.disabled=true;
+  },
+  selQuiz:function(i){if(this.answered)return;this.selOpt=i;var opts=document.querySelectorAll('.quiz-opt');for(var j=0;j<opts.length;j++){opts[j].classList.remove('selected');}document.getElementById('qo'+i).classList.add('selected');document.getElementById('continueBtn').disabled=false;},
+  checkQuiz:function(){
+    var step=NODES[this.nIdx].steps[this.sIdx],q=step.q;var qOpts=this._qOpts||q.opts;var opt=qOpts[this.selOpt];this.answered=true;
+    var opts=document.querySelectorAll('.quiz-opt');for(var i=0;i<opts.length;i++){opts[i].style.pointerEvents='none';if(i===this.selOpt&&!opt.c)opts[i].classList.add('wrong');}
+    var fb=document.getElementById('qf');
+    if(opt.c){fb.innerHTML='<div class="feedback ok">✓ Correct! +5 XP</div>';this.streak++;this.awardXP(5);this.updateStats();playTone('correct');fireConfetti(20);document.getElementById('continueBtn').textContent='Continue →';}
+    else{this.streak=0;this.updateStats();playTone('wrong');var m=opt.m?'<div class="misconception">'+rt('⚠ '+opt.m,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div>':'';fb.innerHTML='<div class="feedback no">✗ Not quite.</div>'+m;document.getElementById('continueBtn').textContent='Try again';var self=this;this.retryTimer=setTimeout(function(){self.answered=false;self.selOpt=null;for(var i=0;i<opts.length;i++){opts[i].classList.remove('selected','correct','wrong');opts[i].style.pointerEvents='';}fb.innerHTML='';document.getElementById('continueBtn').textContent='Check';document.getElementById('continueBtn').disabled=true;},5000);}
+  },
+
+  // ── Progress / Milestone ──
+  renderVideo:function(step,cb){
+  var self=this;
+  var html='<div class="instruction">'+rt(step.instruction)+'</div>';
+  html+='<div class="card" style="padding:0;overflow:hidden">';
+  html+='<div id="videoStage" style="position:relative;width:100%;height:'+step.height+'px;background:#0f172a;border-radius:12px;overflow:hidden">';
+  html+='<div id="playOverlay" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:10;cursor:pointer"><div style="width:64px;height:64px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff">\u25B6</div></div>';
+  html+='<canvas id="vidCanvas" width="350" height="'+step.height+'" style="max-width:100%;display:block"></canvas>';
+  html+='</div>';
+  html+='<div style="padding:8px 12px;background:var(--surface);display:flex;align-items:center;gap:8px"><span id="vidTime" style="font-size:.7rem;color:var(--muted)">0:00</span><div style="flex:1;height:4px;background:var(--border);border-radius:4px;overflow:hidden"><div id="vidProg" style="height:100%;width:0%;background:var(--blue);transition:width .2s"></div></div><span style="font-size:.7rem;color:var(--muted)">'+step.duration+'</span></div>';
+  html+='</div>';
+  if(step.think){
+    html+='<div class="discovery-box" style="margin-top:12px"><div class="d-title">Think!</div><div class="d-text">'+rt(step.think)+'</div></div>';
+    html+='<div class="hint">Tap any word for Hindi meaning</div>';
+  }
+  document.getElementById('screen').innerHTML=html;
+  document.getElementById('bottomBar').style.display='block';
+  cb.textContent='Continue \u2192';cb.className='btn btn-primary';cb.disabled=false;
+  var playing=false,frame=0,totalFrames=step.frames||60;
+  var canvas=document.getElementById('vidCanvas');
+  var ctx=canvas?canvas.getContext('2d'):null;
+  var overlay=document.getElementById('playOverlay');
+  var progBar=document.getElementById('vidProg');
+  var timeEl=document.getElementById('vidTime');
+  var animId=null;
+  function drawFrame(){
+    if(!ctx)return;
+    var w=canvas.width,h=canvas.height;
+    ctx.clearRect(0,0,w,h);
+    var progress=frame/totalFrames;
+    try{step.draw(ctx,w,h,progress,frame);}catch(e){}
+    if(progBar)progBar.style.width=(progress*100)+'%';
+    if(timeEl){var sec=Math.floor(progress*parseInt(step.duration.replace(':','')));timeEl.textContent='0:'+String(sec).padStart(2,'0');}
+  }
+  function animate(){
+    if(!playing)return;
+    frame++;
+    drawFrame();
+    if(frame>=totalFrames){playing=false;if(overlay)overlay.style.display='flex';return;}
+    animId=requestAnimationFrame(animate);
+  }
+  if(overlay){overlay.addEventListener('click',function(){if(frame>=totalFrames)frame=0;playing=true;overlay.style.display='none';animate();});}
+  drawFrame();
+}
+
+  ,
+  renderSim:function(step,cb){
+    var simHtml=step.html;
+    if(step.b64)simHtml=decodeURIComponent(escape(atob(step.b64)));
+    var html='<div class="instruction">'+rt(step.instruction)+'</div>';
+    html+='<div class="card" style="padding:0;overflow:hidden;border:2px solid var(--blue);border-radius:12px">';
+    var blob=new Blob([simHtml],{type:'text/html'});
+    var url=URL.createObjectURL(blob);
+    html+='<iframe src="'+url+'" style="width:100%;height:'+(step.height||350)+'px;border:none;display:block"></iframe>';
+    html+='</div>';
+    if(step.think){
+      html+='<div class="discovery-box" style="margin-top:12px"><div class="d-title">Think!</div><div class="d-text">'+rt(step.think)+'</div></div>';
+      html+='<div class="hint">Tap any word for Hindi meaning</div>';
+    }
+    document.getElementById('screen').innerHTML=html;
+    document.getElementById('bottomBar').style.display='block';
+    cb.textContent='Continue \u2192';cb.className='btn btn-primary';cb.disabled=false;
+  }
+,
+
+  renderProgress:function(step,node,cb){
+    this.coins+=step.tokens;bumpStat('statCoins');
+    this.xp+=(step.xp||20);bumpStat('statXp');
+    this.streak++;this.updateStats();this.checkLevelUp();this.checkBadges();this.save();
+    if(step.next){
+      document.getElementById('screen').innerHTML='<div style="text-align:center"><div class="milestone-icon">'+node.icon+'</div><div class="milestone-text">'+rt(step.text,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="milestone-reward">+'+step.tokens+' 🪙 · +'+(step.xp||20)+' ⭐</div><div class="milestone-next">Next: '+step.next+'</div></div>';
+      document.getElementById('bottomBar').style.display='block';cb.textContent='Next Concept →';cb.className='btn btn-green';cb.disabled=false;
+      playTone('correct');fireConfetti(25);
+    }else{
+      var chips='';for(var i=0;i<NODES.length;i++)chips+='<div class="chip" style="background:'+NODES[i].color+'20;color:'+NODES[i].color+'">'+NODES[i].icon+' ✓</div>';
+      document.getElementById('screen').innerHTML='<div style="text-align:center"><div class="complete-icon">🎉</div><div class="complete-title">Chapter Complete!</div><div class="complete-coins">🪙 '+this.coins+' · ⭐ '+this.xp+'</div><p style="color:var(--muted);font-size:.9rem;font-weight:600">Level '+this.level+': '+LEVELS[this.level-1].name+'</p><div class="star-row"><span>⭐</span><span>⭐</span><span>⭐</span></div><div style="margin-top:10px;display:flex;gap:4px;justify-content:center;flex-wrap:wrap">'+chips+'</div></div>';
+      document.getElementById('progressFill').style.width='100%';
+      document.getElementById('bottomBar').style.display='block';cb.textContent='Done 🎉';cb.className='btn btn-amber';cb.disabled=false;
+      playTone('complete');fireConfetti(120);
+    }
+  },
+
+
+  // ── Interactive: Shape Explorer ──
+  renderIXShape:function(step,cb){
+    this._shapeIdx=0;
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="game-card"><canvas id="ixShape" width="260" height="260" style="width:100%;max-width:260px" onclick="App.nextShape()"></canvas><div style="text-align:center;margin-top:8px"><button class="css3d-btn" onclick="App.prevShape()">← Prev</button> <button class="css3d-btn" onclick="App.nextShape()">Next →</button></div><div id="shapeInfo" style="text-align:center;font-size:.9rem;color:var(--blue);margin-top:6px;font-weight:600">Square · P = 4 × 8 = 32 cm</div></div>'+(step.text?'<div style="margin-top:8px">'+rt(step.text,true)+'</div>':'');
+    drawShapeOnCanvas(document.getElementById('ixShape'),0);
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+  nextShape:function(){
+    this._shapeIdx=(this._shapeIdx+1)%4;
+    drawShapeOnCanvas(document.getElementById('ixShape'),this._shapeIdx);
+    var names=['Square','Rectangle','Triangle','Pentagon'];
+    var perims=[32,32,21,25];
+    var sides=[4,4,3,5];
+    document.getElementById('shapeInfo').textContent=names[this._shapeIdx]+' · P = '+sides[this._shapeIdx]+' sides · total = '+perims[this._shapeIdx]+' cm';
+  },
+  prevShape:function(){
+    this._shapeIdx=(this._shapeIdx+3)%4;
+    drawShapeOnCanvas(document.getElementById('ixShape'),this._shapeIdx);
+    var names=['Square','Rectangle','Triangle','Pentagon'];
+    var perims=[32,32,21,25];
+    var sides=[4,4,3,5];
+    document.getElementById('shapeInfo').textContent=names[this._shapeIdx]+' · P = '+sides[this._shapeIdx]+' sides · total = '+perims[this._shapeIdx]+' cm';
+  },
+
+  // ── Interactive: Rectangle Lab ──
+  renderIXRectLab:function(step,cb){
+    this._rl_l=5;this._rl_b=4;
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="game-card"><canvas id="ixRL" width="320" height="200" style="width:100%;max-width:320px"></canvas><div style="display:flex;gap:12px;justify-content:center;margin-top:10px"><div style="text-align:center"><div style="font-size:.75rem;color:var(--muted)">Length</div><button class="css3d-btn" onclick="App.rlL(-1)">−</button> <span id="rlLval" style="font-weight:700;font-size:1.1rem">5</span> <button class="css3d-btn" onclick="App.rlL(1)">+</button></div><div style="text-align:center"><div style="font-size:.75rem;color:var(--muted)">Breadth</div><button class="css3d-btn" onclick="App.rlB(-1)">−</button> <span id="rlBval" style="font-weight:700;font-size:1.1rem">4</span> <button class="css3d-btn" onclick="App.rlB(1)">+</button></div></div></div>'+(step.text?'<div style="margin-top:8px">'+rt(step.text,true)+'</div>':'');
+    drawRectLab(document.getElementById('ixRL'),5,4);
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+  rlL:function(d){this._rl_l=Math.max(1,Math.min(12,this._rl_l+d));document.getElementById('rlLval').textContent=this._rl_l;drawRectLab(document.getElementById('ixRL'),this._rl_l,this._rl_b);},
+  rlB:function(d){this._rl_b=Math.max(1,Math.min(8,this._rl_b+d));document.getElementById('rlBval').textContent=this._rl_b;drawRectLab(document.getElementById('ixRL'),this._rl_l,this._rl_b);},
+
+  // ── Interactive: Area Grid ──
+  renderIXAreaGrid:function(step,cb){
+    this._ag_r=3;this._ag_c=5;
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="game-card"><canvas id="ixAG" width="320" height="220" style="width:100%;max-width:320px"></canvas><div style="display:flex;gap:12px;justify-content:center;margin-top:10px"><div style="text-align:center"><div style="font-size:.75rem;color:var(--muted)">Rows</div><button class="css3d-btn" onclick="App.agR(-1)">−</button> <span id="agRval" style="font-weight:700;font-size:1.1rem">3</span> <button class="css3d-btn" onclick="App.agR(1)">+</button></div><div style="text-align:center"><div style="font-size:.75rem;color:var(--muted)">Columns</div><button class="css3d-btn" onclick="App.agC(-1)">−</button> <span id="agCval" style="font-weight:700;font-size:1.1rem">5</span> <button class="css3d-btn" onclick="App.agC(1)">+</button></div></div></div>'+(step.text?'<div style="margin-top:8px">'+rt(step.text,true)+'</div>':'');
+    drawAreaGridCanvas(document.getElementById('ixAG'),3,5);
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+  agR:function(d){this._ag_r=Math.max(1,Math.min(8,this._ag_r+d));document.getElementById('agRval').textContent=this._ag_r;drawAreaGridCanvas(document.getElementById('ixAG'),this._ag_r,this._ag_c);},
+  agC:function(d){this._ag_c=Math.max(1,Math.min(12,this._ag_c+d));document.getElementById('agCval').textContent=this._ag_c;drawAreaGridCanvas(document.getElementById('ixAG'),this._ag_r,this._ag_c);},
+
+  // ── Interactive: Area Split (L-shape) ──
+  renderIXAreaSplit:function(step,cb){
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="game-card"><canvas id="ixAS" width="280" height="240" style="width:100%;max-width:280px"></canvas></div>'+(step.text?'<div style="margin-top:8px">'+rt(step.text,true)+'</div>':'');
+    drawAreaSplitCanvas(document.getElementById('ixAS'));
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+
+  // ── Interactive: Perimeter vs Area ──
+  renderIXPerimVsArea:function(step,cb){
+    document.getElementById('screen').innerHTML='<div class="instruction">'+rt(step.instruction,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="game-card"><canvas id="ixPV" width="320" height="180" style="width:100%;max-width:320px"></canvas></div>'+(step.text?'<div style="margin-top:8px">'+rt(step.text,true)+'</div>':'');
+    drawPerimVsAreaCanvas(document.getElementById('ixPV'));
+    document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
+  },
+
+  // ── Navigation ──
+  next:function(){
+    var step=NODES[this.nIdx].steps[this.sIdx];
+    if(step.t==='worked'&&this.weStepIdx>0&&this.weStepIdx<=step.we.steps.length){var prevStep=step.we.steps[this.weStepIdx-1];if(prevStep&&prevStep.check&&!this.weStepCheckPassed){if(!this.weStepCheckAnswered&&this.selStepOpt!=null){this.checkWEStepCheck();return;}if(this.weStepCheckAnswered&&!this.weStepCheckPassed){return;}if(!this.weStepCheckAnswered&&this.selStepOpt==null){return;}}}if(step.t==='worked'&&this.weStepIdx<step.we.steps.length){this.weStepCheckPassed=false;this.weStepCheckAnswered=false;this.selStepOpt=null;this.showNextWE(step.we,document.getElementById('continueBtn'));return;}if(step.t==='worked'&&this.weStepIdx>=step.we.steps.length&&step.we.check&&!this.weChecked){if(!this._weCheckRendered){this.showNextWE(step.we,document.getElementById('continueBtn'));return;}if(this._weCheckRendered&&!this.weCheckAnswered){this.checkWECheck();return;}if(this.weCheckAnswered&&!this.weChecked){return;}if(this.weChecked){var weOpts=this._weCheckOpts||step.we.check.opts;var weOpt=weOpts[this.selOpt];if(!weOpt){this.weChecked=false;return;}if(!weOpt.c)return;}}
+    if(step.t==='solve'){var sl=step.sl;if(this.solveStepIdx>=sl.steps.length){this.advance();return;}if(!this.solveAnswered){this.checkSolve();return;}var sStep=sl.steps[this.solveStepIdx],wasCorrect=false;if(sStep.type==='mcq'&&this.selOpt!=null){var slqOpts2=this._slqOpts||sStep.opts;wasCorrect=slqOpts2[this.selOpt].c;}else if(sStep.type==='input'){var inp=document.getElementById('slInput');wasCorrect=inp&&(inp.value.trim()===sStep.answer||inp.value.trim()===sStep.answer.replace(/\s/g,''));}if(!wasCorrect)return;this.solveStepIdx++;this.showSolveStep(sl,document.getElementById('continueBtn'));return;}
+    if(step.t==='quiz'&&!this.answered){this.checkQuiz();return;}
+    if(step.t==='quiz'&&this.answered){var qOpts=this._qOpts||step.q.opts;var opt=qOpts[this.selOpt];if(!opt||!opt.c)return;}
+    if(step.t==='vq'&&!this.answered){this.checkVQ();return;}
+    if(step.t==='vq'&&this.answered){var vqOpts=this._qOpts||step.q.opts;var opt2=vqOpts[this.selOpt];if(!opt2||!opt2.c)return;}
+    if(step.t==='progress'&&!step.next){this.nIdx=0;this.sIdx=0;this.tapCount=0;this.tapped={};this.weStepIdx=0;this.solveStepIdx=0;this.solveAnswered=false;this.answered=false;this.selOpt=null;this._qOpts=null;this._slqOpts=null;this.save();this.render();return;}
+    this.advance();
+  },
+  goBack:function(){if(this.sIdx>0){this.sIdx--;this.tapCount=0;this.tapped={};this.weStepIdx=0;this.solveStepIdx=0;this.solveAnswered=false;this.answered=false;this.selOpt=null;this._qOpts=null;this._slqOpts=null;this.save();this.render();return;}if(this.nIdx>0){this.nIdx--;this.sIdx=NODES[this.nIdx].steps.length-1;this.tapCount=0;this.tapped={};this.weStepIdx=0;this.solveStepIdx=0;this.solveAnswered=false;this.answered=false;this.selOpt=null;this._qOpts=null;this._slqOpts=null;this.save();this.render();return;}},
+  advance:function(){this.sIdx++;this.answered=false;this.selOpt=null;this.weStepIdx=0;this.weChecked=false;this.weCheckAnswered=false;this._weCheckRendered=false;this.weStepCheckPassed=false;this.weStepCheckAnswered=false;this.selStepOpt=null;this.solveStepIdx=0;this.solveAnswered=false;this._qOpts=null;this._slqOpts=null;if(this.sIdx>=NODES[this.nIdx].steps.length){this.nIdx++;this.sIdx=0;this.tapCount=0;this.tapped={};if(this.nIdx>=NODES.length){this.nIdx=NODES.length-1;this.sIdx=NODES[this.nIdx].steps.length-1;return;}}this.save();this.render();}
+};
+App.init();
+
+</script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html></script>
+</body>
+</html>

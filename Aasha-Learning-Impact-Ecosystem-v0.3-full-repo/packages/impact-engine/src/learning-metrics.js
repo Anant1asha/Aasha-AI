@@ -1,0 +1,1 @@
+export function learningOutcome(events){const attempted=events.filter(e=>e.type==='attempt');const mastered=events.filter(e=>e.type==='assessment'&&e.payload?.mastery);const unique=new Set(attempted.map(e=>e.payload?.nodeId));return {conceptsAttempted:unique.size,attempts:attempted.length,masteredConcepts:new Set(mastered.map(e=>e.payload.nodeId)).size};}

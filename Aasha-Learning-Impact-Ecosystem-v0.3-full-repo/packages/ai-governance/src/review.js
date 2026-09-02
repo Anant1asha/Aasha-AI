@@ -1,0 +1,1 @@
+export function approveProposal(proposal,{reviewerRole}){if(!['teacher','admin'].includes(reviewerRole))throw new Error('human education reviewer required');return {...proposal,status:'approved',reviewedByRole:reviewerRole,reviewedAt:new Date().toISOString()};}
