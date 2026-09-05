@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>LLE Demo — Language Layer Engine</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0f4ff;--surface:#fff;--text:#1e293b;--muted:#64748b;
+  --blue:#3b82f6;--blue-dk:#2563eb;--blue-lt:#dbeafe;
+  --green:#22c55e;--green-dk:#16a34a;--green-lt:#dcfce7;
+  --red:#ef4444;--red-lt:#fee2e2;
+  --amber:#f59e0b;--amber-lt:#fef3c7;
+  --purple:#8b5cf6;--purple-lt:#ede9fe;
+  --pink:#ec4899;--teal:#14b8a6;
+  --border:#e2e8f0;
+  --shadow:0 2px 8px rgba(0,0,0,.06);--shadow-lg:0 8px 24px rgba(0,0,0,.15);
+  --radius:16px;--radius-sm:12px;--radius-xs:8px;
+  --brand:#1e3a5f;--brand-lt:#2d5a8e;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.brand-header{background:linear-gradient(135deg,var(--brand),var(--brand-lt));padding:8px 14px;display:flex;align-items:center;gap:8px;color:#fff}
+.brand-logo{width:28px;height:28px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.brand-name{font-size:.9rem;font-weight:700;letter-spacing:-.02em}
+.brand-sub{font-size:.65rem;opacity:.7;font-weight:500}
+.content-area{flex:1;padding:16px 14px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.card{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.card-title{font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.input-box{width:100%;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:.95rem;font-family:var(--font);resize:vertical;min-height:80px;color:var(--text)}
+.input-box:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-lt)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:none;border-radius:var(--radius-sm);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:active{background:var(--blue-dk)}
+.btn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.output-area{background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;min-height:60px;margin-top:10px}
+.toolbar{display:flex;gap:6px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.stat{background:var(--blue-lt);color:var(--blue-dk);padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:700}
+.sample-text{color:var(--muted);font-size:.85rem;font-style:italic;margin-top:6px;cursor:pointer}
+.sample-text:hover{text-decoration:underline}
+.section-gap{height:8px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand-header">
+    <div class="brand-logo">🌐</div>
+    <div>
+      <div class="brand-name">LLE Demo</div>
+      <div class="brand-sub">Language Layer Engine · English → Hindi</div>
+    </div>
+  </div>
+
+  <div class="content-area">
+
+    <!-- Input card -->
+    <div class="card">
+      <div class="card-title">Enter English Text</div>
+      <textarea class="input-box" id="inputText" placeholder="Type any English sentence here...">History is the study of the past. It tells us about the people who lived before us, because history helps us understand our roots.</textarea>
+      <div class="sample-text" id="sample1">📚 Sample: History is the study of the past.</div>
+      <div class="sample-text" id="sample2">🔬 Sample: Water is important for all living things.</div>
+      <div class="sample-text" id="sample3">🏛️ Sample: Archaeological sources include coins and monuments.</div>
+      <div class="btn-row">
+        <button class="btn btn-blue" onclick="renderOutput()">Render → Hindi</button>
+        <div class="lle-toggle" id="toggleBtn" onclick="LLE.toggleAllHindi()" style="display:inline-flex;align-items:center;gap:6px;background:#f0f4ff;border:1px solid #e2e8f0;border-radius:20px;padding:8px 14px;font-size:.8rem;font-weight:600;color:#3b82f6;cursor:pointer;user-select:none">
+          <span>🌐</span><span class="lle-toggle-label">हिन्दी</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Output card -->
+    <div class="card">
+      <div class="card-title">Bilingual Output</div>
+      <div class="toolbar">
+        <span class="stat" id="wordCount">0 words</span>
+        <span class="stat" id="knownCount">0 known</span>
+        <span class="stat" id="dictStat">0 dict</span>
+      </div>
+      <div class="output-area" id="output">
+        <span style="color:var(--muted);font-size:.9rem">Click "Render → Hindi" to see the bilingual output...</span>
+      </div>
+    </div>
+
+    <!-- Unknown words card -->
+    <div class="card" id="unknownCard" style="display:none">
+      <div class="card-title">Words Not In Dictionary</div>
+      <div id="unknownList" style="font-size:.85rem;color:var(--muted);line-height:1.8"></div>
+    </div>
+
+    <!-- How it works card -->
+    <div class="card">
+      <div class="card-title">How It Works</div>
+      <div style="font-size:.85rem;line-height:1.8;color:var(--text)">
+        <p style="margin-bottom:8px"><strong style="color:var(--blue)">Blue underlined words</strong> are connectives (because, therefore, etc.) — their Hindi meaning is shown inline.</p>
+        <p style="margin-bottom:8px"><strong>Dotted-underlined words</strong> are regular words — tap/click any word to see its Hindi translation in a popup.</p>
+        <p>Toggle the <strong>🌐 हिन्दी</strong> button to show Hindi for every word at once.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- LLE Engine -->
+<script src="lle.js"></script>
+<script>
+LLE.init();
+
+// Wire up toggle button styling
+var toggleBtn = document.getElementById('toggleBtn');
+var originalToggle = LLE.toggleAllHindi;
+LLE.toggleAllHindi = function() {
+  originalToggle();
+  toggleBtn.classList.toggle('active');
+  toggleBtn.querySelector('.lle-toggle-label').textContent =
+    toggleBtn.classList.contains('active') ? 'हिन्दी चालू' : 'हिन्दी';
+};
+
+function renderOutput() {
+  var text = document.getElementById('inputText').value.trim();
+  if (!text) return;
+
+  var html = LLE.renderText(text);
+  document.getElementById('output').innerHTML = html;
+
+  // Stats
+  var words = text.match(/[a-zA-Z]+/g) || [];
+  var known = 0;
+  for (var w of words) {
+    if (LLE.lookup(w.toLowerCase())) known++;
+  }
+  document.getElementById('wordCount').textContent = words.length + ' words';
+  document.getElementById('knownCount').textContent = known + ' known';
+
+  var ds = LLE.dictSize();
+  document.getElementById('dictStat').textContent = ds.words + ' dict';
+
+  // Show unknown words
+  var unknown = [];
+  for (var w of words) {
+    if (!LLE.lookup(w.toLowerCase())) unknown.push(w.toLowerCase());
+  }
+  unknown = [...new Set(unknown)].sort();
+  if (unknown.length > 0) {
+    document.getElementById('unknownCard').style.display = '';
+    document.getElementById('unknownList').textContent = unknown.join(', ');
+  } else {
+    document.getElementById('unknownCard').style.display = 'none';
+  }
+}
+
+// Sample text buttons
+document.getElementById('sample1').addEventListener('click', function() {
+  document.getElementById('inputText').value = 'History is the study of the past. It tells us about the people who lived before us, because history helps us understand our roots.';
+  renderOutput();
+});
+document.getElementById('sample2').addEventListener('click', function() {
+  document.getElementById('inputText').value = 'Water is important for all living things. Plants and animals need water to live and grow. Without water, there is no life.';
+  renderOutput();
+});
+document.getElementById('sample3').addEventListener('click', function() {
+  document.getElementById('inputText').value = 'Archaeological sources include coins, monuments, and artifacts. Therefore, historians examine these remains to understand the past.';
+  renderOutput();
+});
+
+// Initial render
+renderOutput();
+
+// Update dict stat on load
+var ds = LLE.dictSize();
+document.getElementById('dictStat').textContent = ds.words + ' dict';
+</script>
+</body>
+</html>

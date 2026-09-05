@@ -383,10 +383,12 @@ function resolveChapterPath(filename) {
 }
 
 const targetFiles = [
-  resolveChapterPath('Fractions_Gamified_v5 (2).html'),
-  resolveChapterPath('Perimeter_Area_Gamified_v5 (2).html'),
-  resolveChapterPath('ComparingQuantities_Percentage_Class8_Gamified_v5 (1).html'),
-  resolveChapterPath('AlgebraicExpressions_Class8_Gamified_v5.html')
+  resolveChapterPath('Class5_Math_Ch01_Gamified.html'),
+  resolveChapterPath('Class5_Math_Ch02_Gamified.html'),
+  resolveChapterPath('Class6_Math_Ch01_Gamified.html'),
+  resolveChapterPath('Class6_Math_Ch02_Gamified.html'),
+  resolveChapterPath('Class8_Math_Ch01_Gamified.html'),
+  resolveChapterPath('Class8_Math_Ch02_Gamified.html')
 ];
 
 const results = runBatch(targetFiles);

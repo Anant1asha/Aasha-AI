@@ -92,59 +92,21 @@ An agent must immediately halt execution and request human product-owner interve
 
 ---
 
-## 6. Rigorous Reasoning & Verification Standard (Always-On)
+## 6. Truth-Seeking Epistemic Protocol & Response Standard
 
-For any complex, architectural, or fact-based task, all agents must execute this 7-step process:
+Every agent and reasoning assistant operating in this ecosystem must adhere to the 7-step truth-seeking reasoning protocol before generating answers:
 
-1. **BREAK IT DOWN**: Split requests into individual checkable claims or tasks.
-2. **SORT WHAT YOU KNOW**: Clearly separate verified facts, reasonable inferences, assumptions, opinions, and unknowns.
-3. **ANSWER WITHOUT GUESSING**: Never invent facts, sources, quotes, statistics, links, or details to fill a gap. If missing, state so plainly.
-4. **CHECK YOUR WORK**: Review for logical consistency, empirical evidence, completeness, and bias.
-5. **SCORE YOUR CONFIDENCE**: Assign an evidence-backed score from 0.0 to 1.0 based on verified proof, not persuasiveness.
-6. **REVISE IF UNSURE**: If confidence < 0.8, identify the weakest claims, rethink, and revise. If uncertainty remains unresolved, state what is missing instead of guessing.
-7. **BE HONEST ABOUT UNCERTAINTY**: Never present assumptions or unverified claims as confirmed facts.
+1. **BREAK IT DOWN**: Split the request into individual claims or questions that can each be evaluated independently.
+2. **SORT WHAT YOU KNOW**: Explicitly separate verified facts, reasonable inferences, assumptions, opinions, and unknowns.
+3. **ANSWER WITHOUT GUESSING**: Never invent facts, sources, quotes, statistics, links, or details. State omissions plainly.
+4. **CHECK YOUR WORK**: Audit for logical consistency, empirical accuracy, unstated bias, and context alignment.
+5. **SCORE YOUR CONFIDENCE**: Assign an objective confidence score from 0.0 to 1.0 based strictly on empirical evidence.
+6. **REVISE IF YOU ARE UNSURE**: If confidence is below 0.8, re-evaluate the weakest claims and surface gaps explicitly.
+7. **BE HONEST ABOUT UNCERTAINTY**: Never present an assumption or unverified prediction as fact.
 
-### Invariant Response Contract
-Every response to the Product Owner must be formatted with:
-- **Answer**: The clearest, most accurate answer possible.
-- **Confidence**: Score from 0.0 to 1.0 with a one-line evidence justification.
-- **Caveats**: Assumptions, missing information, conflicting evidence, or claims that still require verification.
+### Standard Output Format
+All assistant responses must conclude with or be structured around this three-part standard:
+- **Answer**: The clearest, most accurate answer based on verified evidence.
+- **Confidence**: A score from 0.0 to 1.0, with a concise rationale on why.
+- **Caveats**: Explicitly state assumptions, missing information, conflicting evidence, or claims that remain to be tested.
 
----
-
-## 7. Aasha Open-Source Educational Game Runtime Architecture
-
-Sourced from verified open-source educational game libraries (`jkanev/educational-html-games`, `abhas9/escape-run`, selected H5P mechanics, `gamedoh`, `90s-games`, `GameBox`, and `Math Rounds`):
-
-```text
-                      AASHA GAME RUNTIME
-                               │
-          ┌────────────────────┼────────────────────┐
-          ↓                    ↓                    ↓
-       RUNNER                MATCH               SIMULATE
-          ↓                    ↓                    ↓
-       PUZZLE                MEMORY                BUILD
-          ↓                    ↓                    ↓
-        MAP                  ESCAPE                DRAG
-                               │
-                               ↓
-                        LEARNING BLOCK
-                               │
-          ┌────────────────────┼────────────────────┐
-          ↓                    ↓                    ↓
-        Math                Science              Language
-          ↓                    ↓                    ↓
-       History              Geography             Civics
-                               ↓
-                         LEARNER MODEL
-                               ↓
-                        MASTERY / LOG
-```
-
-**Layer Allocation & Sourcing Hierarchy**:
-1. **Foundation**: `educational-html-games` + `escape-run` (ultra-light, single-canvas/SVG runner & puzzle loops).
-2. **Interaction Library**: Selected H5P mechanics (drag-sort, card pairing, hotspot discovery).
-3. **Advanced Canvas Mechanics**: `gamedoh` (lightweight game state patterns).
-4. **Mechanics Warehouse**: `90s-games` + `GameBox` (classic grid, tile-match, and falling block recipes).
-5. **Subject-Specific Seeds**: `Math Rounds` (timed arithmetic & mental fluency).
-6. **Later**: Phaser / heavy engines reserved ONLY if a complex simulation strictly cannot run in pure SVG/Canvas.
