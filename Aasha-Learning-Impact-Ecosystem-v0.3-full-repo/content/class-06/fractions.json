@@ -1,1 +1,174 @@
-{"schemaVersion":1,"id":"math6-fractions-beta","title":"Fractions — Understanding Parts","grade":6,"subject":"Mathematics","language":"hi-en","nodes":[{"id":"parts","title":"Fraction Parts","objective":"Identify a fraction as equal parts of a whole.","concept":"A fraction names part of a whole.","explanation":"The numerator tells how many equal parts we have. The denominator tells how many equal parts make the whole.","dependencies":[],"visual":{"type":"diagram","text":"Imagine a whole divided into equal parts."}},{"id":"equivalent","title":"Equivalent Fractions","objective":"Recognize two fractions that represent the same quantity.","concept":"Equivalent fractions name the same amount.","explanation":"For example, 1/2 and 2/4 represent the same part of a whole.","dependencies":["parts"],"visual":{"type":"diagram","text":"Split each half into two equal parts to see 2/4."}},{"id":"add","title":"Adding Fractions","objective":"Add fractions with the same denominator.","concept":"Keep the denominator and add the numerators.","explanation":"For same denominators: 1/5 + 2/5 = 3/5.","dependencies":["equivalent"],"visual":{"type":"manipulative","text":"Combine equal fifths into a larger collection of fifths."}}],"questions":[{"id":"q-parts-1","nodeId":"parts","prompt":"What does the denominator tell us?","options":["How many parts we have","How many equal parts make the whole","The total score","The numerator"],"answerIndex":1,"points":1},{"id":"q-equivalent-1","nodeId":"equivalent","prompt":"Which fraction is equivalent to 1/2?","options":["1/3","2/4","3/5","2/5"],"answerIndex":1,"points":1},{"id":"q-add-1","nodeId":"add","prompt":"What is 1/5 + 2/5?","options":["3/10","2/5","3/5","1/5"],"answerIndex":2,"points":1}]}
+{
+  "schemaVersion": 1,
+  "id": "math6-fractions-beta",
+  "title": "Fractions — Understanding Parts",
+  "grade": 6,
+  "subject": "Mathematics",
+  "language": "hi-en",
+  "nodes": [
+    {
+      "id": "parts",
+      "title": "Fraction Parts",
+      "objective": "Identify a fraction as equal parts of a whole.",
+      "concept": "A fraction names part of a whole.",
+      "explanation": "The numerator tells how many equal parts we have. The denominator tells how many equal parts make the whole.",
+      "dependencies": [],
+      "visual": {
+        "type": "diagram",
+        "total": 6,
+        "shaded": 2,
+        "interactive": true,
+        "text": "Tap segments to explore parts. In 2/6: 2 is the numerator (parts shaded) and 6 is the denominator (total equal parts)."
+      }
+    },
+    {
+      "id": "equivalent",
+      "title": "Equivalent Fractions",
+      "objective": "Recognize two fractions that represent the same quantity.",
+      "concept": "Equivalent fractions name the same amount.",
+      "explanation": "For example, 1/2 and 2/4 represent the exact same part of a whole.",
+      "dependencies": ["parts"],
+      "visual": {
+        "type": "diagram",
+        "total": 4,
+        "shaded": 2,
+        "interactive": true,
+        "text": "Shade 2 out of 4 parts (2/4). Notice that 2/4 covers the exact same area as 1/2 of the whole strip."
+      }
+    },
+    {
+      "id": "add",
+      "title": "Adding Fractions",
+      "objective": "Add fractions with the same denominator.",
+      "concept": "Keep the denominator and add the numerators.",
+      "explanation": "For same denominators: 1/5 + 2/5 = 3/5. The denominator stays 5 because the slice size does not change.",
+      "dependencies": ["equivalent"],
+      "visual": {
+        "type": "manipulative",
+        "total": 5,
+        "shaded": 3,
+        "interactive": true,
+        "text": "Combine 1 fifth and 2 fifths: 1/5 + 2/5 = 3/5. Tap to see 3 fifths shaded."
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "q-parts-1",
+      "nodeId": "parts",
+      "prompt": "What does the denominator tell us?",
+      "options": [
+        { "text": "How many parts we have selected", "misconceptionId": "confused_numerator_denominator", "feedback": "Remember: The TOP number (numerator) tells how many parts we have selected." },
+        { "text": "How many equal parts make the whole", "isCorrect": true, "feedback": "Correct! The denominator names the total equal divisions that make up the whole." },
+        { "text": "The total score of the lesson", "misconceptionId": "general_error", "feedback": "Denominator is a mathematical term for the bottom number of a fraction." },
+        { "text": "The unshaded parts only", "misconceptionId": "unshaded_parts_confusion", "feedback": "The denominator counts ALL equal parts together (shaded plus unshaded)." }
+      ],
+      "answerIndex": 1,
+      "points": 1
+    },
+    {
+      "id": "q-parts-2",
+      "nodeId": "parts",
+      "prompt": "If a paper strip is divided into 8 equal parts and 3 parts are colored blue, what fraction is colored?",
+      "options": [
+        { "text": "3/5", "misconceptionId": "ratio_shaded_to_unshaded", "feedback": "3/5 compares colored parts to uncolored parts. A fraction must compare colored parts to the WHOLE (8)." },
+        { "text": "3/8", "isCorrect": true, "feedback": "Correct! 3 colored parts over 8 total equal parts gives 3/8." },
+        { "text": "8/3", "misconceptionId": "inverted_fraction", "feedback": "Remember: The colored count goes on TOP (numerator) and total parts on the BOTTOM (denominator)." },
+        { "text": "5/8", "misconceptionId": "unshaded_fraction_selected", "feedback": "5/8 is the uncolored part. The question asked for the colored fraction (3/8)." }
+      ],
+      "answerIndex": 1,
+      "points": 1
+    },
+    {
+      "id": "q-parts-3",
+      "nodeId": "parts",
+      "prompt": "Why does cutting a shape into 4 pieces NOT always make fourths (1/4)?",
+      "options": [
+        { "text": "Because fractions only work with 2 pieces", "misconceptionId": "halves_limitation", "feedback": "Fractions can be divided into any number of parts, not just 2." },
+        { "text": "Because the 4 pieces must be strictly EQUAL in size", "isCorrect": true, "feedback": "Exactly! In fractions, every part must be identical in size to represent 1/4." },
+        { "text": "Because 4 is an even number", "misconceptionId": "parity_confusion", "feedback": "Even or odd numbers can both make fractions if the parts are equal." },
+        { "text": "Because 1 is smaller than 4", "misconceptionId": "general_error", "feedback": "In a proper fraction, the top number is naturally smaller than the bottom." }
+      ],
+      "answerIndex": 1,
+      "points": 1
+    },
+    {
+      "id": "q-equivalent-1",
+      "nodeId": "equivalent",
+      "prompt": "Which fraction represents the same quantity as 1/2?",
+      "options": [
+        { "text": "1/3", "misconceptionId": "same_numerator_assumption", "feedback": "1/3 is smaller than 1/2 because splitting a whole into 3 pieces makes each piece smaller." },
+        { "text": "2/4", "isCorrect": true, "feedback": "Correct! 2 out of 4 parts covers the exact same area as 1 out of 2 parts." },
+        { "text": "3/5", "misconceptionId": "unequal_equivalent", "feedback": "Half of 5 is 2.5, so 3/5 is more than half." },
+        { "text": "2/5", "misconceptionId": "unequal_equivalent", "feedback": "2/5 is less than half." }
+      ],
+      "answerIndex": 1,
+      "points": 1
+    },
+    {
+      "id": "q-equivalent-2",
+      "nodeId": "equivalent",
+      "prompt": "If you take 1/3 of a chocolate bar and split every piece in half, what fraction do you have?",
+      "options": [
+        { "text": "2/3", "misconceptionId": "doubled_numerator_only", "feedback": "When you split every piece in half, the total number of pieces doubles too!" },
+        { "text": "2/6", "isCorrect": true, "feedback": "Correct! 1 piece becomes 2, and 3 total pieces become 6: 1/3 = 2/6." },
+        { "text": "1/6", "misconceptionId": "halved_fraction", "feedback": "1/6 is the size of one small piece, but you have 2 of those pieces (2/6)." },
+        { "text": "2/5", "misconceptionId": "arbitrary_denominator", "feedback": "Doubling 3 pieces gives 6 pieces, not 5." }
+      ],
+      "answerIndex": 1,
+      "points": 1
+    },
+    {
+      "id": "q-equivalent-3",
+      "nodeId": "equivalent",
+      "prompt": "Which fraction is 4/8 in its simplest equivalent form?",
+      "options": [
+        { "text": "2/3", "misconceptionId": "subtraction_reduction", "feedback": "Divide numerator and denominator by 4; do not subtract." },
+        { "text": "1/2", "isCorrect": true, "feedback": "Correct! 4 is half of 8, so 4/8 simplifies directly to 1/2." },
+        { "text": "1/4", "misconceptionId": "denominator_halved", "feedback": "4/8 equals 2/4 or 1/2, not 1/4." },
+        { "text": "4/4", "misconceptionId": "unit_confusion", "feedback": "4/4 is one whole. 4/8 is one half." }
+      ],
+      "answerIndex": 1,
+      "points": 1
+    },
+    {
+      "id": "q-add-1",
+      "nodeId": "add",
+      "prompt": "What is 1/5 + 2/5?",
+      "options": [
+        { "text": "3/10", "misconceptionId": "added_denominators", "feedback": "Notice that the slice size remains fifths. Do not add denominators: 1/5 + 2/5 = 3/5." },
+        { "text": "2/5", "misconceptionId": "ignored_first_numerator", "feedback": "Remember to add both numerators: 1 + 2 = 3." },
+        { "text": "3/5", "isCorrect": true, "feedback": "Correct! When denominators are equal, keep the denominator and add numerators: 1/5 + 2/5 = 3/5." },
+        { "text": "1/5", "misconceptionId": "no_addition_performed", "feedback": "Combine both quantities together: 1 + 2 = 3 fifths." }
+      ],
+      "answerIndex": 2,
+      "points": 1
+    },
+    {
+      "id": "q-add-2",
+      "nodeId": "add",
+      "prompt": "A roti is divided into 8 equal parts. Simran eats 2/8 and Aman eats 3/8. How much did they eat in total?",
+      "options": [
+        { "text": "5/16", "misconceptionId": "added_denominators", "feedback": "The roti still has 8 total parts, not 16. They ate 2 + 3 = 5 parts out of 8." },
+        { "text": "5/8", "isCorrect": true, "feedback": "Correct! 2/8 + 3/8 = 5/8 of the roti." },
+        { "text": "6/8", "misconceptionId": "calculation_slip", "feedback": "Check your addition: 2 + 3 = 5, not 6." },
+        { "text": "1/8", "misconceptionId": "subtracted_instead_of_added", "feedback": "They ate the pieces together, so add the amounts." }
+      ],
+      "answerIndex": 1,
+      "points": 1
+    },
+    {
+      "id": "q-add-3",
+      "nodeId": "add",
+      "prompt": "When adding like fractions (such as 2/7 + 3/7), why does the denominator stay 7?",
+      "options": [
+        { "text": "Because the size of each equal part (sevenths) has not changed", "isCorrect": true, "feedback": "Brilliant! The denominator names the size of the piece (sevenths). Adding pieces changes only the count, not the piece size." },
+        { "text": "Because denominators can never be changed in mathematics", "misconceptionId": "rigid_rule_misconception", "feedback": "Denominators change when finding common denominators or multiplying." },
+        { "text": "Because the numerator is more important than denominator", "misconceptionId": "value_judgment_error", "feedback": "Both numerator and denominator are equally essential in defining a fraction." },
+        { "text": "Because addition only works on odd numbers", "misconceptionId": "parity_confusion", "feedback": "Addition operates identically on all numbers." }
+      ],
+      "answerIndex": 0,
+      "points": 1
+    }
+  ]
+}

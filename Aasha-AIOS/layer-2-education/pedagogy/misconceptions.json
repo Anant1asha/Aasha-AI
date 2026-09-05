@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "version": "1.0.0",
+  "classification_types": [
+    "KNOWN_MISCONCEPTION",
+    "GENERAL_ERROR",
+    "UNDIAGNOSED_SLIP",
+    "CORRECT"
+  ],
+  "domains": {
+    "perimeter_and_area": {
+      "MISC_PA_01": {
+        "id": "MISC_PA_01",
+        "name": "Perimeter-Area Conflation",
+        "description": "Student calculates area (length × breadth) when perimeter (2 × (l + b)) is requested, or vice versa.",
+        "type": "KNOWN_MISCONCEPTION",
+        "evidence_trigger": "Student chooses 6 × 3 = 18 when asked for area of a 6x3 rectangle, or confuses unit dimensions (cm vs sq cm).",
+        "scaffolding_guidance": "Anchor with boundary walk analogy: perimeter is the fence length; area is the grass inside."
+      },
+      "MISC_PA_02": {
+        "id": "MISC_PA_02",
+        "name": "Partial Boundary Summation",
+        "description": "Student adds only length and breadth (l + b) instead of all four sides 2 × (l + b).",
+        "type": "KNOWN_MISCONCEPTION",
+        "evidence_trigger": "Selecting 9 cm for a 6x3 rectangle instead of 18 cm.",
+        "scaffolding_guidance": "Remind that a rectangle has 4 sides total; two lengths and two breadths must be fenced."
+      },
+      "MISC_PA_03": {
+        "id": "MISC_PA_03",
+        "name": "Shape-Perimeter Conservation Fallacy",
+        "description": "Believing shapes with identical perimeter must always have identical area.",
+        "type": "KNOWN_MISCONCEPTION",
+        "evidence_trigger": "Believing a 5x3 rectangle (area 15) and a 4x4 square (area 16) have the same area because perimeter is 16.",
+        "scaffolding_guidance": "Show that squishing or stretching a boundary loop changes the interior capacity."
+      }
+    },
+    "algebraic_expressions": {
+      "MISC_ALG_01": {
+        "id": "MISC_ALG_01",
+        "name": "Sign Detachment from Coefficient",
+        "description": "Dropping the negative sign in front of a variable term when identifying numerical coefficients.",
+        "type": "KNOWN_MISCONCEPTION",
+        "evidence_trigger": "Reporting 5 as the coefficient of -5xy.",
+        "scaffolding_guidance": "The sign in front of a term belongs directly to its numerical coefficient factor."
+      },
+      "MISC_ALG_02": {
+        "id": "MISC_ALG_02",
+        "name": "Unlike Variable Concatenation / Conflation",
+        "description": "Attempting to add coefficients of unlike terms together (e.g. 3x + 4y = 7xy).",
+        "type": "KNOWN_MISCONCEPTION",
+        "evidence_trigger": "Combining unlike variables into a single product term upon addition.",
+        "scaffolding_guidance": "Like terms are items of the same fruit; 3 apples and 4 bananas cannot merge into 7 apple-bananas."
+      }
+    },
+    "electric_circuits": {
+      "MISC_CIRC_01": {
+        "id": "MISC_CIRC_01",
+        "name": "Unipolar Current Fallacy (Single Wire)",
+        "description": "Believing electricity flows from only one terminal into a device without needing a complete return loop to the other terminal.",
+        "type": "KNOWN_MISCONCEPTION",
+        "evidence_trigger": "Predicting a bulb will light with only one wire connecting the positive battery terminal to the bulb.",
+        "scaffolding_guidance": "Current requires an unbroken circular path (circuit) entering one terminal and returning through the other."
+      },
+      "MISC_CIRC_02": {
+        "id": "MISC_CIRC_02",
+        "name": "Fused Bulb Power Blindness",
+        "description": "Thinking a bulb will light if wires and battery are connected properly even when its internal filament is broken.",
+        "type": "KNOWN_MISCONCEPTION",
+        "evidence_trigger": "Assuming external switch closure guarantees lighting regardless of internal filament continuity.",
+        "scaffolding_guidance": "The tiny wire inside the bulb (filament) is part of the circuit path; if broken, the loop is open."
+      },
+      "MISC_CIRC_03": {
+        "id": "MISC_CIRC_03",
+        "name": "Universal Conductor Fallacy (Material Ignorance)",
+        "description": "Believing any solid object placed in the circuit gap will conduct electric current.",
+        "type": "KNOWN_MISCONCEPTION",
+        "evidence_trigger": "Predicting that plastic, rubber eraser, or dry wood will complete the circuit and turn on the bulb.",
+        "scaffolding_guidance": "Only conductors (metals like copper and iron) allow charges to pass; insulators block current flow."
+      }
+    }
+  }
+}
+

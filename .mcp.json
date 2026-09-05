@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "a11y-debugging": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-accessibility"]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    },
+    "memory-leak-debugging": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    }
+  }
+}

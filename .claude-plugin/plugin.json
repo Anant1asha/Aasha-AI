@@ -1,0 +1,12 @@
+{
+  "name": "aasha-edtech-plugin-pack",
+  "version": "1.0.0",
+  "description": "Local AI tools, skills, slash commands, and hooks for the Aasha EdTech Platform.",
+  "skills": [
+    "skills/chapter-isolation-verifier",
+    "skills/curriculum-alignment"
+  ],
+  "commands": [
+    "commands/create-chapter-template.md"
+  ]
+}

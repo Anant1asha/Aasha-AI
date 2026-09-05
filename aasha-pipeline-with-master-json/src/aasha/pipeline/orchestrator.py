@@ -389,6 +389,26 @@ class Orchestrator:
                                 concepts=concepts,
                             )
 
+                            # Map TEAS nodes and assign node_id
+                            nodes_map = []
+                            for i, concept in enumerate(concepts):
+                                nodes_map.append({"node_id": f"node_{i+1}", "concept": concept.get("name")})
+
+                            for level in ("warmup", "deep_dive", "boss"):
+                                for i, ex in enumerate(assessment_suite[level]):
+                                    if not ex.get("node_id"):
+                                        node_idx = (i % len(concepts)) + 1 if concepts else 1
+                                        ex["node_id"] = f"node_{node_idx}"
+
+                            manifest = {
+                                "subject": context["subject"],
+                                "grade": context["grade"],
+                                "nodes": nodes_map,
+                                "dependencies": [{"from": f"node_{i}", "to": f"node_{i+1}"} for i in range(1, len(nodes_map))]
+                            }
+                            with open(work_dir / "chapter_manifest.json", "w", encoding="utf-8") as f:
+                                json.dump(manifest, f, indent=2)
+
                             # Add summary stats
                             assessment_suite["total_xp"] = sum(
                                 ex.get("xp", 5) for level_list in assessment_suite.values()
@@ -436,8 +456,17 @@ class Orchestrator:
                                 log(f"  {entry}")
 
                     elif stage == "assemble":
-                        assembler = HTMLAssembler(str(self.template_path))
                         spec_path = work_dir / "chapter_spec.json"
+                        
+                        if spec_path.exists():
+                            from ..schemas.validator import validate_chapter_spec
+                            spec_data = json.loads(spec_path.read_text(encoding="utf-8"))
+                            val_result = validate_chapter_spec(spec_data)
+                            if not val_result.valid:
+                                error_msgs = "; ".join(val_result.errors)
+                                raise ValueError(f"Strict JSON schema validation failed: {error_msgs}")
+
+                        assembler = HTMLAssembler(str(self.template_path))
                         lle_path = work_dir / "lle.json"
                         html_path = work_dir / "chapter.html"
                         assembler.assemble_to_file(
@@ -489,7 +518,7 @@ class Orchestrator:
 
                         # Full-synthesis mode: also copy intermediate JSONs
                         if job.input.mode == "full-synthesis":
-                            for json_name in ("pedagogy_map.json", "experience_plan.json", "assessment_suite.json"):
+                            for json_name in ("pedagogy_map.json", "experience_plan.json", "assessment_suite.json", "chapter_manifest.json"):
                                 json_src = work_dir / json_name
                                 if json_src.exists():
                                     json_out = self.output_dir / f"{chapter_name}_{json_name}"

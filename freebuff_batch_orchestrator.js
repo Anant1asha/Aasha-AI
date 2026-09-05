@@ -148,14 +148,14 @@ console.log('\n' + '='.repeat(80));
 console.log(` SUMMARY: ${chapters.length - repairNeeded.length}/${chapters.length} Chapters Passed 100%`);
 console.log('='.repeat(80) + '\n');
 
-// 3. Generate Freebuff CLI Auto-Repair Prompts
+// 3. Generate AI Auto-Repair Prompts
 if (GEN_PROMPTS && repairNeeded.length > 0) {
-  console.log('GENERATING FREEBUFF CLI AUTO-REPAIR PLAYBOOK:\n');
-  const promptsDir = path.resolve(__dirname, 'freebuff_prompts');
+  console.log('GENERATING AI CLI AUTO-REPAIR PLAYBOOK:\n');
+  const promptsDir = path.resolve(__dirname, 'ai_prompts');
   fs.mkdirSync(promptsDir, { recursive: true });
 
   repairNeeded.forEach((item, idx) => {
-    const promptContent = `## Freebuff CLI Task: Auto-Repair Chapter ${item.filename}
+    const promptContent = `## AI CLI Task: Auto-Repair Chapter ${item.filename}
 
 You are working on the Aasha Foundation offline-first EdTech platform.
 Please repair the file "${item.filename}" to satisfy our L-Truth Benchmark and 10 Critical Rules:
@@ -179,7 +179,7 @@ node aasha-pipeline-with-master-json/qa/run_qa.js "${item.path}"
     console.log(`  [Prompt ${idx + 1}] Generated: ${path.relative(process.cwd(), promptFile)}`);
   });
 
-  console.log(`\nTo run repairs for free: Launch 'freebuff' in terminal and paste any generated prompt from 'freebuff_prompts/'\n`);
+  console.log(`\nTo run high-performance repairs: Launch Claude Code (npx @anthropic-ai/claude-code) and paste the generated prompt from 'ai_prompts/'\n`);
 } else if (repairNeeded.length === 0) {
   console.log('All chapters passed with 100/100 benchmark score! No repairs needed.\n');
 }

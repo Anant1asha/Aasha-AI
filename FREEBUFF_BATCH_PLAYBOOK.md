@@ -1,27 +1,27 @@
-# Freebuff CLI Batch Workflow Playbook (Grades 6–10)
+# AI CLI Batch Workflow Playbook (Grades 6–10)
 **Annanth Aasha Foundation — Zero-Cost Curriculum Transformation**
 
 ---
 
 ## 1. What This Workflow Does
-This playbook allows you to transform entire textbook PDF chapters (Grades 6 through 10) into fully gamified, offline HTML modules with interactive simulations, and automatically repair them without spending a single rupee on paid AI tokens.
+This playbook allows you to transform entire textbook PDF chapters (Grades 6 through 10) into fully gamified, offline HTML modules with interactive simulations, and automatically repair them.
 
-It pairs **Freebuff CLI** (which runs unlimited heavy coding tasks for free) with our automated **L-Truth Benchmark & QA Harness** (which checks every rule, spoiler, and formula in seconds).
+It pairs **Claude Code** (for high-performance tasks and complex logic) and **Freebuff CLI** (for standard bulk tasks) with our automated **L-Truth Benchmark & QA Harness** (which checks every rule, spoiler, and formula in seconds).
 
 ---
 
-## 2. Quick Setup & Context for Freebuff
-Whenever you open a new terminal window to work with Freebuff:
+## 2. Quick Setup & Context for Claude Code
+Whenever you open a new terminal window to work on high-performance tasks:
 1. Open your command terminal.
 2. Navigate to your project folder:
    ```bash
    cd "C:\Users\vanda\Downloads\ai tool build draft"
    ```
-3. Launch Freebuff:
+3. Launch Claude Code (Free OpenRouter Model):
    ```bash
-   freebuff
+   npx @anthropic-ai/claude-code
    ```
-4. Paste the standard Aasha project intro into Freebuff:
+4. Paste the standard Aasha project intro:
    > *This is the Aasha EdTech project — offline-first bilingual learning platform for Class 1-10, all Indian boards. Folders: chapters (offline HTML), server, dashboard, packages. Keep chapters fully self-contained, preserve LLE API (rt, applyLLE, showWord), enforce zero-spoiler misconceptions, and never break offline-first isolation.*
 
 ---
@@ -37,20 +37,20 @@ What this does:
 - Scans all HTML chapters in your folder.
 - Runs the 10 Critical QA Rules and the L-Truth Anti-Spoiler filter.
 - Prints a clear status report: **[PASSED]** or **[ACTION REQUIRED]**.
-- If any chapter has issues, it automatically creates a ready-to-paste repair prompt in the `freebuff_prompts/` folder.
+- If any chapter has issues, it automatically creates a ready-to-paste repair prompt in the `ai_prompts/` folder.
 
 ---
 
-### Step 2: Auto-Repairing Flagged Chapters in Freebuff
+### Step 2: Auto-Repairing Flagged Chapters
 If any chapter needs action:
-1. Open the generated prompt from the `freebuff_prompts/` folder (for example, `repair_AlgebraicExpressions.md`).
-2. Copy the contents and paste them directly into your running `freebuff` terminal session.
-3. Freebuff CLI will read the chapter, rewrite the misconceptions to be strictly Socratic, insulate math variables, and save the file.
+1. Open the generated prompt from the `ai_prompts/` folder.
+2. Copy the contents and paste them directly into your running `npx @anthropic-ai/claude-code` terminal session (for complex chapters) or `freebuff` (for simpler tasks).
+3. The AI CLI will read the chapter, rewrite the misconceptions to be strictly Socratic, insulate math variables, and save the file.
 
 ---
 
 ### Step 3: Verify the Fix
-After Freebuff finishes editing, verify the fix with a single command:
+After the AI finishes editing, verify the fix with a single command:
 ```bash
 node aasha-pipeline-with-master-json/qa/run_qa.js "<path-to-chapter.html>"
 ```

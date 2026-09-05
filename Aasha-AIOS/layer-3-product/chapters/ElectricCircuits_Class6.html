@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Aasha — Electric Circuits & Conductors (Science Class 6)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f172a;--surface:#1e293b;--surface-card:#334155;--text:#f8fafc;--muted:#94a3b8;
+  --blue:#38bdf8;--blue-dk:#0284c7;--blue-lt:#0c4a6e;
+  --green:#4ade80;--green-dk:#16a34a;--green-lt:#14532d;
+  --red:#f87171;--red-lt:#7f1d1d;
+  --amber:#facc15;--amber-lt:#713f12;
+  --purple:#c084fc;--purple-lt:#581c87;
+  --border:#475569;
+  --shadow:0 4px 12px rgba(0,0,0,.3);--shadow-lg:0 8px 24px rgba(0,0,0,.45);
+  --radius:16px;--radius-sm:12px;--radius-xs:8px;
+  --brand:#0284c7;--brand-lt:#0369a1;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+
+/* Brand Header */
+.brand-header{background:linear-gradient(135deg,var(--brand),var(--brand-lt));padding:8px 14px;display:flex;align-items:center;gap:10px;color:#fff}
+.brand-logo{width:36px;height:36px;flex-shrink:0}
+.brand-logo svg{width:100%;height:100%}
+.brand-info{flex:1;min-width:0}
+.brand-name{font-size:.85rem;font-weight:800;letter-spacing:.02em;line-height:1.2}
+.brand-name-hi{font-size:.72rem;opacity:.9;line-height:1.2}
+.brand-tagline{font-size:.65rem;opacity:.75;margin-top:1px}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.2);position:sticky;top:0;z-index:50}
+.exit-btn{background:none;border:none;font-size:16px;color:var(--muted);cursor:pointer;padding:4px;font-weight:bold}
+.progress-track{flex:1;height:10px;background:var(--surface-card);border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:10px;transition:width .4s ease;width:0}
+.stat{display:inline-flex;align-items:center;gap:3px;font-size:.72rem;font-weight:700;padding:3px 7px;border-radius:16px;white-space:nowrap}
+.stat.coins{color:var(--amber);background:rgba(250,204,21,0.15)}
+.stat.xp{color:var(--purple);background:rgba(192,132,252,0.15)}
+.stat.lvl{color:var(--blue);background:rgba(56,189,248,0.15)}
+
+/* Screen */
+.screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 14px 80px;min-height:calc(100vh - 120px);animation:slideIn .35s ease}
+@keyframes slideIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
+
+/* Instruction */
+.instruction{text-align:center;font-size:1.1rem;font-weight:800;color:#fff;margin:10px auto;padding:12px 18px;background:linear-gradient(135deg,var(--blue-lt),#1e293b);border:1px solid var(--blue);border-radius:14px;max-width:420px;box-shadow:var(--shadow);line-height:1.4}
+.hint{font-size:.72rem;color:var(--muted);text-align:center;margin:6px 0}
+
+/* LLE Text */
+.lle-text{font-size:1.05rem;line-height:2.4;color:var(--text);max-width:400px;margin:10px auto;text-align:left}
+.lle-text-sm{font-size:.9rem;line-height:2.0;color:var(--text);max-width:380px;margin:6px auto;text-align:left}
+.word{cursor:pointer;border-radius:3px;padding:0 2px;transition:background .15s;border-bottom:1px dotted var(--blue)}
+.word:hover{background:rgba(56,189,248,0.2)}
+.connective{color:var(--blue);font-weight:700;cursor:pointer;border-bottom:2px dotted var(--blue);padding:0 1px}
+.connective-hi{color:var(--purple);font-size:.85em;font-weight:600}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;max-width:400px;width:100%;margin:0 auto 8px;box-shadow:var(--shadow)}
+.card-caption{text-align:center;font-size:.78rem;color:var(--muted);margin-top:6px;line-height:1.4}
+
+/* Quiz */
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;padding:12px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;background:var(--surface)}
+.quiz-opt:hover{border-color:var(--blue)}
+.quiz-opt.selected{border-color:var(--blue);background:rgba(56,189,248,0.15)}
+.quiz-opt.correct{border-color:var(--green);background:rgba(74,222,128,0.15)}
+.quiz-opt.wrong{border-color:var(--red);background:rgba(248,113,113,0.15)}
+.quiz-radio{width:18px;height:18px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;margin-top:2px;transition:all .15s}
+.quiz-opt.selected .quiz-radio{border-color:var(--blue);background:var(--blue)}
+.quiz-opt.correct .quiz-radio{border-color:var(--green);background:var(--green)}
+.quiz-opt.wrong .quiz-radio{border-color:var(--red);background:var(--red)}
+.quiz-opt-text{flex:1;font-size:.9rem}
+
+/* Feedback */
+.feedback{padding:10px;border-radius:var(--radius-sm);margin:8px auto;max-width:380px;font-size:.85rem;text-align:center;font-weight:600}
+.feedback.ok{background:rgba(74,222,128,0.2);border:1px solid var(--green);color:var(--green)}
+.feedback.no{background:rgba(248,113,113,0.2);border:1px solid var(--red);color:var(--red)}
+.misconception{background:rgba(248,113,113,0.15);border:1px solid var(--red);border-radius:10px;padding:10px;margin:8px auto;max-width:380px;font-size:.8rem;color:#fca5a5;line-height:1.4}
+
+/* Worked Example */
+.we-step{padding:10px 12px;background:rgba(56,189,248,0.1);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;margin-bottom:6px}
+.we-step.green{background:rgba(74,222,128,0.1);border-left-color:var(--green)}
+.we-step.final{padding:10px;background:rgba(74,222,128,0.2);border:1.5px solid var(--green);border-radius:10px;margin-top:6px;text-align:center;font-weight:700;color:var(--green)}
+.we-num{display:inline-block;width:20px;height:20px;background:var(--blue);color:#0f172a;border-radius:50%;text-align:center;font-size:.7rem;font-weight:800;line-height:20px;margin-right:6px}
+
+/* Bottom Bar */
+.bottom-bar{position:sticky;bottom:0;left:0;right:0;background:var(--surface);padding:10px 16px;box-shadow:0 -2px 8px rgba(0,0,0,.3);z-index:50;display:flex;gap:8px}
+.btn{padding:12px;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--blue);color:#0f172a;flex:1}
+.btn-primary:hover{background:#7dd3fc}
+.btn-primary:disabled{background:#475569;cursor:not-allowed;color:#94a3b8}
+.btn-back{background:var(--surface-card);color:var(--muted);border:1px solid var(--border);padding:10px 14px;border-radius:12px;font-size:.85rem;font-weight:600;cursor:pointer}
+.btn-green{background:var(--green);color:#0f172a;flex:1}
+
+/* Dialog */
+dialog{border:none;border-radius:16px;padding:20px;max-width:300px;width:100%;text-align:center;box-shadow:var(--shadow-lg);color:var(--text);background:var(--surface);border:1px solid var(--border);margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(3px)}
+.dlg-word{font-size:1.4rem;font-weight:800;color:var(--blue)}
+.dlg-hindi{font-size:1.15rem;color:var(--purple);font-weight:600;margin-top:4px}
+.dlg-desc{font-size:.8rem;color:var(--muted);margin-top:8px;line-height:1.4}
+.dlg-btn{margin-top:14px;padding:8px 22px;background:var(--blue);color:#0f172a;border:none;border-radius:8px;font-weight:700;cursor:pointer}
+
+/* Simulation Controls */
+.sim-controls{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.sim-btn{padding:8px 14px;background:var(--surface-card);border:1px solid var(--border);border-radius:8px;color:#f8fafc;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s}
+.sim-btn:hover{border-color:var(--blue);background:var(--blue-lt)}
+.sim-btn.active{background:var(--blue);color:#0f172a;border-color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand-header">
+    <div class="brand-logo">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" fill="#0284c7"/>
+        <path d="M 50 15 L 30 55 L 50 55 L 45 85 L 75 45 L 55 45 Z" fill="#facc15"/>
+      </svg>
+    </div>
+    <div class="brand-info">
+      <div class="brand-name">Aasha Science · Interactive Lab</div>
+      <div class="brand-name-hi">आशा विज्ञान · प्रायोगिक प्रयोगशाला</div>
+      <div class="brand-tagline">NCERT Class 6 · Electricity and Circuits</div>
+    </div>
+  </div>
+
+  <div class="topbar">
+    <button class="exit-btn" onclick="App.exit()" title="Exit chapter">✕</button>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="stat coins" id="statCoins">🪙 <span id="coinCount">0</span></div>
+    <div class="stat xp" id="statXp">⭐ <span id="xpCount">0</span></div>
+    <div class="stat lvl" id="statLvl">Lvl <span id="lvlCount">1</span></div>
+  </div>
+
+  <div class="screen interaction-container" id="screen"></div>
+
+  <div class="bottom-bar" id="bottomBar">
+    <button class="btn-back" id="backBtn" onclick="App.goBack()" disabled>←</button>
+    <button class="btn btn-primary" id="continueBtn" onclick="App.next()">Start Lab →</button>
+    <button class="btn-back" id="skipBtn" onclick="App.skip()" style="display:none">Skip</button>
+  </div>
+</div>
+
+<dialog id="wordDialog">
+  <div class="dlg-word" id="dlgWord">Word</div>
+  <div class="dlg-hindi" id="dlgHindi">शब्द</div>
+  <div class="dlg-desc" id="dlgDesc">Explanation</div>
+  <button class="dlg-btn" onclick="document.getElementById('wordDialog').close()">OK</button>
+</dialog>
+
+<script>
+// ═══ BILINGUAL DICTIONARY (LLE) ═══
+var WM={
+  "circuit":"परिपथ (circuit) — an unbroken closed path through which electric current flows",
+  "battery":"सेल / बैटरी (battery) — source of electrical energy with positive and negative terminals",
+  "bulb":"बल्ब (bulb) — a light-emitting device containing a thin filament wire",
+  "switch":"स्विच (switch) — a mechanism that makes or breaks an electric circuit",
+  "filament":"तंतु (filament) — the thin tungsten wire inside a bulb that glows hot when current passes",
+  "conductor":"चालक (conductor) — material that allows electric current to pass through it freely (e.g. copper, iron)",
+  "insulator":"विद्युत-रोधी (insulator) — material that does not allow electric current to pass (e.g. rubber, wood, plastic)",
+  "current":"विद्युत धारा (electric current) — the flow of electric charges along a closed loop",
+  "terminal":"टर्मिनल (terminal) — connecting ends (+ positive and - negative) of an electrical component",
+  "closed":"बंद परिपथ (closed circuit) — complete unbroken loop allowing current to flow",
+  "open":"खुला परिपथ (open circuit) — broken loop stopping current flow"
+};
+
+var CONN={
+  "because":"क्योंकि",
+  "therefore":"इसलिए",
+  "when":"जब",
+  "if":"यदि",
+  "then":"तो",
+  "and":"और",
+  "but":"लेकिन"
+};
+
+function rt(text,isSm){
+  if(!text)return'';
+  var words=text.split(/(\s+|[.,!?:;()]+)/);
+  var out='';
+  for(var i=0;i<words.length;i++){
+    var w=words[i],clean=w.toLowerCase().trim();
+    if(CONN[clean]){
+      out+='<span class="connective" onclick="showWord(\''+clean+'\',\''+CONN[clean]+'\',\'Logical connective\')">'+w+'</span> <span class="connective-hi">('+CONN[clean]+')</span>';
+    }else if(WM[clean]){
+      var info=WM[clean];
+      var parts=info.split(' — ');
+      var hi=parts[0]||'';
+      var desc=parts[1]||'';
+      out+='<span class="word" onclick="showWord(\''+clean+'\',\''+hi.replace(/'/g,"\\'")+'\',\''+desc.replace(/'/g,"\\'")+'\')">'+w+'</span>';
+    }else{
+      out+=w;
+    }
+  }
+  return '<div class="'+(isSm?'lle-text-sm':'lle-text')+'">'+out+'</div>';
+}
+
+function showWord(w,hi,desc){
+  var dlg=document.getElementById('wordDialog');
+  document.getElementById('dlgWord').textContent=w;
+  document.getElementById('dlgHindi').textContent=hi||'';
+  document.getElementById('dlgDesc').textContent=desc||'';
+  if(!dlg.open)dlg.showModal();
+}
+
+function playTone(type){
+  // Web Audio chime for correct / wrong feedback
+}
+
+function fireConfetti(count){
+  // Reward particle effect
+}
+
+function bumpStat(id){
+  var el=document.getElementById(id);
+  if(el){ el.classList.add('bump'); setTimeout(function(){ el.classList.remove('bump'); }, 300); }
+}
+
+function calculateResistance(v, i){
+  return i > 0 ? (v / i) : 0;
+}
+
+
+// ═══ VISUAL COMPONENT: NATIVE SVG SIMULATION ENGINE ═══
+function renderCircuitSVG(container,state,onAction){
+  container.innerHTML='';
+  var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('viewBox','0 0 360 200');
+  svg.setAttribute('style','width:100%;height:auto;background:#090d16;border-radius:12px;user-select:none;');
+
+  var complete=state.switchClosed && state.filamentIntact && (state.materialType==='copper'||state.materialType==='iron');
+
+  // Title
+  var t=document.createElementNS('http://www.w3.org/2000/svg','text');
+  t.setAttribute('x','180');t.setAttribute('y','25');t.setAttribute('text-anchor','middle');
+  t.setAttribute('fill','#94a3b8');t.setAttribute('font-size','12');t.setAttribute('font-weight','700');
+  t.textContent='Electric Circuit: Battery, Switch & Test Material';
+  svg.appendChild(t);
+
+  // Battery
+  var battG=document.createElementNS('http://www.w3.org/2000/svg','g');
+  battG.innerHTML='<rect x="70" y="45" width="50" height="24" rx="4" fill="#334155" stroke="#64748b" stroke-width="2"/>'+
+                  '<rect x="120" y="52" width="6" height="10" fill="#e2e8f0"/>'+
+                  '<text x="95" y="62" text-anchor="middle" font-size="10" fill="#38bdf8" font-weight="bold">+  1.5V  -</text>';
+  svg.appendChild(battG);
+
+  // Switch
+  var swG=document.createElementNS('http://www.w3.org/2000/svg','g');
+  swG.setAttribute('cursor','pointer');
+  var swColor=state.switchClosed?'#4ade80':'#94a3b8';
+  var bladeX2=state.switchClosed?'270':'260';
+  var bladeY2=state.switchClosed?'57':'40';
+  swG.innerHTML='<circle cx="230" cy="57" r="5" fill="#cbd5e1"/>'+
+                '<circle cx="270" cy="57" r="5" fill="#cbd5e1"/>'+
+                '<line x1="230" y1="57" x2="'+bladeX2+'" y2="'+bladeY2+'" stroke="'+swColor+'" stroke-width="4" stroke-linecap="round"/>'+
+                '<text x="250" y="36" text-anchor="middle" font-size="10" fill="#94a3b8">Switch ('+(state.switchClosed?'CLOSED':'OPEN')+')</text>';
+  swG.addEventListener('click',function(){if(onAction)onAction('toggle_switch');});
+  svg.appendChild(swG);
+
+  // Material tester
+  var matG=document.createElementNS('http://www.w3.org/2000/svg','g');
+  matG.setAttribute('cursor','pointer');
+  var matFill='#b45309',matLabel='Copper (Conductor)';
+  if(state.materialType==='iron'){matFill='#475569';matLabel='Iron Nail (Conductor)';}
+  else if(state.materialType==='rubber'){matFill='#7f1d1d';matLabel='Rubber (Insulator)';}
+  else if(state.materialType==='wood'){matFill='#78350f';matLabel='Wood (Insulator)';}
+
+  matG.innerHTML='<rect x="130" y="148" width="100" height="24" rx="4" fill="'+matFill+'" stroke="#cbd5e1" stroke-width="1.5"/>'+
+                 '<text x="180" y="164" text-anchor="middle" font-size="10" font-weight="bold" fill="#ffffff">'+matLabel+'</text>';
+  matG.addEventListener('click',function(){if(onAction)onAction('cycle_material');});
+  svg.appendChild(matG);
+
+  // Bulb
+  var bulbG=document.createElementNS('http://www.w3.org/2000/svg','g');
+  var glowFill=complete?'rgba(250, 204, 21, 0.45)':'transparent';
+  var glassFill=complete?'#fef08a':'#1e293b';
+  var filColor=state.filamentIntact?(complete?'#eab308':'#64748b'):'#ef4444';
+  bulbG.innerHTML='<circle cx="300" cy="105" r="22" fill="'+glowFill+'"/>'+
+                  '<circle cx="300" cy="105" r="14" fill="'+glassFill+'" stroke="#64748b" stroke-width="2"/>'+
+                  '<path d="M 296 108 Q 300 97 304 108" fill="none" stroke="'+filColor+'" stroke-width="'+(complete?'3':'2')+'"/>';
+  svg.appendChild(bulbG);
+
+  // Wires
+  var wireColor=complete?'#38bdf8':'#475569';
+  var wireW=complete?'4':'3';
+  var paths=[
+    'M 70 57 L 40 57 L 40 160 L 130 160',
+    'M 230 160 L 300 160 L 300 120',
+    'M 300 90 L 300 57 L 270 57',
+    'M 230 57 L 126 57'
+  ];
+  for(var i=0;i<paths.length;i++){
+    var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d',paths[i]);p.setAttribute('fill','none');p.setAttribute('stroke',wireColor);
+    p.setAttribute('stroke-width',wireW);p.setAttribute('stroke-linecap','round');
+    svg.appendChild(p);
+  }
+
+  // Status text
+  var stat=document.createElementNS('http://www.w3.org/2000/svg','text');
+  stat.setAttribute('x','180');stat.setAttribute('y','192');stat.setAttribute('text-anchor','middle');
+  stat.setAttribute('font-size','11');stat.setAttribute('font-weight','700');
+  if(complete){
+    stat.setAttribute('fill','#4ade80');
+    stat.textContent='✓ Circuit Closed: Current flows, bulb glows brightly!';
+  }else{
+    stat.setAttribute('fill','#f87171');
+    if(!state.switchClosed)stat.textContent='✗ Open Circuit: Switch is open (gap in wire path).';
+    else if(state.materialType==='rubber'||state.materialType==='wood')stat.textContent='✗ Broken Path: '+state.materialType+' is an insulator.';
+    else if(!state.filamentIntact)stat.textContent='✗ Broken Bulb: Filament is fused.';
+  }
+  svg.appendChild(stat);
+
+  container.appendChild(svg);
+}
+
+// ═══ CHAPTER PEDAGOGY: WORKED EXAMPLES & SOLVE STEPS ═══
+var WE={
+  we_circuitLoop:{
+    title:"Understanding a Complete Circuit Loop",
+    question:"Why does a light bulb light up only when connected in a complete loop?",
+    steps:[
+      {text:"An electric cell (battery) has two terminals: positive (+) and negative (-).",c:"blue"},
+      {text:"Electric current travels out of one terminal, through the connecting wires and bulb filament, and returns to the opposite terminal.",c:"blue",check:{q:"Where must electric current return to?",opts:[{t:"The opposite terminal of the battery",c:true,m:""},{t:"Any single terminal",c:false,m:"Current cannot flow in or out of one terminal alone without returning."},{t:"The ground only",c:false,m:"A closed battery circuit requires both terminals connected."}]}},
+      {text:"If the switch is open or any wire is disconnected, the path breaks and current stops immediately.",c:"blue"},
+      {text:"Answer: Electric current requires an unbroken closed loop to flow.",c:"green",final:true}
+    ],
+    check:{
+      q:"What happens if a circuit is broken at any point?",
+      opts:[
+        {t:"Electric current stops and the bulb goes out",c:true,m:""},
+        {t:"The bulb keeps glowing from stored energy",c:false,m:"Electric circuits do not store current like a tank; flow halts the moment the loop opens."},
+        {t:"Current flows backwards",c:false,m:"A gap creates an open circuit with zero current flow."}
+      ]
+    }
+  },
+  we_conductors:{
+    title:"Testing Conductors vs Insulators",
+    question:"Why does a copper key turn the bulb ON, but a plastic pen cap leaves it OFF?",
+    steps:[
+      {text:"Materials differ in how easily electric charges can pass through them.",c:"blue"},
+      {text:"Conductors (such as copper, aluminum, and iron) have charges free to move, allowing electric current to pass.",c:"blue",check:{q:"Which of the following is a good electrical conductor?",opts:[{t:"Iron nail",c:true,m:""},{t:"Rubber eraser",c:false,m:"Rubber is an insulator and blocks current."}, {t:"Dry wood stick",c:false,m:"Wood does not conduct electricity under ordinary conditions."}]}},
+      {text:"Insulators (such as rubber, glass, dry wood, and plastic) tightly hold their charges and block current.",c:"blue"},
+      {text:"Answer: Copper is a conductor (completes the path); plastic is an insulator (blocks the path).",c:"green",final:true}
+    ],
+    check:{
+      q:"Why are electric wires covered with plastic or rubber coating?",
+      opts:[
+        {t:"Plastic is an insulator that protects us from electric shock",c:true,m:""},
+        {t:"Plastic makes electricity flow faster",c:false,m:"Insulators block current, they do not accelerate it."},
+        {t:"Plastic acts as a second battery",c:false,m:"Plastic is not a power source."}
+      ]
+    }
+  }
+};
+
+var SOLVE={
+  sl_unipolar:{
+    title:"Solve: Diagnosing a Broken Circuit",
+    question:"A student connects one wire from the positive terminal of a battery to a bulb. The bulb does not glow. Why?",
+    steps:[
+      {prompt:"What is required for electric current to flow from a battery?",type:"mcq",opts:[
+        {t:"A closed loop connecting both positive and negative terminals",c:true,m:""},
+        {t:"Only connection to the positive terminal",c:false,m:"Current cannot flow in a single direction without returning to the other terminal."},
+        {t:"A higher voltage battery",c:false,m:"Voltage is not the problem; an open circuit has zero flow regardless of battery size."}
+      ]},
+      {prompt:"What term describes this broken, incomplete path?",type:"mcq",opts:[
+        {t:"Open circuit (खुला परिपथ)",c:true,m:""},
+        {t:"Closed circuit (बंद परिपथ)",c:false,m:"A closed circuit is complete and continuous."},
+        {t:"Short circuit",c:false,m:"A short circuit has a low-resistance return path bypassing the load."}
+      ]},
+      {prompt:"What should the student do to make the bulb glow?",type:"mcq",opts:[
+        {t:"Connect a second wire from the bulb to the negative terminal",c:true,m:""},
+        {t:"Add more positive terminals",c:false,m:"Batteries have only two terminals: positive and negative."},
+        {t:"Turn the battery upside down",c:false,m:"Without a second return wire, reversing orientation will not complete the loop."}
+      ]}
+    ]
+  }
+};
+
+// ═══ CHAPTER NODES ═══
+var NODES=[
+  {
+    id:"n1",title:"Electric Circuit Basics",title_hi:"विद्युत परिपथ के मूल सिद्धांत",icon:"⚡",
+    steps:[
+      {t:"intro",title:"Electric Circuit Basics",sub:"विद्युत परिपथ के मूल सिद्धांत · Concept 1 of 4"},
+      {t:"text",title:"The Flow of Electricity",text:"An electric cell provides electrical energy. When (जब) we connect wires from the battery to a bulb in an unbroken loop, an electric current (विद्युत धारा) flows and illuminates the bulb."},
+      {t:"worked",we:WE.we_circuitLoop},
+      {t:"quiz",q:{q:"What are the two terminals of an electric cell?",opts:[
+        {t:"Positive (+) and Negative (-)",c:true,m:""},
+        {t:"North and South",c:false,m:"North and South are magnetic poles, not battery terminals."},
+        {t:"High and Low only",c:false,m:"Electric cells specifically have positive (+) and negative (-) terminals."},
+        {t:"Neutral and Ground only",c:false,m:"DC chemical cells have positive and negative terminals."}
+      ]}},
+      {t:"progress",tokens:10,xp:25,text:"You mastered the fundamentals of closed circuits!",next:"Interactive Circuit Lab"}
+    ]
+  },
+  {
+    id:"n2",title:"Interactive Circuit Lab",title_hi:"प्रायोगिक परिपथ प्रयोगशाला",icon:"🔬",
+    steps:[
+      {t:"intro",title:"Interactive Circuit Lab",sub:"प्रायोगिक परिपथ प्रयोगशाला · Concept 2 of 4"},
+      {t:"ix_sim",instruction:"Tap the Switch and Test Material to observe causality in real time!",text:"Notice that the bulb glows ONLY when (जब) the circuit is closed AND (और) the material is a conductor."},
+      {t:"solve",sl:SOLVE.sl_unipolar},
+      {t:"quiz",q:{q:"If a switch is open, what happens to the electric current?",opts:[
+        {t:"Current stops completely because the loop is broken",c:true,m:""},
+        {t:"Current jumps through the air",c:false,m:"Air is a good insulator at 1.5V; current cannot jump the gap."},
+        {t:"Current flows through only the battery",c:false,m:"Current cannot leave a battery terminal without a continuous return path."}
+      ]}},
+      {t:"progress",tokens:15,xp:30,text:"Great job experimenting with the circuit lab!",next:"Conductors & Insulators"}
+    ]
+  },
+  {
+    id:"n3",title:"Conductors & Insulators",title_hi:"चालक और विद्युत-रोधी",icon:"🔌",
+    steps:[
+      {t:"intro",title:"Conductors & Insulators",sub:"चालक और विद्युत-रोधी · Concept 3 of 4"},
+      {t:"text",title:"Materials and Electricity",text:"Materials that allow electric current to pass through them are called conductors (चालक). Materials that block electric current are called insulators (विद्युत-रोधी)."},
+      {t:"worked",we:WE.we_conductors},
+      {t:"quiz",q:{q:"Which item can you insert in the circuit gap to make the bulb glow?",opts:[
+        {t:"An iron key",c:true,m:""},
+        {t:"A plastic ruler",c:false,m:"Plastic is an insulator and will not allow current to pass."},
+        {t:"A wooden matchstick",c:false,m:"Dry wood is an insulator and blocks the electric circuit."},
+        {t:"A glass bead",c:false,m:"Glass is an electrical insulator."}
+      ]}},
+      {t:"progress",tokens:15,xp:30,text:"You now know how to distinguish conductors from insulators!",next:"Mastery Challenge"}
+    ]
+  },
+  {
+    id:"n4",title:"Mastery Challenge",title_hi:"दक्षता परीक्षा",icon:"🏆",
+    steps:[
+      {t:"intro",title:"Mastery Assessment",sub:"दक्षता परीक्षा · Final Concept"},
+      {t:"quiz",q:{q:"Why does a fused bulb fail to glow even in a closed circuit?",opts:[
+        {t:"Its internal filament is broken, leaving an open circuit",c:true,m:""},
+        {t:"The glass bulb has lost its transparency",c:false,m:"Transparency is not the issue; electricity cannot cross a severed filament wire."},
+        {t:"The battery automatically stops producing electricity",c:false,m:"The battery still has stored energy, but cannot deliver current through a broken path."}
+      ]}},
+      {t:"quiz",q:{q:"An electrician wears rubber gloves while repairing electric switches because (क्योंकि):",opts:[
+        {t:"Rubber is an insulator and prevents electric current from passing into the body",c:true,m:""},
+        {t:"Rubber conducts electricity smoothly",c:false,m:"Rubber is an insulator, which blocks current to prevent shock."},
+        {t:"Rubber keeps hands warm",c:false,m:"Safety from electric shock is the vital purpose."}
+      ]}},
+      {t:"progress",tokens:20,xp:50,text:"Congratulations! You mastered NCERT Class 6 Electric Circuits!",next:null}
+    ]
+  }
+];
+
+// ═══ APP RUNTIME CONTROLLER ═══
+var App={
+  nIdx:0,sIdx:0,coins:0,xp:0,level:1,
+  simState:{switchClosed:false,materialType:'copper',filamentIntact:true},
+  answered:false,selOpt:null,_qOpts:null,
+  weStepIdx:0,weChecked:false,weCheckAnswered:false,_weCheckRendered:false,weStepCheckPassed:false,weStepCheckAnswered:false,
+  solveStepIdx:0,solveAnswered:false,
+
+  init:function(){
+    try{
+      if(typeof window!=='undefined'&&window.localStorage){
+        var saved=window.localStorage.getItem('aasha_science_circuits');
+        if(saved){
+          var d=JSON.parse(saved);
+          if(d.nIdx<NODES.length){this.nIdx=d.nIdx;this.sIdx=d.sIdx||0;this.coins=d.coins||0;this.xp=d.xp||0;this.level=d.level||1;}
+        }
+      }
+    }catch(e){}
+    this.updateStats();
+    this.render();
+  },
+
+  save:function(){
+    try{
+      if(typeof window!=='undefined'&&window.localStorage){
+        window.localStorage.setItem('aasha_science_circuits',JSON.stringify({
+          nIdx:this.nIdx,sIdx:this.sIdx,coins:this.coins,xp:this.xp,level:this.level
+        }));
+      }
+    }catch(e){}
+  },
+
+  exit:function(){
+    this.nIdx=0;this.sIdx=0;this.coins=0;this.xp=0;this.level=1;
+    this.simState={switchClosed:false,materialType:'copper',filamentIntact:true};
+    this.save();this.updateStats();this.render();
+  },
+
+
+  skip:function(){
+    this.advance();
+  },
+
+  updateStats:function(){
+    document.getElementById('coinCount').textContent=this.coins;
+    document.getElementById('xpCount').textContent=this.xp;
+    this.level=Math.floor(this.xp/60)+1;
+    document.getElementById('lvlCount').textContent=this.level;
+    var totalSteps=0,curStep=0;
+    for(var i=0;i<NODES.length;i++){
+      if(i<this.nIdx)curStep+=NODES[i].steps.length;
+      else if(i===this.nIdx)curStep+=this.sIdx;
+      totalSteps+=NODES[i].steps.length;
+    }
+    var pct=Math.round((curStep/totalSteps)*100);
+    document.getElementById('progressFill').style.width=pct+'%';
+  },
+
+  render:function(){
+    var screen=document.getElementById('screen');
+    var cb=document.getElementById('continueBtn');
+    var bb=document.getElementById('backBtn');
+    var sb=document.getElementById('skipBtn');
+    bb.disabled=(this.nIdx===0&&this.sIdx===0);
+    sb.style.display='none';
+
+    var node=NODES[this.nIdx],step=node.steps[this.sIdx];
+
+    if(step.t==='intro'){
+      screen.innerHTML='<div style="font-size:3rem;margin-bottom:8px">'+node.icon+'</div>'+
+                       '<div style="font-size:1.3rem;font-weight:800;text-align:center">'+step.title+'</div>'+
+                       '<div style="font-size:.85rem;color:var(--muted);text-align:center;margin-top:4px">'+step.sub+'</div>';
+      cb.textContent='Start →';cb.disabled=false;
+    }else if(step.t==='text'){
+      screen.innerHTML='<div class="instruction">'+step.title+'</div>'+
+                       '<div class="card">'+rt(step.text)+'</div>';
+      cb.textContent='Continue →';cb.disabled=false;
+    }else if(step.t==='worked'){
+      this.renderWE(step.we,cb);
+    }else if(step.t==='ix_sim'){
+      sb.style.display='inline-block';
+      this.renderIXSim(step,cb);
+    }else if(step.t==='solve'){
+      this.renderSolve(step.sl,cb);
+    }else if(step.t==='quiz'){
+      this.renderQuiz(step,cb);
+    }else if(step.t==='progress'){
+      this.coins+=step.tokens;this.xp+=step.xp;
+      this.updateStats();this.save();
+      screen.innerHTML='<div style="font-size:3rem;text-align:center;margin-bottom:8px">🎉</div>'+
+                       '<div style="font-size:1.2rem;font-weight:800;text-align:center">'+rt(step.text)+'</div>'+
+                       '<div style="font-size:1.4rem;font-weight:800;color:var(--amber);text-align:center;margin-top:10px">+'+step.tokens+' 🪙  +'+step.xp+' ⭐</div>';
+      cb.textContent=step.next?'Next Concept →':'Finish Chapter 🏆';
+      cb.disabled=false;
+    }
+  },
+
+  renderIXSim:function(step,cb){
+    var self=this;
+    var html='<div class="instruction">'+step.instruction+'</div>'+
+             '<div class="card" id="simContainer"></div>'+
+             '<div class="sim-controls">'+
+             '<button class="sim-btn '+(this.simState.switchClosed?'active':'')+'" id="swBtn" onclick="App.simAction(\'toggle_switch\')">Toggle Switch</button>'+
+             '<button class="sim-btn" onclick="App.simAction(\'cycle_material\')">Change Material</button>'+
+             '<button class="sim-btn" onclick="App.simAction(\'toggle_filament\')">Toggle Filament</button>'+
+             '</div>'+
+             '<div class="card-caption" style="margin-top:8px">'+rt(step.text)+'</div>';
+    document.getElementById('screen').innerHTML=html;
+    renderCircuitSVG(document.getElementById('simContainer'),this.simState,function(act){self.simAction(act);});
+    cb.textContent='Continue →';cb.disabled=false;
+  },
+
+  simAction:function(act){
+    if(act==='toggle_switch')this.simState.switchClosed=!this.simState.switchClosed;
+    else if(act==='cycle_material'){
+      var seq=['copper','rubber','iron','wood'];
+      var idx=seq.indexOf(this.simState.materialType);
+      this.simState.materialType=seq[(idx+1)%seq.length];
+    }else if(act==='toggle_filament'){
+      this.simState.filamentIntact=!this.simState.filamentIntact;
+    }
+    var self=this;
+    renderCircuitSVG(document.getElementById('simContainer'),this.simState,function(a){self.simAction(a);});
+    var swBtn=document.getElementById('swBtn');
+    if(swBtn){
+      if(this.simState.switchClosed)swBtn.classList.add('active');
+      else swBtn.classList.remove('active');
+    }
+  },
+
+  renderWE:function(we,cb){
+    var stepsHtml='';
+    for(var i=0;i<this.weStepIdx;i++){
+      var s=we.steps[i];
+      stepsHtml+='<div class="we-step '+(s.final?'final':'')+'"><span class="we-num">'+(i+1)+'</span>'+rt(s.text)+'</div>';
+    }
+    var cur=we.steps[this.weStepIdx];
+    var checkHtml='';
+    if(cur && cur.check && !this.weStepCheckPassed){
+      this._weStepCheckOpts=cur.check.opts.slice().sort(function(){return Math.random()-0.5;});
+      checkHtml='<div style="margin-top:8px;font-weight:700;font-size:.9rem">'+cur.check.q+'</div>';
+      for(var j=0;j<this._weStepCheckOpts.length;j++){
+        checkHtml+='<div class="quiz-opt" id="wesco'+j+'" onclick="App.selWEStepCheck('+j+')">'+
+                   '<div class="quiz-radio"></div><div class="quiz-opt-text">'+this._weStepCheckOpts[j].t+'</div></div>';
+      }
+      checkHtml+='<div id="weStepFb"></div>';
+      cb.textContent='Check';cb.disabled=true;
+    }else if(this.weStepIdx>=we.steps.length && we.check && !this.weChecked){
+      this._weCheckRendered=true;
+      this._weCheckOpts=we.check.opts.slice().sort(function(){return Math.random()-0.5;});
+      checkHtml='<div style="margin-top:8px;font-weight:700;font-size:.9rem">'+we.check.q+'</div>';
+      for(var k=0;k<this._weCheckOpts.length;k++){
+        checkHtml+='<div class="quiz-opt" id="weco'+k+'" onclick="App.selWECheck('+k+')">'+
+                   '<div class="quiz-radio"></div><div class="quiz-opt-text">'+this._weCheckOpts[k].t+'</div></div>';
+      }
+      checkHtml+='<div id="weFb"></div>';
+      cb.textContent='Check';cb.disabled=true;
+    }else{
+      cb.textContent=(this.weStepIdx<we.steps.length)?'Next Step →':'Continue →';
+      cb.disabled=false;
+    }
+
+    document.getElementById('screen').innerHTML=
+      '<div class="instruction">'+we.title+'</div>'+
+      '<div class="card"><div style="font-weight:700;margin-bottom:8px">'+we.question+'</div>'+stepsHtml+checkHtml+'</div>';
+  },
+
+  selWEStepCheck:function(i){
+    if(this.weStepCheckAnswered)return;
+    this.selStepOpt=i;
+    var opts=document.querySelectorAll('.quiz-opt');
+    for(var j=0;j<opts.length;j++)opts[j].classList.remove('selected');
+    document.getElementById('wesco'+i).classList.add('selected');
+    document.getElementById('continueBtn').disabled=false;
+  },
+
+  checkWEStepCheck:function(){
+    var opt=this._weStepCheckOpts[this.selStepOpt];
+    this.weStepCheckAnswered=true;
+    var fb=document.getElementById('weStepFb');
+    if(opt.c){
+      fb.innerHTML='<div class="feedback ok">✓ Correct!</div>';
+      this.weStepCheckPassed=true;
+      document.getElementById('continueBtn').textContent='Next Step →';
+    }else{
+      var m=opt.m?'<div class="misconception">⚠ '+opt.m+'</div>':'';
+      fb.innerHTML='<div class="feedback no">✗ Not quite</div>'+m;
+      var self=this;
+      setTimeout(function(){
+        self.weStepCheckAnswered=false;self.selStepOpt=null;
+        var opts=document.querySelectorAll('.quiz-opt');
+        for(var k=0;k<opts.length;k++)opts[k].classList.remove('selected');
+        fb.innerHTML='';document.getElementById('continueBtn').disabled=true;
+      },3000);
+    }
+  },
+
+  selWECheck:function(i){
+    if(this.weCheckAnswered)return;
+    this.selOpt=i;
+    var opts=document.querySelectorAll('.quiz-opt');
+    for(var j=0;j<opts.length;j++)opts[j].classList.remove('selected');
+    document.getElementById('weco'+i).classList.add('selected');
+    document.getElementById('continueBtn').disabled=false;
+  },
+
+  checkWECheck:function(){
+    var opt=this._weCheckOpts[this.selOpt];
+    this.weCheckAnswered=true;
+    var fb=document.getElementById('weFb');
+    if(opt.c){
+      fb.innerHTML='<div class="feedback ok">✓ Mastered! +10 XP</div>';
+      this.weChecked=true;this.xp+=10;this.updateStats();
+      document.getElementById('continueBtn').textContent='Continue →';
+    }else{
+      var m=opt.m?'<div class="misconception">⚠ '+opt.m+'</div>':'';
+      fb.innerHTML='<div class="feedback no">✗ Not quite</div>'+m;
+      var self=this;
+      setTimeout(function(){
+        self.weCheckAnswered=false;self.selOpt=null;
+        var opts=document.querySelectorAll('.quiz-opt');
+        for(var k=0;k<opts.length;k++)opts[k].classList.remove('selected');
+        fb.innerHTML='';document.getElementById('continueBtn').disabled=true;
+      },3000);
+    }
+  },
+
+  renderSolve:function(sl,cb){
+    var cur=sl.steps[this.solveStepIdx];
+    var stepsHtml='';
+    for(var i=0;i<this.solveStepIdx;i++){
+      stepsHtml+='<div class="we-step green">✓ '+sl.steps[i].prompt+'</div>';
+    }
+
+    var qHtml='<div style="font-weight:700;margin:8px 0">'+cur.prompt+'</div>';
+    if(cur.type==='mcq'){
+      this._slqOpts=cur.opts.slice().sort(function(){return Math.random()-0.5;});
+      for(var j=0;j<this._slqOpts.length;j++){
+        qHtml+='<div class="quiz-opt" id="slco'+j+'" onclick="App.selSolve('+j+')">'+
+               '<div class="quiz-radio"></div><div class="quiz-opt-text">'+this._slqOpts[j].t+'</div></div>';
+      }
+    }
+    qHtml+='<div id="slFb"></div>';
+    document.getElementById('screen').innerHTML=
+      '<div class="instruction">'+sl.title+'</div>'+
+      '<div class="card"><div style="font-weight:700;margin-bottom:8px">'+sl.question+'</div>'+stepsHtml+qHtml+'</div>';
+
+    cb.textContent='Check';cb.disabled=true;
+  },
+
+  selSolve:function(i){
+    if(this.solveAnswered)return;
+    this.selOpt=i;
+    var opts=document.querySelectorAll('.quiz-opt');
+    for(var j=0;j<opts.length;j++)opts[j].classList.remove('selected');
+    document.getElementById('slco'+i).classList.add('selected');
+    document.getElementById('continueBtn').disabled=false;
+  },
+
+  checkSolve:function(){
+    var step=NODES[this.nIdx].steps[this.sIdx].sl.steps[this.solveStepIdx];
+    var opt=this._slqOpts[this.selOpt];
+    this.solveAnswered=true;
+    var fb=document.getElementById('slFb');
+    if(opt.c){
+      fb.innerHTML='<div class="feedback ok">✓ Correct!</div>';
+      document.getElementById('continueBtn').textContent='Next Step →';
+    }else{
+      var m=opt.m?'<div class="misconception">⚠ '+opt.m+'</div>':'';
+      fb.innerHTML='<div class="feedback no">✗ Review loop requirement</div>'+m;
+      var self=this;
+      setTimeout(function(){
+        self.solveAnswered=false;self.selOpt=null;
+        var opts=document.querySelectorAll('.quiz-opt');
+        for(var k=0;k<opts.length;k++)opts[k].classList.remove('selected');
+        fb.innerHTML='';document.getElementById('continueBtn').disabled=true;
+      },3000);
+    }
+  },
+
+  renderQuiz:function(step,cb){
+    this.selOpt=null;this.answered=false;
+    this._qOpts=step.q.opts.slice().sort(function(){return Math.random()-0.5;});
+    var optsHtml='';
+    for(var i=0;i<this._qOpts.length;i++){
+      optsHtml+='<div class="quiz-opt" id="qo'+i+'" onclick="App.selQuiz('+i+')">'+
+                '<div class="quiz-radio"></div><div class="quiz-opt-text">'+rt(this._qOpts[i].t,true)+'</div></div>';
+    }
+    document.getElementById('screen').innerHTML=
+      '<div class="instruction">'+rt(step.q.q)+'</div>'+
+      '<div style="max-width:380px;margin:0 auto;width:100%">'+optsHtml+'</div>'+
+      '<div id="qf"></div>';
+    cb.textContent='Check';cb.disabled=true;
+  },
+
+  selQuiz:function(i){
+    if(this.answered)return;
+    this.selOpt=i;
+    var opts=document.querySelectorAll('.quiz-opt');
+    for(var j=0;j<opts.length;j++)opts[j].classList.remove('selected');
+    document.getElementById('qo'+i).classList.add('selected');
+    document.getElementById('continueBtn').disabled=false;
+  },
+
+  checkQuiz:function(){
+    var opt=this._qOpts[this.selOpt];
+    this.answered=true;
+    var fb=document.getElementById('qf');
+    if(opt.c){
+      fb.innerHTML='<div class="feedback ok">✓ Correct! +10 XP</div>';
+      this.xp+=10;this.updateStats();
+      document.getElementById('continueBtn').textContent='Continue →';
+    }else{
+      var m=opt.m?'<div class="misconception">⚠ '+opt.m+'</div>':'';
+      fb.innerHTML='<div class="feedback no">✗ Not quite</div>'+m;
+      var self=this;
+      setTimeout(function(){
+        self.answered=false;self.selOpt=null;
+        var opts=document.querySelectorAll('.quiz-opt');
+        for(var k=0;k<opts.length;k++)opts[k].classList.remove('selected');
+        fb.innerHTML='';document.getElementById('continueBtn').textContent='Check';
+        document.getElementById('continueBtn').disabled=true;
+      },3000);
+    }
+  },
+
+  next:function(){
+    var node=NODES[this.nIdx],step=node.steps[this.sIdx];
+
+    if(step.t==='worked'){
+      var cur=step.we.steps[this.weStepIdx];
+      if(cur && cur.check && !this.weStepCheckPassed){
+        if(!this.weStepCheckAnswered && this.selStepOpt!=null){this.checkWEStepCheck();return;}
+        return;
+      }
+      if(this.weStepIdx<step.we.steps.length){
+        this.weStepIdx++;this.weStepCheckPassed=false;this.weStepCheckAnswered=false;this.selStepOpt=null;
+        this.renderWE(step.we,document.getElementById('continueBtn'));
+        return;
+      }
+      if(this.weStepIdx>=step.we.steps.length && step.we.check && !this.weChecked){
+        if(!this.weCheckAnswered && this.selOpt!=null){this.checkWECheck();return;}
+        return;
+      }
+      this.advance();
+      return;
+    }
+
+    if(step.t==='solve'){
+      var sl=step.sl;
+      if(!this.solveAnswered && this.selOpt!=null){this.checkSolve();return;}
+      if(this.solveAnswered){
+        this.solveStepIdx++;this.solveAnswered=false;this.selOpt=null;
+        if(this.solveStepIdx<sl.steps.length){
+          this.renderSolve(sl,document.getElementById('continueBtn'));
+          return;
+        }else{
+          this.advance();
+          return;
+        }
+      }
+      return;
+    }
+
+    if(step.t==='quiz'){
+      if(!this.answered){this.checkQuiz();return;}
+      var opt=this._qOpts[this.selOpt];
+      if(!opt||!opt.c)return;
+      this.advance();
+      return;
+    }
+
+    if(step.t==='progress'&&!step.next){
+      this.exit();
+      return;
+    }
+
+    this.advance();
+  },
+
+  goBack:function(){
+    if(this.sIdx>0){this.sIdx--;this.resetStepState();this.save();this.render();return;}
+    if(this.nIdx>0){this.nIdx--;this.sIdx=NODES[this.nIdx].steps.length-1;this.resetStepState();this.save();this.render();return;}
+  },
+
+  advance:function(){
+    this.sIdx++;this.resetStepState();
+    if(this.sIdx>=NODES[this.nIdx].steps.length){
+      this.nIdx++;this.sIdx=0;
+      if(this.nIdx>=NODES.length){this.nIdx=NODES.length-1;this.sIdx=NODES[this.nIdx].steps.length-1;return;}
+    }
+    this.save();this.render();
+  },
+
+  resetStepState:function(){
+    this.answered=false;this.selOpt=null;this._qOpts=null;
+    this.weStepIdx=0;this.weChecked=false;this.weCheckAnswered=false;this._weCheckRendered=false;
+    this.weStepCheckPassed=false;this.weStepCheckAnswered=false;this.selStepOpt=null;
+    this.solveStepIdx=0;this.solveAnswered=false;
+  }
+};
+
+window.NODES=NODES;
+window.WE=WE;
+window.WM=WM;
+window.CONN=CONN;
+window.App=App;
+App.init();
+</script>
+</body>
+</html>

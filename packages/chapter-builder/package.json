@@ -1,0 +1,26 @@
+{
+  "name": "chapter-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@cortex-js/compute-engine": "^0.121.0",
+    "@pie-framework/pie-player-components": "^3.17.1",
+    "cheerio": "^1.2.0",
+    "h5p-standalone": "^3.8.2",
+    "inline-source": "^8.0.3",
+    "jsxgraph": "^1.13.2",
+    "mathlive": "^0.110.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.110.3",
+    "webpack-cli": "^7.2.3"
+  }
+}
