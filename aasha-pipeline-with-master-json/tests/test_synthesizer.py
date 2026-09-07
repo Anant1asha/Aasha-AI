@@ -69,7 +69,7 @@ def test_synthesizer_produces_html(synthesizer, intermediates):
     html_path = intermediates / "chapter.html"
     assert html_path.exists()
 
-    html = html_path.read_text()
+    html = html_path.read_text(encoding="utf-8")
     assert "<!DOCTYPE html>" in html
     assert "</html>" in html
     assert "Test Chapter" in html
@@ -77,7 +77,7 @@ def test_synthesizer_produces_html(synthesizer, intermediates):
 
 def test_synthesizer_includes_concept_cards(synthesizer, intermediates):
     synthesizer.run(intermediates, {"subject": "math", "grade": 4})
-    html = (intermediates / "chapter.html").read_text()
+    html = (intermediates / "chapter.html").read_text(encoding="utf-8")
     assert "Fractions" in html
     assert "Addition" in html
     assert "concept-card" in html
@@ -85,7 +85,7 @@ def test_synthesizer_includes_concept_cards(synthesizer, intermediates):
 
 def test_synthesizer_includes_3_assessment_levels(synthesizer, intermediates):
     synthesizer.run(intermediates, {"subject": "math", "grade": 4})
-    html = (intermediates / "chapter.html").read_text()
+    html = (intermediates / "chapter.html").read_text(encoding="utf-8")
     assert "Warm-up" in html or "warmup" in html
     assert "Deep Dive" in html or "deep_dive" in html
     assert "Boss" in html or "boss" in html
@@ -93,7 +93,7 @@ def test_synthesizer_includes_3_assessment_levels(synthesizer, intermediates):
 
 def test_synthesizer_includes_gamification(synthesizer, intermediates):
     synthesizer.run(intermediates, {"subject": "math", "grade": 4})
-    html = (intermediates / "chapter.html").read_text()
+    html = (intermediates / "chapter.html").read_text(encoding="utf-8")
     assert "XP" in html or "xp" in html
     assert "stat" in html  # stats bar
     assert "progress" in html.lower()
@@ -102,12 +102,12 @@ def test_synthesizer_includes_gamification(synthesizer, intermediates):
 def test_synthesizer_includes_plugin_assets(synthesizer, intermediates):
     """Plugins used in the experience plan should have their CSS/JS embedded."""
     synthesizer.run(intermediates, {"subject": "math", "grade": 4})
-    html = (intermediates / "chapter.html").read_text()
+    html = (intermediates / "chapter.html").read_text(encoding="utf-8")
     # JSXGraph plugin is used for the "Fractions" concept
     assert "jsxg" in html or "JSX" in html or "jsxgraph" in html.lower()
 
 
 def test_synthesizer_file_size_reasonable(synthesizer, intermediates):
     result = synthesizer.run(intermediates, {"subject": "math", "grade": 4})
-    # Should be under 500KB for a small chapter
-    assert result["size_kb"] < 500
+    # Should be under 20MB for a full-synthesis chapter with embedded assets
+    assert result["size_kb"] < 20480

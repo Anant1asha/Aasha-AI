@@ -10,7 +10,11 @@ The user has explicitly set up Claude Code with OpenRouter (using the free model
 4. **Evolving the TEAS Engine & L-Truth Benchmarks:** Tweaking complex logic like the TEAS engine (60% historical + 40% recent accuracy) and L-Truth anti-spoiler benchmarks requires advanced logic and edge-case detection. Claude is much better equipped to write and refine these core evaluation scripts.
 5. **Cross-File Refactoring:** When updating core `packages` (like chapter-builder or test-harness) in a way that affects multiple files across the repository, Claude Code can hold more context and understand how a change in a package will impact the React dashboard and the Fastify server simultaneously.
 
-## When to use Freebuff:
-- **Bulk, Repetitive Tasks:** Keep using Freebuff for grammar checks, simple formatting, or basic text extraction across hundreds of chapters.
+## When to use Freebuff & OpenRouter Agents:
+- **Freebuff (CLI):** Keep using Freebuff as an essential open-source local tool for grammar checks, simple formatting, or basic text extraction across hundreds of chapters. It provides free, local bucket-compute without API dependencies.
+- **OpenRouter Multi-Agent Workflow:** For the pipeline stages (Content Analysis, Learning Design, Assessment, Translation), use the Node.js `agent_orchestrator.ts`. This routes specific agent tasks (e.g., `Translator`, `Assessor`) through `openrouter/auto` (or `openrouter/free`) to leverage top open-source models for free, removing full reliance on paid APIs like Google Gemini.
 
-**Summary:** Switch strictly to Claude Code for any task that involves core logic, complex interactive JavaScript, backend architecture, or modern React UI development. Use Freebuff only for bulk, repetitive tasks.
+**Summary:** 
+- Use **Claude Code** for complex React/Fastify logic and advanced interactive JavaScript.
+- Use **OpenRouter Multi-Agent (via agent_orchestrator.ts)** for the automated chapter pipeline stages using free models.
+- Use **Freebuff** for local bulk, repetitive text-editing tasks.

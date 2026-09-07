@@ -8,7 +8,10 @@ from aasha.agents import LLEAgent
 from aasha import manage_dictionary
 
 
-def make_mock_llm():
+import pytest
+
+@pytest.fixture
+def mock_llm():
     llm = MagicMock()
     llm.cost_estimate = 0.01
     return llm

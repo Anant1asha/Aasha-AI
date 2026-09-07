@@ -36,7 +36,7 @@ export async function getOpenRouterCompletion(request: OpenRouterRequest): Promi
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: request.model || 'openai/gpt-4o',
+      model: request.model || 'openrouter/auto', // Routing to best models via openrouter
       messages: request.messages,
     }),
   });

@@ -58,13 +58,13 @@ def test_analysis_agent_run(mock_llm, work_dir):
     agent = AnalysisAgent(mock_llm)
     result = agent.run(work_dir, {"subject": "math", "grade": 4})
 
-    assert (work_dir / "content_map.json").exists()
+    assert (work_dir / "pedagogy_map.json").exists()
     assert result["concept_count"] == 3
     mock_llm.complete.assert_called_once()
 
 
 def test_design_agent_creates_structure(mock_llm, work_dir):
-    # Set up content_map.json
+    # Set up pedagogy_map.json
     content_map = {
         "chapter_title": "Fractions",
         "concepts": [
@@ -77,7 +77,7 @@ def test_design_agent_creates_structure(mock_llm, work_dir):
         "visual_opportunities": [{"concept": "Parts of a whole", "suggested_model": "pizza"}],
         "vocabulary": ["fraction"],
     }
-    with open(work_dir / "content_map.json", "w") as f:
+    with open(work_dir / "pedagogy_map.json", "w", encoding="utf-8") as f:
         json.dump(content_map, f)
 
     mock_llm.complete.return_value = {
@@ -123,7 +123,7 @@ def test_design_agent_creates_structure(mock_llm, work_dir):
     result = agent.run(work_dir, {"subject": "math", "grade": 4})
 
     assert (work_dir / "chapter_spec.json").exists()
-    with open(work_dir / "chapter_spec.json") as f:
+    with open(work_dir / "chapter_spec.json", encoding="utf-8") as f:
         spec = json.load(f)
 
     assert len(spec["NODES"]) == 3
@@ -150,9 +150,9 @@ def test_assessment_agent_fills_opts(mock_llm, work_dir):
             {"title": "N3", "steps": [{"t": "progress", "xp": 10}]},
         ],
     }
-    with open(work_dir / "chapter_spec.json", "w") as f:
+    with open(work_dir / "chapter_spec.json", "w", encoding="utf-8") as f:
         json.dump(spec, f)
-    with open(work_dir / "content_map.json", "w") as f:
+    with open(work_dir / "pedagogy_map.json", "w", encoding="utf-8") as f:
         json.dump({"concepts": []}, f)
 
     mock_llm.complete.return_value = {
@@ -169,7 +169,7 @@ def test_assessment_agent_fills_opts(mock_llm, work_dir):
     agent = AssessmentAgent(mock_llm)
     result = agent.run(work_dir, {"grade": 4, "subject": "math"})
 
-    with open(work_dir / "chapter_spec.json") as f:
+    with open(work_dir / "chapter_spec.json", encoding="utf-8") as f:
         updated_spec = json.load(f)
 
     opts = updated_spec["NODES"][0]["steps"][0]["q"]["opts"]
