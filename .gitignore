@@ -17,6 +17,9 @@ venv/
 .env
 .env.local
 
+# Router: daily usage tracking (auto-generated, resets daily)
+router_usage.json
+
 # IDE and OS
 .vscode/
 .idea/

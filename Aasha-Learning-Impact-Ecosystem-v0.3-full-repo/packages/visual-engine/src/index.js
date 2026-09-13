@@ -1,9 +1,41 @@
+const customRenderers = new Map();
+
+export function registerVisualRenderer(type, renderer){
+  if (typeof renderer === 'function') {
+    customRenderers.set(type, renderer);
+  }
+}
+
 export function generateVisualHtml(spec = {}){
   const type = spec.type ?? 'card';
+  if (customRenderers.has(type)) {
+    const custom = customRenderers.get(type);
+    if (typeof custom.html === 'function') return custom.html(spec);
+  }
   if (type === 'grid-area' || type === 'perimeter-grid') {
     return generateGridAreaHtml(spec);
   }
+  if (type === 'canvas' || type === 'simulation') {
+    return generateCanvasHtml(spec);
+  }
   return generateFractionBarHtml(spec);
+}
+
+function generateCanvasHtml(spec = {}){
+  const width = spec.width ?? 320;
+  const height = spec.height ?? 200;
+  const title = spec.title ?? '';
+  const text = spec.text ?? '';
+  const id = spec.id ?? `simCanvas_${Math.random().toString(36).slice(2, 7)}`;
+  return `
+    <div class="aasha-visual aasha-visual-canvas" role="region" aria-label="${escapeHtml(title || 'Interactive Visual')}">
+      ${title ? `<strong class="visual-title" style="display:block; margin-bottom: 6px; font-size: 1.05rem;">${escapeHtml(title)}</strong>` : ''}
+      <div class="visual-model-wrapper" style="text-align: center; margin: 8px 0;">
+        <canvas id="${id}" class="canvas-visual" width="${width}" height="${height}" style="max-width: 100%; border-radius: 8px; border: 1px solid #e2e8f0; display: block; margin: 0 auto;"></canvas>
+      </div>
+      ${text ? `<div class="visual-text" style="font-size: 0.95rem; line-height: 1.5; color: #334155; margin-top: 6px;">${escapeHtml(text)}</div>` : ''}
+    </div>
+  `.trim();
 }
 
 function generateFractionBarHtml(spec = {}){
@@ -125,7 +157,16 @@ export function renderVisual(target, spec = {}){
     const container = temp.firstElementChild;
 
     const type = spec.type ?? 'card';
-    if (type === 'grid-area' || type === 'perimeter-grid') {
+    if (customRenderers.has(type)) {
+      const custom = customRenderers.get(type);
+      if (typeof custom === 'function') custom(container, spec);
+      else if (typeof custom.mount === 'function') custom.mount(container, spec);
+    } else if (type === 'canvas' || type === 'simulation' || typeof spec.render === 'function') {
+      const canvas = container.querySelector('canvas');
+      if (canvas && typeof spec.render === 'function') {
+        spec.render(canvas, spec);
+      }
+    } else if (type === 'grid-area' || type === 'perimeter-grid') {
       setupGridInteraction(container, spec);
     } else {
       setupFractionInteraction(container, spec);
@@ -186,6 +227,27 @@ function setupGridInteraction(container, spec){
   const unit = spec.unit ?? 'cm';
 
   const cells = container.querySelectorAll('.grid-cell');
+
+    // Initial animation
+  let currentAnimatedCols = 0;
+  const animInterval = setInterval(() => {
+    if(currentAnimatedCols >= currentCols) {
+      clearInterval(animInterval);
+      return;
+    }
+    currentAnimatedCols++;
+    cells.forEach(c => {
+      const r = Number(c.dataset.row);
+      const col = Number(c.dataset.col);
+      const isFilled = r < currentRows && col < currentAnimatedCols;
+      c.setAttribute('fill', isFilled ? '#3b82f6' : '#f8fafc');
+      c.setAttribute('stroke', isFilled ? '#1d4ed8' : '#cbd5e1');
+      c.setAttribute('stroke-width', isFilled ? '2' : '1');
+      c.setAttribute('aria-pressed', String(isFilled));
+      c.classList.toggle('shaded', isFilled);
+      c.classList.toggle('unshaded', !isFilled);
+    });
+  }, 100);
 
   const updateGrid = (newR, newC) => {
     currentRows = newR;

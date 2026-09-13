@@ -1,3 +1,4 @@
+import 'dotenv/config';
 export interface OpenRouterMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;

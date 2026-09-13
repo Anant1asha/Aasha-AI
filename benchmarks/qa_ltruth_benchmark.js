@@ -11,6 +11,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { QuestionSchemaValidator } = require('./question_schema_validator');
 
 class ChapterAuditor {
   constructor(filePath) {
@@ -114,6 +115,37 @@ class ChapterAuditor {
       });
     }
 
+    // Collect checks from DOM quiz-cards in HTML (e.g. Gamified assessments #section-warmup, deep_dive, boss)
+    const cardSplit = this.content.split(/<div[^>]*class=["'][^"']*quiz-card[^"']*["']/i);
+    for (let c = 1; c < cardSplit.length; c++) {
+      const cardHtml = cardSplit[c];
+      const idMatch = cardHtml.match(/^[^>]*id=["']([^"']+)["']/i);
+      const qId = idMatch ? idMatch[1] : `DOM_Card_${c}`;
+
+      const qTextMatch = cardHtml.match(/<div[^>]*class=["']quiz-question["'][^>]*>([\s\S]*?)<\/div>/i);
+      const qText = qTextMatch ? qTextMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+
+      const domOpts = [];
+      const optSplit = cardHtml.split(/<div[^>]*class=["'][^"']*quiz-opt[^"']*["']/i);
+      for (let o = 1; o < optSplit.length; o++) {
+        const optChunk = optSplit[o];
+        const mMatch = optChunk.match(/data-m=(?:"([^"]*)"|'([^']*)')/i);
+        const m = mMatch ? (mMatch[1] !== undefined ? mMatch[1] : mMatch[2]).replace(/&quot;/g, '"').replace(/&#39;/g, "'") : '';
+        const onclickMatch = optChunk.match(/onclick=(?:"([^"]*)"|'([^']*)')/i);
+        const onclick = onclickMatch ? (onclickMatch[1] !== undefined ? onclickMatch[1] : onclickMatch[2]) : '';
+        const isCorrect = /,\s*true\b/i.test(onclick) || /data-correct=["']true["']/i.test(optChunk);
+        const textMatch = optChunk.match(/<span[^>]*class=["']quiz-opt-text["'][^>]*>([\s\S]*?)<\/span>/i);
+        const t = textMatch ? textMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+        if (t) {
+          domOpts.push({ t, c: isCorrect, m });
+        }
+      }
+
+      if (domOpts.length >= 2) {
+        allChecks.push({ context: `Gamified Assessment '${qId}'`, check: { q: qText, opts: domOpts } });
+      }
+    }
+
     this.stats.totalQuestions = allChecks.length;
 
     allChecks.forEach(({ context, check }) => {
@@ -127,61 +159,28 @@ class ChapterAuditor {
         return;
       }
 
-      const correctText = String(correctOpts[0].t || correctOpts[0].answer || '').trim();
-      const correctLower = correctText.toLowerCase();
+      const correctOpt = correctOpts[0];
 
       opts.forEach((opt, optIdx) => {
         if (!opt || opt.c === true) return;
         this.stats.totalMisconceptions++;
-        const mText = (opt.m || '').trim();
 
-        if (!mText) {
-          this.stats.missingMisconceptions++;
-          this.failedChecks.push(`Rule #1 Violation: ${context} Option ${optIdx + 1} is missing misconception explanation ('m' field is empty).`);
-          return;
-        }
-
-        const mLower = mText.toLowerCase();
-        let revealed = false;
-        let reason = '';
-
-        // 1. Explicit numerical values from the correct answer
-        const nums = correctLower.match(/-?\d+(?:\.\d+)?/g) || [];
-        for (const n of nums) {
-          // Detect patterns like "= -5", "is -1", "result is 15", "not +5, but -5"
-          const numRegex = new RegExp(`(?:is|=|giving|becomes|, not \\+?)\\s*${n.replace('-', '\\-')}\\b`, 'i');
-          if (numRegex.test(mText)) {
-            revealed = true;
-            reason = `Explicitly gives target answer '${n}' in explanation: "${mText}"`;
-            break;
+        const distractorErrors = QuestionSchemaValidator.validateDistractor(opt, correctOpt, context, optIdx);
+        distractorErrors.forEach(err => {
+          if (err.ruleId.includes('MISSING_MISCONCEPTION')) {
+            this.stats.missingMisconceptions++;
+            this.failedChecks.push(`Rule #1 Violation: ${context} Option ${optIdx + 1} is missing misconception explanation ('m' field is empty).`);
+          } else if (err.ruleId.includes('SPOILER')) {
+            this.stats.spoilerViolations++;
+            this.failedChecks.push(`Rule #1 Spoiler in ${context} [Wrong Option: '${opt.t || ''}']: ${err.message}`);
+          } else if (err.ruleId.includes('LOW_QUALITY')) {
+            this.failedChecks.push(`Pedagogical Quality Violation in ${context} [Wrong Option: '${opt.t || ''}']: ${err.message}`);
+            this.stats.ruleViolations++;
+          } else {
+            this.failedChecks.push(`Validation Error in ${context}: ${err.message}`);
+            this.stats.ruleViolations++;
           }
-        }
-
-        // 2. Algebraic expressions in correct answer
-        if (!revealed && correctLower.length > 3) {
-          // Check for exact expression leaks
-          if (mLower.includes(correctLower)) {
-            revealed = true;
-            reason = `Verbatim contains target answer phrase '${correctText}'`;
-          }
-        }
-
-        // 3. Common revealing phrasing
-        if (!revealed) {
-          const spoilerTriggers = ['the result is', 'the correct answer is', 'leaving no', 'sum is', 'product is'];
-          for (const st of spoilerTriggers) {
-            if (mLower.includes(st) && nums.some(n => mLower.includes(n))) {
-              revealed = true;
-              reason = `Contains spoiler phrase '${st}' with answer value`;
-              break;
-            }
-          }
-        }
-
-        if (revealed) {
-          this.stats.spoilerViolations++;
-          this.failedChecks.push(`Rule #1 Spoiler in ${context} [Wrong Option: '${opt.t || ''}']: ${reason}`);
-        }
+        });
       });
     });
 
@@ -372,6 +371,7 @@ function runBatch(filePaths) {
 function resolveChapterPath(filename) {
   const candidates = [
     path.resolve(__dirname, '..', 'standalone_chapters', filename),
+    path.resolve(__dirname, '..', 'chapters', filename),
     path.resolve(__dirname, '..', filename),
     path.resolve(__dirname, filename),
     path.resolve(__dirname, '..', 'aasha-pipeline-with-master-json', 'output', filename)
@@ -382,14 +382,26 @@ function resolveChapterPath(filename) {
   return path.resolve(__dirname, '..', 'standalone_chapters', filename);
 }
 
-const targetFiles = [
-  resolveChapterPath('Class5_Math_Ch01_Gamified.html'),
-  resolveChapterPath('Class5_Math_Ch02_Gamified.html'),
-  resolveChapterPath('Class6_Math_Ch01_Gamified.html'),
-  resolveChapterPath('Class6_Math_Ch02_Gamified.html'),
-  resolveChapterPath('Class8_Math_Ch01_Gamified.html'),
-  resolveChapterPath('Class8_Math_Ch02_Gamified.html')
-];
+const args = process.argv.slice(2);
+const fileArgIdx = args.indexOf('--file');
+let targetFiles = [];
+
+if (fileArgIdx !== -1 && args[fileArgIdx + 1]) {
+  const customPath = path.resolve(process.cwd(), args[fileArgIdx + 1]);
+  targetFiles = [customPath];
+} else {
+  targetFiles = [
+    resolveChapterPath('Class5_Math_Ch01_Gamified.html'),
+    resolveChapterPath('Class5_Math_Ch02_Gamified.html'),
+    resolveChapterPath('Class6_Math_Ch01_Gamified.html'),
+    resolveChapterPath('Class6_Math_Ch02_Gamified.html'),
+    resolveChapterPath('Class8_Math_Ch01_Gamified.html'),
+    resolveChapterPath('Class8_Math_Ch02_Gamified.html'),
+    resolveChapterPath('RationalNumbers_Class8_Gamified_v5_Enhanced_v6.html'),
+    resolveChapterPath('ExponentsPowers_Class8_Gamified_v5_Enhanced_v6.html'),
+    resolveChapterPath('RationalNumbers_Class8_AD.html')
+  ].filter(p => fs.existsSync(p));
+}
 
 const results = runBatch(targetFiles);
 

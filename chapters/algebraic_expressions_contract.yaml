@@ -1,0 +1,44 @@
+title: Algebraic Expressions
+subject: Mathematics
+learning_objectives:
+  - Understand the concept of variables and why they are used.
+  - Identify coefficients and terms in an algebraic expression.
+  - Construct an algebraic expression from a real-world scenario.
+concepts:
+  - name: Variable
+    definition: A letter used to represent an unknown number.
+  - name: Coefficient
+    definition: A number multiplied by a variable.
+  - name: Term
+    definition: Parts of an expression separated by + or - signs.
+  - name: Algebraic Expression
+    definition: A mathematical phrase that can contain ordinary numbers, variables, and operators.
+hook:
+  scenario: "If a pizza costs 200, the cost for 'n' friends is 200 * n, which we write as 200n."
+  question: "How do we write the cost if we don't know exactly how many friends are coming?"
+formal_terms:
+  - Variable
+  - Coefficient
+  - Term
+  - Expression
+worked_examples:
+  - problem: "Write an expression for the cost of n pizzas if each costs 200."
+    solution: "200n"
+    explanation: "Since the cost of one pizza is 200, we multiply 200 by the number of pizzas 'n'."
+interactions:
+  - type: multiple_choice
+    question: "In the expression 5x + 3, what is the variable?"
+    options:
+      - "5"
+      - "x"
+      - "3"
+    correct_answer: "x"
+    misconceptions:
+      - answer: "5"
+        reason: "5 is the coefficient, not the variable."
+      - answer: "3"
+        reason: "3 is a constant term, not the variable."
+feedback_hierarchies:
+  - level_1: "Look closely at the letters in the expression."
+  - level_2: "Variables are usually letters like x or y that represent unknown numbers."
+  - full_explanation: "In 5x + 3, 'x' is the letter representing an unknown value, so 'x' is the variable."

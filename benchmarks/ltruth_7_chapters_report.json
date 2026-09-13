@@ -1,0 +1,771 @@
+{
+  "timestamp": "2026-09-08T14:23:26.134Z",
+  "chaptersAudited": 7,
+  "results": {
+    "AlgebraicExpressions_Class8_Gamified_v5_Enhanced_v6.html": {
+      "filename": "AlgebraicExpressions_Class8_Gamified_v5_Enhanced_v6.html",
+      "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\AlgebraicExpressions_Class8_Gamified_v5_Enhanced_v6.html",
+      "fileSizeBytes": 180193,
+      "finalScore": 100,
+      "passedChecksCount": 14,
+      "failedChecksCount": 0,
+      "stats": {
+        "totalNodes": 4,
+        "totalSteps": 24,
+        "totalQuestions": 20,
+        "totalMisconceptions": 58,
+        "spoilerViolations": 0,
+        "missingMisconceptions": 0,
+        "mathRtCollisions": 0,
+        "ruleViolations": 0,
+        "syntaxErrors": 0
+      },
+      "passedChecks": [
+        "Syntax: Valid HTML document wrapper structure.",
+        "Syntax: 4 script block(s) detected.",
+        "Rule #1 (Zero-Spoiler Misconceptions): 100% compliant across 58 evaluated misconceptions.",
+        "Math-rt Isolation: Algebraic symbols protected from bilingual translation collision.",
+        "Rule #2: Options shuffled with Math.random() - 0.5.",
+        "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop).",
+        "Rule #4: Clean execution without browser-freezing alert(), confirm(), prompt().",
+        "Rule #5: Skip action present on interactive visual activities.",
+        "Rule #6: Primary navigation buttons (Back / Continue) anchored.",
+        "Rule #7: _weCheckRendered state guard present for WE check flows.",
+        "Rule #8: localStorage safely wrapped in bounds-checked try-catch.",
+        "Rule #9: exit() performs instant reset without modals.",
+        "Rule #10: 100% Offline-First compliant. Zero CDN dependencies.",
+        "Know-Stage Pedagogy: Every node adheres to Intro -> Concept Text -> Verification flow."
+      ],
+      "failedChecks": [],
+      "sampleQuestions": [
+        {
+          "context": "WE 'we_terms' check",
+          "question": "What is the coefficient of x in the expression: 12 - x + 4y?",
+          "correctAnswer": "-1",
+          "distractors": [
+            {
+              "option": "1",
+              "misconception": "Notice the minus sign preceding x. Remember an isolated variable carries an implicit factor of 1, along with its sign."
+            },
+            {
+              "option": "0",
+              "misconception": "If the coefficient were zero, the variable would multiply out to zero and disappear. Look closely at the sign in front of x."
+            },
+            {
+              "option": "12",
+              "misconception": "12 is the separate constant term, not the coefficient of x."
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_terms' Step 2 check",
+          "question": "What is the numerical coefficient of the middle term: -5xy?",
+          "correctAnswer": "-5",
+          "distractors": [
+            {
+              "option": "5",
+              "misconception": "Remember that any negative sign in front of a term belongs directly to its numerical coefficient."
+            },
+            {
+              "option": "xy",
+              "misconception": "xy are the algebraic variables, not the numerical coefficient."
+            },
+            {
+              "option": "-5xy",
+              "misconception": "The whole expression is the complete term. The coefficient refers only to the numerical factor."
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_like_terms' check",
+          "question": "Which of these pairs are LIKE terms?",
+          "correctAnswer": "4ab and -7ba",
+          "distractors": [
+            {
+              "option": "4a and 4b",
+              "misconception": "Variables are different (a vs b). Having the same coefficient 4 does not make them like terms."
+            },
+            {
+              "option": "2x²y and 2xy²",
+              "misconception": "Powers are swapped: in the first, x is squared; in the second, y is squared. They are unlike."
+            },
+            {
+              "option": "5m and 5mn",
+              "misconception": "One term has variable n while the other does not. They are unlike terms."
+            }
+          ]
+        }
+      ]
+    },
+    "ComparingQuantities_Percentage_Class8_Gamified_v5_(1)_Enhanced_v6.html": {
+      "filename": "ComparingQuantities_Percentage_Class8_Gamified_v5_(1)_Enhanced_v6.html",
+      "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\ComparingQuantities_Percentage_Class8_Gamified_v5_(1)_Enhanced_v6.html",
+      "fileSizeBytes": 214325,
+      "finalScore": 0,
+      "passedChecksCount": 12,
+      "failedChecksCount": 89,
+      "stats": {
+        "totalNodes": 8,
+        "totalSteps": 56,
+        "totalQuestions": 73,
+        "totalMisconceptions": 164,
+        "spoilerViolations": 82,
+        "missingMisconceptions": 0,
+        "mathRtCollisions": 0,
+        "ruleViolations": 0,
+        "syntaxErrors": 0
+      },
+      "passedChecks": [
+        "Syntax: Valid HTML document wrapper structure.",
+        "Syntax: 4 script block(s) detected.",
+        "Math-rt Isolation: Algebraic symbols protected from bilingual translation collision.",
+        "Rule #2: Options shuffled with Math.random() - 0.5.",
+        "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop).",
+        "Rule #4: Clean execution without browser-freezing alert(), confirm(), prompt().",
+        "Rule #5: Skip action present on interactive visual activities.",
+        "Rule #6: Primary navigation buttons (Back / Continue) anchored.",
+        "Rule #7: _weCheckRendered state guard present for WE check flows.",
+        "Rule #8: localStorage safely wrapped in bounds-checked try-catch.",
+        "Rule #9: exit() performs instant reset without modals.",
+        "Rule #10: 100% Offline-First compliant. Zero CDN dependencies."
+      ],
+      "failedChecks": [
+        "Rule #1 Spoiler in WE 'we_percent' check [Distractor: '30%']: Leaking numerical answer '60': \"30/50 x 100 = 60%. You need to multiply by 100.\"",
+        "Rule #1 Spoiler in WE 'we_percent' check [Distractor: '50%']: Leaking numerical answer '60': \"30/50 x 100 = 60%. The total is 50, not the percentage.\"",
+        "Rule #1 Spoiler in WE 'we_percent' Step 1 check [Distractor: '(Whole / Part) x 100']: Contains exact answer phrase '(Part / Whole) x 100'",
+        "Rule #1 Spoiler in WE 'we_convert' check [Distractor: '7%']: Leaking numerical answer '35': \"7/20 x 100 = 35%. Multiply by 100.\"",
+        "Rule #1 Spoiler in WE 'we_convert' check [Distractor: '20%']: Leaking numerical answer '35': \"7/20 x 100 = 35%. The denominator is not the percentage.\"",
+        "Rule #1 Spoiler in WE 'we_increase' check [Distractor: '2%']: Leaking numerical answer '20': \"Increase = 2000. (2000/10000) x 100 = 20%.\"",
+        "Rule #1 Spoiler in WE 'we_increase' check [Distractor: '120%']: Leaking numerical answer '20': \"That is new salary as percentage of old. The increase is 20%.\"",
+        "Rule #1 Spoiler in WE 'we_profit' check [Distractor: '30%']: Leaking numerical answer '25': \"Loss = 300. (300/1200) x 100 = 25%. Divide by CP.\"",
+        "Rule #1 Spoiler in WE 'we_profit' check [Distractor: '33%']: Leaking numerical answer '25': \"(300/1200) x 100 = 25%. You divided by SP.\"",
+        "Rule #1 Spoiler in WE 'we_discount' check [Distractor: 'Rs 100']: Leaking numerical answer '400': \"Discount = 100. SP = 500 - 100 = 400.\"",
+        "Rule #1 Spoiler in WE 'we_discount' check [Distractor: 'Rs 480']: Leaking numerical answer '400': \"20% of 500 = 100. SP = 500 - 100 = 400.\"",
+        "Rule #1 Spoiler in WE 'we_si' check [Distractor: 'Rs 20']: Leaking numerical answer '200': \"SI = (2000 x 5 x 2)/100 = 200. Check division by 100.\"",
+        "Rule #1 Spoiler in WE 'we_si' check [Distractor: 'Rs 2000']: Leaking numerical answer '200': \"SI = 200. You forgot to divide by 100.\"",
+        "Rule #1 Spoiler in WE 'we_ci' Step 1 check [Distractor: 'A = P x R x n / 100']: Contains exact answer phrase 'A = P(1 + R/100)^n'",
+        "Rule #1 Spoiler in WE 'we_tax' check [Distractor: 'Rs 180']: Leaking numerical answer '1180': \"GST = 180. Total = 1000 + 180 = 1180.\"",
+        "Rule #1 Spoiler in WE 'we_tax' check [Distractor: 'Rs 1000']: Leaking numerical answer '1180': \"The total bill includes GST: 1000 + 180 = 1180.\"",
+        "Rule #1 Spoiler in WE 'we_exam1' check [Distractor: '10000']: Leaking numerical answer '11000': \"10000 x 1.10 = 11000.\"",
+        "Rule #1 Spoiler in WE 'we_exam1' check [Distractor: '1000']: Leaking numerical answer '11000': \"10% of 10000 = 1000 is the increase. New population = 11000.\"",
+        "Rule #1 Spoiler in WE 'we_exam2' check [Distractor: '20%']: Leaking numerical answer '19': \"First: 10% of 100 = 10, price = 90. Second: 10% of 90 = 9, price = 81. Total = 19%.\"",
+        "Rule #1 Spoiler in WE 'we_exam3' check [Distractor: 'Rs 480']: Leaking numerical answer '500': \"80% of MP = 400. MP = 400 x 100/80 = 500.\"",
+        "Rule #1 Spoiler in WE 'we_exam3' check [Distractor: 'Rs 320']: Leaking numerical answer '500': \"80% of MP = 400. MP = 400/0.8 = 500.\"",
+        "Rule #1 Spoiler in WE 'we_exam3' Step 1 check [Distractor: '10%']: Leaking numerical answer '90': \"10% is the discount. Customer pays 100% - 10% = 90%.\"",
+        "Rule #1 Spoiler in WE 'we_exam3' Step 1 check [Distractor: '110%']: Leaking numerical answer '90': \"Customer pays less than marked price. 100% - 10% = 90%.\"",
+        "Rule #1 Spoiler in Node 1 ('Comparing Quantities') Step 3 (quiz) [Distractor: '2 : 3']: Leaking numerical answer '3': \"Red to green means red first. 6:4 = 3:2, not 2:3.\"",
+        "Rule #1 Spoiler in Node 1 ('Comparing Quantities') Step 3 (quiz) [Distractor: '4 : 6']: Leaking numerical answer '3': \"This is green to red. Red to green is 6:4 = 3:2.\"",
+        "Rule #1 Spoiler in Node 1 ('Comparing Quantities') Step 5 (quiz) [Distractor: '15 : 25']: Leaking numerical answer '3': \"Not simplified. HCF is 5. 15/5:25/5 = 3:5.\"",
+        "Rule #1 Spoiler in Node 1 ('Comparing Quantities') Step 5 (quiz) [Distractor: '5 : 3']: Leaking numerical answer '3': \"This is 25 to 15 (reverse). 15 to 25 is 3:5.\"",
+        "Rule #1 Spoiler in Node 1 ('Comparing Quantities') Step 5 (quiz) [Distractor: '1 : 2']: Leaking numerical answer '3': \"HCF of 15 and 25 is 5. 15/5:25/5 = 3:5.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 2 (quiz) [Distractor: '25 out of 25']: Contains exact answer phrase '25 out of 100'",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 2 (quiz) [Distractor: '100 out of 25']: Leaking numerical answer '100': \"25% means 25 per 100, not 100 per 25.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 2 (quiz) [Distractor: '25 out of 50']: Leaking numerical answer '25': \"25 out of 50 is 50%, not 25%.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 4 (worked) check [Distractor: '30%']: Leaking numerical answer '60': \"30/50 x 100 = 60%. You need to multiply by 100.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 4 (worked) check [Distractor: '50%']: Leaking numerical answer '60': \"30/50 x 100 = 60%. The total is 50, not the percentage.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 4 (worked) step 1 [Distractor: '(Whole / Part) x 100']: Contains exact answer phrase '(Part / Whole) x 100'",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 5 (quiz) [Distractor: '8%']: Leaking numerical answer '20': \"(8/40) x 100 = 20%. The number absent is 8, but percentage is 20%.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 5 (quiz) [Distractor: '32%']: Leaking numerical answer '20': \"Absent = (8/40) x 100 = 20%. You calculated present instead.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 5 (quiz) [Distractor: '40%']: Leaking numerical answer '20': \"(8/40) x 100 = 20%. Divide absent by total, then multiply by 100.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 6 (worked) check [Distractor: '7%']: Leaking numerical answer '35': \"7/20 x 100 = 35%. Multiply by 100.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 6 (worked) check [Distractor: '20%']: Leaking numerical answer '35': \"7/20 x 100 = 35%. The denominator is not the percentage.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 7 (quiz) [Distractor: '4.5%']: Leaking numerical answer '45': \"0.45 x 100 = 45%. Move decimal two places right.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 7 (quiz) [Distractor: '0.45%']: Leaking numerical answer '45': \"0.45 x 100 = 45%. Multiply by 100 to convert.\"",
+        "Rule #1 Spoiler in Node 2 ('Understanding Percentage') Step 7 (quiz) [Distractor: '450%']: Leaking numerical answer '45': \"0.45 x 100 = 45%, not 450%. Move two places: 0.45 becomes 45.\"",
+        "Rule #1 Spoiler in Node 3 ('Percentage Increase & Decrease') Step 2 (worked) check [Distractor: '2%']: Leaking numerical answer '20': \"Increase = 2000. (2000/10000) x 100 = 20%.\"",
+        "Rule #1 Spoiler in Node 3 ('Percentage Increase & Decrease') Step 2 (worked) check [Distractor: '120%']: Leaking numerical answer '20': \"That is new salary as percentage of old. The increase is 20%.\"",
+        "Rule #1 Spoiler in Node 3 ('Percentage Increase & Decrease') Step 3 (quiz) [Distractor: '33%']: Leaking numerical answer '25': \"Decrease = 50. (50/200) x 100 = 25%. Divide by ORIGINAL (200), not new (150).\"",
+        "Rule #1 Spoiler in Node 3 ('Percentage Increase & Decrease') Step 3 (quiz) [Distractor: '50%']: Leaking numerical answer '25': \"(50/200) x 100 = 25%. The decrease amount is 50 but percentage is 25%.\"",
+        "Rule #1 Spoiler in Node 3 ('Percentage Increase & Decrease') Step 3 (quiz) [Distractor: '75%']: Leaking numerical answer '25': \"150/200 x 100 = 75% is new as % of old. The decrease is 25%.\"",
+        "Rule #1 Spoiler in Node 3 ('Percentage Increase & Decrease') Step 4 (quiz) [Distractor: '20%']: Leaking numerical answer '25': \"Increase = 10. (10/40) x 100 = 25%. You divided by 50 (new) instead of 40 (original).\"",
+        "Rule #1 Spoiler in Node 3 ('Percentage Increase & Decrease') Step 4 (quiz) [Distractor: '10%']: Leaking numerical answer '25': \"Increase = 10. But percentage = (10/40) x 100 = 25%.\"",
+        "Rule #1 Spoiler in Node 3 ('Percentage Increase & Decrease') Step 4 (quiz) [Distractor: '80%']: Leaking numerical answer '25': \"40/50 x 100 = 80% is old as % of new. The increase is 25%.\"",
+        "Rule #1 Spoiler in Node 4 ('Profit, Loss & Discount') Step 3 (worked) check [Distractor: '30%']: Leaking numerical answer '25': \"Loss = 300. (300/1200) x 100 = 25%. Divide by CP.\"",
+        "Rule #1 Spoiler in Node 4 ('Profit, Loss & Discount') Step 3 (worked) check [Distractor: '33%']: Leaking numerical answer '25': \"(300/1200) x 100 = 25%. You divided by SP.\"",
+        "Rule #1 Spoiler in Node 4 ('Profit, Loss & Discount') Step 4 (quiz) [Distractor: '10%']: Leaking numerical answer '20': \"Profit = 10. (10/50) x 100 = 20%. Divide by CP (50), not SP (60).\"",
+        "Rule #1 Spoiler in Node 4 ('Profit, Loss & Discount') Step 4 (quiz) [Distractor: '16.67%']: Leaking numerical answer '20': \"(10/60) x 100 = 16.67% uses SP. Always divide by CP: (10/50) x 100 = 20%.\"",
+        "Rule #1 Spoiler in Node 4 ('Profit, Loss & Discount') Step 4 (quiz) [Distractor: 'Rs 10']: Leaking numerical answer '20': \"Rs 10 is the profit amount, not the percentage. Percentage = 20%.\"",
+        "Rule #1 Spoiler in Node 4 ('Profit, Loss & Discount') Step 6 (worked) check [Distractor: 'Rs 100']: Leaking numerical answer '400': \"Discount = 100. SP = 500 - 100 = 400.\"",
+        "Rule #1 Spoiler in Node 4 ('Profit, Loss & Discount') Step 6 (worked) check [Distractor: 'Rs 480']: Leaking numerical answer '400': \"20% of 500 = 100. SP = 500 - 100 = 400.\"",
+        "Rule #1 Spoiler in Node 5 ('Tax (GST)') Step 2 (worked) check [Distractor: 'Rs 180']: Leaking numerical answer '1180': \"GST = 180. Total = 1000 + 180 = 1180.\"",
+        "Rule #1 Spoiler in Node 5 ('Tax (GST)') Step 2 (worked) check [Distractor: 'Rs 1000']: Leaking numerical answer '1180': \"The total bill includes GST: 1000 + 180 = 1180.\"",
+        "Rule #1 Spoiler in Node 6 ('Simple Interest') Step 2 (worked) check [Distractor: 'Rs 20']: Leaking numerical answer '200': \"SI = (2000 x 5 x 2)/100 = 200. Check division by 100.\"",
+        "Rule #1 Spoiler in Node 6 ('Simple Interest') Step 2 (worked) check [Distractor: 'Rs 2000']: Leaking numerical answer '200': \"SI = 200. You forgot to divide by 100.\"",
+        "Rule #1 Spoiler in Node 6 ('Simple Interest') Step 4 (quiz) [Distractor: '8 years']: Leaking numerical answer '12.5': \"T = (100 x SI)/(P x R) = (100 x 2000)/(2000 x 8) = 100/8 = 12.5 years.\"",
+        "Rule #1 Spoiler in Node 6 ('Simple Interest') Step 4 (quiz) [Distractor: '25 years']: Leaking numerical answer '12.5': \"T = 100/8 = 12.5 years. Check: 2000 x 8 x 12.5 / 100 = 2000.\"",
+        "Rule #1 Spoiler in Node 6 ('Simple Interest') Step 4 (quiz) [Distractor: '4 years']: Leaking numerical answer '12.5': \"T = 100/8 = 12.5 years.\"",
+        "Rule #1 Spoiler in Node 7 ('Compound Interest') Step 3 (worked) step 1 [Distractor: 'A = P x R x n / 100']: Contains exact answer phrase 'A = P(1 + R/100)^n'",
+        "Rule #1 Spoiler in Node 7 ('Compound Interest') Step 6 (quiz) [Distractor: 'Rs 1,000']: Leaking numerical answer '100': \"Shortcut: P x (R/100)^2 = 10000 x 0.01 = 100.\"",
+        "Rule #1 Spoiler in Node 7 ('Compound Interest') Step 6 (quiz) [Distractor: 'Rs 10']: Leaking numerical answer '100': \"P x (R/100)^2 = 10000 x 0.01 = 100.\"",
+        "Rule #1 Spoiler in Node 7 ('Compound Interest') Step 6 (quiz) [Distractor: 'Rs 0']: Leaking numerical answer '100': \"CI and SI differ when time > 1 year. Difference = 100.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 2 (worked) check [Distractor: '10000']: Leaking numerical answer '11000': \"10000 x 1.10 = 11000.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 2 (worked) check [Distractor: '1000']: Leaking numerical answer '11000': \"10% of 10000 = 1000 is the increase. New population = 11000.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 3 (quiz) [Distractor: '2,08,000']: Leaking numerical answer '2': \"200000 x 1.04 = 208000 is after 1 year, not 2.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 4 (worked) check [Distractor: '20%']: Leaking numerical answer '19': \"First: 10% of 100 = 10, price = 90. Second: 10% of 90 = 9, price = 81. Total = 19%.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 6 (worked) check [Distractor: 'Rs 480']: Leaking numerical answer '500': \"80% of MP = 400. MP = 400 x 100/80 = 500.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 6 (worked) check [Distractor: 'Rs 320']: Leaking numerical answer '500': \"80% of MP = 400. MP = 400/0.8 = 500.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 6 (worked) step 1 [Distractor: '10%']: Leaking numerical answer '90': \"10% is the discount. Customer pays 100% - 10% = 90%.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 6 (worked) step 1 [Distractor: '110%']: Leaking numerical answer '90': \"Customer pays less than marked price. 100% - 10% = 90%.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 8 (quiz) [Distractor: 'Rs 600']: Leaking numerical answer '660': \"End of year 1: 6600. Interest in year 2 = 10% of 6600 = 660.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 8 (quiz) [Distractor: 'Rs 1,260']: Leaking numerical answer '660': \"That is total CI for 2 years. 2nd year alone = 660.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 8 (quiz) [Distractor: 'Rs 1,200']: Leaking numerical answer '660': \"That is 2 years SI. CI in 2nd year = 660.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 9 (quiz) [Distractor: 'Rs 920']: Leaking numerical answer '988.24': \"SP = 800 x 1.05 = 840. This is 85% of MP. MP = 840/0.85 = 988.24.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 9 (quiz) [Distractor: 'Rs 1000']: Leaking numerical answer '988.24': \"SP = 840. MP = 840/0.85 = 988.24.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 9 (quiz) [Distractor: 'Rs 840']: Leaking numerical answer '988.24': \"Rs 840 is the selling price. MP = 840 / 0.85 = 988.24.\"",
+        "Pedagogy Gap: Node 2 ('Understanding Percentage') missing 'intro' hook.",
+        "Pedagogy Gap: Node 3 ('Percentage Increase & Decrease') missing 'intro' hook.",
+        "Pedagogy Gap: Node 4 ('Profit, Loss & Discount') missing 'intro' hook.",
+        "Pedagogy Gap: Node 5 ('Tax (GST)') missing 'intro' hook.",
+        "Pedagogy Gap: Node 6 ('Simple Interest') missing 'intro' hook.",
+        "Pedagogy Gap: Node 7 ('Compound Interest') missing 'intro' hook.",
+        "Pedagogy Gap: Node 8 ('Exam Worksheet') missing 'intro' hook."
+      ],
+      "sampleQuestions": [
+        {
+          "context": "WE 'we_ratio' check",
+          "question": "How do you simplify a ratio?",
+          "correctAnswer": "Divide both terms by their HCF",
+          "distractors": [
+            {
+              "option": "Subtract smaller from larger",
+              "misconception": "Subtraction does not simplify. Divide both by HCF."
+            },
+            {
+              "option": "Multiply both by 2",
+              "misconception": "Multiplying makes it bigger. Divide by HCF to simplify."
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_ratio' Step 1 check",
+          "question": "What is the correct order for ratio of girls to boys?",
+          "correctAnswer": "girls first, then boys",
+          "distractors": [
+            {
+              "option": "boys first, then girls",
+              "misconception": "The ratio of girls to boys means girls come first. Order matters."
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_percent' check",
+          "question": "If 30 out of 50 are present, what percentage?",
+          "correctAnswer": "60%",
+          "distractors": [
+            {
+              "option": "30%",
+              "misconception": "30/50 x 100 = 60%. You need to multiply by 100."
+            },
+            {
+              "option": "50%",
+              "misconception": "30/50 x 100 = 60%. The total is 50, not the percentage."
+            }
+          ]
+        }
+      ]
+    },
+    "Fractions_Gamified_v5_(2)_Enhanced_v6.html": {
+      "filename": "Fractions_Gamified_v5_(2)_Enhanced_v6.html",
+      "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\Fractions_Gamified_v5_(2)_Enhanced_v6.html",
+      "fileSizeBytes": 6781761,
+      "finalScore": 0,
+      "passedChecksCount": 12,
+      "failedChecksCount": 48,
+      "stats": {
+        "totalNodes": 10,
+        "totalSteps": 97,
+        "totalQuestions": 102,
+        "totalMisconceptions": 215,
+        "spoilerViolations": 47,
+        "missingMisconceptions": 0,
+        "mathRtCollisions": 0,
+        "ruleViolations": 0,
+        "syntaxErrors": 0
+      },
+      "passedChecks": [
+        "Syntax: Valid HTML document wrapper structure.",
+        "Syntax: 4 script block(s) detected.",
+        "Math-rt Isolation: Non-algebraic content; zero dictionary collision.",
+        "Rule #2: Options shuffled with Math.random() - 0.5.",
+        "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop).",
+        "Rule #4: Clean execution without browser-freezing alert(), confirm(), prompt().",
+        "Rule #5: Skip action present on interactive visual activities.",
+        "Rule #6: Primary navigation buttons (Back / Continue) anchored.",
+        "Rule #7: _weCheckRendered state guard present for WE check flows.",
+        "Rule #8: localStorage safely wrapped in bounds-checked try-catch.",
+        "Rule #9: exit() performs instant reset without modals.",
+        "Rule #10: 100% Offline-First compliant. Zero CDN dependencies."
+      ],
+      "failedChecks": [
+        "Rule #1 Spoiler in WE 'we_equiv' Step 1 check [Distractor: '15 (because 20 - 5 = 15)']: Leaking numerical answer '4': \"We multiply, not subtract. 20 ÷ 5 = 4, so multiply by 4.\"",
+        "Rule #1 Spoiler in WE 'we_equiv' Step 1 check [Distractor: '5 (because 5 × 4 = 20)']: Leaking numerical answer '4': \"5 is the original denominator. We need 20 ÷ 5 = 4 as the multiplier.\"",
+        "Rule #1 Spoiler in WE 'we_equiv2' Step 1 check [Distractor: '8 (because 12 - 4 = 8)']: Leaking numerical answer '3': \"We multiply, not subtract. 12 ÷ 4 = 3, so multiply by 3.\"",
+        "Rule #1 Spoiler in WE 'we_equiv2' Step 1 check [Distractor: '4 (the original denominator)']: Leaking numerical answer '3': \"4 is the original denominator. We need 12 ÷ 4 = 3 as the multiplier.\"",
+        "Rule #1 Spoiler in WE 'we_addSame' Step 1 check [Distractor: 'The numerator']: Contains exact answer phrase 'The denominator'",
+        "Rule #1 Spoiler in WE 'we_addSame' Step 1 check [Distractor: 'Both change']: Contains exact answer phrase 'The denominator'",
+        "Rule #1 Spoiler in WE 'we_addDiff' Step 2 check [Distractor: 'Add the denominators']: Contains exact answer phrase 'Find a common denominator'",
+        "Rule #1 Spoiler in WE 'we_subDiff' check [Distractor: 'Flip the second fraction']: Contains exact answer phrase 'Find a common denominator'",
+        "Rule #1 Spoiler in WE 'we_subDiff' Step 2 check [Distractor: 'Subtract the denominators']: Contains exact answer phrase 'Find a common denominator'",
+        "Rule #1 Spoiler in WE 'we_missing' Step 2 check [Distractor: '10 (because 20 - 5 = 15), so ? = 2 + 10 = 12']: Leaking numerical answer '4': \"We multiply, not add. 20 ÷ 5 = 4, so 2 × 4 = 8.\"",
+        "Rule #1 Spoiler in WE 'we_missing' Step 2 check [Distractor: '2 (the numerator)']: Leaking numerical answer '4': \"2 is the original numerator. The multiplier is 20 ÷ 5 = 4.\"",
+        "Rule #1 Spoiler in WE 'we_mixedToImproper' Step 1 check [Distractor: 'Whole number × numerator = 2×1 = 2/3']: Leaking numerical answer '7': \"Multiply whole number by denominator, then add numerator: (2×3+1)/3 = 7/3.\"",
+        "Rule #1 Spoiler in WE 'we_mixedToImproper' Step 1 check [Distractor: 'Denominator × numerator = 3×1 = 3/3']: Leaking numerical answer '7': \"Multiply whole number by denominator, then add numerator: (2×3+1)/3 = 7/3.\"",
+        "Rule #1 Spoiler in Node 2 ('Numerator & Denominator') Step 6 (worked) step 1 [Distractor: '15 (because 20 - 5 = 15)']: Leaking numerical answer '4': \"We multiply, not subtract. 20 ÷ 5 = 4, so multiply by 4.\"",
+        "Rule #1 Spoiler in Node 2 ('Numerator & Denominator') Step 6 (worked) step 1 [Distractor: '5 (because 5 × 4 = 20)']: Leaking numerical answer '4': \"5 is the original denominator. We need 20 ÷ 5 = 4 as the multiplier.\"",
+        "Rule #1 Spoiler in Node 3 ('Types of Fractions') Step 8 (quiz) [Distractor: '3 and 1/4']: Leaking numerical answer '2': \"11÷4=2 r3. Check: 4×2=8, 11-8=3.\"",
+        "Rule #1 Spoiler in Node 3 ('Types of Fractions') Step 8 (quiz) [Distractor: '1 and 7/4']: Leaking numerical answer '2': \"11÷4=2 r3. Remainder must be < divisor.\"",
+        "Rule #1 Spoiler in Node 3 ('Types of Fractions') Step 8 (quiz) [Distractor: '4 and 3/2']: Leaking numerical answer '2': \"Mixed needs proper fraction. 11÷4=2 r3.\"",
+        "Rule #1 Spoiler in Node 3 ('Types of Fractions') Step 10 (worked) step 1 [Distractor: 'Whole number × numerator = 2×1 = 2/3']: Leaking numerical answer '7': \"Multiply whole number by denominator, then add numerator: (2×3+1)/3 = 7/3.\"",
+        "Rule #1 Spoiler in Node 3 ('Types of Fractions') Step 10 (worked) step 1 [Distractor: 'Denominator × numerator = 3×1 = 3/3']: Leaking numerical answer '7': \"Multiply whole number by denominator, then add numerator: (2×3+1)/3 = 7/3.\"",
+        "Rule #1 Spoiler in Node 3 ('Types of Fractions') Step 11 (quiz) [Distractor: '15/5']: Leaking numerical answer '17': \"You multiplied but forgot to add the numerator. 3×5=15, then 15+2=17.\"",
+        "Rule #1 Spoiler in Node 3 ('Types of Fractions') Step 11 (quiz) [Distractor: '11/5']: Leaking numerical answer '17': \"You added the whole number and numerator (3+2=5) then multiplied. Correct: 3×5+2=17.\"",
+        "Rule #1 Spoiler in Node 3 ('Types of Fractions') Step 11 (quiz) [Distractor: '5/17']: Contains exact answer phrase '17/5'",
+        "Rule #1 Spoiler in Node 4 ('Equivalent Fractions') Step 8 (worked) step 1 [Distractor: '8 (because 12 - 4 = 8)']: Leaking numerical answer '3': \"We multiply, not subtract. 12 ÷ 4 = 3, so multiply by 3.\"",
+        "Rule #1 Spoiler in Node 4 ('Equivalent Fractions') Step 8 (worked) step 1 [Distractor: '4 (the original denominator)']: Leaking numerical answer '3': \"4 is the original denominator. We need 12 ÷ 4 = 3 as the multiplier.\"",
+        "Rule #1 Spoiler in Node 4 ('Equivalent Fractions') Step 9 (quiz) [Distractor: '2/3']: Leaking numerical answer '2': \"Adding 1 to both. Adding does not work! Multiply: 1×2=2, 3×2=6.\"",
+        "Rule #1 Spoiler in Node 5 ('Comparing Fractions') Step 6 (quiz) [Distractor: '3/5 (5>3)']: Leaking numerical answer '10': \"Comparing denominators. Make same: 2/3=10/15, 3/5=9/15. 10>9.\"",
+        "Rule #1 Spoiler in Node 6 ('Adding (Same Denom)') Step 5 (worked) step 1 [Distractor: 'The numerator']: Contains exact answer phrase 'The denominator'",
+        "Rule #1 Spoiler in Node 6 ('Adding (Same Denom)') Step 5 (worked) step 1 [Distractor: 'Both change']: Contains exact answer phrase 'The denominator'",
+        "Rule #1 Spoiler in Node 6 ('Adding (Same Denom)') Step 6 (solve) solve-step 1 [Distractor: 'Add the denominators']: Contains exact answer phrase 'Add the numerators'",
+        "Rule #1 Spoiler in Node 7 ('Adding (Different Denoms)') Step 4 (worked) step 2 [Distractor: 'Add the denominators']: Contains exact answer phrase 'Find a common denominator'",
+        "Rule #1 Spoiler in Node 7 ('Adding (Different Denoms)') Step 6 (quiz) [Distractor: '2/6']: Leaking numerical answer '3': \"Added denominators (2+4=6). Find LCM=4. Convert 1/2=2/4. Then 2/4+1/4=3/4.\"",
+        "Rule #1 Spoiler in Node 7 ('Adding (Different Denoms)') Step 6 (quiz) [Distractor: '2/8']: Leaking numerical answer '3': \"Multiplied denominators. Find LCM(2,4)=4. Convert 1/2=2/4. Add: 2/4+1/4=3/4.\"",
+        "Rule #1 Spoiler in Node 7 ('Adding (Different Denoms)') Step 6 (quiz) [Distractor: '1/6']: Leaking numerical answer '4': \"Added denominators as fraction. Find LCM=4 first, then add.\"",
+        "Rule #1 Spoiler in Node 8 ('Subtracting Fractions') Step 4 (worked) check [Distractor: 'Flip the second fraction']: Contains exact answer phrase 'Find a common denominator'",
+        "Rule #1 Spoiler in Node 8 ('Subtracting Fractions') Step 4 (worked) step 2 [Distractor: 'Subtract the denominators']: Contains exact answer phrase 'Find a common denominator'",
+        "Rule #1 Spoiler in Node 8 ('Subtracting Fractions') Step 7 (quiz) [Distractor: '10/4']: Leaking numerical answer '4': \"You flipped the answer. 7-3=4 on top, 10 stays on bottom.\"",
+        "Rule #1 Spoiler in Node 9 ('Multiplying Fractions') Step 6 (solve) solve-step 1 [Distractor: '1/8']: Leaking numerical answer '1': \"8/1 means 8 wholes, not 1/8. The whole number goes on top.\"",
+        "Rule #1 Spoiler in Node 9 ('Multiplying Fractions') Step 6 (solve) solve-step 1 [Distractor: '8/8']: Leaking numerical answer '8': \"8/8 = 1, not 8. Write 8 as 8/1.\"",
+        "Rule #1 Spoiler in Node 9 ('Multiplying Fractions') Step 8 (quiz) [Distractor: '6/9']: Leaking numerical answer '20': \"You added denominators (5+4=9). Must MULTIPLY: 5×4=20.\"",
+        "Rule #1 Spoiler in Node 9 ('Multiplying Fractions') Step 8 (quiz) [Distractor: '5/9']: Leaking numerical answer '6': \"You added both. Must multiply: 2×3=6, 5×4=20. Answer: 6/20.\"",
+        "Rule #1 Spoiler in Node 9 ('Multiplying Fractions') Step 8 (quiz) [Distractor: '6/1']: Leaking numerical answer '20': \"You divided denominators. Multiply: 5×4=20, not 5÷4=1.\"",
+        "Rule #1 Spoiler in Node 10 ('Dividing Fractions') Step 7 (worked) step 2 [Distractor: '10 (because 20 - 5 = 15), so ? = 2 + 10 = 12']: Leaking numerical answer '4': \"We multiply, not add. 20 ÷ 5 = 4, so 2 × 4 = 8.\"",
+        "Rule #1 Spoiler in Node 10 ('Dividing Fractions') Step 7 (worked) step 2 [Distractor: '2 (the numerator)']: Leaking numerical answer '4': \"2 is the original numerator. The multiplier is 20 ÷ 5 = 4.\"",
+        "Rule #1 Spoiler in Node 10 ('Dividing Fractions') Step 11 (quiz) [Distractor: '1/8']: Leaking numerical answer '2': \"You multiplied instead of dividing. Flip 1/4→4/1, then multiply: 1/2×4/1=4/2=2.\"",
+        "Rule #1 Spoiler in Node 10 ('Dividing Fractions') Step 11 (quiz) [Distractor: '1/2']: Leaking numerical answer '2': \"You did not flip. Flip SECOND fraction: 1/4→4/1. Then 1/2×4/1=4/2=2.\"",
+        "Rule #1 Spoiler in Node 10 ('Dividing Fractions') Step 11 (quiz) [Distractor: '4/2']: Leaking numerical answer '2': \"Close! 4/2 is correct but not simplified. 4/2 = 2.\"",
+        "Pedagogy Gap: Node 8 ('Subtracting Fractions') missing 'text' (Know) step."
+      ],
+      "sampleQuestions": [
+        {
+          "context": "WE 'we_fracOfNum' check",
+          "question": "What does finding 3/4 of 20 mean?",
+          "correctAnswer": "Divide 20 into 4 equal parts, take 3",
+          "distractors": [
+            {
+              "option": "Multiply 3, 4, and 20 together",
+              "misconception": "That gives a huge number. We divide first to find one part, then multiply."
+            },
+            {
+              "option": "Add 3/4 to 20",
+              "misconception": "Adding does not find a fraction of something. Think: share equally first!"
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_fracOfNum' Step 2 check",
+          "question": "After dividing 20 by 4, what does the answer (5) represent?",
+          "correctAnswer": "One part (one quarter of 20)",
+          "distractors": [
+            {
+              "option": "The final answer",
+              "misconception": "5 is just one part. We need 3 parts, so we multiply by 3 next."
+            },
+            {
+              "option": "The number of parts",
+              "misconception": "The number of parts is 4 (the denominator). 5 is the size of each part."
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_improper' check",
+          "question": "How do you convert an improper fraction to a mixed number?",
+          "correctAnswer": "Divide numerator by denominator",
+          "distractors": [
+            {
+              "option": "Multiply numerator and denominator",
+              "misconception": "Multiplying makes it bigger. We need to divide to find whole parts."
+            },
+            {
+              "option": "Swap numerator and denominator",
+              "misconception": "Swapping gives the reciprocal. Division is the right approach."
+            }
+          ]
+        }
+      ]
+    },
+    "Perimeter_Area_Gamified_v5_(2)_Enhanced_v6.html": {
+      "filename": "Perimeter_Area_Gamified_v5_(2)_Enhanced_v6.html",
+      "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\Perimeter_Area_Gamified_v5_(2)_Enhanced_v6.html",
+      "fileSizeBytes": 203115,
+      "finalScore": 0,
+      "passedChecksCount": 13,
+      "failedChecksCount": 60,
+      "stats": {
+        "totalNodes": 10,
+        "totalSteps": 90,
+        "totalQuestions": 70,
+        "totalMisconceptions": 168,
+        "spoilerViolations": 60,
+        "missingMisconceptions": 0,
+        "mathRtCollisions": 0,
+        "ruleViolations": 0,
+        "syntaxErrors": 0
+      },
+      "passedChecks": [
+        "Syntax: Valid HTML document wrapper structure.",
+        "Syntax: 4 script block(s) detected.",
+        "Math-rt Isolation: Non-algebraic content; zero dictionary collision.",
+        "Rule #2: Options shuffled with Math.random() - 0.5.",
+        "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop).",
+        "Rule #4: Clean execution without browser-freezing alert(), confirm(), prompt().",
+        "Rule #5: Skip action present on interactive visual activities.",
+        "Rule #6: Primary navigation buttons (Back / Continue) anchored.",
+        "Rule #7: _weCheckRendered state guard present for WE check flows.",
+        "Rule #8: localStorage safely wrapped in bounds-checked try-catch.",
+        "Rule #9: exit() performs instant reset without modals.",
+        "Rule #10: 100% Offline-First compliant. Zero CDN dependencies.",
+        "Know-Stage Pedagogy: Every node adheres to Intro -> Concept Text -> Verification flow."
+      ],
+      "failedChecks": [
+        "Rule #1 Spoiler in WE 'we_sqPerim' check [Distractor: 'Multiply side × side']: Leaking numerical answer '4': \"That gives area. Perimeter is 4 times one side.\"",
+        "Rule #1 Spoiler in WE 'we_rectAreaDec' Step 2 check [Distractor: '1 decimal place']: Leaking numerical answer '2': \"Each number has 1 decimal place, so the answer has 1+1=2 decimal places.\"",
+        "Rule #1 Spoiler in WE 'we_hexPerim' Step 2 check [Distractor: '6 + 4 = 10 cm']: Leaking numerical answer '24': \"That adds the count and length. Multiply: 6 sides × 4 cm = 24 cm.\"",
+        "Rule #1 Spoiler in Node 1 ('What is Perimeter?') Step 9 (quiz) [Distractor: '7 cm']: Leaking numerical answer '12': \"You added only two sides (3+4=7). Add ALL three: 3+4+5=12.\"",
+        "Rule #1 Spoiler in Node 1 ('What is Perimeter?') Step 9 (quiz) [Distractor: '15 cm']: Leaking numerical answer '12': \"You multiplied 3×5. Perimeter = ADD all sides: 3+4+5=12.\"",
+        "Rule #1 Spoiler in Node 1 ('What is Perimeter?') Step 9 (quiz) [Distractor: '60 cm']: Leaking numerical answer '12': \"You multiplied all sides. Perimeter = SUM of all sides: 3+4+5=12.\"",
+        "Rule #1 Spoiler in Node 2 ('Perimeter of Rectangle') Step 6 (quiz) [Distractor: '9 cm']: Leaking numerical answer '18': \"You added l+b=9 but forgot to multiply by 2. P = 2×9 = 18.\"",
+        "Rule #1 Spoiler in Node 2 ('Perimeter of Rectangle') Step 6 (quiz) [Distractor: '12 cm']: Leaking numerical answer '18': \"You might have done 2×6. Use P = 2×(l+b) = 2×(6+3) = 18.\"",
+        "Rule #1 Spoiler in Node 2 ('Perimeter of Rectangle') Step 6 (quiz) [Distractor: '36 cm']: Leaking numerical answer '18': \"You multiplied 6×3 (that is area). Perimeter = 2×(6+3) = 18 cm.\"",
+        "Rule #1 Spoiler in Node 2 ('Perimeter of Rectangle') Step 8 (quiz) [Distractor: 'P = length × breadth']: Leaking numerical answer '2': \"That is the AREA formula. Perimeter = 2 × (l + b).\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 4 (worked) check [Distractor: 'Multiply side × side']: Leaking numerical answer '4': \"That gives area. Perimeter is 4 times one side.\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 6 (quiz) [Distractor: '10 cm']: Leaking numerical answer '20': \"You did 2×5. A square has 4 sides: P = 4×5 = 20.\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 6 (quiz) [Distractor: '25 cm']: Leaking numerical answer '20': \"You did 5×5 (that is area). Perimeter = 4×5 = 20 cm.\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 6 (quiz) [Distractor: '15 cm']: Leaking numerical answer '20': \"You did 3×5. A square has 4 sides: P = 4×5 = 20 cm.\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 7 (solve) solve-step 1 [Distractor: 'P = side × side']: Leaking numerical answer '4': \"That is the AREA formula. Perimeter = 4 × side.\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 7 (solve) solve-step 2 [Distractor: 'side = 24 - 4 = 20']: Leaking numerical answer '6': \"Subtracting does not work here. Divide: 24 ÷ 4 = 6.\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 7 (solve) solve-step 2 [Distractor: 'side = 24 + 4 = 28']: Leaking numerical answer '6': \"Adding does not work. Divide: 24 ÷ 4 = 6.\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 8 (quiz) [Distractor: '8 cm']: Leaking numerical answer '6': \"You might have done 24÷3. Use 24÷4 = 6, because a square has 4 sides.\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 8 (quiz) [Distractor: '12 cm']: Leaking numerical answer '6': \"You did 24÷2. A square has 4 sides: side = P÷4 = 24÷4 = 6.\"",
+        "Rule #1 Spoiler in Node 3 ('Perimeter of Square') Step 8 (quiz) [Distractor: '20 cm']: Leaking numerical answer '6': \"You subtracted 4. Divide instead: 24÷4 = 6 cm.\"",
+        "Rule #1 Spoiler in Node 4 ('Perimeter of Regular Polygons') Step 5 (worked) step 2 [Distractor: '6 + 4 = 10 cm']: Leaking numerical answer '24': \"That adds the count and length. Multiply: 6 sides × 4 cm = 24 cm.\"",
+        "Rule #1 Spoiler in Node 4 ('Perimeter of Regular Polygons') Step 7 (quiz) [Distractor: '16 cm']: Leaking numerical answer '20': \"You might have used 4 sides. A pentagon has 5 sides: P = 5×4 = 20.\"",
+        "Rule #1 Spoiler in Node 4 ('Perimeter of Regular Polygons') Step 7 (quiz) [Distractor: '12 cm']: Leaking numerical answer '20': \"You used 3 sides (triangle). A pentagon has 5 sides: P = 5×4 = 20.\"",
+        "Rule #1 Spoiler in Node 4 ('Perimeter of Regular Polygons') Step 7 (quiz) [Distractor: '24 cm']: Leaking numerical answer '20': \"You used 6 sides (hexagon). A pentagon has 5 sides: P = 5×4 = 20.\"",
+        "Rule #1 Spoiler in Node 4 ('Perimeter of Regular Polygons') Step 8 (solve) solve-step 1 [Distractor: '5 sides']: Contains exact answer phrase '6 sides'",
+        "Rule #1 Spoiler in Node 4 ('Perimeter of Regular Polygons') Step 8 (solve) solve-step 1 [Distractor: '8 sides']: Contains exact answer phrase '6 sides'",
+        "Rule #1 Spoiler in Node 4 ('Perimeter of Regular Polygons') Step 8 (solve) solve-step 1 [Distractor: '4 sides']: Contains exact answer phrase '6 sides'",
+        "Rule #1 Spoiler in Node 5 ('What is Area?') Step 7 (quiz) [Distractor: '12 units']: Contains exact answer phrase '12 sq units'",
+        "Rule #1 Spoiler in Node 5 ('What is Area?') Step 7 (quiz) [Distractor: '24 sq units']: Leaking numerical answer '12': \"Do not double. If 12 squares are covered, area = 12 sq units.\"",
+        "Rule #1 Spoiler in Node 5 ('What is Area?') Step 7 (quiz) [Distractor: '6 sq units']: Leaking numerical answer '12': \"Do not halve. If 12 squares are covered, area = 12 sq units.\"",
+        "Rule #1 Spoiler in Node 6 ('Area of Rectangle') Step 6 (worked) step 2 [Distractor: '1 decimal place']: Leaking numerical answer '2': \"Each number has 1 decimal place, so the answer has 1+1=2 decimal places.\"",
+        "Rule #1 Spoiler in Node 6 ('Area of Rectangle') Step 7 (quiz) [Distractor: '11 sq cm']: Leaking numerical answer '24': \"You added 8+3=11. Area = l×b = 8×3 = 24 sq cm.\"",
+        "Rule #1 Spoiler in Node 6 ('Area of Rectangle') Step 7 (quiz) [Distractor: '22 cm']: Leaking numerical answer '24': \"You found perimeter (2×11=22). Area = l×b = 8×3 = 24 sq cm.\"",
+        "Rule #1 Spoiler in Node 6 ('Area of Rectangle') Step 7 (quiz) [Distractor: '5 sq cm']: Leaking numerical answer '24': \"You subtracted. Area = l×b = 8×3 = 24 sq cm.\"",
+        "Rule #1 Spoiler in Node 6 ('Area of Rectangle') Step 8 (solve) solve-step 1 [Distractor: 'A = 2 × (length + breadth)']: Contains exact answer phrase 'A = length × breadth'",
+        "Rule #1 Spoiler in Node 7 ('Area of Square') Step 6 (quiz) [Distractor: '12 sq cm']: Leaking numerical answer '36': \"You did 2×6. Area = side×side = 6×6 = 36 sq cm.\"",
+        "Rule #1 Spoiler in Node 7 ('Area of Square') Step 6 (quiz) [Distractor: '24 cm']: Leaking numerical answer '36': \"You found perimeter (4×6=24). Area = 6×6 = 36 sq cm.\"",
+        "Rule #1 Spoiler in Node 7 ('Area of Square') Step 6 (quiz) [Distractor: '6 sq cm']: Leaking numerical answer '36': \"You just wrote the side. Area = side×side = 6×6 = 36 sq cm.\"",
+        "Rule #1 Spoiler in Node 7 ('Area of Square') Step 7 (solve) solve-step 1 [Distractor: 'A = 4 × side']: Contains exact answer phrase 'A = side × side'",
+        "Rule #1 Spoiler in Node 7 ('Area of Square') Step 7 (solve) solve-step 1 [Distractor: 'A = side + side']: Contains exact answer phrase 'A = side × side'",
+        "Rule #1 Spoiler in Node 7 ('Area of Square') Step 7 (solve) solve-step 1 [Distractor: 'A = 2 × side']: Contains exact answer phrase 'A = side × side'",
+        "Rule #1 Spoiler in Node 7 ('Area of Square') Step 8 (quiz) [Distractor: 'A = 4 × side']: Contains exact answer phrase 'A = side × side'",
+        "Rule #1 Spoiler in Node 7 ('Area of Square') Step 8 (quiz) [Distractor: 'A = 2 × side']: Contains exact answer phrase 'A = side × side'",
+        "Rule #1 Spoiler in Node 7 ('Area of Square') Step 8 (quiz) [Distractor: 'A = side + side']: Contains exact answer phrase 'A = side × side'",
+        "Rule #1 Spoiler in Node 8 ('Area of Irregular Figures') Step 7 (quiz) [Distractor: '6 sq units']: Leaking numerical answer '14': \"You found only the first rectangle (3×2=6). Add both: 6+8=14.\"",
+        "Rule #1 Spoiler in Node 8 ('Area of Irregular Figures') Step 7 (quiz) [Distractor: '8 sq units']: Leaking numerical answer '14': \"You found only the second rectangle (2×4=8). Add both: 6+8=14.\"",
+        "Rule #1 Spoiler in Node 8 ('Area of Irregular Figures') Step 7 (quiz) [Distractor: '24 sq units']: Leaking numerical answer '14': \"You multiplied all numbers. Find each area, then ADD: 6+8=14.\"",
+        "Rule #1 Spoiler in Node 8 ('Area of Irregular Figures') Step 8 (quiz) [Distractor: '10 sq units']: Leaking numerical answer '12': \"You counted only full squares. Add half squares: 4 halves = 2 sq. Total = 10+2 = 12.\"",
+        "Rule #1 Spoiler in Node 8 ('Area of Irregular Figures') Step 8 (quiz) [Distractor: '14 sq units']: Leaking numerical answer '12': \"You counted each half as a full square. 4 halves = 2 sq units, so 10+2 = 12.\"",
+        "Rule #1 Spoiler in Node 8 ('Area of Irregular Figures') Step 8 (quiz) [Distractor: '8 sq units']: Leaking numerical answer '12': \"You subtracted. Add the halves: 10 + 2 = 12 sq units.\"",
+        "Rule #1 Spoiler in Node 9 ('Cost Problems') Step 5 (quiz) [Distractor: 'Rs 80']: Leaking numerical answer '400': \"You might have done 10×8. First find area (10×5=50), then multiply by rate: 50×8 = 400.\"",
+        "Rule #1 Spoiler in Node 9 ('Cost Problems') Step 5 (quiz) [Distractor: 'Rs 50']: Contains exact answer phrase 'Rs 400'",
+        "Rule #1 Spoiler in Node 9 ('Cost Problems') Step 5 (quiz) [Distractor: 'Rs 800']: Contains exact answer phrase 'Rs 400'",
+        "Rule #1 Spoiler in Node 9 ('Cost Problems') Step 6 (quiz) [Distractor: 'Rs 80']: Contains exact answer phrase 'Rs 240'",
+        "Rule #1 Spoiler in Node 9 ('Cost Problems') Step 6 (quiz) [Distractor: 'Rs 24']: Contains exact answer phrase 'Rs 240'",
+        "Rule #1 Spoiler in Node 9 ('Cost Problems') Step 6 (quiz) [Distractor: 'Rs 30']: Contains exact answer phrase 'Rs 240'",
+        "Rule #1 Spoiler in Node 9 ('Cost Problems') Step 7 (solve) solve-step 1 [Distractor: 'P = length × breadth']: Leaking numerical answer '2': \"That gives AREA, not perimeter. Perimeter = 2 × (l + b).\"",
+        "Rule #1 Spoiler in Node 10 ('Perimeter vs Area') Step 6 (quiz) [Distractor: 'P = 8 cm, A = 16 sq cm']: Leaking numerical answer '16': \"P = 4×4 = 16 cm (not 8). A = 4×4 = 16 sq cm. Both are 16!\"",
+        "Rule #1 Spoiler in Node 10 ('Perimeter vs Area') Step 6 (quiz) [Distractor: 'P = 16 cm, A = 8 sq cm']: Leaking numerical answer '16': \"A = 4×4 = 16 sq cm (not 8). P = 4×4 = 16 cm. Both are 16!\"",
+        "Rule #1 Spoiler in Node 10 ('Perimeter vs Area') Step 6 (quiz) [Distractor: 'P = 8 cm, A = 8 sq cm']: Leaking numerical answer '16': \"P = 4×4 = 16 cm and A = 4×4 = 16 sq cm. Both equal 16.\""
+      ],
+      "sampleQuestions": [
+        {
+          "context": "WE 'we_rectPerim' check",
+          "question": "How do you find the perimeter of a rectangle?",
+          "correctAnswer": "Add all four sides: 2 × (length + breadth)",
+          "distractors": [
+            {
+              "option": "Multiply length × breadth",
+              "misconception": "That gives area, not perimeter. Perimeter is the distance around the outside."
+            },
+            {
+              "option": "Add length + breadth only",
+              "misconception": "That only adds two sides. A rectangle has 4 sides to add."
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_rectPerim' Step 2 check",
+          "question": "What do you need to add to find the perimeter?",
+          "correctAnswer": "All four sides (AB + BC + CD + AD)",
+          "distractors": [
+            {
+              "option": "Only two sides (AB + BC)",
+              "misconception": "A rectangle has 4 sides. You need to add all four."
+            },
+            {
+              "option": "Multiply length × breadth",
+              "misconception": "Multiplying gives area. Perimeter is adding all sides."
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_sqPerim' check",
+          "question": "How do you find the perimeter of a square?",
+          "correctAnswer": "Multiply side × 4",
+          "distractors": [
+            {
+              "option": "Multiply side × side",
+              "misconception": "That gives area. Perimeter is 4 times one side."
+            },
+            {
+              "option": "Add side + side",
+              "misconception": "That only adds two sides. A square has 4 equal sides."
+            }
+          ]
+        }
+      ]
+    },
+    "Polynomials_Class10_Gamified_v5_(1)_Enhanced_v6.html": {
+      "filename": "Polynomials_Class10_Gamified_v5_(1)_Enhanced_v6.html",
+      "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\Polynomials_Class10_Gamified_v5_(1)_Enhanced_v6.html",
+      "fileSizeBytes": 219921,
+      "finalScore": 0,
+      "passedChecksCount": 12,
+      "failedChecksCount": 73,
+      "stats": {
+        "totalNodes": 8,
+        "totalSteps": 54,
+        "totalQuestions": 69,
+        "totalMisconceptions": 157,
+        "spoilerViolations": 66,
+        "missingMisconceptions": 0,
+        "mathRtCollisions": 0,
+        "ruleViolations": 0,
+        "syntaxErrors": 0
+      },
+      "passedChecks": [
+        "Syntax: Valid HTML document wrapper structure.",
+        "Syntax: 4 script block(s) detected.",
+        "Math-rt Isolation: Algebraic symbols protected from bilingual translation collision.",
+        "Rule #2: Options shuffled with Math.random() - 0.5.",
+        "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop).",
+        "Rule #4: Clean execution without browser-freezing alert(), confirm(), prompt().",
+        "Rule #5: Skip action present on interactive visual activities.",
+        "Rule #6: Primary navigation buttons (Back / Continue) anchored.",
+        "Rule #7: _weCheckRendered state guard present for WE check flows.",
+        "Rule #8: localStorage safely wrapped in bounds-checked try-catch.",
+        "Rule #9: exit() performs instant reset without modals.",
+        "Rule #10: 100% Offline-First compliant. Zero CDN dependencies."
+      ],
+      "failedChecks": [
+        "Rule #1 Spoiler in WE 'we_types' Step 1 check [Distractor: '1 term']: Leaking numerical answer '2': \"5x^2 is one term, 3 is another. That is 2 terms.\"",
+        "Rule #1 Spoiler in WE 'we_zeros_graph' Step 1 check [Distractor: 'a is the maximum value of p(x)']: Leaking numerical answer '0': \"The x-intercept is a zero, not a maximum. p(a) = 0 at that point.\"",
+        "Rule #1 Spoiler in WE 'we_zeros_graph' Step 1 check [Distractor: 'a is the y-intercept of the graph']: Leaking numerical answer '0': \"The y-intercept is where x = 0. The x-intercept is where p(x) = 0.\"",
+        "Rule #1 Spoiler in WE 'we_factor_theorem' check [Distractor: 'Add a to all coefficients of p(x)']: Leaking numerical answer '0': \"Adding does not help. Substitute x = a and check if p(a) = 0.\"",
+        "Rule #1 Spoiler in WE 'we_factor_theorem' Step 1 check [Distractor: '(x - a) is a factor of p(x) if p(a) = 1']: Leaking numerical answer '0': \"p(a) must equal 0, not 1. If p(a) = 0, then (x-a) divides p(x) exactly.\"",
+        "Rule #1 Spoiler in WE 'we_factor_theorem' Step 1 check [Distractor: '(x - a) is a factor if a is the largest coefficient']: Leaking numerical answer '0': \"Coefficients do not determine factors. p(a) = 0 is the condition.\"",
+        "Rule #1 Spoiler in WE 'we_remainder' check [Distractor: 'Divide p(x) by x and check']: Leaking numerical answer '-1': \"The Remainder Theorem lets us avoid long division. Just substitute x = -1.\"",
+        "Rule #1 Spoiler in WE 'we_zeros_coeff' Step 1 check [Distractor: 'b/a']: Contains exact answer phrase '-b/a'",
+        "Rule #1 Spoiler in WE 'we_zeros_coeff' Step 1 check [Distractor: 'c/a']: Contains exact answer phrase '-b/a'",
+        "Rule #1 Spoiler in WE 'we_exam1' check [Distractor: 'g(x) = p(x) * q(x) + r(x)']: Contains exact answer phrase 'g(x) = [p(x) - r(x)] / q(x)'",
+        "Rule #1 Spoiler in WE 'we_exam1' check [Distractor: 'g(x) = p(x) + r(x) - q(x)']: Contains exact answer phrase 'g(x) = [p(x) - r(x)] / q(x)'",
+        "Rule #1 Spoiler in WE 'we_exam2' check [Distractor: 'Check if a appears in the coefficients of p(x)']: Leaking numerical answer '0': \"The value a does not need to be in the coefficients. Check p(a) = 0.\"",
+        "Rule #1 Spoiler in WE 'we_exam2' check [Distractor: 'Divide p(x) by x']: Leaking numerical answer '0': \"Substitute x = a directly. If p(a) = 0, then a is a zero.\"",
+        "Rule #1 Spoiler in WE 'we_exam2' Step 2 check [Distractor: 'p(3) = 3']: Leaking numerical answer '3': \"p(3) must equal 0 for 3 to be a zero, not 3.\"",
+        "Rule #1 Spoiler in WE 'we_exam2' Step 2 check [Distractor: 'p(0) = 3']: Leaking numerical answer '3': \"We check p(3) = 0, not p(0) = 3. Substitute the zero value into p(x).\"",
+        "Rule #1 Spoiler in Node 1 ('Polynomials') Step 6 (quiz) [Distractor: '3']: Leaking numerical answer '5': \"3 is the power of the middle term. The highest power is 5.\"",
+        "Rule #1 Spoiler in Node 1 ('Polynomials') Step 6 (quiz) [Distractor: '0']: Leaking numerical answer '5': \"Degree 0 is for constants. This polynomial has x^5, so the degree is 5.\"",
+        "Rule #1 Spoiler in Node 1 ('Polynomials') Step 8 (worked) step 1 [Distractor: '1 term']: Leaking numerical answer '2': \"5x^2 is one term, 3 is another. That is 2 terms.\"",
+        "Rule #1 Spoiler in Node 2 ('Zeros of a Polynomial') Step 2 (quiz) [Distractor: '5 and 6']: Leaking numerical answer '2': \"p(5) = 25 - 25 + 6 = 6, not 0. Factorise: (x-2)(x-3) = 0 gives x = 2 or x = 3.\"",
+        "Rule #1 Spoiler in Node 2 ('Zeros of a Polynomial') Step 2 (quiz) [Distractor: '1 and 6']: Leaking numerical answer '2': \"p(1) = 1 - 5 + 6 = 2, not 0. Factorise: (x-2)(x-3) = 0 gives x = 2 or x = 3.\"",
+        "Rule #1 Spoiler in Node 2 ('Zeros of a Polynomial') Step 3 (worked) step 1 [Distractor: 'a is the maximum value of p(x)']: Leaking numerical answer '0': \"The x-intercept is a zero, not a maximum. p(a) = 0 at that point.\"",
+        "Rule #1 Spoiler in Node 2 ('Zeros of a Polynomial') Step 3 (worked) step 1 [Distractor: 'a is the y-intercept of the graph']: Leaking numerical answer '0': \"The y-intercept is where x = 0. The x-intercept is where p(x) = 0.\"",
+        "Rule #1 Spoiler in Node 2 ('Zeros of a Polynomial') Step 6 (quiz) [Distractor: '1']: Leaking numerical answer '2': \"A quadratic can have 2 distinct zeros, or 1 repeated zero. The maximum is 2.\"",
+        "Rule #1 Spoiler in Node 3 ('Factor Theorem') Step 2 (worked) check [Distractor: 'Add a to all coefficients of p(x)']: Leaking numerical answer '0': \"Adding does not help. Substitute x = a and check if p(a) = 0.\"",
+        "Rule #1 Spoiler in Node 3 ('Factor Theorem') Step 2 (worked) step 1 [Distractor: '(x - a) is a factor of p(x) if p(a) = 1']: Leaking numerical answer '0': \"p(a) must equal 0, not 1. If p(a) = 0, then (x-a) divides p(x) exactly.\"",
+        "Rule #1 Spoiler in Node 3 ('Factor Theorem') Step 2 (worked) step 1 [Distractor: '(x - a) is a factor if a is the largest coefficient']: Leaking numerical answer '0': \"Coefficients do not determine factors. p(a) = 0 is the condition.\"",
+        "Rule #1 Spoiler in Node 3 ('Factor Theorem') Step 4 (solve) solve-step 1 [Distractor: 'x = 2']: Leaking numerical answer '-2': \"(x + 2) = (x - (-2)), so substitute x = -2, not x = 2.\"",
+        "Rule #1 Spoiler in Node 3 ('Factor Theorem') Step 4 (solve) solve-step 1 [Distractor: 'x = 0']: Leaking numerical answer '-2': \"Substitute the value that makes (x + 2) = 0, which is x = -2.\"",
+        "Rule #1 Spoiler in Node 3 ('Factor Theorem') Step 4 (solve) solve-step 2 [Distractor: '-4']: Leaking numerical answer '0': \"Calculate: (-2)^3 + 2(4) - (-2) - 2 = -8 + 8 + 2 - 2 = 0.\"",
+        "Rule #1 Spoiler in Node 3 ('Factor Theorem') Step 4 (solve) solve-step 2 [Distractor: '8']: Leaking numerical answer '0': \"(-2)^3 = -8, 2(-2)^2 = 8, -(-2) = 2, -2. Total = -8 + 8 + 2 - 2 = 0.\"",
+        "Rule #1 Spoiler in Node 4 ('Remainder Theorem') Step 2 (worked) check [Distractor: 'Divide p(x) by x and check']: Leaking numerical answer '-1': \"The Remainder Theorem lets us avoid long division. Just substitute x = -1.\"",
+        "Rule #1 Spoiler in Node 4 ('Remainder Theorem') Step 3 (quiz) [Distractor: '0']: Leaking numerical answer '20': \"p(2) = 4 + 10 + 6 = 20, not 0. The remainder is 20.\"",
+        "Rule #1 Spoiler in Node 4 ('Remainder Theorem') Step 3 (quiz) [Distractor: '12']: Leaking numerical answer '20': \"p(2) = (2)^2 + 5(2) + 6 = 4 + 10 + 6 = 20. Check your arithmetic.\"",
+        "Rule #1 Spoiler in Node 4 ('Remainder Theorem') Step 3 (quiz) [Distractor: '6']: Leaking numerical answer '20': \"p(2) = 4 + 10 + 6 = 20. The constant term 6 is not the remainder.\"",
+        "Rule #1 Spoiler in Node 4 ('Remainder Theorem') Step 4 (quiz) [Distractor: 'p(0) = 3']: Leaking numerical answer '3': \"Remainder 0 means p(3) = 0, not p(0) = 3.\"",
+        "Rule #1 Spoiler in Node 5 ('Division Algorithm') Step 4 (worked) check [Distractor: 'g(x) = p(x) * q(x) + r(x)']: Contains exact answer phrase 'g(x) = [p(x) - r(x)] / q(x)'",
+        "Rule #1 Spoiler in Node 5 ('Division Algorithm') Step 4 (worked) check [Distractor: 'g(x) = p(x) + r(x) - q(x)']: Contains exact answer phrase 'g(x) = [p(x) - r(x)] / q(x)'",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 3 (worked) step 1 [Distractor: 'b/a']: Contains exact answer phrase '-b/a'",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 3 (worked) step 1 [Distractor: 'c/a']: Contains exact answer phrase '-b/a'",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 4 (quiz) [Distractor: '-8']: Leaking numerical answer '8': \"Sum = -b/a = -(-8)/1 = 8. The negative of b is positive here since b = -8.\"",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 4 (quiz) [Distractor: '15']: Leaking numerical answer '8': \"15 is the product c/a, not the sum. Sum = -b/a = 8.\"",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 4 (quiz) [Distractor: '1']: Leaking numerical answer '8': \"Sum = -b/a = -(-8)/1 = 8. The leading coefficient a = 1 does not make the sum 1.\"",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 5 (quiz) [Distractor: '8']: Leaking numerical answer '15': \"8 is the sum (-b/a). Product = c/a = 15/1 = 15.\"",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 5 (quiz) [Distractor: '-15']: Leaking numerical answer '15': \"Product = c/a = 15/1 = 15 (positive, not negative). c = 15 here.\"",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 5 (quiz) [Distractor: '1']: Leaking numerical answer '15': \"Product = c/a = 15/1 = 15. The leading coefficient does not make the product 1.\"",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 7 (quiz) [Distractor: 'x^2 - 2x + 15']: Contains exact answer phrase 'x^2 + 2x - 15'",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 7 (quiz) [Distractor: 'x^2 - 8x - 15']: Contains exact answer phrase 'x^2 + 2x - 15'",
+        "Rule #1 Spoiler in Node 6 ('Zeros and Coefficients') Step 7 (quiz) [Distractor: 'x^2 + 8x + 15']: Contains exact answer phrase 'x^2 + 2x - 15'",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 2 (worked) check [Distractor: 'Check if a appears in the coefficients of p(x)']: Leaking numerical answer '0': \"The value a does not need to be in the coefficients. Check p(a) = 0.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 2 (worked) check [Distractor: 'Divide p(x) by x']: Leaking numerical answer '0': \"Substitute x = a directly. If p(a) = 0, then a is a zero.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 2 (worked) step 2 [Distractor: 'p(3) = 3']: Leaking numerical answer '3': \"p(3) must equal 0 for 3 to be a zero, not 3.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 2 (worked) step 2 [Distractor: 'p(0) = 3']: Leaking numerical answer '3': \"We check p(3) = 0, not p(0) = 3. Substitute the zero value into p(x).\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 4 (quiz) [Distractor: '11']: Leaking numerical answer '13': \"alpha^2 + beta^2 = (alpha+beta)^2 - 2*alpha*beta = 25 - 12 = 13. You may have forgotten the 2.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 4 (quiz) [Distractor: '25']: Leaking numerical answer '13': \"That is (alpha+beta)^2 = 25, but alpha^2 + beta^2 = (alpha+beta)^2 - 2*alpha*beta = 25 - 12 = 13.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 4 (quiz) [Distractor: '6']: Leaking numerical answer '13': \"6 is the product alpha*beta. alpha^2 + beta^2 = (alpha+beta)^2 - 2*alpha*beta = 25 - 12 = 13.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 5 (quiz) [Distractor: 'k = 1']: Leaking numerical answer '0': \"Substitute x = -1: (k-1)(1) + k(-1) + 1 = 0 gives k - 1 - k + 1 = 0, which is 0 = 0. k can be anything except 1 (to keep degree 2). k = 0 is simplest.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 5 (quiz) [Distractor: 'k = -1']: Leaking numerical answer '0': \"Substitute x = -1: (k-1)(1) - k + 1 = k - 1 - k + 1 = 0. Always true! k != 1. k = 0.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 5 (quiz) [Distractor: 'k = 2']: Leaking numerical answer '0': \"Substitute x = -1: (k-1)(1) + k(-1) + 1 = k - 1 - k + 1 = 0. Always true, but k != 1.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 6 (quiz) [Distractor: 'x^2 + 1']: Contains exact answer phrase 'x^2 - 1'",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 6 (quiz) [Distractor: 'x^2 + x - 1']: Contains exact answer phrase 'x^2 - 1'",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 6 (quiz) [Distractor: 'x^2 - x + 1']: Contains exact answer phrase 'x^2 - 1'",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 8 (quiz) [Distractor: 'k = 2']: Leaking numerical answer '3': \"Substitute x = 2: 8 - 12 + 2k - 2 = 0 gives -6 + 2k = 0, so k = 3.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 8 (quiz) [Distractor: 'k = 0']: Leaking numerical answer '3': \"p(2) = 8 - 12 + 2k - 2 = 2k - 6 = 0 gives k = 3, not 0.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 8 (quiz) [Distractor: 'k = 6']: Leaking numerical answer '3': \"p(2) = 8 - 12 + 2k - 2 = 2k - 6. Setting to 0: 2k = 6, so k = 3, not 6.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 9 (quiz) [Distractor: '4/3']: Leaking numerical answer '3': \"1/alpha + 1/beta = (alpha+beta)/(alpha*beta) = 6/8 = 3/4. Numerator is sum, denominator is product.\"",
+        "Rule #1 Spoiler in Node 8 ('Exam Worksheet') Step 9 (quiz) [Distractor: '2']: Leaking numerical answer '3': \"1/alpha + 1/beta = (alpha+beta)/(alpha*beta) = 6/8 = 3/4. Not 2.\"",
+        "Pedagogy Gap: Node 2 ('Zeros of a Polynomial') missing 'intro' hook.",
+        "Pedagogy Gap: Node 3 ('Factor Theorem') missing 'intro' hook.",
+        "Pedagogy Gap: Node 4 ('Remainder Theorem') missing 'intro' hook.",
+        "Pedagogy Gap: Node 5 ('Division Algorithm') missing 'intro' hook.",
+        "Pedagogy Gap: Node 6 ('Zeros and Coefficients') missing 'intro' hook.",
+        "Pedagogy Gap: Node 7 ('Factorisation') missing 'intro' hook.",
+        "Pedagogy Gap: Node 8 ('Exam Worksheet') missing 'intro' hook."
+      ],
+      "sampleQuestions": [
+        {
+          "context": "WE 'we_degree' check",
+          "question": "How do you find the degree of a polynomial?",
+          "correctAnswer": "Find the highest power of the variable in the polynomial",
+          "distractors": [
+            {
+              "option": "Count the number of terms",
+              "misconception": "Number of terms tells the type (monomial, binomial, etc.), not the degree."
+            },
+            {
+              "option": "Add all the coefficients",
+              "misconception": "Adding coefficients gives a number, not the degree. Degree is the highest power."
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_degree' Step 1 check",
+          "question": "Which term determines the degree of a polynomial?",
+          "correctAnswer": "The term with the highest power of x",
+          "distractors": [
+            {
+              "option": "The first term in the expression",
+              "misconception": "Position does not matter. The highest power of x determines degree."
+            },
+            {
+              "option": "The term with the largest coefficient",
+              "misconception": "Coefficients do not determine degree. Power of x does."
+            }
+          ]
+        },
+        {
+          "context": "WE 'we_types' check",
+          "question": "What determines whether a polynomial is a monomial, binomial, or trinomial?",
+          "correctAnswer": "The number of terms in the polynomial",
+          "distractors": [
+            {
+              "option": "The degree of the polynomial",
+              "misconception": "Degree tells if it is linear, quadratic, or cubic. Number of terms tells monomial/binomial/trinomial."
+            },
+            {
+              "option": "The number of variables",
+              "misconception": "Number of variables does not determine this classification. Count the terms."
+            }
+          ]
+        }
+      ]
+    },
+    "Polynomials_JSXGraph_Inlined_Enhanced_v6.html": {
+      "filename": "Polynomials_JSXGraph_Inlined_Enhanced_v6.html",
+      "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\Polynomials_JSXGraph_Inlined_Enhanced_v6.html",
+      "fileSizeBytes": 1074645,
+      "finalScore": 46,
+      "passedChecksCount": 7,
+      "failedChecksCount": 5,
+      "stats": {
+        "totalNodes": 0,
+        "totalSteps": 0,
+        "totalQuestions": 0,
+        "totalMisconceptions": 0,
+        "spoilerViolations": 0,
+        "missingMisconceptions": 0,
+        "mathRtCollisions": 0,
+        "ruleViolations": 5,
+        "syntaxErrors": 0
+      },
+      "passedChecks": [
+        "Syntax: Valid HTML document wrapper structure.",
+        "Syntax: 5 script block(s) detected.",
+        "Math-rt Isolation: Algebraic symbols protected from bilingual translation collision.",
+        "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop).",
+        "Rule #4: Clean execution without browser-freezing alert(), confirm(), prompt().",
+        "Rule #7: _weCheckRendered state guard present for WE check flows.",
+        "Rule #10: 100% Offline-First compliant. Zero CDN dependencies."
+      ],
+      "failedChecks": [
+        "Rule #2 Violation: Missing Math.random() option shuffle.",
+        "Rule #5 Violation: Interactive activity missing 'Skip'.",
+        "Rule #6 Violation: Missing Back or Continue navigation buttons.",
+        "Rule #8 Violation: localStorage parse unshielded.",
+        "Rule #9 Violation: exit() does not perform instant reset."
+      ],
+      "sampleQuestions": []
+    },
+    "Polynomials_Offline_Demos_Enhanced_v6.html": {
+      "filename": "Polynomials_Offline_Demos_Enhanced_v6.html",
+      "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\Polynomials_Offline_Demos_Enhanced_v6.html",
+      "fileSizeBytes": 56834,
+      "finalScore": 57,
+      "passedChecksCount": 8,
+      "failedChecksCount": 4,
+      "stats": {
+        "totalNodes": 0,
+        "totalSteps": 0,
+        "totalQuestions": 0,
+        "totalMisconceptions": 0,
+        "spoilerViolations": 0,
+        "missingMisconceptions": 0,
+        "mathRtCollisions": 0,
+        "ruleViolations": 4,
+        "syntaxErrors": 0
+      },
+      "passedChecks": [
+        "Syntax: Valid HTML document wrapper structure.",
+        "Syntax: 4 script block(s) detected.",
+        "Math-rt Isolation: Non-algebraic content; zero dictionary collision.",
+        "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop).",
+        "Rule #4: Clean execution without browser-freezing alert(), confirm(), prompt().",
+        "Rule #5: Skip action present on interactive visual activities.",
+        "Rule #7: _weCheckRendered state guard present for WE check flows.",
+        "Rule #10: 100% Offline-First compliant. Zero CDN dependencies."
+      ],
+      "failedChecks": [
+        "Rule #2 Violation: Missing Math.random() option shuffle.",
+        "Rule #6 Violation: Missing Back or Continue navigation buttons.",
+        "Rule #8 Violation: localStorage parse unshielded.",
+        "Rule #9 Violation: exit() does not perform instant reset."
+      ],
+      "sampleQuestions": []
+    }
+  },
+  "claudeSemanticAudit": {
+    "error": "Claude Code CLI Error: spawnSync C:\\Windows\\system32\\cmd.exe ETIMEDOUT"
+  }
+}

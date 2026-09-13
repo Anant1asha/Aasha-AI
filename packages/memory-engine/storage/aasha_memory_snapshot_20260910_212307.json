@@ -1,0 +1,39 @@
+{
+  "exportedAt": "2026-09-10T21:23:07.838871Z",
+  "totalMemories": 3,
+  "memories": [
+    {
+      "id": "DesignAgent_experience_3f4aeafff53e",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Photosynthesis simulation should use interactive tap-to-add water and sunlight to observe chloroplast reaction",
+      "metadata": {
+        "chapter": "Science Class 6 Photosynthesis"
+      },
+      "timestamp": "2026-09-10T21:00:35.364264Z"
+    },
+    {
+      "id": "DesignAgent_experience_6143086fee34",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Fractions must always show visual split bars before introducing numerator and denominator notation per Section 2 and 9.",
+      "metadata": {
+        "source": "admin_cli",
+        "curated": true
+      },
+      "timestamp": "2026-09-10T21:06:23.099074Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_e9fbc02525a8",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "For Class 6 Science on Evaporation, wrong options must never be 'water disappearing'; the explanation must distinguish thermal kinetic energy from destruction.",
+      "metadata": {
+        "source": "admin_cli",
+        "curated": true
+      },
+      "timestamp": "2026-09-10T21:22:45.927640Z"
+    }
+  ],
+  "checksum": "ccd13f9d03af53f16070a6bcb64e6bf15ddd97abc621efc6f2954903078d8b6f"
+}

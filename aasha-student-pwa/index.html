@@ -7,20 +7,28 @@
   <meta name="description" content="Annanth Aasha Foundation — safe, interactive, school-book-first learning.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
-  <title>Annanth Aasha Foundation — Learning + Impact Beta</title>
+  <title>Annanth Aasha Foundation — Universal Learning & Gamified Assessment Ecosystem</title>
 </head>
 <body>
   <div class="app-shell">
     <header class="app-header">
       <div>
         <div class="brand">🪔 Annanth Aasha Foundation</div>
-        <div class="tagline">Safe Learning. Real Impact.</div>
+        <div class="tagline">Safe Learning. Real Impact. Universal K-12.</div>
       </div>
       <div id="status" class="status">Offline-ready</div>
     </header>
     <main id="app" aria-live="polite"></main>
     <nav id="nav" class="bottom-nav" aria-label="Primary navigation"></nav>
   </div>
+
+  <dialog id="wordDialog" class="word-dialog">
+    <div class="dlg-word" id="dlgWord">WORD</div>
+    <div class="dlg-hindi" id="dlgHindi">हिंदी अर्थ</div>
+    <div class="dlg-desc" id="dlgDesc">शब्दावली अर्थ (Key Concept Vocabulary)</div>
+    <button class="dlg-btn" id="closeWordDlg" onclick="document.getElementById('wordDialog').close()">ठीक है (OK)</button>
+  </dialog>
+
   <script type="module" src="src/app.js"></script>
 </body>
 </html>

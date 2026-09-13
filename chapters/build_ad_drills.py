@@ -1,0 +1,104 @@
+﻿import json
+
+# Compile all sub-questions from Ex 1A, 1B, 1C into step-by-step game obstacles
+drills = []
+
+# Ex 1A Q1: Addition
+drills.append({
+  "tag": "AD Ex 1A Q1(a)",
+  "title": "Stationery Sum: 5/2 + (-11/2)",
+  "story": "Sachin bought 5/2 meters of craft ribbon, then cut off 11/2 meters. What is the net balance?",
+  "sub_steps": [
+    {"task": "Identify common denominator", "answer": "2", "accept": ["2"], "type": "number", "hint": "Both fractions have denominator 2."},
+    {"task": "Add numerators: 5 + (-11)", "answer": "-6", "accept": ["-6"], "type": "number", "hint": "5 - 11 = -6."},
+    {"task": "Divide -6 by 2 for final value", "answer": "-3", "accept": ["-3", "-6/2"], "type": "number", "hint": "-6 / 2 = -3."}
+  ]
+})
+
+drills.append({
+  "tag": "AD Ex 1A Q1(c)",
+  "title": "Adding with Negative Denominator: -7/8 + 12/-8",
+  "story": "A negative denominator blocks the vault lock! Purge it first.",
+  "sub_steps": [
+    {"task": "Rewrite 12/-8 in standard form", "answer": "-12/8", "accept": ["-12/8", "-12 / 8", "-3/2"], "type": "fraction", "hint": "Multiply numerator and denominator by -1."},
+    {"task": "Combine numerators over 8: (-7 + -12)", "answer": "-19", "accept": ["-19"], "type": "number", "hint": "-7 + (-12) = -19."},
+    {"task": "Write final standard fraction", "answer": "-19/8", "accept": ["-19/8", "-19 / 8"], "type": "fraction", "hint": "Numerator -19, denominator 8."}
+  ]
+})
+
+drills.append({
+  "tag": "AD Ex 1A Q1(e)",
+  "title": "Unequal Slices: 4/-7 + (-5/8)",
+  "story": "Two shop bills with denominators 7 and 8 must be merged.",
+  "sub_steps": [
+    {"task": "Write 4/-7 in standard form", "answer": "-4/7", "accept": ["-4/7", "-4 / 7"], "type": "fraction", "hint": "Move negative sign to numerator."},
+    {"task": "Find common denominator LCM(7, 8)", "answer": "56", "accept": ["56"], "type": "number", "hint": "7 × 8 = 56."},
+    {"task": "Scaled numerator for -4/7: (-4 × 8)", "answer": "-32", "accept": ["-32"], "type": "number", "hint": "-4 × 8 = -32."},
+    {"task": "Scaled numerator for -5/8: (-5 × 7)", "answer": "-35", "accept": ["-35"], "type": "number", "hint": "-5 × 7 = -35."},
+    {"task": "Total combined fraction: [-32 + (-35)] / 56", "answer": "-67/56", "accept": ["-67/56", "-67 / 56"], "type": "fraction", "hint": "-32 - 35 = -67."}
+  ]
+})
+
+drills.append({
+  "tag": "AD Ex 1A Q2(b)",
+  "title": "Subtraction of Unequal Fractions: (-19/15) - (-6/30)",
+  "story": "Deducting an overdue balance from the store ledger.",
+  "sub_steps": [
+    {"task": "Simplify -6/30 to denominator 15", "answer": "-3/15", "accept": ["-3/15", "-3 / 15", "-1/5"], "type": "fraction", "hint": "Divide numerator and denominator by 2."},
+    {"task": "Convert subtraction of negative to addition: -19/15 - (-3/15)", "answer": "-16/15", "accept": ["-16/15", "-16 / 15"], "type": "fraction", "hint": "-19 - (-3) = -19 + 3 = -16."}
+  ]
+})
+
+drills.append({
+  "tag": "AD Ex 1A Q3(c)",
+  "title": "Cross-Cancellation Multiplication: (11/-13) × (-39/22)",
+  "story": "Two wholesale multipliers cross-cancel like magic.",
+  "sub_steps": [
+    {"task": "Determine product sign (two negatives)", "answer": "+", "accept": ["+", "positive", "pos"], "type": "text", "hint": "Negative times negative is positive."},
+    {"task": "Cancel 11 and 22: 22 ÷ 11", "answer": "2", "accept": ["2"], "type": "number", "hint": "11 goes into 22 twice."},
+    {"task": "Cancel 13 and 39: 39 ÷ 13", "answer": "3", "accept": ["3"], "type": "number", "hint": "13 goes into 39 three times."},
+    {"task": "Final reduced fraction", "answer": "3/2", "accept": ["3/2", "3 / 2", "1.5"], "type": "fraction", "hint": "3 in numerator, 2 in denominator."}
+  ]
+})
+
+drills.append({
+  "tag": "AD Ex 1A Q4(a)",
+  "title": "Division via Reciprocal: (16/7) ÷ (-8/14)",
+  "story": "Division is multiplying by the flipped twin.",
+  "sub_steps": [
+    {"task": "Invert divisor (-8/14) to reciprocal", "answer": "-14/8", "accept": ["-14/8", "-14 / 8", "-7/4"], "type": "fraction", "hint": "Flip numerator and denominator."},
+    {"task": "Cancel 16 with 8 (gives 2) and 14 with 7 (gives -2)", "answer": "-4", "accept": ["-4"], "type": "number", "hint": "2 × (-2) = -4."}
+  ]
+})
+
+drills.append({
+  "tag": "AD Ex 1B Q1(a)",
+  "title": "Commutativity Lock: (-3/7) + (4/9)",
+  "story": "The order of addends swaps without changing sum.",
+  "sub_steps": [
+    {"task": "Complete: (-3/7) + (4/9) = _____ + (-3/7)", "answer": "4/9", "accept": ["4/9", "4 / 9"], "type": "fraction", "hint": "Commutative Property: a + b = b + a."}
+  ]
+})
+
+drills.append({
+  "tag": "AD Ex 1C Q4(d)",
+  "title": "Distributive Bridge",
+  "story": "Multiplying across addition terms.",
+  "sub_steps": [
+    {"task": "Name property: (7/11) × [(1/6) + (2/13)] = [(7/11) × (1/6)] + [(7/11) × (2/13)]", "answer": "Distributive Property", "accept": ["distributive", "distributive property", "distributive property of multiplication over addition"], "type": "text", "hint": "Multiplication distributed over addition."}
+  ]
+})
+
+drills.append({
+  "tag": "AD Prescribed Solved Q1(i)",
+  "title": "The Multiplicative Identity Lock",
+  "story": "A number keeps its identity when multiplied by 1.",
+  "sub_steps": [
+    {"task": "Name property: (-4/5) × 1 = 1 × (-4/5) = -4/5", "answer": "Multiplicative Identity", "accept": ["multiplicative identity", "identity", "property of 1"], "type": "text", "hint": "1 is the multiplicative identity."}
+  ]
+})
+
+with open(r"C:\Users\admin\Downloads\NGO AI LLM\Aasha-AI\chapters\ad_drills_data.json", "w", encoding="utf-8") as f:
+    json.dump(drills, f, indent=2)
+
+print("ad_drills_data.json generated successfully!")

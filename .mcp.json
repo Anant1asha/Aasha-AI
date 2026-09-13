@@ -1,5 +1,11 @@
 {
   "mcpServers": {
+    "graphify": {
+      "httpUrl": "https://api.graphify.net/mcp",
+      "headers": {
+        "Authorization": "Bearer pc_key_df279cd7_YPFt5pazaDlYSclBsGRa646khPMWkm6zrhzDpF-PT8I"
+      }
+    },
     "a11y-debugging": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-accessibility"]

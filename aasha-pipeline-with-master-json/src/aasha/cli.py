@@ -20,6 +20,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import sys
 import time
@@ -81,7 +82,6 @@ def run_single(args, config: Config) -> int:
         print(f"Error validating PDF: {e}")
         return 1
 
-    print(f"Creating job for: {pdf_path.name}")
     job_id = orch.create_job(
         pdf_path=pdf_path,
         subject=args.subject,
@@ -89,7 +89,20 @@ def run_single(args, config: Config) -> int:
         provider=args.provider,
         mode=args.mode,
     )
-    print(f"Job ID: {job_id}")
+
+    json_events = getattr(args, "json_events", False)
+    if json_events:
+        print(json.dumps({
+            "event": "job_created",
+            "job_id": job_id,
+            "pdf": str(pdf_path),
+            "subject": args.subject,
+            "grade": args.grade,
+            "mode": args.mode
+        }), flush=True)
+    else:
+        print(f"Creating job for: {pdf_path.name}")
+        print(f"Job ID: {job_id}")
 
     from_stage = args.from_stage if hasattr(args, "from_stage") and args.from_stage else None
 
@@ -102,7 +115,10 @@ def run_single(args, config: Config) -> int:
     }
 
     def log_callback(msg: str):
-        print(f"  {msg}")
+        if json_events:
+            print(json.dumps({"event": "log", "message": msg}), flush=True)
+        else:
+            print(f"  {msg}")
 
     start_time = time.time()
     job = orch.run_pipeline(
@@ -112,6 +128,19 @@ def run_single(args, config: Config) -> int:
         max_cost=args.max_cost
     )
     duration = time.time() - start_time
+
+    if json_events:
+        html_path = job.outputs.get("html", "") if job.status == "completed" else ""
+        print(json.dumps({
+            "event": "pipeline_complete" if job.status == "completed" else "pipeline_failed",
+            "job_id": job_id,
+            "status": job.status,
+            "duration": duration,
+            "cost_usd": job.cost_usd,
+            "html_path": html_path,
+            "error_stage": job.error_stage if job.status != "completed" else None,
+            "error_message": job.error_message if job.status != "completed" else None
+        }), flush=True)
 
     print()
     print(f"Status: {'PASS' if job.status == 'completed' else 'FAIL'}")
@@ -222,6 +251,7 @@ Examples:
     parser.add_argument("--from-stage", dest="from_stage", help="Resume from stage. v5-engine: ingest, analyze, design, assess, lle, assemble, qa, output. full-synthesis: ingest, analyze, design, assess, synthesize, qa, output")
     parser.add_argument("--web", action="store_true", help="Start the web UI")
     parser.add_argument("--max-cost", type=float, default=0.50, help="Maximum cost in USD (default 0.50)")
+    parser.add_argument("--json-events", action="store_true", help="Output streaming line-delimited JSON events for IPC with TUI/GUI")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose logging")
     parser.add_argument("--config", default=None, help="Path to config.yaml (default: ./config.yaml)")
 

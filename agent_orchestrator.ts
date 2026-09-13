@@ -1,4 +1,7 @@
-import { getOpenRouterCompletion, OpenRouterMessage } from './openrouter';
+import { getLLMCompletion, LLMMessage, TaskType } from './llm_router';
+import { ContextBus } from './packages/memory-engine/context_bus';
+
+const contextBus = new ContextBus();
 
 export type AgentRole = 'IngestAgent' | 'AnalysisAgent' | 'DesignAgent' | 'AssessmentAgent' | 'LLEAgent' | 'QAAgent' | 'BrowserTesterAgent';
 
@@ -6,7 +9,10 @@ interface AgentConfig {
   role: AgentRole;
   systemPrompt: string;
   defaultModel: string;
+  /** Task type tag — tells the router which provider chain to use for this agent */
+  taskType: TaskType;
 }
+
 
 const TRUTH_SEEKING_PROTOCOL = `
 Adhere to the Truth-Seeking Epistemic Protocol:
@@ -22,6 +28,7 @@ const AGENTS: Record<AgentRole, AgentConfig> = {
     systemPrompt: `You are the IngestAgent. Your responsibility is to extract structured text, headings, and images from source PDFs.
 Model Required: NO (Deterministic Python / PyMuPDF). In this Node.js wrapper, you trigger deterministic Python extraction scripts.`,
     defaultModel: 'deterministic/python', // Handled deterministically, no LLM
+    taskType: 'deterministic',
   },
   AnalysisAgent: {
     role: 'AnalysisAgent',
@@ -31,6 +38,7 @@ Do not exceed 5 concept nodes per chapter (cognitive load limit).
 ${TRUTH_SEEKING_PROTOCOL}
 Output your analysis in strict JSON format matching the content_map schema.`,
     defaultModel: 'openrouter/auto', // Fast Reasoning (Gemini Flash / GPT-4o-mini / Local 8B)
+    taskType: 'analysis',
   },
   DesignAgent: {
     role: 'DesignAgent',
@@ -45,6 +53,7 @@ Select visual manipulatives from the Visual Contract registry. Cannot invent uns
 ${TRUTH_SEEKING_PROTOCOL}
 Output your design in strict JSON format matching the chapter_spec schema.`,
     defaultModel: 'openrouter/auto', // Fast Reasoning
+    taskType: 'design',
   },
   AssessmentAgent: {
     role: 'AssessmentAgent',
@@ -61,6 +70,7 @@ Golden Zero-Spoiler Rule:
 ${TRUTH_SEEKING_PROTOCOL}
 Output your assessments in strict JSON format.`,
     defaultModel: 'openrouter/auto', // Deep Reasoning (Claude 3.5 Sonnet / Gemini Pro / Freebuff)
+    taskType: 'assessment',
   },
   LLEAgent: {
     role: 'LLEAgent',
@@ -75,41 +85,97 @@ Your task is bilingual translation and transliteration. Map English terms to Ind
 ${TRUTH_SEEKING_PROTOCOL}
 Output in strict JSON.`,
     defaultModel: 'openrouter/auto', // Fast / Indic Specialized
+    // NOTE: Use taskType 'lle-indic' for Devanagari/Tamil/etc. — routes to Gemini Key 1 first.
+    // Use 'lle' for non-Indic or Latin-script translations — routes to OpenRouter first.
+    taskType: 'lle-indic',
   },
   QAAgent: {
     role: 'QAAgent',
     systemPrompt: `You are the QAAgent. Your responsibility is to execute the 200+ check L-Truth evaluation suite.
 Model Required: NO (Deterministic Node.js / Python harness). In this Node.js wrapper, you trigger the existing run_qa.js harness.`,
     defaultModel: 'deterministic/node', // Handled deterministically
+    taskType: 'deterministic',
   },
   BrowserTesterAgent: {
     role: 'BrowserTesterAgent',
     systemPrompt: `You are the BrowserTesterAgent. You validate the generated gamified HTML chapters by simulating browser environments (using jsdom).`,
     defaultModel: 'deterministic/node',
+    taskType: 'deterministic',
   },
 };
 
-export async function runAgent(role: AgentRole, inputContent: string, modelOverride?: string): Promise<string> {
+
+export async function runAgent(role: AgentRole, userPrompt: string, modelOverride?: string, conceptId?: string) {
   const agent = AGENTS[role];
-  const messages: OpenRouterMessage[] = [
-    { role: 'system', content: agent.systemPrompt },
-    { role: 'user', content: inputContent }
+  if (!agent) throw new Error(`Agent ${role} not found.`);
+
+  // Deterministic agents bypass the LLM entirely
+  if (agent.taskType === 'deterministic' || agent.defaultModel.startsWith('deterministic/')) {
+    console.log(`[Agent: ${role}] Executing deterministic script...`);
+    return { status: 'success', method: 'deterministic' };
+  }
+
+  console.log(`[Agent: ${role}] Starting task (taskType: ${agent.taskType})${modelOverride ? ` with model override: ${modelOverride}` : ''}`);
+
+  // 1. Context Bus Memory & Ontology Enrichment
+  let enrichedSystemPrompt = agent.systemPrompt;
+  try {
+    const memoryContext = await contextBus.buildAgentContext(role, conceptId || 'general_concept', userPrompt);
+    enrichedSystemPrompt += memoryContext.systemContextInjection;
+  } catch (err) {
+    console.warn(`[Agent: ${role}] Context Bus enrichment warning:`, err);
+  }
+
+  const messages: LLMMessage[] = [
+    { role: 'system', content: enrichedSystemPrompt },
+    { role: 'user', content: userPrompt }
   ];
 
-  console.log(`[Agent: ${role}] Starting task using model: ${modelOverride || agent.defaultModel}`);
-  
   try {
-    const result = await getOpenRouterCompletion({
-      model: modelOverride || agent.defaultModel,
-      messages
+    let response = await getLLMCompletion({
+      ...(modelOverride ? { model: modelOverride } : {}),
+      taskType: agent.taskType,
+      messages,
     });
+
+    // 2. AASHA Two-Phase Gatekeeper Validation
+    const content = response.content || JSON.stringify(response);
+    const audit = contextBus.validateOutput(content, role);
+
+    if (!audit.passed) {
+      console.warn(`[Agent: ${role}] AASHA Gatekeeper flagged violations:`, audit.violations);
+      if (audit.repairPrompt) {
+        console.log(`[Agent: ${role}] Triggering autonomous self-repair loop...`);
+        messages.push({ role: 'assistant', content });
+        messages.push({ role: 'user', content: audit.repairPrompt });
+
+        response = await getLLMCompletion({
+          ...(modelOverride ? { model: modelOverride } : {}),
+          taskType: agent.taskType,
+          messages,
+        });
+      }
+    }
+
+    // 3. Record Successful Output into Experience Memory Bank
+    try {
+      await contextBus.recordExperience(role, response.content || JSON.stringify(response), {
+        taskType: agent.taskType,
+        conceptId: conceptId || 'general_concept',
+        gatekeeperPassed: true,
+      });
+    } catch (memErr) {
+      console.warn(`[Agent: ${role}] Memory banking warning:`, memErr);
+    }
+
     console.log(`[Agent: ${role}] Task completed successfully.`);
-    return result;
+    return response;
   } catch (error) {
     console.error(`[Agent: ${role}] Task failed:`, error);
     throw error;
   }
 }
+
 
 // Automated Verification Hook
 if (require.main === module) {
@@ -118,7 +184,7 @@ if (require.main === module) {
     console.log("Running Multi-Agent automated verification...");
     (async () => {
       try {
-        const result = await runAgent('LLEAgent', 'Translate the word: fraction', 'openrouter/auto');
+        const result = await runAgent('LLEAgent', 'Translate the word: fraction', 'xpl/gpt-4o-mini');
         console.log("Test Result:", result);
       } catch (err) {
         console.error("Test failed.", err);

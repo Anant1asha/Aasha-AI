@@ -1,0 +1,1599 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Class 8 Exponents & Powers — Aasha Learning Ecosystem</title>
+<style>
+/* MathIsolation: true */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f8fafc;--surface:#ffffff;--text:#0f172a;--muted:#475569;
+  --blue:#2563eb;--blue-dk:#1d4ed8;--blue-lt:#eff6ff;
+  --green:#16a34a;--green-dk:#15803d;--green-lt:#f0fdf4;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --purple:#7c3aed;--purple-lt:#f5f3ff;
+  --border:#cbd5e1;--border-dk:#94a3b8;
+  --shadow:0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.05);
+  --shadow-lg:0 10px 25px -3px rgba(15,23,42,.12),0 4px 6px -4px rgba(15,23,42,.07);
+  --radius:16px;--radius-sm:12px;--radius-xs:8px;
+  --brand:#1e3a5f;--brand-lt:#2d5a8e;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.app{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:var(--surface);box-shadow:0 0 40px rgba(0,0,0,.08)}
+
+/* Brand Header */
+.brand-header{background:linear-gradient(135deg,var(--brand),var(--brand-lt));padding:10px 16px;display:flex;align-items:center;gap:12px;color:#fff}
+.brand-logo{width:44px;height:44px;flex-shrink:0}
+.brand-logo svg{width:100%;height:100%}
+.brand-info{flex:1;min-width:0}
+.brand-name{font-size:.82rem;font-weight:800;letter-spacing:.02em;line-height:1.2}
+.brand-name-hi{font-size:.70rem;opacity:.9;line-height:1.2}
+.brand-tagline{font-size:.64rem;opacity:.8;margin-top:2px}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.exit-btn{background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px}
+.progress-track{flex:1;height:10px;background:var(--border);border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:10px;transition:width .4s ease;width:0}
+.stat{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:800;padding:4px 9px;border-radius:16px;white-space:nowrap}
+.stat.coins{color:var(--amber);background:var(--amber-lt);border:1px solid #fde68a}
+.stat.xp{color:var(--purple);background:var(--purple-lt);border:1px solid #ddd6fe}
+.stat.lvl{color:var(--blue);background:var(--blue-lt);border:1px solid #bfdbfe}
+.stat.streak{color:var(--red);background:var(--red-lt);border:1px solid #fecaca}
+
+/* Screen */
+.screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:8px 12px 65px;min-height:0;box-sizing:border-box}
+
+/* Natural Inquiry & Concept Frames */
+.concept-frame{background:#ffffff;border:2px solid var(--border);border-radius:var(--radius);padding:18px 16px;width:100%;box-shadow:var(--shadow);margin-bottom:14px}
+.concept-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.70rem;font-weight:800;letter-spacing:.04em;color:var(--blue-dk);background:var(--blue-lt);margin-bottom:8px}
+.inquiry-title{font-size:1.15rem;font-weight:800;color:var(--brand);margin-bottom:10px;line-height:1.4}
+.concept-def{font-size:.95rem;line-height:1.8;color:var(--text);margin-bottom:14px}
+.hint{font-size:.72rem;color:var(--muted);text-align:center;margin:8px 0}
+
+/* Math expression styling */
+.math{font-family:'Cambria Math','Times New Roman',serif;font-style:italic;font-weight:700;padding:0 3px;color:#1e3a8a}
+
+/* LLE Bilingual Styling */
+.lle-text{font-size:1.05rem;line-height:2.2;color:var(--text);margin:8px 0;text-align:left}
+.lle-text-sm{font-size:.92rem;line-height:1.8;color:var(--text);margin:4px 0;text-align:left}
+.word{cursor:pointer;border-radius:4px;padding:1px 3px;transition:all .15s;border-bottom:1.5px dotted #94a3b8;font-weight:600}
+.word:hover{background:#dbeafe;color:var(--blue-dk)}
+.connective{color:var(--blue-dk);font-weight:700;cursor:pointer;border-bottom:2px dotted var(--blue);padding:1px 3px}
+.connective-hi{color:var(--purple);font-size:.85em;font-weight:600}
+
+/* Fraction display */
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.88em;line-height:1;margin:0 3px}
+.frac-top{border-bottom:1.5px solid currentColor;padding:0 3px}
+.frac-bot{padding:0 3px}
+
+/* Same-Frame Simulation Box */
+.sim-container{background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin:12px 0}
+.sim-canvas{display:block;margin:0 auto;max-width:100%;height:auto;border-radius:var(--radius-xs);touch-action:none;background:#ffffff;border:1px solid #e2e8f0}
+.sim-controls{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.sim-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.sim-btn{min-height:44px;min-width:44px;touch-action:manipulation;background:var(--blue-lt);color:var(--blue-dk);border:1.5px solid var(--blue);border-radius:8px;padding:8px 14px;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center}
+.sim-btn:hover{background:var(--blue);color:#fff}
+.sim-btn.active{background:var(--blue);color:#fff}
+.preset-bar{display:flex;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:6px;justify-content:flex-start;padding:2px 4px;margin-top:6px}
+.preset-bar::-webkit-scrollbar{display:none}
+.preset-btn{flex-shrink:0;min-height:44px;min-width:44px;touch-action:manipulation;background:#f1f5f9;border:1px solid var(--border-dk);border-radius:6px;padding:6px 12px;font-size:.78rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.preset-btn:hover{border-color:var(--blue);color:var(--blue-dk);background:#eff6ff}
+.sim-caption{font-size:.76rem;color:var(--muted);text-align:center;margin-top:8px;line-height:1.4}
+.btn-skip{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;color:var(--muted);font-size:.74rem;font-weight:700;text-decoration:underline;cursor:pointer;margin:2px auto 0;text-align:center;width:100%;min-height:44px}
+.btn-skip:hover{color:var(--blue)}
+
+/* Same-Frame Mobile Viewport Guarantees (16:9, 19.5:9, 20:9) */
+@media (max-height: 700px) {
+  /* 16:9 Aspect Ratio (e.g. 360x640) */
+  .brand-header { display: none; }
+  .topbar { padding: 4px 10px; gap: 6px; }
+  .screen { padding: 4px 8px 56px; min-height: 0; }
+  .concept-frame { padding: 8px 10px; margin-bottom: 4px; box-sizing: border-box; }
+  .concept-badge { padding: 2px 6px; font-size: 0.65rem; margin-bottom: 3px; }
+  .inquiry-title { font-size: 0.88rem; margin-bottom: 3px; line-height: 1.22; }
+  .concept-def { font-size: 0.80rem; line-height: 1.35; margin-bottom: 4px; max-height: 80px; overflow-y: auto; }
+  .concept-def .lle-text, .concept-def .lle-text-sm { line-height: 1.35 !important; font-size: 0.80rem !important; margin: 2px 0 !important; }
+  .connective-hi { font-size: 0.8em; opacity: 0.85; }
+  .sim-container { padding: 6px; margin: 4px 0; border-radius: 8px; }
+  .sim-canvas { max-height: 92px; }
+  .sim-controls { margin-top: 4px; gap: 4px; }
+  .preset-bar { display: flex; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 6px; justify-content: flex-start; padding: 2px 4px; }
+  .preset-btn, .sim-btn { flex-shrink: 0; min-height: 44px; min-width: 44px; padding: 6px 10px; font-size: 0.76rem; touch-action: manipulation; }
+  .sim-caption { font-size: 0.66rem; margin-top: 2px; line-height: 1.2; text-align: center; }
+  .hint { font-size: 0.64rem; margin: 2px 0; text-align: center; }
+  .btn-skip { margin: 2px auto 0; font-size: 0.70rem; min-height: 44px; line-height: 44px; display: inline-flex; align-items: center; justify-content: center; width: 100%; }
+  .bottom-bar { padding: 6px 12px; }
+  .btn-primary { padding: 10px 16px; min-height: 44px; font-size: 0.90rem; }
+}
+
+@media (min-height: 701px) and (max-height: 860px) {
+  /* 19.5:9 Aspect Ratio (e.g. 390x844, 393x852) and 20:9 (360x800) */
+  .brand-header { padding: 4px 12px; }
+  .brand-logo { width: 28px; height: 28px; }
+  .brand-name { font-size: 0.75rem; }
+  .brand-name-hi { display: none; }
+  .brand-tagline { display: none; }
+  .topbar { padding: 6px 12px; gap: 8px; }
+  .screen { padding: 6px 12px 60px; min-height: 0; }
+  .concept-frame { padding: 10px 12px; margin-bottom: 6px; }
+  .inquiry-title { font-size: 0.98rem; margin-bottom: 4px; line-height: 1.3; }
+  .concept-def { font-size: 0.84rem; line-height: 1.45; margin-bottom: 6px; max-height: 110px; overflow-y: auto; }
+  .concept-def .lle-text, .concept-def .lle-text-sm { line-height: 1.45 !important; font-size: 0.84rem !important; margin: 2px 0 !important; }
+  .sim-container { padding: 6px; margin: 6px 0; }
+  .sim-canvas { max-height: 115px; }
+  .preset-bar { display: flex; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 6px; justify-content: flex-start; padding: 2px 4px; }
+  .preset-btn, .sim-btn { flex-shrink: 0; min-height: 44px; min-width: 44px; }
+  .btn-skip { min-height: 44px; line-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .bottom-bar { padding: 8px 14px; }
+  .btn-primary { padding: 12px 16px; min-height: 44px; font-size: 0.95rem; }
+}
+
+@media (min-height: 861px) {
+  /* 20:9 Aspect Ratio (e.g. 412x915) */
+  .brand-header { padding: 4px 14px; }
+  .brand-logo { width: 30px; height: 30px; }
+  .brand-name { font-size: 0.78rem; }
+  .topbar { padding: 6px 12px; }
+  .screen { padding: 6px 12px 60px; min-height: 0; }
+  .concept-frame { padding: 10px 12px; margin-bottom: 6px; box-sizing: border-box; }
+  .inquiry-title { font-size: 0.98rem; margin-bottom: 4px; line-height: 1.25; }
+  .concept-def { font-size: 0.86rem; line-height: 1.45; margin-bottom: 6px; max-height: 125px; overflow-y: auto; }
+  .concept-def .lle-text, .concept-def .lle-text-sm { line-height: 1.45 !important; font-size: 0.86rem !important; margin: 2px 0 !important; }
+  .sim-container { padding: 6px; margin: 4px 0; }
+  .sim-canvas { max-height: 125px; }
+  .preset-bar { display: flex; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 6px; justify-content: flex-start; padding: 2px 4px; }
+  .preset-btn, .sim-btn { flex-shrink: 0; min-height: 44px; min-width: 44px; }
+  .btn-skip { min-height: 44px; line-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .bottom-bar { padding: 8px 14px; }
+  .btn-primary { padding: 12px 16px; min-height: 44px; font-size: 0.95rem; }
+}
+
+/* Worked Example Card */
+.we-card{background:#ffffff;border:2px solid var(--border);border-radius:var(--radius);padding:18px 16px;width:100%;box-shadow:var(--shadow)}
+.we-tag{font-size:.70rem;font-weight:800;text-transform:uppercase;color:var(--purple);background:var(--purple-lt);padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:8px}
+.we-question{font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4}
+.we-step{padding:12px 14px;border-radius:10px;background:#f8fafc;border-left:4px solid var(--blue);margin-bottom:10px;font-size:.92rem;line-height:1.5;color:#1e293b}
+.we-step.green{border-left-color:var(--green);background:var(--green-lt)}
+.we-step.final{background:var(--green-lt);border:2px solid var(--green);font-weight:800;color:var(--green-dk);text-align:center}
+
+/* High Contrast WCAG AAA Quiz Card */
+.quiz-card{background:#ffffff;border:2px solid var(--border);border-radius:var(--radius);padding:18px 16px;width:100%;box-shadow:var(--shadow)}
+.quiz-q{font-size:1.05rem;font-weight:800;color:#0f172a;margin-bottom:14px;line-height:1.45}
+.quiz-opt{display:flex;align-items:flex-start;gap:12px;padding:14px;margin-bottom:10px;border:2px solid #cbd5e1;border-radius:12px;cursor:pointer;transition:all .2s;background:#ffffff;box-shadow:0 2px 4px rgba(15,23,42,.05)}
+.quiz-opt:hover{border-color:#2563eb;background:#f8fafc}
+.quiz-opt.selected{border-color:#1d4ed8;background:#eff6ff;box-shadow:0 0 0 2px #3b82f6}
+.quiz-opt.correct{border-color:#16a34a;background:#f0fdf4;box-shadow:0 0 0 2px #22c55e}
+.quiz-opt.wrong{border-color:#dc2626;background:#fef2f2;box-shadow:0 0 0 2px #ef4444}
+.quiz-radio{width:22px;height:22px;border:2px solid #64748b;border-radius:50%;flex-shrink:0;margin-top:2px;background:#fff;display:flex;align-items:center;justify-content:center}
+.quiz-opt.selected .quiz-radio{border-color:#1d4ed8;background:#1d4ed8}
+.quiz-opt.selected .quiz-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+.quiz-opt.correct .quiz-radio{border-color:#16a34a;background:#16a34a}
+.quiz-opt.correct .quiz-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+.quiz-opt.wrong .quiz-radio{border-color:#dc2626;background:#dc2626}
+.quiz-opt-text{flex:1;color:#0f172a !important;font-weight:700;font-size:1rem;line-height:1.45}
+.quiz-opt.selected .quiz-opt-text{color:#1e3a8a !important}
+.quiz-opt.correct .quiz-opt-text{color:#14532d !important}
+.quiz-opt.wrong .quiz-opt-text{color:#7f1d1d !important}
+
+/* Feedback & Misconception */
+.feedback{padding:12px 14px;border-radius:10px;font-weight:800;font-size:.92rem;margin-top:10px;text-align:center}
+.feedback.ok{background:var(--green-lt);color:var(--green-dk);border:1.5px solid #bbf7d0}
+.feedback.no{background:var(--red-lt);color:var(--red);border:1.5px solid #fecaca}
+.misconception{background:#fffbeb;border:1.5px solid #fde68a;color:#92400e;padding:12px 14px;border-radius:10px;font-size:.88rem;line-height:1.5;margin-top:8px;font-weight:600}
+
+/* Intro & Milestone */
+.intro-hero{font-size:3.6rem;text-align:center;margin-bottom:10px}
+.milestone-box{text-align:center;padding:24px 16px;background:#fff;border:2px solid var(--border);border-radius:var(--radius);width:100%}
+.milestone-icon{font-size:4rem;margin-bottom:8px}
+.milestone-title{font-size:1.35rem;font-weight:800;color:var(--brand);margin-bottom:6px}
+.milestone-sub{font-size:.95rem;color:var(--muted);margin-bottom:14px}
+.milestone-reward{font-size:1.05rem;font-weight:800;color:var(--amber);margin-bottom:10px}
+
+/* Bottom Bar */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:0 auto;padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);box-shadow:0 -4px 12px rgba(0,0,0,.05);display:none;z-index:60}
+.btn-primary{width:100%;padding:14px;border-radius:12px;font-size:1rem;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--blue-dk));color:#fff;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.25);transition:all .15s}
+.btn-primary:hover{opacity:.95}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn-back{width:auto;display:inline-block;padding:10px 16px;margin-right:8px;background:none;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:.9rem;font-weight:700;cursor:pointer}
+
+/* LLE Modal */
+.lle-dialog{border:none;border-radius:18px;padding:0;box-shadow:0 12px 36px rgba(0,0,0,.25);background:var(--surface);max-width:380px;width:90%;margin:auto}
+.lle-dialog::backdrop{background:rgba(15,23,42,.65);backdrop-filter:blur(3px)}
+.dlg-content{padding:18px;display:flex;flex-direction:column;gap:10px}
+.dlg-header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0;padding-bottom:8px}
+.dlg-badge{font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--blue-dk);background:var(--blue-lt);padding:2px 8px;border-radius:12px}
+.dlg-close-x{background:none;border:none;font-size:1.2rem;color:#64748b;cursor:pointer;padding:2px 6px}
+.dlg-word-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.dlg-word{font-size:1.5rem;font-weight:900;color:#1e293b}
+.dlg-audio-btn{display:inline-flex;align-items:center;gap:4px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:20px;padding:4px 10px;font-size:.78rem;font-weight:800;color:#0f172a;cursor:pointer}
+.dlg-phonics-row{display:flex;align-items:baseline;gap:6px;background:#f8fafc;padding:6px 10px;border-radius:8px;border-left:3px solid #8b5cf6}
+.dlg-phonics-label{font-size:.75rem;font-weight:700;color:#64748b}
+.dlg-phonics{font-size:.95rem;font-weight:800;color:#6d28d9}
+.dlg-meaning-row{display:flex;flex-direction:column;gap:3px;background:#f0fdf4;padding:8px 10px;border-radius:8px;border-left:3px solid #22c55e}
+.dlg-meaning-label{font-size:.75rem;font-weight:700;color:#15803d}
+.dlg-hindi{font-size:1.05rem;font-weight:800;color:#166534}
+.dlg-desc{font-size:.72rem;color:#64748b;line-height:1.4}
+.dlg-btn{width:100%;margin-top:6px;padding:10px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:12px;font-size:.92rem;font-weight:800;cursor:pointer}
+
+/* Confetti */
+#confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand-header">
+    <div class="brand-logo">
+      <svg viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="46" fill="#2563eb"/>
+        <path d="M50 16L78 78H62L50 48L38 78H22L50 16Z" fill="#ffffff"/>
+      </svg>
+    </div>
+    <div class="brand-info">
+      <div class="brand-name">AASHA LEARNING ECOSYSTEM</div>
+      <div class="brand-name-hi">आशा लर्निंग इकोसिस्टम • कक्षा 8 गणित</div>
+      <div class="brand-tagline">Chapter 2: Exponents & Powers (घातांक और घात)</div>
+    </div>
+  </div>
+
+  <div class="topbar">
+    <button class="exit-btn" onclick="App.exit()" title="Exit to start">✕</button>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="stat coins">🪙 <span id="statCoins">0</span></span>
+    <span class="stat xp">⭐ <span id="statXp">0</span></span>
+    <span class="stat lvl" id="statLvl">Lv 1</span>
+    <span class="stat streak" id="statStreakWrap" style="display:none">🔥 <span id="statStreak">0</span></span>
+  </div>
+
+  <div class="screen" id="screen"></div>
+
+  <div class="bottom-bar" id="bottomBar">
+    <div style="display:flex;align-items:center;justify-content:center;max-width:520px;margin:0 auto">
+      <button class="btn-back" id="backBtn" onclick="App.goBack()" style="display:none">← Back</button>
+      <button class="btn-primary" id="continueBtn" onclick="App.next()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<dialog id="wordDialog" class="lle-dialog">
+  <div class="dlg-content">
+    <div class="dlg-header">
+      <span class="dlg-badge">AASHA LLE BILINGUAL BRIDGE</span>
+      <button class="dlg-close-x" onclick="document.getElementById('wordDialog').close();document.getElementById('wordDialog').style.display='none'">✕</button>
+    </div>
+    <div class="dlg-word-row">
+      <span class="dlg-word" id="dlgWord">Word</span>
+      <button class="dlg-audio-btn" id="dlgAudioBtn" onclick="speakCurrentWord()" title="Listen to pronunciation">🔊 बोलें</button>
+    </div>
+    <div class="dlg-phonics-row">
+      <span class="dlg-phonics-label">उच्चारण (Phonics):</span>
+      <span class="dlg-phonics" id="dlgPhonics">—</span>
+    </div>
+    <div class="dlg-meaning-row">
+      <span class="dlg-meaning-label">सरल अर्थ (Meaning):</span>
+      <span class="dlg-hindi" id="dlgHindi">—</span>
+    </div>
+    <div class="dlg-desc" id="dlgDesc">Aasha Universal Teaching Vocabulary (आशा शिक्षण शब्दावली)</div>
+    <button class="dlg-btn" onclick="document.getElementById('wordDialog').close();document.getElementById('wordDialog').style.display='none'">ठीक है (Got It)</button>
+  </div>
+</dialog>
+
+<canvas id="confettiCanvas"></canvas>
+
+<script>
+// ═══ LLE BILINGUAL VOCABULARY & CONNECTIVES ═══
+var CONN = {
+  "if": "यदि / अगर", "because": "क्योंकि", "therefore": "इसलिए", "however": "हालांकि / लेकिन",
+  "so that": "ताकि", "in order to": "के लिए", "which means": "जिसका अर्थ है", "although": "यद्यपि / भले ही",
+  "unless": "जब तक कि नहीं", "due to": "के कारण", "for example": "उदाहरण के लिए", "since": "चूँकि",
+  "then": "तब / तो", "when": "जब", "while": "जबकि", "instead of": "के बजाय", "that is why": "इसीलिए",
+  "in other words": "दूसरे शब्दों में", "similarly": "इसी प्रकार / वैसे ही", "thus": "इस प्रकार",
+  "hence": "अतः", "also": "भी", "but": "परंतु / लेकिन", "or": "या", "and": "और", "finally": "अंत में"
+};
+
+var WM = {
+  "express": "व्यक्त करना (एक्सप्रेस)", "rational": "परिमेय संख्या (रैशनल)", "standard": "मानक रूप (स्टैंडर्ड)",
+  "form": "रूप (फॉर्म)", "positive": "धनात्मक (पॉज़िटिव)", "denominator": "हर (डिनॉमिनेटर)",
+  "numerator": "अंश (न्यूमरेटर)", "multiplying": "गुणा करना (मल्टीप्लाइंग)", "entire": "संपूर्ण (एंटायर)",
+  "placed": "रखा गया (प्लेस्ड)", "fractions": "भिन्न (फ्रैक्शन्स)", "understanding": "समझ (अंडरस्टैंडिंग)",
+  "fraction": "भिन्न (फ्रैक्शन)", "exponent": "घातांक (एक्सपोनेंट)", "exponents": "घातांक (एक्सपोनेंट्स)",
+  "power": "घात (पावर)", "powers": "घातें (पावर्स)", "base": "आधार (बेस)", "bases": "आधार (बेसेस)",
+  "negative": "ऋणात्मक (नेगेटिव)", "positive": "धनात्मक (पॉज़िटिव)", "reciprocal": "व्युत्क्रम (रेसिप्रोकल)",
+  "reciprocals": "व्युत्क्रम (रेसिप्रोकल्स)", "multiplicative": "गुणात्मक (मल्टीप्लिकेटिव)",
+  "inverse": "प्रतिलोम (इन्वर्स)", "identity": "तत्समक (आइडेंटिटी)", "product": "गुणनफल (प्रोडक्ट)",
+  "quotient": "भागफल (कोटिएंट)", "law": "नियम (लॉ)", "laws": "नियम (लॉज़)", "zero": "शून्य (ज़ीरो)",
+  "equation": "समीकरण (इक्वेशन)", "equations": "समीकरण (इक्वेशन्स)", "exponential": "घातांकीय (एक्सपोनेंशियल)",
+  "variable": "चर (वेरिएबल)", "variables": "चर (वेरिएबल्स)", "scientific": "वैज्ञानिक (साइंटिफिक)",
+  "notation": "संकेतन (नोटेशन)", "decimal": "दशमलव (डेसिमल)", "point": "बिंदु (पॉइंट)", "points": "बिंदु (पॉइंट्स)",
+  "shift": "खिसकना (शिफ्ट)", "shifts": "खिसकता है (शिफ्ट्स)", "shifter": "खिसकाने वाला (शिफ्टर)",
+  "inversion": "उलटना (इन्वर्ट)", "inverter": "उलटने वाला (इन्वर्टर)", "repeated": "दोहराया गया (रिपीटेड)",
+  "multiplication": "गुणा (मल्टीप्लिकेशन)", "division": "भाग (डिवीजन)", "multiply": "गुणा करना (मल्टीप्लाई)",
+  "divide": "भाग देना (डिवाइड)", "add": "जोड़ना (ऐड)", "subtract": "घटाना (सबट्रैक्ट)",
+  "matrix": "मैट्रिक्स / ग्रिड (मैट्रिक्स)", "spinner": "चकरी (स्पिनर)", "battle": "मुकाबला (बैटल)",
+  "scale": "तराजू / पैमाना (स्केल)", "balance": "संतुलन (बैलेंस)", "balanced": "संतुलित (बैलेंस्ड)",
+  "equilibrium": "संतुलन स्थिति (इक्विलिब्रियम)", "cosmic": "ब्रह्मांडीय (कॉस्मिक)", "microscopic": "अति सूक्ष्म (माइक्रोस्कोपिक)",
+  "atom": "परमाणु (एटम)", "sun": "सूर्य (सन)", "cell": "कोशिका (सेल)", "blood": "रक्त (ब्लड)",
+  "meter": "मीटर (मीटर)", "meters": "मीटर (मीटर्स)", "value": "मान (वैल्यू)", "values": "मान (वैल्यूज़)",
+  "result": "परिणाम (रिज़ल्ट)", "simplify": "सरल करना (सिम्प्लिफाई)", "simplified": "सरल किया (सिम्प्लिफाइड)",
+  "number": "संख्या (नंबर)", "numbers": "संख्याएँ (नंबर्स)", "integer": "पूर्णांक (इंटीजर)",
+  "integers": "पूर्णांक (इंटीजर्स)", "equal": "बराबर (इक्वल)", "equals": "बराबर है (इक्वल्स)",
+  "step": "चरण (स्टेप)", "steps": "चरण (स्टेप्स)", "check": "जाँच (चेक)", "question": "प्रश्न (क्वेश्चन)",
+  "answer": "उत्तर (आंसर)", "solve": "हल करना (सॉल्व)", "rule": "नियम (रूल)", "rules": "नियम (रूल्स)",
+  "notice": "ध्यान दें (नोटिस)", "always": "हमेशा (ऑलवेज़)", "never": "कभी नहीं (नेवर)",
+  "same": "समान (सेम)", "different": "भिन्न (डिफरेंट)", "unchanged": "अपरिवर्तित (अनचेंज्ड)",
+  "cancels": "कट जाता है (कैंसल्स)", "cancellation": "काटना (कैंसलेशन)", "merger": "मिलाना (मर्जर)",
+  "great": "शानदार (ग्रेट)", "job": "कार्य (जॉब)", "correct": "सही (करेक्ट)", "wrong": "गलत (रॉन्ग)",
+  "try": "प्रयास करें (ट्राई)", "again": "पुनः (अगेन)", "start": "शुरू (स्टार्ट)", "continue": "आगे बढ़ें (कंटिन्यू)",
+  "done": "पूर्ण (डन)", "explore": "खोजें (एक्सप्लोर)", "learn": "सीखें (लर्न)", "welcome": "स्वागत (वेलकम)",
+  "why": "क्यों (व्हाई)", "what": "क्या (व्हाट)", "how": "कैसे (हाउ)", "which": "कौन सा (व्हिच)",
+  "can": "सकते हैं (कैन)", "must": "चाहिए (मस्ट)", "keep": "रखना (कीप)", "makes": "बनाता है (मेक्स)",
+  "yields": "देता है (यील्ड्स)", "produces": "उत्पन्न करता है (प्रोड्यूसेस)"
+};
+window.WM = WM;
+
+var LEVELS = [
+  { xp: 0, name: "Beginner", ic: "🌱" },
+  { xp: 50, name: "Power Cadet", ic: "⚡" },
+  { xp: 120, name: "Exponent Scholar", ic: "📘" },
+  { xp: 220, name: "Law Master", ic: "🎓" },
+  { xp: 350, name: "Cosmic Alchemist", ic: "🌌" }
+];
+
+var BADGES = [
+  { id: "b1", name: "Inverter Ace", ic: "🔄", desc: "Mastered negative exponents and reciprocals" },
+  { id: "b2", name: "Law Enforcer", ic: "⚔️", desc: "Applied product and quotient laws cleanly" },
+  { id: "b3", name: "Zero Power Sage", ic: "💡", desc: "Justified power of power and a^0 = 1" },
+  { id: "b4", name: "Equation Balancer", ic: "⚖️", desc: "Equated unknown exponents with identical bases" },
+  { id: "b5", name: "Cosmic Scale Zoomer", ic: "🔭", desc: "Expressed atomic and astronomical standard forms" }
+];
+
+// ═══ LLE RUNTIME TRANSLATOR & SPEECH ═══
+function rt(text, sm) {
+  var cls = sm ? 'lle-text-sm' : 'lle-text';
+  var html = text || '';
+  html = html.replace(/(-?\d+)\/(\d+)/g, '<span class="frac"><span class="frac-top">$1</span><span class="frac-bot">$2</span></span>');
+  
+  var keys = Object.keys(CONN).sort(function(a,b){ return b.length - a.length; });
+  var connCount = 0, result = '', i = 0;
+  
+  while (i < html.length) {
+    var ch = html[i];
+    if (ch === '.' || ch === '!' || ch === '?') { connCount = 0; result += ch; i++; continue; }
+    if (ch === '<') {
+      var ci = html.indexOf('>', i);
+      if (ci >= 0) { result += html.substring(i, ci + 1); i = ci + 1; continue; }
+    }
+    var matched = false;
+    if (i === 0 || !/[a-zA-Z]/.test(html[i-1])) {
+      for (var k = 0; k < keys.length; k++) {
+        var c = keys[k];
+        var sub = html.substring(i, i + c.length);
+        if (sub.toLowerCase() === c.toLowerCase()) {
+          var ai = i + c.length;
+          if (ai < html.length && /[a-zA-Z]/.test(html[ai])) continue;
+          var hi = CONN[c];
+          connCount++;
+          if (connCount <= 2) {
+            result += '<span class="connective" data-w="' + sub + '" data-h="' + hi + '">' + sub + ' <span class="connective-hi">(' + hi + ')</span></span>';
+          } else {
+            result += '<span class="word" data-w="' + sub.toLowerCase() + '" data-h="' + hi + '">' + sub + '</span>';
+          }
+          i += c.length; matched = true; break;
+        }
+      }
+    }
+    if (matched) continue;
+    if (/[a-zA-Z]/.test(ch)) {
+      var ws = i;
+      while (i < html.length && /[a-zA-Z]/.test(html[i])) i++;
+      var word = html.substring(ws, i);
+      var cw = word.toLowerCase();
+      var hiVal = WM[cw] || '';
+      result += '<span class="word" data-w="' + cw + '" data-h="' + (hiVal ? hiVal.replace(/"/g, '&quot;') : '') + '">' + word + '</span>';
+    } else {
+      result += ch; i++;
+    }
+  }
+  return '<div class="' + cls + '">' + result + '</div>';
+}
+
+document.addEventListener('click', function(e) {
+  var el = e.target.closest('.connective');
+  if (el) { showWord(el.getAttribute('data-w'), el.getAttribute('data-h'), 'Connecting word (जोड़ने वाला शब्द)'); return; }
+  el = e.target.closest('.word');
+  if (el) { showWord(el.getAttribute('data-w'), el.getAttribute('data-h'), 'Aasha Universal Teaching Vocabulary (आशा शिक्षण शब्दावली)'); return; }
+});
+
+function speakCurrentWord() {
+  var w = document.getElementById('dlgWord').textContent;
+  if (!w) return;
+  if ('speechSynthesis' in window) {
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(w);
+      var voices = window.speechSynthesis.getVoices() || [];
+      var v = voices.find(function(voice) { return voice.lang === 'en-IN'; }) ||
+              voices.find(function(voice) { return voice.lang.startsWith('en'); }) ||
+              voices[0];
+      if (v) { u.voice = v; u.lang = v.lang; }
+      else { u.lang = 'en-IN'; }
+      u.rate = 0.85;
+      window.speechSynthesis.speak(u);
+    } catch(e){}
+  }
+}
+
+function showWord(w, h, d) {
+  var dlg = document.getElementById('wordDialog');
+  var cw = (w || '').toLowerCase().trim();
+  document.getElementById('dlgWord').textContent = w;
+  
+  var fullVal = (h && h !== '—' && h !== '') ? h : (WM[cw] || '');
+  if (!fullVal) {
+    var stems = [
+      cw.replace(/s$/, ''), cw.replace(/es$/, ''), cw.replace(/ed$/, ''),
+      cw.replace(/d$/, ''), cw.replace(/ing$/, ''), cw.replace(/ly$/, '')
+    ];
+    for (var i = 0; i < stems.length; i++) {
+      var st = stems[i];
+      if (st && WM[st]) { fullVal = WM[st]; break; }
+    }
+  }
+  if (!fullVal || fullVal.includes('उपलब्ध नहीं') || fullVal.includes('not available')) {
+    fullVal = cw + ' (शब्द)';
+  }
+  
+  var mMatch = fullVal.match(/^(.*?)\s*\((.*?)\)$/);
+  var meaning = fullVal;
+  var phonics = cw;
+  if (mMatch) {
+    meaning = mMatch[1].trim();
+    phonics = mMatch[2].trim();
+  }
+  
+  document.getElementById('dlgPhonics').textContent = phonics;
+  document.getElementById('dlgHindi').textContent = meaning;
+  document.getElementById('dlgDesc').textContent = d || 'Aasha Universal Teaching Vocabulary (आशा शिक्षण शब्दावली)';
+  
+  dlg.style.display = 'block';
+  if (typeof dlg.showModal === 'function' && !dlg.open) dlg.showModal();
+  setTimeout(speakCurrentWord, 200);
+}
+
+// ═══ WEB AUDIO SYNTHESIS & CONFETTI ═══
+var _audioCtx = null;
+function playTone(type) {
+  try {
+    if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var osc = _audioCtx.createOscillator(), gain = _audioCtx.createGain();
+    osc.connect(gain); gain.connect(_audioCtx.destination);
+    var now = _audioCtx.currentTime;
+    if (type === 'tap') {
+      osc.frequency.setValueAtTime(440, now);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      osc.start(now); osc.stop(now + 0.08);
+    } else if (type === 'correct') {
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.1);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+      osc.start(now); osc.stop(now + 0.28);
+    } else if (type === 'wrong') {
+      osc.frequency.setValueAtTime(260, now);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.start(now); osc.stop(now + 0.25);
+    } else if (type === 'levelup') {
+      [523.25, 659.25, 783.99, 1046.5].forEach(function(freq, idx) {
+        var o = _audioCtx.createOscillator(), g = _audioCtx.createGain();
+        o.connect(g); g.connect(_audioCtx.destination);
+        o.frequency.setValueAtTime(freq, now + idx * 0.09);
+        g.gain.setValueAtTime(0.1, now + idx * 0.09);
+        g.gain.exponentialRampToValueAtTime(0.001, now + (idx + 1) * 0.09 + 0.15);
+        o.start(now + idx * 0.09); o.stop(now + (idx + 1) * 0.09 + 0.15);
+      });
+    }
+  } catch(e){}
+}
+
+function fireConfetti(count) {
+  var canvas = document.getElementById('confettiCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  var particles = [];
+  for (var i = 0; i < (count || 50); i++) {
+    particles.push({
+      x: canvas.width / 2, y: canvas.height / 2,
+      vx: (Math.random() - 0.5) * 12, vy: (Math.random() - 0.7) * 14,
+      size: Math.random() * 8 + 4,
+      color: ['#2563eb', '#16a34a', '#d97706', '#7c3aed', '#dc2626'][Math.floor(Math.random() * 5)],
+      life: 60
+    });
+  }
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var active = false;
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      if (p.life > 0) {
+        active = true; p.x += p.vx; p.y += p.vy; p.vy += 0.3; p.life--;
+        ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, p.size, p.size);
+      }
+    }
+    if (active) requestAnimationFrame(animate);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  requestAnimationFrame(animate);
+}
+
+// ═══ WORKED EXAMPLES (WE) DATA ═══
+var WE = {
+  "we_negative_exp": {
+    "title": "Step-by-Step: Evaluating Negative Exponents",
+    "question": "Find the value of (3/4)^(-2).",
+    "steps": [
+      {
+        "text": "Apply the negative exponent rule for fractions: (a/b)^(-n) = (b/a)^n. Inverting the base fraction gives (4/3)^2.",
+        "c": "blue",
+        "check": {
+          "q": "What is the primary effect of a negative sign in an exponent?",
+          "opts": [
+            { "t": "It indicates taking the reciprocal of the base raised to the positive power", "c": true, "m": "" },
+            { "t": "It turns the entire numerical result into a negative number", "c": false, "m": "A negative exponent indicates reciprocal division, not a negative overall value." },
+            { "t": "It subtracts the exponent value from the base", "c": false, "m": "Exponents indicate repeated operations, not basic subtraction from the base." },
+            { "t": "It sets the value to zero", "c": false, "m": "A power with a non-zero base never evaluates to zero." }
+          ]
+        }
+      },
+      {
+        "text": "Raise both numerator and denominator to the power 2: 4^2 / 3^2.",
+        "c": "blue"
+      },
+      {
+        "text": "Compute the powers: (4 × 4) / (3 × 3) = 16/9.",
+        "c": "green",
+        "final": true
+      }
+    ],
+    "check": {
+      "q": "What is the value of (2/5)^(-3)?",
+      "opts": [
+        { "t": "125/8", "c": true, "m": "" },
+        { "t": "-125/8", "c": false, "m": "The negative sign in the exponent inverts the fraction; it does not make the final answer negative." },
+        { "t": "8/125", "c": false, "m": "A negative exponent requires inverting the fraction before raising each part to the power." },
+        { "t": "-6/15", "c": false, "m": "Exponents represent repeated multiplication of the base, not multiplying the fraction by the exponent." }
+      ]
+    }
+  },
+  "we_laws": {
+    "title": "Step-by-Step: Applying Product & Quotient Laws",
+    "question": "Simplify (2^5 ÷ 2^8)^5 × 2^(-5).",
+    "steps": [
+      {
+        "text": "Apply quotient law inside parentheses: 2^5 ÷ 2^8 = 2^(5 - 8) = 2^(-3).",
+        "c": "blue",
+        "check": {
+          "q": "When dividing powers with identical bases, how are the exponents combined?",
+          "opts": [
+            { "t": "Subtract the denominator exponent from the numerator exponent", "c": true, "m": "" },
+            { "t": "Divide the exponents by each other", "c": false, "m": "Exponents count factors; dividing powers subtracts factor counts rather than dividing the exponent values." },
+            { "t": "Add the exponents together", "c": false, "m": "Adding exponents applies to multiplying like bases, not dividing them." },
+            { "t": "Multiply the exponents together", "c": false, "m": "Multiplying exponents applies to raising a power to another power." }
+          ]
+        }
+      },
+      {
+        "text": "Apply power of a power law: (2^(-3))^5 = 2^(-3 × 5) = 2^(-15).",
+        "c": "blue"
+      },
+      {
+        "text": "Apply product law: 2^(-15) × 2^(-5) = 2^(-15 + (-5)) = 2^(-20) = 1/2^20.",
+        "c": "green",
+        "final": true
+      }
+    ],
+    "check": {
+      "q": "Simplify: 5^3 × 5^(-7).",
+      "opts": [
+        { "t": "5^(-4)", "c": true, "m": "" },
+        { "t": "5^(-21)", "c": false, "m": "When multiplying like bases, add the exponents algebraically instead of multiplying them." },
+        { "t": "5^10", "c": false, "m": "Add the exponents with their proper signs: a positive exponent plus a negative exponent results in subtraction." },
+        { "t": "25^(-4)", "c": false, "m": "The base remains unchanged when applying exponent laws; do not multiply the bases together." }
+      ]
+    }
+  },
+  "we_power_of_power": {
+    "title": "Step-by-Step: Power of a Power & Zero Exponent",
+    "question": "Simplify [(-1/3)^2]^(-2) × (-1/3)^0.",
+    "steps": [
+      {
+        "text": "Apply power of a power rule: [(-1/3)^2]^(-2) = (-1/3)^(2 × (-2)) = (-1/3)^(-4).",
+        "c": "blue",
+        "check": {
+          "q": "Why is any non-zero base raised to the power zero equal to 1?",
+          "opts": [
+            { "t": "Because a^m / a^m = a^(m-m) = a^0, and any non-zero number divided by itself equals 1", "c": true, "m": "" },
+            { "t": "Because zero multiplied by any number equals one", "c": false, "m": "Zero multiplied by a number yields zero; the power of zero represents the neutral multiplicative identity." },
+            { "t": "Because the exponent zero erases the base", "c": false, "m": "An exponent does not erase a base; the quotient rule shows that equal powers cancel to one." },
+            { "t": "Because zero is always defined as one in mathematics", "c": false, "m": "Zero is not defined as unity; raising a non-zero base to power zero yields the multiplicative identity directly from the quotient law of exponents." }
+          ]
+        }
+      },
+      {
+        "text": "Evaluate zero power: (-1/3)^0 = 1.",
+        "c": "blue"
+      },
+      {
+        "text": "Evaluate: (-1/3)^(-4) × 1 = (-3)^4 = 81.",
+        "c": "green",
+        "final": true
+      }
+    ],
+    "check": {
+      "q": "Simplify: (4^2)^(-3).",
+      "opts": [
+        { "t": "4^(-6)", "c": true, "m": "" },
+        { "t": "4^(-1)", "c": false, "m": "When raising a power to another power, multiply the exponents rather than adding them." },
+        { "t": "4^8", "c": false, "m": "Multiplying a positive exponent by a negative exponent results in a negative product." },
+        { "t": "16^(-3)", "c": false, "m": "Expressing the power with the original base requires multiplying inner and outer exponents." }
+      ]
+    }
+  },
+  "we_equation": {
+    "title": "Step-by-Step: Solving Exponential Equations",
+    "question": "Find the value of x if 2^(x-3) = 1.",
+    "steps": [
+      {
+        "text": "Express 1 as a power of base 2: 1 = 2^0. The equation becomes 2^(x-3) = 2^0.",
+        "c": "blue",
+        "check": {
+          "q": "To solve 2^(x-3) = 1, how can the right-hand side 1 be expressed with base 2?",
+          "opts": [
+            { "t": "As 2^0, because any non-zero number to power 0 equals 1", "c": true, "m": "" },
+            { "t": "As 2^1, because 2 is the base", "c": false, "m": "Raising a base to the first power leaves the number unchanged; apply the zero exponent property instead." },
+            { "t": "As 2^(-1), because 1 is positive", "c": false, "m": "Raising a base to a negative power yields a reciprocal fraction; only power zero produces the neutral multiplicative identity." },
+            { "t": "It cannot be expressed as a power of 2", "c": false, "m": "Any non-zero base can represent the value one when raised to the power of zero." }
+          ]
+        }
+      },
+      {
+        "text": "Since bases are identical and non-zero, equate exponents: x - 3 = 0.",
+        "c": "blue"
+      },
+      {
+        "text": "Add 3 to both sides: x = 3.",
+        "c": "green",
+        "final": true
+      }
+    ],
+    "check": {
+      "q": "Solve for x: 3^x = 3^(2x - 4).",
+      "opts": [
+        { "t": "x = 4", "c": true, "m": "" },
+        { "t": "x = 2", "c": false, "m": "Equate the algebraic expressions in both exponents, then shift the variable terms to one side to isolate the unknown." },
+        { "t": "x = -4", "c": false, "m": "Pay close attention to signs when moving terms across the equals sign." },
+        { "t": "x = 1", "c": false, "m": "Substitute your proposed value back into both exponents to verify whether they match." }
+      ]
+    }
+  },
+  "we_standard_form": {
+    "title": "Step-by-Step: Converting to Scientific Standard Form",
+    "question": "Express 0.000007 m in scientific standard form.",
+    "steps": [
+      {
+        "text": "Identify the leading non-zero digit: 7. In standard form k × 10^n, k must be between 1 and 10, so k = 7.",
+        "c": "blue",
+        "check": {
+          "q": "When expressing a tiny decimal number (< 1) in standard form, what sign does the exponent of 10 have?",
+          "opts": [
+            { "t": "Negative, because the decimal point shifts to the right", "c": true, "m": "" },
+            { "t": "Positive, because standard form numbers must be positive", "c": false, "m": "The exponent sign indicates scale magnitude; numbers smaller than one require negative powers of ten." },
+            { "t": "Zero, because small numbers have no power", "c": false, "m": "A zero power of ten equals one; smaller decimal fractions require negative powers of ten." },
+            { "t": "It depends on whether the digits are odd or even", "c": false, "m": "Exponent sign depends strictly on whether the original number is greater than ten or less than one." }
+          ]
+        }
+      },
+      {
+        "text": "Count the number of places the decimal point shifts to the right to reach 7: exactly 6 places.",
+        "c": "blue"
+      },
+      {
+        "text": "Write with negative exponent: 7 × 10^(-6) m.",
+        "c": "green",
+        "final": true
+      }
+    ],
+    "check": {
+      "q": "Express 0.000035 in scientific standard form.",
+      "opts": [
+        { "t": "3.5 * 10^(-5)", "c": true, "m": "" },
+        { "t": "35 * 10^(-6)", "c": false, "m": "In standard scientific form, the leading decimal factor must be strictly less than ten." },
+        { "t": "3.5 * 10^5", "c": false, "m": "A positive power of ten indicates a number greater than ten; decimals less than 1 require negative exponents." },
+        { "t": "0.35 * 10^(-4)", "c": false, "m": "The leading decimal number must be greater than or equal to 1." }
+      ]
+    }
+  }
+};
+
+var NODES = [
+  {
+    "title": "Powers with Negative Exponents",
+    "steps": [
+      {
+        "t": "intro", "icon": "🔬",
+        "title": "What does a negative exponent actually tell us to do with a base?",
+        "sub": "In computer chips and science labs, measuring the size of an atom or the mass of an electron requires tiny numbers. Negative exponents give us a precise tool!"
+      },
+      {
+        "t": "text",
+        "title": "Why does a negative exponent turn into a reciprocal fraction?",
+        "text": "An exponent represents repeated multiplication. A positive exponent like 2^3 means multiplying 2 by itself three times: 2 × 2 × 2 = 8. A negative exponent like 2^(-3) indicates repeated division: it is the multiplicative inverse (reciprocal) of 2^3, which equals 1/2^3 = 1/8. For any non-zero integer a and positive integer n, a^(-n) = 1/a^n. For any fraction, (a/b)^(-n) = (b/a)^n.",
+        "simType": "inverter",
+        "caption": "Power Inverter Lab: Adjust base and exponent to see reciprocal flipping"
+      },
+      { "t": "worked", "we": "we_negative_exp" },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "What is the multiplicative inverse of 3^(-4)?",
+          "opts": [
+            { "t": "3^4", "c": true, "m": "" },
+            { "t": "3^(-4)", "c": false, "m": "Multiplying a number by itself does not equal one unless the powers cancel each other out." },
+            { "t": "-3^4", "c": false, "m": "The multiplicative inverse changes the sign of the exponent to achieve a product of one, not the sign of the base." },
+            { "t": "-3^(-4)", "c": false, "m": "Changing the base sign yields an additive relationship rather than the multiplicative inverse." }
+          ]
+        }
+      },
+      { "t": "progress", "xp": 40, "next": true }
+    ]
+  },
+  {
+    "title": "Product & Quotient Laws",
+    "steps": [
+      {
+        "t": "intro", "icon": "⚔️",
+        "title": "Why do powers add when multiplying identical bases, but subtract when dividing?",
+        "sub": "When two powers with the same base meet, we do not need to calculate massive products first. The laws of exponents simplify everything into simple addition and subtraction!"
+      },
+      {
+        "t": "text",
+        "title": "How do common base factors merge or cancel out?",
+        "text": "Product Law: When multiplying powers with identical bases, add their exponents: a^m × a^n = a^(m + n). Why? Because m factors of a multiplied by n factors of a make a total of (m + n) factors. Quotient Law: When dividing powers with identical bases, subtract the denominator exponent: a^m ÷ a^n = a^(m - n). Factors in the numerator and denominator cancel out one by one.",
+        "simType": "laws",
+        "caption": "Laws Visualizer: Toggle Multiply and Divide to watch factors merge or cancel"
+      },
+      { "t": "worked", "we": "we_laws" },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "Under what condition can the product law a^m * a^n = a^(m+n) be applied?",
+          "opts": [
+            { "t": "Only when the bases of both factors are identical", "c": true, "m": "" },
+            { "t": "Whenever the exponents are identical", "c": false, "m": "When exponents are equal but bases differ, bases multiply together under a shared exponent: a^m * b^m = (ab)^m." },
+            { "t": "For any two numbers being multiplied", "c": false, "m": "Exponents can only add together directly when they belong to the exact same base." },
+            { "t": "Only when both exponents are positive whole numbers", "c": false, "m": "The laws of exponents hold universally for all integer exponents, both positive and negative." }
+          ]
+        }
+      },
+      { "t": "progress", "xp": 40, "next": true }
+    ]
+  },
+  {
+    "title": "Power of a Power & Zero Exponent",
+    "steps": [
+      {
+        "t": "intro", "icon": "💡",
+        "title": "What happens when you raise an already powered number to another power?",
+        "sub": "What does (2^3)^2 mean, and why does any non-zero number raised to the power 0 equal exactly 1? Let us uncover the matrix of powers!"
+      },
+      {
+        "t": "text",
+        "title": "Why does a^0 always equal 1 for any non-zero base?",
+        "text": "Power of a Power: Raising a power to another power multiplies the exponents: (a^m)^n = a^(m × n). Repeating m factors n times yields m × n total factors. Power of a Product: (ab)^m = a^m × b^m. Zero Exponent: By the quotient law, a^m ÷ a^m = a^(m - m) = a^0. But any non-zero number divided by itself equals 1. Therefore, a^0 = 1 for any non-zero base a.",
+        "simType": "matrix",
+        "caption": "Power Matrix Visualizer: See repeated groups multiply and a^0 = 1"
+      },
+      { "t": "worked", "we": "we_power_of_power" },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "Which of the following expressions is equivalent to (ab)^m?",
+          "opts": [
+            { "t": "a^m * b^m", "c": true, "m": "" },
+            { "t": "a * b^m", "c": false, "m": "The outer exponent distributes to every factor inside the parentheses." },
+            { "t": "a^m + b^m", "c": false, "m": "Exponents do not distribute over addition in this manner; powers represent products." },
+            { "t": "(ab)^(m+m)", "c": false, "m": "The exponent applies once to each factor in the product without doubling." }
+          ]
+        }
+      },
+      { "t": "progress", "xp": 40, "next": true }
+    ]
+  },
+  {
+    "title": "Exponential Equations",
+    "steps": [
+      {
+        "t": "intro", "icon": "⚖️",
+        "title": "How do we solve for an unknown variable trapped in an exponent?",
+        "sub": "When an unknown letter like x appears up in the exponent, standard addition or division cannot isolate it. We must align the bases to find the answer!"
+      },
+      {
+        "t": "text",
+        "title": "How do equal bases unlock the unknown exponent?",
+        "text": "When two exponential expressions with the same base are equal, their exponents must be equal: if a^x = a^y (where a is not 0, 1, or -1), then x = y. To solve an exponential equation, simplify both sides until they share identical bases, then equate the exponents into a simple linear equation to find the unknown variable.",
+        "simType": "equation",
+        "caption": "Equation Balance Scale: Adjust x until both powers balance in equilibrium"
+      },
+      { "t": "worked", "we": "we_equation" },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "If 7^(m) / 7^(-3) = 7^5, what equation relates the exponents?",
+          "opts": [
+            { "t": "m - (-3) = 5, which means m + 3 = 5", "c": true, "m": "" },
+            { "t": "m + (-3) = 5", "c": false, "m": "Division of like bases requires subtracting the denominator exponent from the numerator exponent." },
+            { "t": "m * (-3) = 5", "c": false, "m": "Powers are subtracted during division of like bases, not multiplied." },
+            { "t": "m / (-3) = 5", "c": false, "m": "Exponents combine by subtraction during division of like bases." }
+          ]
+        }
+      },
+      { "t": "progress", "xp": 40, "next": true }
+    ]
+  },
+  {
+    "title": "Scientific Notation & Standard Form",
+    "steps": [
+      {
+        "t": "intro", "icon": "🔭",
+        "title": "How do scientists write the size of an atom or the distance to stars easily?",
+        "sub": "The distance from Earth to the Sun is 149,600,000,000 meters. The size of a plant cell is 0.00001275 meters. Writing all those zeros causes errors. Standard form solves this!"
+      },
+      {
+        "t": "text",
+        "title": "How does scientific notation express extreme scales with base 10?",
+        "text": "Scientific notation (Standard Form) expresses any number in the form k × 10^n, where k is a decimal number between 1 and 10 (1 <= k < 10) and n is an integer. For very small numbers less than 1, shift the decimal point to the right; the count of shifts gives a negative exponent n. For very large numbers greater than 10, shift the decimal point to the left; the count of shifts gives a positive exponent n.",
+        "simType": "spinner",
+        "caption": "Maths Lab Dual-Spinner: Spin base and exponent to explore scale growth"
+      },
+      { "t": "worked", "we": "we_standard_form" },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "Which of the following numbers is correctly formatted in standard scientific form?",
+          "opts": [
+            { "t": "4.5 * 10^8", "c": true, "m": "" },
+            { "t": "45 * 10^7", "c": false, "m": "The coefficient must be strictly less than 10; 45 is too large for standard form." },
+            { "t": "0.45 * 10^9", "c": false, "m": "The coefficient must be greater than or equal to 1; 0.45 is too small." },
+            { "t": "4.5 * 100^4", "c": false, "m": "Scientific standard form strictly uses powers of base 10, not 100." }
+          ]
+        }
+      },
+      { "t": "progress", "xp": 50, "next": false }
+    ]
+  }
+];
+
+function drawInverterSim(canvas, base, exp) {
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d'); var w = parseFloat(canvas.style.width) || canvas.width, h = parseFloat(canvas.style.height) || canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  ctx.fillStyle = '#1e3a5f'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'left';
+  var signStr = exp < 0 ? 'Negative Exponent (Inversion & Reciprocal)' : (exp === 0 ? 'Zero Exponent (Identity)' : 'Positive Exponent');
+  ctx.fillText('Power: ' + base + '^(' + exp + ') · ' + signStr, 14, 20);
+
+  var absExp = Math.abs(exp);
+  var expanded = '';
+  for (var i = 0; i < Math.min(absExp, 5); i++) {
+    expanded += (i > 0 ? ' × ' : '') + base;
+  }
+  if (absExp > 5) expanded += ' ... (' + absExp + ' times)';
+  if (absExp === 0) expanded = '1';
+
+  ctx.fillStyle = '#64748b'; ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+  if (exp < 0) {
+    ctx.fillText('1 / (' + expanded + ')', w / 2, 50);
+  } else if (exp > 0) {
+    ctx.fillText(expanded, w / 2, 50);
+  } else {
+    ctx.fillText('Identity = 1', w / 2, 50);
+  }
+
+  // Visual card
+  var val = Math.pow(base, exp);
+  ctx.fillStyle = exp < 0 ? '#eff6ff' : '#f0fdf4';
+  ctx.strokeStyle = exp < 0 ? '#2563eb' : '#16a34a';
+  ctx.lineWidth = 1.5;
+  ctx.fillRect(w / 2 - 120, 70, 240, 48);
+  ctx.strokeRect(w / 2 - 120, 70, 240, 48);
+
+  ctx.fillStyle = exp < 0 ? '#1e3a8a' : '#14532d';
+  ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+  if (exp < 0) {
+    var denVal = Math.pow(base, absExp);
+    ctx.fillText(base + '^(' + exp + ') = 1 / ' + base + '^' + absExp + ' = 1/' + denVal, w / 2, 98);
+  } else {
+    ctx.fillText(base + '^' + exp + ' = ' + val, w / 2, 98);
+  }
+
+  ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif';
+  ctx.fillText('Tap buttons below to flip base & power', w / 2, h - 10);
+}
+
+function drawLawsSim(canvas, base, m, n, op) {
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d'); var w = parseFloat(canvas.style.width) || canvas.width, h = parseFloat(canvas.style.height) || canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  ctx.fillStyle = '#1e3a5f'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'left';
+  var titleStr = op === 'mul' ? 'Product Law: ' + base + '^' + m + ' × ' + base + '^' + n : 'Quotient Law: ' + base + '^' + m + ' ÷ ' + base + '^' + n;
+  ctx.fillText(titleStr, 14, 20);
+
+  // Render tokens
+  var startX = 20, y1 = 45;
+  ctx.fillStyle = '#2563eb';
+  for (var i = 0; i < m; i++) {
+    ctx.beginPath(); ctx.arc(startX + i * 28, y1, 11, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(base, startX + i * 28, y1 + 3.5);
+    ctx.fillStyle = '#2563eb';
+  }
+
+  ctx.fillStyle = '#0f172a'; ctx.font = 'bold 14px sans-serif';
+  ctx.fillText(op === 'mul' ? '×' : '÷', startX + m * 28 + 10, y1 + 5);
+
+  var startX2 = startX + m * 28 + 30;
+  ctx.fillStyle = '#d97706';
+  for (var j = 0; j < n; j++) {
+    ctx.beginPath(); ctx.arc(startX2 + j * 28, y1, 11, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(base, startX2 + j * 28, y1 + 3.5);
+    ctx.fillStyle = '#d97706';
+  }
+
+  var resP = op === 'mul' ? m + n : m - n;
+  ctx.fillStyle = '#16a34a'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+  if (op === 'mul') {
+    ctx.fillText('Result: ' + base + '^(' + m + ' + ' + n + ') = ' + base + '^' + resP + ' = ' + Math.pow(base, resP), w / 2, 105);
+  } else {
+    ctx.fillText('Result: ' + base + '^(' + m + ' - ' + n + ') = ' + base + '^' + resP + ' = ' + Math.pow(base, resP), w / 2, 105);
+  }
+
+  ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif';
+  ctx.fillText(op === 'mul' ? 'Powers combine: 3 + 4 = 7 factors of 2' : 'Factors cancel out: 5 - 2 = 3 factors remaining', w / 2, h - 10);
+}
+
+function drawMatrixSim(canvas, base, m, n) {
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d'); var w = parseFloat(canvas.style.width) || canvas.width, h = parseFloat(canvas.style.height) || canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  ctx.fillStyle = '#1e3a5f'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Power of a Power: (' + base + '^' + m + ')^' + n + '   and   ' + base + '^0', 14, 20);
+
+  // Left Matrix Grid
+  var totalFactors = m * n;
+  ctx.fillStyle = '#7c3aed';
+  var gx = 30, gy = 38;
+  for (var r = 0; r < n; r++) {
+    for (var c = 0; c < m; c++) {
+      ctx.beginPath(); ctx.arc(gx + c * 26, gy + r * 24, 9, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(base, gx + c * 26, gy + r * 24 + 3);
+      ctx.fillStyle = '#7c3aed';
+    }
+  }
+
+  // Right card: zero power rule
+  ctx.fillStyle = '#f0fdf4'; ctx.strokeStyle = '#16a34a'; ctx.lineWidth = 1.5;
+  ctx.fillRect(w - 190, 36, 176, 72);
+  ctx.strokeRect(w - 190, 36, 176, 72);
+
+  ctx.fillStyle = '#14532d'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Zero Exponent Rule:', w - 102, 54);
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText(base + '^0 = 1', w - 102, 74);
+  ctx.font = '10px sans-serif'; ctx.fillStyle = '#475569';
+  ctx.fillText('(' + base + '^' + m + ' ÷ ' + base + '^' + m + ' = ' + base + '^0 = 1)', w - 102, 92);
+
+  ctx.fillStyle = '#16a34a'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Total Exponent: ' + m + ' × ' + n + ' = ' + totalFactors + ' → ' + base + '^' + totalFactors, 20, 126);
+}
+
+function drawEquationSim(canvas, base, userX, targetP) {
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d'); var w = parseFloat(canvas.style.width) || canvas.width, h = parseFloat(canvas.style.height) || canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  var cx = w / 2, cy = 90;
+  var diff = userX - targetP;
+  var angle = Math.max(-0.25, Math.min(0.25, -diff * 0.12));
+
+  // Base fulcrum
+  ctx.fillStyle = '#64748b';
+  ctx.beginPath(); ctx.moveTo(cx - 24, cy + 40); ctx.lineTo(cx + 24, cy + 40); ctx.lineTo(cx, cy); ctx.fill();
+
+  // Beam
+  var arm = 110;
+  var x1 = cx - Math.cos(angle) * arm, y1 = cy - Math.sin(angle) * arm;
+  var x2 = cx + Math.cos(angle) * arm, y2 = cy + Math.sin(angle) * arm;
+  var isBal = diff === 0;
+  ctx.strokeStyle = isBal ? '#16a34a' : '#2563eb';
+  ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+
+  // LHS Pan
+  ctx.fillStyle = '#eff6ff'; ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 1.5;
+  ctx.fillRect(x1 - 24, y1 + 10, 48, 26); ctx.strokeRect(x1 - 24, y1 + 10, 48, 26);
+  ctx.fillStyle = '#1e3a8a'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(base + '^x (x=' + userX + ')', x1, y1 + 27);
+
+  // RHS Pan
+  ctx.fillStyle = isBal ? '#f0fdf4' : '#fffbeb';
+  ctx.strokeStyle = isBal ? '#16a34a' : '#d97706';
+  ctx.fillRect(x2 - 24, y2 + 10, 48, 26); ctx.strokeRect(x2 - 24, y2 + 10, 48, 26);
+  ctx.fillStyle = isBal ? '#14532d' : '#92400e';
+  ctx.fillText(base + '^' + targetP, x2, y2 + 27);
+
+  ctx.fillStyle = isBal ? '#16a34a' : '#dc2626';
+  ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(isBal ? '✓ EQUILIBRIUM: Bases match, so x = ' + targetP : 'Unbalanced: Current x = ' + userX + ' · Target = ' + targetP, cx, 24);
+}
+
+function drawSpinnerSim(canvas, baseVal, expVal, spinAngle) {
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d'); var w = parseFloat(canvas.style.width) || canvas.width, h = parseFloat(canvas.style.height) || canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  // Spinner 1 (Base: 1 to 10)
+  var r = 42;
+  var c1x = w / 4 + 10, c1y = 56;
+  ctx.save(); ctx.translate(c1x, c1y); ctx.rotate(spinAngle);
+  ctx.fillStyle = '#eff6ff'; ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  for (var i = 0; i < 10; i++) {
+    var a = (i * Math.PI * 2) / 10;
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r); ctx.stroke();
+  }
+  ctx.restore();
+  ctx.fillStyle = '#dc2626';
+  ctx.beginPath(); ctx.moveTo(c1x, c1y - r - 6); ctx.lineTo(c1x - 5, c1y - r - 15); ctx.lineTo(c1x + 5, c1y - r - 15); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#0f172a'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Base: ' + baseVal, c1x, c1y + r + 16);
+
+  // Spinner 2 (Exponent: 1 to 5)
+  var c2x = (3 * w) / 4 - 10, c2y = 56;
+  ctx.save(); ctx.translate(c2x, c2y); ctx.rotate(-spinAngle * 1.3);
+  ctx.fillStyle = '#fef3c7'; ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  for (var j = 0; j < 5; j++) {
+    var b = (j * Math.PI * 2) / 5;
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(b) * r, Math.sin(b) * r); ctx.stroke();
+  }
+  ctx.restore();
+  ctx.fillStyle = '#dc2626';
+  ctx.beginPath(); ctx.moveTo(c2x, c2y - r - 6); ctx.lineTo(c2x - 5, c2y - r - 15); ctx.lineTo(c2x + 5, c2y - r - 15); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#0f172a'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Exponent: ' + expVal, c2x, c2y + r + 16);
+
+  var res = Math.pow(baseVal, expVal);
+  ctx.fillStyle = '#16a34a'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Result: ' + baseVal + '^' + expVal + ' = ' + res, w / 2, 134);
+}
+
+// ═══ APP STATE CONTROLLER ═══
+var STORAGE_KEY = "aasha_exponents_class8_v6";
+
+var App = {
+  nIdx: 0, sIdx: 0, coins: 0, xp: 0, level: 1, streak: 0,
+  selOpt: null, answered: false,
+  weStepIdx: 0, weChecked: false, weCheckAnswered: false, _weCheckRendered: false,
+  weStepCheckPassed: false, weStepCheckAnswered: false, selStepOpt: null,
+  _weCheckOpts: null, _weStepCheckOpts: null, _qOpts: null, retryTimer: null,
+
+  // Sim states
+  _invBase: 3, _invExp: -2,
+  _lawBase: 2, _lawM: 3, _lawN: 4, _lawOp: 'mul',
+  _matBase: 2, _matM: 3, _matN: 2,
+  _eqBase: 2, _eqX: 1, _eqTarget: 4,
+  _spinBase: 3, _spinExp: 4, _spinAngle: 0,
+
+  init: function() {
+    this.load();
+    this.render();
+    this.updateStats();
+  },
+
+  load: function() {
+    try {
+      var s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      if (s.nIdx !== undefined && s.nIdx >= 0 && s.nIdx < NODES.length) {
+        this.nIdx = s.nIdx;
+        this.sIdx = (s.sIdx >= 0 && s.sIdx < NODES[this.nIdx].steps.length) ? s.sIdx : 0;
+        this.coins = s.coins || 0; this.xp = s.xp || 0;
+        this.level = s.level || 1; this.streak = s.streak || 0;
+      }
+    } catch(e){}
+  },
+
+  save: function() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        nIdx: this.nIdx, sIdx: this.sIdx,
+        coins: this.coins, xp: this.xp,
+        level: this.level, streak: this.streak
+      }));
+    } catch(e){}
+  },
+
+  updateStats: function() {
+    document.getElementById('statCoins').textContent = this.coins;
+    document.getElementById('statXp').textContent = this.xp;
+    document.getElementById('statLvl').textContent = 'Lv ' + this.level;
+    var sw = document.getElementById('statStreakWrap');
+    if (this.streak >= 2) {
+      sw.style.display = 'inline-flex';
+      document.getElementById('statStreak').textContent = this.streak;
+    } else {
+      sw.style.display = 'none';
+    }
+    var total = 0, done = 0;
+    for (var i = 0; i < NODES.length; i++) {
+      total += NODES[i].steps.length;
+      if (i < this.nIdx) done += NODES[i].steps.length;
+      else if (i === this.nIdx) done += this.sIdx + 1;
+    }
+    document.getElementById('progressFill').style.width = Math.round((done / total) * 100) + '%';
+  },
+
+  awardXP: function(amt) {
+    this.xp += amt; this.coins += Math.floor(amt / 2);
+    for (var i = LEVELS.length - 1; i >= 0; i--) {
+      if (this.xp >= LEVELS[i].xp && this.level <= i) {
+        this.level = i + 1;
+        playTone('levelup'); fireConfetti(50);
+        break;
+      }
+    }
+    this.updateStats();
+  },
+
+  exit: function() {
+    this.save();
+    this.nIdx = 0; this.sIdx = 0;
+    this.weStepIdx = 0; this.weChecked = false; this.weCheckAnswered = false;
+    this._weCheckRendered = false; this.answered = false; this.selOpt = null;
+    this.render();
+  },
+
+  render: function() {
+    if (this.retryTimer) { clearTimeout(this.retryTimer); this.retryTimer = null; }
+    var node = NODES[this.nIdx];
+    var step = node.steps[this.sIdx];
+    var scr = document.getElementById('screen');
+    var cb = document.getElementById('continueBtn');
+    scr.innerHTML = '';
+
+    var backBtn = document.getElementById('backBtn');
+    if (backBtn) {
+      backBtn.style.display = (this.nIdx > 0 || this.sIdx > 0) ? 'inline-block' : 'none';
+    }
+
+    if (step.t === 'intro') {
+      this.renderIntro(step, cb);
+    } else if (step.t === 'text') {
+      this.renderConceptFrame(step, cb);
+    } else if (step.t === 'worked') {
+      this.renderWorked(step, cb);
+    } else if (step.t === 'quiz') {
+      this.renderQuiz(step, cb);
+    } else if (step.t === 'progress') {
+      this.renderProgress(step, node, cb);
+    }
+    this.updateStats();
+  },
+
+  renderIntro: function(step, cb) {
+    var html = '<div class="concept-frame" style="text-align:center;padding:26px 16px">';
+    html += '<div class="intro-hero">' + (step.icon || '⚡') + '</div>';
+    html += '<h2 class="inquiry-title">' + rt(step.title, true) + '</h2>';
+    html += '<div style="font-size:.95rem;color:var(--muted);line-height:1.6;max-width:420px;margin:0 auto 16px">' + rt(step.sub, true) + '</div>';
+    html += '<div style="display:inline-block;padding:6px 14px;background:var(--blue-lt);color:var(--blue-dk);border-radius:20px;font-weight:800;font-size:.8rem">100% Textbook Derived • Class 8 Math</div>';
+    html += '</div>';
+    document.getElementById('screen').innerHTML = html;
+    document.getElementById('bottomBar').style.display = 'block';
+    cb.textContent = 'Start Exploring →'; cb.disabled = false;
+  },
+
+  renderConceptFrame: function(step, cb) {
+    var html = '<div class="concept-frame">';
+    html += '<span class="concept-badge">Node ' + (this.nIdx + 1) + ' · Concept & Dual-View Lab</span>';
+    html += '<h2 class="inquiry-title">' + rt(step.title, true) + '</h2>';
+    html += '<div class="concept-def">' + rt(step.text, true) + '</div>';
+
+    // Same frame simulation box
+    html += '<div class="sim-container">';
+    html += '<canvas id="conceptCanvas" class="sim-canvas" width="460" height="155"></canvas>';
+    html += '<div class="sim-controls" id="conceptControls"></div>';
+    html += '<div class="sim-caption">' + (step.caption || '') + '</div>';
+    html += '<button class="btn-skip" onclick="App.next()">Skip this activity →</button>';
+    html += '</div>';
+
+    html += '<div class="hint">🔵 नीले शब्द = कनेक्टिंग शब्द · किसी भी शब्द पर टैप करें सरल हिंदी अर्थ के लिए</div>';
+    html += '</div>';
+
+    document.getElementById('screen').innerHTML = html;
+    document.getElementById('bottomBar').style.display = 'block';
+    cb.textContent = 'Continue →'; cb.disabled = false;
+
+    this.mountSim(step.simType);
+  },
+
+  fitCanvas: function(canvas) {
+    if (!canvas) return;
+    var container = canvas.parentElement;
+    var rect = container ? container.getBoundingClientRect() : canvas.getBoundingClientRect();
+    var dpr = window.devicePixelRatio || 1;
+    var w = Math.floor(rect.width ? (rect.width - 24) : (window.innerWidth - 64));
+    w = Math.max(260, Math.min(480, w));
+    var isShort = window.innerHeight <= 700;
+    var isMedium = window.innerHeight > 700 && window.innerHeight <= 860;
+    var h = isShort ? 92 : (isMedium ? 115 : 125);
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    var ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      if (dpr !== 1) ctx.scale(dpr, dpr);
+    }
+  },
+
+  mountSim: function(type) {
+    var canvas = document.getElementById('conceptCanvas');
+    var ctrl = document.getElementById('conceptControls');
+    if (!canvas || !ctrl) return;
+    this.fitCanvas(canvas);
+    var self = this;
+
+    if (type === 'inverter') {
+      drawInverterSim(canvas, this._invBase, this._invExp);
+      ctrl.innerHTML = '<div class="preset-bar">' +
+        '<button class="preset-btn" onclick="App.setInverter(2, -3)">2^(-3) = 1/8</button>' +
+        '<button class="preset-btn" onclick="App.setInverter(3, -2)">3^(-2) = 1/9</button>' +
+        '<button class="preset-btn" onclick="App.setInverter(5, -1)">5^(-1) = 1/5</button>' +
+        '<button class="preset-btn" onclick="App.setInverter(2, 3)">2^3 = 8</button>' +
+        '</div>';
+    } else if (type === 'laws') {
+      drawLawsSim(canvas, this._lawBase, this._lawM, this._lawN, this._lawOp);
+      ctrl.innerHTML = '<div class="sim-row" style="justify-content:center">' +
+        '<button class="sim-btn ' + (this._lawOp === 'mul' ? 'active' : '') + '" onclick="App.setLawOp(\'mul\')">Multiply (Product Law)</button>' +
+        '<button class="sim-btn ' + (this._lawOp === 'div' ? 'active' : '') + '" onclick="App.setLawOp(\'div\')">Divide (Quotient Law)</button>' +
+        '</div>';
+    } else if (type === 'matrix') {
+      drawMatrixSim(canvas, this._matBase, this._matM, this._matN);
+      ctrl.innerHTML = '<div class="preset-bar">' +
+        '<button class="preset-btn" onclick="App.setMatrix(2, 3, 2)">(2^3)^2 = 2^6</button>' +
+        '<button class="preset-btn" onclick="App.setMatrix(3, 2, 2)">(3^2)^2 = 3^4</button>' +
+        '<button class="preset-btn" onclick="App.setMatrix(4, 2, 3)">(4^2)^3 = 4^6</button>' +
+        '</div>';
+    } else if (type === 'equation') {
+      drawEquationSim(canvas, this._eqBase, this._eqX, this._eqTarget);
+      ctrl.innerHTML = '<div class="sim-row" style="justify-content:center;gap:10px">' +
+        '<button class="sim-btn" onclick="App.adjustEqX(-1)">Decrease x (-1)</button>' +
+        '<button class="sim-btn" onclick="App.adjustEqX(1)">Increase x (+1)</button>' +
+        '</div>';
+    } else if (type === 'spinner') {
+      drawSpinnerSim(canvas, this._spinBase, this._spinExp, this._spinAngle);
+      ctrl.innerHTML = '<div class="sim-row" style="justify-content:center">' +
+        '<button class="sim-btn" onclick="App.spinSpinners()">🎲 Spin Dual-Spinners</button>' +
+        '</div>';
+    }
+  },
+
+  setInverter: function(b, e) { this._invBase = b; this._invExp = e; drawInverterSim(document.getElementById('conceptCanvas'), b, e); playTone('tap'); },
+  setLawOp: function(op) { this._lawOp = op; drawLawsSim(document.getElementById('conceptCanvas'), this._lawBase, this._lawM, this._lawN, op); playTone('tap'); this.mountSim('laws'); },
+  setMatrix: function(b, m, n) { this._matBase = b; this._matM = m; this._matN = n; drawMatrixSim(document.getElementById('conceptCanvas'), b, m, n); playTone('tap'); },
+  adjustEqX: function(delta) { this._eqX += delta; drawEquationSim(document.getElementById('conceptCanvas'), this._eqBase, this._eqX, this._eqTarget); playTone('tap'); },
+  spinSpinners: function() {
+    var canvas = document.getElementById('conceptCanvas');
+    var angle = 0; var self = this;
+    var timer = setInterval(function(){
+      angle += 0.35;
+      drawSpinnerSim(canvas, self._spinBase, self._spinExp, angle);
+    }, 30);
+    setTimeout(function(){
+      clearInterval(timer);
+      self._spinBase = Math.floor(Math.random() * 8) + 2;
+      self._spinExp = Math.floor(Math.random() * 4) + 1;
+      drawSpinnerSim(canvas, self._spinBase, self._spinExp, 0);
+      playTone('correct');
+    }, 600);
+  },
+
+  renderWorked: function(step, cb) {
+    this.weStepIdx = 0; this.weChecked = false; this.weCheckAnswered = false;
+    this._weCheckRendered = false; this.weStepCheckPassed = false;
+    this.weStepCheckAnswered = false; this.selStepOpt = null; this.selOpt = null;
+    if (typeof step.we === 'string') step.we = WE[step.we];
+    var we = step.we;
+    document.getElementById('screen').innerHTML = '<div class="we-card"><div class="we-tag">' + we.title + '</div><div class="we-question">' + rt(we.question, true) + '</div><div id="weSteps"></div></div>';
+    this.showNextWE(we, cb);
+  },
+
+  showNextWE: function(we, cb) {
+    if (this.weStepIdx >= we.steps.length) {
+      if (we.check && !this.weChecked) {
+        this._weCheckOpts = we.check.opts.slice().sort(function(){ return Math.random() - 0.5; });
+        this.selOpt = null; this.weCheckAnswered = false;
+        var cq = '<div class="we-step" style="margin-top:10px;border-top:2px dashed var(--blue);background:transparent;padding-top:10px"><b>Quick Check:</b> ' + rt(we.check.q, true).replace(/^<div class="lle-text-sm">/, '').replace(/<\/div>$/, '') + '</div>';
+        var optsHtml = '<div style="margin-top:8px" id="weCheckArea">';
+        for (var i = 0; i < this._weCheckOpts.length; i++) {
+          optsHtml += '<div class="quiz-opt" onclick="App.selWECheck(' + i + ')" id="wco' + i + '"><div class="quiz-radio"></div><div class="quiz-opt-text">' + rt(this._weCheckOpts[i].t, true).replace(/^<div class="lle-text-sm">/, '').replace(/<\/div>$/, '') + '</div></div>';
+        }
+        optsHtml += '</div><div id="weCheckFb"></div>';
+        var c = document.getElementById('weSteps');
+        var div = document.createElement('div'); div.innerHTML = cq + optsHtml;
+        c.appendChild(div);
+        this.weChecked = false; this.weCheckAnswered = false; this._weCheckRendered = true;
+        cb.textContent = 'Check Answer'; cb.disabled = true; return;
+      }
+      cb.textContent = 'Continue →'; cb.disabled = false; return;
+    }
+
+    var s = we.steps[this.weStepIdx];
+    var c = document.getElementById('weSteps');
+    var div = document.createElement('div');
+    div.className = 'we-step ' + (s.c || '');
+    var inner = rt(s.text, true).replace(/^<div class="lle-text-sm">/, '').replace(/<\/div>$/, '');
+    if (s.final) {
+      div.classList.add('final'); div.innerHTML = inner; playTone('correct');
+    } else {
+      div.innerHTML = '<b>Step ' + (this.weStepIdx + 1) + ':</b> ' + inner; playTone('tap');
+    }
+    c.appendChild(div); this.weStepIdx++;
+
+    if (s.check) {
+      this._weStepCheckOpts = s.check.opts.slice().sort(function(){ return Math.random() - 0.5; });
+      this.weStepCheckAnswered = false; this.weStepCheckPassed = false; this.selStepOpt = null;
+      var scq = '<div style="margin-top:8px;border-left:3px solid var(--blue);padding:8px 12px;background:var(--blue-lt);border-radius:0 8px 8px 0"><div style="font-size:.85rem;font-weight:800;color:var(--blue-dk)">Check understanding:</div><div style="margin-top:4px">' + rt(s.check.q, true).replace(/^<div class="lle-text-sm">/, '').replace(/<\/div>$/, '') + '</div><div style="margin-top:6px" id="weStepCheckArea">';
+      for (var i = 0; i < this._weStepCheckOpts.length; i++) {
+        scq += '<div class="quiz-opt" onclick="App.selWEStepCheck(' + i + ')" id="wsco' + i + '"><div class="quiz-radio"></div><div class="quiz-opt-text">' + rt(this._weStepCheckOpts[i].t, true).replace(/^<div class="lle-text-sm">/, '').replace(/<\/div>$/, '') + '</div></div>';
+      }
+      scq += '</div><div id="weStepCheckFb"></div></div>';
+      var scdiv = document.createElement('div'); scdiv.innerHTML = scq; c.appendChild(scdiv);
+      cb.textContent = 'Check'; cb.disabled = true;
+    } else {
+      cb.textContent = (this.weStepIdx >= we.steps.length && !we.check) ? 'Continue →' : 'Next Step →';
+      cb.disabled = false;
+    }
+  },
+
+  selWECheck: function(i) {
+    if (this.weCheckAnswered) return;
+    this.selOpt = i;
+    var opts = document.querySelectorAll('#weCheckArea .quiz-opt');
+    for (var j = 0; j < opts.length; j++) opts[j].classList.remove('selected');
+    document.getElementById('wco' + i).classList.add('selected');
+    document.getElementById('continueBtn').disabled = false;
+  },
+
+  checkWECheck: function() {
+    var we = NODES[this.nIdx].steps[this.sIdx].we;
+    var opts = this._weCheckOpts || we.check.opts;
+    var opt = opts[this.selOpt];
+    this.weCheckAnswered = true;
+    var fb = document.getElementById('weCheckFb');
+    var qopts = document.querySelectorAll('#weCheckArea .quiz-opt');
+    for (var i = 0; i < qopts.length; i++) qopts[i].style.pointerEvents = 'none';
+    if (opt.c) {
+      fb.innerHTML = '<div class="feedback ok">✓ Great job! Concept understood. +5 XP</div>';
+      this.weChecked = true; this.awardXP(5); playTone('correct');
+      document.getElementById('continueBtn').textContent = 'Continue →';
+      document.getElementById('continueBtn').disabled = false;
+    } else {
+      fb.innerHTML = '<div class="feedback no">✗ Not quite.</div>' + (opt.m ? '<div class="misconception">' + rt('⚠ ' + opt.m, true).replace(/^<div class="lle-text-sm">/, '').replace(/<\/div>$/, '') + '</div>' : '');
+      playTone('wrong');
+      document.getElementById('continueBtn').textContent = 'Try again';
+      var self = this;
+      this.retryTimer = setTimeout(function(){
+        self.weCheckAnswered = false; self.selOpt = null;
+        for (var i = 0; i < qopts.length; i++) {
+          qopts[i].classList.remove('selected', 'wrong'); qopts[i].style.pointerEvents = '';
+        }
+        fb.innerHTML = ''; document.getElementById('continueBtn').textContent = 'Check';
+        document.getElementById('continueBtn').disabled = true;
+      }, 3500);
+    }
+  },
+
+  selWEStepCheck: function(i) {
+    if (this.weStepCheckAnswered) return;
+    this.selStepOpt = i;
+    var opts = document.querySelectorAll('#weStepCheckArea .quiz-opt');
+    for (var j = 0; j < opts.length; j++) opts[j].classList.remove('selected');
+    document.getElementById('wsco' + i).classList.add('selected');
+    document.getElementById('continueBtn').disabled = false;
+  },
+
+  checkWEStepCheck: function() {
+    var s = NODES[this.nIdx].steps[this.sIdx].we.steps[this.weStepIdx - 1];
+    var opts = this._weStepCheckOpts || s.check.opts;
+    var opt = opts[this.selStepOpt];
+    this.weStepCheckAnswered = true;
+    var fb = document.getElementById('weStepCheckFb');
+    var qopts = document.querySelectorAll('#weStepCheckArea .quiz-opt');
+    for (var i = 0; i < qopts.length; i++) qopts[i].style.pointerEvents = 'none';
+    if (opt.c) {
+      fb.innerHTML = '<div class="feedback ok">✓ Correct reasoning! +5 XP</div>';
+      this.weStepCheckPassed = true; this.awardXP(5); playTone('correct');
+      document.getElementById('continueBtn').textContent = (this.weStepIdx >= NODES[this.nIdx].steps[this.sIdx].we.steps.length) ? 'Check' : 'Next Step →';
+      document.getElementById('continueBtn').disabled = false;
+    } else {
+      fb.innerHTML = '<div class="feedback no">✗ Re-examine the rule.</div>' + (opt.m ? '<div class="misconception">' + rt('⚠ ' + opt.m, true).replace(/^<div class="lle-text-sm">/, '').replace(/<\/div>$/, '') + '</div>' : '');
+      playTone('wrong');
+      document.getElementById('continueBtn').textContent = 'Try again';
+      var self = this;
+      this.retryTimer = setTimeout(function(){
+        self.weStepCheckAnswered = false; self.selStepOpt = null;
+        for (var i = 0; i < qopts.length; i++) {
+          qopts[i].classList.remove('selected', 'wrong'); qopts[i].style.pointerEvents = '';
+        }
+        fb.innerHTML = ''; document.getElementById('continueBtn').textContent = 'Check';
+        document.getElementById('continueBtn').disabled = true;
+      }, 3500);
+    }
+  },
+
+  renderQuiz: function(step, cb) {
+    this.answered = false; this.selOpt = null;
+    this._qOpts = step.q.opts.slice().sort(function(){ return Math.random() - 0.5; });
+    var html = '<div class="quiz-card">';
+    html += '<span class="concept-badge">Concept Mastery Check</span>';
+    html += '<div class="quiz-q">' + rt(step.q.q, true) + '</div>';
+    html += '<div id="quizOpts">';
+    for (var i = 0; i < this._qOpts.length; i++) {
+      html += '<div class="quiz-opt" onclick="App.selQuiz(' + i + ')" id="qo' + i + '">';
+      html += '<div class="quiz-radio"></div>';
+      html += '<div class="quiz-opt-text">' + rt(this._qOpts[i].t, true).replace(/^<div class="lle-text-sm">/, '').replace(/<\/div>$/, '') + '</div>';
+      html += '</div>';
+    }
+    html += '</div><div id="quizFb"></div></div>';
+    document.getElementById('screen').innerHTML = html;
+    document.getElementById('bottomBar').style.display = 'block';
+    cb.textContent = 'Check Answer'; cb.disabled = true;
+  },
+
+  selQuiz: function(i) {
+    if (this.answered) return;
+    this.selOpt = i;
+    var opts = document.querySelectorAll('#quizOpts .quiz-opt');
+    for (var j = 0; j < opts.length; j++) opts[j].classList.remove('selected');
+    document.getElementById('qo' + i).classList.add('selected');
+    document.getElementById('continueBtn').disabled = false;
+  },
+
+  checkQuiz: function() {
+    var opt = this._qOpts[this.selOpt];
+    this.answered = true;
+    var fb = document.getElementById('quizFb');
+    var qopts = document.querySelectorAll('#quizOpts .quiz-opt');
+    for (var i = 0; i < qopts.length; i++) qopts[i].style.pointerEvents = 'none';
+
+    if (opt.c) {
+      document.getElementById('qo' + this.selOpt).classList.add('correct');
+      fb.innerHTML = '<div class="feedback ok">✓ Outstanding! Correct answer. +15 XP</div>';
+      this.streak++; this.awardXP(15); playTone('correct'); fireConfetti(40);
+      document.getElementById('continueBtn').textContent = 'Continue →';
+      document.getElementById('continueBtn').disabled = false;
+    } else {
+      document.getElementById('qo' + this.selOpt).classList.add('wrong');
+      fb.innerHTML = '<div class="feedback no">✗ Not quite.</div>' + (opt.m ? '<div class="misconception">' + rt('⚠ ' + opt.m, true).replace(/^<div class="lle-text-sm">/, '').replace(/<\/div>$/, '') + '</div>' : '');
+      this.streak = 0; playTone('wrong');
+      document.getElementById('continueBtn').textContent = 'Try again';
+      var self = this;
+      this.retryTimer = setTimeout(function(){
+        self.answered = false; self.selOpt = null;
+        for (var i = 0; i < qopts.length; i++) {
+          qopts[i].classList.remove('selected', 'wrong'); qopts[i].style.pointerEvents = '';
+        }
+        fb.innerHTML = ''; document.getElementById('continueBtn').textContent = 'Check Answer';
+        document.getElementById('continueBtn').disabled = true;
+      }, 3500);
+    }
+  },
+
+  renderProgress: function(step, node, cb) {
+    var html = '<div class="milestone-box">';
+    html += '<div class="milestone-icon">🎉</div>';
+    html += '<div class="milestone-title">Node ' + (this.nIdx + 1) + ' Complete!</div>';
+    html += '<div class="milestone-sub">' + node.title + '</div>';
+    html += '<div class="milestone-reward">⭐ +' + step.xp + ' XP Earned!</div>';
+    html += '</div>';
+    document.getElementById('screen').innerHTML = html;
+    document.getElementById('bottomBar').style.display = 'block';
+    this.awardXP(step.xp); playTone('levelup'); fireConfetti(60);
+    cb.textContent = step.next ? 'Next Concept →' : 'Finish Chapter 🏆';
+    cb.disabled = false;
+  },
+
+  goBack: function() {
+    if (this.sIdx > 0) {
+      this.sIdx--;
+    } else if (this.nIdx > 0) {
+      this.nIdx--;
+      this.sIdx = NODES[this.nIdx].steps.length - 1;
+    }
+    this.save(); this.render();
+  },
+
+  next: function() {
+    this.onContinue();
+  },
+
+  onContinue: function() {
+    var step = NODES[this.nIdx].steps[this.sIdx];
+    if (step.t === 'worked') {
+      if (typeof step.we === 'string') step.we = WE[step.we];
+      if (this.weStepIdx < step.we.steps.length) {
+        var prevStep = step.we.steps[this.weStepIdx - 1];
+        if (prevStep && prevStep.check && !this.weStepCheckPassed) {
+          if (!this.weStepCheckAnswered && this.selStepOpt != null) { this.checkWEStepCheck(); return; }
+          if (this.weStepCheckAnswered && !this.weStepCheckPassed) { return; }
+          if (!this.weStepCheckAnswered && this.selStepOpt == null) { return; }
+        }
+        this.weStepCheckPassed = false; this.weStepCheckAnswered = false; this.selStepOpt = null;
+        this.showNextWE(step.we, document.getElementById('continueBtn')); return;
+      }
+      if (this.weStepIdx >= step.we.steps.length && step.we.check && !this.weChecked) {
+        if (!this._weCheckRendered) { this.showNextWE(step.we, document.getElementById('continueBtn')); return; }
+        if (this._weCheckRendered && !this.weCheckAnswered) { this.checkWECheck(); return; }
+        if (this.weCheckAnswered && !this.weChecked) { return; }
+      }
+    }
+    if (step.t === 'quiz' && !this.answered) { this.checkQuiz(); return; }
+    if (step.t === 'quiz' && this.answered) {
+      var opt = this._qOpts[this.selOpt];
+      if (!opt || !opt.c) return;
+    }
+    if (step.t === 'progress' && !step.next) {
+      this.nIdx = 0; this.sIdx = 0; this.save(); this.render(); return;
+    }
+    this.advance();
+  },
+
+  advance: function() {
+    this.sIdx++; this.answered = false; this.selOpt = null;
+    this.weStepIdx = 0; this.weChecked = false; this.weCheckAnswered = false;
+    this._weCheckRendered = false; this.weStepCheckPassed = false;
+    this.weStepCheckAnswered = false; this.selStepOpt = null; this._qOpts = null;
+    if (this.sIdx >= NODES[this.nIdx].steps.length) {
+      this.nIdx++; this.sIdx = 0;
+      if (this.nIdx >= NODES.length) {
+        this.nIdx = NODES.length - 1;
+        this.sIdx = NODES[this.nIdx].steps.length - 1;
+        return;
+      }
+    }
+    this.save(); this.render();
+  }
+};
+
+window.addEventListener('resize', function(){
+  var canvas = document.getElementById('conceptCanvas');
+  if (canvas && window.App && typeof App.mountSim === 'function') {
+    var node = NODES[App.nIdx];
+    var step = node && node.steps ? node.steps[App.sIdx] : null;
+    if (step && step.simType) {
+      App.mountSim(step.simType);
+    }
+  }
+});
+
+window.addEventListener('DOMContentLoaded', function(){ App.init(); });
+if (document.readyState === 'complete' || document.readyState === 'interactive') { App.init(); }
+</script>
+</body></html>

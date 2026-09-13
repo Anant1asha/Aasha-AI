@@ -1,0 +1,1135 @@
+{
+  "ex1a_q1": [
+    {
+      "id": "1a_q1_a",
+      "tag": "AD Ex 1A Q1(a)",
+      "q": "Add: 5/2 and -11/2",
+      "ans": "-3",
+      "opts": [
+        {
+          "t": "-3",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-6/2",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "3",
+          "c": false,
+          "m": "5 + (-11) = -6, not +6."
+        },
+        {
+          "t": "-8",
+          "c": false,
+          "m": "Combine numerators over common denominator 2."
+        }
+      ],
+      "exp": "Common denominator 2: [5 + (-11)]/2 = -6/2 = -3."
+    },
+    {
+      "id": "1a_q1_b",
+      "tag": "AD Ex 1A Q1(b)",
+      "q": "Add: 7/5 and 13/5",
+      "ans": "4",
+      "opts": [
+        {
+          "t": "4",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "20/5",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "2",
+          "c": false,
+          "m": "7 + 13 = 20; 20/5 = 4."
+        },
+        {
+          "t": "6/5",
+          "c": false,
+          "m": "Add the numerators: 7 + 13."
+        }
+      ],
+      "exp": "(7 + 13)/5 = 20/5 = 4."
+    },
+    {
+      "id": "1a_q1_c",
+      "tag": "AD Ex 1A Q1(c)",
+      "q": "Add: -7/8 and 12/-8",
+      "ans": "-19/8",
+      "opts": [
+        {
+          "t": "-19/8",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "5/8",
+          "c": false,
+          "m": "12/-8 = -12/8. -7 + (-12) = -19, not +5."
+        },
+        {
+          "t": "-5/8",
+          "c": false,
+          "m": "Both numerators are negative: -7 + (-12) = -19."
+        }
+      ],
+      "exp": "12/-8 = -12/8. Sum = [-7 + (-12)]/8 = -19/8."
+    },
+    {
+      "id": "1a_q1_d",
+      "tag": "AD Ex 1A Q1(d)",
+      "q": "Add: -11/5 and -9/5",
+      "ans": "-4",
+      "opts": [
+        {
+          "t": "-4",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-20/5",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-2",
+          "c": false,
+          "m": "-11 + (-9) = -20; -20/5 = -4."
+        },
+        {
+          "t": "4",
+          "c": false,
+          "m": "Sum of two negative numbers is negative."
+        }
+      ],
+      "exp": "(-11 + -9)/5 = -20/5 = -4."
+    },
+    {
+      "id": "1a_q1_e",
+      "tag": "AD Ex 1A Q1(e)",
+      "q": "Add: 4/-7 and -5/8",
+      "ans": "-67/56",
+      "opts": [
+        {
+          "t": "-67/56",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-3/56",
+          "c": false,
+          "m": "LCM is 56: [(-4 \u00d7 8) + (-5 \u00d7 7)]/56 = (-32 - 35)/56 = -67/56."
+        },
+        {
+          "t": "67/56",
+          "c": false,
+          "m": "Both terms are negative, so sum is negative."
+        }
+      ],
+      "exp": "4/-7 = -4/7. LCM(7, 8) = 56. [(-4 \u00d7 8) + (-5 \u00d7 7)] / 56 = (-32 - 35)/56 = -67/56."
+    },
+    {
+      "id": "1a_q1_f",
+      "tag": "AD Ex 1A Q1(f)",
+      "q": "Add: -13/7 and 12/-5",
+      "ans": "-149/35",
+      "opts": [
+        {
+          "t": "-149/35",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-1/35",
+          "c": false,
+          "m": "LCM is 35: [(-13 \u00d7 5) + (-12 \u00d7 7)]/35 = (-65 - 84)/35 = -149/35."
+        },
+        {
+          "t": "149/35",
+          "c": false,
+          "m": "Sum of two negative numbers is negative."
+        }
+      ],
+      "exp": "12/-5 = -12/5. LCM(7, 5) = 35. [(-13 \u00d7 5) + (-12 \u00d7 7)]/35 = (-65 - 84)/35 = -149/35."
+    },
+    {
+      "id": "1a_q1_g",
+      "tag": "AD Ex 1A Q1(g)",
+      "q": "Add: -15/9 and -17/11",
+      "ans": "-106/33",
+      "opts": [
+        {
+          "t": "-106/33",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-318/99",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-32/99",
+          "c": false,
+          "m": "-15/9 = -5/3. LCM(3, 11) = 33: [(-5 \u00d7 11) + (-17 \u00d7 3)]/33 = -106/33."
+        }
+      ],
+      "exp": "-15/9 = -5/3. LCM(3, 11) = 33. [(-5 \u00d7 11) + (-17 \u00d7 3)]/33 = (-55 - 51)/33 = -106/33."
+    },
+    {
+      "id": "1a_q1_h",
+      "tag": "AD Ex 1A Q1(h)",
+      "q": "Add: -9/-33 and 5/11",
+      "ans": "8/11",
+      "opts": [
+        {
+          "t": "8/11",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-4/11",
+          "c": false,
+          "m": "-9/-33 = 9/33 = 3/11. 3/11 + 5/11 = 8/11."
+        },
+        {
+          "t": "14/33",
+          "c": false,
+          "m": "Simplify 9/33 to 3/11 first."
+        }
+      ],
+      "exp": "-9/-33 = 9/33 = 3/11. Sum = 3/11 + 5/11 = 8/11."
+    }
+  ],
+  "ex1a_q2": [
+    {
+      "id": "1a_q2_a",
+      "tag": "AD Ex 1A Q2(a)",
+      "q": "Subtract: (-18/5) - (-8/5)",
+      "ans": "-2",
+      "opts": [
+        {
+          "t": "-2",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-26/5",
+          "c": false,
+          "m": "Subtracting negative turns into addition: -18 - (-8) = -18 + 8 = -10; -10/5 = -2."
+        },
+        {
+          "t": "2",
+          "c": false,
+          "m": "-18 + 8 = -10, so result is negative."
+        }
+      ],
+      "exp": "[-18 - (-8)]/5 = (-18 + 8)/5 = -10/5 = -2."
+    },
+    {
+      "id": "1a_q2_b",
+      "tag": "AD Ex 1A Q2(b)",
+      "q": "Subtract: (-19/15) - (-6/30)",
+      "ans": "-16/15",
+      "opts": [
+        {
+          "t": "-16/15",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-32/30",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-13/15",
+          "c": false,
+          "m": "-6/30 = -3/15. -19/15 - (-3/15) = -19/15 + 3/15 = -16/15."
+        }
+      ],
+      "exp": "-6/30 = -3/15. -19/15 - (-3/15) = (-19 + 3)/15 = -16/15."
+    },
+    {
+      "id": "1a_q2_c",
+      "tag": "AD Ex 1A Q2(c)",
+      "q": "Subtract: (-6/11) - (-7/11)",
+      "ans": "1/11",
+      "opts": [
+        {
+          "t": "1/11",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-13/11",
+          "c": false,
+          "m": "Minus a negative is plus: -6 + 7 = 1."
+        },
+        {
+          "t": "-1/11",
+          "c": false,
+          "m": "7 is larger than 6, so -6 + 7 = +1."
+        }
+      ],
+      "exp": "[-6 - (-7)]/11 = (-6 + 7)/11 = 1/11."
+    },
+    {
+      "id": "1a_q2_d",
+      "tag": "AD Ex 1A Q2(d)",
+      "q": "Subtract: (-1/4) - (-2/8)",
+      "ans": "0",
+      "opts": [
+        {
+          "t": "0",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-1/2",
+          "c": false,
+          "m": "-2/8 = -1/4. -1/4 - (-1/4) = -1/4 + 1/4 = 0."
+        },
+        {
+          "t": "-1/4",
+          "c": false,
+          "m": "Any number subtracted from itself is 0."
+        }
+      ],
+      "exp": "-2/8 = -1/4. -1/4 - (-1/4) = -1/4 + 1/4 = 0."
+    },
+    {
+      "id": "1a_q2_e",
+      "tag": "AD Ex 1A Q2(e)",
+      "q": "Subtract: (-59/5) - (19/5)",
+      "ans": "-78/5",
+      "opts": [
+        {
+          "t": "-78/5",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-40/5",
+          "c": false,
+          "m": "-59 - 19 = -78."
+        },
+        {
+          "t": "78/5",
+          "c": false,
+          "m": "Both terms subtract to a larger negative."
+        }
+      ],
+      "exp": "(-59 - 19)/5 = -78/5."
+    },
+    {
+      "id": "1a_q2_f",
+      "tag": "AD Ex 1A Q2(f)",
+      "q": "Subtract: (-4/7) - (-8/9)",
+      "ans": "20/63",
+      "opts": [
+        {
+          "t": "20/63",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-20/63",
+          "c": false,
+          "m": "LCM = 63: [(-4 \u00d7 9) - (-8 \u00d7 7)]/63 = (-36 + 56)/63 = 20/63."
+        },
+        {
+          "t": "-92/63",
+          "c": false,
+          "m": "-(-8 \u00d7 7) = +56."
+        }
+      ],
+      "exp": "LCM(7, 9) = 63. [(-4 \u00d7 9) - (-8 \u00d7 7)]/63 = (-36 + 56)/63 = 20/63."
+    },
+    {
+      "id": "1a_q2_g",
+      "tag": "AD Ex 1A Q2(g)",
+      "q": "Subtract: (7/24) - (-13/-26)",
+      "ans": "-5/24",
+      "opts": [
+        {
+          "t": "-5/24",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "5/24",
+          "c": false,
+          "m": "-13/-26 = 1/2 = 12/24. 7/24 - 12/24 = -5/24."
+        },
+        {
+          "t": "19/24",
+          "c": false,
+          "m": "-13/-26 is positive 1/2, so we subtract 12/24."
+        }
+      ],
+      "exp": "-13/-26 = 1/2 = 12/24. 7/24 - 12/24 = -5/24."
+    },
+    {
+      "id": "1a_q2_h",
+      "tag": "AD Ex 1A Q2(h)",
+      "q": "Subtract: (7/25) - (-6/15)",
+      "ans": "17/25",
+      "opts": [
+        {
+          "t": "17/25",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-17/25",
+          "c": false,
+          "m": "-6/15 = -2/5 = -10/25. 7/25 - (-10/25) = (7 + 10)/25 = 17/25."
+        },
+        {
+          "t": "1/25",
+          "c": false,
+          "m": "Minus a negative is plus: 7 + 10 = 17."
+        }
+      ],
+      "exp": "-6/15 = -2/5 = -10/25. 7/25 - (-10/25) = (7 + 10)/25 = 17/25."
+    }
+  ],
+  "ex1a_q3": [
+    {
+      "id": "1a_q3_a",
+      "tag": "AD Ex 1A Q3(a)",
+      "q": "Multiply: (4/7) by (-2/5)",
+      "ans": "-8/35",
+      "opts": [
+        {
+          "t": "-8/35",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "8/35",
+          "c": false,
+          "m": "Positive times negative is negative: 4 \u00d7 (-2) = -8."
+        },
+        {
+          "t": "-2/35",
+          "c": false,
+          "m": "4 \u00d7 2 = 8, not 2."
+        }
+      ],
+      "exp": "(4 \u00d7 -2) / (7 \u00d7 5) = -8/35."
+    },
+    {
+      "id": "1a_q3_b",
+      "tag": "AD Ex 1A Q3(b)",
+      "q": "Multiply: (-3/8) by (-12/15)",
+      "ans": "3/10",
+      "opts": [
+        {
+          "t": "3/10",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-3/10",
+          "c": false,
+          "m": "Two negatives multiply to a positive product."
+        },
+        {
+          "t": "36/120",
+          "c": true,
+          "m": ""
+        }
+      ],
+      "exp": "(-3/8) \u00d7 (-4/5) = (-3 \u00d7 -1) / (2 \u00d7 5) = 3/10."
+    },
+    {
+      "id": "1a_q3_c",
+      "tag": "AD Ex 1A Q3(c)",
+      "q": "Multiply: (11/-13) by (-39/22)",
+      "ans": "3/2",
+      "opts": [
+        {
+          "t": "3/2",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-3/2",
+          "c": false,
+          "m": "Both fractions are negative, so product is positive: 11 into 22 gives 2; 13 into 39 gives 3."
+        },
+        {
+          "t": "1",
+          "c": false,
+          "m": "Cross cancel 11/22 = 1/2 and 39/13 = 3/1."
+        }
+      ],
+      "exp": "(-11/13) \u00d7 (-39/22) = (1 \u00d7 3)/(1 \u00d7 2) = 3/2."
+    },
+    {
+      "id": "1a_q3_d",
+      "tag": "AD Ex 1A Q3(d)",
+      "q": "Multiply: (-5/9) by (81/35)",
+      "ans": "-9/7",
+      "opts": [
+        {
+          "t": "-9/7",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "9/7",
+          "c": false,
+          "m": "Negative times positive is negative: 5 into 35 is 7; 9 into 81 is 9."
+        },
+        {
+          "t": "-45/35",
+          "c": false,
+          "m": "Cross cancel 9 with 81 first."
+        }
+      ],
+      "exp": "Cross cancel 5 with 35 (giving 7) and 9 with 81 (giving 9): (-1 \u00d7 9)/(1 \u00d7 7) = -9/7."
+    },
+    {
+      "id": "1a_q3_e",
+      "tag": "AD Ex 1A Q3(e)",
+      "q": "Multiply: (-9/25) by (-35/27)",
+      "ans": "7/15",
+      "opts": [
+        {
+          "t": "7/15",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-7/15",
+          "c": false,
+          "m": "Negative times negative is positive: 9 into 27 is 3; 5 divides 25 (5) and 35 (7). Product = 7/15."
+        },
+        {
+          "t": "5/9",
+          "c": false,
+          "m": "(1 \u00d7 7)/(5 \u00d7 3) = 7/15."
+        }
+      ],
+      "exp": "(-9/25) \u00d7 (-35/27) = (-1 \u00d7 -7)/(5 \u00d7 3) = 7/15."
+    },
+    {
+      "id": "1a_q3_f",
+      "tag": "AD Ex 1A Q3(f)",
+      "q": "Multiply: (-18/25) by (40/-36)",
+      "ans": "4/5",
+      "opts": [
+        {
+          "t": "4/5",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-4/5",
+          "c": false,
+          "m": "40/-36 = -10/9. (-18/25) \u00d7 (-10/9) = (-2 \u00d7 -2)/(5 \u00d7 1) = 4/5."
+        },
+        {
+          "t": "2/5",
+          "c": false,
+          "m": "18 into 36 is 2; 40/2 = 20; 20/25 = 4/5."
+        }
+      ],
+      "exp": "40/-36 = -10/9. (-18/25) \u00d7 (-10/9) = (-2 \u00d7 -2) / (5 \u00d7 1) = 4/5."
+    }
+  ],
+  "ex1a_q4": [
+    {
+      "id": "1a_q4_a",
+      "tag": "AD Ex 1A Q4(a)",
+      "q": "Divide: (16/7) by (-8/14)",
+      "ans": "-4",
+      "opts": [
+        {
+          "t": "-4",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "4",
+          "c": false,
+          "m": "(16/7) \u00d7 (14/-8) = 2 \u00d7 (-2) = -4."
+        },
+        {
+          "t": "-2",
+          "c": false,
+          "m": "16/8 = 2, and 14/7 = 2. 2 \u00d7 (-2) = -4."
+        }
+      ],
+      "exp": "(16/7) \u00d7 (14/-8) = (2 \u00d7 2)/(-1) = -4."
+    },
+    {
+      "id": "1a_q4_b",
+      "tag": "AD Ex 1A Q4(b)",
+      "q": "Divide: (-7/8) by (-21)",
+      "ans": "1/24",
+      "opts": [
+        {
+          "t": "1/24",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-1/24",
+          "c": false,
+          "m": "Two negatives divide to a positive: (-7/8) \u00d7 (1/-21) = 7/(8 \u00d7 21) = 1/(8 \u00d7 3) = 1/24."
+        },
+        {
+          "t": "24",
+          "c": false,
+          "m": "The result is a proper fraction 1/24."
+        }
+      ],
+      "exp": "(-7/8) \u00d7 (1/-21) = 7 / (8 \u00d7 21) = 1 / (8 \u00d7 3) = 1/24."
+    },
+    {
+      "id": "1a_q4_c",
+      "tag": "AD Ex 1A Q4(c)",
+      "q": "Divide: (3/8) by (-4/5)",
+      "ans": "-15/32",
+      "opts": [
+        {
+          "t": "-15/32",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "15/32",
+          "c": false,
+          "m": "(3/8) \u00d7 (-5/4) = -15/32."
+        },
+        {
+          "t": "-12/40",
+          "c": false,
+          "m": "Invert the divisor: 3 \u00d7 (-5) = -15; 8 \u00d7 4 = 32."
+        }
+      ],
+      "exp": "(3/8) \u00d7 (-5/4) = -15/32."
+    },
+    {
+      "id": "1a_q4_d",
+      "tag": "AD Ex 1A Q4(d)",
+      "q": "Divide: (-1/15) by (8/3)",
+      "ans": "-1/40",
+      "opts": [
+        {
+          "t": "-1/40",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "1/40",
+          "c": false,
+          "m": "(-1/15) \u00d7 (3/8) = (-1 \u00d7 1)/(5 \u00d7 8) = -1/40."
+        },
+        {
+          "t": "-8/45",
+          "c": false,
+          "m": "Remember to invert 8/3 to 3/8."
+        }
+      ],
+      "exp": "(-1/15) \u00d7 (3/8) = (-1 \u00d7 1)/(5 \u00d7 8) = -1/40."
+    },
+    {
+      "id": "1a_q4_e",
+      "tag": "AD Ex 1A Q4(e)",
+      "q": "Divide: (-3/26) by (9/78)",
+      "ans": "-1",
+      "opts": [
+        {
+          "t": "-1",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "1",
+          "c": false,
+          "m": "9/78 reduces to 3/26. (-3/26) \u00f7 (3/26) = -1."
+        },
+        {
+          "t": "-3",
+          "c": false,
+          "m": "Both fractions have the same magnitude."
+        }
+      ],
+      "exp": "9/78 = 3/26. (-3/26) \u00f7 (3/26) = -1."
+    },
+    {
+      "id": "1a_q4_f",
+      "tag": "AD Ex 1A Q4(f)",
+      "q": "Divide: (-22/26) by (-33/39)",
+      "ans": "1",
+      "opts": [
+        {
+          "t": "1",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-1",
+          "c": false,
+          "m": "Both fractions reduce to -11/13. A number divided by itself is positive 1."
+        },
+        {
+          "t": "2/3",
+          "c": false,
+          "m": "Both fractions are exactly identical in standard form."
+        }
+      ],
+      "exp": "-22/26 = -11/13. -33/39 = -11/13. (-11/13) \u00f7 (-11/13) = 1."
+    }
+  ],
+  "ex1b": [
+    {
+      "id": "1b_q1_a",
+      "tag": "AD Ex 1B Q1(a)",
+      "q": "Commutative Property: (-3/7) + (4/9) = _____ + (-3/7)",
+      "ans": "4/9",
+      "opts": [
+        {
+          "t": "4/9",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-4/9",
+          "c": false,
+          "m": "Commutative law swaps order without changing signs: a + b = b + a."
+        },
+        {
+          "t": "3/7",
+          "c": false,
+          "m": "Missing term is the second addend 4/9."
+        }
+      ],
+      "exp": "a + b = b + a. Blank = 4/9."
+    },
+    {
+      "id": "1b_q1_b",
+      "tag": "AD Ex 1B Q1(b)",
+      "q": "Commutative Property: (2/3) + (-5/6) = (-5/6) + _____?",
+      "ans": "2/3",
+      "opts": [
+        {
+          "t": "2/3",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-2/3",
+          "c": false,
+          "m": "The original term is positive 2/3."
+        },
+        {
+          "t": "5/6",
+          "c": false,
+          "m": "a + b = b + a."
+        }
+      ],
+      "exp": "a + b = b + a. Blank = 2/3."
+    },
+    {
+      "id": "1b_q2_a",
+      "tag": "AD Ex 1B Q2(a)",
+      "q": "Associative Property: [(1/11) + (2/13)] + (7/6) = (1/11) + [_____ + (7/6)]",
+      "ans": "2/13",
+      "opts": [
+        {
+          "t": "2/13",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "1/11",
+          "c": false,
+          "m": "(a + b) + c = a + (b + c). Missing term is 2/13."
+        },
+        {
+          "t": "7/6",
+          "c": false,
+          "m": "7/6 is already outside the bracket."
+        }
+      ],
+      "exp": "(a + b) + c = a + (b + c). Missing term = 2/13."
+    },
+    {
+      "id": "1b_q3_a",
+      "tag": "AD Ex 1B Q3(a)",
+      "q": "State property used: (-2/5) + (3/7) = (3/7) + (-2/5)",
+      "ans": "Commutative Property of Addition",
+      "opts": [
+        {
+          "t": "Commutative Property of Addition",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Associative Property",
+          "c": false,
+          "m": "Swapping the order of two addends is Commutativity."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "Closure means the sum is rational; swapping order is Commutativity."
+        }
+      ],
+      "exp": "Order of addition is swapped: Commutative Property."
+    },
+    {
+      "id": "1b_q3_b",
+      "tag": "AD Ex 1B Q3(b)",
+      "q": "State property: (2/5) + [(9/7) + (-3/8)] = [(2/5) + (9/7)] + (-3/8)",
+      "ans": "Associative Property of Addition",
+      "opts": [
+        {
+          "t": "Associative Property of Addition",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutative Property",
+          "c": false,
+          "m": "Shifting bracket grouping among three addends is Associativity."
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "Distributivity involves multiplication over addition."
+        }
+      ],
+      "exp": "Grouping of three addends is changed: Associative Property."
+    }
+  ],
+  "ex1c": [
+    {
+      "id": "1c_q4_a",
+      "tag": "AD Ex 1C Q4(a)",
+      "q": "State property: (2/7) \u00d7 (13/11) = (13/11) \u00d7 (2/7)",
+      "ans": "Commutative Property of Multiplication",
+      "opts": [
+        {
+          "t": "Commutative Property of Multiplication",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Associative Property",
+          "c": false,
+          "m": "Order of factors is swapped: Commutativity."
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "Only multiplication is occurring here."
+        }
+      ],
+      "exp": "Order of factors swapped: Commutativity of Multiplication."
+    },
+    {
+      "id": "1c_q4_b",
+      "tag": "AD Ex 1C Q4(b)",
+      "q": "State property: (-5/7) \u00d7 [(6/11) \u00d7 (7/13)] = [(-5/7) \u00d7 (6/11)] \u00d7 (7/13)",
+      "ans": "Associative Property of Multiplication",
+      "opts": [
+        {
+          "t": "Associative Property of Multiplication",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "Grouping of factors is changed: Associative Property."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "Associativity governs bracket placement."
+        }
+      ],
+      "exp": "Grouping of three factors is changed: Associative Property."
+    },
+    {
+      "id": "1c_q4_c",
+      "tag": "AD Ex 1C Q4(c)",
+      "q": "State property: (1/7) \u00d7 (3/5) = 3/35 is a rational number",
+      "ans": "Closure Property of Multiplication",
+      "opts": [
+        {
+          "t": "Closure Property of Multiplication",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutative Property",
+          "c": false,
+          "m": "Product of two rational numbers being rational demonstrates Closure."
+        },
+        {
+          "t": "Identity Property",
+          "c": false,
+          "m": "Identity involves multiplying by 1."
+        }
+      ],
+      "exp": "Product of two rationals is rational: Closure Property."
+    },
+    {
+      "id": "1c_q4_d",
+      "tag": "AD Ex 1C Q4(d)",
+      "q": "State property: (7/11) \u00d7 [(1/6) + (2/13)] = [(7/11) \u00d7 (1/6)] + [(7/11) \u00d7 (2/13)]",
+      "ans": "Distributive Property of Multiplication over Addition",
+      "opts": [
+        {
+          "t": "Distributive Property of Multiplication over Addition",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Associative Property",
+          "c": false,
+          "m": "Multiplication distributed across addition terms: Distributive Property."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "This is the Distributive Law."
+        }
+      ],
+      "exp": "Multiplication distributed over addition: Distributive Property."
+    },
+    {
+      "id": "1c_q4_e",
+      "tag": "AD Ex 1C Q4(e)",
+      "q": "State property: (-9/8) \u00d7 0 = 0 = 0 \u00d7 (-9/8)",
+      "ans": "Multiplicative Property of Zero",
+      "opts": [
+        {
+          "t": "Multiplicative Property of Zero",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Additive Identity",
+          "c": false,
+          "m": "Multiplying by zero yields zero."
+        },
+        {
+          "t": "Multiplicative Identity",
+          "c": false,
+          "m": "Multiplicative identity is 1, not 0."
+        }
+      ],
+      "exp": "Any rational number multiplied by 0 equals 0."
+    },
+    {
+      "id": "1c_q4_f",
+      "tag": "AD Ex 1C Q4(f)",
+      "q": "State property: 1 \u00d7 (7/9) = 7/9",
+      "ans": "Multiplicative Identity (Property of 1)",
+      "opts": [
+        {
+          "t": "Multiplicative Identity (Property of 1)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Additive Identity",
+          "c": false,
+          "m": "1 is the multiplicative identity because value is unchanged under multiplication."
+        },
+        {
+          "t": "Closure",
+          "c": false,
+          "m": "Property of 1 is the Multiplicative Identity."
+        }
+      ],
+      "exp": "1 is the multiplicative identity."
+    },
+    {
+      "id": "prescribed_1",
+      "tag": "AD Prescribed Q1(i)",
+      "q": "Name property: (-4/5) \u00d7 1 = 1 \u00d7 (-4/5) = -4/5",
+      "ans": "1 is the Multiplicative Identity",
+      "opts": [
+        {
+          "t": "1 is the Multiplicative Identity",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutativity only",
+          "c": false,
+          "m": "Prescribed textbook answer specifies 1 is the multiplicative identity."
+        },
+        {
+          "t": "Multiplicative Inverse",
+          "c": false,
+          "m": "Multiplying by 1 preserves identity."
+        }
+      ],
+      "exp": "Prescribed Solution: 1 is the multiplicative identity."
+    },
+    {
+      "id": "prescribed_2",
+      "tag": "AD Prescribed Q1(iii)",
+      "q": "Name property: (-19/29) \u00d7 (29/-19) = 1",
+      "ans": "Multiplicative Inverse (Reciprocal)",
+      "opts": [
+        {
+          "t": "Multiplicative Inverse (Reciprocal)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Multiplicative Identity",
+          "c": false,
+          "m": "A number multiplied by its reciprocal equals 1."
+        },
+        {
+          "t": "Closure",
+          "c": false,
+          "m": "This is the Multiplicative Inverse property."
+        }
+      ],
+      "exp": "Prescribed Solution: Multiplicative inverse."
+    },
+    {
+      "id": "prescribed_3",
+      "tag": "AD Prescribed Q3",
+      "q": "The product of two rational numbers is always a _____?",
+      "ans": "Rational number (Closure Property)",
+      "opts": [
+        {
+          "t": "Rational number (Closure Property)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Whole number",
+          "c": false,
+          "m": "Product can be a fraction or negative, but is always rational."
+        },
+        {
+          "t": "Positive integer only",
+          "c": false,
+          "m": "Rational multiplication can yield negative products."
+        }
+      ],
+      "exp": "Prescribed Solution: The product of two rational numbers is always a rational number."
+    }
+  ],
+  "ex1c_extra": [
+    {
+      "id": "1c_q5_a",
+      "tag": "AD Ex 1C Q5(a)",
+      "q": "Fill in blank: [(-9/16) \u00d7 (11/7)] = (11/7) \u00d7 [_____]",
+      "ans": "-9/16",
+      "opts": [
+        {
+          "t": "-9/16",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "9/16",
+          "c": false,
+          "m": "Commutative Property preserves the negative sign."
+        },
+        {
+          "t": "11/7",
+          "c": false,
+          "m": "Missing term is -9/16."
+        }
+      ],
+      "exp": "Commutative Property: a \u00d7 b = b \u00d7 a. Blank = -9/16."
+    },
+    {
+      "id": "1c_q5_c",
+      "tag": "AD Ex 1C Q5(c)",
+      "q": "Fill in blank: (-7/13) \u00d7 [_____] = -7/13",
+      "ans": "1",
+      "opts": [
+        {
+          "t": "1",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "0",
+          "c": false,
+          "m": "Multiplying by 0 gives 0."
+        },
+        {
+          "t": "-1",
+          "c": false,
+          "m": "Multiplying by -1 changes the sign."
+        }
+      ],
+      "exp": "1 is the multiplicative identity: a \u00d7 1 = a."
+    },
+    {
+      "id": "1c_q5_d",
+      "tag": "AD Ex 1C Q5(d)",
+      "q": "Fill in blank: [_____] \u00d7 (-19/47) = 0",
+      "ans": "0",
+      "opts": [
+        {
+          "t": "0",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "1",
+          "c": false,
+          "m": "1 \u00d7 (-19/47) = -19/47."
+        },
+        {
+          "t": "-47/19",
+          "c": false,
+          "m": "Reciprocal product equals 1, not 0."
+        }
+      ],
+      "exp": "Property of zero: 0 \u00d7 a = 0."
+    },
+    {
+      "id": "1a_q5_a",
+      "tag": "AD Ex 1A Q5(a)",
+      "q": "Simplify: [(3/2) \u00d7 (-7/4) \u00d7 (8/9)] - [(-15/2) \u00d7 (3/7) \u00d7 (8/14)]",
+      "ans": "-13/21",
+      "opts": [
+        {
+          "t": "-13/21",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-7/3",
+          "c": false,
+          "m": "First term cancels to -7/3; second cancels to -90/56 = -45/28. Combine carefully."
+        },
+        {
+          "t": "13/21",
+          "c": false,
+          "m": "Check common denominator and signs."
+        }
+      ],
+      "exp": "First bracket cancels to -7/3. Second bracket cancels to -45/28. Difference = -7/3 - (-45/28) = -13/21."
+    }
+  ]
+}

@@ -1,0 +1,1381 @@
+[
+  {
+    "title": "The Stationery Shop & p/q Definition",
+    "emoji": "\ud83c\udfea",
+    "icon": "\ud83c\udfea",
+    "color": "#3b82f6",
+    "steps": [
+      {
+        "t": "intro",
+        "icon": "\ud83c\udfea",
+        "title": "Seema & Sachin at the Stationery Shop",
+        "sub": "Welcome to Class 8 Mathematics! Seema and Sachin are shopping for school stationery when they stumble upon a wholesale bargain. Let us discover why integers fail and rational numbers are born!",
+        "hero": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMjAwIDEyMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNkYmVhZmUiIHJ4PSIxNiIvPjx0ZXh0IHg9IjEwMCIgeT0iNjUiIGZvbnQtc2l6ZT0iNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPvCfj6s8L3RleHQ+PC9zdmc+"
+      },
+      {
+        "t": "text",
+        "title": "AD Textbook Embark On: Finding Cost per Pen",
+        "text": "Seema wants to buy 3 pens, each costing \u20b95 individually. Her brother Sachin wants 2 similar pens. At the shop, the shopkeeper tells them that a packet of 5 pens costs \u20b922. Now, Seema and Sachin need to figure out the cost of each pen to ensure they are getting a good deal. To find out the cost of each pen when bought in a packet, we divide the total cost of the packet by the number of pens in it. Mathematically: Cost of each pen = \u20b922/5. Dividing \u20b922 by 5 gives: 22/5 = \u20b94.40. Therefore, each pen in the packet costs \u20b94.40! This division resulted in a number that is not a whole number (0, 1, 2, 3...) or simple integer."
+      },
+      {
+        "t": "text",
+        "title": "What is a Rational Number?",
+        "text": "Here, \u20b94.40 is a rational number because it can be expressed as a fraction p/q where both the numerator (22) and the denominator (5) are integers, and the denominator is non-zero (5 \u2260 0). A rational number is a number that can be expressed as a quotient or fraction p/q of two integers, where p is an integer and q is a non-zero integer (q \u2260 0). Any integer a is a rational number because it can be written as a/1. Rational numbers include positive and negative numbers as well as zero (0 = 0/1). In Standard Form, the denominator is positive and p, q share no common factor other than 1."
+      },
+      {
+        "t": "solve",
+        "sl": {
+          "title": "Guided Step-by-Step Solve: Standard Form",
+          "prompt": "Express the rational number 32/-48 in standard form with a positive denominator.",
+          "steps": [
+            {
+              "instruction": "Step 1: Notice the negative sign is in the denominator. Multiply both numerator and denominator by -1 to make the denominator positive.",
+              "type": "mcq",
+              "q": "What is [32 \u00d7 (-1)] / [-48 \u00d7 (-1)]?",
+              "opts": [
+                {
+                  "t": "-32/48",
+                  "c": true,
+                  "m": ""
+                },
+                {
+                  "t": "32/48",
+                  "c": false,
+                  "m": "32 \u00d7 (-1) = -32."
+                },
+                {
+                  "t": "-48/32",
+                  "c": false,
+                  "m": "Do not invert the fraction."
+                }
+              ]
+            },
+            {
+              "instruction": "Step 2: Find the Highest Common Factor (HCF) of 32 and 48.",
+              "type": "mcq",
+              "q": "What is the HCF of 32 and 48?",
+              "opts": [
+                {
+                  "t": "16",
+                  "c": true,
+                  "m": ""
+                },
+                {
+                  "t": "8",
+                  "c": false,
+                  "m": "16 is a higher common factor."
+                },
+                {
+                  "t": "12",
+                  "c": false,
+                  "m": "12 does not divide 32."
+                }
+              ]
+            },
+            {
+              "instruction": "Step 3: Divide both parts by 16: (-32 \u00f7 16) / (48 \u00f7 16).",
+              "type": "input",
+              "q": "Enter the final standard fraction (e.g. -2/3):",
+              "answer": "-2/3",
+              "hint": "-32 \u00f7 16 = -2; 48 \u00f7 16 = 3."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "Why can the denominator q of a rational number p/q never be zero?",
+          "opts": [
+            {
+              "t": "Because division by zero is mathematically undefined",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Because zero is not considered an integer",
+              "c": false,
+              "m": "Zero is an integer, but dividing into zero parts has no mathematical meaning."
+            },
+            {
+              "t": "Because fractions can only contain positive numbers",
+              "c": false,
+              "m": "Rationals routinely contain negative integers."
+            },
+            {
+              "t": "Because zero erases the numerator",
+              "c": false,
+              "m": "0 in numerator gives 0, but 0 in denominator is undefined."
+            }
+          ]
+        }
+      },
+      {
+        "t": "progress",
+        "tokens": 15,
+        "xp": 35,
+        "text": "Outstanding! You have mastered the definition of rational numbers and standard form!",
+        "next": "Number Line & Density"
+      }
+    ]
+  },
+  {
+    "title": "Number Line Coordinates & Density",
+    "emoji": "\ud83d\udccd",
+    "icon": "\ud83d\udccd",
+    "color": "#10b981",
+    "steps": [
+      {
+        "t": "intro",
+        "icon": "\ud83d\udccd",
+        "title": "Coordinates on the Number Line",
+        "sub": "A number line stretches endlessly in two directions from origin 0. Positive rationals lie to the right, and negative rationals lie to the left. Let us pinpoint exact fractional coordinates!",
+        "hero": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMjAwIDEyMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNkYmVhZmUiIHJ4PSIxNiIvPjx0ZXh0IHg9IjEwMCIgeT0iNjUiIGZvbnQtc2l6ZT0iNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoDwvdGV4dD48L3N2Zz4="
+      },
+      {
+        "t": "text",
+        "title": "Locating Improper Rational Numbers",
+        "text": "To locate an improper rational number like -8/3 on the number line, first convert it into a mixed fraction: -8/3 = - (2 and 2/3). This reveals that it lies between the consecutive integers -2 and -3. Because the denominator is 3, divide the unit length between -2 and -3 into 3 equal parts. Moving 2 parts to the left from -2 marks the exact position of -8/3."
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "Between which two consecutive integers does the rational number 13/5 lie on the number line?",
+          "opts": [
+            {
+              "t": "Between 2 and 3 (since 13/5 = 2 and 3/5)",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Between 1 and 2",
+              "c": false,
+              "m": "13/5 is 2.6, which is greater than 2."
+            },
+            {
+              "t": "Between 3 and 4",
+              "c": false,
+              "m": "13/5 is less than 3."
+            },
+            {
+              "t": "Between 12 and 14",
+              "c": false,
+              "m": "Convert improper fraction to mixed fraction first."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "How many rational numbers exist between any two distinct rational numbers on a number line?",
+          "opts": [
+            {
+              "t": "Infinitely many rational numbers",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Exactly one rational number",
+              "c": false,
+              "m": "You can always find the midpoint between any two rationals, and subdivide indefinitely."
+            },
+            {
+              "t": "No rational numbers exist between them",
+              "c": false,
+              "m": "Rational numbers are densely distributed."
+            },
+            {
+              "t": "Only ten rational numbers",
+              "c": false,
+              "m": "Subdivisions are endless."
+            }
+          ]
+        }
+      },
+      {
+        "t": "progress",
+        "tokens": 15,
+        "xp": 35,
+        "text": "Brilliant! You can now pinpoint any rational number on the infinite coordinate line!",
+        "next": "Exercise 1A: Addition Drills"
+      }
+    ]
+  },
+  {
+    "title": "Ex 1A: Addition Arena (All 8 Qs)",
+    "emoji": "\u2795",
+    "icon": "\u2795",
+    "color": "#f59e0b",
+    "steps": [
+      {
+        "t": "intro",
+        "icon": "\u2795",
+        "title": "Exercise 1A: Rational Addition Arena",
+        "sub": "Master all 8 addition challenges directly from Exercise 1A of the AD textbook! Match denominators via LCM, simplify signs, and reduce to standard form.",
+        "hero": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMjAwIDEyMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNkYmVhZmUiIHJ4PSIxNiIvPjx0ZXh0IHg9IjEwMCIgeT0iNjUiIGZvbnQtc2l6ZT0iNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKnuTwvdGV4dD48L3N2Zz4="
+      },
+      {
+        "t": "text",
+        "title": "Addition Rules for Exercise 1A",
+        "text": "Rule 1: If denominators are identical: a/b + c/b = (a + c)/b.\nRule 2: If denominators differ: find LCM(b, d), scale fractions to common slice size: a/b + c/d = (ad + bc)/bd.\nRule 3: Purge negative denominators to standard form before finding LCM!"
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q1(a)] Add: 5/2 and -11/2",
+          "opts": [
+            {
+              "t": "-3",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-6/2",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "3",
+              "c": false,
+              "m": "5 + (-11) = -6, not +6."
+            },
+            {
+              "t": "-8",
+              "c": false,
+              "m": "Combine numerators over common denominator 2."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q1(b)] Add: 7/5 and 13/5",
+          "opts": [
+            {
+              "t": "4",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "20/5",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "2",
+              "c": false,
+              "m": "7 + 13 = 20; 20/5 = 4."
+            },
+            {
+              "t": "6/5",
+              "c": false,
+              "m": "Add the numerators: 7 + 13."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q1(c)] Add: -7/8 and 12/-8",
+          "opts": [
+            {
+              "t": "-19/8",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "5/8",
+              "c": false,
+              "m": "12/-8 = -12/8. -7 + (-12) = -19, not +5."
+            },
+            {
+              "t": "-5/8",
+              "c": false,
+              "m": "Both numerators are negative: -7 + (-12) = -19."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q1(d)] Add: -11/5 and -9/5",
+          "opts": [
+            {
+              "t": "-4",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-20/5",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-2",
+              "c": false,
+              "m": "-11 + (-9) = -20; -20/5 = -4."
+            },
+            {
+              "t": "4",
+              "c": false,
+              "m": "Sum of two negative numbers is negative."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q1(e)] Add: 4/-7 and -5/8",
+          "opts": [
+            {
+              "t": "-67/56",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-3/56",
+              "c": false,
+              "m": "LCM is 56: [(-4 \u00d7 8) + (-5 \u00d7 7)]/56 = (-32 - 35)/56 = -67/56."
+            },
+            {
+              "t": "67/56",
+              "c": false,
+              "m": "Both terms are negative, so sum is negative."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q1(f)] Add: -13/7 and 12/-5",
+          "opts": [
+            {
+              "t": "-149/35",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-1/35",
+              "c": false,
+              "m": "LCM is 35: [(-13 \u00d7 5) + (-12 \u00d7 7)]/35 = (-65 - 84)/35 = -149/35."
+            },
+            {
+              "t": "149/35",
+              "c": false,
+              "m": "Sum of two negative numbers is negative."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q1(g)] Add: -15/9 and -17/11",
+          "opts": [
+            {
+              "t": "-106/33",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-318/99",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-32/99",
+              "c": false,
+              "m": "-15/9 = -5/3. LCM(3, 11) = 33: [(-5 \u00d7 11) + (-17 \u00d7 3)]/33 = -106/33."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q1(h)] Add: -9/-33 and 5/11",
+          "opts": [
+            {
+              "t": "8/11",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-4/11",
+              "c": false,
+              "m": "-9/-33 = 9/33 = 3/11. 3/11 + 5/11 = 8/11."
+            },
+            {
+              "t": "14/33",
+              "c": false,
+              "m": "Simplify 9/33 to 3/11 first."
+            }
+          ]
+        }
+      },
+      {
+        "t": "progress",
+        "tokens": 25,
+        "xp": 50,
+        "text": "\ud83c\udfc6 Outstanding! You have solved 100% of Exercise 1A Question 1 addition problems!",
+        "next": "Exercise 1A: Subtraction Arena"
+      }
+    ]
+  },
+  {
+    "title": "Ex 1A: Subtraction Arena (All 8 Qs)",
+    "emoji": "\u2796",
+    "icon": "\u2796",
+    "color": "#ef4444",
+    "steps": [
+      {
+        "t": "intro",
+        "icon": "\u2796",
+        "title": "Exercise 1A: Rational Subtraction Arena",
+        "sub": "Subtracting rational numbers means adding the additive inverse! Conquer all 8 subtraction problems from Exercise 1A.",
+        "hero": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMjAwIDEyMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNkYmVhZmUiIHJ4PSIxNiIvPjx0ZXh0IHg9IjEwMCIgeT0iNjUiIGZvbnQtc2l6ZT0iNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKItTwvdGV4dD48L3N2Zz4="
+      },
+      {
+        "t": "text",
+        "title": "Subtraction Rule: Additive Inverse",
+        "text": "To subtract c/d from a/b, add the additive inverse of c/d: a/b - c/d = a/b + (-c/d). Remember: minus a negative turns into a positive!"
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q2(a)] Subtract: (-18/5) - (-8/5)",
+          "opts": [
+            {
+              "t": "-2",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-26/5",
+              "c": false,
+              "m": "Subtracting negative turns into addition: -18 - (-8) = -18 + 8 = -10; -10/5 = -2."
+            },
+            {
+              "t": "2",
+              "c": false,
+              "m": "-18 + 8 = -10, so result is negative."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q2(b)] Subtract: (-19/15) - (-6/30)",
+          "opts": [
+            {
+              "t": "-16/15",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-32/30",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-13/15",
+              "c": false,
+              "m": "-6/30 = -3/15. -19/15 - (-3/15) = -19/15 + 3/15 = -16/15."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q2(c)] Subtract: (-6/11) - (-7/11)",
+          "opts": [
+            {
+              "t": "1/11",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-13/11",
+              "c": false,
+              "m": "Minus a negative is plus: -6 + 7 = 1."
+            },
+            {
+              "t": "-1/11",
+              "c": false,
+              "m": "7 is larger than 6, so -6 + 7 = +1."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q2(d)] Subtract: (-1/4) - (-2/8)",
+          "opts": [
+            {
+              "t": "0",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-1/2",
+              "c": false,
+              "m": "-2/8 = -1/4. -1/4 - (-1/4) = -1/4 + 1/4 = 0."
+            },
+            {
+              "t": "-1/4",
+              "c": false,
+              "m": "Any number subtracted from itself is 0."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q2(e)] Subtract: (-59/5) - (19/5)",
+          "opts": [
+            {
+              "t": "-78/5",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-40/5",
+              "c": false,
+              "m": "-59 - 19 = -78."
+            },
+            {
+              "t": "78/5",
+              "c": false,
+              "m": "Both terms subtract to a larger negative."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q2(f)] Subtract: (-4/7) - (-8/9)",
+          "opts": [
+            {
+              "t": "20/63",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-20/63",
+              "c": false,
+              "m": "LCM = 63: [(-4 \u00d7 9) - (-8 \u00d7 7)]/63 = (-36 + 56)/63 = 20/63."
+            },
+            {
+              "t": "-92/63",
+              "c": false,
+              "m": "-(-8 \u00d7 7) = +56."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q2(g)] Subtract: (7/24) - (-13/-26)",
+          "opts": [
+            {
+              "t": "-5/24",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "5/24",
+              "c": false,
+              "m": "-13/-26 = 1/2 = 12/24. 7/24 - 12/24 = -5/24."
+            },
+            {
+              "t": "19/24",
+              "c": false,
+              "m": "-13/-26 is positive 1/2, so we subtract 12/24."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q2(h)] Subtract: (7/25) - (-6/15)",
+          "opts": [
+            {
+              "t": "17/25",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-17/25",
+              "c": false,
+              "m": "-6/15 = -2/5 = -10/25. 7/25 - (-10/25) = (7 + 10)/25 = 17/25."
+            },
+            {
+              "t": "1/25",
+              "c": false,
+              "m": "Minus a negative is plus: 7 + 10 = 17."
+            }
+          ]
+        }
+      },
+      {
+        "t": "progress",
+        "tokens": 25,
+        "xp": 50,
+        "text": "\ud83c\udfc6 Incredible! You have solved 100% of Exercise 1A Question 2 subtraction problems!",
+        "next": "Exercise 1A: Multiplication & Division Arena"
+      }
+    ]
+  },
+  {
+    "title": "Ex 1A: Multiply & Divide (All 14 Qs)",
+    "emoji": "\u2716\ufe0f",
+    "icon": "\u2716\ufe0f",
+    "color": "#8b5cf6",
+    "steps": [
+      {
+        "t": "intro",
+        "icon": "\u2716\ufe0f",
+        "title": "Exercise 1A: Multiplication & Division Arena",
+        "sub": "Multiply numerators and denominators directly using cross-cancellation. Divide by multiplying by the flipped reciprocal twin! Covers all of Q3, Q4, and Q5.",
+        "hero": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMjAwIDEyMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNkYmVhZmUiIHJ4PSIxNiIvPjx0ZXh0IHg9IjEwMCIgeT0iNjUiIGZvbnQtc2l6ZT0iNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKcqTwvdGV4dD48L3N2Zz4="
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q3(a)] Multiply: (4/7) by (-2/5)",
+          "opts": [
+            {
+              "t": "-8/35",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "8/35",
+              "c": false,
+              "m": "Positive times negative is negative: 4 \u00d7 (-2) = -8."
+            },
+            {
+              "t": "-2/35",
+              "c": false,
+              "m": "4 \u00d7 2 = 8, not 2."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q3(b)] Multiply: (-3/8) by (-12/15)",
+          "opts": [
+            {
+              "t": "3/10",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-3/10",
+              "c": false,
+              "m": "Two negatives multiply to a positive product."
+            },
+            {
+              "t": "36/120",
+              "c": true,
+              "m": ""
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q3(c)] Multiply: (11/-13) by (-39/22)",
+          "opts": [
+            {
+              "t": "3/2",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-3/2",
+              "c": false,
+              "m": "Both fractions are negative, so product is positive: 11 into 22 gives 2; 13 into 39 gives 3."
+            },
+            {
+              "t": "1",
+              "c": false,
+              "m": "Cross cancel 11/22 = 1/2 and 39/13 = 3/1."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q3(d)] Multiply: (-5/9) by (81/35)",
+          "opts": [
+            {
+              "t": "-9/7",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "9/7",
+              "c": false,
+              "m": "Negative times positive is negative: 5 into 35 is 7; 9 into 81 is 9."
+            },
+            {
+              "t": "-45/35",
+              "c": false,
+              "m": "Cross cancel 9 with 81 first."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q3(e)] Multiply: (-9/25) by (-35/27)",
+          "opts": [
+            {
+              "t": "7/15",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-7/15",
+              "c": false,
+              "m": "Negative times negative is positive: 9 into 27 is 3; 5 divides 25 (5) and 35 (7). Product = 7/15."
+            },
+            {
+              "t": "5/9",
+              "c": false,
+              "m": "(1 \u00d7 7)/(5 \u00d7 3) = 7/15."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q3(f)] Multiply: (-18/25) by (40/-36)",
+          "opts": [
+            {
+              "t": "4/5",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-4/5",
+              "c": false,
+              "m": "40/-36 = -10/9. (-18/25) \u00d7 (-10/9) = (-2 \u00d7 -2)/(5 \u00d7 1) = 4/5."
+            },
+            {
+              "t": "2/5",
+              "c": false,
+              "m": "18 into 36 is 2; 40/2 = 20; 20/25 = 4/5."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q4(a)] Divide: (16/7) by (-8/14)",
+          "opts": [
+            {
+              "t": "-4",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "4",
+              "c": false,
+              "m": "(16/7) \u00d7 (14/-8) = 2 \u00d7 (-2) = -4."
+            },
+            {
+              "t": "-2",
+              "c": false,
+              "m": "16/8 = 2, and 14/7 = 2. 2 \u00d7 (-2) = -4."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q4(b)] Divide: (-7/8) by (-21)",
+          "opts": [
+            {
+              "t": "1/24",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-1/24",
+              "c": false,
+              "m": "Two negatives divide to a positive: (-7/8) \u00d7 (1/-21) = 7/(8 \u00d7 21) = 1/(8 \u00d7 3) = 1/24."
+            },
+            {
+              "t": "24",
+              "c": false,
+              "m": "The result is a proper fraction 1/24."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q4(c)] Divide: (3/8) by (-4/5)",
+          "opts": [
+            {
+              "t": "-15/32",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "15/32",
+              "c": false,
+              "m": "(3/8) \u00d7 (-5/4) = -15/32."
+            },
+            {
+              "t": "-12/40",
+              "c": false,
+              "m": "Invert the divisor: 3 \u00d7 (-5) = -15; 8 \u00d7 4 = 32."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q4(d)] Divide: (-1/15) by (8/3)",
+          "opts": [
+            {
+              "t": "-1/40",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "1/40",
+              "c": false,
+              "m": "(-1/15) \u00d7 (3/8) = (-1 \u00d7 1)/(5 \u00d7 8) = -1/40."
+            },
+            {
+              "t": "-8/45",
+              "c": false,
+              "m": "Remember to invert 8/3 to 3/8."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q4(e)] Divide: (-3/26) by (9/78)",
+          "opts": [
+            {
+              "t": "-1",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "1",
+              "c": false,
+              "m": "9/78 reduces to 3/26. (-3/26) \u00f7 (3/26) = -1."
+            },
+            {
+              "t": "-3",
+              "c": false,
+              "m": "Both fractions have the same magnitude."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q4(f)] Divide: (-22/26) by (-33/39)",
+          "opts": [
+            {
+              "t": "1",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-1",
+              "c": false,
+              "m": "Both fractions reduce to -11/13. A number divided by itself is positive 1."
+            },
+            {
+              "t": "2/3",
+              "c": false,
+              "m": "Both fractions are exactly identical in standard form."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1A Q5(a)] Simplify: [(3/2) \u00d7 (-7/4) \u00d7 (8/9)] - [(-15/2) \u00d7 (3/7) \u00d7 (8/14)]",
+          "opts": [
+            {
+              "t": "-13/21",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-7/3",
+              "c": false,
+              "m": "First term cancels to -7/3; second cancels to -90/56 = -45/28. Combine carefully."
+            },
+            {
+              "t": "13/21",
+              "c": false,
+              "m": "Check common denominator and signs."
+            }
+          ]
+        }
+      },
+      {
+        "t": "progress",
+        "tokens": 30,
+        "xp": 60,
+        "text": "\ud83c\udfc6 Mastery! You have conquered all multiplication, division, and nested simplification in Exercise 1A!",
+        "next": "Exercise 1B & 1C: Algebraic Properties & Board Exam Arena"
+      }
+    ]
+  },
+  {
+    "title": "Ex 1B & 1C: Properties Arena (All 16 Qs)",
+    "emoji": "\u2728",
+    "icon": "\u2728",
+    "color": "#ec4899",
+    "steps": [
+      {
+        "t": "intro",
+        "icon": "\u2728",
+        "title": "Exercise 1B, 1C & Board Exam Master Arena",
+        "sub": "Prove and apply Closure, Commutative, Associative, and Distributive laws across Exercises 1B, 1C, and Prescribed Board Solved Questions!",
+        "hero": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMjAwIDEyMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNkYmVhZmUiIHJ4PSIxNiIvPjx0ZXh0IHg9IjEwMCIgeT0iNjUiIGZvbnQtc2l6ZT0iNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKckTwvdGV4dD48L3N2Zz4="
+      },
+      {
+        "t": "text",
+        "title": "Summary of Properties (Pages 5\u20138)",
+        "text": "1. Closure: a + b, a - b, a \u00d7 b are always rational numbers.\n2. Commutativity: a + b = b + a and a \u00d7 b = b \u00d7 a (subtraction & division are NOT commutative).\n3. Associativity: (a + b) + c = a + (b + c) and (a \u00d7 b) \u00d7 c = a \u00d7 (b \u00d7 c).\n4. Distributivity: a \u00d7 (b \u00b1 c) = (a \u00d7 b) \u00b1 (a \u00d7 c).\n5. Identities: 0 is additive identity; 1 is multiplicative identity. Reciprocal product equals 1."
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1B Q1(a)] Commutative Property: (-3/7) + (4/9) = _____ + (-3/7)",
+          "opts": [
+            {
+              "t": "4/9",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-4/9",
+              "c": false,
+              "m": "Commutative law swaps order without changing signs: a + b = b + a."
+            },
+            {
+              "t": "3/7",
+              "c": false,
+              "m": "Missing term is the second addend 4/9."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1B Q1(b)] Commutative Property: (2/3) + (-5/6) = (-5/6) + _____?",
+          "opts": [
+            {
+              "t": "2/3",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "-2/3",
+              "c": false,
+              "m": "The original term is positive 2/3."
+            },
+            {
+              "t": "5/6",
+              "c": false,
+              "m": "a + b = b + a."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1B Q2(a)] Associative Property: [(1/11) + (2/13)] + (7/6) = (1/11) + [_____ + (7/6)]",
+          "opts": [
+            {
+              "t": "2/13",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "1/11",
+              "c": false,
+              "m": "(a + b) + c = a + (b + c). Missing term is 2/13."
+            },
+            {
+              "t": "7/6",
+              "c": false,
+              "m": "7/6 is already outside the bracket."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1B Q3(a)] State property used: (-2/5) + (3/7) = (3/7) + (-2/5)",
+          "opts": [
+            {
+              "t": "Commutative Property of Addition",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Associative Property",
+              "c": false,
+              "m": "Swapping the order of two addends is Commutativity."
+            },
+            {
+              "t": "Closure Property",
+              "c": false,
+              "m": "Closure means the sum is rational; swapping order is Commutativity."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1B Q3(b)] State property: (2/5) + [(9/7) + (-3/8)] = [(2/5) + (9/7)] + (-3/8)",
+          "opts": [
+            {
+              "t": "Associative Property of Addition",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Commutative Property",
+              "c": false,
+              "m": "Shifting bracket grouping among three addends is Associativity."
+            },
+            {
+              "t": "Distributive Property",
+              "c": false,
+              "m": "Distributivity involves multiplication over addition."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1C Q4(a)] State property: (2/7) \u00d7 (13/11) = (13/11) \u00d7 (2/7)",
+          "opts": [
+            {
+              "t": "Commutative Property of Multiplication",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Associative Property",
+              "c": false,
+              "m": "Order of factors is swapped: Commutativity."
+            },
+            {
+              "t": "Distributive Property",
+              "c": false,
+              "m": "Only multiplication is occurring here."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1C Q4(b)] State property: (-5/7) \u00d7 [(6/11) \u00d7 (7/13)] = [(-5/7) \u00d7 (6/11)] \u00d7 (7/13)",
+          "opts": [
+            {
+              "t": "Associative Property of Multiplication",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Distributive Property",
+              "c": false,
+              "m": "Grouping of factors is changed: Associative Property."
+            },
+            {
+              "t": "Closure Property",
+              "c": false,
+              "m": "Associativity governs bracket placement."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1C Q4(c)] State property: (1/7) \u00d7 (3/5) = 3/35 is a rational number",
+          "opts": [
+            {
+              "t": "Closure Property of Multiplication",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Commutative Property",
+              "c": false,
+              "m": "Product of two rational numbers being rational demonstrates Closure."
+            },
+            {
+              "t": "Identity Property",
+              "c": false,
+              "m": "Identity involves multiplying by 1."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1C Q4(d)] State property: (7/11) \u00d7 [(1/6) + (2/13)] = [(7/11) \u00d7 (1/6)] + [(7/11) \u00d7 (2/13)]",
+          "opts": [
+            {
+              "t": "Distributive Property of Multiplication over Addition",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Associative Property",
+              "c": false,
+              "m": "Multiplication distributed across addition terms: Distributive Property."
+            },
+            {
+              "t": "Closure Property",
+              "c": false,
+              "m": "This is the Distributive Law."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1C Q4(e)] State property: (-9/8) \u00d7 0 = 0 = 0 \u00d7 (-9/8)",
+          "opts": [
+            {
+              "t": "Multiplicative Property of Zero",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Additive Identity",
+              "c": false,
+              "m": "Multiplying by zero yields zero."
+            },
+            {
+              "t": "Multiplicative Identity",
+              "c": false,
+              "m": "Multiplicative identity is 1, not 0."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1C Q4(f)] State property: 1 \u00d7 (7/9) = 7/9",
+          "opts": [
+            {
+              "t": "Multiplicative Identity (Property of 1)",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Additive Identity",
+              "c": false,
+              "m": "1 is the multiplicative identity because value is unchanged under multiplication."
+            },
+            {
+              "t": "Closure",
+              "c": false,
+              "m": "Property of 1 is the Multiplicative Identity."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Prescribed Q1(i)] Name property: (-4/5) \u00d7 1 = 1 \u00d7 (-4/5) = -4/5",
+          "opts": [
+            {
+              "t": "1 is the Multiplicative Identity",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Commutativity only",
+              "c": false,
+              "m": "Prescribed textbook answer specifies 1 is the multiplicative identity."
+            },
+            {
+              "t": "Multiplicative Inverse",
+              "c": false,
+              "m": "Multiplying by 1 preserves identity."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Prescribed Q1(iii)] Name property: (-19/29) \u00d7 (29/-19) = 1",
+          "opts": [
+            {
+              "t": "Multiplicative Inverse (Reciprocal)",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Multiplicative Identity",
+              "c": false,
+              "m": "A number multiplied by its reciprocal equals 1."
+            },
+            {
+              "t": "Closure",
+              "c": false,
+              "m": "This is the Multiplicative Inverse property."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Prescribed Q3] The product of two rational numbers is always a _____?",
+          "opts": [
+            {
+              "t": "Rational number (Closure Property)",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "Whole number",
+              "c": false,
+              "m": "Product can be a fraction or negative, but is always rational."
+            },
+            {
+              "t": "Positive integer only",
+              "c": false,
+              "m": "Rational multiplication can yield negative products."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1C Q5(a)] Fill in blank: [(-9/16) \u00d7 (11/7)] = (11/7) \u00d7 [_____]",
+          "opts": [
+            {
+              "t": "-9/16",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "9/16",
+              "c": false,
+              "m": "Commutative Property preserves the negative sign."
+            },
+            {
+              "t": "11/7",
+              "c": false,
+              "m": "Missing term is -9/16."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1C Q5(c)] Fill in blank: (-7/13) \u00d7 [_____] = -7/13",
+          "opts": [
+            {
+              "t": "1",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "0",
+              "c": false,
+              "m": "Multiplying by 0 gives 0."
+            },
+            {
+              "t": "-1",
+              "c": false,
+              "m": "Multiplying by -1 changes the sign."
+            }
+          ]
+        }
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "[AD Ex 1C Q5(d)] Fill in blank: [_____] \u00d7 (-19/47) = 0",
+          "opts": [
+            {
+              "t": "0",
+              "c": true,
+              "m": ""
+            },
+            {
+              "t": "1",
+              "c": false,
+              "m": "1 \u00d7 (-19/47) = -19/47."
+            },
+            {
+              "t": "-47/19",
+              "c": false,
+              "m": "Reciprocal product equals 1, not 0."
+            }
+          ]
+        }
+      },
+      {
+        "t": "progress",
+        "tokens": 50,
+        "xp": 100,
+        "text": "\ud83d\udc51 GRAND CHAMPION! You have solved 100% of all 46 textbook problems from AD Class 8 Mathematics Chapter 1!",
+        "next": null
+      }
+    ]
+  }
+]

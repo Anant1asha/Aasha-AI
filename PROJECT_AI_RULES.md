@@ -18,3 +18,9 @@ The user has explicitly set up Claude Code with OpenRouter (using the free model
 - Use **Claude Code** for complex React/Fastify logic and advanced interactive JavaScript.
 - Use **OpenRouter Multi-Agent (via agent_orchestrator.ts)** for the automated chapter pipeline stages using free models.
 - Use **Freebuff** for local bulk, repetitive text-editing tasks.
+
+## Universal Learning Experience Reuse & Transformation Mandate:
+**NEVER START A LEARNING EXPERIENCE FROM SCRATCH IF A SUITABLE OPEN-SOURCE, REUSABLE, ADAPTABLE OR REFERENCE EXPERIENCE ALREADY EXISTS.**
+- For every chapter or concept: **SEARCH -> MATCH -> REUSE -> ADAPT -> COMPOSE -> ONLY THEN BUILD NEW**.
+- Before writing code, query the registry (`Aasha-AI/experience_registry/registry.json`) and generate the mandatory **RESOURCE MATCH REPORT** (see `Aasha-AI/experience_registry/UNIVERSAL_LEARNING_EXPERIENCE_REUSE_SYSTEM.md`).
+- Implement and wrap all simulations with the `AashaExperienceContract` / `AashaExperienceAdapter` lifecycle (`mount`, `getState`, `reset`, `destroy`, `telemetry`).

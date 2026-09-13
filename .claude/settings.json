@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"C:/Users/admin/Downloads/NGO AI LLM/Aasha-AI/aasha-pipeline-with-master-json/venv/Scripts/graphify.exe\" hook-guard search"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"C:/Users/admin/Downloads/NGO AI LLM/Aasha-AI/aasha-pipeline-with-master-json/venv/Scripts/graphify.exe\" hook-guard read"
+          }
+        ]
+      }
+    ]
+  }
+}

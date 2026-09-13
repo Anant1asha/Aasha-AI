@@ -1,0 +1,26 @@
+{
+  "name": "aasha-ai",
+  "version": "1.0.0",
+  "scripts": {
+    "admin:status": "tsx admin_memory_cli.ts status",
+    "admin:backup": "tsx admin_memory_cli.ts backup",
+    "admin:rules": "tsx admin_memory_cli.ts rules",
+    "admin:seed": "tsx admin_memory_cli.ts seed-rules",
+    "admin:seed-foundations": "tsx admin_memory_cli.ts seed-foundations",
+    "admin:match": "tsx admin_memory_cli.ts match-foundation",
+    "admin:init-chapter": "tsx admin_memory_cli.ts init-chapter",
+    "chapter:init": "tsx admin_memory_cli.ts init-chapter",
+    "admin:experience": "tsx admin_memory_cli.ts add-experience",
+    "admin:learn": "tsx admin_memory_cli.ts learn",
+    "test:ltruth": "node benchmarks/qa_ltruth_benchmark.js",
+    "test:all": "node benchmarks/qa_ltruth_benchmark.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "Class5_Math_Ch01_Gamified.html": {
     "filename": "Class5_Math_Ch01_Gamified.html",
-    "filePath": "C:\\Users\\vanda\\Downloads\\ai tool build draft\\standalone_chapters\\Class5_Math_Ch01_Gamified.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class5_Math_Ch01_Gamified.html",
     "finalScore": 100,
     "passedChecksCount": 12,
     "failedChecksCount": 0,
@@ -33,7 +33,7 @@
   },
   "Class5_Math_Ch02_Gamified.html": {
     "filename": "Class5_Math_Ch02_Gamified.html",
-    "filePath": "C:\\Users\\vanda\\Downloads\\ai tool build draft\\standalone_chapters\\Class5_Math_Ch02_Gamified.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class5_Math_Ch02_Gamified.html",
     "finalScore": 100,
     "passedChecksCount": 12,
     "failedChecksCount": 0,
@@ -65,7 +65,7 @@
   },
   "Class6_Math_Ch01_Gamified.html": {
     "filename": "Class6_Math_Ch01_Gamified.html",
-    "filePath": "C:\\Users\\vanda\\Downloads\\ai tool build draft\\standalone_chapters\\Class6_Math_Ch01_Gamified.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class6_Math_Ch01_Gamified.html",
     "finalScore": 100,
     "passedChecksCount": 12,
     "failedChecksCount": 0,
@@ -97,7 +97,7 @@
   },
   "Class6_Math_Ch02_Gamified.html": {
     "filename": "Class6_Math_Ch02_Gamified.html",
-    "filePath": "C:\\Users\\vanda\\Downloads\\ai tool build draft\\standalone_chapters\\Class6_Math_Ch02_Gamified.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class6_Math_Ch02_Gamified.html",
     "finalScore": 100,
     "passedChecksCount": 12,
     "failedChecksCount": 0,
@@ -129,7 +129,7 @@
   },
   "Class8_Math_Ch01_Gamified.html": {
     "filename": "Class8_Math_Ch01_Gamified.html",
-    "filePath": "C:\\Users\\vanda\\Downloads\\ai tool build draft\\standalone_chapters\\Class8_Math_Ch01_Gamified.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class8_Math_Ch01_Gamified.html",
     "finalScore": 100,
     "passedChecksCount": 12,
     "failedChecksCount": 0,
@@ -161,7 +161,7 @@
   },
   "Class8_Math_Ch02_Gamified.html": {
     "filename": "Class8_Math_Ch02_Gamified.html",
-    "filePath": "C:\\Users\\vanda\\Downloads\\ai tool build draft\\standalone_chapters\\Class8_Math_Ch02_Gamified.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class8_Math_Ch02_Gamified.html",
     "finalScore": 100,
     "passedChecksCount": 12,
     "failedChecksCount": 0,
@@ -170,6 +170,102 @@
       "totalSteps": 3,
       "totalQuestions": 2,
       "totalMisconceptions": 2,
+      "spoilerViolations": 0,
+      "missingMisconceptions": 0,
+      "mathRtCollisions": 0,
+      "ruleViolations": 0
+    },
+    "passedChecks": [
+      "Rule #1 (Zero-Spoiler Misconceptions): 100% compliant. No correct answers leaked.",
+      "Math-rt Isolation: Math expressions and variables are insulated from bilingual dictionary collision.",
+      "Rule #2: All assessment options are shuffled using randomized sorting.",
+      "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop events).",
+      "Rule #4: Clean execution without browser-freezing alert(), confirm(), or prompt().",
+      "Rule #5: Skip action present on interactive canvas / drag-drop activities.",
+      "Rule #6: Primary navigation buttons (Back / Continue) properly anchored.",
+      "Rule #7: _weCheckRendered flag present for multi-phase Worked Example check flow.",
+      "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
+      "Rule #9: exit() resets state immediately without modal dialogs.",
+      "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
+    ],
+    "failedChecks": []
+  },
+  "RationalNumbers_Class8_Gamified_v5_Enhanced_v6.html": {
+    "filename": "RationalNumbers_Class8_Gamified_v5_Enhanced_v6.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\RationalNumbers_Class8_Gamified_v5_Enhanced_v6.html",
+    "finalScore": 100,
+    "passedChecksCount": 12,
+    "failedChecksCount": 0,
+    "stats": {
+      "totalNodes": 5,
+      "totalSteps": 25,
+      "totalQuestions": 15,
+      "totalMisconceptions": 45,
+      "spoilerViolations": 0,
+      "missingMisconceptions": 0,
+      "mathRtCollisions": 0,
+      "ruleViolations": 0
+    },
+    "passedChecks": [
+      "Rule #1 (Zero-Spoiler Misconceptions): 100% compliant. No correct answers leaked.",
+      "Math-rt Isolation: Math expressions and variables are insulated from bilingual dictionary collision.",
+      "Rule #2: All assessment options are shuffled using randomized sorting.",
+      "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop events).",
+      "Rule #4: Clean execution without browser-freezing alert(), confirm(), or prompt().",
+      "Rule #5: Skip action present on interactive canvas / drag-drop activities.",
+      "Rule #6: Primary navigation buttons (Back / Continue) properly anchored.",
+      "Rule #7: _weCheckRendered flag present for multi-phase Worked Example check flow.",
+      "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
+      "Rule #9: exit() resets state immediately without modal dialogs.",
+      "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
+    ],
+    "failedChecks": []
+  },
+  "ExponentsPowers_Class8_Gamified_v5_Enhanced_v6.html": {
+    "filename": "ExponentsPowers_Class8_Gamified_v5_Enhanced_v6.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\ExponentsPowers_Class8_Gamified_v5_Enhanced_v6.html",
+    "finalScore": 100,
+    "passedChecksCount": 12,
+    "failedChecksCount": 0,
+    "stats": {
+      "totalNodes": 5,
+      "totalSteps": 25,
+      "totalQuestions": 15,
+      "totalMisconceptions": 45,
+      "spoilerViolations": 0,
+      "missingMisconceptions": 0,
+      "mathRtCollisions": 0,
+      "ruleViolations": 0
+    },
+    "passedChecks": [
+      "Rule #1 (Zero-Spoiler Misconceptions): 100% compliant. No correct answers leaked.",
+      "Math-rt Isolation: Math expressions and variables are insulated from bilingual dictionary collision.",
+      "Rule #2: All assessment options are shuffled using randomized sorting.",
+      "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop events).",
+      "Rule #4: Clean execution without browser-freezing alert(), confirm(), or prompt().",
+      "Rule #5: Skip action present on interactive canvas / drag-drop activities.",
+      "Rule #6: Primary navigation buttons (Back / Continue) properly anchored.",
+      "Rule #7: _weCheckRendered flag present for multi-phase Worked Example check flow.",
+      "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
+      "Rule #9: exit() resets state immediately without modal dialogs.",
+      "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
+    ],
+    "failedChecks": []
+  },
+  "RationalNumbers_Class8_AD.html": {
+    "filename": "RationalNumbers_Class8_AD.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\RationalNumbers_Class8_AD.html",
+    "finalScore": 100,
+    "passedChecksCount": 12,
+    "failedChecksCount": 0,
+    "stats": {
+      "totalNodes": 5,
+      "totalSteps": 25,
+      "totalQuestions": 15,
+      "totalMisconceptions": 45,
       "spoilerViolations": 0,
       "missingMisconceptions": 0,
       "mathRtCollisions": 0,

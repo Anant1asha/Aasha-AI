@@ -38,3 +38,27 @@ input,select{padding:12px;border:1px solid #ccd8cc;border-radius:10px;font:inher
 .panel{margin-top:20px}
 
 @keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+/* ------ GAMIFICATION & DICTIONARY UI ------ */
+.word{cursor:pointer;border-radius:3px;padding:0 1px;transition:background .15s;border-bottom:1px dotted rgba(0,0,0,.3)}.word:hover{background:#e0e7ff}
+.connective{color:#2563eb;font-weight:700;cursor:pointer;border-bottom:2px dotted #2563eb;padding:0 1px}
+.connective-hi{color:#7c3aed;font-size:.85em;font-weight:600}
+
+/* Dialogs */
+dialog{border:none;border-radius:18px;padding:24px;max-width:320px;width:100%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.15);color:#1e293b;animation:dlgIn .25s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
+@keyframes dlgIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
+.dlg-word{font-size:1.5rem;font-weight:800}
+.dlg-hindi{font-size:1.2rem;color:#7c3aed;font-weight:600;margin-top:4px}
+.dlg-desc{font-size:.8rem;color:#64748b;margin-top:8px;line-height:1.4}
+.dlg-btn{margin-top:14px;padding:8px 24px;background:#3b82f6;color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:.85rem}
+.dlg-btn:hover{background:#2563eb}
+
+/* Level Up / Milestone */
+.lu-icon{font-size:3rem}
+.lu-title{font-size:1.2rem;font-weight:800;color:#f59e0b;margin-top:4px}
+.lu-sub{font-size:.85rem;color:#64748b;margin-top:6px}
+
+/* Streak combo indicator */
+.combo-indicator{position:fixed;top:80px;right:16px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;border-radius:12px;padding:6px 12px;font-size:.75rem;font-weight:800;z-index:90;display:none;box-shadow:0 4px 12px rgba(245,158,11,.4);animation:pop .3s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
+.combo-indicator.show{display:block}
+@keyframes pop{0%{transform:scale(0.8);opacity:0}50%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}

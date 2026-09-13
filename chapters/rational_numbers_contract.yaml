@@ -1,0 +1,74 @@
+title: Rational Numbers
+subject: Mathematics
+class: Class 8
+textbook_source: MDS Class 8 Mathematics (Math Matrix - 8) & NCERT Class 8 Rational Numbers
+learning_objectives:
+  - Understand the concept and definition of rational numbers (p/q, q != 0).
+  - Understand why denominator cannot be 0 or negative in standard form.
+  - Locate rational numbers on a number line by partitioning unit intervals.
+  - Perform rational number addition and subtraction using common denominators.
+  - Understand multiplicative inverse (reciprocal) and rational division.
+  - Apply properties of rational numbers (Commutative, Associative, Distributive) to simplify expressions.
+concepts:
+  - name: Rational Number
+    definition: A number that can be expressed in the form p/q, where p and q are integers and q is not equal to zero.
+  - name: Standard Form
+    definition: A rational number p/q where q is positive and p and q share no common factor other than 1.
+  - name: Additive Inverse
+    definition: The negative of a rational number, which when added to it yields 0.
+  - name: Multiplicative Inverse (Reciprocal)
+    definition: The inverted fraction which when multiplied by the original number yields 1.
+  - name: Commutative Property
+    definition: Changing the order of two addends or factors does not change the result.
+  - name: Associative Property
+    definition: Grouping three or more addends or factors in different ways does not change the result.
+  - name: Distributive Property
+    definition: Multiplying a sum by a number gives the same result as multiplying each addend separately and adding products.
+hooks:
+  - inquiry: "Why do we need numbers beyond whole numbers and fractions?"
+    scenario: "Seema bought 5 pens for 40 wholesale, and wants to calculate the exact cost of each pen and track profit vs debt."
+formal_terms:
+  - Rational Number
+  - Standard Form
+  - Co-prime
+  - Additive Inverse
+  - Multiplicative Inverse (Reciprocal)
+  - Commutative Property
+  - Associative Property
+  - Distributive Property
+worked_examples:
+  - problem: "Express 32/-48 in standard form with a positive denominator."
+    solution: "-2/3"
+    explanation: "Multiply numerator and denominator by -1 to make denominator positive (-32/48). Then divide both by their HCF 16."
+  - problem: "Find between which two integers -8/3 lies on the number line."
+    solution: "Between -2 and -3"
+    explanation: "Convert -8/3 to a mixed number: -(2 and 2/3). It lies to the left of 0, between -2 and -3."
+  - problem: "Add -3/5 and -23/45."
+    solution: "-10/9"
+    explanation: "LCM of 5 and 45 is 45. Scale -3/5 to -27/45. Add numerators: [-27 + (-23)] / 45 = -50/45 = -10/9."
+  - problem: "Multiply 11/-13 by -39/22."
+    solution: "3/2"
+    explanation: "Write in standard form (-11/13) * (-39/22). Two negatives yield a positive. Cross-cancel common factors 11 and 13 to get 3/2."
+  - problem: "Simplify 3/7 + (-6/11) + (-8/21) + 5/22 by convenient regrouping."
+    solution: "-125/462"
+    explanation: "Group terms with common denominator multiples using Commutative and Associative properties: [3/7 + (-8/21)] + [(-6/11) + 5/22]."
+interactions:
+  - type: multiple_choice
+    question: "Why can the denominator q of a rational number p/q never be zero?"
+    options:
+      - "Because division by zero is mathematically undefined"
+      - "Because zero is not an integer"
+      - "Because fractions can only contain positive numbers"
+      - "Because zero cancels the numerator"
+    correct_answer: "Because division by zero is mathematically undefined"
+    misconceptions:
+      - answer: "Because zero is not an integer"
+        reason: "Zero is an integer, but dividing any quantity into zero parts has no defined mathematical meaning."
+      - answer: "Because fractions can only contain positive numbers"
+        reason: "Fractions and rational numbers routinely include negative integers; the restriction is specifically against zero in the denominator."
+      - answer: "Because zero cancels the numerator"
+        reason: "Zero in the numerator yields zero; zero in the denominator cannot divide a number."
+feedback_hierarchies:
+  - level_1: "Consider what happens when you try to share items into zero groups."
+  - level_2: "In arithmetic, division is the inverse of multiplication; no number multiplied by 0 can give a non-zero numerator."
+  - full_explanation: "Division by zero cannot be evaluated to any real or rational number, so q must strictly be non-zero."

@@ -47,14 +47,16 @@ function check(name, passed, reason) {
 
 // ─── 1. Syntax check ───────────────────────────────────────────────────
 function checkSyntax() {
-    // Extract script content
-    const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
-    if (!scriptMatch) {
+    // Extract all inline script contents
+    const scriptMatches = Array.from(html.matchAll(/<script(?:\s+[^>]*)?>([\s\S]*?)<\/script>/gi));
+    const scripts = scriptMatches.map(m => m[1]).filter(s => s && s.trim().length > 0);
+    if (scripts.length === 0) {
         check('syntax_extract', false, 'No <script> tag found');
         return;
     }
 
-    const scriptContent = scriptMatch[1];
+    // Join with semicolons so all inline and embedded libraries are syntax-checked together
+    const scriptContent = scripts.join('\n;\n');
     const tmpFile = path.join(path.dirname(htmlPath), '.qa_syntax_check.js');
     fs.writeFileSync(tmpFile, scriptContent);
 
@@ -84,6 +86,7 @@ function checkStructure() {
         check('has_assessment_suite', html.includes('quiz-card') || html.includes('assessment-section'), 'Assessment suite not found');
         check('has_teas_engine', html.includes('progressionDecision') || html.includes('computeMastery'), 'TEAS engine not found');
         check('has_telemetry_outbox', html.includes('sync_outbox') || html.includes('recordEvent'), 'Telemetry outbox not found');
+        check('has_aasha_sim', html.includes('aasha-sim'), '<aasha-sim> component not found');
     } else {
         check('has_nodes', html.includes('var NODES='), 'NODES not found');
         check('has_we', html.includes('var WE='), 'WE not found');

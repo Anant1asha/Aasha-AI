@@ -1,0 +1,68 @@
+﻿title: "Rational Numbers — Class 8 (AD Textbook Edition)"
+subject: "Mathematics"
+class: "Class 8"
+textbook_source: "AD Class 8 Mathematics Chapter 1: Rational Numbers (Exact Exercises 1A, 1B, 1C & Prescribed Board Questions)"
+curriculum_framework: "NCERT / NEP-2020 Universal Teaching Language System"
+
+learning_objectives:
+  - objective: "Understand why real-world pricing and measurement necessitate numbers in the form p/q (integers, q != 0) using Seema & Sachin's pen purchase scenario."
+    competency: "Conceptual Inception & Rational Number Definition"
+  - objective: "Master the 4 fundamental operations (+, -, *, /) across identical and differing denominators using LCM scaling and cross-cancellation."
+    competency: "Procedural Arithmetic Fluency"
+  - objective: "Comprehensively prove and apply the 5 core algebraic properties: Closure, Commutative, Associative, Distributive, and Identities/Inverses (0, 1)."
+    competency: "Mathematical Logic, Verification & Regrouping"
+  - objective: "Solve 100% of the textbook exercises (Exercise 1A, 1B, 1C and Prescribed Board Solved Questions) inside a tiered gamified assessment engine."
+    competency: "Mastery Assessment & Multi-Tier Problem Solving"
+
+nodes_flow:
+  - node_id: "node_1"
+    title: "The Stationery Shop & The Birth of Rational Numbers"
+    hook: "Seema wants 3 pens, Sachin wants 2. Individual cost is ₹5. A wholesale pack of 5 pens costs ₹22. Cost per pen = 22/5 = ₹4.40! Neither whole nor integer: A rational number p/q."
+    theory: "Rational numbers are numbers of the form p/q where p, q are integers and q != 0. Division by zero is undefined. Integers can be expressed as a/1. In standard form, q > 0 and HCF(|p|, q) = 1."
+    we_ref: "we_ad_embark"
+    interactive_type: "pen_shop_calculator_and_standard_form"
+
+  - node_id: "node_2"
+    title: "Operations: Addition & Subtraction (Exercise 1A)"
+    hook: "How do we add portions with unequal denominators like -9/7 and 5/8? By finding LCM and equalizing slice sizes!"
+    theory: "Addition with same denominator: (a/b) + (c/b) = (a+c)/b. With different denominators: LCM(b, d) scales fractions into common units. Subtraction of c/d from a/b means a/b + (-c/d). Additive inverse of a/b is -a/b."
+    we_ref: "we_ad_add_sub"
+    interactive_type: "lcm_slice_equalizer"
+
+  - node_id: "node_3"
+    title: "Operations: Multiplication & Division (Exercise 1A)"
+    hook: "Why is division just multiplying by a flipped reciprocal twin? Because dividing means asking how many fractions fit!"
+    theory: "Product of rational numbers = (Product of numerators) / (Product of denominators) = (a*c)/(b*d). Reciprocal of a/b is b/a (product = 1). Division: (a/b) / (c/d) = (a/b) * (d/c). Division by 0 is undefined!"
+    we_ref: "we_ad_mult_div"
+    interactive_type: "reciprocal_balance_flipper"
+
+  - node_id: "node_4"
+    title: "Properties of Addition & Subtraction (Exercise 1B)"
+    hook: "Does changing the order or grouping of sums alter the answer? What about subtraction?"
+    theory: "Closure: Sum and difference of rational numbers are rational. Commutative Property: a/b + c/d = c/d + a/b (subtraction is NOT commutative). Associative Property: (a/b + c/d) + e/f = a/b + (c/d + e/f). Additive identity is 0."
+    we_ref: "we_ad_props_add"
+    interactive_type: "commutative_associative_tile_swapper"
+
+  - node_id: "node_5"
+    title: "Properties of Multiplication & Distributivity (Exercise 1C)"
+    hook: "How does the Distributive Property bridge multiplication across brackets? a/b * (c/d + e/f) = (a/b * c/d) + (a/b * e/f)."
+    theory: "Multiplication is closed, commutative, and associative. Multiplicative identity is 1. Zero property: x * 0 = 0. Distributive Property allows expanding or factoring sums to make mental calculations instant."
+    we_ref: "we_ad_distributive"
+    interactive_type: "distributive_visual_grid"
+
+assessment_suite:
+  total_questions: 48
+  source_breakdown:
+    exercise_1a: 24
+    exercise_1b: 12
+    exercise_1c: 12
+  tiers:
+    tier_1_warmup:
+      title: "Warm-Up Drills (Direct Addition, Subtraction & Reciprocal)"
+      count: 16
+    tier_2_deep_dive:
+      title: "Deep Dive Challenges (Multi-Step Fractions & Property Verification)"
+      count: 18
+    tier_3_boss:
+      title: "Boss Challenge (Full Expression Simplification & Board Prescribed Problems)"
+      count: 14

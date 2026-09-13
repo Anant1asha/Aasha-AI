@@ -1,0 +1,365 @@
+{
+  "exportedAt": "2026-09-10T22:23:29.294765Z",
+  "totalMemories": 29,
+  "memories": [
+    {
+      "id": "DesignAgent_experience_3f4aeafff53e",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Photosynthesis simulation should use interactive tap-to-add water and sunlight to observe chloroplast reaction",
+      "metadata": {
+        "chapter": "Science Class 6 Photosynthesis"
+      },
+      "timestamp": "2026-09-10T21:00:35.364264Z"
+    },
+    {
+      "id": "DesignAgent_experience_6143086fee34",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Fractions must always show visual split bars before introducing numerator and denominator notation per Section 2 and 9.",
+      "metadata": {
+        "source": "admin_cli",
+        "curated": true
+      },
+      "timestamp": "2026-09-10T21:06:23.099074Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_e9fbc02525a8",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "For Class 6 Science on Evaporation, wrong options must never be 'water disappearing'; the explanation must distinguish thermal kinetic energy from destruction.",
+      "metadata": {
+        "source": "admin_cli",
+        "curated": true
+      },
+      "timestamp": "2026-09-10T21:22:45.927640Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_d81aa402b86e",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "Universal Scope Mandate: AASHA covers any school, any board (CBSE, ICSE, State Boards, NCERT), any class (Class 1-10), and any subject. Index concepts by universal pedagogical competencies.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:11:41.788594Z"
+    },
+    {
+      "id": "DesignAgent_experience_20fe4abb868b",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Universal Experience Reuse Mandate: NEVER build from scratch when prebuilt open-source foundations exist (PhET, MicroSims, JSXGraph, Escapp, QuestJS). Adhere to AashaExperienceContract (mount, getState, reset, destroy, telemetry).",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:11:48.927577Z"
+    },
+    {
+      "id": "DesignAgent_experience_6319eafa3930",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Same-Frame Mobile Viewport Rule: Concept card and interactive Canvas simulation must fit in the same screen without scrolling on mobile. Tap-to-select only, minimum 44x44px touch targets.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:11:56.484428Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_bde9c8432068",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "Anti-Spoiler Misconception Policy (Rule #1): Wrong option feedback must never leak correct answers, numbers, or steps. Provide 4-stage progressive hints: Attention -> Relationship -> Strategy -> Procedure.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:12:03.953213Z"
+    },
+    {
+      "id": "LLEAgent_experience_c903785b977d",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "Mathematical Insulation & Bilingual Substrate: Always insulate LaTeX math and variables with __AASHA_MATH_X__ before LLE word wrapping. Ensure 100% dictionary coverage in window.WM with offline TTS.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:12:10.422435Z"
+    },
+    {
+      "id": "QAAgent_experience_311867c30f2a",
+      "agentRole": "QAAgent",
+      "category": "experience",
+      "content": "Dual-Benchmark Certification: Chapters must pass 100/100 on qa_ltruth_benchmark.js (0 spoilers, 0 math collisions) and 0 console errors on headless Chrome automated_browser_verification.js.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:12:17.004341Z"
+    },
+    {
+      "id": "DesignAgent_experience_19e9df6872fc",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F01] Escape Run (https://github.com/abhas9/escape-run) | Subjects: Mathematics, General | Classes: 1, 2, 3, 4, 5, 6, 7, 8 | Mechanics: adaptive_practice, mastery_gating, spaced_repetition, pwa_offline, local_persistence, micro_skills | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F01",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/abhas9/escape-run",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:20:06.933778Z"
+    },
+    {
+      "id": "DesignAgent_experience_43021a09c405",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F02] MicroSims (https://github.com/dmccreary/microsims) | Subjects: Mathematics, Physics, Science, Computer Science | Classes: 4, 5, 6, 7, 8, 9, 10 | Mechanics: concept_simulations, interactive_diagrams, visual_models, algorithm_visualization, parameter_sliders | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F02",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/dmccreary/microsims",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:20:15.308807Z"
+    },
+    {
+      "id": "DesignAgent_experience_0de0d7f215b0",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F03] All Science Sims (https://github.com/listyantidewi1/all-science-sims) | Subjects: Science, Physics, Chemistry, Biology | Classes: 6, 7, 8, 9, 10 | Mechanics: science_simulations, offline_browser_models, bilingual_discovery | Strategy: INSPIRE. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F03",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/listyantidewi1/all-science-sims",
+        "license": "OpenSource"
+      },
+      "timestamp": "2026-09-10T22:20:23.887866Z"
+    },
+    {
+      "id": "DesignAgent_experience_565c982e4bde",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F04] PhET Interactive Simulations (https://github.com/phetsims) | Subjects: Mathematics, Physics, Chemistry, Biology | Classes: 3, 4, 5, 6, 7, 8, 9, 10 | Mechanics: fractions_intro, fraction_matcher, number_line_integers, equality_explorer, friction, density, buoyancy, neuron, molecule_builder, states_of_matter | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F04",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/phetsims",
+        "license": "GPL-3.0 / CC-BY-4.0 (attribution required)"
+      },
+      "timestamp": "2026-09-10T22:20:32.095961Z"
+    },
+    {
+      "id": "DesignAgent_experience_2aa25485bbff",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F05] Lightbot (https://github.com/haan/Lightbot) | Subjects: Computer Science, Coding, Mathematics | Classes: 3, 4, 5, 6, 7, 8, 9, 10 | Mechanics: command_sequencing, loops, conditionals, problem_decomposition, puzzle_progression | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F05",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/haan/Lightbot",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:20:39.636626Z"
+    },
+    {
+      "id": "DesignAgent_experience_e7e59b8eba0a",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F06] MathFluency (https://github.com/CarnegieLearning/MathFluency) | Subjects: Mathematics | Classes: 1, 2, 3, 4, 5, 6, 7, 8 | Mechanics: fluency_drills, learning_evidence_tracking, misconception_diagnosis, progression_gating | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F06",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/CarnegieLearning/MathFluency",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:20:47.867062Z"
+    },
+    {
+      "id": "DesignAgent_experience_eedf28489bdb",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F07] Wiki Physics Game (https://github.com/cometsinthesky/wiki-physics-game) | Subjects: Science, Physics | Classes: 6, 7, 8, 9, 10 | Mechanics: story_concept_interaction_simulation_feedback_loop, visual_novels, parameter_sliders | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F07",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/cometsinthesky/wiki-physics-game",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:20:56.733192Z"
+    },
+    {
+      "id": "DesignAgent_experience_f1768a16389f",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F08] Physics Notebook (https://github.com/CasberryIndia/Physics-Notebook) | Subjects: Science, Physics | Classes: 7, 8, 9, 10 | Mechanics: canvas_visualization, real_time_formulas, interactive_experiment_notebook | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F08",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/CasberryIndia/Physics-Notebook",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:21:04.285805Z"
+    },
+    {
+      "id": "DesignAgent_experience_0b29692b1988",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F09] Escapp (https://github.com/ging/escapp) | Subjects: Cross-Curricular, Science, Math, Social | Classes: 5, 6, 7, 8, 9, 10 | Mechanics: escape_room, room_puzzle_hint_solution_evidence_flow, team_challenge | Strategy: INSPIRE. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F09",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/ging/escapp",
+        "license": "GPL-3.0 (audit required)"
+      },
+      "timestamp": "2026-09-10T22:21:11.702196Z"
+    },
+    {
+      "id": "DesignAgent_experience_2d7131a2fd2f",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F10] QuestJS (https://github.com/ThePix/QuestJS) | Subjects: Language, Social Science, Life Skills | Classes: 4, 5, 6, 7, 8, 9, 10 | Mechanics: interactive_fiction, state_choice_consequence_loop, branching_story | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F10",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/ThePix/QuestJS",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:21:19.778092Z"
+    },
+    {
+      "id": "DesignAgent_experience_9b67cb163200",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F11] Squiffy (https://github.com/textadventures/squiffy) | Subjects: Language, Social Science, Life Skills, Ethics | Classes: 5, 6, 7, 8, 9, 10 | Mechanics: branching_scenarios, dilemma_decisions, narrative_learning | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F11",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/textadventures/squiffy",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:21:27.530571Z"
+    },
+    {
+      "id": "DesignAgent_experience_e810172a33e4",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F12] GeoGuess (https://github.com/Geoguess/Geoguess) | Subjects: Geography, Social Science | Classes: 4, 5, 6, 7, 8, 9, 10 | Mechanics: spatial_reasoning, map_landmarks, indian_geography_adaptation | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F12",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/Geoguess/Geoguess",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:21:37.256217Z"
+    },
+    {
+      "id": "DesignAgent_experience_ada0854bd7be",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F13] Learn Worldmap (https://github.com/koljapluemer/learn-worldmap) | Subjects: Geography, Social Science | Classes: 5, 6, 7, 8, 9, 10 | Mechanics: spaced_repetition_geography, retrieval_practice, map_memory | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F13",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/koljapluemer/learn-worldmap",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:21:46.788767Z"
+    },
+    {
+      "id": "DesignAgent_experience_7c7c470c7825",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F14] Geographical Adventures (https://github.com/SebLague/Geographical-Adventures) | Subjects: Geography, Science | Classes: 6, 7, 8, 9, 10 | Mechanics: spatial_exploration, mission_route_planning, country_learning | Strategy: INSPIRE. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F14",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/SebLague/Geographical-Adventures",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:21:55.515762Z"
+    },
+    {
+      "id": "DesignAgent_experience_963f4e195b90",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F15] The Long Game (https://github.com/smcgrath-coder/the-long-game) | Subjects: Financial Literacy, Mathematics, Life Skills | Classes: 6, 7, 8, 9, 10 | Mechanics: saving_risk_budgeting, rupees_upi_adaptation, needs_vs_wants_decisions | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F15",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/smcgrath-coder/the-long-game",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:22:04.673510Z"
+    },
+    {
+      "id": "DesignAgent_experience_917558737ab2",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F16] FinanceGame / LearnBu (https://github.com/ayazhankadessova/FinanceGame) | Subjects: Financial Literacy, Social Science | Classes: 7, 8, 9, 10 | Mechanics: scenario_budgeting, credit_savings_investing, household_decisions | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F16",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/ayazhankadessova/FinanceGame",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:22:12.423449Z"
+    },
+    {
+      "id": "DesignAgent_experience_358f9b3b837f",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F17] Code for Life (https://github.com/ocadotechnology/codeforlife-portal) | Subjects: Coding, Computer Science | Classes: 3, 4, 5, 6, 7, 8, 9, 10 | Mechanics: coding_progression, computational_thinking_portal, puzzle_levels | Strategy: INSPIRE. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F17",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/ocadotechnology/codeforlife-portal",
+        "license": "GPL-3.0 (audit required)"
+      },
+      "timestamp": "2026-09-10T22:22:21.001630Z"
+    },
+    {
+      "id": "DesignAgent_experience_48d43d01a24f",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F18] Secure Code Game (https://github.com/valentinvarbanov/skills-secure-code-game) | Subjects: Cybersecurity, Computer Science, Digital Literacy | Classes: 8, 9, 10 | Mechanics: vulnerability_spotting, secure_thinking, indian_digital_safety_scenarios | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F18",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/valentinvarbanov/skills-secure-code-game",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:22:29.714938Z"
+    },
+    {
+      "id": "DesignAgent_experience_519fe76f0fdd",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F19] Chocolate Broccoli Challenge (https://github.com/funksoup/chocolate-broccoli-challenge) | Subjects: Cross-Curricular, Design Quality Gate | Classes: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 | Mechanics: observe_decide_act_result_gate, authentic_subject_mastery_evaluator | Strategy: QUALITY_GATE. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F19",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/funksoup/chocolate-broccoli-challenge",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:22:37.326513Z"
+    },
+    {
+      "id": "DesignAgent_experience_789973fbd820",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "[Open-Source Foundation F20] GameBox / Mini Browser Games (https://github.com/saiuttejr/GameBox) | Subjects: Cross-Curricular, Touch Primitives | Classes: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 | Mechanics: touch_interaction_primitives, offline_mini_game_loops, responsive_layout | Strategy: EXTRACT. Never build from scratch.",
+      "metadata": {
+        "foundationId": "F20",
+        "type": "foundation_reuse",
+        "repo": "https://github.com/saiuttejr/GameBox",
+        "license": "MIT"
+      },
+      "timestamp": "2026-09-10T22:22:45.877687Z"
+    }
+  ],
+  "checksum": "dffbb22a80025ff8b42364e43157d7953752852ad991f088d7c6f7b891ab9300"
+}

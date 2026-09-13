@@ -1,0 +1,737 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-09-08",
+  "foundations": [
+    {
+      "id": "F01",
+      "name": "Escape Run",
+      "repo": "https://github.com/abhas9/escape-run",
+      "demo": "https://abhas9.github.io/escape-run/",
+      "license": "MIT",
+      "subjects": [
+        "Mathematics",
+        "General"
+      ],
+      "classes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "mechanics": [
+        "adaptive_practice",
+        "mastery_gating",
+        "spaced_repetition",
+        "pwa_offline",
+        "local_persistence",
+        "micro_skills"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F02",
+      "name": "MicroSims",
+      "repo": "https://github.com/dmccreary/microsims",
+      "license": "MIT",
+      "subjects": [
+        "Mathematics",
+        "Physics",
+        "Science",
+        "Computer Science"
+      ],
+      "classes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "concept_simulations",
+        "interactive_diagrams",
+        "visual_models",
+        "algorithm_visualization",
+        "parameter_sliders"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F03",
+      "name": "All Science Sims",
+      "repo": "https://github.com/listyantidewi1/all-science-sims",
+      "license": "OpenSource",
+      "subjects": [
+        "Science",
+        "Physics",
+        "Chemistry",
+        "Biology"
+      ],
+      "classes": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "science_simulations",
+        "offline_browser_models",
+        "bilingual_discovery"
+      ],
+      "reuse_strategy": "INSPIRE"
+    },
+    {
+      "id": "F04",
+      "name": "PhET Interactive Simulations",
+      "repo": "https://github.com/phetsims",
+      "license": "GPL-3.0 / CC-BY-4.0 (attribution required)",
+      "subjects": [
+        "Mathematics",
+        "Physics",
+        "Chemistry",
+        "Biology"
+      ],
+      "classes": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "fractions_intro",
+        "fraction_matcher",
+        "number_line_integers",
+        "equality_explorer",
+        "friction",
+        "density",
+        "buoyancy",
+        "neuron",
+        "molecule_builder",
+        "states_of_matter"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F05",
+      "name": "Lightbot",
+      "repo": "https://github.com/haan/Lightbot",
+      "license": "MIT",
+      "subjects": [
+        "Computer Science",
+        "Coding",
+        "Mathematics"
+      ],
+      "classes": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "command_sequencing",
+        "loops",
+        "conditionals",
+        "problem_decomposition",
+        "puzzle_progression"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F06",
+      "name": "MathFluency",
+      "repo": "https://github.com/CarnegieLearning/MathFluency",
+      "license": "MIT",
+      "subjects": [
+        "Mathematics"
+      ],
+      "classes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "mechanics": [
+        "fluency_drills",
+        "learning_evidence_tracking",
+        "misconception_diagnosis",
+        "progression_gating"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F07",
+      "name": "Wiki Physics Game",
+      "repo": "https://github.com/cometsinthesky/wiki-physics-game",
+      "license": "MIT",
+      "subjects": [
+        "Science",
+        "Physics"
+      ],
+      "classes": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "story_concept_interaction_simulation_feedback_loop",
+        "visual_novels",
+        "parameter_sliders"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F08",
+      "name": "Physics Notebook",
+      "repo": "https://github.com/CasberryIndia/Physics-Notebook",
+      "license": "MIT",
+      "subjects": [
+        "Science",
+        "Physics"
+      ],
+      "classes": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "canvas_visualization",
+        "real_time_formulas",
+        "interactive_experiment_notebook"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F09",
+      "name": "Escapp",
+      "repo": "https://github.com/ging/escapp",
+      "license": "GPL-3.0 (audit required)",
+      "subjects": [
+        "Cross-Curricular",
+        "Science",
+        "Math",
+        "Social"
+      ],
+      "classes": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "escape_room",
+        "room_puzzle_hint_solution_evidence_flow",
+        "team_challenge"
+      ],
+      "reuse_strategy": "INSPIRE"
+    },
+    {
+      "id": "F10",
+      "name": "QuestJS",
+      "repo": "https://github.com/ThePix/QuestJS",
+      "license": "MIT",
+      "subjects": [
+        "Language",
+        "Social Science",
+        "Life Skills"
+      ],
+      "classes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "interactive_fiction",
+        "state_choice_consequence_loop",
+        "branching_story"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F11",
+      "name": "Squiffy",
+      "repo": "https://github.com/textadventures/squiffy",
+      "license": "MIT",
+      "subjects": [
+        "Language",
+        "Social Science",
+        "Life Skills",
+        "Ethics"
+      ],
+      "classes": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "branching_scenarios",
+        "dilemma_decisions",
+        "narrative_learning"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F12",
+      "name": "GeoGuess",
+      "repo": "https://github.com/Geoguess/Geoguess",
+      "license": "MIT",
+      "subjects": [
+        "Geography",
+        "Social Science"
+      ],
+      "classes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "spatial_reasoning",
+        "map_landmarks",
+        "indian_geography_adaptation"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F13",
+      "name": "Learn Worldmap",
+      "repo": "https://github.com/koljapluemer/learn-worldmap",
+      "license": "MIT",
+      "subjects": [
+        "Geography",
+        "Social Science"
+      ],
+      "classes": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "spaced_repetition_geography",
+        "retrieval_practice",
+        "map_memory"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F14",
+      "name": "Geographical Adventures",
+      "repo": "https://github.com/SebLague/Geographical-Adventures",
+      "license": "MIT",
+      "subjects": [
+        "Geography",
+        "Science"
+      ],
+      "classes": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "spatial_exploration",
+        "mission_route_planning",
+        "country_learning"
+      ],
+      "reuse_strategy": "INSPIRE"
+    },
+    {
+      "id": "F15",
+      "name": "The Long Game",
+      "repo": "https://github.com/smcgrath-coder/the-long-game",
+      "license": "MIT",
+      "subjects": [
+        "Financial Literacy",
+        "Mathematics",
+        "Life Skills"
+      ],
+      "classes": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "saving_risk_budgeting",
+        "rupees_upi_adaptation",
+        "needs_vs_wants_decisions"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F16",
+      "name": "FinanceGame / LearnBu",
+      "repo": "https://github.com/ayazhankadessova/FinanceGame",
+      "license": "MIT",
+      "subjects": [
+        "Financial Literacy",
+        "Social Science"
+      ],
+      "classes": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "scenario_budgeting",
+        "credit_savings_investing",
+        "household_decisions"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F17",
+      "name": "Code for Life",
+      "repo": "https://github.com/ocadotechnology/codeforlife-portal",
+      "license": "GPL-3.0 (audit required)",
+      "subjects": [
+        "Coding",
+        "Computer Science"
+      ],
+      "classes": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "coding_progression",
+        "computational_thinking_portal",
+        "puzzle_levels"
+      ],
+      "reuse_strategy": "INSPIRE"
+    },
+    {
+      "id": "F18",
+      "name": "Secure Code Game",
+      "repo": "https://github.com/valentinvarbanov/skills-secure-code-game",
+      "license": "MIT",
+      "subjects": [
+        "Cybersecurity",
+        "Computer Science",
+        "Digital Literacy"
+      ],
+      "classes": [
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "vulnerability_spotting",
+        "secure_thinking",
+        "indian_digital_safety_scenarios"
+      ],
+      "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F19",
+      "name": "Chocolate Broccoli Challenge",
+      "repo": "https://github.com/funksoup/chocolate-broccoli-challenge",
+      "license": "MIT",
+      "subjects": [
+        "Cross-Curricular",
+        "Design Quality Gate"
+      ],
+      "classes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "observe_decide_act_result_gate",
+        "authentic_subject_mastery_evaluator"
+      ],
+      "reuse_strategy": "QUALITY_GATE"
+    },
+    {
+      "id": "F20",
+      "name": "GameBox / Mini Browser Games",
+      "repo": "https://github.com/saiuttejr/GameBox",
+      "license": "MIT",
+      "subjects": [
+        "Cross-Curricular",
+        "Touch Primitives"
+      ],
+      "classes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "mechanics": [
+        "touch_interaction_primitives",
+        "offline_mini_game_loops",
+        "responsive_layout"
+      ],
+      "reuse_strategy": "EXTRACT"
+    }
+  ],
+  "secondary_libraries": {
+    "mathematics": [
+      {
+        "name": "race-to-100",
+        "repo": "https://github.com/Shahriar1824/race-to-100"
+      },
+      {
+        "name": "tica-math",
+        "repo": "https://github.com/Carton/tica-math"
+      },
+      {
+        "name": "GeometryWorld",
+        "repo": "https://github.com/brittanybelle/GeometryWorld"
+      },
+      {
+        "name": "factors-game",
+        "repo": "https://github.com/mnito/factors-game"
+      },
+      {
+        "name": "Collatz-Jump",
+        "repo": "https://github.com/Monklimonk/Collatz-Jump"
+      },
+      {
+        "name": "CalcRace",
+        "repo": "https://github.com/mibi88/CalcRace"
+      },
+      {
+        "name": "math-game",
+        "repo": "https://github.com/oceanofmaya/math-game"
+      },
+      {
+        "name": "cmgame",
+        "repo": "https://github.com/tlong314/cmgame"
+      },
+      {
+        "name": "MATH-SPRINT-GAME",
+        "repo": "https://github.com/Amey-Thakur/MATH-SPRINT-GAME"
+      },
+      {
+        "name": "THE-MATH-GAME",
+        "repo": "https://github.com/Amey-Thakur/THE-MATH-GAME"
+      }
+    ],
+    "geography": [
+      {
+        "name": "world-guesser",
+        "repo": "https://github.com/Fariacool/world-guesser"
+      },
+      {
+        "name": "posio",
+        "repo": "https://github.com/abrenaut/posio"
+      },
+      {
+        "name": "geo-game",
+        "repo": "https://github.com/marc-ed-raffalli/geo-game"
+      },
+      {
+        "name": "pampa.place",
+        "repo": "https://github.com/eegli/pampa.place"
+      },
+      {
+        "name": "flagged-it",
+        "repo": "https://github.com/TomasSkarpa/flagged-it"
+      },
+      {
+        "name": "React-GeoZora",
+        "repo": "https://github.com/jackysetiawan6/React-GeoZora"
+      }
+    ],
+    "language": [
+      {
+        "name": "spelling_game",
+        "repo": "https://github.com/rswinkle/spelling_game"
+      },
+      {
+        "name": "Speller",
+        "repo": "https://github.com/commjoen/Speller"
+      },
+      {
+        "name": "word-search-game",
+        "repo": "https://github.com/lizhineng/word-search-game"
+      },
+      {
+        "name": "Golingo",
+        "repo": "https://github.com/krawaller/Golingo"
+      },
+      {
+        "name": "hello",
+        "repo": "https://github.com/lynn/hello"
+      },
+      {
+        "name": "TypeQuest",
+        "repo": "https://github.com/woofborn/TypeQuest"
+      },
+      {
+        "name": "typing-game",
+        "repo": "https://github.com/orlinromy/typing-game"
+      },
+      {
+        "name": "SimpleWordGame",
+        "repo": "https://github.com/Uddomboso/SimpleWordGame"
+      }
+    ],
+    "interactive_fiction": [
+      {
+        "name": "Dedalus",
+        "repo": "https://github.com/pistacchio/Dedalus"
+      },
+      {
+        "name": "undum",
+        "repo": "https://github.com/idmillington/undum"
+      },
+      {
+        "name": "wreck",
+        "repo": "https://github.com/spitz-dan-l/wreck"
+      },
+      {
+        "name": "interactive-fiction",
+        "repo": "https://github.com/Hokken/interactive-fiction"
+      },
+      {
+        "name": "ScholCom202X",
+        "repo": "https://github.com/scbaker/ScholCom202X"
+      }
+    ],
+    "escape_rooms": [
+      {
+        "name": "caesar-escape-room",
+        "repo": "https://github.com/CyberSnackCat/caesar-escape-room"
+      },
+      {
+        "name": "escape_room",
+        "repo": "https://github.com/srekhi/escape_room"
+      },
+      {
+        "name": "escape-room",
+        "repo": "https://github.com/DeirdreHegarty/escape-room"
+      }
+    ],
+    "coding": [
+      {
+        "name": "Coding-Game",
+        "repo": "https://github.com/SebLague/Coding-Game"
+      },
+      {
+        "name": "Epsilon-Prime",
+        "repo": "https://github.com/Hypercubed/Epsilon-Prime"
+      },
+      {
+        "name": "chs-js-lib",
+        "repo": "https://github.com/CodeHS/chs-js-lib"
+      }
+    ],
+    "science": [
+      {
+        "name": "osp",
+        "repo": "https://github.com/OpenSourcePhysics/osp"
+      },
+      {
+        "name": "tracker",
+        "repo": "https://github.com/OpenSourcePhysics/tracker"
+      },
+      {
+        "name": "interactive-simulators",
+        "repo": "https://github.com/paolodalprato/interactive-simulators"
+      },
+      {
+        "name": "simulations.borck.education",
+        "repo": "https://github.com/michael-borck/simulations.borck.education"
+      },
+      {
+        "name": "virtual-lab-resources",
+        "repo": "https://github.com/RISHABH72git/virtual-lab-resources"
+      },
+      {
+        "name": "science-based-games-list",
+        "repo": "https://github.com/stared/science-based-games-list"
+      }
+    ]
+  },
+  "chapters": {
+    "class8_rational_numbers": {
+      "title": "Rational Numbers",
+      "class": 8,
+      "subject": "Mathematics",
+      "path": "Aasha-AI/chapters/RationalNumbers_Class8_Gamified_v5_Enhanced_v6.html",
+      "foundations_used": [
+        "F01",
+        "F02",
+        "F04",
+        "F06"
+      ],
+      "status": "certified_100_percent",
+      "ltruth_score": 100
+    },
+    "class8_exponents_powers": {
+      "title": "Exponents and Powers",
+      "class": 8,
+      "subject": "Mathematics",
+      "path": "Aasha-AI/chapters/ExponentsPowers_Class8_Gamified_v5_Enhanced_v6.html",
+      "foundations_used": [
+        "F01",
+        "F02",
+        "F04",
+        "F06",
+        "F07",
+        "F15",
+        "F20"
+      ],
+      "status": "certified_100_percent",
+      "ltruth_score": 100
+    }
+  }
+}

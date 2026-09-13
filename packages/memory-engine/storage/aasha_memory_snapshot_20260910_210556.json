@@ -1,0 +1,17 @@
+{
+  "exportedAt": "2026-09-10T21:05:56.112565Z",
+  "totalMemories": 1,
+  "memories": [
+    {
+      "id": "DesignAgent_experience_3f4aeafff53e",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Photosynthesis simulation should use interactive tap-to-add water and sunlight to observe chloroplast reaction",
+      "metadata": {
+        "chapter": "Science Class 6 Photosynthesis"
+      },
+      "timestamp": "2026-09-10T21:00:35.364264Z"
+    }
+  ],
+  "checksum": "8cdbb50866139a6435374c6693f6f97064fc41db608acc2c102e7cdc983bd7ac"
+}

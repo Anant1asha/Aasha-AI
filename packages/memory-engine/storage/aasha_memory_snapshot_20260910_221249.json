@@ -1,0 +1,105 @@
+{
+  "exportedAt": "2026-09-10T22:12:49.103261Z",
+  "totalMemories": 9,
+  "memories": [
+    {
+      "id": "DesignAgent_experience_3f4aeafff53e",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Photosynthesis simulation should use interactive tap-to-add water and sunlight to observe chloroplast reaction",
+      "metadata": {
+        "chapter": "Science Class 6 Photosynthesis"
+      },
+      "timestamp": "2026-09-10T21:00:35.364264Z"
+    },
+    {
+      "id": "DesignAgent_experience_6143086fee34",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Fractions must always show visual split bars before introducing numerator and denominator notation per Section 2 and 9.",
+      "metadata": {
+        "source": "admin_cli",
+        "curated": true
+      },
+      "timestamp": "2026-09-10T21:06:23.099074Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_e9fbc02525a8",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "For Class 6 Science on Evaporation, wrong options must never be 'water disappearing'; the explanation must distinguish thermal kinetic energy from destruction.",
+      "metadata": {
+        "source": "admin_cli",
+        "curated": true
+      },
+      "timestamp": "2026-09-10T21:22:45.927640Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_d81aa402b86e",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "Universal Scope Mandate: AASHA covers any school, any board (CBSE, ICSE, State Boards, NCERT), any class (Class 1-10), and any subject. Index concepts by universal pedagogical competencies.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:11:41.788594Z"
+    },
+    {
+      "id": "DesignAgent_experience_20fe4abb868b",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Universal Experience Reuse Mandate: NEVER build from scratch when prebuilt open-source foundations exist (PhET, MicroSims, JSXGraph, Escapp, QuestJS). Adhere to AashaExperienceContract (mount, getState, reset, destroy, telemetry).",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:11:48.927577Z"
+    },
+    {
+      "id": "DesignAgent_experience_6319eafa3930",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "Same-Frame Mobile Viewport Rule: Concept card and interactive Canvas simulation must fit in the same screen without scrolling on mobile. Tap-to-select only, minimum 44x44px touch targets.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:11:56.484428Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_bde9c8432068",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "Anti-Spoiler Misconception Policy (Rule #1): Wrong option feedback must never leak correct answers, numbers, or steps. Provide 4-stage progressive hints: Attention -> Relationship -> Strategy -> Procedure.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:12:03.953213Z"
+    },
+    {
+      "id": "LLEAgent_experience_c903785b977d",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "Mathematical Insulation & Bilingual Substrate: Always insulate LaTeX math and variables with __AASHA_MATH_X__ before LLE word wrapping. Ensure 100% dictionary coverage in window.WM with offline TTS.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:12:10.422435Z"
+    },
+    {
+      "id": "QAAgent_experience_311867c30f2a",
+      "agentRole": "QAAgent",
+      "category": "experience",
+      "content": "Dual-Benchmark Certification: Chapters must pass 100/100 on qa_ltruth_benchmark.js (0 spoilers, 0 math collisions) and 0 console errors on headless Chrome automated_browser_verification.js.",
+      "metadata": {
+        "source": "chat_trail_learning",
+        "pillar": true
+      },
+      "timestamp": "2026-09-10T22:12:17.004341Z"
+    }
+  ],
+  "checksum": "f57f39a420d99a9154f737c03101bc92f672313067754915884e6b7daef7b1af"
+}
