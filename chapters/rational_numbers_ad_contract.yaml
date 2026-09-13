@@ -1,24 +1,24 @@
-﻿title: "Rational Numbers — Class 8 (AD Textbook Edition)"
+title: "Rational Numbers — Class 8 (AD Textbook Edition)"
 subject: "Mathematics"
 class: "Class 8"
 textbook_source: "AD Class 8 Mathematics Chapter 1: Rational Numbers (Exact Exercises 1A, 1B, 1C & Prescribed Board Questions)"
 curriculum_framework: "NCERT / NEP-2020 Universal Teaching Language System"
 
 learning_objectives:
-  - objective: "Understand why real-world pricing and measurement necessitate numbers in the form p/q (integers, q != 0) using Seema & Sachin's pen purchase scenario."
+  - objective: "Understand why real-world pricing and measurement necessitate numbers in the form p/q (integers, q != 0) using Seema & Sachin's pen purchase scenario (5 pens for ₹22 -> ₹22/5 = ₹4.40 per pen)."
     competency: "Conceptual Inception & Rational Number Definition"
   - objective: "Master the 4 fundamental operations (+, -, *, /) across identical and differing denominators using LCM scaling and cross-cancellation."
     competency: "Procedural Arithmetic Fluency"
   - objective: "Comprehensively prove and apply the 5 core algebraic properties: Closure, Commutative, Associative, Distributive, and Identities/Inverses (0, 1)."
     competency: "Mathematical Logic, Verification & Regrouping"
-  - objective: "Solve 100% of the textbook exercises (Exercise 1A, 1B, 1C and Prescribed Board Solved Questions) inside a tiered gamified assessment engine."
+  - objective: "Solve 100% of the textbook exercises (Exercise 1A: 30, Exercise 1B: 13, Exercise 1C: 27, and Prescribed Board Solved: 5 = 75 questions total) inside a tiered gamified assessment engine."
     competency: "Mastery Assessment & Multi-Tier Problem Solving"
 
 nodes_flow:
   - node_id: "node_1"
     title: "The Stationery Shop & The Birth of Rational Numbers"
     hook: "Seema wants 3 pens, Sachin wants 2. Individual cost is ₹5. A wholesale pack of 5 pens costs ₹22. Cost per pen = 22/5 = ₹4.40! Neither whole nor integer: A rational number p/q."
-    theory: "Rational numbers are numbers of the form p/q where p, q are integers and q != 0. Division by zero is undefined. Integers can be expressed as a/1. In standard form, q > 0 and HCF(|p|, q) = 1."
+    theory: "Rational numbers are numbers of the form p/q where p, q are integers and q != 0. Division by zero is undefined. Integers can be expressed as a/1. In standard form, q > 0 and HCF(|p|, q) = 1. The Stationery Shop transaction (₹22 / 5 pens = ₹4.40 per pen) proves why real-world pricing demands rational numbers beyond integers."
     we_ref: "we_ad_embark"
     interactive_type: "pen_shop_calculator_and_standard_form"
 
@@ -51,18 +51,39 @@ nodes_flow:
     interactive_type: "distributive_visual_grid"
 
 assessment_suite:
-  total_questions: 48
+  total_questions: 75
   source_breakdown:
-    exercise_1a: 24
-    exercise_1b: 12
-    exercise_1c: 12
+    exercise_1a: 30
+    exercise_1b: 13
+    exercise_1c: 27
+    prescribed_board_solved: 5
   tiers:
     tier_1_warmup:
-      title: "Warm-Up Drills (Direct Addition, Subtraction & Reciprocal)"
-      count: 16
+      title: "Warm-Up Drills (Direct Addition, Subtraction, Commutative Fill & Reciprocal Blanks)"
+      count: 31
+      source_exercises:
+        - "Exercise 1A Q1(a-h) [8 questions]"
+        - "Exercise 1A Q2(a-h) [8 questions]"
+        - "Exercise 1B Q1(a-d) [4 questions]"
+        - "Exercise 1C Q5(a-j) [10 questions]"
+        - "Prescribed Board Solved Q3 [1 question]"
     tier_2_deep_dive:
-      title: "Deep Dive Challenges (Multi-Step Fractions & Property Verification)"
-      count: 18
+      title: "Deep Dive Challenges (Multiplication, Division, Property Identification & Regrouping)"
+      count: 30
+      source_exercises:
+        - "Exercise 1A Q3(a-f) [6 questions]"
+        - "Exercise 1A Q4(a-f) [6 questions]"
+        - "Exercise 1B Q2(a-d) [4 questions]"
+        - "Exercise 1B Q3(a-d) [4 questions]"
+        - "Exercise 1C Q4(a-f) [6 questions]"
+        - "Prescribed Board Solved Q1(i-iii) [3 questions]"
+        - "Prescribed Board Solved Q2 [1 question]"
     tier_3_boss:
-      title: "Boss Challenge (Full Expression Simplification & Board Prescribed Problems)"
+      title: "Boss Challenge (Multi-Step Expression Simplification, Algebraic Verifications & Distributivity)"
       count: 14
+      source_exercises:
+        - "Exercise 1A Q5(a, b) [2 questions]"
+        - "Exercise 1B Q4 [1 question]"
+        - "Exercise 1C Q1(a-d) [4 questions]"
+        - "Exercise 1C Q2(a-d) [4 questions]"
+        - "Exercise 1C Q3(a-c) [3 questions]"

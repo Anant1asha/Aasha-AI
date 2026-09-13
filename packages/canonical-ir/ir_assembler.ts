@@ -1,4 +1,4 @@
-import { CanonicalIR, validateCanonicalIR, AssessmentItem, MisconceptionEntity, ContentBlock, LearningObjective } from './canonical_ir_schema';
+import { CanonicalIR, validateCanonicalIR, AssessmentItem, MisconceptionEntity, ContentBlock, LearningObjective, LearnerAgencyContract, MotivationIntent, AccessibilityEnvelope, ExperienceAcceptanceContract } from './canonical_ir_schema';
 import { MathInsulator } from '../aasha-rules/math_insulator';
 
 export interface AgentProposalsInput {
@@ -19,7 +19,9 @@ export interface AgentProposalsInput {
     options: Array<{ text: string; is_correct: boolean; distractor_explanation: string; misconception_name?: string }>;
     hints: { H1: string; H2: string; H3: string; H4: string };
   }>;
+  word_map?: Record<string, string>;
 }
+
 
 export class IRAssembler {
   /**
@@ -80,6 +82,10 @@ export class IRAssembler {
       concept_id: concept_graph[idx].id,
       text_english: c.definition,
       text_math_insulated: concept_graph[idx].definition_math_insulated,
+      hindi_translation: input.word_map ? {
+        phonetics: '',
+        word_map: input.word_map,
+      } : undefined,
       provenance_source: `pdf:${input.source_pdf_hash}`,
       fidelity_score: 1.0,
     }));
@@ -155,9 +161,9 @@ export class IRAssembler {
       ],
     };
 
-    // 7. Canonical IR Manifest
+    // 7. Canonical IR Manifest (v1.1.0)
     const canonicalIR: CanonicalIR = {
-      schema_version: '1.0.0',
+      schema_version: '1.1.0',
       chapter_metadata: {
         chapter_id: input.chapter_id,
         title: input.title,
@@ -181,7 +187,7 @@ export class IRAssembler {
       capability_requirements: [
         {
           id: `cap:${chapterPrefix}:sim_1`,
-          purpose: 'Interactive visual manipulative',
+          purpose: 'Interactive visual manipulative for concept exploration',
           interaction_type: 'balance_beam',
           license_constraint: 'MIT_NATIVE',
           sandbox_required: false,
@@ -194,15 +200,59 @@ export class IRAssembler {
         teas_historical_weight: 0.6,
         teas_recent_weight: 0.4,
       },
+
+      // v1.1.0 — 4 new mandatory fields
+      learner_agency: {
+        self_pacing_allowed: true,
+        can_skip_simulation: false,
+        hint_request_allowed: true,
+        max_hints_per_item: 4,
+        preferred_modality: 'multimodal',
+      },
+      motivation_intent: {
+        narrative_frame: `Discover the world of ${input.title}`,
+        xp_reward_warmup: 5,
+        xp_reward_deep_dive: 10,
+        xp_reward_boss: 20,
+        streak_contribution: true,
+        celebration_intensity: 'standard',
+      },
+      accessibility_envelope: {
+        min_viewport_width_px: 360,
+        min_viewport_height_px: 640,
+        target_aspect_ratios: ['16:9', '19.5:9', '20:9'],
+        touch_target_min_px: 44,
+        primary_language: 'hi',
+        bilingual_pair: 'en',
+        reading_grade_level: input.grade,
+        screen_reader_compatible: true,
+        high_contrast_mode_supported: true,
+        reduced_motion_supported: true,
+        max_bundle_size_mb: 20,
+        offline_first: true,
+        cdn_dependencies_allowed: false,
+      },
+      experience_acceptance_contract: {
+        min_objectives_covered: learning_objectives.length,
+        min_assessment_items: assessment_items.length,
+        all_misconceptions_linked: true,
+        zero_external_requests: true,
+        zero_spoilers_in_distractors: true,
+        zero_math_lle_collisions: true,
+        scroll_height_lte_viewport: true,
+        full_event_trace_verifiable: true,
+        mastery_threshold_measurable: true,
+      },
+
       compilation_manifest: {
         compiled_at: new Date().toISOString(),
-        compiler_version: 'v6-canonical-1.0.0',
-        source_artifacts: ['ingest_output.json', 'analysis_output.json', 'assessment_output.json'],
+        compiler_version: 'v6-canonical-1.1.0',
+        source_artifacts: ['ingest_output.json', 'analysis_output.json', 'assessment_output.json', 'lle_output.json'],
         ir_hash: `sha256_${Date.now()}`,
       },
     };
 
-    // 8. Validate Invariants
+    // 8. Validate Invariants (v1.1.0 extended checks)
     const validationResult = validateCanonicalIR(canonicalIR);
 
     return {
@@ -211,3 +261,4 @@ export class IRAssembler {
     };
   }
 }
+

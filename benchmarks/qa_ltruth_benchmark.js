@@ -146,6 +146,25 @@ class ChapterAuditor {
       }
     }
 
+    // Collect checks from V6 Canonical IR if present
+    const irMatch = this.content.match(/const\s+IR\s*=\s*(\{[\s\S]*?\});\s*(?:\n|\r|\/\/)/);
+    if (irMatch) {
+      try {
+        const ir = JSON.parse(irMatch[1]);
+        if (ir && Array.isArray(ir.assessment_items)) {
+          ir.assessment_items.forEach((item, qIdx) => {
+            const ctx = `V6 Assessment Q${qIdx + 1} ('${item.id}')`;
+            const opts = (item.options || []).map(opt => ({
+              t: opt.text,
+              c: opt.is_correct,
+              m: opt.distractor_explanation
+            }));
+            allChecks.push({ context: ctx, check: { q: item.prompt, opts } });
+          });
+        }
+      } catch (e) {}
+    }
+
     this.stats.totalQuestions = allChecks.length;
 
     allChecks.forEach(({ context, check }) => {

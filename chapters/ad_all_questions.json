@@ -1,10 +1,25 @@
 {
-  "ex1a_q1": [
+  "title": "AD Class 8 Mathematics — Chapter 1: Rational Numbers (Complete 75 Textbook Exercises)",
+  "total_questions": 75,
+  "tier_counts": {
+    "warmup": 31,
+    "deep_dive": 30,
+    "boss": 14
+  },
+  "source_breakdown": {
+    "exercise_1a": 30,
+    "exercise_1b": 13,
+    "exercise_1c": 27,
+    "prescribed_board_solved": 5
+  },
+  "questions": [
     {
-      "id": "1a_q1_a",
+      "id": "ad_1a_q1_a",
       "tag": "AD Ex 1A Q1(a)",
-      "q": "Add: 5/2 and -11/2",
+      "tier": "warmup",
+      "q": "Add the rational numbers: 5/2 and -11/2",
       "ans": "-3",
+      "m": "Students often add denominators together or make sign errors when adding integers with opposite signs.",
       "opts": [
         {
           "t": "-3",
@@ -12,28 +27,35 @@
           "m": ""
         },
         {
-          "t": "-6/2",
-          "c": true,
-          "m": ""
-        },
-        {
           "t": "3",
           "c": false,
-          "m": "5 + (-11) = -6, not +6."
+          "m": "Assigned a positive sign despite the negative addend having greater magnitude."
         },
         {
           "t": "-8",
           "c": false,
-          "m": "Combine numerators over common denominator 2."
+          "m": "Subtracted the denominators instead of keeping the common denominator."
+        },
+        {
+          "t": "-6/4",
+          "c": false,
+          "m": "Added denominators together rather than retaining the shared denominator."
         }
       ],
-      "exp": "Common denominator 2: [5 + (-11)]/2 = -6/2 = -3."
+      "hints": {
+        "h1": "Observe that both fractions already share the identical denominator.",
+        "h2": "For rational numbers with like denominators, combine numerators over the common denominator.",
+        "h3": "Set up the single fraction with numerator 5 plus negative 11 over 2.",
+        "h4": "Calculate the net sum in the numerator and reduce by dividing by 2."
+      }
     },
     {
-      "id": "1a_q1_b",
+      "id": "ad_1a_q1_b",
       "tag": "AD Ex 1A Q1(b)",
-      "q": "Add: 7/5 and 13/5",
+      "tier": "warmup",
+      "q": "Add the rational numbers: 7/5 and 13/5",
       "ans": "4",
+      "m": "Adding the denominators together or subtracting numerators instead of adding.",
       "opts": [
         {
           "t": "4",
@@ -41,28 +63,35 @@
           "m": ""
         },
         {
-          "t": "20/5",
-          "c": true,
-          "m": ""
-        },
-        {
           "t": "2",
           "c": false,
-          "m": "7 + 13 = 20; 20/5 = 4."
+          "m": "Subtracted the numerators instead of adding the two positive fractions."
         },
         {
           "t": "6/5",
           "c": false,
-          "m": "Add the numerators: 7 + 13."
+          "m": "Subtracted the first numerator from the second instead of computing their sum."
+        },
+        {
+          "t": "20/25",
+          "c": false,
+          "m": "Added numerators but multiplied denominators instead of retaining the common denominator."
         }
       ],
-      "exp": "(7 + 13)/5 = 20/5 = 4."
+      "hints": {
+        "h1": "Check whether the denominators of both fractions are already identical.",
+        "h2": "Keep the common denominator 5 unchanged and add only the top values.",
+        "h3": "Form the combined numerator by adding 7 and 13 together over 5.",
+        "h4": "Simplify the resulting improper fraction by dividing numerator by denominator."
+      }
     },
     {
-      "id": "1a_q1_c",
+      "id": "ad_1a_q1_c",
       "tag": "AD Ex 1A Q1(c)",
-      "q": "Add: -7/8 and 12/-8",
+      "tier": "warmup",
+      "q": "Add the rational numbers: -7/8 and 12/-8",
       "ans": "-19/8",
+      "m": "Failing to convert 12/-8 to standard form with positive denominator before combining numerators.",
       "opts": [
         {
           "t": "-19/8",
@@ -72,21 +101,33 @@
         {
           "t": "5/8",
           "c": false,
-          "m": "12/-8 = -12/8. -7 + (-12) = -19, not +5."
+          "m": "Subtracted absolute values instead of recognizing that both fractions are negative."
         },
         {
           "t": "-5/8",
           "c": false,
-          "m": "Both numerators are negative: -7 + (-12) = -19."
+          "m": "Treated 12/-8 as positive when combining with the first negative numerator."
+        },
+        {
+          "t": "19/8",
+          "c": false,
+          "m": "Omitted the negative sign from the combined sum of two negative rationals."
         }
       ],
-      "exp": "12/-8 = -12/8. Sum = [-7 + (-12)]/8 = -19/8."
+      "hints": {
+        "h1": "Notice that the second fraction has a negative denominator.",
+        "h2": "Convert any fraction with a negative denominator into standard form by shifting the sign to the numerator.",
+        "h3": "Rewrite 12/-8 with positive denominator 8 and combine the two negative numerators.",
+        "h4": "Add the two negative integers -7 and -12 together over the denominator 8."
+      }
     },
     {
-      "id": "1a_q1_d",
+      "id": "ad_1a_q1_d",
       "tag": "AD Ex 1A Q1(d)",
-      "q": "Add: -11/5 and -9/5",
+      "tier": "warmup",
+      "q": "Add the rational numbers: -11/5 and -9/5",
       "ans": "-4",
+      "m": "Confusing multiplication sign rules with addition sign rules when summing two negative numbers.",
       "opts": [
         {
           "t": "-4",
@@ -94,28 +135,35 @@
           "m": ""
         },
         {
-          "t": "-20/5",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "-2",
-          "c": false,
-          "m": "-11 + (-9) = -20; -20/5 = -4."
-        },
-        {
           "t": "4",
           "c": false,
-          "m": "Sum of two negative numbers is negative."
+          "m": "Multiplied the two negative signs instead of preserving negativity in addition."
+        },
+        {
+          "t": "-2/5",
+          "c": false,
+          "m": "Subtracted the numerators instead of adding the two negative quantities."
+        },
+        {
+          "t": "-20/10",
+          "c": false,
+          "m": "Added denominators together instead of maintaining the common denominator."
         }
       ],
-      "exp": "(-11 + -9)/5 = -20/5 = -4."
+      "hints": {
+        "h1": "Look at the signs of both rational numbers being added.",
+        "h2": "Adding two negative quantities yields a negative quantity over the shared denominator.",
+        "h3": "Combine the numerators -11 and -9 over the single denominator 5.",
+        "h4": "Divide the resulting negative numerator by 5 to obtain the simplified integer."
+      }
     },
     {
-      "id": "1a_q1_e",
+      "id": "ad_1a_q1_e",
       "tag": "AD Ex 1A Q1(e)",
-      "q": "Add: 4/-7 and -5/8",
+      "tier": "warmup",
+      "q": "Add the rational numbers: 4/-7 and -5/8",
       "ans": "-67/56",
+      "m": "Adding unlike denominators directly or making sign errors when finding the common denominator.",
       "opts": [
         {
           "t": "-67/56",
@@ -125,21 +173,33 @@
         {
           "t": "-3/56",
           "c": false,
-          "m": "LCM is 56: [(-4 \u00d7 8) + (-5 \u00d7 7)]/56 = (-32 - 35)/56 = -67/56."
+          "m": "Subtracted the scaled numerators instead of combining two negative terms."
         },
         {
           "t": "67/56",
           "c": false,
-          "m": "Both terms are negative, so sum is negative."
+          "m": "Omitted the negative sign from the combined sum of two negative fractions."
+        },
+        {
+          "t": "-1/15",
+          "c": false,
+          "m": "Directly added numerators and denominators without finding a common denominator."
         }
       ],
-      "exp": "4/-7 = -4/7. LCM(7, 8) = 56. [(-4 \u00d7 8) + (-5 \u00d7 7)] / 56 = (-32 - 35)/56 = -67/56."
+      "hints": {
+        "h1": "First express 4/-7 in standard form with a positive denominator.",
+        "h2": "Find the least common multiple (LCM) of the denominators 7 and 8.",
+        "h3": "Scale both fractions to denominator 56: multiply -4 by 8, and -5 by 7.",
+        "h4": "Add the two scaled negative integers over the common denominator 56."
+      }
     },
     {
-      "id": "1a_q1_f",
+      "id": "ad_1a_q1_f",
       "tag": "AD Ex 1A Q1(f)",
-      "q": "Add: -13/7 and 12/-5",
+      "tier": "warmup",
+      "q": "Add the rational numbers: -13/7 and 12/-5",
       "ans": "-149/35",
+      "m": "Failing to convert 12/-5 to standard form and adding unlike denominators without an LCM.",
       "opts": [
         {
           "t": "-149/35",
@@ -149,21 +209,33 @@
         {
           "t": "-1/35",
           "c": false,
-          "m": "LCM is 35: [(-13 \u00d7 5) + (-12 \u00d7 7)]/35 = (-65 - 84)/35 = -149/35."
+          "m": "Subtracted the scaled numerators instead of summing two negative quantities."
         },
         {
           "t": "149/35",
           "c": false,
-          "m": "Sum of two negative numbers is negative."
+          "m": "Dropped the negative sign after adding two negative rational numbers."
+        },
+        {
+          "t": "-25/12",
+          "c": false,
+          "m": "Added numerators and denominators straight across without finding the LCM."
         }
       ],
-      "exp": "12/-5 = -12/5. LCM(7, 5) = 35. [(-13 \u00d7 5) + (-12 \u00d7 7)]/35 = (-65 - 84)/35 = -149/35."
+      "hints": {
+        "h1": "Express 12/-5 with a positive denominator as -12/5.",
+        "h2": "Determine the least common multiple (LCM) of the coprime denominators 7 and 5.",
+        "h3": "Scale numerators: multiply -13 by 5, and multiply -12 by 7.",
+        "h4": "Sum the two negative products over the common denominator 35."
+      }
     },
     {
-      "id": "1a_q1_g",
+      "id": "ad_1a_q1_g",
       "tag": "AD Ex 1A Q1(g)",
-      "q": "Add: -15/9 and -17/11",
+      "tier": "warmup",
+      "q": "Add the rational numbers: -15/9 and -17/11",
       "ans": "-106/33",
+      "m": "Overlooking the simplification of -15/9 to -5/3 before scaling, leading to arithmetic mistakes.",
       "opts": [
         {
           "t": "-106/33",
@@ -171,23 +243,35 @@
           "m": ""
         },
         {
-          "t": "-318/99",
-          "c": true,
-          "m": ""
-        },
-        {
           "t": "-32/99",
           "c": false,
-          "m": "-15/9 = -5/3. LCM(3, 11) = 33: [(-5 \u00d7 11) + (-17 \u00d7 3)]/33 = -106/33."
+          "m": "Failed to multiply each numerator by the corresponding factor during common denominator scaling."
+        },
+        {
+          "t": "106/33",
+          "c": false,
+          "m": "Assumed the sum of two negative fractions becomes positive."
+        },
+        {
+          "t": "-32/20",
+          "c": false,
+          "m": "Added numerators and denominators directly without converting to equivalent fractions."
         }
       ],
-      "exp": "-15/9 = -5/3. LCM(3, 11) = 33. [(-5 \u00d7 11) + (-17 \u00d7 3)]/33 = (-55 - 51)/33 = -106/33."
+      "hints": {
+        "h1": "Check whether the first fraction -15/9 can be simplified by dividing by 3.",
+        "h2": "After reducing -15/9 to -5/3, identify the LCM of 3 and 11.",
+        "h3": "Scale the fractions to denominator 33: multiply -5 by 11, and -17 by 3.",
+        "h4": "Add the two negative numerators together over 33."
+      }
     },
     {
-      "id": "1a_q1_h",
+      "id": "ad_1a_q1_h",
       "tag": "AD Ex 1A Q1(h)",
-      "q": "Add: -9/-33 and 5/11",
+      "tier": "warmup",
+      "q": "Add the rational numbers: -9/-33 and 5/11",
       "ans": "8/11",
+      "m": "Treating -9/-33 as negative instead of canceling negative signs in numerator and denominator.",
       "opts": [
         {
           "t": "8/11",
@@ -197,23 +281,33 @@
         {
           "t": "-4/11",
           "c": false,
-          "m": "-9/-33 = 9/33 = 3/11. 3/11 + 5/11 = 8/11."
+          "m": "Mistook -9/-33 for a negative fraction rather than a positive rational number."
         },
         {
           "t": "14/33",
           "c": false,
-          "m": "Simplify 9/33 to 3/11 first."
+          "m": "Added 9 and 5 directly without adjusting for the different denominators."
+        },
+        {
+          "t": "-8/11",
+          "c": false,
+          "m": "Applied an unnecessary negative sign to the sum of two positive fractions."
         }
       ],
-      "exp": "-9/-33 = 9/33 = 3/11. Sum = 3/11 + 5/11 = 8/11."
-    }
-  ],
-  "ex1a_q2": [
+      "hints": {
+        "h1": "Examine the signs of both numerator and denominator in -9/-33.",
+        "h2": "A fraction with negative numerator and negative denominator is strictly positive.",
+        "h3": "Simplify 9/33 by dividing both terms by 3 to get denominator 11.",
+        "h4": "Add the like fractions having identical denominator 11."
+      }
+    },
     {
-      "id": "1a_q2_a",
+      "id": "ad_1a_q2_a",
       "tag": "AD Ex 1A Q2(a)",
+      "tier": "warmup",
       "q": "Subtract: (-18/5) - (-8/5)",
       "ans": "-2",
+      "m": "Failing to apply the rule that subtracting a negative number is equivalent to adding its positive counterpart.",
       "opts": [
         {
           "t": "-2",
@@ -223,21 +317,33 @@
         {
           "t": "-26/5",
           "c": false,
-          "m": "Subtracting negative turns into addition: -18 - (-8) = -18 + 8 = -10; -10/5 = -2."
+          "m": "Treated subtracting a negative as another subtraction rather than addition."
         },
         {
           "t": "2",
           "c": false,
-          "m": "-18 + 8 = -10, so result is negative."
+          "m": "Gave a positive sign to the sum even though -18 has larger absolute value than 8."
+        },
+        {
+          "t": "-10",
+          "c": false,
+          "m": "Subtracted numerators but forgot to divide by the common denominator 5."
         }
       ],
-      "exp": "[-18 - (-8)]/5 = (-18 + 8)/5 = -10/5 = -2."
+      "hints": {
+        "h1": "Notice the double negative: subtracting a negative fraction.",
+        "h2": "Subtracting a rational number means adding its additive inverse: -(-8/5) becomes +8/5.",
+        "h3": "Combine numerators over the shared denominator 5: -18 + 8.",
+        "h4": "Divide the net numerator by the common denominator 5."
+      }
     },
     {
-      "id": "1a_q2_b",
+      "id": "ad_1a_q2_b",
       "tag": "AD Ex 1A Q2(b)",
+      "tier": "warmup",
       "q": "Subtract: (-19/15) - (-6/30)",
       "ans": "-16/15",
+      "m": "Simplification and double sign errors during rational subtraction.",
       "opts": [
         {
           "t": "-16/15",
@@ -245,23 +351,35 @@
           "m": ""
         },
         {
-          "t": "-32/30",
-          "c": true,
-          "m": ""
+          "t": "-22/15",
+          "c": false,
+          "m": "Added the magnitudes instead of applying the double negative addition rule."
         },
         {
           "t": "-13/15",
           "c": false,
-          "m": "-6/30 = -3/15. -19/15 - (-3/15) = -19/15 + 3/15 = -16/15."
+          "m": "Divided -6/30 incorrectly when reducing to denominator 15."
+        },
+        {
+          "t": "16/15",
+          "c": false,
+          "m": "Reversed the sign of the overall difference."
         }
       ],
-      "exp": "-6/30 = -3/15. -19/15 - (-3/15) = (-19 + 3)/15 = -16/15."
+      "hints": {
+        "h1": "Reduce the second fraction -6/30 by dividing top and bottom by 2.",
+        "h2": "Convert the subtraction of a negative into addition of its opposite.",
+        "h3": "Combine -19/15 and +3/15 over the common denominator 15.",
+        "h4": "Calculate -19 + 3 in the numerator over denominator 15."
+      }
     },
     {
-      "id": "1a_q2_c",
+      "id": "ad_1a_q2_c",
       "tag": "AD Ex 1A Q2(c)",
+      "tier": "warmup",
       "q": "Subtract: (-6/11) - (-7/11)",
       "ans": "1/11",
+      "m": "Double sign confusion: minus a negative equals positive.",
       "opts": [
         {
           "t": "1/11",
@@ -271,21 +389,33 @@
         {
           "t": "-13/11",
           "c": false,
-          "m": "Minus a negative is plus: -6 + 7 = 1."
+          "m": "Added the negative numbers instead of transforming subtraction of a negative into addition."
         },
         {
           "t": "-1/11",
           "c": false,
-          "m": "7 is larger than 6, so -6 + 7 = +1."
+          "m": "Assigned a negative sign although 7 is greater than 6."
+        },
+        {
+          "t": "13/11",
+          "c": false,
+          "m": "Ignored both negative signs and computed 6 + 7."
         }
       ],
-      "exp": "[-6 - (-7)]/11 = (-6 + 7)/11 = 1/11."
+      "hints": {
+        "h1": "Look at the operation between the two fractions.",
+        "h2": "Subtracting -7/11 is equivalent to adding +7/11.",
+        "h3": "Write the single numerator as -6 + 7 over 11.",
+        "h4": "Evaluate the difference between 7 and 6 in the numerator."
+      }
     },
     {
-      "id": "1a_q2_d",
+      "id": "ad_1a_q2_d",
       "tag": "AD Ex 1A Q2(d)",
+      "tier": "warmup",
       "q": "Subtract: (-1/4) - (-2/8)",
       "ans": "0",
+      "m": "Failing to notice that -2/8 reduces to -1/4, meaning a number is subtracted from itself.",
       "opts": [
         {
           "t": "0",
@@ -295,21 +425,33 @@
         {
           "t": "-1/2",
           "c": false,
-          "m": "-2/8 = -1/4. -1/4 - (-1/4) = -1/4 + 1/4 = 0."
+          "m": "Added the two negative quantities instead of subtracting."
         },
         {
           "t": "-1/4",
           "c": false,
-          "m": "Any number subtracted from itself is 0."
+          "m": "Assumed subtracting a value leaves the original unchanged."
+        },
+        {
+          "t": "1/4",
+          "c": false,
+          "m": "Subtracted but introduced an unintended sign reversal on the initial term."
         }
       ],
-      "exp": "-2/8 = -1/4. -1/4 - (-1/4) = -1/4 + 1/4 = 0."
+      "hints": {
+        "h1": "Reduce the fraction -2/8 to lowest terms.",
+        "h2": "Any number subtracted from itself yields zero.",
+        "h3": "Rewrite as -1/4 + 1/4 using the additive inverse.",
+        "h4": "Sum the opposite rational numbers to find the value."
+      }
     },
     {
-      "id": "1a_q2_e",
+      "id": "ad_1a_q2_e",
       "tag": "AD Ex 1A Q2(e)",
+      "tier": "warmup",
       "q": "Subtract: (-59/5) - (19/5)",
       "ans": "-78/5",
+      "m": "Subtracting a positive from a negative means moving further negative on the number line.",
       "opts": [
         {
           "t": "-78/5",
@@ -319,21 +461,33 @@
         {
           "t": "-40/5",
           "c": false,
-          "m": "-59 - 19 = -78."
+          "m": "Subtracted 19 from 59 instead of combining two negative integers."
         },
         {
           "t": "78/5",
           "c": false,
-          "m": "Both terms subtract to a larger negative."
+          "m": "Discarded the negative sign when subtracting positive from negative."
+        },
+        {
+          "t": "-78/10",
+          "c": false,
+          "m": "Subtracted or combined denominators instead of retaining the shared common denominator."
         }
       ],
-      "exp": "(-59 - 19)/5 = -78/5."
+      "hints": {
+        "h1": "Check whether the denominators are identical.",
+        "h2": "Subtracting a positive rational from a negative rational makes the result more negative.",
+        "h3": "Place both terms in the numerator: -59 - 19 over 5.",
+        "h4": "Combine the two negative integers in the numerator."
+      }
     },
     {
-      "id": "1a_q2_f",
+      "id": "ad_1a_q2_f",
       "tag": "AD Ex 1A Q2(f)",
+      "tier": "warmup",
       "q": "Subtract: (-4/7) - (-8/9)",
       "ans": "20/63",
+      "m": "Sign error when converting -(-8/9) and scaling to common denominator 63.",
       "opts": [
         {
           "t": "20/63",
@@ -343,21 +497,33 @@
         {
           "t": "-20/63",
           "c": false,
-          "m": "LCM = 63: [(-4 \u00d7 9) - (-8 \u00d7 7)]/63 = (-36 + 56)/63 = 20/63."
+          "m": "Assigned negative sign despite the positive term 56 having greater magnitude than 36."
         },
         {
           "t": "-92/63",
           "c": false,
-          "m": "-(-8 \u00d7 7) = +56."
+          "m": "Treated the second term as negative instead of changing subtraction of negative to addition."
+        },
+        {
+          "t": "4/2",
+          "c": false,
+          "m": "Subtracted numerators and denominators independently without an LCM."
         }
       ],
-      "exp": "LCM(7, 9) = 63. [(-4 \u00d7 9) - (-8 \u00d7 7)]/63 = (-36 + 56)/63 = 20/63."
+      "hints": {
+        "h1": "Notice that subtracting -8/9 is equivalent to adding +8/9.",
+        "h2": "Find the least common multiple (LCM) of the unlike denominators 7 and 9.",
+        "h3": "Scale both fractions: multiply -4 by 9, and multiply +8 by 7.",
+        "h4": "Evaluate -36 + 56 in the numerator over 63."
+      }
     },
     {
-      "id": "1a_q2_g",
+      "id": "ad_1a_q2_g",
       "tag": "AD Ex 1A Q2(g)",
+      "tier": "warmup",
       "q": "Subtract: (7/24) - (-13/-26)",
       "ans": "-5/24",
+      "m": "Misinterpreting -13/-26 as negative instead of recognizing both negatives cancel out to positive 1/2.",
       "opts": [
         {
           "t": "-5/24",
@@ -367,21 +533,33 @@
         {
           "t": "5/24",
           "c": false,
-          "m": "-13/-26 = 1/2 = 12/24. 7/24 - 12/24 = -5/24."
+          "m": "Subtracted in reverse order or miscalculated the sign of 7 minus 12."
         },
         {
           "t": "19/24",
           "c": false,
-          "m": "-13/-26 is positive 1/2, so we subtract 12/24."
+          "m": "Treated the fraction -13/-26 as negative, leading to double negative addition."
+        },
+        {
+          "t": "-6/2",
+          "c": false,
+          "m": "Subtracted terms without converting to common denominator 24."
         }
       ],
-      "exp": "-13/-26 = 1/2 = 12/24. 7/24 - 12/24 = -5/24."
+      "hints": {
+        "h1": "First simplify the second fraction: evaluate the signs of -13 and -26.",
+        "h2": "Since negative divided by negative is positive, -13/-26 simplifies to +1/2.",
+        "h3": "Convert 1/2 to an equivalent fraction with denominator 24.",
+        "h4": "Subtract 12/24 from 7/24 to find the numerator difference."
+      }
     },
     {
-      "id": "1a_q2_h",
+      "id": "ad_1a_q2_h",
       "tag": "AD Ex 1A Q2(h)",
+      "tier": "warmup",
       "q": "Subtract: (7/25) - (-6/15)",
       "ans": "17/25",
+      "m": "Failing to turn minus negative into plus after reducing -6/15 to -2/5.",
       "opts": [
         {
           "t": "17/25",
@@ -391,315 +569,33 @@
         {
           "t": "-17/25",
           "c": false,
-          "m": "-6/15 = -2/5 = -10/25. 7/25 - (-10/25) = (7 + 10)/25 = 17/25."
+          "m": "Applied a negative sign to what should be a sum of two positive terms."
         },
         {
           "t": "1/25",
           "c": false,
-          "m": "Minus a negative is plus: 7 + 10 = 17."
-        }
-      ],
-      "exp": "-6/15 = -2/5 = -10/25. 7/25 - (-10/25) = (7 + 10)/25 = 17/25."
-    }
-  ],
-  "ex1a_q3": [
-    {
-      "id": "1a_q3_a",
-      "tag": "AD Ex 1A Q3(a)",
-      "q": "Multiply: (4/7) by (-2/5)",
-      "ans": "-8/35",
-      "opts": [
-        {
-          "t": "-8/35",
-          "c": true,
-          "m": ""
+          "m": "Subtracted the reduced fraction instead of adding the additive inverse."
         },
         {
-          "t": "8/35",
+          "t": "13/10",
           "c": false,
-          "m": "Positive times negative is negative: 4 \u00d7 (-2) = -8."
-        },
-        {
-          "t": "-2/35",
-          "c": false,
-          "m": "4 \u00d7 2 = 8, not 2."
+          "m": "Subtracted numerators and denominators without finding a common denominator."
         }
       ],
-      "exp": "(4 \u00d7 -2) / (7 \u00d7 5) = -8/35."
+      "hints": {
+        "h1": "Simplify -6/15 by dividing numerator and denominator by 3.",
+        "h2": "Subtracting a negative fraction turns into adding a positive fraction.",
+        "h3": "Scale the reduced fraction +2/5 to denominator 25 by multiplying by 5.",
+        "h4": "Add 7/25 and 10/25 together over the common denominator."
+      }
     },
     {
-      "id": "1a_q3_b",
-      "tag": "AD Ex 1A Q3(b)",
-      "q": "Multiply: (-3/8) by (-12/15)",
-      "ans": "3/10",
-      "opts": [
-        {
-          "t": "3/10",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "-3/10",
-          "c": false,
-          "m": "Two negatives multiply to a positive product."
-        },
-        {
-          "t": "36/120",
-          "c": true,
-          "m": ""
-        }
-      ],
-      "exp": "(-3/8) \u00d7 (-4/5) = (-3 \u00d7 -1) / (2 \u00d7 5) = 3/10."
-    },
-    {
-      "id": "1a_q3_c",
-      "tag": "AD Ex 1A Q3(c)",
-      "q": "Multiply: (11/-13) by (-39/22)",
-      "ans": "3/2",
-      "opts": [
-        {
-          "t": "3/2",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "-3/2",
-          "c": false,
-          "m": "Both fractions are negative, so product is positive: 11 into 22 gives 2; 13 into 39 gives 3."
-        },
-        {
-          "t": "1",
-          "c": false,
-          "m": "Cross cancel 11/22 = 1/2 and 39/13 = 3/1."
-        }
-      ],
-      "exp": "(-11/13) \u00d7 (-39/22) = (1 \u00d7 3)/(1 \u00d7 2) = 3/2."
-    },
-    {
-      "id": "1a_q3_d",
-      "tag": "AD Ex 1A Q3(d)",
-      "q": "Multiply: (-5/9) by (81/35)",
-      "ans": "-9/7",
-      "opts": [
-        {
-          "t": "-9/7",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "9/7",
-          "c": false,
-          "m": "Negative times positive is negative: 5 into 35 is 7; 9 into 81 is 9."
-        },
-        {
-          "t": "-45/35",
-          "c": false,
-          "m": "Cross cancel 9 with 81 first."
-        }
-      ],
-      "exp": "Cross cancel 5 with 35 (giving 7) and 9 with 81 (giving 9): (-1 \u00d7 9)/(1 \u00d7 7) = -9/7."
-    },
-    {
-      "id": "1a_q3_e",
-      "tag": "AD Ex 1A Q3(e)",
-      "q": "Multiply: (-9/25) by (-35/27)",
-      "ans": "7/15",
-      "opts": [
-        {
-          "t": "7/15",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "-7/15",
-          "c": false,
-          "m": "Negative times negative is positive: 9 into 27 is 3; 5 divides 25 (5) and 35 (7). Product = 7/15."
-        },
-        {
-          "t": "5/9",
-          "c": false,
-          "m": "(1 \u00d7 7)/(5 \u00d7 3) = 7/15."
-        }
-      ],
-      "exp": "(-9/25) \u00d7 (-35/27) = (-1 \u00d7 -7)/(5 \u00d7 3) = 7/15."
-    },
-    {
-      "id": "1a_q3_f",
-      "tag": "AD Ex 1A Q3(f)",
-      "q": "Multiply: (-18/25) by (40/-36)",
-      "ans": "4/5",
-      "opts": [
-        {
-          "t": "4/5",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "-4/5",
-          "c": false,
-          "m": "40/-36 = -10/9. (-18/25) \u00d7 (-10/9) = (-2 \u00d7 -2)/(5 \u00d7 1) = 4/5."
-        },
-        {
-          "t": "2/5",
-          "c": false,
-          "m": "18 into 36 is 2; 40/2 = 20; 20/25 = 4/5."
-        }
-      ],
-      "exp": "40/-36 = -10/9. (-18/25) \u00d7 (-10/9) = (-2 \u00d7 -2) / (5 \u00d7 1) = 4/5."
-    }
-  ],
-  "ex1a_q4": [
-    {
-      "id": "1a_q4_a",
-      "tag": "AD Ex 1A Q4(a)",
-      "q": "Divide: (16/7) by (-8/14)",
-      "ans": "-4",
-      "opts": [
-        {
-          "t": "-4",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "4",
-          "c": false,
-          "m": "(16/7) \u00d7 (14/-8) = 2 \u00d7 (-2) = -4."
-        },
-        {
-          "t": "-2",
-          "c": false,
-          "m": "16/8 = 2, and 14/7 = 2. 2 \u00d7 (-2) = -4."
-        }
-      ],
-      "exp": "(16/7) \u00d7 (14/-8) = (2 \u00d7 2)/(-1) = -4."
-    },
-    {
-      "id": "1a_q4_b",
-      "tag": "AD Ex 1A Q4(b)",
-      "q": "Divide: (-7/8) by (-21)",
-      "ans": "1/24",
-      "opts": [
-        {
-          "t": "1/24",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "-1/24",
-          "c": false,
-          "m": "Two negatives divide to a positive: (-7/8) \u00d7 (1/-21) = 7/(8 \u00d7 21) = 1/(8 \u00d7 3) = 1/24."
-        },
-        {
-          "t": "24",
-          "c": false,
-          "m": "The result is a proper fraction 1/24."
-        }
-      ],
-      "exp": "(-7/8) \u00d7 (1/-21) = 7 / (8 \u00d7 21) = 1 / (8 \u00d7 3) = 1/24."
-    },
-    {
-      "id": "1a_q4_c",
-      "tag": "AD Ex 1A Q4(c)",
-      "q": "Divide: (3/8) by (-4/5)",
-      "ans": "-15/32",
-      "opts": [
-        {
-          "t": "-15/32",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "15/32",
-          "c": false,
-          "m": "(3/8) \u00d7 (-5/4) = -15/32."
-        },
-        {
-          "t": "-12/40",
-          "c": false,
-          "m": "Invert the divisor: 3 \u00d7 (-5) = -15; 8 \u00d7 4 = 32."
-        }
-      ],
-      "exp": "(3/8) \u00d7 (-5/4) = -15/32."
-    },
-    {
-      "id": "1a_q4_d",
-      "tag": "AD Ex 1A Q4(d)",
-      "q": "Divide: (-1/15) by (8/3)",
-      "ans": "-1/40",
-      "opts": [
-        {
-          "t": "-1/40",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "1/40",
-          "c": false,
-          "m": "(-1/15) \u00d7 (3/8) = (-1 \u00d7 1)/(5 \u00d7 8) = -1/40."
-        },
-        {
-          "t": "-8/45",
-          "c": false,
-          "m": "Remember to invert 8/3 to 3/8."
-        }
-      ],
-      "exp": "(-1/15) \u00d7 (3/8) = (-1 \u00d7 1)/(5 \u00d7 8) = -1/40."
-    },
-    {
-      "id": "1a_q4_e",
-      "tag": "AD Ex 1A Q4(e)",
-      "q": "Divide: (-3/26) by (9/78)",
-      "ans": "-1",
-      "opts": [
-        {
-          "t": "-1",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "1",
-          "c": false,
-          "m": "9/78 reduces to 3/26. (-3/26) \u00f7 (3/26) = -1."
-        },
-        {
-          "t": "-3",
-          "c": false,
-          "m": "Both fractions have the same magnitude."
-        }
-      ],
-      "exp": "9/78 = 3/26. (-3/26) \u00f7 (3/26) = -1."
-    },
-    {
-      "id": "1a_q4_f",
-      "tag": "AD Ex 1A Q4(f)",
-      "q": "Divide: (-22/26) by (-33/39)",
-      "ans": "1",
-      "opts": [
-        {
-          "t": "1",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "-1",
-          "c": false,
-          "m": "Both fractions reduce to -11/13. A number divided by itself is positive 1."
-        },
-        {
-          "t": "2/3",
-          "c": false,
-          "m": "Both fractions are exactly identical in standard form."
-        }
-      ],
-      "exp": "-22/26 = -11/13. -33/39 = -11/13. (-11/13) \u00f7 (-11/13) = 1."
-    }
-  ],
-  "ex1b": [
-    {
-      "id": "1b_q1_a",
+      "id": "ad_1b_q1_a",
       "tag": "AD Ex 1B Q1(a)",
-      "q": "Commutative Property: (-3/7) + (4/9) = _____ + (-3/7)",
+      "tier": "warmup",
+      "q": "Fill in the blank using Commutative Property of Addition: (-3/7) + (4/9) = _____ + (-3/7)",
       "ans": "4/9",
+      "m": "Altering the sign or value of an addend when applying the commutative property.",
       "opts": [
         {
           "t": "4/9",
@@ -709,21 +605,33 @@
         {
           "t": "-4/9",
           "c": false,
-          "m": "Commutative law swaps order without changing signs: a + b = b + a."
+          "m": "Changed the sign of the addend; commutativity only swaps position, not sign."
         },
         {
           "t": "3/7",
           "c": false,
-          "m": "Missing term is the second addend 4/9."
+          "m": "Replaced the unknown with the first term rather than the second addend."
+        },
+        {
+          "t": "1/9",
+          "c": false,
+          "m": "Subtracted the fractions instead of applying the order-reversal property."
         }
       ],
-      "exp": "a + b = b + a. Blank = 4/9."
+      "hints": {
+        "h1": "Look at the two addends on the left-hand side.",
+        "h2": "The Commutative Property of Addition states that a + b equals b + a.",
+        "h3": "Match the terms: if the first term moves to the second spot, the second moves to the first.",
+        "h4": "Identify which of the two original terms is missing on the right side."
+      }
     },
     {
-      "id": "1b_q1_b",
+      "id": "ad_1b_q1_b",
       "tag": "AD Ex 1B Q1(b)",
-      "q": "Commutative Property: (2/3) + (-5/6) = (-5/6) + _____?",
+      "tier": "warmup",
+      "q": "Fill in the blank using Commutative Property of Addition: (2/3) + (-5/6) = (-5/6) + _____",
       "ans": "2/3",
+      "m": "Changing the sign of a term when moving its position.",
       "opts": [
         {
           "t": "2/3",
@@ -733,313 +641,105 @@
         {
           "t": "-2/3",
           "c": false,
-          "m": "The original term is positive 2/3."
+          "m": "Flipped the sign of the rational addend when changing its order."
         },
         {
           "t": "5/6",
           "c": false,
-          "m": "a + b = b + a."
+          "m": "Inserted the already present addend with reversed sign."
+        },
+        {
+          "t": "1/6",
+          "c": false,
+          "m": "Attempted to calculate the sum rather than identifying the missing addend."
         }
       ],
-      "exp": "a + b = b + a. Blank = 2/3."
+      "hints": {
+        "h1": "Observe which rational number appears first on the left side.",
+        "h2": "Commutativity states that the order of addition can be swapped without changing terms.",
+        "h3": "The right side already contains the second addend -5/6.",
+        "h4": "Place the first addend into the empty position unchanged."
+      }
     },
     {
-      "id": "1b_q2_a",
-      "tag": "AD Ex 1B Q2(a)",
-      "q": "Associative Property: [(1/11) + (2/13)] + (7/6) = (1/11) + [_____ + (7/6)]",
-      "ans": "2/13",
+      "id": "ad_1b_q1_c",
+      "tag": "AD Ex 1B Q1(c)",
+      "tier": "warmup",
+      "q": "Fill in the blank using Commutative Property of Addition: [(-11/29)] + [(-5/31)] = [(-5/31)] + _____",
+      "ans": "-11/29",
+      "m": "Dropping negative signs during commutative term swapping.",
       "opts": [
         {
-          "t": "2/13",
+          "t": "-11/29",
           "c": true,
           "m": ""
         },
         {
-          "t": "1/11",
+          "t": "11/29",
           "c": false,
-          "m": "(a + b) + c = a + (b + c). Missing term is 2/13."
+          "m": "Swapped the position but mistakenly dropped the negative sign."
         },
         {
-          "t": "7/6",
+          "t": "-5/31",
           "c": false,
-          "m": "7/6 is already outside the bracket."
+          "m": "Repeated the first term instead of supplying the other addend."
+        },
+        {
+          "t": "5/31",
+          "c": false,
+          "m": "Flipped the sign of the existing term."
         }
       ],
-      "exp": "(a + b) + c = a + (b + c). Missing term = 2/13."
+      "hints": {
+        "h1": "Identify the two distinct rational numbers on the left-hand side.",
+        "h2": "Under commutative addition, a + b equals b + a exactly.",
+        "h3": "Notice that -5/31 is already written as the first term on the right.",
+        "h4": "Copy the remaining addend exactly with its negative sign intact."
+      }
     },
     {
-      "id": "1b_q3_a",
-      "tag": "AD Ex 1B Q3(a)",
-      "q": "State property used: (-2/5) + (3/7) = (3/7) + (-2/5)",
-      "ans": "Commutative Property of Addition",
+      "id": "ad_1b_q1_d",
+      "tag": "AD Ex 1B Q1(d)",
+      "tier": "warmup",
+      "q": "Fill in the blank using Commutative Property of Addition: (-7/13) + (11/23) = (11/23) + _____",
+      "ans": "-7/13",
+      "m": "Neglecting to carry the negative sign with the term.",
       "opts": [
         {
-          "t": "Commutative Property of Addition",
+          "t": "-7/13",
           "c": true,
           "m": ""
         },
         {
-          "t": "Associative Property",
+          "t": "7/13",
           "c": false,
-          "m": "Swapping the order of two addends is Commutativity."
+          "m": "Lost the negative sign while moving the fraction to the second position."
         },
         {
-          "t": "Closure Property",
+          "t": "-11/23",
           "c": false,
-          "m": "Closure means the sum is rational; swapping order is Commutativity."
+          "m": "Changed the sign of the second fraction instead of copying the first."
+        },
+        {
+          "t": "4/13",
+          "c": false,
+          "m": "Attempted to combine numerators rather than completing the algebraic identity."
         }
       ],
-      "exp": "Order of addition is swapped: Commutative Property."
+      "hints": {
+        "h1": "Compare the expressions on both sides of the equal sign.",
+        "h2": "The commutative property guarantees that changing the order leaves the value unchanged.",
+        "h3": "Identify which term from the left side has not yet appeared on the right.",
+        "h4": "Preserve both the magnitude and sign of the missing term."
+      }
     },
     {
-      "id": "1b_q3_b",
-      "tag": "AD Ex 1B Q3(b)",
-      "q": "State property: (2/5) + [(9/7) + (-3/8)] = [(2/5) + (9/7)] + (-3/8)",
-      "ans": "Associative Property of Addition",
-      "opts": [
-        {
-          "t": "Associative Property of Addition",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Commutative Property",
-          "c": false,
-          "m": "Shifting bracket grouping among three addends is Associativity."
-        },
-        {
-          "t": "Distributive Property",
-          "c": false,
-          "m": "Distributivity involves multiplication over addition."
-        }
-      ],
-      "exp": "Grouping of three addends is changed: Associative Property."
-    }
-  ],
-  "ex1c": [
-    {
-      "id": "1c_q4_a",
-      "tag": "AD Ex 1C Q4(a)",
-      "q": "State property: (2/7) \u00d7 (13/11) = (13/11) \u00d7 (2/7)",
-      "ans": "Commutative Property of Multiplication",
-      "opts": [
-        {
-          "t": "Commutative Property of Multiplication",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Associative Property",
-          "c": false,
-          "m": "Order of factors is swapped: Commutativity."
-        },
-        {
-          "t": "Distributive Property",
-          "c": false,
-          "m": "Only multiplication is occurring here."
-        }
-      ],
-      "exp": "Order of factors swapped: Commutativity of Multiplication."
-    },
-    {
-      "id": "1c_q4_b",
-      "tag": "AD Ex 1C Q4(b)",
-      "q": "State property: (-5/7) \u00d7 [(6/11) \u00d7 (7/13)] = [(-5/7) \u00d7 (6/11)] \u00d7 (7/13)",
-      "ans": "Associative Property of Multiplication",
-      "opts": [
-        {
-          "t": "Associative Property of Multiplication",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Distributive Property",
-          "c": false,
-          "m": "Grouping of factors is changed: Associative Property."
-        },
-        {
-          "t": "Closure Property",
-          "c": false,
-          "m": "Associativity governs bracket placement."
-        }
-      ],
-      "exp": "Grouping of three factors is changed: Associative Property."
-    },
-    {
-      "id": "1c_q4_c",
-      "tag": "AD Ex 1C Q4(c)",
-      "q": "State property: (1/7) \u00d7 (3/5) = 3/35 is a rational number",
-      "ans": "Closure Property of Multiplication",
-      "opts": [
-        {
-          "t": "Closure Property of Multiplication",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Commutative Property",
-          "c": false,
-          "m": "Product of two rational numbers being rational demonstrates Closure."
-        },
-        {
-          "t": "Identity Property",
-          "c": false,
-          "m": "Identity involves multiplying by 1."
-        }
-      ],
-      "exp": "Product of two rationals is rational: Closure Property."
-    },
-    {
-      "id": "1c_q4_d",
-      "tag": "AD Ex 1C Q4(d)",
-      "q": "State property: (7/11) \u00d7 [(1/6) + (2/13)] = [(7/11) \u00d7 (1/6)] + [(7/11) \u00d7 (2/13)]",
-      "ans": "Distributive Property of Multiplication over Addition",
-      "opts": [
-        {
-          "t": "Distributive Property of Multiplication over Addition",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Associative Property",
-          "c": false,
-          "m": "Multiplication distributed across addition terms: Distributive Property."
-        },
-        {
-          "t": "Closure Property",
-          "c": false,
-          "m": "This is the Distributive Law."
-        }
-      ],
-      "exp": "Multiplication distributed over addition: Distributive Property."
-    },
-    {
-      "id": "1c_q4_e",
-      "tag": "AD Ex 1C Q4(e)",
-      "q": "State property: (-9/8) \u00d7 0 = 0 = 0 \u00d7 (-9/8)",
-      "ans": "Multiplicative Property of Zero",
-      "opts": [
-        {
-          "t": "Multiplicative Property of Zero",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Additive Identity",
-          "c": false,
-          "m": "Multiplying by zero yields zero."
-        },
-        {
-          "t": "Multiplicative Identity",
-          "c": false,
-          "m": "Multiplicative identity is 1, not 0."
-        }
-      ],
-      "exp": "Any rational number multiplied by 0 equals 0."
-    },
-    {
-      "id": "1c_q4_f",
-      "tag": "AD Ex 1C Q4(f)",
-      "q": "State property: 1 \u00d7 (7/9) = 7/9",
-      "ans": "Multiplicative Identity (Property of 1)",
-      "opts": [
-        {
-          "t": "Multiplicative Identity (Property of 1)",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Additive Identity",
-          "c": false,
-          "m": "1 is the multiplicative identity because value is unchanged under multiplication."
-        },
-        {
-          "t": "Closure",
-          "c": false,
-          "m": "Property of 1 is the Multiplicative Identity."
-        }
-      ],
-      "exp": "1 is the multiplicative identity."
-    },
-    {
-      "id": "prescribed_1",
-      "tag": "AD Prescribed Q1(i)",
-      "q": "Name property: (-4/5) \u00d7 1 = 1 \u00d7 (-4/5) = -4/5",
-      "ans": "1 is the Multiplicative Identity",
-      "opts": [
-        {
-          "t": "1 is the Multiplicative Identity",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Commutativity only",
-          "c": false,
-          "m": "Prescribed textbook answer specifies 1 is the multiplicative identity."
-        },
-        {
-          "t": "Multiplicative Inverse",
-          "c": false,
-          "m": "Multiplying by 1 preserves identity."
-        }
-      ],
-      "exp": "Prescribed Solution: 1 is the multiplicative identity."
-    },
-    {
-      "id": "prescribed_2",
-      "tag": "AD Prescribed Q1(iii)",
-      "q": "Name property: (-19/29) \u00d7 (29/-19) = 1",
-      "ans": "Multiplicative Inverse (Reciprocal)",
-      "opts": [
-        {
-          "t": "Multiplicative Inverse (Reciprocal)",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Multiplicative Identity",
-          "c": false,
-          "m": "A number multiplied by its reciprocal equals 1."
-        },
-        {
-          "t": "Closure",
-          "c": false,
-          "m": "This is the Multiplicative Inverse property."
-        }
-      ],
-      "exp": "Prescribed Solution: Multiplicative inverse."
-    },
-    {
-      "id": "prescribed_3",
-      "tag": "AD Prescribed Q3",
-      "q": "The product of two rational numbers is always a _____?",
-      "ans": "Rational number (Closure Property)",
-      "opts": [
-        {
-          "t": "Rational number (Closure Property)",
-          "c": true,
-          "m": ""
-        },
-        {
-          "t": "Whole number",
-          "c": false,
-          "m": "Product can be a fraction or negative, but is always rational."
-        },
-        {
-          "t": "Positive integer only",
-          "c": false,
-          "m": "Rational multiplication can yield negative products."
-        }
-      ],
-      "exp": "Prescribed Solution: The product of two rational numbers is always a rational number."
-    }
-  ],
-  "ex1c_extra": [
-    {
-      "id": "1c_q5_a",
+      "id": "ad_1c_q5_a",
       "tag": "AD Ex 1C Q5(a)",
-      "q": "Fill in blank: [(-9/16) \u00d7 (11/7)] = (11/7) \u00d7 [_____]",
+      "tier": "warmup",
+      "q": "Fill in the blank: [(-9/16) * (11/7)] = (11/7) * [_____]",
       "ans": "-9/16",
+      "m": "Taking reciprocal or dropping negative sign when applying commutativity.",
       "opts": [
         {
           "t": "-9/16",
@@ -1049,21 +749,69 @@
         {
           "t": "9/16",
           "c": false,
-          "m": "Commutative Property preserves the negative sign."
+          "m": "Dropped the negative sign when applying commutative multiplication."
         },
         {
           "t": "11/7",
           "c": false,
-          "m": "Missing term is -9/16."
+          "m": "Repeated the first factor instead of the commutated second factor."
+        },
+        {
+          "t": "-16/9",
+          "c": false,
+          "m": "Took the reciprocal instead of simply swapping factor order."
         }
       ],
-      "exp": "Commutative Property: a \u00d7 b = b \u00d7 a. Blank = -9/16."
+      "hints": {
+        "h1": "Look at the multiplication operation on both sides.",
+        "h2": "Commutative property of multiplication states: a * b equals b * a.",
+        "h3": "The factor 11/7 has been shifted to the first position.",
+        "h4": "The remaining original factor must take the second position with sign unchanged."
+      }
     },
     {
-      "id": "1c_q5_c",
+      "id": "ad_1c_q5_b",
+      "tag": "AD Ex 1C Q5(b)",
+      "tier": "warmup",
+      "q": "Fill in the blank: [_____] * [(-7/9)] = [(-7/9)] * [(-5/8)]",
+      "ans": "-5/8",
+      "m": "Inverting or dropping the sign of a factor in a commutative product.",
+      "opts": [
+        {
+          "t": "-5/8",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "5/8",
+          "c": false,
+          "m": "Changed the sign of the rational number during order reversal."
+        },
+        {
+          "t": "-7/9",
+          "c": false,
+          "m": "Duplicated the common factor rather than balancing the identity."
+        },
+        {
+          "t": "-8/5",
+          "c": false,
+          "m": "Inverted the fraction instead of matching the commutative partner."
+        }
+      ],
+      "hints": {
+        "h1": "Examine the two factors given on the right side of the equation.",
+        "h2": "By commutativity, the product of two terms is identical in either order.",
+        "h3": "On the left side, -7/9 is in the second position.",
+        "h4": "Fill the first position on the left with the other factor from the right."
+      }
+    },
+    {
+      "id": "ad_1c_q5_c",
       "tag": "AD Ex 1C Q5(c)",
-      "q": "Fill in blank: (-7/13) \u00d7 [_____] = -7/13",
+      "tier": "warmup",
+      "q": "Fill in the blank: (-7/13) * _____ = (-7/13)",
       "ans": "1",
+      "m": "Confusing multiplicative identity (1) with additive identity (0) or reciprocal.",
       "opts": [
         {
           "t": "1",
@@ -1073,21 +821,33 @@
         {
           "t": "0",
           "c": false,
-          "m": "Multiplying by 0 gives 0."
+          "m": "Multiplying by zero produces zero, not the original number."
         },
         {
           "t": "-1",
           "c": false,
-          "m": "Multiplying by -1 changes the sign."
+          "m": "Multiplying by negative one would reverse the sign of the number."
+        },
+        {
+          "t": "-13/7",
+          "c": false,
+          "m": "Multiplying by reciprocal yields one, not the original number."
         }
       ],
-      "exp": "1 is the multiplicative identity: a \u00d7 1 = a."
+      "hints": {
+        "h1": "Notice that the product is identical to the starting rational number.",
+        "h2": "The Multiplicative Identity property states that multiplying any number by the identity element leaves its value unchanged.",
+        "h3": "Recall what value x satisfies: a * x equals a.",
+        "h4": "Select the unique number that serves as the multiplicative identity."
+      }
     },
     {
-      "id": "1c_q5_d",
+      "id": "ad_1c_q5_d",
       "tag": "AD Ex 1C Q5(d)",
-      "q": "Fill in blank: [_____] \u00d7 (-19/47) = 0",
+      "tier": "warmup",
+      "q": "Fill in the blank: _____ * (-19/47) = 0",
       "ans": "0",
+      "m": "Confusing the zero property of multiplication with the multiplicative inverse.",
       "opts": [
         {
           "t": "0",
@@ -1097,39 +857,1861 @@
         {
           "t": "1",
           "c": false,
-          "m": "1 \u00d7 (-19/47) = -19/47."
+          "m": "Multiplying by one preserves the number rather than reducing it to zero."
         },
         {
           "t": "-47/19",
           "c": false,
-          "m": "Reciprocal product equals 1, not 0."
+          "m": "Multiplying by reciprocal gives product one, not zero."
+        },
+        {
+          "t": "-1",
+          "c": false,
+          "m": "Multiplying by negative one changes the sign, not the magnitude."
         }
       ],
-      "exp": "Property of zero: 0 \u00d7 a = 0."
+      "hints": {
+        "h1": "Look at the final result on the right side of the equation.",
+        "h2": "The Zero Property of Multiplication states that any rational number multiplied by zero equals zero.",
+        "h3": "Determine what multiplier is needed to produce a product of zero.",
+        "h4": "Choose the identity element of addition which zeros any product."
+      }
     },
     {
-      "id": "1a_q5_a",
-      "tag": "AD Ex 1A Q5(a)",
-      "q": "Simplify: [(3/2) \u00d7 (-7/4) \u00d7 (8/9)] - [(-15/2) \u00d7 (3/7) \u00d7 (8/14)]",
-      "ans": "-13/21",
+      "id": "ad_1c_q5_e",
+      "tag": "AD Ex 1C Q5(e)",
+      "tier": "warmup",
+      "q": "Fill in the blank: (-3/4) * [1/3 + (-5/6)] = [(-3/4) * _____] + [(-3/4) * (-5/6)]",
+      "ans": "1/3",
+      "m": "Misunderstanding which terms are distributed in a(b + c) = ab + ac.",
       "opts": [
         {
-          "t": "-13/21",
+          "t": "1/3",
           "c": true,
           "m": ""
         },
         {
-          "t": "-7/3",
+          "t": "-1/3",
           "c": false,
-          "m": "First term cancels to -7/3; second cancels to -90/56 = -45/28. Combine carefully."
+          "m": "Introduced an erroneous negative sign on the distributed addend."
         },
         {
-          "t": "13/21",
+          "t": "-5/6",
           "c": false,
-          "m": "Check common denominator and signs."
+          "m": "Duplicated the second addend which already appears in the second bracket."
+        },
+        {
+          "t": "3/4",
+          "c": false,
+          "m": "Inserted the outside multiplier rather than the inside addend."
         }
       ],
-      "exp": "First bracket cancels to -7/3. Second bracket cancels to -45/28. Difference = -7/3 - (-45/28) = -13/21."
+      "hints": {
+        "h1": "Recognize the distributive pattern: a * (b + c) = (a * b) + (a * c).",
+        "h2": "Match the distributive pattern: identify which rational number from inside the addition bracket corresponds to the first distributed product.",
+        "h3": "Check the second bracket on the right: it contains a * c.",
+        "h4": "The first bracket must contain a multiplied by the first addend b."
+      }
+    },
+    {
+      "id": "ad_1c_q5_f",
+      "tag": "AD Ex 1C Q5(f)",
+      "tier": "warmup",
+      "q": "Fill in the blank: (-2/5) * [(6/7) * (-8/9)] = [(-2/5) * _____] * (-8/9)",
+      "ans": "6/7",
+      "m": "Changing signs or picking the wrong term when regrouping under associativity.",
+      "opts": [
+        {
+          "t": "6/7",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-6/7",
+          "c": false,
+          "m": "Added a negative sign to an originally positive factor."
+        },
+        {
+          "t": "-8/9",
+          "c": false,
+          "m": "Repeated the third factor which is already outside the right bracket."
+        },
+        {
+          "t": "2/5",
+          "c": false,
+          "m": "Used the first factor instead of the middle factor."
+        }
+      ],
+      "hints": {
+        "h1": "Identify the property: three factors being regrouped by brackets.",
+        "h2": "The Associative Property of Multiplication states: a * (b * c) = (a * b) * c.",
+        "h3": "Compare the factors on both sides: identify which rational factor from the left-hand grouping is missing inside the right-hand bracket.",
+        "h4": "Find the middle term b that belongs inside the first bracket."
+      }
+    },
+    {
+      "id": "ad_1c_q5_g",
+      "tag": "AD Ex 1C Q5(g)",
+      "tier": "warmup",
+      "q": "Fill in the blank: (3/8) / (3/8) = _____",
+      "ans": "1",
+      "m": "Confusing division of identical non-zero rational numbers with subtraction or zero.",
+      "opts": [
+        {
+          "t": "1",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "0",
+          "c": false,
+          "m": "Confused division of identical numbers with subtraction."
+        },
+        {
+          "t": "9/64",
+          "c": false,
+          "m": "Multiplied the fractions together instead of performing division."
+        },
+        {
+          "t": "-1",
+          "c": false,
+          "m": "Introduced an unwarranted negative sign for two positive numbers."
+        }
+      ],
+      "hints": {
+        "h1": "Observe that the dividend and the divisor are exactly the same non-zero number.",
+        "h2": "Dividing any non-zero rational number by itself always yields the multiplicative identity element.",
+        "h3": "Multiply by the reciprocal: 3/8 times 8/3.",
+        "h4": "Cancel out the common factors in numerator and denominator."
+      }
+    },
+    {
+      "id": "ad_1c_q5_h",
+      "tag": "AD Ex 1C Q5(h)",
+      "tier": "warmup",
+      "q": "Fill in the blank: (7/13) / [_____] = -1",
+      "ans": "-7/13",
+      "m": "Confusing division yielding -1 with division yielding 1 or using reciprocal.",
+      "opts": [
+        {
+          "t": "-7/13",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "7/13",
+          "c": false,
+          "m": "Dividing by the same positive value yields positive one, not negative one."
+        },
+        {
+          "t": "1",
+          "c": false,
+          "m": "Dividing by one leaves the original fraction unchanged."
+        },
+        {
+          "t": "-13/7",
+          "c": false,
+          "m": "Dividing by the negative reciprocal gives negative square, not negative one."
+        }
+      ],
+      "hints": {
+        "h1": "The quotient is negative one, which means the divisor must have opposite sign.",
+        "h2": "For any rational number a/b, dividing by its opposite -(a/b) results in -1.",
+        "h3": "Keep the same numerical magnitude as the dividend.",
+        "h4": "Select the additive inverse of 7/13 to produce quotient -1."
+      }
+    },
+    {
+      "id": "ad_1c_q5_i",
+      "tag": "AD Ex 1C Q5(i)",
+      "tier": "warmup",
+      "q": "Fill in the blank: (14/19) / _____ = 14/19",
+      "ans": "1",
+      "m": "Thinking dividing by 0 or by itself leaves the value unchanged.",
+      "opts": [
+        {
+          "t": "1",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "0",
+          "c": false,
+          "m": "Division by zero is mathematically undefined."
+        },
+        {
+          "t": "-1",
+          "c": false,
+          "m": "Dividing by negative one would negate the fraction."
+        },
+        {
+          "t": "14/19",
+          "c": false,
+          "m": "Dividing by itself produces one, not the original fraction."
+        }
+      ],
+      "hints": {
+        "h1": "The quotient is identical to the dividend.",
+        "h2": "Dividing any rational number by the neutral divisor leaves its value unchanged.",
+        "h3": "Recall the unique rational number that serves as the identity element for multiplication and division.",
+        "h4": "Select the value that preserves the dividend upon division."
+      }
+    },
+    {
+      "id": "ad_1c_q5_j",
+      "tag": "AD Ex 1C Q5(j)",
+      "tier": "warmup",
+      "q": "Fill in the blank: [_____] / [(-13/15)] = 1",
+      "ans": "-13/15",
+      "m": "Thinking 1 divided by the divisor gives 1 or dropping the negative sign.",
+      "opts": [
+        {
+          "t": "-13/15",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "13/15",
+          "c": false,
+          "m": "Opposite signs would result in quotient negative one."
+        },
+        {
+          "t": "1",
+          "c": false,
+          "m": "1 divided by a fraction gives its reciprocal, not one."
+        },
+        {
+          "t": "-15/13",
+          "c": false,
+          "m": "Used the reciprocal instead of the identical number."
+        }
+      ],
+      "hints": {
+        "h1": "Notice that the desired quotient is positive one.",
+        "h2": "A fraction divided by itself equals 1, provided signs and magnitudes are identical.",
+        "h3": "The dividend must match the divisor exactly in both numerator and denominator.",
+        "h4": "Include the negative sign so that the quotient evaluates to positive one."
+      }
+    },
+    {
+      "id": "ad_presc_3",
+      "tag": "AD Prescribed Q3",
+      "tier": "warmup",
+      "q": "Complete the statement: The product of two rational numbers is always a _______",
+      "ans": "rational number",
+      "m": "Assuming rational multiplication always simplifies to integers or whole numbers.",
+      "opts": [
+        {
+          "t": "rational number",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "whole number",
+          "c": false,
+          "m": "Products can be fractions or negative numbers, which are not whole numbers."
+        },
+        {
+          "t": "positive integer",
+          "c": false,
+          "m": "Multiplying fractions can result in negative values or non-integers."
+        },
+        {
+          "t": "natural number",
+          "c": false,
+          "m": "Natural numbers exclude all negative values, fractions, and zero."
+        }
+      ],
+      "hints": {
+        "h1": "Recall the fundamental closure property under multiplication.",
+        "h2": "When two fractions in the form a/b and c/d are multiplied, the product (ac)/(bd) is also a ratio of integers.",
+        "h3": "Since the product of two integers is an integer, the result always fits the definition p/q.",
+        "h4": "Identify the broad number system that is closed under multiplication."
+      }
+    },
+    {
+      "id": "ad_1a_q3_a",
+      "tag": "AD Ex 1A Q3(a)",
+      "tier": "deep_dive",
+      "q": "Multiply: (4/7) by (-2/5)",
+      "ans": "-8/35",
+      "m": "Adding denominators or missing the negative sign when multiplying rational numbers.",
+      "opts": [
+        {
+          "t": "-8/35",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "8/35",
+          "c": false,
+          "m": "Positive times negative results in a negative product."
+        },
+        {
+          "t": "-2/35",
+          "c": false,
+          "m": "Subtracted the numerators instead of multiplying 4 by 2."
+        },
+        {
+          "t": "-8/12",
+          "c": false,
+          "m": "Added denominators together instead of multiplying them."
+        }
+      ],
+      "hints": {
+        "h1": "Identify the sign of each factor before multiplying.",
+        "h2": "The product of rational numbers equals (product of numerators) / (product of denominators).",
+        "h3": "Multiply 4 by -2 in the numerator, and 7 by 5 in the denominator.",
+        "h4": "Combine the numerator product and denominator product into a single fraction."
+      }
+    },
+    {
+      "id": "ad_1a_q3_b",
+      "tag": "AD Ex 1A Q3(b)",
+      "tier": "deep_dive",
+      "q": "Multiply: (-3/8) by (-12/15)",
+      "ans": "3/10",
+      "m": "Failing to cancel common factors before multiplying or applying negative sign to product of two negatives.",
+      "opts": [
+        {
+          "t": "3/10",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-3/10",
+          "c": false,
+          "m": "Two negative rational numbers multiply to yield a positive product."
+        },
+        {
+          "t": "9/40",
+          "c": false,
+          "m": "Made an error while cross-canceling common factors."
+        },
+        {
+          "t": "3/20",
+          "c": false,
+          "m": "Divided 12 and 8 by 2 instead of their greatest common divisor 4 during reduction."
+        }
+      ],
+      "hints": {
+        "h1": "Note that both factors are negative, so their product is positive.",
+        "h2": "Simplify -12/15 by dividing by 3 before multiplying.",
+        "h3": "Cross-cancel common factors between 3 and the denominator, and 8 and the numerator.",
+        "h4": "Multiply remaining simplified factors to express in standard form."
+      }
+    },
+    {
+      "id": "ad_1a_q3_c",
+      "tag": "AD Ex 1A Q3(c)",
+      "tier": "deep_dive",
+      "q": "Multiply: (11/-13) by (-39/22)",
+      "ans": "3/2",
+      "m": "Sign error with negative signs in numerator and denominator and failure to reduce.",
+      "opts": [
+        {
+          "t": "3/2",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-3/2",
+          "c": false,
+          "m": "Two negative fractions multiply to form a positive result."
+        },
+        {
+          "t": "1",
+          "c": false,
+          "m": "Over-cancelled factors during cross-simplification."
+        },
+        {
+          "t": "2/3",
+          "c": false,
+          "m": "Inverted the numerator and denominator factors during diagonal reduction."
+        }
+      ],
+      "hints": {
+        "h1": "Notice that both fractions have negative signs, making the overall product positive.",
+        "h2": "Look for common factors across diagonals: 11 with 22, and 13 with 39.",
+        "h3": "Cancel 11 and 22 to get 1 and 2; cancel 13 and 39 to get 1 and 3.",
+        "h4": "Multiply the remaining simplified integers in numerator and denominator."
+      }
+    },
+    {
+      "id": "ad_1a_q3_d",
+      "tag": "AD Ex 1A Q3(d)",
+      "tier": "deep_dive",
+      "q": "Multiply: (-5/9) by (81/35)",
+      "ans": "-9/7",
+      "m": "Forgetting the negative sign or not cross-canceling 9 into 81 and 5 into 35.",
+      "opts": [
+        {
+          "t": "-9/7",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "9/7",
+          "c": false,
+          "m": "A negative times a positive must result in a negative product."
+        },
+        {
+          "t": "-27/35",
+          "c": false,
+          "m": "Divided 81 by 3 instead of 9 during diagonal cancellation."
+        },
+        {
+          "t": "-7/9",
+          "c": false,
+          "m": "Inverted the final numerator and denominator."
+        }
+      ],
+      "hints": {
+        "h1": "Check the signs: one factor is negative and the other is positive.",
+        "h2": "Cross-cancel along both diagonals before multiplying.",
+        "h3": "Divide 81 by 9, and divide 35 by 5.",
+        "h4": "Multiply the resulting single-digit numbers and retain the negative sign."
+      }
+    },
+    {
+      "id": "ad_1a_q3_e",
+      "tag": "AD Ex 1A Q3(e)",
+      "tier": "deep_dive",
+      "q": "Multiply: (-9/25) by (-35/27)",
+      "ans": "7/15",
+      "m": "Sign confusion on double negatives and failing to cross-cancel.",
+      "opts": [
+        {
+          "t": "7/15",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-7/15",
+          "c": false,
+          "m": "Negative times negative yields a positive product."
+        },
+        {
+          "t": "5/9",
+          "c": false,
+          "m": "Swapped remaining factors after cross-cancellation."
+        },
+        {
+          "t": "15/7",
+          "c": false,
+          "m": "Inverted the final numerator and denominator after multiplying."
+        }
+      ],
+      "hints": {
+        "h1": "Both fractions are negative, so the product is positive.",
+        "h2": "Find common factors: 9 and 27 share factor 9; 25 and 35 share factor 5.",
+        "h3": "Cross-cancel common factors: divide 9 and 27 by their greatest common factor 9, and divide 35 and 25 by 5.",
+        "h4": "Multiply the simplified numerators and denominators together."
+      }
+    },
+    {
+      "id": "ad_1a_q3_f",
+      "tag": "AD Ex 1A Q3(f)",
+      "tier": "deep_dive",
+      "q": "Multiply: (-18/25) by (40/-36)",
+      "ans": "4/5",
+      "m": "Misinterpreting 40/-36 as positive or failing to reduce by common factors.",
+      "opts": [
+        {
+          "t": "4/5",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-4/5",
+          "c": false,
+          "m": "Both rational numbers are negative, producing a positive product."
+        },
+        {
+          "t": "2/5",
+          "c": false,
+          "m": "Divided 40 by 36 incorrectly during simplification."
+        },
+        {
+          "t": "8/5",
+          "c": false,
+          "m": "Failed to divide 40 by 2 after canceling 18 into 36."
+        }
+      ],
+      "hints": {
+        "h1": "Count the total number of negative signs in the expression.",
+        "h2": "Two negative signs in a multiplication yield a positive result.",
+        "h3": "Notice that 18 divides evenly into 36, and 5 divides both 40 and 25.",
+        "h4": "Multiply the remaining terms after canceling common factors."
+      }
+    },
+    {
+      "id": "ad_1a_q4_a",
+      "tag": "AD Ex 1A Q4(a)",
+      "tier": "deep_dive",
+      "q": "Divide: (16/7) by (-8/14)",
+      "ans": "-4",
+      "m": "Inverting the wrong fraction or missing the negative sign in rational division.",
+      "opts": [
+        {
+          "t": "-4",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "4",
+          "c": false,
+          "m": "Dividing positive by negative results in a negative quotient."
+        },
+        {
+          "t": "-1/4",
+          "c": false,
+          "m": "Inverted the dividend instead of the divisor."
+        },
+        {
+          "t": "-2",
+          "c": false,
+          "m": "Divided 16 by 8 but forgot to multiply by the inverted denominator."
+        }
+      ],
+      "hints": {
+        "h1": "Recall how division of fractions is converted into multiplication.",
+        "h2": "To divide by a rational number, multiply by its reciprocal: invert the second fraction.",
+        "h3": "Rewrite as 16/7 multiplied by 14/-8.",
+        "h4": "Cross-cancel 14 with 7, and 16 with -8 to evaluate the integer quotient."
+      }
+    },
+    {
+      "id": "ad_1a_q4_b",
+      "tag": "AD Ex 1A Q4(b)",
+      "tier": "deep_dive",
+      "q": "Divide: (-7/8) by (-21)",
+      "ans": "1/24",
+      "m": "Treating integer -21 as a multiplier rather than inverting to 1/-21.",
+      "opts": [
+        {
+          "t": "1/24",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-1/24",
+          "c": false,
+          "m": "Dividing two negative values results in a positive quotient."
+        },
+        {
+          "t": "24",
+          "c": false,
+          "m": "Inverted the final answer into an improper integer."
+        },
+        {
+          "t": "147/8",
+          "c": false,
+          "m": "Multiplied by -21 directly without taking its reciprocal."
+        }
+      ],
+      "hints": {
+        "h1": "Express the integer divisor -21 as a rational number -21/1.",
+        "h2": "Change division to multiplication by inverting -21/1 to 1/-21.",
+        "h3": "Notice that dividing negative by negative gives a positive quotient.",
+        "h4": "Cancel common factor 7 from both 7 and 21 to find the reduced denominator."
+      }
+    },
+    {
+      "id": "ad_1a_q4_c",
+      "tag": "AD Ex 1A Q4(c)",
+      "tier": "deep_dive",
+      "q": "Divide: (3/8) by (-4/5)",
+      "ans": "-15/32",
+      "m": "Multiplying straight across without taking the reciprocal of the divisor.",
+      "opts": [
+        {
+          "t": "-15/32",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "15/32",
+          "c": false,
+          "m": "A positive divided by a negative must yield a negative quotient."
+        },
+        {
+          "t": "-12/40",
+          "c": false,
+          "m": "Multiplied straight across without taking the reciprocal of the divisor."
+        },
+        {
+          "t": "-32/15",
+          "c": false,
+          "m": "Inverted both fractions rather than only the second fraction."
+        }
+      ],
+      "hints": {
+        "h1": "Identify the divisor fraction that must be inverted.",
+        "h2": "Replace division by multiplying by the reciprocal -5/4.",
+        "h3": "Set up the product: (3 * -5) over (8 * 4).",
+        "h4": "Multiply numerator and denominator to get the standard form."
+      }
+    },
+    {
+      "id": "ad_1a_q4_d",
+      "tag": "AD Ex 1A Q4(d)",
+      "tier": "deep_dive",
+      "q": "Divide: (-1/15) by (8/3)",
+      "ans": "-1/40",
+      "m": "Forgetting to invert the divisor fraction 8/3 to 3/8.",
+      "opts": [
+        {
+          "t": "-1/40",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "1/40",
+          "c": false,
+          "m": "Dropped the negative sign when dividing negative by positive."
+        },
+        {
+          "t": "-8/45",
+          "c": false,
+          "m": "Multiplied without inverting 8/3 into its reciprocal."
+        },
+        {
+          "t": "-40",
+          "c": false,
+          "m": "Took the reciprocal of the final answer instead of keeping it as a fraction."
+        }
+      ],
+      "hints": {
+        "h1": "Check which fraction is the divisor to be flipped.",
+        "h2": "Convert division into multiplication by 3/8.",
+        "h3": "Cross-cancel common factor 3 between 3 and 15.",
+        "h4": "Multiply the remaining denominator factors 5 and 8."
+      }
+    },
+    {
+      "id": "ad_1a_q4_e",
+      "tag": "AD Ex 1A Q4(e)",
+      "tier": "deep_dive",
+      "q": "Divide: (-3/26) by (9/78)",
+      "ans": "-1",
+      "m": "Failing to recognize that 9/78 reduces to 3/26, giving quotient -1.",
+      "opts": [
+        {
+          "t": "-1",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "1",
+          "c": false,
+          "m": "Dividing negative by positive must result in negative one."
+        },
+        {
+          "t": "-3",
+          "c": false,
+          "m": "Cancelled terms incorrectly during reciprocal multiplication."
+        },
+        {
+          "t": "-27/2028",
+          "c": false,
+          "m": "Multiplied fractions straight across without inverting the divisor."
+        }
+      ],
+      "hints": {
+        "h1": "Reduce the divisor 9/78 by dividing numerator and denominator by 3.",
+        "h2": "Observe that 9/78 simplifies to 3/26, matching the magnitude of the dividend.",
+        "h3": "Multiply -3/26 by the reciprocal 78/9.",
+        "h4": "All factors cancel out, leaving the negative sign intact."
+      }
+    },
+    {
+      "id": "ad_1a_q4_f",
+      "tag": "AD Ex 1A Q4(f)",
+      "tier": "deep_dive",
+      "q": "Divide: (-22/26) by (-33/39)",
+      "ans": "1",
+      "m": "Not reducing both fractions to -11/13 to see they are identical.",
+      "opts": [
+        {
+          "t": "1",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-1",
+          "c": false,
+          "m": "Dividing two negative rational numbers yields positive one."
+        },
+        {
+          "t": "2/3",
+          "c": false,
+          "m": "Failed to simplify fractions before computing the ratio."
+        },
+        {
+          "t": "726/858",
+          "c": false,
+          "m": "Calculated raw product without canceling identical fractions."
+        }
+      ],
+      "hints": {
+        "h1": "Simplify both fractions to standard form by dividing by common factors.",
+        "h2": "Notice -22/26 simplifies by 2, and -33/39 simplifies by 3.",
+        "h3": "Both fractions equal -11/13 in simplest form.",
+        "h4": "Dividing any non-zero number by itself produces positive one."
+      }
+    },
+    {
+      "id": "ad_1b_q2_a",
+      "tag": "AD Ex 1B Q2(a)",
+      "tier": "deep_dive",
+      "q": "Fill in the blank using Associative Property of Addition: [(1/11) + (2/13)] + (7/6) = (1/11) + [_____ + (7/6)]",
+      "ans": "2/13",
+      "m": "Altering signs or repeating existing terms when regrouping brackets.",
+      "opts": [
+        {
+          "t": "2/13",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "1/11",
+          "c": false,
+          "m": "Duplicated the first term which is already placed outside the bracket."
+        },
+        {
+          "t": "7/6",
+          "c": false,
+          "m": "Repeated the third term which is already inside the bracket."
+        },
+        {
+          "t": "-2/13",
+          "c": false,
+          "m": "Changed the sign of the addend; grouping does not alter signs."
+        }
+      ],
+      "hints": {
+        "h1": "Look at the three distinct fractions on the left side.",
+        "h2": "The Associative Property states: (a + b) + c = a + (b + c).",
+        "h3": "On the right side, a (1/11) and c (7/6) are already placed.",
+        "h4": "The middle term b must fill the vacant slot inside the bracket."
+      }
+    },
+    {
+      "id": "ad_1b_q2_b",
+      "tag": "AD Ex 1B Q2(b)",
+      "tier": "deep_dive",
+      "q": "Fill in the blank using Associative Property of Addition: (17/21) + [(-5/13) + (9/16)] = [(17/21) + _____] + (9/16)",
+      "ans": "-5/13",
+      "m": "Dropping the negative sign of the grouped middle rational addend during associative rearrangement.",
+      "opts": [
+        {
+          "t": "-5/13",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "5/13",
+          "c": false,
+          "m": "Dropped the negative sign of the middle addend."
+        },
+        {
+          "t": "17/21",
+          "c": false,
+          "m": "Duplicated the outer term already present inside the new bracket."
+        },
+        {
+          "t": "9/16",
+          "c": false,
+          "m": "Moved the third term into the bracket instead of keeping it outside."
+        }
+      ],
+      "hints": {
+        "h1": "Compare the grouping on the left with the grouping on the right.",
+        "h2": "The Associative Law regroups terms: a + (b + c) = (a + b) + c.",
+        "h3": "Identify which term plays the role of b between 17/21 and 9/16.",
+        "h4": "Ensure the sign of the rational number remains unchanged."
+      }
+    },
+    {
+      "id": "ad_1b_q2_c",
+      "tag": "AD Ex 1B Q2(c)",
+      "tier": "deep_dive",
+      "q": "Fill in the blank using Associative Property of Addition: [(-31/41)] + [(9/14) + (8/15)] = [_____ + (9/14)] + (8/15)",
+      "ans": "-31/41",
+      "m": "Dropping the negative sign of the first term when shifting brackets.",
+      "opts": [
+        {
+          "t": "-31/41",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "31/41",
+          "c": false,
+          "m": "Flipped the negative sign of the first rational number."
+        },
+        {
+          "t": "9/14",
+          "c": false,
+          "m": "Repeated the term already sitting in the bracket."
+        },
+        {
+          "t": "8/15",
+          "c": false,
+          "m": "Inserted the outside term into the inner position."
+        }
+      ],
+      "hints": {
+        "h1": "Identify the three addends being added together.",
+        "h2": "Associativity allows shifting brackets from the last two terms to the first two.",
+        "h3": "The new bracket groups the first addend with the second addend 9/14.",
+        "h4": "Place the first addend in the blank with its negative sign intact."
+      }
+    },
+    {
+      "id": "ad_1b_q2_d",
+      "tag": "AD Ex 1B Q2(d)",
+      "tier": "deep_dive",
+      "q": "Fill in the blank using Associative Property of Addition: [(2/7) + (3/8)] + (-9/14) = (2/7) + [(3/8) + _____]",
+      "ans": "-9/14",
+      "m": "Forgetting to copy the negative sign into the regrouped bracket.",
+      "opts": [
+        {
+          "t": "-9/14",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "9/14",
+          "c": false,
+          "m": "Omitted the negative sign when placing the third term into the bracket."
+        },
+        {
+          "t": "2/7",
+          "c": false,
+          "m": "Duplicated the first term which is now outside the bracket."
+        },
+        {
+          "t": "3/8",
+          "c": false,
+          "m": "Repeated the second term already present inside the bracket."
+        }
+      ],
+      "hints": {
+        "h1": "Note the position of the brackets on each side of the equation.",
+        "h2": "Associativity groups terms differently: (a + b) + c = a + (b + c).",
+        "h3": "The third addend c needs to move inside the bracket with b.",
+        "h4": "Keep both the magnitude and negative sign of c."
+      }
+    },
+    {
+      "id": "ad_1b_q3_a",
+      "tag": "AD Ex 1B Q3(a)",
+      "tier": "deep_dive",
+      "q": "State the property used in: (-2/5) + (3/7) = (3/7) + (-2/5)",
+      "ans": "Commutative Property of Addition",
+      "m": "Confusing Commutative (swapping 2 terms) with Associative (regrouping 3 terms).",
+      "opts": [
+        {
+          "t": "Commutative Property of Addition",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Associative Property of Addition",
+          "c": false,
+          "m": "Associative property involves regrouping three terms with brackets, not swapping two terms."
+        },
+        {
+          "t": "Closure Property of Addition",
+          "c": false,
+          "m": "Closure asserts the sum is rational, not that order can be swapped."
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "Distributivity involves both multiplication and addition together."
+        }
+      ],
+      "hints": {
+        "h1": "Observe how many terms are on each side and what changed.",
+        "h2": "Only two terms are involved, and their positions are interchanged.",
+        "h3": "The property stating that order of addition does not affect the sum is commutativity.",
+        "h4": "Select the property that specifically governs swapping two addends."
+      }
+    },
+    {
+      "id": "ad_1b_q3_b",
+      "tag": "AD Ex 1B Q3(b)",
+      "tier": "deep_dive",
+      "q": "State the property used in: (2/5) + [(9/7) + (-3/8)] = [(2/5) + (9/7)] + (-3/8)",
+      "ans": "Associative Property of Addition",
+      "m": "Confusing Associativity (grouping 3 terms) with Commutativity.",
+      "opts": [
+        {
+          "t": "Associative Property of Addition",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutative Property of Addition",
+          "c": false,
+          "m": "Commutative property swaps order of two terms; here grouping brackets among three terms changed."
+        },
+        {
+          "t": "Additive Identity Property",
+          "c": false,
+          "m": "Additive identity involves adding zero."
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "Distributive property links multiplication over addition, but only addition is present."
+        }
+      ],
+      "hints": {
+        "h1": "Count how many rational numbers are being added.",
+        "h2": "Notice that the order of the numbers is identical, but the brackets have shifted.",
+        "h3": "The rule (a + b) + c = a + (b + c) is called the Associative Property.",
+        "h4": "Choose the property defining grouping of three addends."
+      }
+    },
+    {
+      "id": "ad_1b_q3_c",
+      "tag": "AD Ex 1B Q3(c)",
+      "tier": "deep_dive",
+      "q": "State the property used in: (-3/7) + [(-5/8) + (9/4)] = [(-3/7) + (-5/8)] + (9/4)",
+      "ans": "Associative Property of Addition",
+      "m": "Mistaking associative bracket shifting for commutative order swapping.",
+      "opts": [
+        {
+          "t": "Associative Property of Addition",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutative Property of Addition",
+          "c": false,
+          "m": "Order of the three rational numbers did not swap; only the bracket grouping changed."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "Closure concerns whether the result stays in the set, not bracket placement."
+        },
+        {
+          "t": "Additive Inverse Property",
+          "c": false,
+          "m": "Additive inverse states that a number plus its negative equals zero."
+        }
+      ],
+      "hints": {
+        "h1": "Look at the sequence of terms from left to right on both sides.",
+        "h2": "The sequence of terms is unchanged: first, second, then third.",
+        "h3": "Only the parentheses have moved from the last pair to the first pair.",
+        "h4": "Select the property that allows regrouping addends."
+      }
+    },
+    {
+      "id": "ad_1b_q3_d",
+      "tag": "AD Ex 1B Q3(d)",
+      "tier": "deep_dive",
+      "q": "State the property used in: (3/10) + [(-11/15) + (9/-7)] = [(3/10) + (-11/15)] + (9/-7)",
+      "ans": "Associative Property of Addition",
+      "m": "Confusing bracket grouping of 3 terms with commutative swapping.",
+      "opts": [
+        {
+          "t": "Associative Property of Addition",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutative Property of Addition",
+          "c": false,
+          "m": "Commutativity alters sequence; here the sequence of terms remains identical."
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "No multiplication operation is present in this identity."
+        },
+        {
+          "t": "Additive Identity Property",
+          "c": false,
+          "m": "Identity property requires adding zero."
+        }
+      ],
+      "hints": {
+        "h1": "Observe that all operations involved are addition.",
+        "h2": "Three addends maintain their exact relative positions across the equals sign.",
+        "h3": "Brackets indicate which pair is summed first.",
+        "h4": "Identify the property governing bracket placement in addition."
+      }
+    },
+    {
+      "id": "ad_1c_q4_a",
+      "tag": "AD Ex 1C Q4(a)",
+      "tier": "deep_dive",
+      "q": "State the property used in: (2/7) * (13/11) = (13/11) * (2/7)",
+      "ans": "Commutative Property of Multiplication",
+      "m": "Confusing order-reversal of two factors with grouping of three factors or identity elements.",
+      "opts": [
+        {
+          "t": "Commutative Property of Multiplication",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Associative Property of Multiplication",
+          "c": false,
+          "m": "Associativity involves regrouping three factors with brackets."
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "Distributivity combines multiplication and addition, not two single factors."
+        },
+        {
+          "t": "Multiplicative Identity Property",
+          "c": false,
+          "m": "Identity property requires multiplying by one."
+        }
+      ],
+      "hints": {
+        "h1": "Look at the two factors on either side of the equals sign.",
+        "h2": "The equation illustrates that a * b equals b * a.",
+        "h3": "Changing the order of two factors without altering the product is commutativity.",
+        "h4": "Specify the operation: this is commutativity under multiplication."
+      }
+    },
+    {
+      "id": "ad_1c_q4_b",
+      "tag": "AD Ex 1C Q4(b)",
+      "tier": "deep_dive",
+      "q": "State the property used in: (-5/7) * [(6/11) * (7/13)] = [(-5/7) * (6/11)] * (7/13)",
+      "ans": "Associative Property of Multiplication",
+      "m": "Confusing Associativity with Distributivity or Commutativity.",
+      "opts": [
+        {
+          "t": "Associative Property of Multiplication",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutative Property of Multiplication",
+          "c": false,
+          "m": "Commutativity swaps factor sequence; here the grouping brackets shifted across three factors."
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "All operations are multiplication; no addition or subtraction is present."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "Closure asserts the product is rational, not how brackets are placed."
+        }
+      ],
+      "hints": {
+        "h1": "Examine how three factors are grouped using brackets.",
+        "h2": "The formula follows a * (b * c) = (a * b) * c.",
+        "h3": "Regrouping factors without changing their order demonstrates associativity.",
+        "h4": "Select the property that governs bracket grouping in multiplication."
+      }
+    },
+    {
+      "id": "ad_1c_q4_c",
+      "tag": "AD Ex 1C Q4(c)",
+      "tier": "deep_dive",
+      "q": "State the property used in: (1/7) * (3/5) = 3/35 is a rational number",
+      "ans": "Closure Property of Multiplication",
+      "m": "Confusing Closure (result belongs to the set) with Identity or Commutativity.",
+      "opts": [
+        {
+          "t": "Closure Property of Multiplication",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutative Property of Multiplication",
+          "c": false,
+          "m": "No swapping of factor order is being demonstrated here."
+        },
+        {
+          "t": "Multiplicative Identity Property",
+          "c": false,
+          "m": "Identity requires multiplying by one, which is not shown."
+        },
+        {
+          "t": "Associative Property",
+          "c": false,
+          "m": "Only two numbers are multiplied, so this is not associative grouping."
+        }
+      ],
+      "hints": {
+        "h1": "Read the statement carefully: it asserts that the product is a rational number.",
+        "h2": "When an operation on members of a set always produces a member of the same set, it is closed.",
+        "h3": "The product of two rational numbers is always rational: this is closure.",
+        "h4": "Identify the property ensuring results stay within the rational numbers."
+      }
+    },
+    {
+      "id": "ad_1c_q4_d",
+      "tag": "AD Ex 1C Q4(d)",
+      "tier": "deep_dive",
+      "q": "State the property used in: (7/11) * [(1/6) + (2/13)] = [(7/11) * (1/6)] + [(7/11) * (2/13)]",
+      "ans": "Distributive Property of Multiplication over Addition",
+      "m": "Confusing Distributive Property with Associative Property.",
+      "opts": [
+        {
+          "t": "Distributive Property of Multiplication over Addition",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Associative Property of Multiplication",
+          "c": false,
+          "m": "Associativity only uses one operation; here multiplication is distributed over addition."
+        },
+        {
+          "t": "Commutative Property of Addition",
+          "c": false,
+          "m": "The terms are being multiplied across brackets, not just swapped in order."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "This equation states an equality connecting two operations, not closure."
+        }
+      ],
+      "hints": {
+        "h1": "Notice that both multiplication and addition appear in the expression.",
+        "h2": "The factor outside the bracket multiplies each term inside: a * (b + c) = ab + ac.",
+        "h3": "This property distributes multiplication across an addition.",
+        "h4": "Select the property that bridges multiplication and addition."
+      }
+    },
+    {
+      "id": "ad_1c_q4_e",
+      "tag": "AD Ex 1C Q4(e)",
+      "tier": "deep_dive",
+      "q": "State the property used in: (-9/8) * 0 = 0 = 0 * (-9/8)",
+      "ans": "Multiplicative Property of Zero",
+      "m": "Confusing the multiplication by zero rule with additive or multiplicative identity properties.",
+      "opts": [
+        {
+          "t": "Multiplicative Property of Zero",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Additive Identity Property",
+          "c": false,
+          "m": "Additive identity states that adding zero leaves a number unchanged, not multiplying."
+        },
+        {
+          "t": "Multiplicative Identity Property",
+          "c": false,
+          "m": "Multiplicative identity involves multiplying by one, yielding the same number."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "This specifically highlights the zero product rule rather than general closure."
+        }
+      ],
+      "hints": {
+        "h1": "Look at the number being multiplied: zero.",
+        "h2": "Multiplying any rational number by zero always gives zero.",
+        "h3": "This rule is specifically known as the zero property of multiplication.",
+        "h4": "Distinguish between adding zero (identity) and multiplying by zero."
+      }
+    },
+    {
+      "id": "ad_1c_q4_f",
+      "tag": "AD Ex 1C Q4(f)",
+      "tier": "deep_dive",
+      "q": "State the property used in: 1 * (7/9) = 7/9",
+      "ans": "Multiplicative Identity (Property of 1)",
+      "m": "Confusing Multiplicative Identity (1) with Additive Identity (0) or Multiplicative Inverse.",
+      "opts": [
+        {
+          "t": "Multiplicative Identity (Property of 1)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Additive Identity Property",
+          "c": false,
+          "m": "Additive identity states that adding zero leaves a number unchanged."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "The equation specifically shows that 1 preserves the value of the factor."
+        },
+        {
+          "t": "Multiplicative Inverse Property",
+          "c": false,
+          "m": "Multiplicative inverse involves a number times its reciprocal equaling one."
+        }
+      ],
+      "hints": {
+        "h1": "Identify the special number being multiplied: 1.",
+        "h2": "Multiplying any rational number by 1 leaves its value unchanged.",
+        "h3": "1 is called the multiplicative identity element.",
+        "h4": "Choose the property confirming 1 as the multiplicative identity."
+      }
+    },
+    {
+      "id": "ad_presc_1_i",
+      "tag": "AD Prescribed Q1(i)",
+      "tier": "deep_dive",
+      "q": "Name the property under multiplication used in: (-4/5) * 1 = 1 * (-4/5) = -4/5",
+      "ans": "1 is the Multiplicative Identity",
+      "m": "Labeling the identity merely as commutativity instead of the multiplicative identity of 1.",
+      "opts": [
+        {
+          "t": "1 is the Multiplicative Identity",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutativity only",
+          "c": false,
+          "m": "While factors commute, the key identity highlighted by equality to the original factor is the property of one."
+        },
+        {
+          "t": "Multiplicative Inverse",
+          "c": false,
+          "m": "Inverse requires multiplying a fraction by its reciprocal to obtain one."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "Closure does not specifically focus on multiplication by one."
+        }
+      ],
+      "hints": {
+        "h1": "Notice the special role played by the number 1 in this equality.",
+        "h2": "When any rational number is multiplied by 1, the product is the number itself.",
+        "h3": "The prescribed board textbook specifically identifies this as 1 being the multiplicative identity.",
+        "h4": "Select the role of 1 under multiplication."
+      }
+    },
+    {
+      "id": "ad_presc_1_ii",
+      "tag": "AD Prescribed Q1(ii)",
+      "tier": "deep_dive",
+      "q": "Name the property under multiplication used in: (-13/17) * (-2/7) = (-2/7) * (-13/17)",
+      "ans": "Commutative Property of Multiplication",
+      "m": "Confusing Commutativity of two factors with Associativity.",
+      "opts": [
+        {
+          "t": "Commutative Property of Multiplication",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Associative Property of Multiplication",
+          "c": false,
+          "m": "Associativity requires three factors with shifting brackets."
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "No addition or subtraction occurs in this identity."
+        },
+        {
+          "t": "Multiplicative Identity",
+          "c": false,
+          "m": "Neither factor is the number 1."
+        }
+      ],
+      "hints": {
+        "h1": "Observe that exactly two factors are multiplied on each side.",
+        "h2": "The positions of the two fractions have been swapped: a * b = b * a.",
+        "h3": "This property is commutativity under multiplication.",
+        "h4": "Pick the commutative property for multiplication."
+      }
+    },
+    {
+      "id": "ad_presc_1_iii",
+      "tag": "AD Prescribed Q1(iii)",
+      "tier": "deep_dive",
+      "q": "Name the property under multiplication used in: (-19/29) * (29/-19) = 1",
+      "ans": "Multiplicative Inverse (Reciprocal Property)",
+      "m": "Confusing Multiplicative Inverse (product is 1) with Multiplicative Identity (multiplying by 1).",
+      "opts": [
+        {
+          "t": "Multiplicative Inverse (Reciprocal Property)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Multiplicative Identity Property",
+          "c": false,
+          "m": "Identity property involves multiplying by one to get the original number."
+        },
+        {
+          "t": "Closure Property",
+          "c": false,
+          "m": "Closure asserts the product is rational, not that it equals one."
+        },
+        {
+          "t": "Commutative Property",
+          "c": false,
+          "m": "This shows a number multiplied by its reciprocal, not just swapping order."
+        }
+      ],
+      "hints": {
+        "h1": "Examine the relationship between the two fractions: numerator and denominator are inverted.",
+        "h2": "When a fraction is multiplied by its reciprocal, the product equals 1.",
+        "h3": "The reciprocal is also called the multiplicative inverse.",
+        "h4": "Select the property that defines the multiplicative inverse."
+      }
+    },
+    {
+      "id": "ad_presc_2",
+      "tag": "AD Prescribed Q2",
+      "tier": "deep_dive",
+      "q": "Tell what property allows you to compute (1/3) * [6 * (4/3)] as [(1/3) * 6] * (4/3)",
+      "ans": "Associative Property of Multiplication",
+      "m": "Confusing associative regrouping with distributive property or commutativity.",
+      "opts": [
+        {
+          "t": "Associative Property of Multiplication",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Commutative Property of Multiplication",
+          "c": false,
+          "m": "Commutativity swaps two terms; here three terms have their grouping brackets shifted."
+        },
+        {
+          "t": "Distributive Property",
+          "c": false,
+          "m": "Only multiplication is present; there is no addition to distribute over."
+        },
+        {
+          "t": "Multiplicative Identity Property",
+          "c": false,
+          "m": "No multiplication by the identity element 1 is involved."
+        }
+      ],
+      "hints": {
+        "h1": "Observe that the order of the three numbers 1/3, 6, and 4/3 remains unchanged.",
+        "h2": "The brackets shift from grouping the last two numbers to grouping the first two.",
+        "h3": "Recall the formal name of the mathematical property defined by the identity a * (b * c) = (a * b) * c.",
+        "h4": "Select the property that permits regrouping in multiplication."
+      }
+    },
+    {
+      "id": "ad_1a_q5_a",
+      "tag": "AD Ex 1A Q5(a)",
+      "tier": "boss",
+      "q": "Simplify: [(3/2) * (-7/4) * (8/9)] - [(-15/2) * (3/7) * (8/14)]",
+      "ans": "-73/147",
+      "m": "Severe multi-step fraction error: mis-canceling terms or miscalculating the common denominator between 3 and 49.",
+      "opts": [
+        {
+          "t": "-73/147",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-13/21",
+          "c": false,
+          "m": "Relied on an inaccurate common denominator calculation that misstated the second bracket."
+        },
+        {
+          "t": "73/147",
+          "c": false,
+          "m": "Made a sign error when subtracting the negative second bracket value."
+        },
+        {
+          "t": "-61/84",
+          "c": false,
+          "m": "Mistook the second bracket denominator for 28 instead of 49."
+        }
+      ],
+      "hints": {
+        "h1": "Simplify the first bracket: cancel common factors between 2 * 4 and 8, and between 3 and 9.",
+        "h2": "Simplify the second bracket: reduce 8/14 to 4/7 and cross-cancel common factors.",
+        "h3": "The first bracket simplifies to -7/3 and the second bracket simplifies to -90/49.",
+        "h4": "Combine by subtracting: -7/3 minus (-90/49) with LCM 147."
+      }
+    },
+    {
+      "id": "ad_1a_q5_b",
+      "tag": "AD Ex 1A Q5(b)",
+      "tier": "boss",
+      "q": "Simplify: [(7/3) * (9/11)] + [(4/3) * (7/22)] - [(3/-11) * (-7/9)]",
+      "ans": "70/33",
+      "m": "Failing to simplify each bracket independently or mishandling signs across brackets.",
+      "opts": [
+        {
+          "t": "70/33",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "84/33",
+          "c": false,
+          "m": "Added all three terms instead of subtracting the third bracket."
+        },
+        {
+          "t": "-70/33",
+          "c": false,
+          "m": "Inverted the overall sign of the simplified multi-bracket expression."
+        },
+        {
+          "t": "56/33",
+          "c": false,
+          "m": "Subtracted the second bracket instead of adding it to the first."
+        }
+      ],
+      "hints": {
+        "h1": "Evaluate each of the three brackets separately before adding or subtracting.",
+        "h2": "Simplify: first bracket gives 21/11, second gives 14/33, and third gives 7/33.",
+        "h3": "Convert 21/11 into equivalent fraction with denominator 33 by multiplying by 3.",
+        "h4": "Combine numerators over 33: calculate 63 + 14 - 7."
+      }
+    },
+    {
+      "id": "ad_1b_q4",
+      "tag": "AD Ex 1B Q4",
+      "tier": "boss",
+      "q": "If a = 8/9 and b = -3/8, verify that a + b = b + a. What is the verified value of both sides?",
+      "ans": "37/72",
+      "m": "Failing to scale numerators by the LCM 72 or confusing the sign of 64 - 27.",
+      "opts": [
+        {
+          "t": "37/72",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-37/72",
+          "c": false,
+          "m": "Assigned a negative sign even though 64 is greater than 27."
+        },
+        {
+          "t": "91/72",
+          "c": false,
+          "m": "Added 64 and 27 instead of subtracting due to the negative sign."
+        },
+        {
+          "t": "5/72",
+          "c": false,
+          "m": "Subtracted the original numerators 8 minus 3 without scaling by LCM."
+        }
+      ],
+      "hints": {
+        "h1": "Find the least common denominator for the coprime denominators 9 and 8.",
+        "h2": "Calculate LHS: scale 8/9 to denominator 72, and -3/8 to denominator 72.",
+        "h3": "Calculate RHS: scale -3/8 to denominator 72, and 8/9 to denominator 72.",
+        "h4": "Subtract 27 from 64 in the numerator over 72 to verify both sides match."
+      }
+    },
+    {
+      "id": "ad_1c_q1_a",
+      "tag": "AD Ex 1C Q1(a)",
+      "tier": "boss",
+      "q": "Find the product and verify the Commutative Property of Multiplication: (1/11) * (6/7)",
+      "ans": "6/77",
+      "m": "Adding denominators or numerators instead of multiplying.",
+      "opts": [
+        {
+          "t": "6/77",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "7/77",
+          "c": false,
+          "m": "Added numerators instead of multiplying 1 by 6."
+        },
+        {
+          "t": "6/18",
+          "c": false,
+          "m": "Added denominators instead of multiplying 11 by 7."
+        },
+        {
+          "t": "-6/77",
+          "c": false,
+          "m": "Introduced a negative sign where both factors are positive."
+        }
+      ],
+      "hints": {
+        "h1": "Multiply the numerators together and the denominators together.",
+        "h2": "Commutative verification entails showing that the product of the two fractions remains identical when their factor positions are reversed.",
+        "h3": "Compute (1 * 6) / (11 * 7).",
+        "h4": "Verify that reversing the factor order produces the exact same fraction."
+      }
+    },
+    {
+      "id": "ad_1c_q1_b",
+      "tag": "AD Ex 1C Q1(b)",
+      "tier": "boss",
+      "q": "Find the product and verify the Commutative Property of Multiplication: (3/5) * [(-7/8)]",
+      "ans": "-21/40",
+      "m": "Missing the negative sign or adding denominators in rational multiplication.",
+      "opts": [
+        {
+          "t": "-21/40",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "21/40",
+          "c": false,
+          "m": "Positive times negative results in a negative product."
+        },
+        {
+          "t": "-4/13",
+          "c": false,
+          "m": "Added numerators and denominators instead of multiplying."
+        },
+        {
+          "t": "-21/13",
+          "c": false,
+          "m": "Added denominators 5 and 8 instead of computing their product."
+        }
+      ],
+      "hints": {
+        "h1": "Note the signs: a positive fraction multiplied by a negative fraction.",
+        "h2": "Compute product of numerators 3 * (-7) and product of denominators 5 * 8.",
+        "h3": "Verify commutativity by checking that (-7/8) * (3/5) gives the same product.",
+        "h4": "Combine numerator and denominator into standard form."
+      }
+    },
+    {
+      "id": "ad_1c_q1_c",
+      "tag": "AD Ex 1C Q1(c)",
+      "tier": "boss",
+      "q": "Find the product and verify the Commutative Property of Multiplication: [(-13/19)] * (7/8)",
+      "ans": "-91/152",
+      "m": "Dropping the negative sign or adding denominators instead of multiplying.",
+      "opts": [
+        {
+          "t": "-91/152",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "91/152",
+          "c": false,
+          "m": "Dropped the negative sign resulting from multiplying negative by positive."
+        },
+        {
+          "t": "-6/27",
+          "c": false,
+          "m": "Added terms rather than multiplying numerators and denominators."
+        },
+        {
+          "t": "-91/27",
+          "c": false,
+          "m": "Added the denominators 19 and 8 instead of multiplying them."
+        }
+      ],
+      "hints": {
+        "h1": "Multiply -13 by 7 to determine the numerator product.",
+        "h2": "Multiply 19 by 8 to determine the denominator product.",
+        "h3": "Verify commutativity by multiplying 7/8 by -13/19.",
+        "h4": "Confirm that both orders evaluate to the identical negative fraction."
+      }
+    },
+    {
+      "id": "ad_1c_q1_d",
+      "tag": "AD Ex 1C Q1(d)",
+      "tier": "boss",
+      "q": "Find the product and verify the Commutative Property of Multiplication: (-5/9) * [(-11/32)]",
+      "ans": "55/288",
+      "m": "Treating product of two negatives as negative or adding denominators.",
+      "opts": [
+        {
+          "t": "55/288",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-55/288",
+          "c": false,
+          "m": "Two negative rational numbers multiply to yield a positive product."
+        },
+        {
+          "t": "16/41",
+          "c": false,
+          "m": "Added the numerators and denominators instead of multiplying."
+        },
+        {
+          "t": "55/41",
+          "c": false,
+          "m": "Added denominators 9 and 32 instead of multiplying."
+        }
+      ],
+      "hints": {
+        "h1": "Both factors are negative rational numbers.",
+        "h2": "A negative multiplied by a negative always gives a positive product.",
+        "h3": "Multiply numerators -5 * -11, and multiply denominators 9 * 32.",
+        "h4": "Verify commutativity by reversing factor positions."
+      }
+    },
+    {
+      "id": "ad_1c_q2_a",
+      "tag": "AD Ex 1C Q2(a)",
+      "tier": "boss",
+      "q": "Find the product and verify the Associative Property of Multiplication: [(7/20) * (5/21)] * (1/3)",
+      "ans": "1/36",
+      "m": "Forgetting the third fraction or failing to cancel cross terms.",
+      "opts": [
+        {
+          "t": "1/36",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "1/12",
+          "c": false,
+          "m": "Forgot to multiply by the third fraction 1/3 outside the bracket."
+        },
+        {
+          "t": "1/4",
+          "c": false,
+          "m": "Multiplied by the reciprocal integer rather than the fractional factor."
+        },
+        {
+          "t": "1/18",
+          "c": false,
+          "m": "Made an error while canceling 7 into 21 and 5 into 20."
+        }
+      ],
+      "hints": {
+        "h1": "Simplify inside the bracket first: 7 cancels with 21 (3), and 5 cancels with 20 (4).",
+        "h2": "The bracket simplifies to 1/12.",
+        "h3": "Multiply 1/12 by the remaining factor 1/3.",
+        "h4": "Verify associativity by regrouping: 7/20 * (5/21 * 1/3)."
+      }
+    },
+    {
+      "id": "ad_1c_q2_b",
+      "tag": "AD Ex 1C Q2(b)",
+      "tier": "boss",
+      "q": "Find the product and verify the Associative Property of Multiplication: (2/7) * [(-7/3) * (6/-11)]",
+      "ans": "4/11",
+      "m": "Sign error on double negative inside bracket or mis-canceling 3 into 6 and 7 into 7.",
+      "opts": [
+        {
+          "t": "4/11",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "-4/11",
+          "c": false,
+          "m": "Missed that the bracket has two negative signs making it positive."
+        },
+        {
+          "t": "2/11",
+          "c": false,
+          "m": "Failed to multiply by the numerator factor 2 from 2/7."
+        },
+        {
+          "t": "7/11",
+          "c": false,
+          "m": "Cancelled the factor 2 with 7 mistakenly during cross-simplification."
+        }
+      ],
+      "hints": {
+        "h1": "Simplify the bracket: notice -7/3 multiplied by 6/-11 has two negatives.",
+        "h2": "Simplify within the bracket: divide 6 by 3 to leave a factor of 2, and note that both negative signs cancel to positive.",
+        "h3": "Combine the outer factor with the simplified bracket, canceling common factor 7 before completing the multiplication.",
+        "h4": "Verify associativity by grouping the first two terms together first."
+      }
+    },
+    {
+      "id": "ad_1c_q2_c",
+      "tag": "AD Ex 1C Q2(c)",
+      "tier": "boss",
+      "q": "Find the product and verify the Associative Property of Multiplication: [(-7/15) * (-2/9)] * [(-3/7)]",
+      "ans": "-2/45",
+      "m": "Odd number of negative signs yields negative product; failing to cancel 7 and 3.",
+      "opts": [
+        {
+          "t": "-2/45",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "2/45",
+          "c": false,
+          "m": "Three negative factors multiply to yield a negative result."
+        },
+        {
+          "t": "-14/945",
+          "c": false,
+          "m": "Multiplied without cross-canceling common factors 7 and 3."
+        },
+        {
+          "t": "-1/45",
+          "c": false,
+          "m": "Miscalculated numerator product after canceling common factors."
+        }
+      ],
+      "hints": {
+        "h1": "Count the negative signs: three negative factors produce a negative product.",
+        "h2": "Cross-cancel factor 7 with 7, and factor 3 with 9.",
+        "h3": "Multiply the remaining simplified factors across all three terms.",
+        "h4": "Verify associativity by regrouping the second and third factors."
+      }
+    },
+    {
+      "id": "ad_1c_q2_d",
+      "tag": "AD Ex 1C Q2(d)",
+      "tier": "boss",
+      "q": "Find the product and verify the Associative Property of Multiplication: (8/9) * [(-8/5) * (6/7)]",
+      "ans": "-128/105",
+      "m": "Failing to cancel factor 3 between 6 and 9 before multiplying.",
+      "opts": [
+        {
+          "t": "-128/105",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "128/105",
+          "c": false,
+          "m": "A positive times a negative times a positive must be negative."
+        },
+        {
+          "t": "-128/315",
+          "c": false,
+          "m": "Divided only the numerator by 3 while leaving the unreduced denominator intact."
+        },
+        {
+          "t": "-64/105",
+          "c": false,
+          "m": "Forgot to multiply by the factor 2 remaining from 6."
+        }
+      ],
+      "hints": {
+        "h1": "Look for cross-simplification between 6 in the numerator and 9 in the denominator.",
+        "h2": "Divide 6 and 9 by 3 to get 2 and 3.",
+        "h3": "Multiply the numerators: 8 * (-8) * 2.",
+        "h4": "Multiply the denominators: 3 * 5 * 7 to express in lowest terms."
+      }
+    },
+    {
+      "id": "ad_1c_q3_a",
+      "tag": "AD Ex 1C Q3(a)",
+      "tier": "boss",
+      "q": "Simplify and verify Distributive Property of Multiplication over Addition: (5/4) * [(-6/7) + (2/5)]",
+      "ans": "-4/7",
+      "m": "Forgetting to multiply by outside factor 5/4 or making sign error on -30 + 14.",
+      "opts": [
+        {
+          "t": "-4/7",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "4/7",
+          "c": false,
+          "m": "Assigned a positive sign despite the negative term -30 dominating +14."
+        },
+        {
+          "t": "-16/35",
+          "c": false,
+          "m": "Evaluated the inside bracket but forgot to multiply by the outside factor 5/4."
+        },
+        {
+          "t": "-20/28",
+          "c": false,
+          "m": "Distributed without simplifying the resulting fractions to standard form."
+        }
+      ],
+      "hints": {
+        "h1": "Find the common denominator for the terms inside the bracket: LCM(7, 5) = 35.",
+        "h2": "Combine inside bracket: -30/35 + 14/35 = -16/35.",
+        "h3": "Multiply 5/4 by -16/35, canceling 4 with -16, and 5 with 35.",
+        "h4": "Verify by computing the distributed form: (5/4 * -6/7) + (5/4 * 2/5)."
+      }
+    },
+    {
+      "id": "ad_1c_q3_b",
+      "tag": "AD Ex 1C Q3(b)",
+      "tier": "boss",
+      "q": "Simplify and verify Distributive Property of Multiplication over Addition: 3 * [(1/3) + (-5/11)]",
+      "ans": "-4/11",
+      "m": "Only multiplying the first term by 3 or reversing the sign of 1 - 15/11.",
+      "opts": [
+        {
+          "t": "-4/11",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "4/11",
+          "c": false,
+          "m": "Subtracted in reverse order; 1 minus 15/11 yields a negative fraction."
+        },
+        {
+          "t": "-14/11",
+          "c": false,
+          "m": "Subtracted 11 and 15 without common denominator scaling."
+        },
+        {
+          "t": "1",
+          "c": false,
+          "m": "Only multiplied 3 by 1/3 and discarded the second addend."
+        }
+      ],
+      "hints": {
+        "h1": "Apply the distributive property: multiply 3 by both 1/3 and -5/11.",
+        "h2": "3 * 1/3 simplifies to 1, and 3 * (-5/11) simplifies to -15/11.",
+        "h3": "Express 1 as 11/11 to subtract 15/11.",
+        "h4": "Evaluate 11/11 - 15/11 in the numerator."
+      }
+    },
+    {
+      "id": "ad_1c_q3_c",
+      "tag": "AD Ex 1C Q3(c)",
+      "tier": "boss",
+      "q": "Simplify and verify Distributive Property of Multiplication over Addition: 0 * [(1/2) + (2/5)]",
+      "ans": "0",
+      "m": "Computing the bracket sum 9/10 and forgetting to multiply by zero.",
+      "opts": [
+        {
+          "t": "0",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "9/10",
+          "c": false,
+          "m": "Computed the sum inside the bracket but forgot to multiply by zero."
+        },
+        {
+          "t": "1",
+          "c": false,
+          "m": "Confused the zero property of multiplication with identity."
+        },
+        {
+          "t": "1/10",
+          "c": false,
+          "m": "Subtracted terms inside bracket without applying the zero multiplier."
+        }
+      ],
+      "hints": {
+        "h1": "Notice the factor multiplying the bracket is zero.",
+        "h2": "By the zero property of multiplication, zero multiplied by any rational sum is zero.",
+        "h3": "Apply the distributive law: expand the expression by multiplying each addend inside the bracket separately by zero.",
+        "h4": "Sum the zero terms to find the final simplified value."
+      }
     }
   ]
 }

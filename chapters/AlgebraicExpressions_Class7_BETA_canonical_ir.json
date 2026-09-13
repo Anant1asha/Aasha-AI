@@ -1,0 +1,741 @@
+{
+  "schema_version": "1.1.0",
+  "chapter_metadata": {
+    "chapter_id": "c7_math_algebraic_expressions",
+    "title": "Algebraic Expressions",
+    "grade": 7,
+    "subject": "Mathematics",
+    "board": "NCERT",
+    "source_pdf_hash": "sha256_ncert_math_class7_ch12_algebraic_expressions"
+  },
+  "learning_objectives": [
+    {
+      "id": "obj:mathematics:c7:c7_math_algebraic_expressions:01",
+      "description": "Identify terms, factors, and numerical/algebraic coefficients in given expressions.",
+      "bloom_level": "understand",
+      "success_criteria": [
+        "List all terms in an expression",
+        "Identify numerical coefficients with correct signs"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c7:c7_math_algebraic_expressions:obj_1"
+      ]
+    },
+    {
+      "id": "obj:mathematics:c7:c7_math_algebraic_expressions:02",
+      "description": "Distinguish between like and unlike terms and combine like terms correctly.",
+      "bloom_level": "apply",
+      "success_criteria": [
+        "Group like terms with identical algebraic factors",
+        "Add and subtract algebraic expressions"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c7:c7_math_algebraic_expressions:obj_2"
+      ]
+    },
+    {
+      "id": "obj:mathematics:c7:c7_math_algebraic_expressions:03",
+      "description": "Formulate algebraic expressions from real-world contexts and evaluate them for given values.",
+      "bloom_level": "analyze",
+      "success_criteria": [
+        "Translate word statements into expressions",
+        "Evaluate expressions by numerical substitution"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c7:c7_math_algebraic_expressions:obj_3"
+      ]
+    }
+  ],
+  "concept_graph": [
+    {
+      "id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_1",
+      "name": "Terms and Coefficients",
+      "definition_raw": "An algebraic expression is formed from terms. For example, in \\(4x^2 - 3xy\\), the terms are \\(4x^2\\) and \\(-3xy\\). In the term \\(4x^2\\), 4 is the numerical coefficient and \\(x^2\\) is the variable factor.",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">An algebraic expression is formed from terms. For example, in \\(4x^2 - 3xy\\), the terms are \\(4x^2\\) and \\(-3xy\\). In the term \\(4x^2\\), 4 is the numerical coefficient and \\(x^2\\) is the variable factor.</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    },
+    {
+      "id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_2",
+      "name": "Like and Unlike Terms",
+      "definition_raw": "Terms having the exact same algebraic factors are called like terms, such as \\(2xy\\) and \\(-5xy\\). Terms with different algebraic factors are unlike terms, such as \\(2xy\\) and \\(2x\\).",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">Terms having the exact same algebraic factors are called like terms, such as \\(2xy\\) and \\(-5xy\\). Terms with different algebraic factors are unlike terms, such as \\(2xy\\) and \\(2x\\).</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    },
+    {
+      "id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_3",
+      "name": "Addition and Subtraction of Expressions",
+      "definition_raw": "Only like terms can be combined by adding or subtracting their coefficients. For example, \\(7x + 5x = (7+5)x = 12x\\), whereas unlike terms such as \\(7x + 5y\\) cannot be merged.",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">Only like terms can be combined by adding or subtracting their coefficients. For example, \\(7x + 5x = (7+5)x = 12x\\), whereas unlike terms such as \\(7x + 5y\\) cannot be merged.</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_1",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_2",
+      "name": "Add Unlike Terms",
+      "description": "Student combines coefficients of different variables, treating unlike terms as like terms (e.g. \\(2x + 3y = 5xy\\) or \\(4x + 3 = 7x\\)).",
+      "observable_signals": [
+        "signal:misc:mathematics:c7:c7_math_algebraic_expressions:m_1:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "Terms with distinct variable factors cannot be combined into a single term; they remain separate in the sum."
+    },
+    {
+      "id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_2",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_1",
+      "name": "Sign Inversion Error",
+      "description": "Student ignores the minus sign preceding a term, misidentifying negative coefficients as positive (e.g. coefficient of \\(-5x\\) reported as 5).",
+      "observable_signals": [
+        "signal:misc:mathematics:c7:c7_math_algebraic_expressions:m_2:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "The sign immediately preceding a term belongs to its coefficient. For \\(-5x\\), the numerical coefficient is \\(-5\\)."
+    },
+    {
+      "id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_3",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_2",
+      "name": "Exponent Confusion",
+      "description": "Student combines terms with the same variable letter but different exponents (e.g. treating \\(x^2\\) and \\(x\\) as like terms).",
+      "observable_signals": [
+        "signal:misc:mathematics:c7:c7_math_algebraic_expressions:m_3:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "Like terms require identical variables raised to identical powers. \\(x^2\\) and \\(x\\) have different powers and are unlike."
+    }
+  ],
+  "content_blocks": [
+    {
+      "id": "cnt:mathematics:c7:c7_math_algebraic_expressions:def_1",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_1",
+      "text_english": "An algebraic expression is formed from terms. For example, in \\(4x^2 - 3xy\\), the terms are \\(4x^2\\) and \\(-3xy\\). In the term \\(4x^2\\), 4 is the numerical coefficient and \\(x^2\\) is the variable factor.",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">An algebraic expression is formed from terms. For example, in \\(4x^2 - 3xy\\), the terms are \\(4x^2\\) and \\(-3xy\\). In the term \\(4x^2\\), 4 is the numerical coefficient and \\(x^2\\) is the variable factor.</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "algebraic expression": "बीजीय व्यंजक",
+          "algebraic": "बीजीय",
+          "expression": "व्यंजक",
+          "variable": "चर",
+          "constant": "अचर",
+          "coefficient": "गुणांक",
+          "coefficients": "गुणांक",
+          "term": "पद",
+          "terms": "पद",
+          "like terms": "समान पद",
+          "unlike terms": "असमान पद",
+          "factor": "गुणनखंड",
+          "factors": "गुणनखंड",
+          "numerical": "संख्यात्मक",
+          "addition": "योग",
+          "subtraction": "घटाव",
+          "perimeter": "परिमाप",
+          "rectangle": "आयत",
+          "value": "मान",
+          "power": "घात",
+          "powers": "घात"
+        }
+      },
+      "provenance_source": "pdf:sha256_ncert_math_class7_ch12_algebraic_expressions",
+      "fidelity_score": 1
+    },
+    {
+      "id": "cnt:mathematics:c7:c7_math_algebraic_expressions:def_2",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_2",
+      "text_english": "Terms having the exact same algebraic factors are called like terms, such as \\(2xy\\) and \\(-5xy\\). Terms with different algebraic factors are unlike terms, such as \\(2xy\\) and \\(2x\\).",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">Terms having the exact same algebraic factors are called like terms, such as \\(2xy\\) and \\(-5xy\\). Terms with different algebraic factors are unlike terms, such as \\(2xy\\) and \\(2x\\).</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "algebraic expression": "बीजीय व्यंजक",
+          "algebraic": "बीजीय",
+          "expression": "व्यंजक",
+          "variable": "चर",
+          "constant": "अचर",
+          "coefficient": "गुणांक",
+          "coefficients": "गुणांक",
+          "term": "पद",
+          "terms": "पद",
+          "like terms": "समान पद",
+          "unlike terms": "असमान पद",
+          "factor": "गुणनखंड",
+          "factors": "गुणनखंड",
+          "numerical": "संख्यात्मक",
+          "addition": "योग",
+          "subtraction": "घटाव",
+          "perimeter": "परिमाप",
+          "rectangle": "आयत",
+          "value": "मान",
+          "power": "घात",
+          "powers": "घात"
+        }
+      },
+      "provenance_source": "pdf:sha256_ncert_math_class7_ch12_algebraic_expressions",
+      "fidelity_score": 1
+    },
+    {
+      "id": "cnt:mathematics:c7:c7_math_algebraic_expressions:def_3",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_3",
+      "text_english": "Only like terms can be combined by adding or subtracting their coefficients. For example, \\(7x + 5x = (7+5)x = 12x\\), whereas unlike terms such as \\(7x + 5y\\) cannot be merged.",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">Only like terms can be combined by adding or subtracting their coefficients. For example, \\(7x + 5x = (7+5)x = 12x\\), whereas unlike terms such as \\(7x + 5y\\) cannot be merged.</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "algebraic expression": "बीजीय व्यंजक",
+          "algebraic": "बीजीय",
+          "expression": "व्यंजक",
+          "variable": "चर",
+          "constant": "अचर",
+          "coefficient": "गुणांक",
+          "coefficients": "गुणांक",
+          "term": "पद",
+          "terms": "पद",
+          "like terms": "समान पद",
+          "unlike terms": "असमान पद",
+          "factor": "गुणनखंड",
+          "factors": "गुणनखंड",
+          "numerical": "संख्यात्मक",
+          "addition": "योग",
+          "subtraction": "घटाव",
+          "perimeter": "परिमाप",
+          "rectangle": "आयत",
+          "value": "मान",
+          "power": "घात",
+          "powers": "घात"
+        }
+      },
+      "provenance_source": "pdf:sha256_ncert_math_class7_ch12_algebraic_expressions",
+      "fidelity_score": 1
+    }
+  ],
+  "experience_graph": {
+    "initial_state_id": "state:intro",
+    "states": [
+      {
+        "id": "state:intro",
+        "name": "Concept Discovery",
+        "type": "concept_card",
+        "content_ids": [
+          "cnt:mathematics:c7:c7_math_algebraic_expressions:def_1",
+          "cnt:mathematics:c7:c7_math_algebraic_expressions:def_2",
+          "cnt:mathematics:c7:c7_math_algebraic_expressions:def_3"
+        ]
+      },
+      {
+        "id": "state:sim",
+        "name": "Interactive Manipulative Lab",
+        "type": "interactive_sim",
+        "capability_id": "cap:mathematics:c7:c7_math_algebraic_expressions:sim_1",
+        "content_ids": []
+      },
+      {
+        "id": "state:assessment",
+        "name": "TEAS Diagnostic Challenge",
+        "type": "teas_assessment",
+        "content_ids": []
+      }
+    ],
+    "transitions": [
+      {
+        "from_state_id": "state:intro",
+        "to_state_id": "state:sim",
+        "trigger_event": "NEXT_CARD"
+      },
+      {
+        "from_state_id": "state:sim",
+        "to_state_id": "state:assessment",
+        "trigger_event": "MANIPULATIVE_COMPLETED"
+      }
+    ]
+  },
+  "visual_grammar": {
+    "spatial_model": "card_stack",
+    "density_tier": "compact_mobile",
+    "primary_color_theme": "#4F46E5",
+    "touch_target_min_px": 44
+  },
+  "assessment_items": [
+    {
+      "id": "ast:mathematics:c7:c7_math_algebraic_expressions:q_1",
+      "objective_id": "obj:mathematics:c7:c7_math_algebraic_expressions:01",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_1",
+      "question_type": "mcq",
+      "prompt": "In the algebraic expression \\(7x - 5y + 3\\), what is the numerical coefficient of the term containing \\(y\\)?",
+      "prompt_math_insulated": "In the algebraic expression \\(7x - 5y + 3\\), what is the numerical coefficient of the term containing \\(y\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_1_1",
+          "text": "\\(-5\\)",
+          "text_math_insulated": "\\(-5\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_1_2",
+          "text": "\\(5\\)",
+          "text_math_insulated": "\\(5\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_2",
+          "distractor_explanation": "The minus sign preceding the term forms part of the coefficient."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_1_3",
+          "text": "\\(7\\)",
+          "text_math_insulated": "\\(7\\)",
+          "is_correct": false,
+          "distractor_explanation": "This value corresponds to the coefficient of the variable x, not y."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_1_4",
+          "text": "\\(3\\)",
+          "text_math_insulated": "\\(3\\)",
+          "is_correct": false,
+          "distractor_explanation": "This number represents the constant term without any variable factor."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Find the term that contains the letter y.",
+        "H2_concept": "Look closely at the mathematical sign placed directly before 5y.",
+        "H3_formula": "A term includes its preceding operational symbol as part of the coefficient.",
+        "H4_step": "The term is -5y, meaning the numerical multiplier is -5."
+      }
+    },
+    {
+      "id": "ast:mathematics:c7:c7_math_algebraic_expressions:q_2",
+      "objective_id": "obj:mathematics:c7:c7_math_algebraic_expressions:02",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_2",
+      "question_type": "mcq",
+      "prompt": "Which of the following pairs contains like terms?",
+      "prompt_math_insulated": "Which of the following pairs contains like terms?",
+      "options": [
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_2_1",
+          "text": "\\(4ab\\) and \\(-7ba\\)",
+          "text_math_insulated": "\\(4ab\\) and \\(-7ba\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_2_2",
+          "text": "\\(4a\\) and \\(4b\\)",
+          "text_math_insulated": "\\(4a\\) and \\(4b\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_1",
+          "distractor_explanation": "Matching numerical multipliers does not make terms with differing variables like terms."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_2_3",
+          "text": "\\(3x^2\\) and \\(3x\\)",
+          "text_math_insulated": "\\(3x^2\\) and \\(3x\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_3",
+          "distractor_explanation": "Different powers on the variable prevent terms from being like terms."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_2_4",
+          "text": "\\(5xy\\) and \\(5x\\)",
+          "text_math_insulated": "\\(5xy\\) and \\(5x\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_1",
+          "distractor_explanation": "The variable factors must be completely identical in every component."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Focus solely on the variable letters and their powers.",
+        "H2_concept": "Order of multiplication does not change algebraic factors (ab equals ba).",
+        "H3_formula": "Both terms must share the exact same algebraic factors regardless of coefficient.",
+        "H4_step": "In 4ab and -7ba, the variable factors are a and b in both terms."
+      }
+    },
+    {
+      "id": "ast:mathematics:c7:c7_math_algebraic_expressions:q_3",
+      "objective_id": "obj:mathematics:c7:c7_math_algebraic_expressions:01",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_1",
+      "question_type": "mcq",
+      "prompt": "How many terms are in the expression \\(3x^2y - 2xy + 5x - 8\\)?",
+      "prompt_math_insulated": "How many terms are in the expression \\(3x^2y - 2xy + 5x - 8\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_3_1",
+          "text": "4 terms",
+          "text_math_insulated": "4 terms",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_3_2",
+          "text": "3 terms",
+          "text_math_insulated": "3 terms",
+          "is_correct": false,
+          "distractor_explanation": "Do not overlook the constant term at the end of the expression."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_3_3",
+          "text": "5 terms",
+          "text_math_insulated": "5 terms",
+          "is_correct": false,
+          "distractor_explanation": "Count only parts separated by plus and minus operators."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_3_4",
+          "text": "1 term",
+          "text_math_insulated": "1 term",
+          "is_correct": false,
+          "distractor_explanation": "Multiple parts separated by signs make this a multi-term expression."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Terms are separated by plus (+) and minus (-) operators.",
+        "H2_concept": "Count each separated piece including the constant number.",
+        "H3_formula": "Look at the chunks: 3x^2y, -2xy, 5x, and -8.",
+        "H4_step": "There are four distinct separated parts in this expression."
+      }
+    },
+    {
+      "id": "ast:mathematics:c7:c7_math_algebraic_expressions:q_4",
+      "objective_id": "obj:mathematics:c7:c7_math_algebraic_expressions:02",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_3",
+      "question_type": "mcq",
+      "prompt": "Simplify the expression by combining terms: \\(5x + 3y - 2x + 4y\\).",
+      "prompt_math_insulated": "Simplify the expression by combining terms: \\(5x + 3y - 2x + 4y\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_4_1",
+          "text": "\\(3x + 7y\\)",
+          "text_math_insulated": "\\(3x + 7y\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_4_2",
+          "text": "\\(10xy\\)",
+          "text_math_insulated": "\\(10xy\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_1",
+          "distractor_explanation": "Terms containing differing variables cannot be merged into a single product."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_4_3",
+          "text": "\\(7x + 7y\\)",
+          "text_math_insulated": "\\(7x + 7y\\)",
+          "is_correct": false,
+          "distractor_explanation": "Check the subtraction sign placed before 2x when grouping x terms."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_4_4",
+          "text": "\\(3x - y\\)",
+          "text_math_insulated": "\\(3x - y\\)",
+          "is_correct": false,
+          "distractor_explanation": "Notice both y terms have positive additions (3y and +4y)."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Group like terms with the same variable letter together.",
+        "H2_concept": "Combine the x terms: 5x - 2x, then combine the y terms: 3y + 4y.",
+        "H3_formula": "Calculate (5 - 2)x and (3 + 4)y separately.",
+        "H4_step": "5x - 2x yields 3x, and 3y + 4y yields 7y."
+      }
+    },
+    {
+      "id": "ast:mathematics:c7:c7_math_algebraic_expressions:q_5",
+      "objective_id": "obj:mathematics:c7:c7_math_algebraic_expressions:02",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_3",
+      "question_type": "mcq",
+      "prompt": "What is the result when \\(3a - 2b\\) is subtracted from \\(5a + 4b\\)?",
+      "prompt_math_insulated": "What is the result when \\(3a - 2b\\) is subtracted from \\(5a + 4b\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_5_1",
+          "text": "\\(2a + 6b\\)",
+          "text_math_insulated": "\\(2a + 6b\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_5_2",
+          "text": "\\(2a + 2b\\)",
+          "text_math_insulated": "\\(2a + 2b\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_2",
+          "distractor_explanation": "Subtracting a negative quantity results in adding that quantity: 4b - (-2b)."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_5_3",
+          "text": "\\(8a + 2b\\)",
+          "text_math_insulated": "\\(8a + 2b\\)",
+          "is_correct": false,
+          "distractor_explanation": "Subtract the coefficients of the second expression from the first: 5a - 3a."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_5_4",
+          "text": "\\(2a - 6b\\)",
+          "text_math_insulated": "\\(2a - 6b\\)",
+          "is_correct": false,
+          "distractor_explanation": "Carefully compute 4b - (-2b) = 4b + 2b."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Write out the full subtraction with brackets: (5a + 4b) - (3a - 2b).",
+        "H2_concept": "Distribute the negative sign across both terms inside the bracket.",
+        "H3_formula": "The operation becomes 5a + 4b - 3a + 2b.",
+        "H4_step": "Group: (5a - 3a) + (4b + 2b) = 2a + 6b."
+      }
+    },
+    {
+      "id": "ast:mathematics:c7:c7_math_algebraic_expressions:q_6",
+      "objective_id": "obj:mathematics:c7:c7_math_algebraic_expressions:03",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_1",
+      "question_type": "mcq",
+      "prompt": "Evaluate the expression \\(2x^2 - 3x + 5\\) when \\(x = 2\\).",
+      "prompt_math_insulated": "Evaluate the expression \\(2x^2 - 3x + 5\\) when \\(x = 2\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_6_1",
+          "text": "7",
+          "text_math_insulated": "7",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_6_2",
+          "text": "11",
+          "text_math_insulated": "11",
+          "is_correct": false,
+          "distractor_explanation": "Pay attention to the negative sign in front of 3x: 2(4) - 6 + 5."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_6_3",
+          "text": "15",
+          "text_math_insulated": "15",
+          "is_correct": false,
+          "distractor_explanation": "Evaluate powers before multiplication: x^2 = 4, then 2(4) = 8."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_6_4",
+          "text": "3",
+          "text_math_insulated": "3",
+          "is_correct": false,
+          "distractor_explanation": "Carry out operations in correct order: 8 - 6 + 5."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Substitute the number 2 in place of every x.",
+        "H2_concept": "Calculate powers first: 2^2 = 4.",
+        "H3_formula": "Multiply terms: 2(4) = 8, and 3(2) = 6.",
+        "H4_step": "Combine: 8 - 6 + 5 = 7."
+      }
+    },
+    {
+      "id": "ast:mathematics:c7:c7_math_algebraic_expressions:q_7",
+      "objective_id": "obj:mathematics:c7:c7_math_algebraic_expressions:03",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_3",
+      "question_type": "mcq",
+      "prompt": "A rectangular field has length \\((3x + 2)\\) meters and breadth \\((2x - 1)\\) meters. What is its perimeter?",
+      "prompt_math_insulated": "A rectangular field has length \\((3x + 2)\\) meters and breadth \\((2x - 1)\\) meters. What is its perimeter?",
+      "options": [
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_7_1",
+          "text": "\\(10x + 2\\) meters",
+          "text_math_insulated": "\\(10x + 2\\) meters",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_7_2",
+          "text": "\\(5x + 1\\) meters",
+          "text_math_insulated": "\\(5x + 1\\) meters",
+          "is_correct": false,
+          "distractor_explanation": "Perimeter calculation requires doubling the combined sum of dimensions rather than taking a single sum."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_7_3",
+          "text": "\\(6x^2 + x - 2\\) meters",
+          "text_math_insulated": "\\(6x^2 + x - 2\\) meters",
+          "is_correct": false,
+          "distractor_explanation": "This expression represents area (length times breadth), not perimeter."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_7_4",
+          "text": "\\(10x + 4\\) meters",
+          "text_math_insulated": "\\(10x + 4\\) meters",
+          "is_correct": false,
+          "distractor_explanation": "Check constant evaluation: evaluate 2 + (-1) and multiply by 2."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Perimeter of a rectangle is calculated as 2 * (length + breadth).",
+        "H2_concept": "First sum the expressions: (3x + 2) + (2x - 1).",
+        "H3_formula": "Combine like terms inside: 3x + 2x = 5x, and 2 - 1 = 1 to get (5x + 1).",
+        "H4_step": "Multiply the entire sum by 2: 2 * (5x + 1) = 10x + 2."
+      }
+    },
+    {
+      "id": "ast:mathematics:c7:c7_math_algebraic_expressions:q_8",
+      "objective_id": "obj:mathematics:c7:c7_math_algebraic_expressions:02",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_2",
+      "question_type": "mcq",
+      "prompt": "From the sum of \\(4 + 3x\\) and \\(5 - 4x + 2x^2\\), subtract the sum of \\(3x^2 - 5x\\) and \\(-x^2 + 2x + 5\\). What remains?",
+      "prompt_math_insulated": "From the sum of \\(4 + 3x\\) and \\(5 - 4x + 2x^2\\), subtract the sum of \\(3x^2 - 5x\\) and \\(-x^2 + 2x + 5\\). What remains?",
+      "options": [
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_8_1",
+          "text": "\\(2x + 4\\)",
+          "text_math_insulated": "\\(2x + 4\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_8_2",
+          "text": "\\(4x^2 + 2x + 4\\)",
+          "text_math_insulated": "\\(4x^2 + 2x + 4\\)",
+          "is_correct": false,
+          "distractor_explanation": "Check x^2 terms: subtracting identical quantities cancels the quadratic terms."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_8_3",
+          "text": "\\(-2x + 14\\)",
+          "text_math_insulated": "\\(-2x + 14\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_2",
+          "distractor_explanation": "Carefully compute constant terms: subtract 5 from the combined sum of 4 and 5."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_8_4",
+          "text": "\\(2x - 4\\)",
+          "text_math_insulated": "\\(2x - 4\\)",
+          "is_correct": false,
+          "distractor_explanation": "Notice positive constant remainder when subtracting 5 from 9."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Find sum A: (4 + 3x) + (5 - 4x + 2x^2) = 2x^2 - x + 9.",
+        "H2_concept": "Find sum B: (3x^2 - 5x) + (-x^2 + 2x + 5) = 2x^2 - 3x + 5.",
+        "H3_formula": "Subtract sum B from sum A: (2x^2 - x + 9) - (2x^2 - 3x + 5).",
+        "H4_step": "(2x^2 - 2x^2) + (-x - (-3x)) + (9 - 5) = 0 + 2x + 4."
+      }
+    },
+    {
+      "id": "ast:mathematics:c7:c7_math_algebraic_expressions:q_9",
+      "objective_id": "obj:mathematics:c7:c7_math_algebraic_expressions:03",
+      "concept_id": "cpt:mathematics:c7:c7_math_algebraic_expressions:c_3",
+      "question_type": "mcq",
+      "prompt": "What should be added to \\(x^2 + xy + y^2\\) to obtain \\(2x^2 + 3xy\\)?",
+      "prompt_math_insulated": "What should be added to \\(x^2 + xy + y^2\\) to obtain \\(2x^2 + 3xy\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_9_1",
+          "text": "\\(x^2 + 2xy - y^2\\)",
+          "text_math_insulated": "\\(x^2 + 2xy - y^2\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_9_2",
+          "text": "\\(x^2 + 2xy + y^2\\)",
+          "text_math_insulated": "\\(x^2 + 2xy + y^2\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c7:c7_math_algebraic_expressions:m_2",
+          "distractor_explanation": "Since the target has no y^2 term, y^2 must be subtracted (-y^2)."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_9_3",
+          "text": "\\(3x^2 + 4xy + y^2\\)",
+          "text_math_insulated": "\\(3x^2 + 4xy + y^2\\)",
+          "is_correct": false,
+          "distractor_explanation": "Subtract the original expression from the target expression, do not add them."
+        },
+        {
+          "id": "opt:mathematics:c7:c7_math_algebraic_expressions:q_9_4",
+          "text": "\\(x^2 + 4xy - y^2\\)",
+          "text_math_insulated": "\\(x^2 + 4xy - y^2\\)",
+          "is_correct": false,
+          "distractor_explanation": "Compute 3xy - xy = 2xy, not 4xy."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Let the required expression be E: (x^2 + xy + y^2) + E = 2x^2 + 3xy.",
+        "H2_concept": "Rearrange: E = (2x^2 + 3xy) - (x^2 + xy + y^2).",
+        "H3_formula": "Distribute the minus sign: 2x^2 + 3xy - x^2 - xy - y^2.",
+        "H4_step": "Combine like terms: (2x^2 - x^2) + (3xy - xy) - y^2 = x^2 + 2xy - y^2."
+      }
+    }
+  ],
+  "capability_requirements": [
+    {
+      "id": "cap:mathematics:c7:c7_math_algebraic_expressions:sim_1",
+      "purpose": "Interactive visual manipulative for concept exploration",
+      "interaction_type": "balance_beam",
+      "license_constraint": "MIT_NATIVE",
+      "sandbox_required": false
+    }
+  ],
+  "adaptive_policy": {
+    "max_retries": 3,
+    "dda_difficulty_step": 0.1,
+    "remediation_threshold": 0.6,
+    "teas_historical_weight": 0.6,
+    "teas_recent_weight": 0.4
+  },
+  "learner_agency": {
+    "self_pacing_allowed": true,
+    "can_skip_simulation": false,
+    "hint_request_allowed": true,
+    "max_hints_per_item": 4,
+    "preferred_modality": "multimodal"
+  },
+  "motivation_intent": {
+    "narrative_frame": "Discover the world of Algebraic Expressions",
+    "xp_reward_warmup": 5,
+    "xp_reward_deep_dive": 10,
+    "xp_reward_boss": 20,
+    "streak_contribution": true,
+    "celebration_intensity": "standard"
+  },
+  "accessibility_envelope": {
+    "min_viewport_width_px": 360,
+    "min_viewport_height_px": 640,
+    "target_aspect_ratios": [
+      "16:9",
+      "19.5:9",
+      "20:9"
+    ],
+    "touch_target_min_px": 44,
+    "primary_language": "hi",
+    "bilingual_pair": "en",
+    "reading_grade_level": 7,
+    "screen_reader_compatible": true,
+    "high_contrast_mode_supported": true,
+    "reduced_motion_supported": true,
+    "max_bundle_size_mb": 20,
+    "offline_first": true,
+    "cdn_dependencies_allowed": false
+  },
+  "experience_acceptance_contract": {
+    "min_objectives_covered": 3,
+    "min_assessment_items": 9,
+    "all_misconceptions_linked": true,
+    "zero_external_requests": true,
+    "zero_spoilers_in_distractors": true,
+    "zero_math_lle_collisions": true,
+    "scroll_height_lte_viewport": true,
+    "full_event_trace_verifiable": true,
+    "mastery_threshold_measurable": true
+  },
+  "compilation_manifest": {
+    "compiled_at": "2026-09-13T22:04:37.909Z",
+    "compiler_version": "v6-canonical-1.1.0",
+    "source_artifacts": [
+      "ingest_output.json",
+      "analysis_output.json",
+      "assessment_output.json",
+      "lle_output.json"
+    ],
+    "ir_hash": "sha256_1789337077911"
+  }
+}

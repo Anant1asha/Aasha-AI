@@ -1,0 +1,212 @@
+{
+  "provenance": {
+    "source": "CinePhysicsHQ",
+    "files_audited": [
+      "chapterData9.js",
+      "chapterData10.js",
+      "chapterData11.js",
+      "chapterData12.js"
+    ],
+    "usage": "Supporting micro-topic taxonomy metadata mapped under AASHA canonical curriculum authority"
+  },
+  "classes": {
+    "9": {
+      "subject": "Science / Physics",
+      "chapters": {
+        "Motion": [
+          "Distance and Displacement",
+          "Uniform and Non-Uniform Motion",
+          "Speed and Velocity",
+          "Acceleration",
+          "Graphical Representation of Motion",
+          "Equations of Motion by Graphical Method",
+          "Uniform Circular Motion"
+        ],
+        "Force and Laws of Motion": [
+          "Balanced and Unbalanced Forces",
+          "First Law of Motion",
+          "Inertia and Mass",
+          "Second Law of Motion",
+          "Momentum",
+          "Third Law of Motion",
+          "Conservation of Momentum"
+        ],
+        "Gravitation": [
+          "Gravitation and Universal Law of Gravitation",
+          "Free Fall",
+          "Acceleration due to Gravity",
+          "Mass and Weight",
+          "Thrust and Pressure",
+          "Archimedes Principle",
+          "Relative Density"
+        ],
+        "Work and Energy": [
+          "Work",
+          "Energy",
+          "Forms of Energy",
+          "Kinetic Energy",
+          "Potential Energy",
+          "Law of Conservation of Energy",
+          "Rate of Doing Work (Power)"
+        ],
+        "Sound": [
+          "Production of Sound",
+          "Propagation of Sound",
+          "Sound Waves as Longitudinal Waves",
+          "Characteristics of a Sound Wave",
+          "Speed of Sound in Different Media",
+          "Reflection of Sound",
+          "Echo and Reverberation",
+          "Uses of Multiple Reflection of Sound",
+          "Range of Hearing",
+          "Applications of Ultrasound",
+          "Structure of Human Ear"
+        ]
+      }
+    },
+    "10": {
+      "subject": "Science / Physics",
+      "chapters": {
+        "Light – Reflection and Refraction": [
+          "Reflection of Light",
+          "Spherical Mirrors",
+          "Image Formation by Spherical Mirrors",
+          "Mirror Formula and Magnification",
+          "Refraction of Light",
+          "Refraction through a Rectangular Glass Slab",
+          "Refractive Index",
+          "Refraction by Spherical Lenses",
+          "Image Formation by Lenses",
+          "Lens Formula and Magnification",
+          "Power of a Lens"
+        ],
+        "The Human Eye and the Colorful World": [
+          "The Human Eye",
+          "Power of Accommodation",
+          "Defects of Vision and Correction",
+          "Refraction of Light through a Prism",
+          "Dispersion of White Light by a Glass Prism",
+          "Atmospheric Refraction",
+          "Scattering of Light"
+        ],
+        "Electricity": [
+          "Electric Current and Circuit",
+          "Electric Potential and Potential Difference",
+          "Circuit Diagram",
+          "Ohm's Law",
+          "Factors on which Resistance Depends",
+          "Resistance of a System of Resistors (Series and Parallel)",
+          "Heating Effect of Electric Current",
+          "Electric Power"
+        ],
+        "Magnetic Effects of Electric Current": [
+          "Magnetic Field and Field Lines",
+          "Magnetic Field due to a Current-Carrying Conductor",
+          "Force on a Current-Carrying Conductor in a Magnetic Field",
+          "Electric Motor",
+          "Electromagnetic Induction",
+          "Electric Generator",
+          "Domestic Electric Circuits"
+        ]
+      }
+    },
+    "11": {
+      "subject": "Physics",
+      "chapters": {
+        "Units and Measurements": [
+          "Need for Measurement",
+          "Physical Quantities",
+          "Systems of Units",
+          "SI Units",
+          "Fundamental Units",
+          "Derived Units",
+          "Significant Figures",
+          "Errors in Measurement",
+          "Uncertainty in Results",
+          "Dimensions",
+          "Dimensional Formulae",
+          "Dimensional Analysis",
+          "Applications of Dimensional Analysis"
+        ],
+        "Motion in a Straight Line": [
+          "Frame of Reference",
+          "Motion in a Straight Line",
+          "Uniform Motion",
+          "Non-Uniform Motion",
+          "Average Speed",
+          "Average Velocity",
+          "Instantaneous Velocity",
+          "Acceleration",
+          "Velocity-Time Graphs",
+          "Position-Time Graphs",
+          "Equations of Motion"
+        ],
+        "Motion in a Plane": [
+          "Scalars and Vectors",
+          "Vector Addition and Subtraction",
+          "Resolution of Vectors",
+          "Scalar and Vector Product",
+          "Projectile Motion",
+          "Uniform Circular Motion"
+        ],
+        "Laws of Motion": [
+          "Inertia and Newton's Laws",
+          "Momentum and Impulse",
+          "Conservation of Linear Momentum",
+          "Static, Kinetic and Rolling Friction",
+          "Dynamics of Uniform Circular Motion"
+        ],
+        "Work, Energy and Power": [
+          "Work Done by Constant and Variable Forces",
+          "Kinetic and Potential Energy",
+          "Work-Energy Theorem",
+          "Conservative and Non-Conservative Forces",
+          "Elastic and Inelastic Collisions"
+        ],
+        "Gravitation": [
+          "Kepler's Laws",
+          "Universal Law of Gravitation",
+          "Acceleration Due to Gravity and Variations",
+          "Gravitational Potential Energy",
+          "Escape Velocity and Orbital Velocity"
+        ]
+      }
+    },
+    "12": {
+      "subject": "Physics",
+      "chapters": {
+        "Electric Charges and Fields": [
+          "Electric Charge",
+          "Conductors and Insulators",
+          "Coulomb's Law",
+          "Electric Field and Field Lines",
+          "Electric Dipole",
+          "Gauss's Law and Applications"
+        ],
+        "Electrostatic Potential and Capacitance": [
+          "Electrostatic Potential",
+          "Potential due to a Point Charge and Dipole",
+          "Equipotential Surfaces",
+          "Capacitors and Capacitance",
+          "Combinations of Capacitors",
+          "Energy Stored in a Capacitor"
+        ],
+        "Current Electricity": [
+          "Electric Current and Drift Velocity",
+          "Ohm's Law and Electrical Resistance",
+          "Temperature Dependence of Resistance",
+          "Kirchhoff's Rules",
+          "Wheatstone Bridge"
+        ],
+        "Moving Charges and Magnetism": [
+          "Biot-Savart Law",
+          "Ampere's Circuital Law",
+          "Lorentz Force",
+          "Motion of Charged Particle in B Field",
+          "Cyclotron",
+          "Moving Coil Galvanometer"
+        ]
+      }
+    }
+  }
+}

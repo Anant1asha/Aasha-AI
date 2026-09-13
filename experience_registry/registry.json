@@ -519,6 +519,54 @@
         "responsive_layout"
       ],
       "reuse_strategy": "EXTRACT"
+    },
+    {
+      "id": "F21",
+      "name": "CinePhysics Vernier Caliper Virtual Lab",
+      "repo": "https://github.com/Abhijit-CinePhysics/CinePhysicsHQ-Labs",
+      "license": "MIT",
+      "subjects": [
+        "Physics",
+        "Science"
+      ],
+      "classes": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "mechanics": [
+        "vernier_caliper_measurement",
+        "least_count_calculation",
+        "zero_error_calibration",
+        "interactive_jaw_physics",
+        "observation_notebook",
+        "magnifier_lens_overlay"
+      ],
+      "reuse_strategy": "EXTRACT",
+      "adapter": "experience_registry/adapters/aasha_cinephysics_caliper_adapter.js"
+    },
+    {
+      "id": "F22",
+      "name": "CinePhysics Dimensional Analysis Lab",
+      "repo": "https://github.com/Abhijit-CinePhysics/CinePhysicsHQ-Labs",
+      "license": "MIT",
+      "subjects": [
+        "Physics",
+        "Science"
+      ],
+      "classes": [
+        11,
+        12
+      ],
+      "mechanics": [
+        "dimensional_formula_building",
+        "buckingham_pi_derivation",
+        "unit_consistency_verification",
+        "chaos_dimensioneer_challenge"
+      ],
+      "reuse_strategy": "EXTRACT",
+      "adapter": "experience_registry/adapters/aasha_cinephysics_dimensional_adapter.js"
     }
   ],
   "secondary_libraries": {
