@@ -1,0 +1,740 @@
+{
+  "schema_version": "1.1.0",
+  "chapter_metadata": {
+    "chapter_id": "c8_math_linear_equations",
+    "title": "Linear Equations in One Variable",
+    "grade": 8,
+    "subject": "Mathematics",
+    "board": "NCERT",
+    "source_pdf_hash": "sha256_ncert_math_class8_ch02_linear_equations"
+  },
+  "learning_objectives": [
+    {
+      "id": "obj:mathematics:c8:c8_math_linear_equations:01",
+      "description": "Identify linear equations in one variable and understand the algebraic concept of equality between LHS and RHS.",
+      "bloom_level": "understand",
+      "success_criteria": [
+        "Distinguish equations from expressions",
+        "Identify Left Hand Side and Right Hand Side"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c8:c8_math_linear_equations:obj_1"
+      ]
+    },
+    {
+      "id": "obj:mathematics:c8:c8_math_linear_equations:02",
+      "description": "Solve linear equations with variables on one side using balance scale principles and inverse operations.",
+      "bloom_level": "apply",
+      "success_criteria": [
+        "Apply balanced operations to both sides",
+        "Isolate the variable accurately"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c8:c8_math_linear_equations:obj_2"
+      ]
+    },
+    {
+      "id": "obj:mathematics:c8:c8_math_linear_equations:03",
+      "description": "Solve linear equations with variables on both sides and formulate equations from real-world situations.",
+      "bloom_level": "analyze",
+      "success_criteria": [
+        "Transpose terms across equality with correct sign inversion",
+        "Translate word problems into linear equations"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c8:c8_math_linear_equations:obj_3"
+      ]
+    }
+  ],
+  "concept_graph": [
+    {
+      "id": "cpt:mathematics:c8:c8_math_linear_equations:c_1",
+      "name": "Linear Equations in One Variable",
+      "definition_raw": "An algebraic equation where the highest exponent of the variable is 1. An equation contains an equality symbol (\\(=\\)) establishing that the value of the Left Hand Side (LHS) equals the Right Hand Side (RHS), such as \\(2x - 3 = 7\\).",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">An algebraic equation where the highest exponent of the variable is 1. An equation contains an equality symbol (\\(=\\)) establishing that the value of the Left Hand Side (LHS) equals the Right Hand Side (RHS), such as \\(2x - 3 = 7\\).</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    },
+    {
+      "id": "cpt:mathematics:c8:c8_math_linear_equations:c_2",
+      "name": "Solving Equations via Balance Scale",
+      "definition_raw": "An equation is like a weighing balance in equilibrium. Performing identical mathematical operations on both sides preserves equality. To isolate \\(x\\), apply inverse operations: addition cancels subtraction, and multiplication cancels division.",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">An equation is like a weighing balance in equilibrium. Performing identical mathematical operations on both sides preserves equality. To isolate \\(x\\), apply inverse operations: addition cancels subtraction, and multiplication cancels division.</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    },
+    {
+      "id": "cpt:mathematics:c8:c8_math_linear_equations:c_3",
+      "name": "Variables on Both Sides and Transposition",
+      "definition_raw": "When variables appear on both sides of the equals sign, transposition moves a term from one side to the other by inverting its sign (+ becomes -, - becomes +). This groups all variable terms on one side and numerical constants on the other.",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">When variables appear on both sides of the equals sign, transposition moves a term from one side to the other by inverting its sign (+ becomes -, - becomes +). This groups all variable terms on one side and numerical constants on the other.</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "misc:mathematics:c8:c8_math_linear_equations:m_1",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_3",
+      "name": "Sign Inversion on Transposition",
+      "description": "Student moves a term across the equals sign without inverting its operational sign (e.g. changing \\(x + 5 = 12\\) to \\(x = 12 + 5\\) instead of \\(x = 12 - 5\\)).",
+      "observable_signals": [
+        "signal:misc:mathematics:c8:c8_math_linear_equations:m_1:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "Transposition is an abbreviation for applying the inverse operation to both sides. A positive term on one side becomes a subtracted term on the other side."
+    },
+    {
+      "id": "misc:mathematics:c8:c8_math_linear_equations:m_2",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_2",
+      "name": "Unbalanced Operation",
+      "description": "Student applies an arithmetic operation to only one side of the equation, violating balance equivalence (e.g. dividing LHS by 2 but leaving RHS unchanged).",
+      "observable_signals": [
+        "signal:misc:mathematics:c8:c8_math_linear_equations:m_2:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "Equality holds only when every operation performed on the Left Hand Side is mirrored identically on the Right Hand Side."
+    },
+    {
+      "id": "misc:mathematics:c8:c8_math_linear_equations:m_3",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_1",
+      "name": "Combining Unlike Terms",
+      "description": "Student attempts to combine a variable term and a numerical constant into a single term (e.g. treating \\(2x + 3\\) as \\(5x\\)).",
+      "observable_signals": [
+        "signal:misc:mathematics:c8:c8_math_linear_equations:m_3:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "Terms with variables and constant numbers have different algebraic dimensions and cannot be added together into a single product."
+    }
+  ],
+  "content_blocks": [
+    {
+      "id": "cnt:mathematics:c8:c8_math_linear_equations:def_1",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_1",
+      "text_english": "An algebraic equation where the highest exponent of the variable is 1. An equation contains an equality symbol (\\(=\\)) establishing that the value of the Left Hand Side (LHS) equals the Right Hand Side (RHS), such as \\(2x - 3 = 7\\).",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">An algebraic equation where the highest exponent of the variable is 1. An equation contains an equality symbol (\\(=\\)) establishing that the value of the Left Hand Side (LHS) equals the Right Hand Side (RHS), such as \\(2x - 3 = 7\\).</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "linear equation": "रैखिक समीकरण",
+          "linear equations": "रैखिक समीकरण",
+          "linear": "रैखिक",
+          "equation": "समीकरण",
+          "equations": "समीकरण",
+          "variable": "चर",
+          "variables": "चर",
+          "constant": "अचर",
+          "equality": "समानता (इक्वलिटी)",
+          "left hand side": "बायाँ पक्ष (LHS)",
+          "right hand side": "दायाँ पक्ष (RHS)",
+          "transposition": "पक्षांतरण (ट्रांसपोजिशन)",
+          "transpose": "पक्षांतरण करना",
+          "inverse operation": "व्युत्क्रम संक्रिया (इनवर्स ऑपरेशन)",
+          "balance scale": "तुला / तराजू",
+          "solution": "हल (सॉल्यूशन)",
+          "cross-multiplication": "वज्र-गुणन (क्रॉस मल्टीप्लिकेशन)",
+          "perimeter": "परिमाप",
+          "breadth": "चौड़ाई",
+          "length": "लंबाई"
+        }
+      },
+      "provenance_source": "pdf:sha256_ncert_math_class8_ch02_linear_equations",
+      "fidelity_score": 1
+    },
+    {
+      "id": "cnt:mathematics:c8:c8_math_linear_equations:def_2",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_2",
+      "text_english": "An equation is like a weighing balance in equilibrium. Performing identical mathematical operations on both sides preserves equality. To isolate \\(x\\), apply inverse operations: addition cancels subtraction, and multiplication cancels division.",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">An equation is like a weighing balance in equilibrium. Performing identical mathematical operations on both sides preserves equality. To isolate \\(x\\), apply inverse operations: addition cancels subtraction, and multiplication cancels division.</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "linear equation": "रैखिक समीकरण",
+          "linear equations": "रैखिक समीकरण",
+          "linear": "रैखिक",
+          "equation": "समीकरण",
+          "equations": "समीकरण",
+          "variable": "चर",
+          "variables": "चर",
+          "constant": "अचर",
+          "equality": "समानता (इक्वलिटी)",
+          "left hand side": "बायाँ पक्ष (LHS)",
+          "right hand side": "दायाँ पक्ष (RHS)",
+          "transposition": "पक्षांतरण (ट्रांसपोजिशन)",
+          "transpose": "पक्षांतरण करना",
+          "inverse operation": "व्युत्क्रम संक्रिया (इनवर्स ऑपरेशन)",
+          "balance scale": "तुला / तराजू",
+          "solution": "हल (सॉल्यूशन)",
+          "cross-multiplication": "वज्र-गुणन (क्रॉस मल्टीप्लिकेशन)",
+          "perimeter": "परिमाप",
+          "breadth": "चौड़ाई",
+          "length": "लंबाई"
+        }
+      },
+      "provenance_source": "pdf:sha256_ncert_math_class8_ch02_linear_equations",
+      "fidelity_score": 1
+    },
+    {
+      "id": "cnt:mathematics:c8:c8_math_linear_equations:def_3",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_3",
+      "text_english": "When variables appear on both sides of the equals sign, transposition moves a term from one side to the other by inverting its sign (+ becomes -, - becomes +). This groups all variable terms on one side and numerical constants on the other.",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">When variables appear on both sides of the equals sign, transposition moves a term from one side to the other by inverting its sign (+ becomes -, - becomes +). This groups all variable terms on one side and numerical constants on the other.</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "linear equation": "रैखिक समीकरण",
+          "linear equations": "रैखिक समीकरण",
+          "linear": "रैखिक",
+          "equation": "समीकरण",
+          "equations": "समीकरण",
+          "variable": "चर",
+          "variables": "चर",
+          "constant": "अचर",
+          "equality": "समानता (इक्वलिटी)",
+          "left hand side": "बायाँ पक्ष (LHS)",
+          "right hand side": "दायाँ पक्ष (RHS)",
+          "transposition": "पक्षांतरण (ट्रांसपोजिशन)",
+          "transpose": "पक्षांतरण करना",
+          "inverse operation": "व्युत्क्रम संक्रिया (इनवर्स ऑपरेशन)",
+          "balance scale": "तुला / तराजू",
+          "solution": "हल (सॉल्यूशन)",
+          "cross-multiplication": "वज्र-गुणन (क्रॉस मल्टीप्लिकेशन)",
+          "perimeter": "परिमाप",
+          "breadth": "चौड़ाई",
+          "length": "लंबाई"
+        }
+      },
+      "provenance_source": "pdf:sha256_ncert_math_class8_ch02_linear_equations",
+      "fidelity_score": 1
+    }
+  ],
+  "experience_graph": {
+    "initial_state_id": "state:intro",
+    "states": [
+      {
+        "id": "state:intro",
+        "name": "Concept Discovery",
+        "type": "concept_card",
+        "content_ids": [
+          "cnt:mathematics:c8:c8_math_linear_equations:def_1",
+          "cnt:mathematics:c8:c8_math_linear_equations:def_2",
+          "cnt:mathematics:c8:c8_math_linear_equations:def_3"
+        ]
+      },
+      {
+        "id": "state:sim",
+        "name": "Interactive Manipulative Lab",
+        "type": "interactive_sim",
+        "capability_id": "cap:mathematics:c8:c8_math_linear_equations:sim_1",
+        "content_ids": []
+      },
+      {
+        "id": "state:assessment",
+        "name": "TEAS Diagnostic Challenge",
+        "type": "teas_assessment",
+        "content_ids": []
+      }
+    ],
+    "transitions": [
+      {
+        "from_state_id": "state:intro",
+        "to_state_id": "state:sim",
+        "trigger_event": "NEXT_CARD"
+      },
+      {
+        "from_state_id": "state:sim",
+        "to_state_id": "state:assessment",
+        "trigger_event": "MANIPULATIVE_COMPLETED"
+      }
+    ]
+  },
+  "visual_grammar": {
+    "spatial_model": "card_stack",
+    "density_tier": "compact_mobile",
+    "primary_color_theme": "#4F46E5",
+    "touch_target_min_px": 44
+  },
+  "assessment_items": [
+    {
+      "id": "ast:mathematics:c8:c8_math_linear_equations:q_1",
+      "objective_id": "obj:mathematics:c8:c8_math_linear_equations:01",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_1",
+      "question_type": "mcq",
+      "prompt": "Which of the following mathematical statements is a linear equation in one variable?",
+      "prompt_math_insulated": "Which of the following mathematical statements is a linear equation in one variable?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_1_1",
+          "text": "\\(2x + 5 = 15\\)",
+          "text_math_insulated": "\\(2x + 5 = 15\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_1_2",
+          "text": "\\(2x + 5\\)",
+          "text_math_insulated": "\\(2x + 5\\)",
+          "is_correct": false,
+          "distractor_explanation": "An equation requires an equality symbol connecting two expressions; this represents an expression without equality."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_1_3",
+          "text": "\\(x^2 + 3 = 7\\)",
+          "text_math_insulated": "\\(x^2 + 3 = 7\\)",
+          "is_correct": false,
+          "distractor_explanation": "The highest power of the variable must equal 1 for linear equations; this option contains a quadratic exponent."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_1_4",
+          "text": "\\(2x + 3y = 8\\)",
+          "text_math_insulated": "\\(2x + 3y = 8\\)",
+          "is_correct": false,
+          "distractor_explanation": "A single variable letter must appear throughout; this statement includes two distinct variables."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Look for two requirements: an equals sign (=) and only one variable letter.",
+        "H2_concept": "Check the exponent of the variable: it must not have exponent 2 or higher.",
+        "H3_formula": "An equation has both an LHS and an RHS separated by =.",
+        "H4_step": "In 2x + 5 = 15, x represents the single variable with exponent 1."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_linear_equations:q_2",
+      "objective_id": "obj:mathematics:c8:c8_math_linear_equations:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_2",
+      "question_type": "mcq",
+      "prompt": "To solve the equation \\(x - 7 = 10\\), which operation should be applied to both sides?",
+      "prompt_math_insulated": "To solve the equation \\(x - 7 = 10\\), which operation should be applied to both sides?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_2_1",
+          "text": "Add 7 to both sides",
+          "text_math_insulated": "Add 7 to both sides",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_2_2",
+          "text": "Subtract 7 from both sides",
+          "text_math_insulated": "Subtract 7 from both sides",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_1",
+          "distractor_explanation": "Subtracting 7 doubles the negative offset on the left; apply addition to cancel subtraction."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_2_3",
+          "text": "Multiply both sides by 7",
+          "text_math_insulated": "Multiply both sides by 7",
+          "is_correct": false,
+          "distractor_explanation": "Multiplication inverts division rather than subtraction."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_2_4",
+          "text": "Divide both sides by 10",
+          "text_math_insulated": "Divide both sides by 10",
+          "is_correct": false,
+          "distractor_explanation": "Eliminate the number attached to the variable, not the independent constant on the opposite side."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Identify the operation currently attached to the variable x.",
+        "H2_concept": "The variable has 7 subtracted from it: (x - 7).",
+        "H3_formula": "The inverse mathematical operation of subtraction represents addition.",
+        "H4_step": "Adding 7 to both sides eliminates -7 from the LHS, isolating x."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_linear_equations:q_3",
+      "objective_id": "obj:mathematics:c8:c8_math_linear_equations:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_2",
+      "question_type": "mcq",
+      "prompt": "Solve for \\(x\\) in the equation: \\(3x = 18\\).",
+      "prompt_math_insulated": "Solve for \\(x\\) in the equation: \\(3x = 18\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_3_1",
+          "text": "\\(x = 6\\)",
+          "text_math_insulated": "\\(x = 6\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_3_2",
+          "text": "\\(x = 15\\)",
+          "text_math_insulated": "\\(x = 15\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_1",
+          "distractor_explanation": "The number 3 multiplies the variable; subtraction cannot cancel multiplication."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_3_3",
+          "text": "\\(x = 54\\)",
+          "text_math_insulated": "\\(x = 54\\)",
+          "is_correct": false,
+          "distractor_explanation": "Multiplication by 3 magnifies the variable side; apply division by 3."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_3_4",
+          "text": "\\(x = 21\\)",
+          "text_math_insulated": "\\(x = 21\\)",
+          "is_correct": false,
+          "distractor_explanation": "Addition cannot invert multiplication."
+        }
+      ],
+      "hints": {
+        "H1_hook": "3x represents the product of 3 and x.",
+        "H2_concept": "The inverse operation of multiplication by 3 represents division by 3.",
+        "H3_formula": "Divide both the Left Hand Side and Right Hand Side by 3.",
+        "H4_step": "18 divided by 3 isolates x."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_linear_equations:q_4",
+      "objective_id": "obj:mathematics:c8:c8_math_linear_equations:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_2",
+      "question_type": "mcq",
+      "prompt": "What is the solution to the linear equation: \\(2x + 3 = 11\\)?",
+      "prompt_math_insulated": "What is the solution to the linear equation: \\(2x + 3 = 11\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_4_1",
+          "text": "\\(x = 4\\)",
+          "text_math_insulated": "\\(x = 4\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_4_2",
+          "text": "\\(x = 7\\)",
+          "text_math_insulated": "\\(x = 7\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_1",
+          "distractor_explanation": "Moving +3 across equality requires subtraction, not addition."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_4_3",
+          "text": "\\(x = 2.2\\)",
+          "text_math_insulated": "\\(x = 2.2\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_3",
+          "distractor_explanation": "Variable terms and constant numbers cannot merge together; subtract the constant first."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_4_4",
+          "text": "\\(x = 14\\)",
+          "text_math_insulated": "\\(x = 14\\)",
+          "is_correct": false,
+          "distractor_explanation": "Both subtraction of 3 and division by 2 must occur in sequence."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Follow standard order: eliminate addition/subtraction before multiplication/division.",
+        "H2_concept": "First subtract 3 from both sides: 2x = 11 - 3.",
+        "H3_formula": "Compute 11 - 3 to obtain 2x = 8.",
+        "H4_step": "Finally divide 8 by 2 to isolate x."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_linear_equations:q_5",
+      "objective_id": "obj:mathematics:c8:c8_math_linear_equations:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_2",
+      "question_type": "mcq",
+      "prompt": "Solve for \\(x\\) in the fractional equation: \\(\\frac{x}{3} + \\frac{5}{2} = -\\frac{3}{2}\\).",
+      "prompt_math_insulated": "Solve for \\(x\\) in the fractional equation: \\(\\frac{x}{3} + \\frac{5}{2} = -\\frac{3}{2}\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_5_1",
+          "text": "\\(x = -12\\)",
+          "text_math_insulated": "\\(x = -12\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_5_2",
+          "text": "\\(x = 3\\)",
+          "text_math_insulated": "\\(x = 3\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_1",
+          "distractor_explanation": "Subtracting 5/2 from -3/2 maintains negative direction on the number line."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_5_3",
+          "text": "\\(x = -4\\)",
+          "text_math_insulated": "\\(x = -4\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_2",
+          "distractor_explanation": "After isolating the fraction, multiply both sides by the denominator."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_5_4",
+          "text": "\\(x = -6\\)",
+          "text_math_insulated": "\\(x = -6\\)",
+          "is_correct": false,
+          "distractor_explanation": "Check fraction arithmetic and remember multiplication by the denominator."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Isolate the variable fraction x/3 on the Left Hand Side.",
+        "H2_concept": "Subtract 5/2 from both sides: x/3 = -3/2 - 5/2.",
+        "H3_formula": "Combine fractions: (-3 - 5)/2 = -8/2 = -4.",
+        "H4_step": "Multiply -4 by 3 to clear the denominator."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_linear_equations:q_6",
+      "objective_id": "obj:mathematics:c8:c8_math_linear_equations:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_3",
+      "question_type": "mcq",
+      "prompt": "Solve the equation having variables on both sides: \\(6x + 1 = 2x + 17\\).",
+      "prompt_math_insulated": "Solve the equation having variables on both sides: \\(6x + 1 = 2x + 17\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_6_1",
+          "text": "\\(x = 4\\)",
+          "text_math_insulated": "\\(x = 4\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_6_2",
+          "text": "\\(x = 2\\)",
+          "text_math_insulated": "\\(x = 2\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_1",
+          "distractor_explanation": "Transposing 2x subtracts it from 6x; transposing +1 subtracts 1 from 17."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_6_3",
+          "text": "\\(x = 2.25\\)",
+          "text_math_insulated": "\\(x = 2.25\\)",
+          "is_correct": false,
+          "distractor_explanation": "Group variable terms together on one side and numerical constants on the other."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_6_4",
+          "text": "\\(x = 8\\)",
+          "text_math_insulated": "\\(x = 8\\)",
+          "is_correct": false,
+          "distractor_explanation": "Divide by the coefficient of the variable."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Group variable terms on the LHS and constant numbers on the RHS.",
+        "H2_concept": "Transpose 2x to the left: 6x - 2x = 4x.",
+        "H3_formula": "Transpose +1 to the right: 17 - 1 = 16.",
+        "H4_step": "Solve 4x = 16 by dividing both sides by 4."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_linear_equations:q_7",
+      "objective_id": "obj:mathematics:c8:c8_math_linear_equations:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_3",
+      "question_type": "mcq",
+      "prompt": "Solve the equation containing brackets: \\(5(x - 2) = 3(x + 4)\\).",
+      "prompt_math_insulated": "Solve the equation containing brackets: \\(5(x - 2) = 3(x + 4)\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_7_1",
+          "text": "\\(x = 11\\)",
+          "text_math_insulated": "\\(x = 11\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_7_2",
+          "text": "\\(x = 1\\)",
+          "text_math_insulated": "\\(x = 1\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_1",
+          "distractor_explanation": "Transposing -10 across equality changes sign from negative to positive."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_7_3",
+          "text": "\\(x = 7\\)",
+          "text_math_insulated": "\\(x = 7\\)",
+          "is_correct": false,
+          "distractor_explanation": "Multiply each term inside parentheses by the outside factor."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_7_4",
+          "text": "\\(x = 22\\)",
+          "text_math_insulated": "\\(x = 22\\)",
+          "is_correct": false,
+          "distractor_explanation": "Divide the combined constant by the variable multiplier."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Use the distributive property: 5*(x) - 5*(2) = 3*(x) + 3*(4).",
+        "H2_concept": "Expand both sides: 5x - 10 = 3x + 12.",
+        "H3_formula": "Group terms: 5x - 3x = 12 + 10.",
+        "H4_step": "2x = 22, which calculates x upon division by 2."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_linear_equations:q_8",
+      "objective_id": "obj:mathematics:c8:c8_math_linear_equations:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_3",
+      "question_type": "mcq",
+      "prompt": "The perimeter of a rectangle is 26 cm. If its length is 3 cm more than its breadth, what is its breadth?",
+      "prompt_math_insulated": "The perimeter of a rectangle is 26 cm. If its length is 3 cm more than its breadth, what is its breadth?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_8_1",
+          "text": "5 cm",
+          "text_math_insulated": "5 cm",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_8_2",
+          "text": "8 cm",
+          "text_math_insulated": "8 cm",
+          "is_correct": false,
+          "distractor_explanation": "This value represents rectangle length (breadth plus 3), not breadth."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_8_3",
+          "text": "10 cm",
+          "text_math_insulated": "10 cm",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_2",
+          "distractor_explanation": "Perimeter doubles the sum of dimensions; half the perimeter equals length plus breadth."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_8_4",
+          "text": "6.5 cm",
+          "text_math_insulated": "6.5 cm",
+          "is_correct": false,
+          "distractor_explanation": "Dividing by 4 assumes equal sides like a square; rectangles have unequal length and breadth."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Let breadth be b cm; then length represents (b + 3) cm.",
+        "H2_concept": "Perimeter formula equals 2 * (length + breadth) = 26.",
+        "H3_formula": "Substitute: 2 * ((b + 3) + b) = 2 * (2b + 3) = 26.",
+        "H4_step": "Simplify: 2b + 3 = 13, so 2b = 10, calculating breadth b = 5 cm."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_linear_equations:q_9",
+      "objective_id": "obj:mathematics:c8:c8_math_linear_equations:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_linear_equations:c_3",
+      "question_type": "mcq",
+      "prompt": "Solve the equation by cross-multiplication: \\(\\frac{2x - 1}{3} = \\frac{x + 2}{2}\\).",
+      "prompt_math_insulated": "Solve the equation by cross-multiplication: \\(\\frac{2x - 1}{3} = \\frac{x + 2}{2}\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_9_1",
+          "text": "\\(x = 8\\)",
+          "text_math_insulated": "\\(x = 8\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_9_2",
+          "text": "\\(x = 4\\)",
+          "text_math_insulated": "\\(x = 4\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_linear_equations:m_1",
+          "distractor_explanation": "Transposing -2 across equality adds 2 to the opposite side."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_9_3",
+          "text": "\\(x = -4\\)",
+          "text_math_insulated": "\\(x = -4\\)",
+          "is_correct": false,
+          "distractor_explanation": "Distribute the cross-multiplication factor across both terms in the numerator."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_linear_equations:q_9_4",
+          "text": "\\(x = 7\\)",
+          "text_math_insulated": "\\(x = 7\\)",
+          "is_correct": false,
+          "distractor_explanation": "Check cross-multiplication signs and transpositions."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Multiply each side by the common denominator 6, or cross-multiply numerators and denominators.",
+        "H2_concept": "Cross-multiply: 2 * (2x - 1) = 3 * (x + 2).",
+        "H3_formula": "Expand both sides: 4x - 2 = 3x + 6.",
+        "H4_step": "Transpose terms: 4x - 3x = 6 + 2, giving the final value of x."
+      }
+    }
+  ],
+  "capability_requirements": [
+    {
+      "id": "cap:mathematics:c8:c8_math_linear_equations:sim_1",
+      "purpose": "Interactive visual manipulative for concept exploration",
+      "interaction_type": "balance_beam",
+      "license_constraint": "MIT_NATIVE",
+      "sandbox_required": false
+    }
+  ],
+  "adaptive_policy": {
+    "max_retries": 3,
+    "dda_difficulty_step": 0.1,
+    "remediation_threshold": 0.6,
+    "teas_historical_weight": 0.6,
+    "teas_recent_weight": 0.4
+  },
+  "learner_agency": {
+    "self_pacing_allowed": true,
+    "can_skip_simulation": false,
+    "hint_request_allowed": true,
+    "max_hints_per_item": 4,
+    "preferred_modality": "multimodal"
+  },
+  "motivation_intent": {
+    "narrative_frame": "Discover the world of Linear Equations in One Variable",
+    "xp_reward_warmup": 5,
+    "xp_reward_deep_dive": 10,
+    "xp_reward_boss": 20,
+    "streak_contribution": true,
+    "celebration_intensity": "standard"
+  },
+  "accessibility_envelope": {
+    "min_viewport_width_px": 360,
+    "min_viewport_height_px": 640,
+    "target_aspect_ratios": [
+      "16:9",
+      "19.5:9",
+      "20:9"
+    ],
+    "touch_target_min_px": 44,
+    "primary_language": "hi",
+    "bilingual_pair": "en",
+    "reading_grade_level": 8,
+    "screen_reader_compatible": true,
+    "high_contrast_mode_supported": true,
+    "reduced_motion_supported": true,
+    "max_bundle_size_mb": 20,
+    "offline_first": true,
+    "cdn_dependencies_allowed": false
+  },
+  "experience_acceptance_contract": {
+    "min_objectives_covered": 3,
+    "min_assessment_items": 9,
+    "all_misconceptions_linked": true,
+    "zero_external_requests": true,
+    "zero_spoilers_in_distractors": true,
+    "zero_math_lle_collisions": true,
+    "scroll_height_lte_viewport": true,
+    "full_event_trace_verifiable": true,
+    "mastery_threshold_measurable": true
+  },
+  "compilation_manifest": {
+    "compiled_at": "2026-09-15T21:02:56.067Z",
+    "compiler_version": "v6-canonical-1.1.0",
+    "source_artifacts": [
+      "ingest_output.json",
+      "analysis_output.json",
+      "assessment_output.json",
+      "lle_output.json"
+    ],
+    "ir_hash": "sha256_1789506176068"
+  }
+}

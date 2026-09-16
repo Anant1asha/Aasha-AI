@@ -105,14 +105,61 @@ Model Required: NO (Deterministic Node.js / Python harness). In this Node.js wra
 };
 
 
-export async function runAgent(role: AgentRole, userPrompt: string, modelOverride?: string, conceptId?: string) {
+export interface QuarantinePacket {
+  quarantined: true;
+  role: AgentRole;
+  conceptId: string;
+  repairAttempts: number;
+  exhausted: boolean;
+  violations: any[];
+  rawContent: string;
+  quarantineTimestamp: string;
+  actionRequired: 'SUPER_ADMIN_INTERVENTION';
+}
+
+export class QuarantineError extends Error {
+  public packet: QuarantinePacket;
+  constructor(message: string, packet: QuarantinePacket) {
+    super(message);
+    this.name = 'QuarantineError';
+    this.packet = packet;
+  }
+}
+
+export interface RunAgentOptions {
+  modelOverride?: string;
+  conceptId?: string;
+  llmCompleter?: (req: any) => Promise<{ content: string; [key: string]: any }>;
+  maxRepairAttempts?: number;
+}
+
+export function getContextBus(): ContextBus {
+  return contextBus;
+}
+
+export async function runAgent(
+  role: AgentRole,
+  userPrompt: string,
+  optionsOrModelOverride?: string | RunAgentOptions,
+  legacyConceptId?: string
+) {
   const agent = AGENTS[role];
   if (!agent) throw new Error(`Agent ${role} not found.`);
+
+  // Support both legacy (role, prompt, modelOverride, conceptId) and new (role, prompt, options)
+  const options: RunAgentOptions = typeof optionsOrModelOverride === 'string'
+    ? { modelOverride: optionsOrModelOverride, conceptId: legacyConceptId }
+    : (optionsOrModelOverride || {});
+
+  const modelOverride = options.modelOverride;
+  const conceptId = options.conceptId || legacyConceptId;
+  const completer = options.llmCompleter || getLLMCompletion;
+  const maxRepairAttempts = options.maxRepairAttempts !== undefined ? options.maxRepairAttempts : 2;
 
   // Deterministic agents bypass the LLM entirely
   if (agent.taskType === 'deterministic' || agent.defaultModel.startsWith('deterministic/')) {
     console.log(`[Agent: ${role}] Executing deterministic script...`);
-    return { status: 'success', method: 'deterministic' };
+    return { status: 'success', method: 'deterministic', content: 'DETERMINISTIC_OK' };
   }
 
   console.log(`[Agent: ${role}] Starting task (taskType: ${agent.taskType})${modelOverride ? ` with model override: ${modelOverride}` : ''}`);
@@ -132,50 +179,232 @@ export async function runAgent(role: AgentRole, userPrompt: string, modelOverrid
   ];
 
   try {
-    let response = await getLLMCompletion({
+    let response = await completer({
       ...(modelOverride ? { model: modelOverride } : {}),
       taskType: agent.taskType,
       messages,
     });
 
-    // 2. AASHA Two-Phase Gatekeeper Validation
-    const content = response.content || JSON.stringify(response);
-    const audit = contextBus.validateOutput(content, role);
+    // 2. AASHA Two-Phase Gatekeeper Validation & Bounded 2-Tier Repair Loop
+    let content = response.content || JSON.stringify(response);
+    let audit = contextBus.validateOutput(content, role);
+    let repairAttempts = 0;
+
+    while (!audit.passed && repairAttempts < maxRepairAttempts) {
+      repairAttempts++;
+      console.warn(`[Agent: ${role}] AASHA Gatekeeper flagged violations (Repair Attempt ${repairAttempts}/${maxRepairAttempts}):`, audit.violations);
+      messages.push({ role: 'assistant', content });
+
+      const repairPrompt = repairAttempts === 1
+        ? (audit.repairPrompt || 'Fix all rule violations.')
+        : `[STRICT REPAIR ATTEMPT 2/2 — FINAL CHANCE BEFORE QUARANTINE]\n${audit.repairPrompt || 'Violations remain unresolved.'}\nPlease eliminate all remaining errors immediately.`;
+
+      messages.push({ role: 'user', content: repairPrompt });
+
+      response = await completer({
+        ...(modelOverride ? { model: modelOverride } : {}),
+        taskType: agent.taskType,
+        messages,
+      });
+
+      content = response.content || JSON.stringify(response);
+      audit = contextBus.validateOutput(content, role);
+    }
 
     if (!audit.passed) {
-      console.warn(`[Agent: ${role}] AASHA Gatekeeper flagged violations:`, audit.violations);
-      if (audit.repairPrompt) {
-        console.log(`[Agent: ${role}] Triggering autonomous self-repair loop...`);
-        messages.push({ role: 'assistant', content });
-        messages.push({ role: 'user', content: audit.repairPrompt });
-
-        response = await getLLMCompletion({
-          ...(modelOverride ? { model: modelOverride } : {}),
-          taskType: agent.taskType,
-          messages,
-        });
-      }
+      // REPAIR EXHAUSTION & QUARANTINE ACTIVATION
+      console.error(`[Agent: ${role}] Repair attempts exhausted (${repairAttempts}/${maxRepairAttempts}). Activating quarantine.`);
+      const packet: QuarantinePacket = {
+        quarantined: true,
+        role,
+        conceptId: conceptId || 'general_concept',
+        repairAttempts,
+        exhausted: true,
+        violations: audit.violations,
+        rawContent: content,
+        quarantineTimestamp: new Date().toISOString(),
+        actionRequired: 'SUPER_ADMIN_INTERVENTION',
+      };
+      // Quarantined content is NEVER banked in experience memory (prevents memory pollution)
+      throw new QuarantineError(`Agent ${role} failed validation after ${repairAttempts} repair attempts. Output quarantined.`, packet);
     }
 
     // 3. Record Successful Output into Experience Memory Bank
     try {
-      await contextBus.recordExperience(role, response.content || JSON.stringify(response), {
+      await contextBus.recordExperience(role, content, {
         taskType: agent.taskType,
         conceptId: conceptId || 'general_concept',
         gatekeeperPassed: true,
+        repairAttempts,
       });
     } catch (memErr) {
       console.warn(`[Agent: ${role}] Memory banking warning:`, memErr);
     }
 
-    console.log(`[Agent: ${role}] Task completed successfully.`);
+    console.log(`[Agent: ${role}] Task completed successfully (repairAttempts: ${repairAttempts}).`);
     return response;
   } catch (error) {
+    if (error instanceof QuarantineError) {
+      throw error;
+    }
     console.error(`[Agent: ${role}] Task failed:`, error);
     throw error;
   }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// PIPELINE ORCHESTRATION WITH FORK-JOIN CONCURRENCY & DOWNSTREAM BLOCKING
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface PipelineInput {
+  topic: string;
+  grade: number;
+  subject: string;
+  rawSourceText?: string;
+}
+
+export interface PipelineOptions {
+  concurrency?: boolean; // default: true
+  modelOverride?: string;
+  llmCompleter?: (req: any) => Promise<{ content: string; [key: string]: any }>;
+  maxRepairAttempts?: number;
+}
+
+export interface PipelineResult {
+  status: 'SUCCESS' | 'QUARANTINED' | 'FAILED';
+  analysis?: any;
+  design?: any;
+  assessment?: any;
+  lle?: any;
+  quarantinePacket?: QuarantinePacket;
+  blockedStages?: AgentRole[];
+  concurrencyMode: 'PARALLEL_FORK_JOIN' | 'SEQUENTIAL';
+}
+
+export function deepFreeze<T>(obj: T): T {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  Object.freeze(obj);
+  for (const key of Object.keys(obj)) {
+    const val = (obj as any)[key];
+    if (val !== null && typeof val === 'object' && !Object.isFrozen(val)) {
+      deepFreeze(val);
+    }
+  }
+  return obj;
+}
+
+export async function orchestrateChapterPipeline(
+  input: PipelineInput,
+  options: PipelineOptions = {}
+): Promise<PipelineResult> {
+  const useConcurrency = options.concurrency !== false;
+  const concurrencyMode = useConcurrency ? 'PARALLEL_FORK_JOIN' : 'SEQUENTIAL';
+  const conceptId = `${input.subject}_Class${input.grade}_${input.topic}`;
+
+  // Stage 1: Deterministic Ingest
+  await runAgent('IngestAgent', `Ingest text for ${conceptId}`, options);
+
+  // Stage 2: AnalysisAgent
+  let analysisResult: any;
+  try {
+    analysisResult = await runAgent(
+      'AnalysisAgent',
+      `Analyze curriculum for ${input.subject} Class ${input.grade}: ${input.topic}. Source: ${input.rawSourceText || ''}`,
+      { ...options, conceptId }
+    );
+  } catch (err: any) {
+    if (err instanceof QuarantineError) {
+      // DOWNSTREAM BLOCKING: Analysis failure blocks Design, Assessment, LLE, and QA
+      return {
+        status: 'QUARANTINED',
+        quarantinePacket: err.packet,
+        blockedStages: ['DesignAgent', 'AssessmentAgent', 'LLEAgent', 'QAAgent', 'BrowserTesterAgent'],
+        concurrencyMode,
+      };
+    }
+    throw err;
+  }
+
+  // UPSTREAM DEPENDENCY FREEZE POINT (Governed Fork-Join Precondition)
+  // Deep clone + recursive deepFreeze to prevent branch mutation of nested structures
+  const analysisSnapshot = JSON.parse(JSON.stringify(analysisResult.content || analysisResult));
+  const frozenContentMap = deepFreeze(analysisSnapshot);
+
+  let designResult: any;
+  let assessmentResult: any;
+  let lleResult: any;
+
+  if (useConcurrency) {
+    // Stage 3 (Parallel Fork-Join): Concurrently execute independent stages
+    try {
+      const [dRes, aRes, lRes] = await Promise.all([
+        runAgent(
+          'DesignAgent',
+          `Sequence pedagogical flow for: ${JSON.stringify(frozenContentMap)}`,
+          { ...options, conceptId }
+        ),
+        runAgent(
+          'AssessmentAgent',
+          `Create assessments with zero spoilers for: ${JSON.stringify(frozenContentMap)}`,
+          { ...options, conceptId }
+        ),
+        runAgent(
+          'LLEAgent',
+          `Translate and insulate math terms for: ${JSON.stringify(frozenContentMap)}`,
+          { ...options, conceptId }
+        ),
+      ]);
+      designResult = dRes;
+      assessmentResult = aRes;
+      lleResult = lRes;
+    } catch (err: any) {
+      if (err instanceof QuarantineError) {
+        // DOWNSTREAM BLOCKING: Any concurrent failure blocks Synthesis and QA
+        return {
+          status: 'QUARANTINED',
+          analysis: frozenContentMap,
+          quarantinePacket: err.packet,
+          blockedStages: ['QAAgent', 'BrowserTesterAgent'],
+          concurrencyMode,
+        };
+      }
+      throw err;
+    }
+  } else {
+    // Stage 3 (Sequential Fallback)
+    try {
+      designResult = await runAgent('DesignAgent', `Sequence pedagogical flow for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId });
+      assessmentResult = await runAgent('AssessmentAgent', `Create assessments with zero spoilers for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId });
+      lleResult = await runAgent('LLEAgent', `Translate and insulate math terms for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId });
+    } catch (err: any) {
+      if (err instanceof QuarantineError) {
+        return {
+          status: 'QUARANTINED',
+          analysis: frozenContentMap,
+          quarantinePacket: err.packet,
+          blockedStages: ['QAAgent', 'BrowserTesterAgent'],
+          concurrencyMode,
+        };
+      }
+      throw err;
+    }
+  }
+
+  // Stage 4: Deterministic QA
+  await runAgent('QAAgent', `Run L-Truth QA for ${conceptId}`, options);
+
+  // Deterministic Join: Stable assembly
+  return {
+    status: 'SUCCESS',
+    analysis: frozenContentMap,
+    design: designResult,
+    assessment: assessmentResult,
+    lle: lleResult,
+    concurrencyMode,
+  };
+}
 
 // Automated Verification Hook
 if (require.main === module) {

@@ -1,0 +1,18 @@
+﻿# HATCHABLE RISK REGISTER
+**Ecosystem**: Aasha-AIOS  
+**Authority**: Aasha-AIOS Governance  
+**Date**: 2026-09-17  
+
+---
+
+| ID | Description | Severity | Likelihood | Evidence | Mitigation Strategy | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **RSK-01** | **Offline Learner Violation** — Serving student chapters from Hatchable CDN breaks rural schools with no internet. | **CRITICAL** | **CERTAIN (1.0)** | Hatchable injects `/__hatchable/config.js` and `/__hatchable/badge.js` and requires online DNS. | Prohibit student chapters on Hatchable. Keep standalone single-file HTML offline bundles. | **MITIGATED BY ARCHITECTURE** |
+| **RSK-02** | **Child Data Privacy Leakage** — Unsanitized learning events transmitting student personal names or phone numbers to cloud database. | **CRITICAL** | **MEDIUM (0.4)** | Tested dirty payload intercepted by adapter with HTTP 422. | Automated regex/schema sanitization in `HatchableSyncAdapter` before transmission. Physical device uses local UUIDs. | **MITIGATED BY ADAPTER** |
+| **RSK-03** | **Vendor Lock-In (Proprietary SDK)** — Tight coupling of core education logic to `import { db, storage } from "hatchable"`. | **HIGH** | **HIGH (0.7)** | SDK is proprietary to Hatchable V8 isolate runtime. | Maintain strict interface boundary: Aasha Core -> Adapter -> Hatchable SDK. Never import SDK in canonical packages. | **MITIGATED BY ISOLATION** |
+| **RSK-04** | **Storage Link Expiration** — `storage.put()` returns S3 signed URLs with 1-hour expiration (`X-Amz-Expires=3600`). | **HIGH** | **CERTAIN (1.0)** | Empirical storage test verified `X-Amz-Expires=3600` query string. | Never use Hatchable object storage for public learning content. Use only for internal administrative archives. | **DOCUMENTED CONSTRAINT** |
+| **RSK-05** | **Platform Token Exposure** — Internal gateway and proxy tokens present in isolate `process.env`. | **MEDIUM** | **CERTAIN (1.0)** | Tested `/api/secrets/test` returned 4 internal Hatchable tokens in `process.env`. | Audit all dependencies; use strict `expose = false` in `hatchable.toml`. Prohibit untrusted third-party npm packages. | **ACCEPTED RISK (LOW SURFACE)** |
+| **RSK-06** | **Personal Visibility Sign-In Wall** — Personal tier projects show Hatchable sign-in wall to anonymous external callers. | **MEDIUM** | **CERTAIN (1.0)** | Observed unauthenticated calls redirecting to Hatchable login HTML. | Educator portals require collaborator bearer tokens, or project owner must flip project to Public in console settings. | **OPERATIONAL PROCEDURE** |
+| **RSK-07** | **PostgreSQL Connection Session State Loss** — Connection pool drops session-local variables (`lastval()`, `SET LOCAL`). | **MEDIUM** | **HIGH (0.8)** | Documented in Hatchable platform reference. | Enforce standard SQL with `RETURNING` clauses on all `INSERT`/`UPDATE` queries. | **ENFORCED IN CODE** |
+| **RSK-08** | **Free Tier Resource Exhaustion** — Rapid batch telemetry ingestion exhausting database storage or compute quotas. | **MEDIUM** | **LOW (0.2)** | Free tier covers personal projects with 10k monthly requests. | Implement batching in `HatchableSyncAdapter` (sync in bulk batches of 50 events rather than 1 request per event). | **DESIGN SPECIFIED** |
+| **RSK-09** | **Paid Gemini API Token Bleed** — External AI tools accidentally falling back to paid Gemini keys. | **CRITICAL** | **LOW (0.1)** | Antigravity system rules enforce `ALLOW_PAID_GEMINI_FALLBACK=false` and Tier 1 OpenRouter pool. | Explicit circuit breaker `assertGeminiAuthorized()` strictly enforced; zero AI calls made from isolate without human key paste. | **VERIFIED HARD GATE** |

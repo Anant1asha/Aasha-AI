@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "2.0.0",
+  "orchestration_standard": "TypeScript/Node agent_orchestrator + ContextBus",
+  "description": "Canonical multi-agent registry for Annanth Aasha Learning Ecosystem",
+  "agents": [
+    {
+      "id": "AGT-001",
+      "name": "IngestAgent",
+      "type": "deterministic",
+      "runtime": "python",
+      "entry_point": "src/aasha/agents/ingest_agent.py",
+      "responsibility": "PDF structural and text extraction using PyMuPDF",
+      "outputs": ["raw_extract.json"],
+      "parallelizable": false,
+      "hil_gate": false
+    },
+    {
+      "id": "AGT-002",
+      "name": "AnalysisAgent",
+      "type": "llm",
+      "runtime": "node",
+      "routing": "openrouter/free",
+      "contract": "content_map_schema",
+      "responsibility": "Pedagogical concept mapping into 3-5 core Concept Nodes",
+      "outputs": ["content_map.json"],
+      "parallelizable": false,
+      "hil_gate": false
+    },
+    {
+      "id": "AGT-003",
+      "name": "DesignAgent",
+      "type": "llm",
+      "runtime": "node",
+      "routing": "openrouter/free",
+      "contract": "chapter_spec_schema",
+      "responsibility": "Pedagogical sequencing and Experience Warehouse foundation binding",
+      "outputs": ["design_branch.json"],
+      "parallelizable": true,
+      "hil_gate": false
+    },
+    {
+      "id": "AGT-004",
+      "name": "AssessmentAgent",
+      "type": "llm",
+      "runtime": "node",
+      "routing": "openrouter/free",
+      "contract": "question_schema",
+      "responsibility": "3-tier gamified assessment and zero-spoiler misconception explanations",
+      "outputs": ["assessment_branch.json"],
+      "parallelizable": true,
+      "hil_gate": false
+    },
+    {
+      "id": "AGT-005",
+      "name": "LLEAgent",
+      "type": "llm",
+      "runtime": "node",
+      "routing": "openrouter/free",
+      "contract": "lle_schema",
+      "responsibility": "Bilingual Indic/Hindi Word Map and phonetics with math insulation",
+      "outputs": ["lle_branch.json"],
+      "parallelizable": true,
+      "hil_gate": false
+    },
+    {
+      "id": "AGT-006",
+      "name": "QAAgent",
+      "type": "deterministic",
+      "runtime": "node",
+      "entry_point": "benchmarks/qa_ltruth_benchmark.js",
+      "responsibility": "L-Truth 200+ evaluation check, anti-spoiler audit, math-rt collision scan",
+      "outputs": ["qa_report.json"],
+      "parallelizable": true,
+      "hil_gate": false
+    },
+    {
+      "id": "AGT-007",
+      "name": "BrowserTesterAgent",
+      "type": "deterministic",
+      "runtime": "node",
+      "entry_point": "scripts/automated_browser_verification.js",
+      "responsibility": "Headless Chrome CDP verification, 44x44px touch targets, mobile viewport invariants",
+      "outputs": ["browser_test_report.json"],
+      "parallelizable": true,
+      "hil_gate": true
+    }
+  ]
+}

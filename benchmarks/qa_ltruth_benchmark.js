@@ -418,7 +418,8 @@ if (fileArgIdx !== -1 && args[fileArgIdx + 1]) {
     resolveChapterPath('Class8_Math_Ch02_Gamified.html'),
     resolveChapterPath('RationalNumbers_Class8_Gamified_v5_Enhanced_v6.html'),
     resolveChapterPath('ExponentsPowers_Class8_Gamified_v5_Enhanced_v6.html'),
-    resolveChapterPath('RationalNumbers_Class8_AD.html')
+    resolveChapterPath('RationalNumbers_Class8_AD.html'),
+    resolveChapterPath('LinearEquations_Class8_v6.html')
   ].filter(p => fs.existsSync(p));
 }
 

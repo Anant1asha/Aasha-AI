@@ -1,0 +1,22 @@
+﻿# HATCHABLE RESOURCE UTILIZATION MATRIX
+**Ecosystem**: Aasha-AIOS  
+**Authority**: Aasha-AIOS Canonical Governance  
+**Target Repository**: `Anant1asha/Aasha-AI`  
+**Date**: 2026-09-17  
+**Evaluation Mode**: Autonomous / Evidence-First / No-Presumption  
+
+---
+
+| Component | Current Aasha Implementation | Hatchable Capability | Compatibility | Effort | Performance | Cost | Portability | Security | Lock-in | Decision | Evidence |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Aasha-AIOS Governance & Agent Rights** | Canonical `AGENTS.md`, 6-stage pipeline, truth-seeking protocol | None (External compute host only) | Incompatible to replace | High (Forbidden) | N/A | N/A | High | High | Extreme | **DO_NOT_TOUCH** | Section 5 of Spec; AIOS governance is sovereign and vendor-neutral. |
+| **Pedagogical Concept DAG & TEAS Engine** | Pure TypeScript / Python deterministic logic (`packages/`) | None (Domain agnostic) | Incompatible to delegate | Extreme (Forbidden) | N/A | N/A | High | High | High | **DO_NOT_TOUCH** | Learning truth & mastery algorithms must run offline on student device. |
+| **Student Offline Chapter HTML Runtime** | Single-file HTML bundle, embedded KaTeX/Canvas, 0 network requests | Static file CDN (`public/`) | Low (Injects badge/scripts, requires cloud origin) | Medium | Excellent (<10ms local) | Zero | 100% Portable | High | High | **DO_NOT_TOUCH** | Fails Section 20 Offline-First Gate. Student tablets have zero internet. |
+| **Central Telemetry Ingestion API** | Node.js HTTP server (`services/api/src/server.js`) | V8 Isolate Serverless Functions (`api/events.js`) | High (92%) | Low (Drop-in file routes) | 18–56ms response | Free Tier Eligible | High (Adapter decoupled) | High (PII filter enforced) | Low | **REPLACE_WITH_HATCHABLE_CANDIDATE** | `api/events.js` tested: 202 Accepted, 56ms write, 422 PII block. |
+| **Central Database & Event Store** | Planned Postgres (`database/schema.sql`) / Local JSONL | Dedicated PostgreSQL RDS (AWS `us-east-1`) | High (95%) | Very Low (Exact DDL match) | 17–28ms queries | Free Tier Eligible | 100% SQL Standard (pg_dump) | High (VPC/RDS Isolation) | Very Low | **REPLACE_WITH_HATCHABLE_CANDIDATE** | All 5 tables created; constraints, JSONB indexing & idempotency verified. |
+| **Teacher / Cohort Impact Reporting** | In-memory JSONL reduce in `services/api` | Serverless API + SQL `COUNT(DISTINCT)` | High (95%) | Low (Standard SQL) | 20–29ms aggregation | Free Tier Eligible | High (Standard SQL) | High (Aggregate only, zero PII) | Very Low | **REPLACE_WITH_HATCHABLE_CANDIDATE** | `GET /api/impact` returned `{ studentsReached: 2, events: 6 }` in 24ms. |
+| **Learner Device Authentication** | Anonymous device-generated UUIDs stored in IndexedDB | Passwordless Email Magic Link (`[auth]`) | Incompatible (Students have no email/cloud access) | High (Violates model) | N/A | Free | Low | High | High | **DO_NOT_TOUCH** | Violates Section 21 Child Privacy Gate and Section 20 Offline Gate. |
+| **Educator / NGO Staff Authentication** | Hardcoded matrix in `auth.js` | Collaborator auth (`access = "member"` / `access = "admin"`) | High (88%) | Low | Fast (Edge gated) | Free | Medium | High (WebCrypto PBKDF2) | Low | **ADAPT** | Tested via `api/roles/check.js`. Edge-gates non-staff callers cleanly. |
+| **Curriculum & Asset Blob Storage** | Local filesystem / Base64 inline in HTML | Hatchable Object Storage (`import { storage }`) | Medium (72%) | Low | 148ms Put, 62ms Get | S3 Bandwidth Quota | Medium (Signed S3 URLs, 1h expiry) | Medium (S3 query params) | Low | **ADAPT** (For Backups Only) | Put/Get/Del tested in 243ms; fails offline gate for learner devices. |
+| **Recurring Maintenance & Integrity Crons** | Manual OS crons / PM2 background workers | Declared Serverless Scheduler (`export const schedule`) | High (96%) | Very Low (1 line of code) | 10ms execution | Free | High (5-field standard cron) | High (Edge 404 to external HTTP) | Very Low | **REPLACE_WITH_HATCHABLE_CANDIDATE** | Task 196440 registered at `0 9 * * *`; external HTTP returned 404. |
+| **Secrets & Credential Management** | Local `.env` with Zero-Token Bleed guardrails | Hatchable Secrets Vault (`hatchable.toml`) | Medium (85%) | Low | Instant | Free | High | Medium (Platform env tokens present) | Low | **KEEP** Local .env; **ADAPT** for cloud deploy | Platform tokens exposed in `process.env`; `.env` circuit breaker preferred. |
