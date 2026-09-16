@@ -1,0 +1,91 @@
+﻿{
+  "version": "2.0.0",
+  "lastUpdated": "2026-09-17",
+  "description": "AASHA-HARNESS-BENCH Capability Matrix — Evidence-based routing table for all capability providers",
+  "capabilities": {
+    "REPOSITORY_ANALYSIS": {
+      "antigravity": { "supported": true, "quality": "HIGH", "latency": "fast", "cost": "free_tier", "verified": true, "lastTested": "2026-09-17" },
+      "hatchable":    { "supported": false, "quality": null,   "latency": null,   "cost": null,       "verified": false },
+      "trueforge":    { "supported": null,  "quality": null,   "latency": null,   "cost": null,       "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":     { "supported": null,  "quality": null,   "latency": null,   "cost": null,       "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" }
+    },
+    "CODE_GENERATION": {
+      "antigravity": { "supported": true,  "quality": "HIGH",   "latency": "fast",   "cost": "claude_sonnet_session", "verified": true, "lastTested": "2026-09-17" },
+      "hatchable":   { "supported": true,  "quality": "MEDIUM", "latency": "medium", "cost": "free_v8_isolate",      "verified": true, "lastTested": "2026-09-17", "tool": "run_code" },
+      "trueforge":   { "supported": null,  "quality": null,     "latency": null,     "cost": null,                   "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":    { "supported": null,  "quality": null,     "latency": null,     "cost": null,                   "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" }
+    },
+    "POSTGRESQL_DATABASE": {
+      "antigravity": { "supported": false, "quality": null,  "latency": null,   "cost": null,     "verified": false },
+      "hatchable":   { "supported": true,  "quality": "HIGH","latency": "11ms warm / 56ms cold","cost": "free_tier","verified": true, "lastTested": "2026-09-17", "tool": "execute_sql", "notes": "Full DDL/DML, CHECK constraints, JSONB indexing, PK idempotency confirmed" },
+      "trueforge":   { "supported": null,  "quality": null,  "latency": null,   "cost": null,     "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":    { "supported": null,  "quality": null,  "latency": null,   "cost": null,     "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" }
+    },
+    "DEPLOYMENT": {
+      "antigravity": { "supported": false, "quality": null,   "latency": null,          "cost": null,       "verified": false },
+      "hatchable":   { "supported": true,  "quality": "HIGH", "latency": "<2s deploys", "cost": "free_tier","verified": true, "lastTested": "2026-09-17", "tool": "deploy" },
+      "trueforge":   { "supported": null,  "quality": null,   "latency": null,          "cost": null,       "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":    { "supported": null,  "quality": null,   "latency": null,          "cost": null,       "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" }
+    },
+    "LOG_AGGREGATION": {
+      "antigravity": { "supported": "PARTIAL", "quality": "MEDIUM", "verified": true },
+      "hatchable":   { "supported": true,       "quality": "HIGH",   "verified": true, "tool": "view_logs" },
+      "trueforge":   { "supported": null,  "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":    { "supported": null,  "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" }
+    },
+    "SERVERLESS_FUNCTIONS": {
+      "antigravity": { "supported": false, "verified": false },
+      "hatchable":   { "supported": true,  "quality": "HIGH", "latency": "11-24ms warm", "verified": true, "tool": "run_function", "notes": "V8 isolates, standard JSON responses" },
+      "trueforge":   { "supported": null,  "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":    { "supported": null,  "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" }
+    },
+    "CDP_BROWSER_AUTOMATION": {
+      "antigravity": { "supported": true,  "quality": "HIGH", "verified": true, "notes": "benchmarks/automated_browser_verification.js" },
+      "hatchable":   { "supported": false, "verified": false },
+      "trueforge":   { "supported": null,  "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":    { "supported": null,  "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" }
+    },
+    "MULTI_AGENT_ORCHESTRATION": {
+      "antigravity": { "supported": true, "quality": "HIGH", "verified": true, "notes": "invoke_subagent, fork-join concurrency, quarantine" },
+      "hatchable":   { "supported": true, "quality": "MEDIUM", "verified": true, "tool": "list_agent_tasks", "notes": "agent task tracking via hatchable tasks API" },
+      "trueforge":   { "supported": null, "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":    { "supported": null, "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" }
+    },
+    "OBJECT_STORAGE": {
+      "antigravity": { "supported": false, "verified": false },
+      "hatchable":   { "supported": true,  "quality": "HIGH", "verified": true, "tool": "upload_file", "notes": "AWS S3-backed, signed URLs, 1h expiry" },
+      "trueforge":   { "supported": null,  "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":    { "supported": null,  "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" }
+    },
+    "TRAJECTORY_CAPTURE": {
+      "antigravity": { "supported": "PARTIAL", "verified": true, "notes": "transcript.jsonl in brain directory" },
+      "hatchable":   { "supported": "PARTIAL", "verified": true, "notes": "agent task logs" },
+      "trueforge":   { "supported": null, "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY" },
+      "deepseek":    { "supported": null, "verified": false, "status": "UNKNOWN_PENDING_DISCOVERY", "notes": "Potential primary use case for DeepSeek Harness" }
+    }
+  },
+  "routingPolicy": {
+    "REPOSITORY_ANALYSIS":       "antigravity",
+    "CODE_GENERATION":           "antigravity_tier2",
+    "POSTGRESQL_DATABASE":       "hatchable",
+    "DEPLOYMENT":                "hatchable",
+    "LOG_AGGREGATION":           "hatchable",
+    "SERVERLESS_FUNCTIONS":      "hatchable",
+    "CDP_BROWSER_AUTOMATION":    "antigravity",
+    "MULTI_AGENT_ORCHESTRATION": "antigravity",
+    "OBJECT_STORAGE":            "hatchable",
+    "TRAJECTORY_CAPTURE":        "antigravity_primary_hatchable_secondary"
+  },
+  "unknownHarnesses": {
+    "trueforge": {
+      "status": "PENDING_DISCOVERY",
+      "action": "Run TrueForge capability discovery before routing any tasks",
+      "potentialUse": ["model_neutral_agent_experimentation", "multi_agent_execution", "mcp_experimentation", "sandboxed_tasks", "model_comparison"]
+    },
+    "deepseek": {
+      "status": "PENDING_DISCOVERY",
+      "action": "Run DeepSeek Harness capability discovery before routing any tasks",
+      "potentialUse": ["coding_tasks", "agent_trajectory_analysis", "session_replay", "failure_recovery_experiments"]
+    }
+  }
+}

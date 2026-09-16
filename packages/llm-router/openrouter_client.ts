@@ -280,10 +280,6 @@ export async function route(req: LLMRequest): Promise<LLMResponse> {
   }
 }
 
-// ---------------------------------------------------------------------------
-// CLI Self-Test
-// ---------------------------------------------------------------------------
-
 if (process.argv.includes('--test')) {
   (async () => {
     console.log('\n🔍 AASHA LLM Router — Anti-Bleed Self-Test\n');
@@ -313,4 +309,94 @@ if (process.argv.includes('--test')) {
 
     console.log('\n✅ Anti-bleed guard is active. Gemini paid API: RESERVED.\n');
   })();
+}
+
+// ---------------------------------------------------------------------------
+// getLLMCompletion — Canonical Adapter (V2 Router Unification — C-01/C-02 fix)
+//
+// This function provides the same interface as llm_router.ts's getLLMCompletion(),
+// making openrouter_client.ts the canonical router for new code.
+// agent_orchestrator.ts and future modules should import from here.
+// llm_router.ts remains functional for backward compatibility (no breaking changes).
+//
+// TaskType mapping to 3-tier routing:
+//   'deterministic'  → returns DETERMINISTIC_OK immediately (no LLM call)
+//   'analysis'       → Tier 1 (OpenRouter free — llama/nemotron/gemini-flash-exp)
+//   'design'         → Tier 1
+//   'assessment'     → Tier 1
+//   'lle'            → Tier 1 (LLE cascade: WM dict → Google Translate → gemini-flash-exp:free)
+//   'lle-indic'      → Tier 1 (same as 'lle' — C-04 deadlock FIXED in AIOS v2)
+//   'vision'         → Tier 3 if authorized, else Tier 1 fallback
+//   'coding'         → Tier 2 (OpenRouter free coding pool: qwen-2.5-coder, etc.)
+// ---------------------------------------------------------------------------
+
+export type TaskType =
+  | 'deterministic'
+  | 'analysis'
+  | 'design'
+  | 'assessment'
+  | 'lle'
+  | 'lle-indic'
+  | 'vision'
+  | 'coding';
+
+export interface LLMMessage {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+}
+
+export interface LLMCompletionRequest {
+  messages: LLMMessage[];
+  taskType?: TaskType;
+  model?: string;
+  maxTokens?: number;
+}
+
+const TIER2_TASK_TYPES = new Set<TaskType>(['coding']);
+const TIER3_TASK_TYPES_EXT = new Set<TaskType>(['vision']);
+
+/**
+ * Canonical LLM completion function (replaces llm_router.ts getLLMCompletion).
+ * Import from here in new code. llm_router.ts is preserved for backward compat.
+ */
+export async function getLLMCompletion(req: LLMCompletionRequest): Promise<string> {
+  const taskType = req.taskType ?? 'analysis';
+
+  // Deterministic agents — no LLM call
+  if (taskType === 'deterministic') {
+    return 'DETERMINISTIC_OK';
+  }
+
+  // Extract system prompt and user prompt from messages
+  const systemMsg = req.messages.find(m => m.role === 'system')?.content ?? '';
+  const userMsg = req.messages
+    .filter(m => m.role !== 'system')
+    .map(m => m.content)
+    .join('\n');
+
+  const llmReq: LLMRequest = {
+    prompt: userMsg,
+    systemPrompt: systemMsg || undefined,
+    taskType,
+    maxTokens: req.maxTokens,
+  };
+
+  let response: LLMResponse;
+
+  if (TIER3_TASK_TYPES_EXT.has(taskType)) {
+    // Vision tasks — attempt Tier 3 if authorized, else fall to Tier 1
+    try {
+      response = await callTier3({ ...llmReq, taskType: taskType as string });
+    } catch {
+      console.warn(`[getLLMCompletion] Vision task Tier 3 blocked. Falling to Tier 1.`);
+      response = await callTier1(llmReq);
+    }
+  } else if (TIER2_TASK_TYPES.has(taskType)) {
+    response = await callTier2(llmReq);
+  } else {
+    // Tier 1 for: analysis, design, assessment, lle, lle-indic (cascade handles Indic in lle_cascade.ts)
+    response = await route(llmReq);
+  }
+
+  return response.content;
 }

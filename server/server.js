@@ -19,7 +19,28 @@ db.serialize(() => {
     payload TEXT,
     synced_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
+
+  // AIOS V2: Evidence Ledger (SQLite fallback — primary is hatchable PostgreSQL)
+  db.run(`CREATE TABLE IF NOT EXISTS evidence_ledger (
+    task_id        TEXT PRIMARY KEY,
+    created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
+    objective      TEXT NOT NULL,
+    repository_state TEXT,
+    plan           TEXT,
+    agents_used    TEXT,
+    harness_used   TEXT,
+    tools_used     TEXT,
+    files_changed  TEXT,
+    tests_run      TEXT,
+    test_results   TEXT,
+    risks          TEXT,
+    decisions      TEXT,
+    rollback_plan  TEXT,
+    final_status   TEXT NOT NULL DEFAULT 'PLANNED'
+      CHECK(final_status IN ('PLANNED','RUNNING','BLOCKED','FAILED','VERIFIED','HIL_REQUIRED','COMPLETE'))
+  )`);
 });
+
 
 /**
  * POST /api/sync
@@ -92,6 +113,82 @@ fastify.post('/api/generate/humanities', async (req, reply) => {
     fastify.log.error(error);
     reply.code(500).send({ success: false, error: 'OpenRouter API failed' });
   }
+});
+
+/**
+ * POST /api/evidence
+ * AIOS V2: Record an evidence ledger entry (SQLite fallback path).
+ * Primary path: hatchable PostgreSQL via evidence_client.ts.
+ */
+fastify.post('/api/evidence', async (req, reply) => {
+  const entry = req.body;
+  if (!entry.task_id || !entry.objective || !entry.final_status) {
+    return reply.code(400).send({ success: false, error: 'task_id, objective, final_status required' });
+  }
+  const validStatuses = ['PLANNED','RUNNING','BLOCKED','FAILED','VERIFIED','HIL_REQUIRED','COMPLETE'];
+  if (!validStatuses.includes(entry.final_status)) {
+    return reply.code(400).send({ success: false, error: `final_status must be one of: ${validStatuses.join(', ')}` });
+  }
+  return new Promise((resolve, reject) => {
+    db.run(
+      `INSERT OR REPLACE INTO evidence_ledger
+        (task_id, objective, repository_state, plan, agents_used, harness_used,
+         tools_used, files_changed, tests_run, test_results, risks, decisions,
+         rollback_plan, final_status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        entry.task_id, entry.objective,
+        JSON.stringify(entry.repository_state ?? {}),
+        entry.plan ?? '', JSON.stringify(entry.agents_used ?? []),
+        entry.harness_used ?? 'antigravity',
+        JSON.stringify(entry.tools_used ?? []),
+        JSON.stringify(entry.files_changed ?? []),
+        JSON.stringify(entry.tests_run ?? []),
+        JSON.stringify(entry.test_results ?? {}),
+        entry.risks ?? '', entry.decisions ?? '',
+        entry.rollback_plan ?? '', entry.final_status,
+      ],
+      function(err) {
+        if (err) {
+          fastify.log.error(err);
+          return reject(reply.code(500).send({ success: false, error: 'DB error' }));
+        }
+        resolve(reply.send({ success: true, task_id: entry.task_id }));
+      }
+    );
+  });
+});
+
+/**
+ * GET /api/evidence/:task_id
+ * Retrieve a specific evidence ledger entry.
+ */
+fastify.get('/api/evidence/:task_id', async (req, reply) => {
+  const { task_id } = req.params;
+  return new Promise((resolve, reject) => {
+    db.get('SELECT * FROM evidence_ledger WHERE task_id = ?', [task_id], (err, row) => {
+      if (err) return reject(reply.code(500).send({ success: false, error: 'DB error' }));
+      if (!row) return resolve(reply.code(404).send({ success: false, error: 'Not found' }));
+      resolve(reply.send({ success: true, entry: row }));
+    });
+  });
+});
+
+/**
+ * GET /api/evidence
+ * List evidence ledger entries (most recent first, limit 50).
+ */
+fastify.get('/api/evidence', async (req, reply) => {
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT task_id, objective, final_status, harness_used, created_at FROM evidence_ledger ORDER BY created_at DESC LIMIT 50',
+      [],
+      (err, rows) => {
+        if (err) return reject(reply.code(500).send({ success: false, error: 'DB error' }));
+        resolve(reply.send({ success: true, count: rows.length, entries: rows }));
+      }
+    );
+  });
 });
 
 const start = async () => {

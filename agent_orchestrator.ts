@@ -85,9 +85,13 @@ Your task is bilingual translation and transliteration. Map English terms to Ind
 ${TRUTH_SEEKING_PROTOCOL}
 Output in strict JSON.`,
     defaultModel: 'openrouter/auto', // Fast / Indic Specialized
-    // NOTE: Use taskType 'lle-indic' for Devanagari/Tamil/etc. — routes to Gemini Key 1 first.
-    // Use 'lle' for non-Indic or Latin-script translations — routes to OpenRouter first.
-    taskType: 'lle-indic',
+    // NOTE: 'lle-indic' previously routed to paid Gemini (C-04 deadlock — FIXED in AIOS v2).
+    // Now routes to 'lle' which triggers the 3-layer LLE cascade:
+    //   Layer 1: WM dictionary (hi.json local lookup, 0 cost)
+    //   Layer 2: Google Translate free endpoint (0 cost, ~500ms)
+    //   Layer 3: google/gemini-2.0-flash-exp:free via OpenRouter (Tier 1, 0 paid bleed)
+    // See: packages/llm-router/lle_cascade.ts
+    taskType: 'lle',
   },
   QAAgent: {
     role: 'QAAgent',
