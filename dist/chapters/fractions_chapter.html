@@ -87,7 +87,7 @@ let state={node:0,qi:0,score:0,answered:false,hint:0};
 function esc(s){return String(s).replace(/[&<>"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[x]));}
 function draw(canvas,mode,n=3,d=5){
  const c=canvas.getContext("2d"),w=canvas.width=canvas.clientWidth*2,h=canvas.height=Math.min(280,canvas.clientWidth*.62)*2;
- c.scale(2,2);const W=w/2,H=h/2;c.clearRect(0,0,W,H);c.fillStyle="#fff";c.fillRect(0,0,W,H);
+ c.setTransform(1,0,0,1,0,0);c.scale(2,2);const W=w/2,H=h/2;c.clearRect(0,0,W,H);c.fillStyle="#fff";c.fillRect(0,0,W,H);
  const parts=d,fill=Math.min(n,d);let cols=Math.ceil(Math.sqrt(parts)),rows=Math.ceil(parts/cols),gap=8,cellW=(W-40-(cols-1)*gap)/cols,cellH=(H-40-(rows-1)*gap)/rows;
  if(mode==="model"||mode==="equiv"){for(let i=0;i<parts;i++){let x=20+(i%cols)*(cellW+gap),y=20+Math.floor(i/cols)*(cellH+gap);c.fillStyle=i<fill?"#5b7cfa":"#e7edf6";c.fillRect(x,y,cellW,cellH);c.strokeStyle="#8da1ba";c.strokeRect(x,y,cellW,cellH)}}
  else if(mode==="types"){c.beginPath();c.arc(W/2,H/2,Math.min(W,H)/3,0,Math.PI*2);c.fillStyle="#e7edf6";c.fill();c.strokeStyle="#5b6f89";c.stroke();for(let i=0;i<d;i++){let a=-Math.PI/2+i*2*Math.PI/d;c.beginPath();c.moveTo(W/2,H/2);c.lineTo(W/2+Math.cos(a)*Math.min(W,H)/3,H/2+Math.sin(a)*Math.min(W,H)/3);c.stroke()}c.fillStyle="#5b7cfa";c.beginPath();c.moveTo(W/2,H/2);c.arc(W/2,H/2,Math.min(W,H)/3,-Math.PI/2,-Math.PI/2+fill*2*Math.PI/d);c.closePath();c.fill()}
@@ -120,7 +120,7 @@ function renderResult(){document.getElementById("bar").style.width="100%";root.i
 customElements.define("aasha-sim",class extends HTMLElement{
  connectedCallback(){this.mount()} mount(){this.state={mounted:true};this.dispatchEvent(new CustomEvent("aasha-mounted"))} getState(){return this.state} reset(){this.state={mounted:true,reset:true}} destroy(){this.state={mounted:false}} telemetry(e){queueTelemetry(e)}
 });
-const qbuf=[];function queueTelemetry(e){qbuf.push({...e,ts:Date.now()});try{localStorage.setItem("aasha_fraction_events",JSON.stringify(qbuf.slice(-100)))}catch{}}
+let telemetrySeq=Number(localStorage.getItem("aasha_fraction_seq")||0); const qbuf=[]; function queueTelemetry(e){telemetrySeq+=1; const event={...e,sequence_number:telemetrySeq,artifact_version:"math6-fractions-v1",ts:Date.now()}; qbuf.push(event); try{localStorage.setItem("aasha_fraction_seq",String(telemetrySeq));localStorage.setItem("aasha_fraction_events",JSON.stringify(qbuf.slice(-100)))}catch{}}
 renderNode();
 </script>
 </body>
