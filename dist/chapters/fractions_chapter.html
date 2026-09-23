@@ -98,7 +98,7 @@ function renderNode(){
  const n=nodes[state.node];document.getElementById("bar").style.width=((state.node+1)/nodes.length*100)+"%";
  root.innerHTML='<section class="card"><span class="tag">LEARN • '+(state.node+1)+' / '+nodes.length+'</span><h2>'+n.title+'</h2><p>'+n.body+'</p><aasha-sim data-foundations="F04,F02" data-mechanic="fraction-visual-manipulative"><div class="sim"><canvas id="sim" aria-label="Interactive fraction model"></canvas><div class="row"><span class="label">Numerator <b id="nv">3</b></span><span class="label">Denominator <b id="dv">5</b></span></div><input id="ns" type="range" min="0" max="5" value="3" aria-label="Numerator"><input id="ds" type="range" min="1" max="8" value="5" aria-label="Denominator"><p class="mini">Change the parts. Notice what changes and what stays fixed.</p></div></aasha-sim><div class="actions"><button class="btn" id="hint">Hint</button><button class="btn primary" id="next">Continue</button></div></section>';
  const cv=document.getElementById("sim"),ns=document.getElementById("ns"),ds=document.getElementById("ds");
- const repaint=()=>{let d=+ds.value,n=Math.min(+ns.value,d);ns.max=d;ns.value=n;nv.textContent=n;dv.textContent=d;draw(cv,n.mode,n,d)};
+ const repaint=()=>{let d=+ds.value,n=Math.min(+ns.value,d);ns.max=d;ns.value=n;nv.textContent=n;dv.textContent=d;draw(cv,nodes[state.node].sim,n,d)};
  ns.oninput=repaint;ds.oninput=repaint;repaint();
  document.getElementById("next").onclick=()=>{if(state.node<nodes.length-1){state.node++;renderNode()}else{state.qi=0;renderQ()}};
  document.getElementById("hint").onclick=()=>showHint("Start by asking: what does each number describe?");
