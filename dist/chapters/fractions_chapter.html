@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#10233f">
+<title>AASHA — Class 6 Mathematics: Fractions</title>
+<style>
+:root{--bg:#f4f7fb;--ink:#152238;--muted:#64748b;--card:#fff;--line:#dbe4ef;--accent:#2457d6;--accent2:#0f766e;--warn:#a16207;--danger:#b91c1c;--good:#166534}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+body{padding:12px}.app{max-width:760px;margin:auto}.top{background:linear-gradient(135deg,#10233f,#2457d6);color:white;border-radius:22px;padding:18px;box-shadow:0 10px 30px #10233f22}
+.top small{opacity:.8}.top h1{margin:4px 0 6px;font-size:clamp(1.5rem,5vw,2.1rem)}.top p{margin:0;opacity:.9}
+.progress{height:8px;background:#ffffff33;border-radius:99px;margin-top:14px;overflow:hidden}.progress i{display:block;height:100%;background:#fff;width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:12px;box-shadow:0 5px 18px #1522380b}
+h2,h3{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.pill,.btn{min-height:44px;border-radius:13px;border:1px solid var(--line);background:#fff;padding:10px 13px;font-weight:700;color:var(--ink);cursor:pointer}.btn.primary{background:var(--accent);color:white;border-color:var(--accent)}.btn.good{background:#ecfdf3;border-color:#bbf7d0;color:var(--good)}.btn:active{transform:translateY(1px)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.term{color:#1d4ed8;text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer;font-weight:700}
+.sim{border:1px solid var(--line);border-radius:16px;padding:14px;background:#f8fbff}.sim canvas{display:block;width:100%;height:auto;max-height:300px;border-radius:12px;background:white}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.label{font-size:.82rem;color:var(--muted)}input[type=range]{width:100%}
+.q{font-size:1.08rem;font-weight:700}.opts{display:grid;gap:8px;margin-top:12px}.opt{text-align:left;min-height:48px}.opt.correct{border-color:#86efac;background:#f0fdf4}.opt.wrong{border-color:#fecaca;background:#fef2f2}
+.feedback{margin-top:10px;padding:12px;border-radius:12px;background:#f8fafc;border:1px solid var(--line)}.hint{background:#fff7ed;border-color:#fed7aa}.score{font-variant-numeric:tabular-nums;font-weight:800}
+.modal{position:fixed;inset:0;background:#0f172a99;display:none;align-items:flex-end;justify-content:center;padding:10px;z-index:20}.modal.show{display:flex}.sheet{background:#fff;border-radius:22px 22px 10px 10px;max-width:620px;width:100%;padding:20px;max-height:80vh;overflow:auto}
+footer{color:var(--muted);font-size:.75rem;padding:18px 4px}.hidden{display:none!important}.mini{font-size:.82rem;color:var(--muted)}.tag{display:inline-block;padding:5px 8px;border-radius:99px;background:#eef2ff;color:#3730a3;font-size:.75rem;font-weight:800}
+@media(max-width:520px){body{padding:8px}.card{padding:14px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<section class="top">
+<small>AASHA AIOS • OFFLINE-FIRST • CLASS 6</small>
+<h1>Fractions</h1>
+<p>See it → change it → explain it → solve it.</p>
+<div class="progress"><i id="bar"></i></div>
+</section>
+<div id="root"></div>
+<footer>
+<strong>Reusable foundations:</strong> PhET fraction interaction patterns (F04), MicroSims parameter/visual patterns (F02), Escape Run practice loop (F01), MathFluency assessment principles (F06). This bundle contains no remote runtime dependency. Source attribution and license obligations are recorded in the Section 24 contract.
+</footer>
+</div>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true"><div class="sheet"><div class="row"><h3 id="mt"></h3><button class="btn" id="mc">Close</button></div><div id="mb"></div></div></div>
+
+<script>
+/* AASHA MATH INSULATION — do not pass these tokens through LLE word wrapping. */
+const __AASHA_MATH_X__ = Object.freeze({
+  half:"1/2", threeQuarters:"3/4", fiveEighths:"5/8", twoThirds:"2/3",
+  add:"a/b + c/d", sub:"a/b - c/d", n:"N", d:"D"
+});
+window.WM={
+ fraction:["भिन्न","bhinna","A number that shows equal parts of a whole or collection."],
+ numerator:["अंश","ansh","The number written above the line. It tells how many equal parts are being considered."],
+ denominator:["हर","har","The number written below the line. It tells how many equal parts make one whole."],
+ equivalent:["तुल्य भिन्न","tulya bhinna","Different-looking fractions that represent the same quantity."],
+ proper:["उचित भिन्न","uchit bhinna","A fraction whose numerator is less than its denominator."],
+ improper:["अनुचित भिन्न","anuchit bhinna","A fraction whose numerator is equal to or greater than its denominator."],
+ mixed_number:["मिश्र भिन्न","mishra bhinna","A whole number written together with a proper fraction."],
+ simplest_form:["सरलतम रूप","saral-tam roop","A form in which the numerator and denominator have no common factor greater than 1."],
+ like:["सम हर वाली भिन्न","sam har wali bhinna","Fractions with the same denominator."],
+ unlike:["असमान हर वाली भिन्न","asamaan har wali bhinna","Fractions with different denominators."]
+};
+function rt(k){return window.WM[k]||[k,"",""];}
+function word(k,label){return '<button class="term" data-word="'+k+'">'+label+'</button>';}
+document.addEventListener("click",e=>{const t=e.target.closest("[data-word]");if(!t)return;const d=rt(t.dataset.word);document.getElementById("mt").textContent=t.textContent+" • "+d[0];document.getElementById("mb").innerHTML="<p><strong>"+d[0]+"</strong> ("+d[1]+")</p><p>"+d[2]+"</p>";document.getElementById("modal").classList.add("show");});
+document.getElementById("mc").onclick=()=>document.getElementById("modal").classList.remove("show");
+document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("show")};
+
+const nodes=[
+{id:"n1",title:"1. What is a fraction?",body:"A "+word("fraction","fraction")+" describes equal parts. The "+word("denominator","denominator")+" names how many equal parts make one whole. The "+word("numerator","numerator")+" names how many of those parts we are considering.",sim:"model"},
+{id:"n2",title:"2. Types of fractions",body:"A "+word("proper","proper fraction")+" has a smaller numerator. An "+word("improper","improper fraction")+" has a numerator equal to or greater than its denominator. A "+word("mixed_number","mixed number")+" combines a whole number and a proper fraction.",sim:"types"},
+{id:"n3",title:"3. Equivalent fractions",body:""+word("equivalent","Equivalent fractions")+" look different but name the same quantity. Multiply or divide the numerator and denominator by the same non-zero number.",sim:"equiv"},
+{id:"n4",title:"4. Compare and simplify",body:"Use visual size, a common denominator, or a number line to compare fractions. A fraction is in "+word("simplest_form","simplest form")+" when no common factor greater than 1 remains.",sim:"compare"},
+{id:"n5",title:"5. Add and subtract",body:"For "+word("like","like fractions")+", keep the denominator and combine the numerators. For unlike fractions, first create a common denominator. Never add the denominators.",sim:"add"}
+];
+const qs=[
+{id:"w1",tier:"Warm-up",q:"A strip is split into 4 equal parts. Three are shaded. Which fraction names the shaded part?",a:["1/4","3/4","4/3","3/1"],c:1,m:["You counted one part, not the shaded parts.","","You reversed the roles of the two numbers.","The denominator is not the number of shaded parts."],h:["Look at the shaded pieces.","The denominator counts equal pieces in the whole.","The numerator counts the pieces being considered.","Write the count of shaded pieces over the count of equal pieces."]},
+{id:"w2",tier:"Warm-up",q:"In 5/8, which number tells how many equal parts make one whole?",a:["5","8","13","3"],c:1,m:["That number is on top.","","You combined the two numbers.","That number is not the denominator."],h:["Look below the fraction bar.","The lower number names the total equal parts.","It describes the size of each equal part.","Identify the lower number without changing it."]},
+{id:"d1",tier:"Deep Dive",q:"Which fraction is equivalent to 2/3?",a:["3/5","4/6","4/5","2/6"],c:1,m:["The two numbers were changed by different factors.","","The denominator changed by the wrong amount.","Only the denominator was changed."],h:["Equivalent means same quantity.","Change both numerator and denominator together.","Use one common multiplier for both numbers.","Ask which option scales both parts equally."]},
+{id:"d2",tier:"Deep Dive",q:"Which is in simplest form?",a:["6/8","9/12","5/7","12/18"],c:2,m:["Both numbers still share a factor.","Both numbers still share a factor.","","Both numbers still share a factor."],h:["Look for a common factor.","A common factor greater than 1 means it can still be reduced.","Test small factors before deciding.","Check whether any number greater than 1 divides both exactly."]},
+{id:"d3",tier:"Deep Dive",q:"Which is a proper fraction?",a:["7/5","4/4","3/8","9/7"],c:2,m:["The numerator is larger.","The numerator equals the denominator.","","The numerator is larger."],h:["Compare top and bottom.","A proper fraction is less than one whole.","Its numerator must be smaller than its denominator.","Choose the pair where the top number is smaller."]},
+{id:"d4",tier:"Deep Dive",q:"Which pair has the same denominator?",a:["2/5 and 3/7","1/6 and 4/6","2/3 and 3/2","5/8 and 1/4"],c:1,m:["The denominators differ.","","The denominators are reversed.","The denominators differ."],h:["Read the bottom number in each fraction.","Like fractions share a denominator.","Compare only the lower numbers first.","Find the pair whose lower numbers match."]},
+{id:"d5",tier:"Deep Dive",q:"Which comparison is true?",a:["1/2 < 1/3","2/5 > 4/5","3/4 > 1/4","2/7 > 5/7"],c:2,m:["With the same numerator, a larger denominator makes smaller equal parts.","The denominators match, so compare the numerators.","","The denominators match, so compare the numerators."],h:["Start with pairs that share a denominator.","Same denominator means equal-sized parts.","More of the same-sized parts means a larger fraction.","Compare the top numbers in the same-denominator pair."]},
+{id:"d6",tier:"Deep Dive",q:"Find 2/7 + 3/7.",a:["5/14","5/7","6/7","1/7"],c:1,m:["You changed the denominator while adding like fractions.","","You multiplied the numerators.","You subtracted instead of adding."],h:["These are like fractions.","Keep the equal-part size unchanged.","Combine the counts of those equal parts.","Add the numerators while keeping the denominator."]},
+{id:"d7",tier:"Deep Dive",q:"Find 5/6 - 1/6.",a:["4/6","4/12","6/6","3/6"],c:0,m:["","You changed the denominator while subtracting like fractions.","You added the numerators.","You subtracted too much."],h:["The parts have the same size.","Keep the denominator unchanged.","Remove one sixth from five sixths.","Subtract the top counts only."]},
+{id:"b1",tier:"Boss",q:"Riya uses 2/8 of a ribbon for one card and 3/8 for another. How much ribbon does she use?",a:["5/16","5/8","1/8","6/8"],c:1,m:["These are like fractions, so the part size does not double.","","You combined the wrong quantities.","You multiplied the numerators."],h:["Both fractions use eighths.","The unit part stays one eighth.","Count how many eighths are used altogether.","Combine the two numerator counts."]},
+{id:"b2",tier:"Boss",q:"A recipe needs 1/3 cup of milk. You already have 1/6 cup. How much more is needed?",a:["1/2 cup","1/6 cup","2/6 cup","1/9 cup"],c:1,m:["The question asks for the remaining amount, not the total.","","You treated addition as the needed remainder.","You added denominators."],h:["Needed more means subtract what you have from what is required.","The denominators are different, so use a common denominator.","Express both quantities using sixths.","Then compare the required sixths with the amount already present."]},
+{id:"b3",tier:"Boss",q:"A class shares 3 pizzas equally among 4 groups. What fraction of a pizza does each group get?",a:["4/3","3/4","1/4","3/8"],c:1,m:["You reversed the number of groups and pizzas.","","You ignored the three pizzas.","You doubled the total number of parts."],h:["Think of division as equal sharing.","The number of pizzas is the total amount being shared.","The number of groups tells how many equal shares are made.","Represent the sharing as pizzas divided by groups."]}
+];
+let state={node:0,qi:0,score:0,answered:false,hint:0};
+function esc(s){return String(s).replace(/[&<>"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",""":"&quot;"}[x]));}
+function draw(canvas,mode,n=3,d=5){
+ const c=canvas.getContext("2d"),w=canvas.width=canvas.clientWidth*2,h=canvas.height=Math.min(280,canvas.clientWidth*.62)*2;
+ c.scale(2,2);const W=w/2,H=h/2;c.clearRect(0,0,W,H);c.fillStyle="#fff";c.fillRect(0,0,W,H);
+ const parts=d,fill=Math.min(n,d);let cols=Math.ceil(Math.sqrt(parts)),rows=Math.ceil(parts/cols),gap=8,cellW=(W-40-(cols-1)*gap)/cols,cellH=(H-40-(rows-1)*gap)/rows;
+ if(mode==="model"||mode==="equiv"){for(let i=0;i<parts;i++){let x=20+(i%cols)*(cellW+gap),y=20+Math.floor(i/cols)*(cellH+gap);c.fillStyle=i<fill?"#5b7cfa":"#e7edf6";c.fillRect(x,y,cellW,cellH);c.strokeStyle="#8da1ba";c.strokeRect(x,y,cellW,cellH)}}
+ else if(mode==="types"){c.beginPath();c.arc(W/2,H/2,Math.min(W,H)/3,0,Math.PI*2);c.fillStyle="#e7edf6";c.fill();c.strokeStyle="#5b6f89";c.stroke();for(let i=0;i<d;i++){let a=-Math.PI/2+i*2*Math.PI/d;c.beginPath();c.moveTo(W/2,H/2);c.lineTo(W/2+Math.cos(a)*Math.min(W,H)/3,H/2+Math.sin(a)*Math.min(W,H)/3);c.stroke()}c.fillStyle="#5b7cfa";c.beginPath();c.moveTo(W/2,H/2);c.arc(W/2,H/2,Math.min(W,H)/3,-Math.PI/2,-Math.PI/2+fill*2*Math.PI/d);c.closePath();c.fill()}
+ else {for(let i=0;i<d;i++){let x=20+i*((W-40)/d);c.fillStyle=i<fill?"#5b7cfa":"#e7edf6";c.fillRect(x,80,(W-40)/d-2,70);c.strokeStyle="#8da1ba";c.strokeRect(x,80,(W-40)/d-2,70)}}
+ c.fillStyle="#152238";c.font="700 16px system-ui";c.textAlign="center";c.fillText(fill+"/"+d,W/2,30);
+}
+function renderNode(){
+ const n=nodes[state.node];document.getElementById("bar").style.width=((state.node+1)/nodes.length*100)+"%";
+ root.innerHTML='<section class="card"><span class="tag">LEARN • '+(state.node+1)+' / '+nodes.length+'</span><h2>'+n.title+'</h2><p>'+n.body+'</p><div class="sim"><canvas id="sim" aria-label="Interactive fraction model"></canvas><div class="row"><span class="label">Numerator <b id="nv">3</b></span><span class="label">Denominator <b id="dv">5</b></span></div><input id="ns" type="range" min="0" max="5" value="3" aria-label="Numerator"><input id="ds" type="range" min="1" max="8" value="5" aria-label="Denominator"><p class="mini">Change the parts. Notice what changes and what stays fixed.</p></div><div class="actions"><button class="btn" id="hint">Hint</button><button class="btn primary" id="next">Continue</button></div></section>';
+ const cv=document.getElementById("sim"),ns=document.getElementById("ns"),ds=document.getElementById("ds");
+ const repaint=()=>{let d=+ds.value,n=Math.min(+ns.value,d);ns.max=d;ns.value=n;nv.textContent=n;dv.textContent=d;draw(cv,n.mode,n,d)};
+ ns.oninput=repaint;ds.oninput=repaint;repaint();
+ document.getElementById("next").onclick=()=>{if(state.node<nodes.length-1){state.node++;renderNode()}else{state.qi=0;renderQ()}};
+ document.getElementById("hint").onclick=()=>showHint("Start by asking: what does each number describe?");
+}
+function showHint(t){document.getElementById("mt").textContent="Zero-spoiler hint";document.getElementById("mb").innerHTML="<div class='feedback hint'>"+t+"</div>";document.getElementById("modal").classList.add("show");}
+function renderQ(){
+ const q=qs[state.qi];document.getElementById("bar").style.width=((nodes.length+state.qi+1)/(nodes.length+qs.length)*100)+"%";
+ root.innerHTML='<section class="card"><span class="tag">'+q.tier+' • '+(state.qi+1)+' / '+qs.length+'</span><h2>'+q.tier==='Boss'?'Boss Challenge':'Check Your Thinking'+'</h2><p class="q">'+esc(q.q)+'</p><div class="opts">'+q.a.map((x,i)=>'<button class="btn opt" data-i="'+i+'">'+esc(x)+'</button>').join("")+'</div><div class="actions"><button class="btn" id="hint1">H₁ Visual</button><button class="btn" id="hint2">H₂ Concept</button><button class="btn" id="hint3">H₃ Relation</button><button class="btn" id="hint4">H₄ Step</button></div><div id="fb"></div></section>';
+ document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(+b.dataset.i));
+ ["hint1","hint2","hint3","hint4"].forEach((id,i)=>document.getElementById(id).onclick=()=>showHint(q.h[i]));
+}
+function answer(i){
+ if(state.answered)return;state.answered=true;const q=qs[state.qi];const btns=[...document.querySelectorAll(".opt")];btns.forEach(b=>b.disabled=true);
+ if(i===q.c){state.score++;btns[i].classList.add("correct");fb.innerHTML="<div class='feedback'><b>Evidence captured.</b> Your choice matches the concept.</div>"}else{btns[i].classList.add("wrong");fb.innerHTML="<div class='feedback'><b>Misconception check:</b> "+esc(q.m[i]||"Re-check the visual model and the role of each number.")+"</div>"}
+ const b=document.createElement("button");b.className="btn primary";b.textContent=state.qi<qs.length-1?"Next challenge":"Finish";b.onclick=()=>{if(state.qi<qs.length-1){state.qi++;state.answered=false;renderQ()}else{renderResult()}};document.querySelector(".actions").appendChild(b);
+}
+function renderResult(){document.getElementById("bar").style.width="100%";root.innerHTML='<section class="card"><span class="tag">CERTIFICATION PREVIEW</span><h2>Fractions practice complete</h2><p class="score">Evidence score: '+state.score+' / '+qs.length+'</p><p>The score is learning evidence, not a reward currency. Review any misconception cards before moving on.</p><button class="btn primary" id="restart">Restart chapter</button></section>';document.getElementById("restart").onclick=()=>{state={node:0,qi:0,score:0,answered:false,hint:0};renderNode()}}
+customElements.define("aasha-sim",class extends HTMLElement{
+ connectedCallback(){this.mount()} mount(){this.state={mounted:true};this.dispatchEvent(new CustomEvent("aasha-mounted"))} getState(){return this.state} reset(){this.state={mounted:true,reset:true}} destroy(){this.state={mounted:false}} telemetry(e){queueTelemetry(e)}
+});
+const qbuf=[];function queueTelemetry(e){qbuf.push({...e,ts:Date.now()});try{localStorage.setItem("aasha_fraction_events",JSON.stringify(qbuf.slice(-100)))}catch{}}
+renderNode();
+</script>
+</body>
+</html>
