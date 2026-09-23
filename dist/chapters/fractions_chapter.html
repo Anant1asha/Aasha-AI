@@ -106,7 +106,8 @@ function renderNode(){
 function showHint(t){document.getElementById("mt").textContent="Zero-spoiler hint";document.getElementById("mb").innerHTML="<div class='feedback hint'>"+t+"</div>";document.getElementById("modal").classList.add("show");}
 function renderQ(){
  const q=qs[state.qi];document.getElementById("bar").style.width=((nodes.length+state.qi+1)/(nodes.length+qs.length)*100)+"%";
- root.innerHTML='<section class="card"><span class="tag">'+q.tier+' • '+(state.qi+1)+' / '+qs.length+'</span><h2>'+q.tier==='Boss'?'Boss Challenge':'Check Your Thinking'+'</h2><p class="q">'+esc(q.q)+'</p><div class="opts">'+q.a.map((x,i)=>'<button class="btn opt" data-i="'+i+'">'+esc(x)+'</button>').join("")+'</div><div class="actions"><button class="btn" id="hint1">H₁ Visual</button><button class="btn" id="hint2">H₂ Concept</button><button class="btn" id="hint3">H₃ Relation</button><button class="btn" id="hint4">H₄ Step</button></div><div id="fb"></div></section>';
+ const sectionId=q.tier==="Warm-up"?"section-warmup":q.tier==="Deep Dive"?"section-deep_dive":"section-boss"; const title=q.tier==="Boss"?"Boss Challenge":"Check Your Thinking";
+ root.innerHTML='<section id="'+sectionId+'" class="card"><span class="tag">'+q.tier+' • '+(state.qi+1)+' / '+qs.length+'</span><h2>'+title+'</h2><p class="q">'+esc(q.q)+'</p><div class="opts">'+q.a.map((x,i)=>'<button class="btn opt" data-i="'+i+'">'+esc(x)+'</button>').join("")+'</div><div class="actions"><button class="btn" id="hint1">H₁ Visual</button><button class="btn" id="hint2">H₂ Concept</button><button class="btn" id="hint3">H₃ Relation</button><button class="btn" id="hint4">H₄ Step</button></div><div id="fb"></div></section>';
  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(+b.dataset.i));
  ["hint1","hint2","hint3","hint4"].forEach((id,i)=>document.getElementById(id).onclick=()=>showHint(q.h[i]));
 }
