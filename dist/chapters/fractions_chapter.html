@@ -40,7 +40,7 @@ footer{color:var(--muted);font-size:.75rem;padding:18px 4px}.hidden{display:none
 
 <script>
 /* AASHA MATH INSULATION — do not pass these tokens through LLE word wrapping. */
-const __AASHA_MATH_X__ = Object.freeze({
+window.__AASHA_MATH_X__ = Object.freeze({
   half:"1/2", threeQuarters:"3/4", fiveEighths:"5/8", twoThirds:"2/3",
   add:"a/b + c/d", sub:"a/b - c/d", n:"N", d:"D"
 });
@@ -56,7 +56,7 @@ window.WM={
  like:["सम हर वाली भिन्न","sam har wali bhinna","Fractions with the same denominator."],
  unlike:["असमान हर वाली भिन्न","asamaan har wali bhinna","Fractions with different denominators."]
 };
-function rt(k){return window.WM[k]||[k,"",""];}
+const root=document.getElementById("root");\nfunction rt(k){return window.WM[k]||[k,"",""];}
 function word(k,label){return '<button class="term" data-word="'+k+'">'+label+'</button>';}
 document.addEventListener("click",e=>{const t=e.target.closest("[data-word]");if(!t)return;const d=rt(t.dataset.word);document.getElementById("mt").textContent=t.textContent+" • "+d[0];document.getElementById("mb").innerHTML="<p><strong>"+d[0]+"</strong> ("+d[1]+")</p><p>"+d[2]+"</p>";document.getElementById("modal").classList.add("show");});
 document.getElementById("mc").onclick=()=>document.getElementById("modal").classList.remove("show");
