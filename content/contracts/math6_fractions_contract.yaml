@@ -1,0 +1,114 @@
+# AASHA Section 24 Reusable Content Contract
+# Class 6 Mathematics — Fractions
+# Compiler target: CHILD_HTML5_BUNDLE
+# Reuse strategy: EXTRACT mechanics, never ship remote runtime dependencies.
+
+chapter_meta:
+  id: math6_fractions
+  subject: Mathematics
+  grade: 6
+  board: NCERT-aligned
+  title: Fractions
+  language: English+Hindi
+  offline_first: true
+  child_bundle_ceiling_bytes: 20971520
+
+learning_scope:
+  - fraction_as_part_of_whole_and_collection
+  - numerator_and_denominator
+  - proper_and_improper_fractions
+  - mixed_numbers
+  - equivalent_fractions
+  - simplest_form
+  - comparing_fractions
+  - like_and_unlike_fractions
+  - addition_and_subtraction_of_fractions
+  - real_world_fraction_problems
+
+foundations:
+  - id: F04
+    name: PhET Interactive Simulations
+    strategy: EXTRACT
+    mechanics: [fraction_intro, fraction_matcher, area_model, set_model]
+    source: https://github.com/phetsims
+    source_note: "Extract mechanics/patterns; do not load PhET at runtime."
+    license_note: "Verify exact source/simulation license before redistributing copied source. PhET new simulations are generally GPLv3; attribution required."
+  - id: F02
+    name: MicroSims
+    strategy: EXTRACT
+    mechanics: [parameter_sliders, interactive_diagrams, visual_models]
+    source: https://github.com/dmccreary/microsims
+    license_note: "Repository license is CC BY-NC-SA 4.0; retain attribution and non-commercial/share-alike obligations for copied/adapted material."
+  - id: F01
+    name: Escape Run
+    strategy: EXTRACT
+    mechanics: [adaptive_practice, mastery_loop, touch_first_gameplay]
+    source: https://github.com/abhas9/escape-run
+    license_note: "MIT; attribution retained."
+  - id: F06
+    name: MathFluency
+    strategy: EXTRACT
+    mechanics: [fluency_practice, misconception_gating]
+    source: https://github.com/CarnegieLearning/MathFluency
+    license_note: "License must be re-verified at extraction time before copying source."
+
+interaction_contract:
+  component: aasha-sim
+  lifecycle: [mount, getState, reset, destroy, telemetry]
+  offline_runtime: true
+  external_requests: forbidden
+  touch_target_min_px: 44
+
+lle_contract:
+  indic_language: Hindi
+  dictionary: window.WM
+  resolver: rt
+  word_tap: true
+  math_insulation_token: __AASHA_MATH_X__
+  rule: "Insulate math/variables before LLE wrapping."
+  key_terms:
+    fraction: "भिन्न"
+    numerator: "अंश"
+    denominator: "हर"
+    equivalent: "तुल्य भिन्न"
+    proper: "उचित भिन्न"
+    improper: "अनुचित भिन्न"
+    mixed_number: "मिश्र भिन्न"
+    simplest_form: "सरलतम रूप"
+
+hint_contract:
+  tiers:
+    H1: "visual attention cue"
+    H2: "concept cue"
+    H3: "relationship/formula cue"
+    H4: "intermediate-operation cue"
+  spoiler_rule: "No hint may state, encode, or uniquely reveal the answer."
+
+assessment:
+  tiers:
+    warmup:
+      id: section-warmup
+      coverage: [identify_fraction, numerator, denominator, visual_model]
+    deep_dive:
+      id: section-deep_dive
+      coverage: [equivalent, simplest_form, proper_improper, mixed_numbers, compare, like_unlike, add_subtract]
+    boss:
+      id: section-boss
+      coverage: [multi_step_real_world, representation_choice, misconception_diagnostics]
+  distractor_diagnostics:
+    - numerator_denominator_swap
+    - denominator_addition
+    - unshaded_count
+    - whole_number_comparison_bias
+    - unlike_denominator_skip
+    - simplification_miss
+
+qa_gate:
+  ltruth_score: 100
+  hint_spoilers: 0
+  math_rt_collisions: 0
+  console_errors: 0
+  word_tap_trigger_rate: 1.0
+  navigation_overflow: 0
+  network_requests: 0
+  bundle_max_bytes: 20971520
