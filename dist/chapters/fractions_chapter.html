@@ -56,7 +56,7 @@ window.WM={
  like:["सम हर वाली भिन्न","sam har wali bhinna","Fractions with the same denominator."],
  unlike:["असमान हर वाली भिन्न","asamaan har wali bhinna","Fractions with different denominators."]
 };
-const root=document.getElementById("root");\nfunction rt(k){return window.WM[k]||[k,"",""];}
+const root=document.getElementById("root");\nconst root=document.getElementById("root");\nfunction insulateMath(text){return String(text).replace(/\\b\\d+\\/\\d+\\b|\\b[ND]\\b/g,m=>"__AASHA_MATH_X__"+m+"__");}\nfunction rt(k){return window.WM[k]||[k,"",""];}
 function word(k,label){return '<button class="term" data-word="'+k+'">'+label+'</button>';}
 document.addEventListener("click",e=>{const t=e.target.closest("[data-word]");if(!t)return;const d=rt(t.dataset.word);document.getElementById("mt").textContent=t.textContent+" • "+d[0];document.getElementById("mb").innerHTML="<p><strong>"+d[0]+"</strong> ("+d[1]+")</p><p>"+d[2]+"</p>";document.getElementById("modal").classList.add("show");});
 document.getElementById("mc").onclick=()=>document.getElementById("modal").classList.remove("show");
@@ -84,7 +84,7 @@ const qs=[
 {id:"b3",tier:"Boss",q:"A class shares 3 pizzas equally among 4 groups. What fraction of a pizza does each group get?",a:["4/3","3/4","1/4","3/8"],c:1,m:["You reversed the number of groups and pizzas.","","You ignored the three pizzas.","You doubled the total number of parts."],h:["Think of division as equal sharing.","The number of pizzas is the total amount being shared.","The number of groups tells how many equal shares are made.","Represent the sharing as pizzas divided by groups."]}
 ];
 let state={node:0,qi:0,score:0,answered:false,hint:0};
-function esc(s){return String(s).replace(/[&<>"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",""":"&quot;"}[x]));}
+function esc(s){return String(s).replace(/[&<>"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[x]));}
 function draw(canvas,mode,n=3,d=5){
  const c=canvas.getContext("2d"),w=canvas.width=canvas.clientWidth*2,h=canvas.height=Math.min(280,canvas.clientWidth*.62)*2;
  c.scale(2,2);const W=w/2,H=h/2;c.clearRect(0,0,W,H);c.fillStyle="#fff";c.fillRect(0,0,W,H);
@@ -96,7 +96,7 @@ function draw(canvas,mode,n=3,d=5){
 }
 function renderNode(){
  const n=nodes[state.node];document.getElementById("bar").style.width=((state.node+1)/nodes.length*100)+"%";
- root.innerHTML='<section class="card"><span class="tag">LEARN • '+(state.node+1)+' / '+nodes.length+'</span><h2>'+n.title+'</h2><p>'+n.body+'</p><div class="sim"><canvas id="sim" aria-label="Interactive fraction model"></canvas><div class="row"><span class="label">Numerator <b id="nv">3</b></span><span class="label">Denominator <b id="dv">5</b></span></div><input id="ns" type="range" min="0" max="5" value="3" aria-label="Numerator"><input id="ds" type="range" min="1" max="8" value="5" aria-label="Denominator"><p class="mini">Change the parts. Notice what changes and what stays fixed.</p></div><div class="actions"><button class="btn" id="hint">Hint</button><button class="btn primary" id="next">Continue</button></div></section>';
+ root.innerHTML='<section class="card"><span class="tag">LEARN • '+(state.node+1)+' / '+nodes.length+'</span><h2>'+n.title+'</h2><p>'+n.body+'</p><aasha-sim data-foundations="F04,F02" data-mechanic="fraction-visual-manipulative"><div class="sim"><canvas id="sim" aria-label="Interactive fraction model"></canvas><div class="row"><span class="label">Numerator <b id="nv">3</b></span><span class="label">Denominator <b id="dv">5</b></span></div><input id="ns" type="range" min="0" max="5" value="3" aria-label="Numerator"><input id="ds" type="range" min="1" max="8" value="5" aria-label="Denominator"><p class="mini">Change the parts. Notice what changes and what stays fixed.</p></div></aasha-sim><div class="actions"><button class="btn" id="hint">Hint</button><button class="btn primary" id="next">Continue</button></div></section>';
  const cv=document.getElementById("sim"),ns=document.getElementById("ns"),ds=document.getElementById("ds");
  const repaint=()=>{let d=+ds.value,n=Math.min(+ns.value,d);ns.max=d;ns.value=n;nv.textContent=n;dv.textContent=d;draw(cv,n.mode,n,d)};
  ns.oninput=repaint;ds.oninput=repaint;repaint();
