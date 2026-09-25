@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aasha.local/schemas/experience-capability.schema.json",
+  "title": "AASHA Experience Capability",
+  "type": "object",
+  "required": ["capability_id","version","mechanics","inputs","outputs"],
+  "additionalProperties": false,
+  "properties": {
+    "capability_id": {"type":"string","pattern":"^cap\\.[a-z0-9._-]+$"},
+    "version": {"type":"string","pattern":"^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "mechanics": {"type":"array","items":{"type":"string","minLength":1},"minItems":1,"uniqueItems":true},
+    "inputs": {"type":"array","items":{"type":"string","minLength":1},"uniqueItems":true},
+    "outputs": {"type":"array","items":{"type":"string","minLength":1},"uniqueItems":true},
+    "state_model": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "learning_consequences": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "accessibility": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "runtime_requirements": {"type":"array","items":{"type":"string"},"uniqueItems":true}
+  }
+}
