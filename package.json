@@ -13,7 +13,9 @@
     "admin:experience": "tsx admin_memory_cli.ts add-experience",
     "admin:learn": "tsx admin_memory_cli.ts learn",
     "test:ltruth": "node benchmarks/qa_ltruth_benchmark.js",
-    "test:all": "node benchmarks/qa_ltruth_benchmark.js"
+    "test:all": "node benchmarks/qa_ltruth_benchmark.js",
+    "test:experience-registry": "tsx packages/adapters/test_experience_registry.ts",
+    "test:registry-ingestion": "tsx packages/adapters/test_registry_ingestion.ts"
   },
   "dependencies": {
     "dotenv": "^17.4.2"
