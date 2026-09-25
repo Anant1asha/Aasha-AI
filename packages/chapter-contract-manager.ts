@@ -1,18 +1,22 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { ContextBus } from './memory-engine/context_bus';
+import { RegistryIngestionEngine } from './adapters/registry_ingestion_engine';
 
 export interface ChapterInitOptions {
   subject: string;
   classNum: number;
   topic: string;
   customObjectives?: string[];
+  mechanics?: string[];
 }
 
 export interface ChapterInitResult {
   contractPath: string;
   resourceMatchReport: string;
-  matchedFoundation: any;
+  matchedExperience: any | null;
+  matchedFoundation: any | null;
+  resolverTier: 'TIER_1_REGISTERED' | 'TIER_2_APPROVED_FOUNDATION' | 'TIER_3_DOMAIN_SYNTHESIS';
   seededToGraph: boolean;
 }
 
@@ -21,173 +25,186 @@ export class ChapterContractManager {
   private registryPath: string;
   private contractsDir: string;
   private bus: ContextBus;
+  private registryEngine: RegistryIngestionEngine;
 
   constructor(baseDir?: string) {
     this.baseDir = baseDir || path.resolve(__dirname, '..');
     this.registryPath = path.resolve(this.baseDir, 'experience_registry/registry.json');
     this.contractsDir = path.resolve(this.baseDir, 'content/contracts');
-    if (!fs.existsSync(this.contractsDir)) {
-      fs.mkdirSync(this.contractsDir, { recursive: true });
-    }
+    if (!fs.existsSync(this.contractsDir)) fs.mkdirSync(this.contractsDir, { recursive: true });
     this.bus = new ContextBus();
+    this.registryEngine = new RegistryIngestionEngine(this.baseDir);
   }
 
-  /**
-   * Generates a topic slug for consistent file naming.
-   */
   private slugify(text: string): string {
-    return text
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '_')
-      .replace(/^_+|_+$/g, '');
+    return text.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  }
+
+  private foundationEligible(f: any): boolean {
+    const license = String(f.license || '').toLowerCase();
+    const strategy = String(f.reuse_strategy || '').toUpperCase();
+    if (strategy === 'SANDBOX_ONLY' || strategy === 'LICENSE_REVIEW_REQUIRED') return false;
+    if (license.includes('gpl') || license.includes('proprietary') || license.includes('non-commercial') || license.includes('opensource')) return false;
+    return ['mit', 'apache-2.0', 'apache 2.0', 'cc-by', 'cc-by-4.0'].some(x => license.includes(x));
+  }
+
+  private loadRegistry(): any {
+    if (!fs.existsSync(this.registryPath)) throw new Error('REGISTRY_MISSING');
+    const registry = JSON.parse(fs.readFileSync(this.registryPath, 'utf-8'));
+    registry.foundations ??= [];
+    registry.experiences ??= [];
+    return registry;
   }
 
   /**
-   * Automatically matches the best prebuilt open-source foundation (F01-F20)
-   * and generates the Mandatory Resource Match Report.
+   * Deterministic resolver:
+   * Tier 1 = certified AASHA experience capability.
+   * Tier 2 = approved foundation catalog.
+   * Tier 3 = domain synthesis.
+   *
+   * Subject/class are applicability filters only; mechanic compatibility is primary.
    */
-  generateResourceMatchReport(subject: string, classNum: number, topic: string): { report: string; best: any } {
-    let registry: any = { foundations: [] };
-    if (fs.existsSync(this.registryPath)) {
-      try {
-        registry = JSON.parse(fs.readFileSync(this.registryPath, 'utf-8'));
-      } catch (e) {
-        console.warn('Could not parse experience registry:', e);
-      }
+  resolveExperience(subject: string, classNum: number, topic: string, mechanics: string[] = []) {
+    const registry = this.loadRegistry();
+    const tier1 = this.registryEngine.resolve({
+      mechanics,
+      subject,
+      classNum
+    });
+
+    if (tier1.length > 0) {
+      return {
+        tier: 'TIER_1_REGISTERED' as const,
+        experience: tier1[0],
+        foundation: null
+      };
     }
 
-    const matches = (registry.foundations || []).filter((f: any) => {
-      const matchSubject = (f.subjects || []).some((s: string) => s.toLowerCase() === subject.toLowerCase() || s === 'General');
-      const matchClass = (f.classes || []).includes(classNum);
-      return matchSubject && matchClass;
+    const foundations = (registry.foundations || []).filter((f: any) => {
+      const subjectHit = (f.subjects || []).some((s: string) =>
+        s.toLowerCase() === subject.toLowerCase() || s === 'General' || s === 'Cross-Curricular'
+      );
+      const classHit = !f.classes?.length || f.classes.includes(classNum);
+      const mechanicHit = mechanics.length === 0 ||
+        mechanics.some(m => (f.mechanics || []).some((fm: string) => fm.toLowerCase().includes(m.toLowerCase())));
+      return subjectHit && classHit && mechanicHit && this.foundationEligible(f);
     });
 
-    const best = matches.length > 0 ? matches[0] : (registry.foundations[0] || {
-      id: 'F01',
-      name: 'Escape Run',
-      repo: 'https://github.com/abhas9/escape-run',
-      license: 'MIT',
-      mechanics: ['adaptive_practice', 'mastery_gating', 'spaced_repetition'],
-      reuse_strategy: 'EXTRACT'
-    });
+    if (foundations.length > 0) {
+      return {
+        tier: 'TIER_2_APPROVED_FOUNDATION' as const,
+        experience: null,
+        foundation: foundations[0]
+      };
+    }
 
-    const matchedNames = matches.map((m: any) => `${m.name} (${m.id}: ${m.reuse_strategy})`).join(', ');
+    return {
+      tier: 'TIER_3_DOMAIN_SYNTHESIS' as const,
+      experience: null,
+      foundation: null
+    };
+  }
+
+  generateResourceMatchReport(
+    subject: string,
+    classNum: number,
+    topic: string,
+    mechanics: string[] = []
+  ): { report: string; bestExperience: any | null; bestFoundation: any | null; tier: ChapterInitResult['resolverTier'] } {
+    const resolved = this.resolveExperience(subject, classNum, topic, mechanics);
+    const target = resolved.experience || resolved.foundation;
 
     const report = `### RESOURCE MATCH REPORT
-- **Chapter**: ${topic}
-- **Class**: Class ${classNum}
-- **Subject**: ${subject}
-- **Learning Objectives**:
-  1. Understand, reason, and visualize the core mechanics of ${topic}
-  2. Diagnose and correct student misconceptions without leaking answers
-- **Best Existing Experiences**: ${matchedNames || 'Escape Run (F01), MicroSims (F02)'}
-- **Best Reusable Mechanics**: ${best.mechanics ? best.mechanics.join(', ') : 'concept_simulations, parameter_sliders'}
-- **Best Simulations**: ${best.name} (${best.repo || 'Open-Source Catalog'})
-- **Best Narrative / Escape Structures**: Escapp (F09) progressive clue pattern / Chocolate Broccoli Challenge (F19) Observe->Decide->Act->Result
-- **Existing Coverage**: 85%
-- **New Work Required**: 15% (Adapting UI to AashaExperienceContract & Indic dictionary tokens)
-- **Reuse Strategy**: ${best.reuse_strategy || 'EXTRACT'}
-- **License Status**: PASS (${best.license || 'MIT'})
-- **Offline**: PASS (Zero remote CDN scripts)
-- **Mobile**: PASS (Fits same-frame mobile viewport, min 44px touch targets)
-- **Accessibility**: PASS (High contrast, readable typography)
-- **Localization**: PASS (Bilingual dictionary lookup in window.WM)
-- **AI Integration**: PASS (Pre-seeded in Knowledge Graph and Context Bus)
-- **Mastery**: PASS (4-stage progressive hints + zero spoiler feedback)
-- **Telemetry**: PASS (AashaExperienceContract telemetry event bus)
-- **Final Recommendation**: DO NOT BUILD FROM SCRATCH. Wrap and adapt ${best.name} under AashaExperienceContract.`;
+- Chapter: ${topic}
+- Class: Class ${classNum}
+- Subject: ${subject}
+- Resolver Tier: ${resolved.tier}
+- Required Mechanics: ${mechanics.join(', ') || 'NOT_SPECIFIED'}
+- Registered Certified Experience: ${resolved.experience?.component_id || 'NONE'}
+- Approved Foundation: ${resolved.foundation?.id || 'NONE'}
+- License Classification: ${resolved.experience?.license?.classification || resolved.foundation?.license || 'UNKNOWN'}
+- Offline Status: ${resolved.experience?.runtime?.offline_compatible === true ? 'PASS' : 'UNKNOWN'}
+- Provenance Evidence: ${resolved.experience?.provenance?.length ? 'PRESENT' : 'UNKNOWN'}
+- Component Certification: ${resolved.experience?.status === 'CERTIFIED' ? 'CERTIFIED' : 'NOT_CERTIFIED'}
+- New Synthesis Required: ${resolved.tier === 'TIER_3_DOMAIN_SYNTHESIS' ? 'YES' : 'NO'}
+- Reuse Rule: Capability/mechanic contract compatibility is required.
+- Safety Rule: Unknown provenance, dependency closure, or license status blocks component promotion.
+- Certification Rule: Chapter certification does not certify a reusable component.
+${target ? `- Selected Reuse Target: ${target.name || target.component_id || target.id}` : '- Selected Reuse Target: NONE'}
+`;
 
-    return { report, best };
+    return {
+      report,
+      bestExperience: resolved.experience,
+      bestFoundation: resolved.foundation,
+      tier: resolved.tier
+    };
   }
 
-  /**
-   * Initializes or fetches a validated Section 24 YAML Reusable Content Contract.
-   * If the contract does not exist, it is generated automatically with all curriculum
-   * intent, prebuilt foundation bindings, and misconception feedback templates.
-   */
   async ensureChapterContract(options: ChapterInitOptions): Promise<ChapterInitResult> {
-    const { subject, classNum, topic } = options;
+    const { subject, classNum, topic, customObjectives = [], mechanics = [] } = options;
     const slug = this.slugify(topic);
     const contractFileName = `${subject}_Class${classNum}_${slug}.yaml`;
     const contractPath = path.resolve(this.contractsDir, contractFileName);
 
-    const { report, best } = this.generateResourceMatchReport(subject, classNum, topic);
+    const match = this.generateResourceMatchReport(subject, classNum, topic, mechanics);
+    const target = match.bestExperience || match.bestFoundation;
 
     if (!fs.existsSync(contractPath)) {
       const yamlContent = `# AASHA Section 24 Reusable Content Contract
-# Auto-generated by ChapterContractManager
-# Universal Scope: Any Board, Any Class, Any Subject
-# Reuse Mandate: NEVER BUILD FROM SCRATCH
-
+# Deterministic resolver output. Unknowns remain UNKNOWN.
 chapter_meta:
   subject: "${subject}"
   class: ${classNum}
   topic: "${topic}"
   slug: "${slug}"
-  version: "1.0.0"
+  version: "1.1.0"
   created_at: "${new Date().toISOString()}"
 
-resource_match_report:
-  matched_foundation_id: "${best.id}"
-  matched_foundation_name: "${best.name}"
-  source_repo: "${best.repo || ''}"
-  reuse_strategy: "${best.reuse_strategy || 'EXTRACT'}"
-  license: "${best.license || 'MIT'}"
-  telemetry_compliant: true
-  same_frame_mobile_viewport: true
+resource_match:
+  resolver_tier: "${match.tier}"
+  target_id: "${target?.component_id || target?.id || 'NONE'}"
+  target_name: "${target?.name || 'NONE'}"
+  mechanics: [${mechanics.map(m => JSON.stringify(m)).join(', ')}]
+  certification_required: true
+
+curriculum_intent:
+  objectives:
+${(customObjectives.length ? customObjectives : [
+  `Understand the core mechanics of ${topic}`,
+  `Diagnose misconceptions without leaking answers`
+]).map(o => `    - ${JSON.stringify(o)}`).join('\n')}
 
 pedagogy_structure:
   golden_rule_stages:
-    - "WHAT"
-    - "WHY"
-    - "HOW"
-    - "SHOW"
-    - "TRY"
-    - "FEEDBACK"
-    - "CONNECT"
-    - "NAME"
-  teaching_mode: "${subject.toLowerCase() === 'mathematics' ? 'Notice -> Represent -> Reason' : 'Observe -> Wonder -> Predict'}"
-
-curriculum_intent:
-  core_concepts:
-    - id: "concept_1"
-      title: "Introduction to ${topic}"
-      hook: "Observe the real-world occurrence of ${topic}"
-      why_type: "Conceptual"
-      explanation_student_layer: "Understand the core mechanism without jargon"
-      academic_precision_layer: "Formal mathematical/scientific definition and notation"
-
-misconceptions:
-  - id: "misc_1"
-    trigger_error: "Confusion with procedural steps or sign inversion"
-    feedback_4_tier_hints:
-      hint_1_attention: "Look closely at the initial expression."
-      hint_2_relationship: "Notice how the elements relate to each other."
-      hint_3_strategy: "Recall the core operational rule before calculating."
-      hint_4_procedure: "Apply the balanced operation to both parts."
-    zero_spoiler_explanation: "Explains why the student's erroneous step fails without giving the solution."
+    - WHAT
+    - WHY
+    - HOW
+    - SHOW
+    - TRY
+    - FEEDBACK
+    - CONNECT
+    - NAME
 
 simulation_adapter:
   contract_interface: "AashaExperienceContract"
-  target_foundation: "${best.id}"
-  container_id: "sim-container"
-  methods_implemented:
-    - "mount"
-    - "getState"
-    - "reset"
-    - "destroy"
-    - "telemetry"
+  methods_required:
+    - mount
+    - getState
+    - reset
+    - destroy
+  telemetry_is_separate_from_learning_state: true
 
-lle_bilingual_insulation:
-  math_insulation_enabled: true
-  target_languages: ["hi"] # Hindi-focused bilingual substrate
-  dictionary_substrate: "window.WM"
+governance:
+  teacher_validation_when_required: true
+  chapter_certification_implies_component_certification: false
+  unknown_license_blocks_promotion: true
+  shadow_dom_is_not_license_isolation: true
+  offline_requires_local_dependency_closure: true
 `;
       fs.writeFileSync(contractPath, yamlContent, 'utf-8');
-      console.log(`[ChapterContractManager] Created Section 24 YAML contract at: ${contractPath}`);
     }
 
-    // Seed chapter node into Knowledge Graph
     let seeded = false;
     try {
       const graph = this.bus.getGraph();
@@ -199,17 +216,31 @@ lle_bilingual_insulation:
           subject,
           classNum,
           topic,
-          foundationId: best.id,
-          contractPath,
-        },
+          resolverTier: match.tier,
+          experienceId: match.bestExperience?.component_id || null,
+          foundationId: match.bestFoundation?.id || null,
+          contractPath
+        }
       });
-      await graph.addEdge({
-        id: `${nodeId}_USES_${best.id}`,
-        source: nodeId,
-        target: `foundation_${best.id}`,
-        relation: 'ADAPTS_FOUNDATION',
-        properties: { strategy: best.reuse_strategy },
-      });
+
+      if (match.bestExperience?.component_id) {
+        await graph.addEdge({
+          id: `${nodeId}_USES_${match.bestExperience.component_id}`,
+          source: nodeId,
+          target: `experience_${match.bestExperience.component_id}`,
+          relation: 'REUSES_CERTIFIED_EXPERIENCE',
+          properties: { resolverTier: match.tier }
+        });
+      } else if (match.bestFoundation?.id) {
+        await graph.addEdge({
+          id: `${nodeId}_USES_${match.bestFoundation.id}`,
+          source: nodeId,
+          target: `foundation_${match.bestFoundation.id}`,
+          relation: 'ADAPTS_APPROVED_FOUNDATION',
+          properties: { resolverTier: match.tier }
+        });
+      }
+
       seeded = true;
     } catch (e) {
       console.warn('[ChapterContractManager] Graph seeding warning:', e);
@@ -217,9 +248,11 @@ lle_bilingual_insulation:
 
     return {
       contractPath,
-      resourceMatchReport: report,
-      matchedFoundation: best,
-      seededToGraph: seeded,
+      resourceMatchReport: match.report,
+      matchedExperience: match.bestExperience,
+      matchedFoundation: match.bestFoundation,
+      resolverTier: match.tier,
+      seededToGraph: seeded
     };
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-08",
+  "last_updated": "2026-09-26",
   "foundations": [
     {
       "id": "F01",
@@ -119,7 +119,8 @@
         "molecule_builder",
         "states_of_matter"
       ],
-      "reuse_strategy": "EXTRACT"
+      "reuse_strategy": "SANDBOX_ONLY",
+      "governance_status": "LICENSE_ISOLATION_REQUIRED"
     },
     {
       "id": "F05",
@@ -245,7 +246,8 @@
         "room_puzzle_hint_solution_evidence_flow",
         "team_challenge"
       ],
-      "reuse_strategy": "INSPIRE"
+      "reuse_strategy": "LICENSE_REVIEW_REQUIRED",
+      "governance_status": "LICENSE_REVIEW_REQUIRED"
     },
     {
       "id": "F10",
@@ -441,7 +443,8 @@
         "computational_thinking_portal",
         "puzzle_levels"
       ],
-      "reuse_strategy": "INSPIRE"
+      "reuse_strategy": "LICENSE_REVIEW_REQUIRED",
+      "governance_status": "LICENSE_REVIEW_REQUIRED"
     },
     {
       "id": "F18",
@@ -733,5 +736,31 @@
       "status": "certified_100_percent",
       "ltruth_score": 100
     }
-  }
+  },
+  "registry_policy": {
+    "schema_version": "2.0.0",
+    "state_machine": [
+      "ABSENT",
+      "CANDIDATE",
+      "VERIFIED",
+      "CERTIFIED",
+      "DEPRECATED"
+    ],
+    "blocked_state": "BLOCKED",
+    "chapter_certification_implies_component_certification": false,
+    "reverse_extraction": "FALLBACK_ONLY_DERIVED",
+    "match_authority": "CAPABILITY_CONTRACT",
+    "resolver_order": [
+      "TIER_1_REGISTERED",
+      "TIER_2_APPROVED_FOUNDATION",
+      "TIER_3_DOMAIN_SYNTHESIS"
+    ],
+    "unknown_license_blocks_promotion": true,
+    "unknown_provenance_blocks_promotion": true,
+    "shadow_dom_is_not_license_isolation": true,
+    "offline_requires_local_dependency_closure": true,
+    "foundation_selection_requires_license_compatibility": true,
+    "foundation_unknown_or_copyleft_without_approved_isolation": "BLOCK"
+  },
+  "experiences": []
 }

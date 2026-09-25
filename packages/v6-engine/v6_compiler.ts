@@ -5,18 +5,77 @@ export interface V6CompilerOptions {
   inlineBase64Assets?: boolean;
 }
 
+
+export interface ExperienceArtifact {
+  componentId: string;
+  version: string;
+  source: string;
+  capabilityContract: {
+    capability_id: string;
+    version: string;
+    mechanics: string[];
+    inputs: string[];
+    outputs: string[];
+  };
+  provenance: {
+    sourceType: 'AASHA_NATIVE';
+    reference: string;
+  };
+}
+
+export interface V6CompileResult {
+  html: string;
+  errors: string[];
+  experienceArtifacts: ExperienceArtifact[];
+}
+
 export class V6Compiler {
   /**
    * Compiles Canonical IR into a standalone, offline V6 HTML5 stateful experience.
    */
-  static compile(ir: CanonicalIR, options: V6CompilerOptions = {}): { html: string; errors: string[] } {
+  static compile(ir: CanonicalIR, options: V6CompilerOptions = {}): V6CompileResult {
     // 1. Validate Canonical IR Invariants
     const validation = validateCanonicalIR(ir);
     if (!validation.valid) {
-      return { html: '', errors: validation.errors };
+      return { html: '', errors: validation.errors, experienceArtifacts: [] };
     }
 
     const { chapter_metadata, learning_objectives, concept_graph, assessment_items } = ir;
+
+    // Emit source-level reusable artifacts from Canonical IR. These are staged candidates only;
+    // certification/promotion remains a separate evidence-backed gate.
+    const capabilityById = new Map(ir.capability_requirements.map(c => [c.id, c]));
+    const experienceArtifacts: ExperienceArtifact[] = ir.experience_graph.states
+      .filter(state => state.type === 'interactive_sim' && state.capability_id)
+      .map(state => {
+        const capability = capabilityById.get(state.capability_id!);
+        const componentId = `exp.${state.capability_id!.replace(/^cap:/, '').replace(/[^a-zA-Z0-9._-]+/g, '_')}`;
+        const contract = {
+          capability_id: state.capability_id!,
+          version: '1.0.0',
+          mechanics: capability ? [capability.interaction_type] : ['interactive_sim'],
+          inputs: ['config'],
+          outputs: ['serializable_state', 'semantic_events']
+        };
+        const className = `AashaExp_${componentId.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const source =
+          `// Generated from Canonical IR ${ir.chapter_metadata.chapter_id}\n` +
+          `// Candidate artifact. Certification is NOT implied by compilation.\n` +
+          `export class ${className} {\n` +
+          `  constructor(private readonly adapter: any) {}\n` +
+          `  mount(container: HTMLElement, config: Record<string, unknown>) { return this.adapter.mount(container, config); }\n` +
+          `  getState() { return this.adapter.getState(); }\n` +
+          `  reset() { return this.adapter.reset(); }\n` +
+          `  destroy() { return this.adapter.destroy(); }\n` +
+          `}\n`;
+        return {
+          componentId,
+          version: '1.0.0',
+          source,
+          capabilityContract: contract,
+          provenance: { sourceType: 'AASHA_NATIVE' as const, reference: ir.compilation_manifest.ir_hash }
+        };
+      });
 
     // 2. Generate Standalone Offline HTML Package with <aasha-sim> Web Component
     const html = `<!DOCTYPE html>
@@ -148,6 +207,6 @@ export class V6Compiler {
 </body>
 </html>`;
 
-    return { html, errors: [] };
+    return { html, errors: [], experienceArtifacts };
   }
 }

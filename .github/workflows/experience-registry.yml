@@ -1,0 +1,27 @@
+name: AASHA Experience Registry Verification
+
+on:
+  push:
+    branches:
+      - "feat/experience-registry-governed-reuse-v1"
+  pull_request:
+    paths:
+      - "experience_registry/**"
+      - "packages/adapters/**"
+      - "packages/chapter-contract-manager.ts"
+      - "packages/v6-engine/v6_compiler.ts"
+      - "package.json"
+
+jobs:
+  registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install --ignore-scripts --no-audit --no-fund
+      - run: npm run test:experience-registry
+      - run: npm run test:registry-ingestion
+      - run: npx tsc --noEmit --pretty false
