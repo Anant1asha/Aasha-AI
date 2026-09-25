@@ -100,6 +100,29 @@ export class RegistryIngestionEngine {
     return parsed;
   }
 
+  /** Fallback only: derive candidate source from compiled HTML. Never treats HTML as canonical. */
+  stageDerivedFromHtml(
+    metadata: Omit<ExperienceCandidate, 'status' | 'artifact_hash' | 'provenance'>,
+    html: string
+  ): ExperienceCandidate {
+    const scripts = [...html.matchAll(/<script(?:[^>]*)>([\\s\\S]*?)<\\/script>/gi)].map(m => m[1]);
+    const customElementBlock = scripts.find(s => /customElements\\.define\\(['\"]aasha-sim/.test(s)) || scripts.join('\\n');
+    if (!customElementBlock.trim()) throw new Error('DERIVED_SOURCE_NOT_FOUND');
+    return this.stageCandidate({
+      metadata: {
+        ...metadata,
+        status: 'CANDIDATE',
+        provenance: [{
+          source_type: 'DERIVED',
+          reference: 'compiled-html',
+          evidence: ['fallback extraction only; source review required']
+        }]
+      },
+      componentCode: customElementBlock,
+      sourceKind: 'DERIVED'
+    });
+  }
+
   stageCandidate(input: RegisterComponentInput): ExperienceCandidate {
     this.ensureDirs();
     const metadata = { ...input.metadata, status: input.metadata.status ?? 'CANDIDATE' } as ExperienceCandidate;
