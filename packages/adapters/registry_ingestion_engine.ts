@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 import * as fs from 'fs';
-import * as path from 'path';
+import * as path from 'path';\nimport { ContextBus } from '../memory-engine/context_bus';
 
 export type ExperienceStatus = 'CANDIDATE' | 'VERIFIED' | 'CERTIFIED' | 'BLOCKED' | 'DEPRECATED';
 
@@ -129,7 +129,7 @@ export class RegistryIngestionEngine {
     return { valid: blockers.length === 0, blockers };
   }
 
-  promoteCandidate(candidate: ExperienceCandidate): { promoted: boolean; blockers: string[] } {
+  private async seedGraph(candidate: ExperienceCandidate): Promise<void> {\n    const bus = new ContextBus();\n    const graph = bus.getGraph();\n    const nodeId = `experience_${candidate.component_id}`;\n    await graph.addNode({\n      id: nodeId,\n      label: 'CertifiedExperience',\n      properties: {\n        componentId: candidate.component_id,\n        version: candidate.version,\n        mechanics: candidate.mechanic_tags,\n        artifactHash: candidate.artifact_hash,\n        status: candidate.status\n      }\n    });\n    for (const tag of candidate.mechanic_tags) {\n      const capId = `capability_${tag}`;\n      await graph.addNode({ id: capId, label: 'ExperienceMechanic', properties: { mechanic: tag } });\n      await graph.addEdge({\n        id: `${nodeId}_IMPLEMENTS_${capId}`,\n        source: nodeId,\n        target: capId,\n        relation: 'IMPLEMENTS_MECHANIC',\n        properties: {}\n      });\n    }\n  }\n\n  promoteCandidate(candidate: ExperienceCandidate): { promoted: boolean; blockers: string[] } {
     const check = this.validateCandidate(candidate);
     if (!check.valid) return { promoted: false, blockers: check.blockers };
 
