@@ -107,7 +107,7 @@ export class RegistryIngestionEngine {
     html: string
   ): ExperienceCandidate {
     const scripts = [...html.matchAll(/<script(?:[^>]*)>([\\s\\S]*?)<\\/script>/gi)].map(m => m[1]);
-    const customElementBlock = scripts.find(s => /customElements\\.define\\(['\"]aasha-sim/.test(s)) || scripts.join('\\n');
+    const customElementBlock = scripts.find(s => /customElements\\.define\\(['\"]aasha-sim/.test(s)) || scripts.join('\n');
     if (!customElementBlock.trim()) throw new Error('DERIVED_SOURCE_NOT_FOUND');
     return this.stageCandidate({
       metadata: {
@@ -154,21 +154,38 @@ export class RegistryIngestionEngine {
   }
 
   private async seedGraph(candidate: ExperienceCandidate): Promise<void> {
-    const bus = new ContextBus();\n    const graph = bus.getGraph();
-    const nodeId = `experience_${candidate.component_id}`;\n    await graph.addNode({
-      id: nodeId,\n      label: 'CertifiedExperience',\n      properties: {
-        componentId: candidate.component_id,\n        version: candidate.version,\n        mechanics: candidate.mechanic_tags,\n        artifactHash: candidate.artifact_hash,\n        status: candidate.status
+    const bus = new ContextBus();
+    const graph = bus.getGraph();
+    const nodeId = `experience_${candidate.component_id}`;
+    await graph.addNode({
+      id: nodeId,
+      label: 'CertifiedExperience',
+      properties: {
+        componentId: candidate.component_id,
+        version: candidate.version,
+        mechanics: candidate.mechanic_tags,
+        artifactHash: candidate.artifact_hash,
+        status: candidate.status
       }
     });
     for (const tag of candidate.mechanic_tags) {
       const capId = `capability_${tag}`;
-      await graph.addNode({ id: capId, label: 'ExperienceMechanic', properties: { mechanic: tag } });
+      await graph.addNode({
+        id: capId,
+        label: 'ExperienceMechanic',
+        properties: { mechanic: tag }
+      });
       await graph.addEdge({
-        id: `${nodeId}_IMPLEMENTS_${capId}`,\n        source: nodeId,\n        target: capId,\n        relation: 'IMPLEMENTS_MECHANIC',\n        properties: {}
+        id: `${nodeId}_IMPLEMENTS_${capId}`,
+        source: nodeId,
+        target: capId,
+        relation: 'IMPLEMENTS_MECHANIC',
+        properties: {}
       });
     }
   }
-\n  promoteCandidate(candidate: ExperienceCandidate): { promoted: boolean; blockers: string[] } {
+
+  promoteCandidate(candidate: ExperienceCandidate): { promoted: boolean; blockers: string[] } {
     const check = this.validateCandidate(candidate);
     if (!check.valid) return { promoted: false, blockers: check.blockers };
 
