@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-08",
+  "last_updated": "2026-09-26",
   "foundations": [
     {
       "id": "F01",
@@ -733,5 +733,29 @@
       "status": "certified_100_percent",
       "ltruth_score": 100
     }
-  }
+  },
+  "registry_policy": {
+    "schema_version": "2.0.0",
+    "state_machine": [
+      "ABSENT",
+      "CANDIDATE",
+      "VERIFIED",
+      "CERTIFIED",
+      "DEPRECATED"
+    ],
+    "blocked_state": "BLOCKED",
+    "chapter_certification_implies_component_certification": false,
+    "reverse_extraction": "FALLBACK_ONLY_DERIVED",
+    "match_authority": "CAPABILITY_CONTRACT",
+    "resolver_order": [
+      "TIER_1_REGISTERED",
+      "TIER_2_APPROVED_FOUNDATION",
+      "TIER_3_DOMAIN_SYNTHESIS"
+    ],
+    "unknown_license_blocks_promotion": true,
+    "unknown_provenance_blocks_promotion": true,
+    "shadow_dom_is_not_license_isolation": true,
+    "offline_requires_local_dependency_closure": true
+  },
+  "experiences": []
 }
