@@ -31,7 +31,7 @@ class ExperienceEngine {
       .map(e => {
         const subjectHit = !subject || (e.subjects || []).some(s => this._text(s) === this._text(subject) || s === 'General');
         const classHit = !grade || (e.classes || []).includes(Number(grade));
-        if (!subjectHit || !classHit) return null;
+        if (!subjectHit || !classHit || !this._foundationEligible(f)) return null;
 
         const tags = new Set(e.mechanic_tags || []);
         const contract = e.capability_contract || {};
@@ -46,6 +46,14 @@ class ExperienceEngine {
       })
       .filter(Boolean)
       .sort((a, b) => b.score - a.score);
+  }
+
+  _foundationEligible(f) {
+    const license = this._text(f.license);
+    const strategy = String(f.reuse_strategy || '').toUpperCase();
+    if (strategy === 'SANDBOX_ONLY' || strategy === 'LICENSE_REVIEW_REQUIRED') return false;
+    if (license.includes('gpl') || license.includes('proprietary') || license.includes('non-commercial') || license.includes('opensource')) return false;
+    return ['mit', 'apache-2.0', 'apache 2.0', 'cc-by', 'cc-by-4.0'].some(x => license.includes(x));
   }
 
   _foundationMatches(criteria) {
