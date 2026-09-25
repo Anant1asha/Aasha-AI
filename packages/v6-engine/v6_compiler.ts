@@ -9,14 +9,14 @@ export class V6Compiler {
   /**
    * Compiles Canonical IR into a standalone, offline V6 HTML5 stateful experience.
    */
-  static compile(ir: CanonicalIR, options: V6CompilerOptions = {}): { html: string; errors: string[] } {
+  static compile(ir: CanonicalIR, options: V6CompilerOptions = {}): V6CompileResult {
     // 1. Validate Canonical IR Invariants
     const validation = validateCanonicalIR(ir);
     if (!validation.valid) {
-      return { html: '', errors: validation.errors };
+      return { html: '', errors: validation.errors, experienceArtifacts: [] };
     }
 
-    const { chapter_metadata, learning_objectives, concept_graph, assessment_items } = ir;
+    const { chapter_metadata, learning_objectives, concept_graph, assessment_items } = ir;\n\n    // Emit source-level reusable artifacts from Canonical IR. These are staged candidates only;\n    // certification/promotion remains a separate evidence-backed gate.\n    const capabilityById = new Map(ir.capability_requirements.map(c => [c.id, c]));\n    const experienceArtifacts: ExperienceArtifact[] = ir.experience_graph.states\n      .filter(state => state.type === 'interactive_sim' && state.capability_id)\n      .map(state => {\n        const capability = capabilityById.get(state.capability_id!);\n        const componentId = `exp.${state.capability_id!.replace(/^cap:/, '').replace(/[^a-zA-Z0-9._-]+/g, '_')}`;\n        const contract = {\n          capability_id: state.capability_id!,\n          version: '1.0.0',\n          mechanics: capability ? [capability.interaction_type] : ['interactive_sim'],\n          inputs: ['config'],\n          outputs: ['serializable_state', 'semantic_events']\n        };\n        const source = `// Generated from Canonical IR ${ir.chapter_metadata.chapter_id}\\n` +\n          `// Candidate artifact. Certification is NOT implied by compilation.\\n` +\n          `export class ${componentId.replace(/[^a-zA-Z0-9]/g, '_')} {\\n` +\n          `  constructor(private readonly adapter: any) {}\\n` +\n          `  mount(container: HTMLElement, config: Record<string, unknown>) { return this.adapter.mount(container, config); }\\n` +\n          `  getState() { return this.adapter.getState(); }\\n` +\n          `  reset() { return this.adapter.reset(); }\\n` +\n          `  destroy() { return this.adapter.destroy(); }\\n` +\n          `}\\n`;\n        return {\n          componentId,\n          version: '1.0.0',\n          source,\n          capabilityContract: contract,\n          provenance: { sourceType: 'AASHA_NATIVE' as const, reference: ir.compilation_manifest.ir_hash }\n        };\n      });
 
     // 2. Generate Standalone Offline HTML Package with <aasha-sim> Web Component
     const html = `<!DOCTYPE html>
@@ -148,6 +148,6 @@ export class V6Compiler {
 </body>
 </html>`;
 
-    return { html, errors: [] };
+    return { html, errors: [], experienceArtifacts };
   }
 }
