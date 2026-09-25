@@ -40,6 +40,14 @@ export class ChapterContractManager {
     return text.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
   }
 
+  private foundationEligible(f: any): boolean {
+    const license = String(f.license || '').toLowerCase();
+    const strategy = String(f.reuse_strategy || '').toUpperCase();
+    if (strategy === 'SANDBOX_ONLY' || strategy === 'LICENSE_REVIEW_REQUIRED') return false;
+    if (license.includes('gpl') || license.includes('proprietary') || license.includes('non-commercial') || license.includes('opensource')) return false;
+    return ['mit', 'apache-2.0', 'apache 2.0', 'cc-by', 'cc-by-4.0'].some(x => license.includes(x));
+  }
+
   private loadRegistry(): any {
     if (!fs.existsSync(this.registryPath)) throw new Error('REGISTRY_MISSING');
     const registry = JSON.parse(fs.readFileSync(this.registryPath, 'utf-8'));
@@ -79,7 +87,7 @@ export class ChapterContractManager {
       const classHit = !f.classes?.length || f.classes.includes(classNum);
       const mechanicHit = mechanics.length === 0 ||
         mechanics.some(m => (f.mechanics || []).some((fm: string) => fm.toLowerCase().includes(m.toLowerCase())));
-      return subjectHit && classHit && mechanicHit;
+      return subjectHit && classHit && mechanicHit && this.foundationEligible(f);
     });
 
     if (foundations.length > 0) {
