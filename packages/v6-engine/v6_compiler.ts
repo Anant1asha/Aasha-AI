@@ -5,6 +5,30 @@ export interface V6CompilerOptions {
   inlineBase64Assets?: boolean;
 }
 
+
+export interface ExperienceArtifact {
+  componentId: string;
+  version: string;
+  source: string;
+  capabilityContract: {
+    capability_id: string;
+    version: string;
+    mechanics: string[];
+    inputs: string[];
+    outputs: string[];
+  };
+  provenance: {
+    sourceType: 'AASHA_NATIVE';
+    reference: string;
+  };
+}
+
+export interface V6CompileResult {
+  html: string;
+  errors: string[];
+  experienceArtifacts: ExperienceArtifact[];
+}
+
 export class V6Compiler {
   /**
    * Compiles Canonical IR into a standalone, offline V6 HTML5 stateful experience.
