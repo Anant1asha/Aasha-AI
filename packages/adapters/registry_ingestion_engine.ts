@@ -107,7 +107,7 @@ export class RegistryIngestionEngine {
     html: string
   ): ExperienceCandidate {
     const scripts = [...html.matchAll(/<script(?:[^>]*)>([\\s\\S]*?)<\\/script>/gi)].map(m => m[1]);
-    const customElementBlock = scripts.find(s => /customElements\\.define\\(['\"]aasha-sim/.test(s)) || scripts.join('\n');
+    const customElementBlock = scripts.find(s => /customElements\.define\(['\"]aasha-sim/.test(s)) || scripts.join('\n');
     if (!customElementBlock.trim()) throw new Error('DERIVED_SOURCE_NOT_FOUND');
     return this.stageCandidate({
       metadata: {
