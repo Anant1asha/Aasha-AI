@@ -46,7 +46,7 @@ const promoted = engine.promoteCandidate(candidate);
 assert.equal(promoted.promoted, true);
 assert.equal(engine.resolve({ mechanics: ['partition'], subject: 'Mathematics', classNum: 8 })[0].component_id, 'exp.demo_sim');
 
-const blocked = { ...candidate, component_id: 'exp.blocked', license: { classification:'UNKNOWN', isolation_mode:'NATIVE' as const } };
+const derived = engine.stageDerivedFromHtml({\n  component_id: 'exp.derived_sim', version: '1.0.0',\n  capability_contract: { capability_id: 'cap:derived', version: '1.0.0', mechanics: ['partition'], inputs: ['whole'], outputs: ['selection'] },\n  mechanic_tags: ['partition'], subjects: ['Mathematics'], classes: [8], dependencies: [],\n  runtime: { offline_compatible: true, external_urls: [] },\n  license: { classification: 'LICENSE_REVIEW_REQUIRED', isolation_mode: 'BLOCKED' },\n  verification: { component_gates: {}, evidence_refs: [] }, lineage: {}\n}, '<script>customElements.define(\\\'aasha-sim\\\', class {});</script>');\nassert.equal(derived.status, 'CANDIDATE');\n\nconst blocked = { ...candidate, component_id: 'exp.blocked', license: { classification:'UNKNOWN', isolation_mode:'NATIVE' as const } };
 assert.equal(engine.promoteCandidate(blocked).promoted, false);
 
 console.log('PASS: candidate staging, certification gate, promotion, and tier-1 resolution');
