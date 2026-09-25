@@ -16,7 +16,42 @@ export class V6Compiler {
       return { html: '', errors: validation.errors, experienceArtifacts: [] };
     }
 
-    const { chapter_metadata, learning_objectives, concept_graph, assessment_items } = ir;\n\n    // Emit source-level reusable artifacts from Canonical IR. These are staged candidates only;\n    // certification/promotion remains a separate evidence-backed gate.\n    const capabilityById = new Map(ir.capability_requirements.map(c => [c.id, c]));\n    const experienceArtifacts: ExperienceArtifact[] = ir.experience_graph.states\n      .filter(state => state.type === 'interactive_sim' && state.capability_id)\n      .map(state => {\n        const capability = capabilityById.get(state.capability_id!);\n        const componentId = `exp.${state.capability_id!.replace(/^cap:/, '').replace(/[^a-zA-Z0-9._-]+/g, '_')}`;\n        const contract = {\n          capability_id: state.capability_id!,\n          version: '1.0.0',\n          mechanics: capability ? [capability.interaction_type] : ['interactive_sim'],\n          inputs: ['config'],\n          outputs: ['serializable_state', 'semantic_events']\n        };\n        const className = `AashaExp_${componentId.replace(/[^a-zA-Z0-9]/g, '_')}`;\n        const source = `// Generated from Canonical IR ${ir.chapter_metadata.chapter_id}\\n` +\n          `// Candidate artifact. Certification is NOT implied by compilation.\\n` +\n          `export class ${className} {\\n` +\n          `  constructor(private readonly adapter: any) {}\\n` +\n          `  mount(container: HTMLElement, config: Record<string, unknown>) { return this.adapter.mount(container, config); }\\n` +\n          `  getState() { return this.adapter.getState(); }\\n` +\n          `  reset() { return this.adapter.reset(); }\\n` +\n          `  destroy() { return this.adapter.destroy(); }\\n` +\n          `}\\n`;\n        return {\n          componentId,\n          version: '1.0.0',\n          source,\n          capabilityContract: contract,\n          provenance: { sourceType: 'AASHA_NATIVE' as const, reference: ir.compilation_manifest.ir_hash }\n        };\n      });
+    const { chapter_metadata, learning_objectives, concept_graph, assessment_items } = ir;
+
+    // Emit source-level reusable artifacts from Canonical IR. These are staged candidates only;
+    // certification/promotion remains a separate evidence-backed gate.
+    const capabilityById = new Map(ir.capability_requirements.map(c => [c.id, c]));
+    const experienceArtifacts: ExperienceArtifact[] = ir.experience_graph.states
+      .filter(state => state.type === 'interactive_sim' && state.capability_id)
+      .map(state => {
+        const capability = capabilityById.get(state.capability_id!);
+        const componentId = `exp.${state.capability_id!.replace(/^cap:/, '').replace(/[^a-zA-Z0-9._-]+/g, '_')}`;
+        const contract = {
+          capability_id: state.capability_id!,
+          version: '1.0.0',
+          mechanics: capability ? [capability.interaction_type] : ['interactive_sim'],
+          inputs: ['config'],
+          outputs: ['serializable_state', 'semantic_events']
+        };
+        const className = `AashaExp_${componentId.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const source =
+          `// Generated from Canonical IR ${ir.chapter_metadata.chapter_id}\n` +
+          `// Candidate artifact. Certification is NOT implied by compilation.\n` +
+          `export class ${className} {\n` +
+          `  constructor(private readonly adapter: any) {}\n` +
+          `  mount(container: HTMLElement, config: Record<string, unknown>) { return this.adapter.mount(container, config); }\n` +
+          `  getState() { return this.adapter.getState(); }\n` +
+          `  reset() { return this.adapter.reset(); }\n` +
+          `  destroy() { return this.adapter.destroy(); }\n` +
+          `}\n`;
+        return {
+          componentId,
+          version: '1.0.0',
+          source,
+          capabilityContract: contract,
+          provenance: { sourceType: 'AASHA_NATIVE' as const, reference: ir.compilation_manifest.ir_hash }
+        };
+      });
 
     // 2. Generate Standalone Offline HTML Package with <aasha-sim> Web Component
     const html = `<!DOCTYPE html>
