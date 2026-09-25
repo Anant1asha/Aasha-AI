@@ -35,7 +35,7 @@ const candidate = engine.stageCandidate({
 
 assert.equal(candidate.status, 'CANDIDATE');
 assert.match(candidate.artifact_hash, /^sha256:[a-f0-9]{64}$/);
-assert.equal(engine.resolve({ mechanics: ['partition'], subject: 'Mathematics', classNum: 8 }).length, 0);
+assert.equal(engine.resolve({ mechanics: ['partition'], subject: 'Mathematics', classNum: 8 }).length, 0);\nconst foundationOnly = engine.resolve({ subject: 'Mathematics', classNum: 8, query: 'Foundation' });\nassert.notEqual(foundationOnly[0]?.tier, 'TIER_2_APPROVED_FOUNDATION');
 
 candidate.verification.component_gates = {
   functional:'PASS', capability_contract:'PASS', browser_runtime:'PASS', offline:'PASS',
