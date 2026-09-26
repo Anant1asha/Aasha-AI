@@ -567,6 +567,110 @@
       ],
       "reuse_strategy": "EXTRACT",
       "adapter": "experience_registry/adapters/aasha_cinephysics_dimensional_adapter.js"
+    },
+    {
+      "id": "F23",
+      "name": "King's Math 10-Frame & Place Value Manipulative",
+      "repo": "https://kingsmath.com/?lang=en",
+      "license": "MIT",
+      "subjects": [
+        "Mathematics"
+      ],
+      "classes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mechanics": [
+        "ten_frame_counting",
+        "place_value_bundling",
+        "hybrid_touch_stepper_controls",
+        "bilingual_instant_toggle",
+        "same_frame_mobile_viewport"
+      ],
+      "reuse_strategy": "EXTRACT",
+      "adapter": "Aasha-AI/packages/adapters/domain_sim_generators.ts#generateTenFrameSim"
+    },
+    {
+      "id": "F24",
+      "name": "King's Math Dynamic Fraction & Decimal Slices",
+      "repo": "https://kingsmath.com/?lang=en",
+      "license": "MIT",
+      "subjects": [
+        "Mathematics"
+      ],
+      "classes": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "mechanics": [
+        "fraction_pizza_slices",
+        "equivalent_fractions",
+        "decimal_fraction_synchronous_sync",
+        "hybrid_touch_stepper_controls",
+        "bilingual_instant_toggle"
+      ],
+      "reuse_strategy": "EXTRACT",
+      "adapter": "Aasha-AI/packages/adapters/domain_sim_generators.ts#generateFractionPizzaSim"
+    },
+    {
+      "id": "F25",
+      "name": "King's Math Number-Line Hunter & Factor Finder",
+      "repo": "https://kingsmath.com/?lang=en",
+      "license": "MIT",
+      "subjects": [
+        "Mathematics"
+      ],
+      "classes": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "mechanics": [
+        "zoomable_number_line",
+        "target_number_hunting",
+        "high_tempo_60s_boss_fluency",
+        "hybrid_touch_stepper_controls",
+        "bilingual_instant_toggle"
+      ],
+      "reuse_strategy": "EXTRACT",
+      "adapter": "Aasha-AI/packages/adapters/domain_sim_generators.ts#generateNumberHunterSim"
+    },
+    {
+      "id": "F26",
+      "name": "King's Math Interactive Symmetry & Geometry Fold",
+      "repo": "https://kingsmath.com/?lang=en",
+      "license": "MIT",
+      "subjects": [
+        "Mathematics",
+        "Geometry"
+      ],
+      "classes": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "mechanics": [
+        "2d_reflection_axis",
+        "geometry_shape_folding",
+        "line_of_symmetry_verification",
+        "hybrid_touch_stepper_controls",
+        "bilingual_instant_toggle"
+      ],
+      "reuse_strategy": "EXTRACT",
+      "adapter": "Aasha-AI/packages/adapters/domain_sim_generators.ts#generateSymmetryFoldSim"
     }
   ],
   "secondary_libraries": {

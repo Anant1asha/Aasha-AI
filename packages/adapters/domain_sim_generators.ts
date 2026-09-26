@@ -22,7 +22,15 @@ export class DomainSimGenerators {
     const topic = config.topic.toLowerCase();
     const subject = config.subject.toLowerCase();
 
-    if (subject.includes('math') || topic.includes('fraction') || topic.includes('algebra') || topic.includes('equation') || topic.includes('exponent')) {
+    if (topic.includes('ten-frame') || topic.includes('10-frame') || topic.includes('place-value') || topic.includes('10-maker') || topic.includes('base10')) {
+      return this.generateTenFrameSim(config);
+    } else if (topic.includes('fraction') || topic.includes('pizza') || topic.includes('slice') || topic.includes('decimal')) {
+      return this.generateFractionPizzaSim(config);
+    } else if (topic.includes('number-line') || topic.includes('hunter') || topic.includes('jump') || topic.includes('factor') || topic.includes('multiple')) {
+      return this.generateNumberHunterSim(config);
+    } else if (topic.includes('symmetry') || topic.includes('reflection') || topic.includes('fold') || topic.includes('mirror')) {
+      return this.generateSymmetryFoldSim(config);
+    } else if (subject.includes('math') || topic.includes('algebra') || topic.includes('equation') || topic.includes('exponent')) {
       return this.generateMathSim(config);
     } else if (subject.includes('science') || topic.includes('physics') || topic.includes('circuit') || topic.includes('chem') || topic.includes('light')) {
       return this.generateScienceSim(config);
