@@ -102,7 +102,10 @@ export class V6Compiler {
 <div class="shell">
   <div class="header">
     <div class="header-title">${title}</div>
-    <div class="xp-badge">⚡ <span id="xpVal">0</span> XP</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="lang-toggle-btn" id="langToggleBtn" aria-label="Toggle Language" style="min-height:36px;min-width:44px;padding:4px 8px;border-radius:6px;border:1px solid #475569;background:#334155;color:#F1F5F9;font-size:12px;font-weight:700;cursor:pointer;">EN | हिन्दी</button>
+      <div class="xp-badge">⚡ <span id="xpVal">0</span> XP</div>
+    </div>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div class="screen" id="screen"></div>
@@ -211,12 +214,28 @@ class AashaSimElement extends HTMLElement {
   }
   get adapter() { return this._adapter; }
 }
+// ── Domain Interactive Simulation Script ─────────────────────────────
+${simScript}
+
 if (typeof customElements !== 'undefined' && !customElements.get('aasha-sim')) {
   customElements.define('aasha-sim', AashaSimElement);
 }
 
-// ── Domain Interactive Simulation Script ─────────────────────────────
-${simScript}
+// ── Instant Language Controller ─────────────────────────────────────────
+window.__AASHA_LANG__ = '${lang}' || 'en';
+window.AashaLang = {
+  get: () => window.__AASHA_LANG__,
+  toggle: () => {
+    window.__AASHA_LANG__ = window.__AASHA_LANG__ === 'hi' ? 'en' : 'hi';
+    const btn = document.getElementById('langToggleBtn');
+    if (btn) btn.innerText = window.__AASHA_LANG__ === 'hi' ? 'हिन्दी ➔ EN' : 'EN ➔ हिन्दी';
+    window.dispatchEvent(new CustomEvent('aasha:language_change', { detail: { lang: window.__AASHA_LANG__ } }));
+  }
+};
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('langToggleBtn');
+  if (btn) btn.addEventListener('click', () => window.AashaLang.toggle());
+});
 
 
 // ── Bilingual rt() ─────────────────────────────────────────────────────
