@@ -1,4 +1,5 @@
-import { CanonicalIR, validateCanonicalIR } from '../canonical-ir/canonical_ir_schema';
+import { CanonicalIR, validateCanonicalIR } from '../canonical-ir/canonical_ir_schema.ts';
+import { DomainSimGenerators } from '../adapters/domain_sim_generators.ts';
 
 export interface V6CompilerOptions {
   minify?: boolean;
@@ -23,6 +24,13 @@ export class V6Compiler {
     const title = ir.chapter_metadata.title;
     const lang = ir.accessibility_envelope.primary_language;
     const theme = ir.visual_grammar.primary_color_theme;
+
+    const simScript = DomainSimGenerators.generateSimScript({
+      subject: ir.chapter_metadata.subject || 'Math',
+      topic: ir.chapter_metadata.title || 'Concept',
+      topicSlug: ir.chapter_metadata.chapter_id || 'ch1',
+      grade: ir.chapter_metadata.grade || 8
+    });
 
     // 2. Generate Standalone Offline HTML Package
     const html = `<!DOCTYPE html>
@@ -206,6 +214,9 @@ class AashaSimElement extends HTMLElement {
 if (typeof customElements !== 'undefined' && !customElements.get('aasha-sim')) {
   customElements.define('aasha-sim', AashaSimElement);
 }
+
+// ── Domain Interactive Simulation Script ─────────────────────────────
+${simScript}
 
 
 // ── Bilingual rt() ─────────────────────────────────────────────────────
@@ -553,6 +564,15 @@ window.App={nIdx:0,exit:function(){this.nIdx=0;if(window.exp)window.exp.advance(
 </script>
 </body>
 </html>`;
+
+    // Enforce 40 MB hard bundle ceiling per AASHA-SPEC-02-TRD
+    const byteLength = Buffer.byteLength(html, 'utf8');
+    if (byteLength > 41943040) {
+      return {
+        html: '',
+        errors: [`Rule 11 Violation: Child HTML5 learning bundle size (${byteLength} bytes / ${(byteLength / (1024 * 1024)).toFixed(2)} MB) exceeds hard 40 MB ceiling (41943040 bytes).`]
+      };
+    }
 
     return { html, errors: [] };
   }

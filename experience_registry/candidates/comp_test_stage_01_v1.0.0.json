@@ -1,0 +1,62 @@
+{
+  "component_id": "comp_test_stage_01",
+  "version": "1.0.0",
+  "status": "CANDIDATE",
+  "capability_contract": {
+    "capability_id": "cap:comp_test_stage_01",
+    "mechanics": [
+      "balance_beam"
+    ],
+    "inputs": [
+      "user_click",
+      "slider_drag"
+    ],
+    "outputs": [
+      "state_change",
+      "telemetry"
+    ],
+    "state": [
+      "activeStep",
+      "value"
+    ],
+    "interaction_model": "direct_manipulative"
+  },
+  "mechanic_tags": [
+    "balance_beam"
+  ],
+  "applicability": {
+    "subjects": [
+      "Mathematics"
+    ],
+    "classes": [
+      8
+    ],
+    "boards": [
+      "NCERT",
+      "CBSE"
+    ]
+  },
+  "dependencies": [],
+  "runtime": {
+    "offline": true,
+    "external_urls": []
+  },
+  "provenance": {
+    "source_type": "AASHA_NATIVE_SYNTHESIS",
+    "origin_repo_or_pdf_hash": "sha256_mock_provenance",
+    "author_or_pipeline_version": "AASHA_V6_ORCHESTRATOR_v2.0"
+  },
+  "license": {
+    "spdx_identifier": "MIT",
+    "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+    "license_status": "APPROVED"
+  },
+  "verification": {
+    "gates_passed": [],
+    "benchmark_evidence_hash": "",
+    "verified_at": "2026-09-24T01:27:51.940Z"
+  },
+  "artifact_hash": "1b034c1c642eb1cb9b7c4ed44117252d708a4f4b60fb98f19af9f4c2dc9064af",
+  "lineage": {},
+  "component_code": "class TestComp01 extends HTMLElement {}"
+}

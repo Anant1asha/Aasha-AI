@@ -319,6 +319,21 @@ class ChapterAuditor {
       this.failedChecks.push(`Rule #10 Violation: Found external network dependencies: ${externalUrls.join(', ')}`);
       this.stats.ruleViolations++;
     }
+
+    // Rule 11: Air-Gapped Offline Bundle Size Ceiling (<= 40 MB = 41,943,040 bytes per AASHA-SPEC-02-TRD)
+    const MAX_BUNDLE_BYTES = 41943040;
+    try {
+      const stats = fs.statSync(this.filePath);
+      if (stats.size <= MAX_BUNDLE_BYTES) {
+        this.passedChecks.push(`Rule #11: Air-Gapped Offline Bundle Size (${(stats.size / (1024 * 1024)).toFixed(2)} MB) satisfies <= 40 MB ceiling (${stats.size} <= ${MAX_BUNDLE_BYTES} bytes).`);
+      } else {
+        this.failedChecks.push(`Rule #11 Violation: Artifact file size (${stats.size} bytes / ${(stats.size / (1024 * 1024)).toFixed(2)} MB) exceeds hard 40 MB ceiling (${MAX_BUNDLE_BYTES} bytes). Release is BLOCKED.`);
+        this.stats.ruleViolations++;
+      }
+    } catch (e) {
+      this.failedChecks.push(`Rule #11 Violation: Could not stat file size for ${this.filePath}: ${e.message}`);
+      this.stats.ruleViolations++;
+    }
   }
 
   auditKnowStagePedagogy() {
@@ -407,6 +422,9 @@ let targetFiles = [];
 
 if (fileArgIdx !== -1 && args[fileArgIdx + 1]) {
   const customPath = path.resolve(process.cwd(), args[fileArgIdx + 1]);
+  targetFiles = [customPath];
+} else if (args.length > 0 && !args[0].startsWith('--')) {
+  const customPath = path.resolve(process.cwd(), args[0]);
   targetFiles = [customPath];
 } else {
   targetFiles = [

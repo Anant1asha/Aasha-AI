@@ -1,0 +1,94 @@
+{
+  "job_id": "job_1789853840095_f4a3d934",
+  "version": 1,
+  "status": "DEPLOYED",
+  "created_at": "2026-09-19T21:37:20.096Z",
+  "updated_at": "2026-09-19T21:37:20.774Z",
+  "handoff_envelope": {
+    "document_id": "doc_verified_001",
+    "school_name": "Aasha Pilot Academy",
+    "grade": 8,
+    "subject": "Mathematics",
+    "topic": "Rational Numbers",
+    "target_language": "hi-en",
+    "pdf_meta": {
+      "filename": "NCERT_Class8_Math_Ch01.pdf",
+      "file_size_bytes": 2048000,
+      "pdf_sha256": "a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0",
+      "board": "NCERT"
+    },
+    "ingress_timestamp": "2026-09-19T21:37:20.094Z",
+    "ingress_source": "studio_direct"
+  },
+  "progress_percentage": 100,
+  "current_phase": "Deployed to school distribution library",
+  "state_history": [
+    {
+      "from_state": null,
+      "to_state": "CREATED",
+      "timestamp_utc": "2026-09-19T21:37:20.096Z",
+      "triggered_by": "studio_direct",
+      "reason": "Job created from handoff envelope"
+    },
+    {
+      "from_state": "CREATED",
+      "to_state": "QUEUED",
+      "timestamp_utc": "2026-09-19T21:37:20.099Z",
+      "triggered_by": "AiosOrchestrator"
+    },
+    {
+      "from_state": "QUEUED",
+      "to_state": "INGESTING",
+      "timestamp_utc": "2026-09-19T21:37:20.100Z",
+      "triggered_by": "AiosOrchestrator"
+    },
+    {
+      "from_state": "INGESTING",
+      "to_state": "STRUCTURING",
+      "timestamp_utc": "2026-09-19T21:37:20.101Z",
+      "triggered_by": "AiosOrchestrator"
+    },
+    {
+      "from_state": "STRUCTURING",
+      "to_state": "GENERATING",
+      "timestamp_utc": "2026-09-19T21:37:20.757Z",
+      "triggered_by": "AiosOrchestrator"
+    },
+    {
+      "from_state": "GENERATING",
+      "to_state": "COMPILING",
+      "timestamp_utc": "2026-09-19T21:37:20.758Z",
+      "triggered_by": "AiosOrchestrator"
+    },
+    {
+      "from_state": "COMPILING",
+      "to_state": "QA",
+      "timestamp_utc": "2026-09-19T21:37:20.764Z",
+      "triggered_by": "AiosOrchestrator"
+    },
+    {
+      "from_state": "QA",
+      "to_state": "READY_FOR_REVIEW",
+      "timestamp_utc": "2026-09-19T21:37:20.770Z",
+      "triggered_by": "AiosOrchestrator"
+    },
+    {
+      "from_state": "READY_FOR_REVIEW",
+      "to_state": "APPROVED",
+      "timestamp_utc": "2026-09-19T21:37:20.773Z",
+      "triggered_by": "AiosOrchestrator"
+    },
+    {
+      "from_state": "APPROVED",
+      "to_state": "DEPLOYED",
+      "timestamp_utc": "2026-09-19T21:37:20.774Z",
+      "triggered_by": "AiosOrchestrator"
+    }
+  ],
+  "repair_attempt_count": 0,
+  "max_repair_attempts": 2,
+  "contract_hash": "d8e842a80dc38ff7c9cda79816dfea89d0d00dea57074fb36017094ea8e6c792",
+  "artifact_hash": "3bd04373c0762c39a0c4830a7599d68890e1db34109872c8de9c6a90214ab1f6",
+  "certification_hash": "a47f8a1cc384f40e58fe5d7ca713dbf7ef64476af47d975aaa8c40557afd34cc",
+  "manifest_hash": "bf3e79db0034a5c1bfaa8831386f893866063792a244d163aad19de33bdf325e"
+}

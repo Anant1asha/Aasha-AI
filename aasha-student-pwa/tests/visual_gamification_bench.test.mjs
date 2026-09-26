@@ -64,7 +64,7 @@ test('Benchmark 2: Assessment Latency (<50ms for 500 rapid evaluations)', () => 
   assert.equal(state.events.length, 500);
 });
 
-test('Benchmark 3: End-to-End Simulation Telemetry to Mastery Synchronization', () => {
+test('Benchmark 3: Simulation telemetry is excluded from mastery evidence', () => {
   const state = {
     events: [],
     sync_outbox: [],
@@ -86,7 +86,7 @@ test('Benchmark 3: End-to-End Simulation Telemetry to Mastery Synchronization', 
   recordSimulationTelemetry(state, nodeId, { eventType: 'fraction_changed', selected: 4, total: 5 });
 
   m = computeMastery(state, nodeId);
-  assert.ok(m.mastery > 0, 'Simulation telemetry directly advances foundational mastery evidence');
+  assert.equal(m.mastery, 0, 'Simulation activity cannot increase assessment mastery');
   assert.equal(m.sim_interactions, 2);
 });
 
@@ -130,3 +130,4 @@ test('Benchmark 5: Non-Destructive Runtime Lifecycle (100 Mount/Pause/Resume/Des
     ec.destroy();
   }
 });
+

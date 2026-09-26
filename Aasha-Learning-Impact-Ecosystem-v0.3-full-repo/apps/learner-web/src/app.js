@@ -451,7 +451,7 @@ function practice(nodeId){
 
 function finishAssessment(nodeId, firstAttempts = [], retryLog = []){
   const result = assessNode({ nodeId, attempts: firstAttempts });
-  teasResults = teasResults.filter(r => r.nodeId !== nodeId).concat(result);
+  teasResults = teasResults.filter(r => r.nodeId !== nodeId).concat({ ...result, attempts: firstAttempts });
 
   const retriesCount = retryLog.filter(l => l.isRetry).length;
 
@@ -516,3 +516,4 @@ window.addEventListener('online', async () => {
 });
 
 render();
+

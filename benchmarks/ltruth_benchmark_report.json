@@ -3,7 +3,7 @@
     "filename": "Class5_Math_Ch01_Gamified.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class5_Math_Ch01_Gamified.html",
     "finalScore": 100,
-    "passedChecksCount": 12,
+    "passedChecksCount": 13,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 1,
@@ -27,6 +27,7 @@
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
       "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.11 MB) satisfies <= 40 MB ceiling (111987 <= 41943040 bytes).",
       "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
     ],
     "failedChecks": []
@@ -35,7 +36,7 @@
     "filename": "Class5_Math_Ch02_Gamified.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class5_Math_Ch02_Gamified.html",
     "finalScore": 100,
-    "passedChecksCount": 12,
+    "passedChecksCount": 13,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 1,
@@ -59,6 +60,7 @@
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
       "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.11 MB) satisfies <= 40 MB ceiling (111958 <= 41943040 bytes).",
       "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
     ],
     "failedChecks": []
@@ -67,7 +69,7 @@
     "filename": "Class6_Math_Ch01_Gamified.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class6_Math_Ch01_Gamified.html",
     "finalScore": 100,
-    "passedChecksCount": 12,
+    "passedChecksCount": 13,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 1,
@@ -91,6 +93,7 @@
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
       "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.11 MB) satisfies <= 40 MB ceiling (111837 <= 41943040 bytes).",
       "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
     ],
     "failedChecks": []
@@ -99,7 +102,7 @@
     "filename": "Class6_Math_Ch02_Gamified.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class6_Math_Ch02_Gamified.html",
     "finalScore": 100,
-    "passedChecksCount": 12,
+    "passedChecksCount": 13,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 1,
@@ -123,6 +126,7 @@
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
       "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.11 MB) satisfies <= 40 MB ceiling (111742 <= 41943040 bytes).",
       "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
     ],
     "failedChecks": []
@@ -131,7 +135,7 @@
     "filename": "Class8_Math_Ch01_Gamified.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class8_Math_Ch01_Gamified.html",
     "finalScore": 100,
-    "passedChecksCount": 12,
+    "passedChecksCount": 13,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 1,
@@ -155,6 +159,7 @@
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
       "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.11 MB) satisfies <= 40 MB ceiling (111781 <= 41943040 bytes).",
       "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
     ],
     "failedChecks": []
@@ -163,7 +168,7 @@
     "filename": "Class8_Math_Ch02_Gamified.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\Class8_Math_Ch02_Gamified.html",
     "finalScore": 100,
-    "passedChecksCount": 12,
+    "passedChecksCount": 13,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 1,
@@ -187,6 +192,7 @@
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
       "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.11 MB) satisfies <= 40 MB ceiling (111757 <= 41943040 bytes).",
       "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
     ],
     "failedChecks": []
@@ -195,7 +201,7 @@
     "filename": "RationalNumbers_Class8_Gamified_v5_Enhanced_v6.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\RationalNumbers_Class8_Gamified_v5_Enhanced_v6.html",
     "finalScore": 100,
-    "passedChecksCount": 12,
+    "passedChecksCount": 13,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 5,
@@ -219,6 +225,7 @@
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
       "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.09 MB) satisfies <= 40 MB ceiling (93117 <= 41943040 bytes).",
       "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
     ],
     "failedChecks": []
@@ -227,7 +234,7 @@
     "filename": "ExponentsPowers_Class8_Gamified_v5_Enhanced_v6.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\standalone_chapters\\ExponentsPowers_Class8_Gamified_v5_Enhanced_v6.html",
     "finalScore": 100,
-    "passedChecksCount": 12,
+    "passedChecksCount": 13,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 5,
@@ -251,6 +258,7 @@
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
       "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.08 MB) satisfies <= 40 MB ceiling (88663 <= 41943040 bytes).",
       "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
     ],
     "failedChecks": []
@@ -259,7 +267,7 @@
     "filename": "RationalNumbers_Class8_AD.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\RationalNumbers_Class8_AD.html",
     "finalScore": 100,
-    "passedChecksCount": 12,
+    "passedChecksCount": 13,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 5,
@@ -283,6 +291,7 @@
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
       "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.08 MB) satisfies <= 40 MB ceiling (88360 <= 41943040 bytes).",
       "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
     ],
     "failedChecks": []
@@ -291,7 +300,7 @@
     "filename": "LinearEquations_Class8_v6.html",
     "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\LinearEquations_Class8_v6.html",
     "finalScore": 100,
-    "passedChecksCount": 11,
+    "passedChecksCount": 12,
     "failedChecksCount": 0,
     "stats": {
       "totalNodes": 0,
@@ -314,7 +323,8 @@
       "Rule #7: _weCheckRendered flag present for multi-phase Worked Example check flow.",
       "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
       "Rule #9: exit() resets state immediately without modal dialogs.",
-      "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies."
+      "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.06 MB) satisfies <= 40 MB ceiling (59315 <= 41943040 bytes)."
     ],
     "failedChecks": []
   }

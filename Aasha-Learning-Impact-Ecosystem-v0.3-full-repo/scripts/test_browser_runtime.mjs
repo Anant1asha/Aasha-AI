@@ -223,7 +223,7 @@ async function simulateLearnerExperience() {
 
   const teasAuth = progressionAuthority({
     orderedNodeIds: tln2.orderedNodes().map(n => n.id),
-    masteryByNode: { perimeter: res2.mastery ? 1 : 0, area: 0, distinction: 0 }
+    masteryByNode: { perimeter: { mastery: res2.mastery ? 0.77 : 0, attempts: res2.total }, area: { mastery: 0, attempts: 0 }, distinction: { mastery: 0, attempts: 0 } }
   });
   console.log(`  TEAS Progression: Next unlocked concept is -> "${teasAuth.next}" (Area: Surface Coverage)`);
 
@@ -241,3 +241,4 @@ async function run() {
 }
 
 run();
+

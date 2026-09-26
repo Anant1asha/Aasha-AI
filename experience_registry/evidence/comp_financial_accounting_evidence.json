@@ -1,0 +1,96 @@
+{
+  "candidate": {
+    "component_id": "comp_financial_accounting",
+    "version": "1.0.0",
+    "status": "CERTIFIED",
+    "capability_contract": {
+      "capability_id": "cap:comp_financial_accounting",
+      "mechanics": [
+        "interactive_simulation",
+        "parameter_sliders"
+      ],
+      "inputs": [
+        "user_click",
+        "slider_drag"
+      ],
+      "outputs": [
+        "state_change",
+        "telemetry"
+      ],
+      "state": [
+        "activeStep",
+        "value"
+      ],
+      "interaction_model": "direct_manipulative"
+    },
+    "mechanic_tags": [
+      "interactive_simulation",
+      "parameter_sliders"
+    ],
+    "applicability": {
+      "subjects": [
+        "Commerce"
+      ],
+      "classes": [
+        12
+      ],
+      "boards": [
+        "NCERT",
+        "CBSE"
+      ]
+    },
+    "dependencies": [],
+    "runtime": {
+      "offline": true,
+      "external_urls": []
+    },
+    "provenance": {
+      "source_type": "AASHA_NATIVE_SYNTHESIS",
+      "origin_repo_or_pdf_hash": "66505e773e51fb965ff7bd27dccb67bbe3c146e6e338c7b3a8d905e2daae0cfc",
+      "author_or_pipeline_version": "v2.0"
+    },
+    "license": {
+      "spdx_identifier": "MIT",
+      "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+      "license_status": "APPROVED"
+    },
+    "verification": {
+      "gates_passed": [
+        "FUNCTIONAL",
+        "CAPABILITY_CONTRACT",
+        "BROWSER_RUNTIME",
+        "OFFLINE",
+        "PROVENANCE",
+        "LICENSE",
+        "ACCESSIBILITY",
+        "PERFORMANCE",
+        "SECURITY_CHILD_SAFETY",
+        "MAINTAINABILITY",
+        "AASHA_INTEGRATION"
+      ],
+      "benchmark_evidence_hash": "372a085191e99ea9d9718d9efcc6c8c5c552556ae059c71cb50800b9cab6144e",
+      "verified_at": "2026-09-24T01:21:14.153Z"
+    },
+    "artifact_hash": "b56182f11b73466844f4d8729705ac15a56de922e72802457b4d3943fc4707ad",
+    "lineage": {},
+    "component_code": "// <aasha-sim> Component for Financial Accounting\nclass AashaSim_financial_accounting extends HTMLElement {}"
+  },
+  "gateEval": {
+    "allowed": true,
+    "gates": {
+      "FUNCTIONAL": "PASS",
+      "CAPABILITY_CONTRACT": "PASS",
+      "BROWSER_RUNTIME": "PASS",
+      "OFFLINE": "PASS",
+      "PROVENANCE": "PASS",
+      "LICENSE": "PASS",
+      "ACCESSIBILITY": "PASS",
+      "PERFORMANCE": "PASS",
+      "SECURITY_CHILD_SAFETY": "PASS",
+      "MAINTAINABILITY": "PASS",
+      "AASHA_INTEGRATION": "PASS"
+    },
+    "reason": "All 11 mandatory gates PASSED."
+  },
+  "benchmarkEvidenceHash": "372a085191e99ea9d9718d9efcc6c8c5c552556ae059c71cb50800b9cab6144e"
+}

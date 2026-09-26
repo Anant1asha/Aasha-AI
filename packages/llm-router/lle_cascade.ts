@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AASHA LLE Cascade — packages/llm-router/lle_cascade.ts
  *
  * 3-Layer Hindi (Indic) Translation Cascade — ZERO paid API bleed
@@ -40,10 +40,24 @@ function isMathTerm(term: string): boolean {
 // Layer 1: Local WM Dictionary Lookup
 // ---------------------------------------------------------------------------
 
-const DICT_BASE = path.join(
-  __dirname,
-  '../../Aasha-AIOS/layer-2-education/lle/dictionaries'
-);
+// Resolve dictionary base from CWD (project root) — works reliably in tsx + node
+// tsx: __dirname may resolve to a temp dir. CWD = Aasha-AI/ when run from project root.
+const DICT_BASE = (() => {
+  // Try CWD-relative first (standard run from Aasha-AI/ root)
+  const cwdPath = path.join(process.cwd(), 'Aasha-AIOS', 'layer-2-education', 'lle', 'dictionaries');
+  if (fs.existsSync(cwdPath)) return cwdPath;
+
+  // Fallback: walk up from __filename (tsx provides this via import.meta)
+  // Go up from packages/llm-router/ → Aasha-AI/ → AIOS layer
+  const filePath = path.join(
+    path.dirname(process.argv[1] ?? __filename ?? ''),
+    '../../Aasha-AIOS/layer-2-education/lle/dictionaries'
+  );
+  if (fs.existsSync(filePath)) return filePath;
+
+  // Hard fallback: absolute path pattern for this repo
+  return cwdPath; // let downstream existsSync handle missing gracefully
+})();
 
 function loadDictionary(lang: string): Record<string, string> {
   const dictPath = path.join(DICT_BASE, `${lang}.json`);
@@ -173,6 +187,25 @@ export interface LLEResult {
 
 const _cache = new Map<string, LLEResult>();
 
+function autoPersistToDictionary(term: string, lang: string, translation: string): void {
+  try {
+    const dictPath = path.join(DICT_BASE, `${lang}.json`);
+    let dict: Record<string, any> = {};
+    if (fs.existsSync(dictPath)) {
+      const raw = fs.readFileSync(dictPath, 'utf-8');
+      dict = JSON.parse(raw.replace(/^\uFEFF/, ''));
+    }
+    const key = term.toLowerCase().trim();
+    if (!dict[key]) {
+      dict[key] = translation;
+      fs.writeFileSync(dictPath, JSON.stringify(dict, null, 2) + '\n', 'utf-8');
+      console.log(`[LLE Cascade] 💾 Auto-persisted new term to ${lang}.json: "${key}" → "${translation}"`);
+    }
+  } catch (err: any) {
+    console.warn(`[LLE Cascade] Warning: Failed to auto-persist "${term}" to ${lang}.json: ${err.message}`);
+  }
+}
+
 export async function translateTerm(
   term: string,
   lang: string = 'hi'
@@ -211,6 +244,7 @@ export async function translateTerm(
   // Layer 2: Google Translate free (deterministic, 0 cost, ~500ms)
   const gtResult = await googleTranslateFree(term, config.gtCode);
   if (gtResult) {
+    autoPersistToDictionary(term, lang, gtResult);
     const result: LLEResult = {
       term, lang, translation: gtResult,
       layer: 2, source: 'GOOGLE_TRANSLATE',
@@ -221,6 +255,9 @@ export async function translateTerm(
 
   // Layer 3: gemini-2.0-flash-exp:free via OpenRouter (free LLM, ~3-5s)
   const llmResult = await openrouterIndicLLM(term, lang, config.name, config.script);
+  if (llmResult) {
+    autoPersistToDictionary(term, lang, llmResult);
+  }
   const result: LLEResult = {
     term, lang,
     translation: llmResult,

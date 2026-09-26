@@ -1,0 +1,29 @@
+{
+  "policy_id": "AASHA-TEAS-CANONICAL",
+  "version": "1.0.0",
+  "status": "CANONICAL_FOR_ECOSYSTEM_V0_3",
+  "authority": "TEAS",
+  "ai_can_recommend_progression": false,
+  "score_scale": "0_TO_1",
+  "mastery": {
+    "formula": "0.6 * all_accepted_attempt_accuracy + 0.4 * last_5_accepted_attempt_accuracy",
+    "historical_window": "all accepted attempt-level records for node and policy version",
+    "recent_window_attempts": 5,
+    "simulation_bonus": 0,
+    "minimum_attempts": 3,
+    "progression_threshold": 0.75
+  },
+  "progression": {
+    "authority": "TEAS",
+    "strategy": "SEQUENTIAL_UNLOCK",
+    "first_node_open": true,
+    "unlock_condition": "prior node mastery >= 0.75 and >= 3 accepted attempts",
+    "ai_role": "advisory only; cannot unlock or persist progression"
+  },
+  "reasoning": {
+    "60_40_weights": "PROJECT_AI_RULES.md and packages/v6-engine/v6_runtime_bus.ts",
+    "threshold_and_minimum_attempts": "Aasha-Learning-Impact-Ecosystem-v0.3-full-repo/packages/teas-engine/src/policy.js",
+    "simulation_bonus_removed": "simulation activity is not assessment correctness evidence",
+    "conflicting_implementations": "superseded by this versioned contract; callers must pass attempt-level evidence"
+  }
+}

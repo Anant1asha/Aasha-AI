@@ -7,6 +7,7 @@ and supports resume from any stage via --from-stage.
 from __future__ import annotations
 
 import json
+import hashlib
 import logging
 import shutil
 import time
@@ -31,6 +32,25 @@ from ..schemas.validator import validate_chapter_spec
 from .agent_bus import AgentBus
 
 logger = logging.getLogger(__name__)
+MAX_CHILD_HTML5_BUNDLE_BYTES = 20_971_520
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def validate_child_bundle_size(size_bytes: int) -> int:
+    if size_bytes < 0:
+        raise ValueError("INVALID_BUNDLE_SIZE")
+    if size_bytes > MAX_CHILD_HTML5_BUNDLE_BYTES:
+        raise ValueError(
+            f"BUNDLE_SIZE_EXCEEDED: {size_bytes} > {MAX_CHILD_HTML5_BUNDLE_BYTES} bytes"
+        )
+    return size_bytes
 
 
 class Orchestrator:
@@ -88,14 +108,39 @@ class Orchestrator:
         """Create a new job and return the job ID."""
         from ..schemas import STAGE_ORDER_V5, STAGE_ORDER_FS
         
+        pdf_path = Path(pdf_path)
+        if not pdf_path.is_file():
+            raise FileNotFoundError(f"SOURCE_FILE_MISSING: {pdf_path}")
+        with pdf_path.open("rb") as source:
+            if source.read(5) != b"%PDF-":
+                raise ValueError(f"INVALID_PDF_HEADER: {pdf_path.name}")
+
+        source_sha256 = _sha256_file(pdf_path)
+        source_pdf_bytes = pdf_path.stat().st_size
         job_id = str(uuid.uuid4())
         work_dir = self.work_root / job_id
-        work_dir.mkdir(parents=True, exist_ok=True)
+        work_dir.mkdir(parents=True, exist_ok=False)
 
-        # Copy PDF to work dir
-        pdf_path = Path(pdf_path)
-        if pdf_path.exists():
-            shutil.copy(str(pdf_path), str(work_dir / "source.pdf"))
+        # Hash the copied input too, so a change during copy cannot be hidden.
+        copied_pdf = work_dir / "source.pdf"
+        shutil.copyfile(str(pdf_path), str(copied_pdf))
+        copied_sha256 = _sha256_file(copied_pdf)
+        if copied_sha256 != source_sha256:
+            raise ValueError("SOURCE_HASH_MISMATCH: PDF changed while creating the job copy")
+
+        source_manifest = {
+            "manifest_version": "1.0.0",
+            "source_artifact_id": f"sha256:{source_sha256}",
+            "source_sha256": source_sha256,
+            "source_file": pdf_path.name,
+            "byte_size": source_pdf_bytes,
+            "page_count": None,
+            "created_at": self._now_iso(),
+            "lineage_status": "SOURCE_HASHED_PAGE_EXTRACTION_PENDING",
+        }
+        (work_dir / "source_manifest.json").write_text(
+            json.dumps(source_manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
 
         stage_order = STAGE_ORDER_FS if mode == "full-synthesis" else STAGE_ORDER_V5
 
@@ -106,6 +151,8 @@ class Orchestrator:
             updated_at=self._now_iso(),
             input={
                 "source_pdf": pdf_path.name,
+                "source_pdf_sha256": source_sha256,
+                "source_pdf_bytes": source_pdf_bytes,
                 "subject": subject,
                 "grade": grade,
                 "provider": provider,
@@ -190,6 +237,7 @@ class Orchestrator:
 
         context = {
             "pdf_path": str(work_dir / "source.pdf"),
+            "source_pdf_sha256": job.input.source_pdf_sha256,
             "subject": job.input.subject,
             "grade": job.input.grade,
             "provider": job.input.provider,
@@ -257,6 +305,21 @@ class Orchestrator:
                     if stage == "ingest":
                         agent = IngestAgent()
                         stage_result = agent.run(work_dir, context)
+                        if stage_result.get("error"):
+                            raise ValueError(f"SOURCE_EXTRACTION_FAILED: {stage_result['error']}")
+                        if stage_result.get("source_sha256") != job.input.source_pdf_sha256:
+                            raise ValueError("SOURCE_HASH_MISMATCH: ingestion output is not bound to the job source")
+                        manifest_path = work_dir / "source_manifest.json"
+                        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                        raw_extract_path = work_dir / "raw_extract.json"
+                        manifest.update({
+                            "page_count": stage_result.get("page_count"),
+                            "raw_extract_sha256": _sha256_file(raw_extract_path),
+                            "lineage_status": "SOURCE_HASHED_PAGES_REFERENCED",
+                        })
+                        manifest_path.write_text(
+                            json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+                        )
                         for entry in agent.logs:
                             log(f"  {entry}")
 
@@ -476,9 +539,14 @@ class Orchestrator:
                         log(f"  Assembled chapter.html ({html_path.stat().st_size / 1024:.0f} KB)")
 
                     elif stage == "qa":
+                        html_path = work_dir / "chapter.html"
+                        if not html_path.is_file():
+                            raise FileNotFoundError("CHILD_BUNDLE_MISSING: chapter.html")
+                        bundle_size_bytes = validate_child_bundle_size(html_path.stat().st_size)
                         qa_runner = self.config.pipeline.qa_runner
                         agent = QAAgent(qa_runner)
                         stage_result = agent.run(work_dir, context)
+                        stage_result["bundle_size_bytes"] = bundle_size_bytes
                         for entry in agent.logs:
                             log(f"  {entry}")
                         

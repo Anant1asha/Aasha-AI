@@ -1,0 +1,64 @@
+{
+  "component_id": "comp_test_gate_10",
+  "version": "1.0.0",
+  "status": "CANDIDATE",
+  "capability_contract": {
+    "capability_id": "cap:comp_test_gate_10",
+    "mechanics": [
+      "interactive_simulation"
+    ],
+    "inputs": [
+      "user_click",
+      "slider_drag"
+    ],
+    "outputs": [
+      "state_change",
+      "telemetry"
+    ],
+    "state": [
+      "activeStep",
+      "value"
+    ],
+    "interaction_model": "direct_manipulative"
+  },
+  "mechanic_tags": [
+    "interactive_simulation"
+  ],
+  "applicability": {
+    "subjects": [
+      "Mathematics"
+    ],
+    "classes": [
+      8
+    ],
+    "boards": [
+      "NCERT",
+      "CBSE"
+    ]
+  },
+  "dependencies": [],
+  "runtime": {
+    "offline": false,
+    "external_urls": [
+      "http://external-cdn.com/lib.js"
+    ]
+  },
+  "provenance": {
+    "source_type": "AASHA_NATIVE_SYNTHESIS",
+    "origin_repo_or_pdf_hash": "sha256_mock_provenance",
+    "author_or_pipeline_version": "AASHA_V6_ORCHESTRATOR_v2.0"
+  },
+  "license": {
+    "spdx_identifier": "MIT",
+    "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+    "license_status": "APPROVED"
+  },
+  "verification": {
+    "gates_passed": [],
+    "benchmark_evidence_hash": "",
+    "verified_at": "2026-09-24T01:27:51.958Z"
+  },
+  "artifact_hash": "d2c90ee900484b9f76055a8f1969a64d774ef57c092b7cf1f9423cd67deadd38",
+  "lineage": {},
+  "component_code": "const url = \"http://external-cdn.com/lib.js\";"
+}

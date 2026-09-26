@@ -7,6 +7,7 @@ Output: raw_extract.json
 from __future__ import annotations
 
 import base64
+import hashlib
 import io
 import logging
 import re
@@ -32,6 +33,15 @@ class IngestAgent(BaseAgent):
         pdf_path = Path(context.get("pdf_path", work_dir / "source.pdf"))
         if not pdf_path.exists():
             raise FileNotFoundError(f"PDF not found: {pdf_path}")
+
+        source_hash = hashlib.sha256()
+        with pdf_path.open("rb") as source_file:
+            for chunk in iter(lambda: source_file.read(1024 * 1024), b""):
+                source_hash.update(chunk)
+        source_sha256 = source_hash.hexdigest()
+        expected_source_sha256 = context.get("source_pdf_sha256")
+        if expected_source_sha256 and expected_source_sha256 != source_sha256:
+            raise ValueError("SOURCE_HASH_MISMATCH: extracted PDF differs from the job source manifest")
 
         self.log(f"Opening PDF: {pdf_path.name}")
 
@@ -64,6 +74,7 @@ class IngestAgent(BaseAgent):
                 "output_file": "",
                 "error": "PDF appears to be scanned (no extractable text). OCR is not supported in MVP.",
                 "page_count": page_count,
+                "source_sha256": source_sha256,
             }
 
         pages = []
@@ -166,6 +177,11 @@ class IngestAgent(BaseAgent):
                     "text": text,
                     "blocks": page_blocks,
                     "images": page_images,
+                    "source_ref": {
+                        "source_artifact_id": f"sha256:{source_sha256}",
+                        "source_sha256": source_sha256,
+                        "page": page_num,
+                    },
                 })
 
             doc.close()
@@ -207,10 +223,17 @@ class IngestAgent(BaseAgent):
                     "text": text,
                     "blocks": page_blocks,
                     "images": [],
+                    "source_ref": {
+                        "source_artifact_id": f"sha256:{source_sha256}",
+                        "source_sha256": source_sha256,
+                        "page": page_num,
+                    },
                 })
 
         raw_extract = {
             "source_file": pdf_path.name,
+            "source_artifact_id": f"sha256:{source_sha256}",
+            "source_sha256": source_sha256,
             "page_count": page_count,
             "pages": pages,
             "headings": headings,
@@ -229,4 +252,5 @@ class IngestAgent(BaseAgent):
             "page_count": page_count,
             "heading_count": len(headings),
             "figure_count": len(figures),
+            "source_sha256": source_sha256,
         }

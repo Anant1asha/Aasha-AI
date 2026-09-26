@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aasha://governance/hil-approval/1.0",
+  "title": "AASHA Signed HIL Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_id", "action", "artifact_id", "artifact_hash", "version", "reviewer_id", "reviewer_role", "decision", "issued_at", "expires_at", "nonce", "key_id", "signature"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "decision_id": {"type": "string", "minLength": 1},
+    "action": {"enum": ["CERTIFY", "APPROVE", "DEPLOY"]},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "artifact_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "version": {"oneOf": [{"type":"integer","minimum":1},{"type":"string","minLength":1}]},
+    "reviewer_id": {"type": "string", "minLength": 1},
+    "reviewer_role": {"const": "SUPER_ADMIN"},
+    "decision": {"const": "APPROVED"},
+    "issued_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "nonce": {"type": "string", "pattern": "^[A-Za-z0-9_-]{16,128}$"},
+    "key_id": {"type": "string", "minLength": 1},
+    "signature": {"type": "string", "minLength": 16}
+  }
+}
+

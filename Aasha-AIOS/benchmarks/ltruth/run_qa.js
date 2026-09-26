@@ -85,10 +85,10 @@ function checkStructure() {
         check('has_teas_engine', html.includes('progressionDecision') || html.includes('computeMastery'), 'TEAS engine not found');
         check('has_telemetry_outbox', html.includes('sync_outbox') || html.includes('recordEvent'), 'Telemetry outbox not found');
     } else {
-        check('has_nodes', html.includes('var NODES='), 'NODES not found');
-        check('has_we', html.includes('var WE='), 'WE not found');
-        check('has_wm', html.includes('var WM='), 'WM not found');
-        check('has_conn', html.includes('var CONN='), 'CONN not found');
+        check('has_nodes', /\b(?:var|let|const)\s+NODES\s*=/.test(html), 'NODES not found');
+        check('has_we', /\b(?:var|let|const)\s+WE\s*=/.test(html), 'WE not found');
+        check('has_wm', /\b(?:var|let|const)\s+WM\s*=/.test(html), 'WM not found');
+        check('has_conn', /\b(?:var|let|const)\s+CONN\s*=/.test(html), 'CONN not found');
         check('has_app_init', html.includes('App.init()'), 'App.init() not found');
     }
 

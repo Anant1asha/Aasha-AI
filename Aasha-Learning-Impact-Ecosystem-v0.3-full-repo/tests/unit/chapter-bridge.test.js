@@ -73,7 +73,7 @@ test('Chapter Bridge: Standalone chapter integrates with TLN DAG and TEAS progre
   // Evaluate TEAS progression
   const auth = progressionAuthority({
     orderedNodeIds: orderedIds,
-    masteryByNode: { node_alg_1: 1, node_alg_2: 0, node_alg_3: 0 }
+    masteryByNode: { node_alg_1: { mastery: 0.77, attempts: 4 }, node_alg_2: { mastery: 0, attempts: 0 }, node_alg_3: { mastery: 0, attempts: 0 } }
   });
   assert.deepEqual(auth.unlocked, ['node_alg_1']);
   assert.equal(auth.authority, 'teas');
@@ -165,3 +165,4 @@ test('Chapter Bridge: ChapterRegistry dynamically manages and lists all chapters
   assert.equal(customChapter.stage, 'primary');
   assert.ok(registry.get(customChapter.id) !== null);
 });
+

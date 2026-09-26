@@ -138,7 +138,26 @@ class QuestionSchemaValidator {
     const normCorrect = normalizeMathText(rawCorrect).toLowerCase();
     const normM = normalizeMathText(mText).toLowerCase();
 
-    // 4a. Verbatim target answer inclusion (for non-pure-number terms, e.g. text/phrases/algebra)
+    // 4a. Boolean stopword bypass hardening (True / False answer leak detection)
+    const isBooleanTarget = /^(?:true|false)$/i.test(normCorrect);
+    if (isBooleanTarget) {
+      const boolLeakRegex = new RegExp(
+        '(?:\\b(?:' + LEAK_PREDICATES.map(p => escapeRegex(p).replace(/\s+/g, '\\s+(?:[a-z]+\\s+)?')).join('|') + '|statement\\s+is|claim\\s+is|option\\s+is|actually)\\b)\\s*(?:[a-z]+\\s*){0,3}[:=]?\\s*\\b' + escapeRegex(normCorrect) + '\\b',
+        'i'
+      );
+      if (boolLeakRegex.test(normM)) {
+        errors.push({
+          questionId: qId,
+          ruleId: 'RULE_1_SPOILER_BOOLEAN_LEAK',
+          severity: 'ERROR',
+          message: `Rule #1 Spoiler: Distractor #${optIdx + 1} ('${option.t}') reveals target boolean answer '${rawCorrect}' in explanation: "${mText}".`,
+          context: qContext
+        });
+        return errors;
+      }
+    }
+
+    // 4b. Verbatim target answer inclusion (for non-pure-number terms, e.g. text/phrases/algebra)
     const isPureNumber = /^-?\d+(?:\.\d+)?$/.test(normCorrect);
     if (!isPureNumber && normCorrect.length > 0) {
       const isStopword = STOPWORDS.has(normCorrect);
@@ -165,7 +184,7 @@ class QuestionSchemaValidator {
       }
     }
 
-    // 4b. Fraction answer leakage (e.g. -2/3 or -\frac{2}{3})
+    // 4c. Fraction answer leakage (e.g. -2/3 or -\frac{2}{3})
     const fracMatch = normCorrect.match(/^(-?\d+)\s*\/\s*(\d+)$/);
     if (fracMatch) {
       const num = fracMatch[1];
@@ -183,11 +202,14 @@ class QuestionSchemaValidator {
       }
     }
 
-    // 4c. Numerical value leakage patterns with comprehensive leak predicates
+    // 4d. Numerical value leakage patterns with adverb/modifier tolerance (up to 4 qualifier words)
     const nums = normCorrect.match(/-?\d+(?:\.\d+)?/g) || [];
     for (const n of nums) {
       const escapedN = escapeRegex(n);
-      const leakPattern = new RegExp(`(?:${LEAK_PREDICATES.join('|')})\\s*[:=]?\\s*${escapedN}\\b`, 'i');
+      const leakPattern = new RegExp(
+        '(?:\\b(?:' + LEAK_PREDICATES.map(p => escapeRegex(p).replace(/\s+/g, '\\s+(?:[a-z]+\\s+)?')).join('|') + ')\\b)\\s*(?:[a-z]+\\s*){0,4}[:=]?\\s*\\b' + escapedN + '\\b',
+        'i'
+      );
       if (leakPattern.test(normM)) {
         errors.push({
           questionId: qId,
@@ -240,8 +262,27 @@ class QuestionSchemaValidator {
     const nums = normCorrect.match(/-?\d+(?:\.\d+)?/g) || [];
     const isStopword = STOPWORDS.has(normCorrect);
 
+    const isBooleanTarget = /^(?:true|false)$/i.test(normCorrect);
+
     hintList.forEach((hintText, hIdx) => {
       const normH = normalizeMathText(hintText).toLowerCase();
+
+      // Check boolean answer leakage in hints
+      if (isBooleanTarget) {
+        const boolHintPattern = new RegExp(
+          '(?:\\b(?:' + LEAK_PREDICATES.map(p => escapeRegex(p).replace(/\s+/g, '\\s+(?:[a-z]+\\s+)?')).join('|') + '|statement\\s+is|claim\\s+is|option\\s+is|actually)\\b)\\s*(?:[a-z]+\\s*){0,3}[:=]?\\s*\\b' + escapeRegex(normCorrect) + '\\b',
+          'i'
+        );
+        if (boolHintPattern.test(normH)) {
+          errors.push({
+            questionId: qContext,
+            ruleId: 'RULE_12_HINT_SPOILER_BOOLEAN',
+            severity: 'ERROR',
+            message: `Progressive Hint Tier ${hIdx + 1} reveals boolean answer '${correctOption.t}' in: "${hintText}".`,
+            context: qContext
+          });
+        }
+      }
 
       // Check verbatim leakage across all tiers (including Tier 4 procedural step)
       if (normCorrect.length > 0 && !isStopword) {
@@ -264,10 +305,13 @@ class QuestionSchemaValidator {
         }
       }
 
-      // Check numerical value leakage with leak predicates
+      // Check numerical value leakage with leak predicates and adverb/qualifier tolerance
       for (const n of nums) {
         const escapedN = escapeRegex(n);
-        const leakPattern = new RegExp(`(?:${LEAK_PREDICATES.join('|')})\\s*[:=]?\\s*${escapedN}\\b`, 'i');
+        const leakPattern = new RegExp(
+          '(?:\\b(?:' + LEAK_PREDICATES.map(p => escapeRegex(p).replace(/\s+/g, '\\s+(?:[a-z]+\\s+)?')).join('|') + ')\\b)\\s*(?:[a-z]+\\s*){0,4}[:=]?\\s*\\b' + escapedN + '\\b',
+          'i'
+        );
         if (leakPattern.test(normH)) {
           errors.push({
             questionId: qContext,

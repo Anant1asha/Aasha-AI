@@ -1,0 +1,1241 @@
+{
+  "title": "Squares and Cubes — Class 8 (NCERT / RL Public School Complete 34 Textbook Exercises)",
+  "total_questions": 34,
+  "tier_counts": {
+    "warmup": 12,
+    "deep_dive": 14,
+    "boss": 8
+  },
+  "source_breakdown": {
+    "in_text_inquiry": 14,
+    "figure_it_out_p10": 9,
+    "figure_it_out_p16_17": 9,
+    "square_pairs_p18": 2
+  },
+  "questions": [
+    {
+      "id": "sc_q01",
+      "tag": "NCERT Fig It Out 1.1 p.10",
+      "tier": "warmup",
+      "q": "Which of the following numbers cannot be a perfect square based solely on its units digit? \\(2032\\), \\(2048\\), \\(1027\\), \\(1089\\)",
+      "ans": "\\(2032, 2048,\\) and \\(1027\\)",
+      "m": "Students often test only the first candidate number or fail to recall that ending in 2, 3, 7, or 8 rules out a perfect square.",
+      "opts": [
+        {
+          "t": "\\(2032, 2048,\\) and \\(1027\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Only \\(2032\\)",
+          "c": false,
+          "m": "Checked only the first ending digit while failing to recognize that integers ending in 7 or 8 cannot form squares."
+        },
+        {
+          "t": "Only \\(1027\\)",
+          "c": false,
+          "m": "Overlooked the ending digits 2 and 8, which can never terminate an integer square."
+        },
+        {
+          "t": "All four numbers",
+          "c": false,
+          "m": "Assumed that ending in 9 disqualifies an integer, whereas 33 multiplied by 33 terminates in 9."
+        }
+      ],
+      "hints": {
+        "h1": "Recall the set of possible units digits for any square integer: 0, 1, 4, 5, 6, 9.",
+        "h2": "Any integer ending in 2, 3, 7, or 8 can immediately be ruled out as an integer square.",
+        "h3": "Inspect the final digit of each listed number against the disqualified list 2, 3, 7, 8.",
+        "h4": "Separate the values terminating in 2, 8, or 7 from values that could potentially be square."
+      }
+    },
+    {
+      "id": "sc_q02",
+      "tag": "NCERT Fig It Out 1.2 p.10",
+      "tier": "warmup",
+      "q": "Which of the following expressions have the digit \\(4\\) in their units place? \\(64^2, 108^2, 292^2, 36^2\\)",
+      "ans": "\\(108^2\\) and \\(292^2\\)",
+      "m": "Conflating bases ending in 4 or 6 with bases ending in 2 or 8 when determining the units digit of squares.",
+      "opts": [
+        {
+          "t": "\\(108^2\\) and \\(292^2\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(64^2\\) and \\(36^2\\)",
+          "c": false,
+          "m": "Confused bases ending in 4 or 6 (whose squares terminate in 6) with squares terminating in 4."
+        },
+        {
+          "t": "Only \\(64^2\\)",
+          "c": false,
+          "m": "Assumed that a base ending in 4 generates a square ending in 4 rather than 6."
+        },
+        {
+          "t": "All four expressions",
+          "c": false,
+          "m": "Assumed every even base generates a square terminating in identical units digits."
+        }
+      ],
+      "hints": {
+        "h1": "Observe the units digit of each base: 4, 8, 2, and 6.",
+        "h2": "Squaring a base ending in 2 or 8 always results in a units digit of 4.",
+        "h3": "Calculate only the square of each base's units digit: 4 times 4, 8 times 8, 2 times 2, 6 times 6.",
+        "h4": "Select the expressions whose base units digits square to a value terminating in 4."
+      }
+    },
+    {
+      "id": "sc_q03",
+      "tag": "NCERT Fig It Out 1.4 p.10",
+      "tier": "warmup",
+      "q": "Find the length of the side of a square park whose area is \\(441\\text{ m}^2\\).",
+      "ans": "\\(21\\text{ m}\\)",
+      "m": "Dividing the area by two instead of extracting the principal square root.",
+      "opts": [
+        {
+          "t": "\\(21\\text{ m}\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(220.5\\text{ m}\\)",
+          "c": false,
+          "m": "Divided the area value by two rather than extracting the square root."
+        },
+        {
+          "t": "\\(19\\text{ m}\\)",
+          "c": false,
+          "m": "Selected an integer whose square terminates in 1 but has total area below 400."
+        },
+        {
+          "t": "\\(31\\text{ m}\\)",
+          "c": false,
+          "m": "Chose a decade root that exceeds 900 when multiplied by itself."
+        }
+      ],
+      "hints": {
+        "h1": "Recall that the area of a square is calculated by side length multiplied by side length.",
+        "h2": "The side length corresponds to the principal square root of the given area.",
+        "h3": "Bracket between friendly squares: 20 squared denotes 400 and 30 squared denotes 900.",
+        "h4": "Find the integer between 20 and 30 whose units digit squares to 1."
+      }
+    },
+    {
+      "id": "sc_q04",
+      "tag": "NCERT Fig It Out 2.1 p.16",
+      "tier": "warmup",
+      "q": "Find the cube roots of \\(27000\\) and \\(10648\\).",
+      "ans": "\\(30\\) and \\(22\\)",
+      "m": "Dividing numbers or trailing zero counts by two instead of three when evaluating cube roots.",
+      "opts": [
+        {
+          "t": "\\(30\\) and \\(22\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(300\\) and \\(22\\)",
+          "c": false,
+          "m": "Divided trailing zeros by two rather than dividing the zero count by three for cube roots."
+        },
+        {
+          "t": "\\(90\\) and \\(44\\)",
+          "c": false,
+          "m": "Divided the numerical values by three rather than extracting cubic factor triplets."
+        },
+        {
+          "t": "\\(30\\) and \\(12\\)",
+          "c": false,
+          "m": "Underestimated the cube root of the five-digit integer into decade ten."
+        }
+      ],
+      "hints": {
+        "h1": "Decompose 27000 into 27 multiplied by 1000.",
+        "h2": "For 10648, inspect the units digit 8 to determine the units digit of its cube root.",
+        "h3": "Recall that cubing multiplies trailing zero counts by 3, so root extraction divides zero counts by 3.",
+        "h4": "Extract the cube roots of 27 and 1000 separately, and bracket 10648 between 20 cubed and 30 cubed."
+      }
+    },
+    {
+      "id": "sc_q05",
+      "tag": "NCERT Fig It Out 2.3(i) p.16",
+      "tier": "warmup",
+      "q": "State whether the statement is True or False: 'The cube of any odd natural number is even.'",
+      "ans": "False",
+      "m": "Assuming that repeated multiplication of odd factors can change parity to even.",
+      "opts": [
+        {
+          "t": "False",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "True",
+          "c": false,
+          "m": "Believed that repeated multiplication of odd factors can generate a factor of two."
+        },
+        {
+          "t": "True only for single-digit numbers",
+          "c": false,
+          "m": "Assumed parity behavior depends on the digit length of the base integer."
+        },
+        {
+          "t": "True only for prime numbers",
+          "c": false,
+          "m": "Confused prime factorisation properties with basic integer parity rules."
+        }
+      ],
+      "hints": {
+        "h1": "Test with a small odd integer such as 3.",
+        "h2": "Remember that the product of odd integers remains odd under multiplication.",
+        "h3": "Multiply 3 by 3, and then multiply that intermediate product by 3 again.",
+        "h4": "Notice that none of the three factors introduces divisibility by two."
+      }
+    },
+    {
+      "id": "sc_q06",
+      "tag": "NCERT Fig It Out 2.3(ii) p.16",
+      "tier": "warmup",
+      "q": "State whether the statement is True or False: 'There is no perfect cube that ends with the digit \\(8\\).'",
+      "ans": "False",
+      "m": "Applying square units digit limitations to cubic numbers.",
+      "opts": [
+        {
+          "t": "False",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "True",
+          "c": false,
+          "m": "Applied square ending digit restrictions to cubes, forgetting cubes can terminate in any digit."
+        },
+        {
+          "t": "True for two-digit numbers",
+          "c": false,
+          "m": "Overlooked two-digit counterexamples such as 12 cubed."
+        },
+        {
+          "t": "True for odd numbers only",
+          "c": false,
+          "m": "Confused base parity requirements with the impossibility of the ending digit."
+        }
+      ],
+      "hints": {
+        "h1": "Examine small natural cubes such as 1, 2, 3, 4.",
+        "h2": "Recall that 2 cubed produces a solid cube terminating in 8.",
+        "h3": "Test whether 12 cubed also terminates with the digit 8.",
+        "h4": "Any base integer ending in 2 produces a perfect cube terminating in 8."
+      }
+    },
+    {
+      "id": "sc_q07",
+      "tag": "NCERT Fig It Out 2.3(iii) p.16",
+      "tier": "warmup",
+      "q": "State whether the statement is True or False: 'The cube of a \\(2\\)-digit number may be a \\(3\\)-digit number.'",
+      "ans": "False",
+      "m": "Failing to check the lower bound: 10 cubed already occupies 4 digits.",
+      "opts": [
+        {
+          "t": "False",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "True",
+          "c": false,
+          "m": "Assumed the cube of the smallest two-digit integer could have fewer than four digits."
+        },
+        {
+          "t": "True for numbers less than 15",
+          "c": false,
+          "m": "Tested two-digit numbers without verifying the lower boundary cube."
+        },
+        {
+          "t": "True for numbers ending in zero",
+          "c": false,
+          "m": "Did not check that 10 cubed already occupies four digit positions."
+        }
+      ],
+      "hints": {
+        "h1": "Identify the smallest possible two-digit natural number.",
+        "h2": "The smallest two-digit natural number is 10.",
+        "h3": "Compute the cube of 10 by evaluating 10 multiplied by 10 multiplied by 10.",
+        "h4": "Count the total digit positions in 1000 to determine the minimum digit count."
+      }
+    },
+    {
+      "id": "sc_q08",
+      "tag": "NCERT Fig It Out 2.3(iv) p.16",
+      "tier": "warmup",
+      "q": "State whether the statement is True or False: 'The cube of a \\(2\\)-digit number may have seven or more digits.'",
+      "ans": "False",
+      "m": "Overestimating the cubic expansion of two-digit numbers beyond the six-digit ceiling.",
+      "opts": [
+        {
+          "t": "False",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "True",
+          "c": false,
+          "m": "Overestimated the growth rate of two-digit cubes beyond the upper limit."
+        },
+        {
+          "t": "True for numbers above 90",
+          "c": false,
+          "m": "Assumed integers in decade 90 can expand into seven digit positions."
+        },
+        {
+          "t": "True for 99 only",
+          "c": false,
+          "m": "Did not verify that 99 cubed remains strictly below one million."
+        }
+      ],
+      "hints": {
+        "h1": "Identify the largest possible two-digit natural number.",
+        "h2": "The largest two-digit natural number is 99, which is strictly below 100.",
+        "h3": "Compute the cube of 100: 100 cubed has seven digits.",
+        "h4": "Since 99 cubed is strictly less than 1000000, it can occupy at most six digit positions."
+      }
+    },
+    {
+      "id": "sc_q09",
+      "tag": "NCERT In-Text p.4",
+      "tier": "warmup",
+      "q": "Which of the following numbers can be definitively ruled out as a perfect square solely by inspecting its units digit?",
+      "ans": "\\(1057\\)",
+      "m": "Assuming numbers ending in 4, 5, or 9 cannot be square, or failing to identify 7 as an impossible ending digit.",
+      "opts": [
+        {
+          "t": "\\(1057\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(1024\\)",
+          "c": false,
+          "m": "Overlooked that integers terminating in 4 can be perfect squares, such as 32 squared."
+        },
+        {
+          "t": "\\(1089\\)",
+          "c": false,
+          "m": "Overlooked that integers terminating in 9 can be perfect squares, such as 33 squared."
+        },
+        {
+          "t": "\\(2025\\)",
+          "c": false,
+          "m": "Overlooked that integers terminating in 5 can be perfect squares, such as 45 squared."
+        }
+      ],
+      "hints": {
+        "h1": "Observe the units digit of each candidate number: 7, 4, 9, 5.",
+        "h2": "No square of any natural number can ever end in 2, 3, 7, or 8.",
+        "h3": "Locate the option terminating in one of the excluded digits: 2, 3, 7, or 8.",
+        "h4": "Identify the number ending in 7 as impossible for an integer square."
+      }
+    },
+    {
+      "id": "sc_q10",
+      "tag": "NCERT In-Text p.5",
+      "tier": "warmup",
+      "q": "If a natural number ends with \\(3\\) trailing zeros, how many trailing zeros will its square have?",
+      "ans": "\\(6\\) zeros",
+      "m": "Adding zeros or squaring the zero count instead of multiplying the count by two.",
+      "opts": [
+        {
+          "t": "\\(6\\) zeros",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(3\\) zeros",
+          "c": false,
+          "m": "Assumed squaring preserves the identical number of trailing zeros without doubling."
+        },
+        {
+          "t": "\\(5\\) zeros",
+          "c": false,
+          "m": "Added two zeros rather than doubling the exponent count of ten."
+        },
+        {
+          "t": "\\(9\\) zeros",
+          "c": false,
+          "m": "Squared the count of zeros rather than multiplying the count by two."
+        }
+      ],
+      "hints": {
+        "h1": "Express the number as an integer multiplied by 10 cubed.",
+        "h2": "Under squaring, powers of ten multiply their exponent by two.",
+        "h3": "Test with 1000: evaluate 1000 multiplied by 1000.",
+        "h4": "Count the total number of zeros present in 1,000,000."
+      }
+    },
+    {
+      "id": "sc_q11",
+      "tag": "NCERT In-Text p.5",
+      "tier": "warmup",
+      "q": "What is the parity of the square of an odd natural number?",
+      "ans": "Always odd",
+      "m": "Believing that squaring an odd number alters its parity to even.",
+      "opts": [
+        {
+          "t": "Always odd",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Always even",
+          "c": false,
+          "m": "Believed that squaring any natural number converts the parity to divisible by two."
+        },
+        {
+          "t": "Even for multiples of 3",
+          "c": false,
+          "m": "Assumed divisibility by three overrides basic parity rules."
+        },
+        {
+          "t": "Can be either even or odd",
+          "c": false,
+          "m": "Assumed parity alternates unpredictably when squaring natural numbers."
+        }
+      ],
+      "hints": {
+        "h1": "Express an arbitrary odd integer in algebraic form: 2k + 1.",
+        "h2": "Expand the algebraic square: (2k + 1) squared.",
+        "h3": "Notice that 4k squared plus 4k is divisible by 2, leaving an extra remainder of 1.",
+        "h4": "Conclude that an odd integer multiplied by itself preserves uneven parity."
+      }
+    },
+    {
+      "id": "sc_q12",
+      "tag": "NCERT In-Text p.8",
+      "tier": "warmup",
+      "q": "What are all the integer solutions to the equation \\(x^2 = 64\\)?",
+      "ans": "\\(+8\\) and \\(-8\\)",
+      "m": "Omitting the negative root or mistaking quadratic roots for division.",
+      "opts": [
+        {
+          "t": "\\(+8\\) and \\(-8\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Only \\(+8\\)",
+          "c": false,
+          "m": "Overlooked that multiplying two negative values arrives at a positive product."
+        },
+        {
+          "t": "Only \\(-8\\)",
+          "c": false,
+          "m": "Disregarded the principal positive root when considering quadratic solutions."
+        },
+        {
+          "t": "\\(+16\\) and \\(-16\\)",
+          "c": false,
+          "m": "Divided 64 by 4 rather than identifying integers whose square equals 64."
+        }
+      ],
+      "hints": {
+        "h1": "Recall that both positive and negative values can produce positive squares.",
+        "h2": "Test multiplying two identical positive integers and two identical negative integers to see both can reach 64.",
+        "h3": "A quadratic equation of the form x squared equals a positive value has two integer roots.",
+        "h4": "Account for both the positive principal root and its negative opposite."
+      }
+    },
+    {
+      "id": "sc_q13",
+      "tag": "NCERT Fig It Out 1.3 p.10",
+      "tier": "deep_dive",
+      "q": "Given that \\(125^2 = 15625\\), what is the value of \\(126^2\\) using the consecutive squares property?",
+      "ans": "\\(15625 + 251\\)",
+      "m": "Adding only 126 instead of adding 125 + 126 to step between consecutive squares.",
+      "opts": [
+        {
+          "t": "\\(15625 + 251\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(15625 + 126\\)",
+          "c": false,
+          "m": "Added only the subsequent base rather than adding both consecutive bases n and n+1."
+        },
+        {
+          "t": "\\(15625 + 262\\)",
+          "c": false,
+          "m": "Doubled the next base without subtracting one in the consecutive odd increment."
+        },
+        {
+          "t": "\\(15625 + 253\\)",
+          "c": false,
+          "m": "Miscalculated the consecutive odd increment between the two squares."
+        }
+      ],
+      "hints": {
+        "h1": "Recall the algebraic identity: (n + 1) squared equals n squared plus 2n plus 1.",
+        "h2": "The difference between consecutive squares equals n plus (n + 1), which simplifies to 2n + 1.",
+        "h3": "Identify the base n as 125 and formulate the increment as the sum of 125 and its consecutive successor.",
+        "h4": "Add the two consecutive bases together to find the required increment, and attach it to 15625 to express 126 squared."
+      }
+    },
+    {
+      "id": "sc_q14",
+      "tag": "NCERT Fig It Out 1.6 p.10",
+      "tier": "deep_dive",
+      "q": "Find the smallest natural number by which \\(9408\\) must be multiplied so that the product becomes a perfect square, and determine the square root of that product.",
+      "ans": "Multiplier \\(3\\), square root \\(168\\)",
+      "m": "Selecting already paired factors or miscalculating the combined square root.",
+      "opts": [
+        {
+          "t": "Multiplier \\(3\\), square root \\(168\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Multiplier \\(2\\), square root \\(137\\)",
+          "c": false,
+          "m": "Selected an already paired prime factor rather than the lone unpaired factor."
+        },
+        {
+          "t": "Multiplier \\(7\\), square root \\(256\\)",
+          "c": false,
+          "m": "Chose prime factor 7, which already appears with an even exponent."
+        },
+        {
+          "t": "Multiplier \\(3\\), square root \\(84\\)",
+          "c": false,
+          "m": "Halved the root value by omitting one factor of two from the prime grouping."
+        }
+      ],
+      "hints": {
+        "h1": "Decompose 9408 into its prime factorisation.",
+        "h2": "Express 9408 in prime powers: 2 to the 6th power times 3 times 7 squared.",
+        "h3": "Identify which prime factor has an odd exponent and requires a partner.",
+        "h4": "Multiply by the unpaired prime and take one factor from each prime pair to determine the root."
+      }
+    },
+    {
+      "id": "sc_q15",
+      "tag": "NCERT Fig It Out 1.7 p.10",
+      "tier": "deep_dive",
+      "q": "How many natural numbers lie strictly between \\(16^2\\) and \\(17^2\\)?",
+      "ans": "\\(32\\)",
+      "m": "Computing (n+1)^2 - n^2 = 2n+1 and forgetting to exclude the boundary square.",
+      "opts": [
+        {
+          "t": "\\(32\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(33\\)",
+          "c": false,
+          "m": "Included one of the boundary squares by calculating the difference without subtracting one."
+        },
+        {
+          "t": "\\(31\\)",
+          "c": false,
+          "m": "Subtracted two rather than one from the interval difference."
+        },
+        {
+          "t": "\\(16\\)",
+          "c": false,
+          "m": "Provided the base integer n rather than applying the formula two times n."
+        }
+      ],
+      "hints": {
+        "h1": "Consider the interval of natural numbers strictly between the consecutive squares n squared and (n + 1) squared.",
+        "h2": "Subtracting the boundary squares and excluding endpoints yields (n + 1) squared minus n squared minus 1, which simplifies to 2n.",
+        "h3": "Identify the smaller base integer n in the given pair of squares 16 squared and 17 squared.",
+        "h4": "Apply the non-square count relation to that smaller base to find the exact number of intermediate natural numbers."
+      }
+    },
+    {
+      "id": "sc_q16",
+      "tag": "NCERT Fig It Out 1.9 p.11",
+      "tier": "deep_dive",
+      "q": "A geometric vector array contains \\(40\\) distinct blocks of \\(5 \\times 5\\) tiny squares. What is the total count of tiny squares and its prime factorisation?",
+      "ans": "\\(1000\\) squares, \\(2^3 \\times 5^3\\)",
+      "m": "Multiplying 40 by 5 instead of 25, or miscounting prime powers in 1000.",
+      "opts": [
+        {
+          "t": "\\(1000\\) squares, \\(2^3 \\times 5^3\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(200\\) squares, \\(2^3 \\times 5^2\\)",
+          "c": false,
+          "m": "Multiplied 40 by 5 rather than multiplying 40 by 25."
+        },
+        {
+          "t": "\\(1000\\) squares, \\(2^2 \\times 5^3\\)",
+          "c": false,
+          "m": "Miscounted the prime exponent of two in the prime factorisation of 1000."
+        },
+        {
+          "t": "\\(800\\) squares, \\(2^5 \\times 5^2\\)",
+          "c": false,
+          "m": "Assumed 40 blocks of 20 squares rather than 25 squares."
+        }
+      ],
+      "hints": {
+        "h1": "Calculate the number of tiny squares in one block of 5 by 5: evaluate 5 squared.",
+        "h2": "Multiply that block count by the total of 40 blocks to find the overall square count.",
+        "h3": "Express the resulting product as a power of 10.",
+        "h4": "Decompose the base 10 into its prime factors 2 and 5, applying the power of a product rule to find the prime factorisation."
+      }
+    },
+    {
+      "id": "sc_q17",
+      "tag": "NCERT Fig It Out 2.2 p.16",
+      "tier": "deep_dive",
+      "q": "What is the smallest natural number by which \\(1323\\) must be multiplied so that the product becomes a perfect cube?",
+      "ans": "\\(7\\)",
+      "m": "Applying square grouping rules to cubes or trying to complete a factor that is already a triplet.",
+      "opts": [
+        {
+          "t": "\\(7\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(3\\)",
+          "c": false,
+          "m": "Chose 3, which already appears as a complete triplet of prime factors."
+        },
+        {
+          "t": "\\(9\\)",
+          "c": false,
+          "m": "Attempted to introduce additional powers of an already complete prime factor rather than completing the triplet for the incomplete prime factor."
+        },
+        {
+          "t": "\\(49\\)",
+          "c": false,
+          "m": "Multiplied by the square of the incomplete prime rather than the single missing factor needed to complete a triplet."
+        }
+      ],
+      "hints": {
+        "h1": "Decompose 1323 into prime factors.",
+        "h2": "Observe that 1323 factors into a power of 3 and a power of an unpaired prime.",
+        "h3": "A perfect cube requires all prime exponents to be multiples of 3.",
+        "h4": "Determine the single prime factor needed to raise the squared prime factor to a cube."
+      }
+    },
+    {
+      "id": "sc_q18",
+      "tag": "NCERT Fig It Out 2.3(v) p.16",
+      "tier": "deep_dive",
+      "q": "State whether the statement is True or False: 'A perfect cube always has an odd number of factors.'",
+      "ans": "False",
+      "m": "Overgeneralizing the odd factor property of squares to cubic numbers.",
+      "opts": [
+        {
+          "t": "False",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "True",
+          "c": false,
+          "m": "Confused squares with cubes, assuming the odd factor count theorem applies to all powers."
+        },
+        {
+          "t": "True for even cubes only",
+          "c": false,
+          "m": "Assumed base parity dictates factor count parity."
+        },
+        {
+          "t": "True for odd cubes only",
+          "c": false,
+          "m": "Believed odd cubes uniquely preserve odd divisor counts."
+        }
+      ],
+      "hints": {
+        "h1": "Test a counterexample such as 8, which corresponds to 2 cubed.",
+        "h2": "List all factors of 8: 1, 2, 4, and 8.",
+        "h3": "Count the total number of factors of 8.",
+        "h4": "Notice that 8 has four factors (an even count), disproving the claim."
+      }
+    },
+    {
+      "id": "sc_q19",
+      "tag": "NCERT Fig It Out 2.4 p.16",
+      "tier": "deep_dive",
+      "q": "By grouping digits and inspecting units places, determine \\(\\sqrt[3]{12167}\\) without full prime factorisation.",
+      "ans": "\\(23\\)",
+      "m": "Keeping the units digit 7 instead of finding its cubic ending complement 3, or overestimating the tens bracket.",
+      "opts": [
+        {
+          "t": "\\(23\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(27\\)",
+          "c": false,
+          "m": "Retained the units digit 7 rather than taking the units complement for cube roots."
+        },
+        {
+          "t": "\\(33\\)",
+          "c": false,
+          "m": "Overestimated the thousands group, forgetting 3 cubed exceeds 12."
+        },
+        {
+          "t": "\\(17\\)",
+          "c": false,
+          "m": "Underestimated the tens group into decade ten."
+        }
+      ],
+      "hints": {
+        "h1": "Partition 12167 into two groups: 12 (thousands) and 167 (units group).",
+        "h2": "The units group ends in 7; recall which single digit cubed ends in 7.",
+        "h3": "Since 3 cubed terminates in 7, the units digit of the cube root corresponds to 3.",
+        "h4": "For the thousands group 12, bracket between 2 cubed (8) and 3 cubed (27)."
+      }
+    },
+    {
+      "id": "sc_q20",
+      "tag": "NCERT In-Text p.2",
+      "tier": "deep_dive",
+      "q": "Why does a natural number have an odd number of factors if and only if it is a perfect square?",
+      "ans": "The factor pair \\(a \\times a = N\\) has both partners equal, contributing only one unique factor.",
+      "m": "Confusing the parity of individual factor values with the count of divisors.",
+      "opts": [
+        {
+          "t": "The factor pair \\(a \\times a = N\\) has both partners equal, contributing only one unique factor.",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "Every factor of a square number must be an odd number.",
+          "c": false,
+          "m": "Confused the count of factors with the parity of the individual factors."
+        },
+        {
+          "t": "Squares have more prime factors than composite numbers.",
+          "c": false,
+          "m": "Believed squares inherently possess more prime factors than other composites."
+        },
+        {
+          "t": "The prime exponents of a square are odd numbers.",
+          "c": false,
+          "m": "Inverted the prime exponent rule, forgetting exponents must be even for squares."
+        }
+      ],
+      "hints": {
+        "h1": "Consider how factors naturally pair up: a and b such that a times b equals N.",
+        "h2": "Observe what occurs when a number can be factored as a multiplied by itself.",
+        "h3": "In the pair where a equals b, the two partner factors denote the same integer.",
+        "h4": "Explain why this single self-partnered factor prevents the total factor count from remaining even."
+      }
+    },
+    {
+      "id": "sc_q21",
+      "tag": "NCERT In-Text p.6",
+      "tier": "deep_dive",
+      "q": "Given that \\(35^2 = 1225\\), find \\(36^2\\) using the consecutive odd numbers summation method.",
+      "ans": "\\(1296\\)",
+      "m": "Adding 36 instead of the 36th odd number 71 to step to the next square.",
+      "opts": [
+        {
+          "t": "\\(1296\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(1261\\)",
+          "c": false,
+          "m": "Added 36 rather than adding the 36th odd number."
+        },
+        {
+          "t": "\\(1295\\)",
+          "c": false,
+          "m": "Added 70 rather than adding the odd number 2(36) - 1."
+        },
+        {
+          "t": "\\(1300\\)",
+          "c": false,
+          "m": "Rounded to the nearest friendly decade rather than applying the odd summation step."
+        }
+      ],
+      "hints": {
+        "h1": "Recall that the square of any natural number n represents the sum of the first n consecutive odd natural numbers.",
+        "h2": "Because 35 squared is the sum of the first 35 odd numbers, obtaining 36 squared requires adding the 36th odd number to 1225.",
+        "h3": "Express the nth odd natural number using the general relation 2n - 1, setting n equal to 36.",
+        "h4": "Calculate the value of that 36th odd number and add it to 1225 to find the next square."
+      }
+    },
+    {
+      "id": "sc_q22",
+      "tag": "NCERT In-Text p.7",
+      "tier": "deep_dive",
+      "q": "How many non-square natural numbers lie strictly between \\(12^2\\) and \\(13^2\\)?",
+      "ans": "\\(24\\)",
+      "m": "Failing to exclude boundary squares or forgetting to double the smaller base.",
+      "opts": [
+        {
+          "t": "\\(24\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(25\\)",
+          "c": false,
+          "m": "Computed the difference without subtracting one, including a boundary square."
+        },
+        {
+          "t": "\\(26\\)",
+          "c": false,
+          "m": "Added one rather than subtracting one from the difference."
+        },
+        {
+          "t": "\\(12\\)",
+          "c": false,
+          "m": "Stated the base value without multiplying by two."
+        }
+      ],
+      "hints": {
+        "h1": "Recall that the count of non-square natural numbers lying strictly between n squared and (n + 1) squared is given by 2n.",
+        "h2": "The count depends exclusively on doubling the smaller base of the two consecutive squares.",
+        "h3": "Identify the smaller base integer n from the given consecutive squares 12 squared and 13 squared.",
+        "h4": "Apply the doubling rule to that smaller base to determine the exact number of non-square natural numbers."
+      }
+    },
+    {
+      "id": "sc_q23",
+      "tag": "NCERT In-Text p.7",
+      "tier": "deep_dive",
+      "q": "What is the sum of the two consecutive triangular numbers \\(T_4 = 10\\) and \\(T_5 = 15\\)?",
+      "ans": "\\(25 = 5^2\\)",
+      "m": "Multiplying triangular indices or miscalculating the geometric square formed by adjacent triangles.",
+      "opts": [
+        {
+          "t": "\\(25 = 5^2\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(24 = 4 \\times 6\\)",
+          "c": false,
+          "m": "Subtracted one from the sum of the two triangular numbers."
+        },
+        {
+          "t": "\\(30 = 5 \\times 6\\)",
+          "c": false,
+          "m": "Multiplied the two triangular indices rather than summing the figurate values."
+        },
+        {
+          "t": "\\(36 = 6^2\\)",
+          "c": false,
+          "m": "Jumped to the next square 6 squared rather than 5 squared."
+        }
+      ],
+      "hints": {
+        "h1": "Add the two given triangular numbers: 10 plus 15.",
+        "h2": "Notice that the sum of the (n-1)th and nth triangular numbers equals n squared.",
+        "h3": "Apply the property that the sum of consecutive triangular indices forms the square of the larger index.",
+        "h4": "Combine 10 and 15 to obtain the total square area."
+      }
+    },
+    {
+      "id": "sc_q24",
+      "tag": "NCERT In-Text p.9",
+      "tier": "deep_dive",
+      "q": "Using prime factorisation, determine whether \\(1156\\) is a perfect square, and find its square root if it is.",
+      "ans": "Yes, \\(\\sqrt{1156} = 34\\)",
+      "m": "Failing to recognize 289 as 17 squared or guessing roots based on units digits alone.",
+      "opts": [
+        {
+          "t": "Yes, \\(\\sqrt{1156} = 34\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "No, \\(1156\\) is not a square",
+          "c": false,
+          "m": "Failed to recognize that 289 factors into 17 squared during prime division."
+        },
+        {
+          "t": "Yes, \\(\\sqrt{1156} = 36\\)",
+          "c": false,
+          "m": "Chose 36 because its units digit squares to 6, without verifying prime factors."
+        },
+        {
+          "t": "Yes, \\(\\sqrt{1156} = 28\\)",
+          "c": false,
+          "m": "Underestimated the root value into the twenties."
+        }
+      ],
+      "hints": {
+        "h1": "Divide 1156 by 2 repeatedly: 1156 factors into 4 times 289.",
+        "h2": "Find the prime factors of 289: test prime candidates 13 and 17.",
+        "h3": "Observe that 289 equals 17 times 17, so 1156 equals 2 squared times 17 squared.",
+        "h4": "Group the factors into identical pairs: (2 times 17) squared."
+      }
+    },
+    {
+      "id": "sc_q25",
+      "tag": "NCERT In-Text p.9",
+      "tier": "deep_dive",
+      "q": "Estimate \\(\\sqrt{1936}\\) by bracketing between decade squares and testing the midpoint \\(45\\).",
+      "ans": "\\(44\\)",
+      "m": "Choosing 46 despite 1936 being strictly less than 45 squared (2025).",
+      "opts": [
+        {
+          "t": "\\(44\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(46\\)",
+          "c": false,
+          "m": "Selected 46 despite 1936 being strictly below 45 squared (2025)."
+        },
+        {
+          "t": "\\(42\\)",
+          "c": false,
+          "m": "Selected a root whose units digit squares to 4 rather than 6."
+        },
+        {
+          "t": "\\(48\\)",
+          "c": false,
+          "m": "Chose 48, which lies above the midpoint square 2025."
+        }
+      ],
+      "hints": {
+        "h1": "Bracket 1936 between 40 squared (1600) and 50 squared (2500).",
+        "h2": "The units digit is 6, which restricts the possible units digit of the square root to 4 or 6.",
+        "h3": "Calculate the midpoint square: 45 squared equals 2025.",
+        "h4": "Compare 1936 with 2025: since 1936 is smaller, select the lower candidate."
+      }
+    },
+    {
+      "id": "sc_q26",
+      "tag": "NCERT In-Text p.14",
+      "tier": "deep_dive",
+      "q": "Without adding the numbers one by one, find the sum of the \\(10\\) consecutive odd numbers: \\(91 + 93 + 95 + 97 + 99 + 101 + 103 + 105 + 107 + 109\\).",
+      "ans": "\\(1000\\)",
+      "m": "Calculating 10 squared instead of 10 cubed, or misidentifying the odd partition block index.",
+      "opts": [
+        {
+          "t": "\\(1000\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(900\\)",
+          "c": false,
+          "m": "Used the 9th group cube rather than the 10th group cube."
+        },
+        {
+          "t": "\\(100\\)",
+          "c": false,
+          "m": "Computed 10 squared rather than 10 cubed for this odd block sum."
+        },
+        {
+          "t": "\\(1100\\)",
+          "c": false,
+          "m": "Added an extra 100 to the cubic sum."
+        }
+      ],
+      "hints": {
+        "h1": "Recall that the nth block of n consecutive odd numbers sums to n cubed.",
+        "h2": "Count the number of odd terms in this expression: exactly 10 terms.",
+        "h3": "Notice this corresponds to the 10th block in the odd numbers partition for cubes.",
+        "h4": "Evaluate 10 cubed directly without performing term-by-term addition."
+      }
+    },
+    {
+      "id": "sc_q27",
+      "tag": "NCERT Fig It Out 1.5 p.10",
+      "tier": "boss",
+      "q": "Find the smallest square number that is divisible by each of the numbers: \\(4, 9,\\) and \\(10\\).",
+      "ans": "\\(900\\)",
+      "m": "Stopping at the LCM without pairing odd prime factors, or over-multiplying beyond the minimum square.",
+      "opts": [
+        {
+          "t": "\\(900\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(180\\)",
+          "c": false,
+          "m": "Stopped at the LCM rather than multiplying by the missing prime factor to form a square."
+        },
+        {
+          "t": "\\(3600\\)",
+          "c": false,
+          "m": "Multiplied by an unnecessary factor of 4 beyond the minimal square."
+        },
+        {
+          "t": "\\(360\\)",
+          "c": false,
+          "m": "Doubled the LCM rather than multiplying by the unpaired prime factor required to complete square pairs."
+        }
+      ],
+      "hints": {
+        "h1": "Any common multiple of 4, 9, and 10 must be a multiple of their least common multiple (LCM).",
+        "h2": "Determine the prime factorisation of the LCM of 4, 9, and 10 by checking powers of 2, 3, and 5.",
+        "h3": "For a number to form a perfect square, every prime factor in its prime factorisation must have an even exponent.",
+        "h4": "Find which prime factor currently appears with an odd exponent, and multiply the LCM by that missing factor to form complete pairs."
+      }
+    },
+    {
+      "id": "sc_q28",
+      "tag": "NCERT Fig It Out 1.8 p.11",
+      "tier": "boss",
+      "q": "Identify the missing values in the pattern: \\(1^2+2^2+2^2=3^2\\), \\(2^2+3^2+6^2=7^2\\), \\(3^2+4^2+12^2=13^2\\), \\(4^2+5^2+20^2=(\\dots)^2\\), \\(9^2+10^2+(\\dots)^2=(\\dots)^2\\).",
+      "ans": "\\(21^2\\) and \\(90^2, 91^2\\)",
+      "m": "Misinterpreting the algebraic relationship between consecutive base products and the target sum base.",
+      "opts": [
+        {
+          "t": "\\(21^2\\) and \\(90^2, 91^2\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(25^2\\) and \\(90^2, 92^2\\)",
+          "c": false,
+          "m": "Added 5 to 20 rather than adding 1 to 20 for the right-hand base."
+        },
+        {
+          "t": "\\(21^2\\) and \\(80^2, 81^2\\)",
+          "c": false,
+          "m": "Multiplied 9 by 9 rather than 9 by 10 for the third term."
+        },
+        {
+          "t": "\\(20^2\\) and \\(100^2, 101^2\\)",
+          "c": false,
+          "m": "Used 10 squared rather than the product of the first two bases."
+        }
+      ],
+      "hints": {
+        "h1": "Observe the relationship between the first two bases and the third base: a times (a + 1).",
+        "h2": "Notice that the right-hand base always exceeds the third base by 1.",
+        "h3": "For row 4: 4 times 5 equals 20, so the right-hand base corresponds to 20 + 1.",
+        "h4": "For row 5: compute the product of bases 9 and 10 to establish the third base, then increment by 1 for the final base."
+      }
+    },
+    {
+      "id": "sc_q29",
+      "tag": "NCERT Fig It Out 2.5 p.17",
+      "tier": "boss",
+      "q": "Which of the following expressions has the greatest numerical value? (i) \\(67^3 - 66^3\\), (ii) \\(43^3 - 42^3\\), (iii) \\(67^2 - 66^2\\), (iv) \\(43^2 - 42^2\\)",
+      "ans": "\\(67^3 - 66^3\\)",
+      "m": "Believing square differences can exceed cubic differences, or choosing a smaller base cube difference.",
+      "opts": [
+        {
+          "t": "\\(67^3 - 66^3\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(43^3 - 42^3\\)",
+          "c": false,
+          "m": "Selected a cubic difference with a significantly smaller base."
+        },
+        {
+          "t": "\\(67^2 - 66^2\\)",
+          "c": false,
+          "m": "Assumed square differences could exceed cubic differences of similar bases."
+        },
+        {
+          "t": "\\(43^2 - 42^2\\)",
+          "c": false,
+          "m": "Selected the smallest expression among all four candidates."
+        }
+      ],
+      "hints": {
+        "h1": "Recall that (n+1) cubed minus n cubed equals 3n squared plus 3n plus 1.",
+        "h2": "Observe that cubic differences grow quadratically with the base n.",
+        "h3": "Square differences only grow linearly: (n+1) squared minus n squared equals 2n + 1.",
+        "h4": "Compare leading terms: 3 times 66 squared versus 3 times 42 squared."
+      }
+    },
+    {
+      "id": "sc_q30",
+      "tag": "NCERT Extension Puzzle 1 p.18",
+      "tier": "boss",
+      "q": "In the 'Square Pairs' challenge for numbers \\(1\\) to \\(17\\), adjacent pairs must sum to a square. Why must \\(16\\) and \\(17\\) be the two endpoints of the row?",
+      "ans": "In the square-sum connectivity graph, \\(16\\) and \\(17\\) each connect to only one other number (degree \\(1\\)).",
+      "m": "Assuming numerical magnitude rather than graph degree dictates Hamiltonian path endpoints.",
+      "opts": [
+        {
+          "t": "In the square-sum connectivity graph, \\(16\\) and \\(17\\) each connect to only one other number (degree \\(1\\)).",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "They are the two largest numbers in the given set.",
+          "c": false,
+          "m": "Assumed numerical size dictates endpoint placement in Hamiltonian paths."
+        },
+        {
+          "t": "Their sum equals the largest possible perfect square.",
+          "c": false,
+          "m": "Overlooked that 16 plus 17 sums to 33, which does not form a square."
+        },
+        {
+          "t": "Neither number can form a square sum with any even number.",
+          "c": false,
+          "m": "Disregarded that 17 pairs with 8 to form the square 25."
+        }
+      ],
+      "hints": {
+        "h1": "Count how many compatible partner numbers from 1 to 17 can add with 16 to form a perfect square.",
+        "h2": "Notice that 16 can only pair with 9 (16 + 9 = 25); no other integer in the set produces an allowed square sum.",
+        "h3": "Similarly test 17: it can only pair with 8 (17 + 8 = 25) to form an allowed square sum.",
+        "h4": "In a linear chain where every internal member must connect to two neighbors, any number possessing only a single valid partner cannot sit in the interior and must form an endpoint."
+      }
+    },
+    {
+      "id": "sc_q31",
+      "tag": "NCERT Extension Puzzle 2 p.18",
+      "tier": "boss",
+      "q": "In the 'Square Pairs' circle of numbers from \\(1\\) to \\(32\\), which of the following represents a valid adjacent pair whose sum is a perfect square?",
+      "ans": "\\(32\\) and \\(17\\) (sum \\(= 49\\))",
+      "m": "Pairing 32 with numbers that sum to 48, 50, or 52 instead of a perfect square.",
+      "opts": [
+        {
+          "t": "\\(32\\) and \\(17\\) (sum \\(= 49\\))",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(32\\) and \\(18\\) (sum \\(= 50\\))",
+          "c": false,
+          "m": "Added to 50, which does not represent a perfect square."
+        },
+        {
+          "t": "\\(32\\) and \\(16\\) (sum \\(= 48\\))",
+          "c": false,
+          "m": "Added to 48, which falls short of a square by one unit."
+        },
+        {
+          "t": "\\(32\\) and \\(20\\) (sum \\(= 52\\))",
+          "c": false,
+          "m": "Added to 52, which does not represent a perfect square."
+        }
+      ],
+      "hints": {
+        "h1": "In the square pairs arrangement, two adjacent numbers form a valid pair if and only if their sum equals a perfect square.",
+        "h2": "With 32 as the fixed number, summing with the given options produces totals lying strictly between 48 and 52.",
+        "h3": "Consider the sequence of consecutive perfect squares in this neighborhood: 6 squared (36), 7 squared (49), and 8 squared (64).",
+        "h4": "Determine which integer square falls within the interval from 48 to 52, and select the candidate pair that reaches that total."
+      }
+    },
+    {
+      "id": "sc_q32",
+      "tag": "NCERT Opening Hook p.3",
+      "tier": "boss",
+      "q": "In Queen Ratnamanjuri's \\(100\\)-locker puzzle, which locker numbers remain OPEN after all \\(100\\) people have completed their turns?",
+      "ans": "The \\(10\\) square numbers: \\(1, 4, 9, 16, 25, 36, 49, 64, 81, 100\\)",
+      "m": "Assuming primes or even numbers remain open instead of numbers with an odd factor count (squares).",
+      "opts": [
+        {
+          "t": "The \\(10\\) square numbers: \\(1, 4, 9, 16, 25, 36, 49, 64, 81, 100\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "All even-numbered lockers",
+          "c": false,
+          "m": "Assumed even lockers remain open, forgetting most have an even factor count and end closed."
+        },
+        {
+          "t": "All prime-numbered lockers",
+          "c": false,
+          "m": "Believed primes remain open, but primes have exactly two factors and end closed."
+        },
+        {
+          "t": "All multiples of \\(10\\)",
+          "c": false,
+          "m": "Assumed decade lockers end open, but most multiples of 10 have an even factor count."
+        }
+      ],
+      "hints": {
+        "h1": "A locker remains open if and only if it is toggled an odd number of times.",
+        "h2": "The number of toggles for locker N equals the total count of factors of N.",
+        "h3": "Only numbers whose factor pairs include a duplicate (a times a equals N) have an odd factor count.",
+        "h4": "Select the list consisting exclusively of the perfect squares from 1 to 100."
+      }
+    },
+    {
+      "id": "sc_q33",
+      "tag": "NCERT Passcode Clue p.3",
+      "tier": "boss",
+      "q": "In Queen Ratnamanjuri's will, the secret vault passcode consists of the first five locker numbers that were touched exactly twice. What is the passcode?",
+      "ans": "\\(2-3-5-7-11\\)",
+      "m": "Including 1 or composite odd numbers instead of the first five prime numbers.",
+      "opts": [
+        {
+          "t": "\\(2-3-5-7-11\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(1-2-3-4-5\\)",
+          "c": false,
+          "m": "Included 1 (touched once) and 4 (touched three times) in the passcode sequence."
+        },
+        {
+          "t": "\\(2-4-6-8-10\\)",
+          "c": false,
+          "m": "Selected the first five even numbers rather than the first five primes."
+        },
+        {
+          "t": "\\(1-3-5-7-9\\)",
+          "c": false,
+          "m": "Selected the first five odd numbers, including 9 (touched three times) and 1."
+        }
+      ],
+      "hints": {
+        "h1": "A locker touched exactly twice has exactly two factors: 1 and itself.",
+        "h2": "Numbers with exactly two distinct factors are called prime numbers.",
+        "h3": "List the first five prime numbers starting from 2.",
+        "h4": "Exclude 1, which has only one factor, and composite numbers like 4."
+      }
+    },
+    {
+      "id": "sc_q34",
+      "tag": "NCERT Taxicab Numbers p.13",
+      "tier": "boss",
+      "q": "The taxicab number \\(4104\\) can be expressed as the sum of two cubes in two different ways: \\(2^3 + 16^3\\) and which other pair of cubes?",
+      "ans": "\\(9^3 + 15^3\\)",
+      "m": "Miscalculating cube partitions that do not sum to 4104.",
+      "opts": [
+        {
+          "t": "\\(9^3 + 15^3\\)",
+          "c": true,
+          "m": ""
+        },
+        {
+          "t": "\\(10^3 + 14^3\\)",
+          "c": false,
+          "m": "Summed 10 cubed (1000) and 14 cubed (2744), arriving at 3744."
+        },
+        {
+          "t": "\\(8^3 + 16^3\\)",
+          "c": false,
+          "m": "Used 8 cubed rather than 2 cubed, overshooting the target sum."
+        },
+        {
+          "t": "\\(11^3 + 13^3\\)",
+          "c": false,
+          "m": "Summed 11 cubed (1331) and 13 cubed (2197), arriving at 3528."
+        }
+      ],
+      "hints": {
+        "h1": "Observe the units digit of the target taxicab sum: 4104 terminates in the digit 4.",
+        "h2": "Because 16 cubed equals 4096, any other two cubes summing to 4104 must have positive integer bases strictly below 16.",
+        "h3": "Analyze which pairs of units digits for natural cubes sum to a units digit of 4, such as single digits ending in 9 and 5.",
+        "h4": "Identify candidate base pairs below 16 that match those ending digits, and sum their cubic values to find the combination reaching 4104."
+      }
+    }
+  ]
+}

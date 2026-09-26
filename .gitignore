@@ -12,10 +12,17 @@ env/
 venv/
 .venv/
 
-# Environment and logs
+# Environment, Secrets, and Cryptographic Private Keys
 *.log
 .env
+.env.*
 .env.local
+*.pem
+*.key
+*.pkcs8
+*private_key*
+.keys/
+secrets/
 
 # Router: daily usage tracking (auto-generated, resets daily)
 router_usage.json

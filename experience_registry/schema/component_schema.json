@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AashaExperienceComponentSchema",
+  "version": "2.0.0",
+  "type": "object",
+  "required": [
+    "component_id",
+    "version",
+    "status",
+    "capability_contract",
+    "mechanic_tags",
+    "applicability",
+    "dependencies",
+    "runtime",
+    "provenance",
+    "license",
+    "verification",
+    "artifact_hash",
+    "lineage"
+  ],
+  "properties": {
+    "component_id": { "type": "string" },
+    "version": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["ABSENT", "CANDIDATE", "VERIFIED", "CERTIFIED", "DEPRECATED", "BLOCKED"]
+    },
+    "capability_contract": {
+      "type": "object",
+      "required": ["capability_id", "mechanics", "inputs", "outputs", "state", "interaction_model"],
+      "properties": {
+        "capability_id": { "type": "string" },
+        "mechanics": { "type": "array", "items": { "type": "string" } },
+        "inputs": { "type": "array", "items": { "type": "string" } },
+        "outputs": { "type": "array", "items": { "type": "string" } },
+        "state": { "type": "array", "items": { "type": "string" } },
+        "interaction_model": { "type": "string" }
+      }
+    },
+    "mechanic_tags": { "type": "array", "items": { "type": "string" } },
+    "applicability": {
+      "type": "object",
+      "required": ["subjects", "classes", "boards"],
+      "properties": {
+        "subjects": { "type": "array", "items": { "type": "string" } },
+        "classes": { "type": "array", "items": { "type": "integer" } },
+        "boards": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "dependencies": { "type": "array", "items": { "type": "string" } },
+    "runtime": {
+      "type": "object",
+      "required": ["offline", "external_urls"],
+      "properties": {
+        "offline": { "oneOf": [{ "type": "boolean" }, { "const": "UNKNOWN" }] },
+        "external_urls": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["source_type", "origin_repo_or_pdf_hash", "author_or_pipeline_version"],
+      "properties": {
+        "source_type": { "type": "string" },
+        "origin_repo_or_pdf_hash": { "type": "string" },
+        "author_or_pipeline_version": { "type": "string" }
+      }
+    },
+    "license": {
+      "type": "object",
+      "required": ["spdx_identifier", "isolation_strategy", "license_status"],
+      "properties": {
+        "spdx_identifier": { "type": "string" },
+        "isolation_strategy": { "type": "string", "enum": ["MIT_NATIVE", "APACHE_2.0", "SHADOW_DOM_ENCAPSULATION", "GPL_3.0_ISOLATED", "CLEAN_ROOM_REIMPLEMENTATION", "UNKNOWN"] },
+        "license_status": { "type": "string", "enum": ["APPROVED", "REVIEW_REQUIRED", "BLOCKED", "UNKNOWN"] }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["gates_passed", "benchmark_evidence_hash", "verified_at"],
+      "properties": {
+        "gates_passed": { "type": "array", "items": { "type": "string" } },
+        "benchmark_evidence_hash": { "type": "string" },
+        "verified_at": { "type": "string" }
+      }
+    },
+    "artifact_hash": { "type": "string" },
+    "lineage": {
+      "type": "object",
+      "properties": {
+        "previous_version": { "type": "string" },
+        "previous_hash": { "type": "string" },
+        "change_reason": { "type": "string" }
+      }
+    }
+  }
+}

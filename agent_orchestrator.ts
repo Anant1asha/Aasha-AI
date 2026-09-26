@@ -1,4 +1,4 @@
-import { getLLMCompletion, LLMMessage, TaskType } from './llm_router';
+import { getLLMCompletion, LLMMessage, TaskType } from './packages/llm-router/openrouter_client';
 import { ContextBus } from './packages/memory-engine/context_bus';
 
 const contextBus = new ContextBus();

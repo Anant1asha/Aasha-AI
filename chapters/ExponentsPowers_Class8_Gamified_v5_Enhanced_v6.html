@@ -865,7 +865,7 @@ var NODES = [
           "q": "Which of the following numbers is correctly formatted in standard scientific form?",
           "opts": [
             { "t": "4.5 * 10^8", "c": true, "m": "" },
-            { "t": "45 * 10^7", "c": false, "m": "The coefficient must be strictly less than 10; 45 is too large for standard form." },
+            { "t": "45 * 10^7", "c": false, "m": "The leading coefficient must have only one non-zero digit before the decimal point; forty-five requires further decimal normalization." },
             { "t": "0.45 * 10^9", "c": false, "m": "The coefficient must be greater than or equal to 1; 0.45 is too small." },
             { "t": "4.5 * 100^4", "c": false, "m": "Scientific standard form strictly uses powers of base 10, not 100." }
           ]

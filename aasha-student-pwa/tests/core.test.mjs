@@ -60,6 +60,7 @@ test('4. Deterministic Mastery Calculation is Evidence-Based', () => {
   assert.equal(m.accuracy, 75);
   assert.equal(m.mastery, 75);
   assert.equal(progressionDecision({ mastery: { n: m } }, 'n').action, 'advance');
+  assert.equal(progressionDecision({ mastery: { n: { ...m, attempts: 2 } } }, 'n').action, 'practice');
 });
 
 test('5. Reward Ledger is Strictly Idempotent', () => {
@@ -78,3 +79,4 @@ test('5. Reward Ledger is Strictly Idempotent', () => {
   assert.equal(r2.duplicate, true);
   assert.equal(s.coins, 2);
 });
+

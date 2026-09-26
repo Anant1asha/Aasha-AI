@@ -1,0 +1,212 @@
+# AASHA Section 24 Reusable Content Contract
+# Chapter: Squares and Cubes (Class 8 Mathematics)
+# Source: NCERT Ganita Prakash Chapter 1 / RL Public School Edition
+# Universal Scope: Any Board, Any Class, Any Subject
+# Reuse Mandate: NEVER BUILD FROM SCRATCH
+
+chapter_meta:
+  subject: "Mathematics"
+  class: 8
+  topic: "Squares and Cubes"
+  slug: "squares_and_cubes"
+  version: "1.0.0"
+  created_at: "2026-09-19T04:35:00.000Z"
+  textbook_source: "NCERT Class 8 Mathematics (Ganita Prakash) Chapter 1 & RL Public School Answer Key (content/pdfs/square and cube RL public school and ncert.pdf)"
+  curriculum_framework: "NCERT / NEP-2020 Universal Teaching Language System"
+
+resource_match_report:
+  matched_foundation_id: "F01"
+  matched_foundation_name: "Escape Run"
+  secondary_foundations:
+    - id: "F02"
+      name: "MicroSims"
+      role: "2D dynamic grid manipulative, parameter sliders, visual gnomon odd subtraction"
+      reuse_strategy: "EXTRACT"
+    - id: "F04"
+      name: "PhET Simulations"
+      role: "Area Model tile partition, integer bracket estimation (GPL-3.0 isolated)"
+      reuse_strategy: "EXTRACT"
+    - id: "F08"
+      name: "Physics Notebook"
+      role: "Canvas 2D 60 FPS isometric 3D cube visualizer & layer slicing"
+      reuse_strategy: "EXTRACT"
+  source_repo: "https://github.com/abhas9/escape-run"
+  reuse_strategy: "EXTRACT"
+  license: "MIT"
+  telemetry_compliant: true
+  same_frame_mobile_viewport: true
+
+pedagogy_structure:
+  golden_rule_stages:
+    - "WHAT"
+    - "WHY"
+    - "HOW"
+    - "SHOW"
+    - "TRY"
+    - "FEEDBACK"
+    - "CONNECT"
+    - "NAME"
+  teaching_mode: "Notice -> Represent -> Reason"
+  pedagogical_flow:
+    stage_1_what: "Observe the 100-locker puzzle of Queen Ratnamanjuri: Which lockers stay open?"
+    stage_2_why: "Why do only square numbers have an odd number of factors? Because partner factors a * a = N collapse into one!"
+    stage_3_how: "How to find square roots and cube roots via prime factorisation and consecutive odd subtractions."
+    stage_4_show: "Interactive 2D square grid gnomon and 3D isometric cube stacking manipulative."
+    stage_5_try: "Immediate tactile practice with live parameter sliders and factor tree pairing."
+    stage_6_feedback: "4-tier progressive hints diagnosing cognitive misconceptions without leaking answers."
+    stage_7_connect: "Historical connections: Sanskrit Varga & Ghana, Aryabhata, Taxicab numbers 1729."
+    stage_8_name: "Formalize mathematical definitions, symbols (radical sign), and theorems."
+
+curriculum_intent:
+  core_concepts:
+    - id: "concept_1"
+      title: "Queen Ratnamanjuri's Lockers & Geometric Dot Grids"
+      hook: "Why do only 10 out of 100 lockers remain open? Because square numbers have an odd number of factors!"
+      why_type: "Conceptual"
+      explanation_student_layer: "A square number represents the area of a square whose side is a whole number of units."
+      academic_precision_layer: "A natural number n is a square number (or perfect square) if n = m² for some natural number m."
+    - id: "concept_2"
+      title: "Units Digits, Parity & Trailing Zeros"
+      hook: "Can 2048 or 1057 ever be a perfect square? No! Ending in 2, 3, 7, or 8 rules it out instantly."
+      why_type: "Structural"
+      explanation_student_layer: "Every integer square must end in 0, 1, 4, 5, 6, or 9, and trailing zeros always come in pairs."
+      academic_precision_layer: "For any base integer b, b² mod 10 in {0, 1, 4, 5, 6, 9}. Trailing zeros count of b² is 2k where k is trailing zeros count of b."
+    - id: "concept_3"
+      title: "Square Roots: Inverted L Gnomon & Prime Factor Pairing"
+      hook: "How does adding odd numbers like 1 + 3 + 5 build larger and larger squares?"
+      why_type: "Procedural & Geometric"
+      explanation_student_layer: "The sum of the first n odd numbers is n². Repeated subtraction of odd numbers finds the square root."
+      academic_precision_layer: "Sum_{i=1}^n (2i - 1) = n². Prime factorisation yields sqrt(N) by pairing identical prime factors."
+    - id: "concept_4"
+      title: "Cubic Numbers & 3D Isometric Stacking"
+      hook: "How many unit cubes build a solid cube of edge 4? 4 layers of 16 cubes = 64 cubes!"
+      why_type: "Geometric & Structural"
+      explanation_student_layer: "A cubic number represents the volume of a solid cube whose edge is an integer."
+      academic_precision_layer: "Volume V = s³. Perfect cubes have prime exponents divisible by 3 and trailing zeros as multiples of 3."
+    - id: "concept_5"
+      title: "Cube Roots, Taxicab Numbers & Difference Calculus"
+      hook: "Why did Ramanujan call 1729 the smallest number expressible as the sum of two cubes in two different ways?"
+      why_type: "Inquiry & Algebraic"
+      explanation_student_layer: "1729 = 1³ + 12³ = 9³ + 10³. Cube roots are found by splitting prime factors into triplets."
+      academic_precision_layer: "Third successive differences Delta³(n³) = 6 = 3!. Cube roots extracted by 3-digit grouping estimation."
+
+misconceptions:
+  - id: "misc_linearization"
+    trigger_error: "Confusing squaring with doubling (e.g. 5² = 10 rather than 25) or cubing with tripling (e.g. 2³ = 6)"
+    feedback_4_tier_hints:
+      hint_1_attention: "Look closely at the exponent 2 or 3 above the base."
+      hint_2_relationship: "The exponent denotes repeated multiplication of the base by itself, not multiplication by the exponent value."
+      hint_3_strategy: "Write out the full repeated product: base multiplied by base."
+      hint_4_procedure: "Calculate (n * n) for square area or (n * n * n) for cube volume."
+    zero_spoiler_explanation: "Doubled or tripled the base rather than evaluating repeated multiplication by itself."
+
+  - id: "misc_radical_division"
+    trigger_error: "Treating square root as dividing by 2 or cube root as dividing by 3"
+    feedback_4_tier_hints:
+      hint_1_attention: "Recall what side length of a square produces this total area."
+      hint_2_relationship: "The square root asks what value multiplied by itself reproduces the radicand."
+      hint_3_strategy: "Test if your candidate squared matches the number under the radical sign."
+      hint_4_procedure: "Group the prime factors into identical pairs or triplets."
+    zero_spoiler_explanation: "Divided the radicand by the root index rather than finding the inverse power factor."
+
+  - id: "misc_units_converse"
+    trigger_error: "Assuming that ending in 0, 1, 4, 5, 6, or 9 guarantees a number is a perfect square"
+    feedback_4_tier_hints:
+      hint_1_attention: "Test numbers like 16 vs 26: both end in 6, but is 26 a square?"
+      hint_2_relationship: "Units digits rule out non-squares ending in 2, 3, 7, 8, but do not prove a number is square."
+      hint_3_strategy: "Test the candidate using prime factorisation or interval bounding."
+      hint_4_procedure: "Bracket the number between two consecutive decade squares."
+    zero_spoiler_explanation: "Assumed ending in a valid square units digit guarantees the integer is a square."
+
+  - id: "misc_zero_count"
+    trigger_error: "Adding single zeros or miscounting trailing zeros in squares and cubes"
+    feedback_4_tier_hints:
+      hint_1_attention: "Observe what occurs to powers of ten under exponentiation."
+      hint_2_relationship: "Every zero in the base pairs with another zero when squared, doubling the zero count."
+      hint_3_strategy: "Multiply the base trailing zero count by 2 for squares and by 3 for cubes."
+      hint_4_procedure: "Separate the non-zero integer base from the powers of ten."
+    zero_spoiler_explanation: "Miscounted trailing zeros by adding rather than multiplying the exponent of ten."
+
+  - id: "misc_cube_factor_parity"
+    trigger_error: "Believing that cube numbers have an odd number of factors because square numbers do"
+    feedback_4_tier_hints:
+      hint_1_attention: "Count the total factors of a small cube such as 8: 1, 2, 4, 8."
+      hint_2_relationship: "Only numbers with identical partner factors a = b have an odd number of factors."
+      hint_3_strategy: "Examine whether prime exponents plus one multiply to an even or odd product."
+      hint_4_procedure: "Notice that 8 has four factors, which represents an even count."
+    zero_spoiler_explanation: "Overgeneralized the odd factor count theorem of squares to cubic powers."
+
+simulation_adapter:
+  contract_interface: "AashaExperienceContract"
+  target_foundation: "F01"
+  container_id: "sim-container"
+  methods_implemented:
+    - "mount"
+    - "getState"
+    - "pause"
+    - "resume"
+    - "reset"
+    - "destroy"
+    - "telemetry"
+
+lle_bilingual_insulation:
+  math_insulation_enabled: true
+  target_languages: ["hi"]
+  dictionary_substrate: "window.WM"
+
+assessment_suite:
+  total_questions: 34
+  source_breakdown:
+    in_text_inquiry: 14
+    figure_it_out_p10: 9
+    figure_it_out_p16_17: 9
+    square_pairs_p18: 2
+  tiers:
+    tier_1_warmup:
+      title: "Tier 1: Warm-Up Drills (Units Digits, Basic Parity, True/False & Direct Roots)"
+      count: 12
+      question_ids:
+        - "sc_q01"
+        - "sc_q02"
+        - "sc_q03"
+        - "sc_q04"
+        - "sc_q05"
+        - "sc_q06"
+        - "sc_q07"
+        - "sc_q08"
+        - "sc_q09"
+        - "sc_q10"
+        - "sc_q11"
+        - "sc_q12"
+    tier_2_deep_dive:
+      title: "Tier 2: Deep Dive Challenges (Consecutive Differences, Prime Factor Grouping & Estimation)"
+      count: 14
+      question_ids:
+        - "sc_q13"
+        - "sc_q14"
+        - "sc_q15"
+        - "sc_q16"
+        - "sc_q17"
+        - "sc_q18"
+        - "sc_q19"
+        - "sc_q20"
+        - "sc_q21"
+        - "sc_q22"
+        - "sc_q23"
+        - "sc_q24"
+        - "sc_q25"
+        - "sc_q26"
+    tier_3_boss:
+      title: "Tier 3: Boss Challenge (Multi-Step Optimization, Queen Ratnamanjuri Vault & Square Pairs Puzzles)"
+      count: 8
+      question_ids:
+        - "sc_q27"
+        - "sc_q28"
+        - "sc_q29"
+        - "sc_q30"
+        - "sc_q31"
+        - "sc_q32"
+        - "sc_q33"
+        - "sc_q34"
+
+  exercises_ref: "chapters/square_cube_questions.json"

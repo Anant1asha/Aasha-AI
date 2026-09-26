@@ -1,5 +1,5 @@
-import { CanonicalIR, validateCanonicalIR, AssessmentItem, MisconceptionEntity, ContentBlock, LearningObjective, LearnerAgencyContract, MotivationIntent, AccessibilityEnvelope, ExperienceAcceptanceContract } from './canonical_ir_schema';
-import { MathInsulator } from '../aasha-rules/math_insulator';
+import { CanonicalIR, validateCanonicalIR, AssessmentItem, MisconceptionEntity, ContentBlock, LearningObjective, LearnerAgencyContract, MotivationIntent, AccessibilityEnvelope, ExperienceAcceptanceContract } from './canonical_ir_schema.ts';
+import { MathInsulator } from '../aasha-rules/math_insulator.ts';
 
 export interface AgentProposalsInput {
   chapter_id: string;

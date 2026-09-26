@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>AASHA AIOS — Class 6 Mathematics: Fractions (Enhanced Master Module)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0f4ff;--surface:#ffffff;--text:#1e293b;--muted:#64748b;
+  --blue:#3b82f6;--blue-dk:#2563eb;--blue-lt:#dbeafe;
+  --green:#22c55e;--green-dk:#16a34a;--green-lt:#dcfce7;
+  --red:#ef4444;--red-lt:#fee2e2;
+  --amber:#f59e0b;--amber-lt:#fef3c7;
+  --purple:#8b5cf6;--purple-lt:#ede9fe;
+  --pink:#ec4899;--teal:#14b8a6;
+  --border:#e2e8f0;
+  --shadow:0 2px 8px rgba(0,0,0,.06);--shadow-lg:0 8px 24px rgba(0,0,0,.15);
+  --radius:16px;--radius-sm:12px;--radius-xs:8px;
+  --brand:#1e3a5f;--brand-lt:#2d5a8e;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative}
+
+/* Brand Header */
+.brand-header{background:linear-gradient(135deg,var(--brand),var(--brand-lt));padding:10px 16px;display:flex;align-items:center;gap:10px;color:#fff}
+.brand-info{flex:1;min-width:0}
+.brand-name{font-size:.85rem;font-weight:800;letter-spacing:.02em;line-height:1.2}
+.brand-name-hi{font-size:.75rem;opacity:.9;line-height:1.2}
+.brand-tagline{font-size:.65rem;opacity:.75;margin-top:2px}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.06);position:sticky;top:0;z-index:50}
+.exit-btn{background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;padding:4px}
+.progress-track{flex:1;height:10px;background:var(--border);border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0}
+.stat{display:inline-flex;align-items:center;gap:3px;font-size:.75rem;font-weight:700;padding:3px 8px;border-radius:16px;white-space:nowrap}
+.stat.coins{color:var(--amber);background:var(--amber-lt)}
+.stat.xp{color:var(--purple);background:var(--purple-lt)}
+.stat.lvl{color:var(--blue);background:var(--blue-lt)}
+.stat.streak{color:var(--red);background:var(--red-lt)}
+
+/* Main Screen Viewport */
+.screen{flex:1;display:none;flex-direction:column;align-items:center;padding:16px 14px 90px;min-height:calc(100vh - 120px);animation:slideIn .35s ease}
+.screen.active{display:flex}
+@keyframes slideIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+
+/* Card Components */
+.card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:16px;max-width:420px;width:100%;margin:0 auto 12px;box-shadow:var(--shadow)}
+.card-title{font-size:1.05rem;font-weight:800;color:var(--brand);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+
+/* LLE Text & Grammar Preservation */
+.lle-text{font-size:1.05rem;line-height:2.4;color:var(--text);max-width:400px;margin:8px auto;text-align:left}
+.word{cursor:pointer;border-radius:4px;padding:0 2px;transition:background .15s;border-bottom:1.5px dotted rgba(59,130,246,0.5);font-weight:500;color:var(--text)}
+.word:hover{background:var(--blue-lt);color:var(--blue-dk)}
+.connective{color:var(--blue-dk);font-weight:700;cursor:pointer;border-bottom:2px dotted var(--blue);padding:0 2px}
+.connective-hi{color:var(--purple);font-size:.85em;font-weight:600}
+
+/* Fraction Rendering */
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.9em;line-height:1;margin:0 2px}
+.frac-top{border-bottom:1.5px solid currentColor;padding:0 4px;font-weight:700}
+.frac-bot{padding:0 4px;font-weight:700}
+.frac-display{text-align:center;font-size:2.2rem;font-weight:800;margin:10px 0;color:var(--blue-dk)}
+
+/* Interactive Canvas & Manipulatives */
+.canvas-visual{display:block;margin:0 auto;border-radius:var(--radius-xs);touch-action:none;background:#fafafa;border:1px solid var(--border)}
+.tap-area{display:flex;gap:4px;justify-content:center;margin:12px auto;max-width:320px}
+.tap-cell{flex:1;height:48px;border-radius:var(--radius-xs);border:3px solid var(--border);background:#f1f5f9;cursor:pointer;transition:all .15s;touch-action:none}
+.tap-cell.tapped{background:var(--blue);border-color:var(--blue-dk);transform:scale(1.04)}
+
+/* CSS 3D Block Manipulative */
+.css3d-scene{perspective:700px;width:100%;max-width:360px;margin:10px auto;padding:16px 0;touch-action:none}
+.css3d-blocks{display:flex;gap:8px;justify-content:center;transform-style:preserve-3d;transform:rotateX(-15deg) rotateY(-20deg)}
+.css3d-block{width:44px;transition:transform .3s}
+.css3d-block-filled{height:64px;background:linear-gradient(135deg,var(--blue),var(--blue-dk));border-radius:6px;box-shadow:0 4px 10px rgba(59,130,246,.35);border:1px solid rgba(255,255,255,.3)}
+.css3d-block-empty{height:12px;background:var(--border);border-radius:4px;margin-top:26px}
+.css3d-controls{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.css3d-btn{padding:8px 16px;background:var(--blue-lt);border:1.5px solid var(--blue);border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:700;color:var(--blue-dk)}
+
+/* Worked Examples & Step Reveals */
+.we-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:14px;max-width:400px;width:100%;margin:0 auto 12px;box-shadow:var(--shadow)}
+.we-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--blue);margin-bottom:6px}
+.we-step{padding:10px 12px;background:var(--blue-lt);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;margin-bottom:8px;line-height:1.4;font-size:.9rem}
+.we-step.green{background:var(--green-lt);border-left-color:var(--green)}
+.we-step.amber{background:var(--amber-lt);border-left-color:var(--amber)}
+
+/* Gamified Assessment & Hints */
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;padding:12px;margin-bottom:8px;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;background:var(--surface);font-size:.95rem}
+.quiz-opt:hover{border-color:var(--blue);background:#f8fafc}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-lt);color:var(--green-dk);font-weight:700}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-lt);color:#991b1b}
+.hint-btn{font-size:.8rem;background:var(--amber-lt);color:#92400e;border:1.5px solid var(--amber);padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px}
+.hints-container{margin-top:10px;padding:10px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;display:none}
+
+/* Bottom Bar */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:var(--surface);padding:10px 16px;box-shadow:0 -2px 10px rgba(0,0,0,.08);z-index:50;display:flex;gap:10px}
+.btn{padding:12px;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .15s;flex:1;text-align:center}
+.btn-back{background:var(--surface);color:var(--muted);border:1.5px solid var(--border);flex:0 0 80px}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-dk)}
+
+/* Dialog Modals */
+dialog{border:none;border-radius:18px;padding:24px;max-width:320px;width:90%;text-align:center;box-shadow:var(--shadow-lg);color:var(--text);margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(4px)}
+.dlg-word{font-size:1.6rem;font-weight:800;color:var(--blue-dk)}
+.dlg-hindi{font-size:1.3rem;color:var(--purple);font-weight:700;margin-top:4px}
+.dlg-phonics{font-size:.9rem;font-style:italic;color:var(--muted);margin-top:2px}
+.dlg-desc{font-size:.85rem;color:var(--text);margin-top:10px;line-height:1.4}
+.dlg-btn{margin-top:16px;padding:10px 24px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:.9rem;width:100%}
+
+#confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Brand Header -->
+  <div class="brand-header">
+    <div class="brand-info">
+      <div class="brand-name">AASHA AIOS — CLASS 6 MATHEMATICS</div>
+      <div class="brand-name-hi">अध्याय: भिन्न (Fractions Master Module)</div>
+      <div class="brand-tagline">Visual Learning • Action Manipulatives • 3 Game Engines</div>
+    </div>
+  </div>
+
+  <!-- Gamified Topbar -->
+  <div class="topbar">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="stat coins">🪙 <span id="coinCount">120</span></div>
+    <div class="stat xp">⚡ <span id="xpCount">350</span> XP</div>
+    <div class="stat lvl">⭐ Lvl <span id="lvlCount">2</span></div>
+  </div>
+
+  <!-- SECTION 1: Concept & Interactive Strip -->
+  <div class="screen active" id="sec-1">
+    <div class="card">
+      <div class="card-title">📖 Section 1: Concept of Fractions</div>
+      <div id="lle-sec1"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎨 Interactive Sim 1: Fraction Strip Manipulative</div>
+      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:8px;">Tap segments below to select numerator parts.</p>
+      <div class="tap-area" id="stripTapCells"></div>
+      <canvas class="canvas-visual" id="stripCanvas" width="360" height="80"></canvas>
+      <div class="frac-display" id="stripReadout">1 / 4</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Radial Pie & 2D Grid Area Model -->
+  <div class="screen" id="sec-2">
+    <div class="card">
+      <div class="card-title">🍕 Interactive Sim 2: Radial Pie Transformer</div>
+      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:8px;">Tap slices to toggle pizza parts.</p>
+      <canvas class="canvas-visual" id="pizzaCanvas" width="220" height="220"></canvas>
+      <div class="frac-display" id="pizzaReadout">2 / 6</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📐 Interactive Sim 3: 2D Grid Area Splitter</div>
+      <canvas class="canvas-visual" id="areaCanvas" width="340" height="120"></canvas>
+      <div style="text-align:center;font-weight:700;margin-top:8px;color:var(--purple);" id="areaReadout">Shaded Area: 3 / 8</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: 3D Block Splitter & Number Line Marker -->
+  <div class="screen" id="sec-3">
+    <div class="card">
+      <div class="card-title">🧊 Game Engine 1: 3D Block Fraction Splitter</div>
+      <div class="css3d-scene">
+        <div class="css3d-blocks" id="css3dContainer"></div>
+      </div>
+      <div class="css3d-controls">
+        <button class="css3d-btn" onclick="adjust3D(-1)">- Remove Part</button>
+        <button class="css3d-btn" onclick="adjust3D(1)">+ Add Part</button>
+      </div>
+      <div class="frac-display" id="css3dReadout">3 / 5</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📍 Interactive Sim 4: Number Line Partitioning</div>
+      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:8px;">Fractions exist on the continuous number line between 0 and 1.</p>
+      <canvas class="canvas-visual" id="numlineCanvas" width="360" height="90"></canvas>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Escape Run & PhET Fraction Matcher -->
+  <div class="screen" id="sec-4">
+    <div class="card">
+      <div class="card-title">🏃 Game Engine 2: Escape Runner (Fraction Compare)</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px;">Which fraction is larger? Choose fast to escape the obstacle!</p>
+      <div style="display:flex;gap:12px;justify-content:center;margin-bottom:12px;">
+        <button class="btn btn-primary" id="runnerOptA" onclick="checkRunner(true)" style="font-size:1.3rem;">3 / 5</button>
+        <button class="btn btn-primary" id="runnerOptB" onclick="checkRunner(false)" style="font-size:1.3rem;background:var(--purple);">2 / 5</button>
+      </div>
+      <div id="runnerFeedback" style="text-align:center;font-weight:700;min-height:24px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎯 Game Engine 3: PhET Card Matcher</div>
+      <div style="display:flex;gap:16px;align-items:center;justify-content:center;padding:16px;background:#f8fafc;border-radius:12px;border:1.5px dashed var(--blue);">
+        <div style="font-size:1.8rem;font-weight:800;color:var(--blue-dk);">2 / 4</div>
+        <div style="font-size:1.4rem;font-weight:700;">=</div>
+        <div style="font-size:1.8rem;font-weight:800;color:var(--green-dk);">1 / 2</div>
+      </div>
+      <button class="btn btn-primary" onclick="triggerPhetMatch()" style="margin-top:12px;width:100%;">Verify Equivalent Pair (+50 XP)</button>
+      <div id="phetMatchMsg" style="text-align:center;font-weight:700;margin-top:8px;color:var(--green-dk);"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: MathFluency Assessment Loop & Step Reveals -->
+  <div class="screen" id="sec-5">
+    <div class="we-card">
+      <div class="we-tag">💡 Worked Example (Step-by-Step)</div>
+      <div style="font-weight:700;margin-bottom:8px;">Problem: Add <span class="frac"><span class="frac-top">1</span><span class="frac-bot">5</span></span> + <span class="frac"><span class="frac-top">2</span><span class="frac-bot">5</span></span></div>
+      <div class="we-step">Step 1: Check denominators. Both are 5 (Like Fractions / समान भिन्न).</div>
+      <div class="we-step green">Step 2: Add numerators: 1 + 2 = 3. Keep denominator 5.</div>
+      <div class="we-step amber" style="font-weight:700;text-align:center;">Final Answer: 3 / 5</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📝 MathFluency Master Assessment</div>
+      <div style="font-size:0.95rem;font-weight:700;margin-bottom:10px;">In the fraction 3/8, what does the number 8 represent?</div>
+      
+      <div class="quiz-opt" onclick="answerQuiz(this, true)">
+        A. The total number of equal parts (Denominator / हर)
+      </div>
+      <div class="quiz-opt" onclick="answerQuiz(this, false, 'confused_numerator_denominator')">
+        B. The number of parts selected (Numerator / अंश)
+      </div>
+      <div class="quiz-opt" onclick="answerQuiz(this, false, 'unshaded_parts_confusion')">
+        C. The unshaded parts only
+      </div>
+
+      <button class="hint-btn" onclick="toggleHints()">💡 Need a Hint? (Progressive H1-H4)</button>
+      <div class="hints-container" id="hintsBox">
+        <div id="hintStepText" style="font-size:0.85rem;color:#78350f;"><b>H1 (Visual Hook):</b> Look at the bottom number of 3/8.</div>
+        <button class="hint-btn" onclick="nextHint()" style="background:#fff;margin-top:6px;">Next Hint</button>
+      </div>
+      <div id="quizFeedback" style="margin-top:10px;text-align:center;font-weight:700;"></div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <div class="bottom-bar">
+    <button class="btn btn-back" id="backBtn" onclick="goBack()">← Back</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="goNext()">Continue →</button>
+  </div>
+</div>
+
+<!-- LLE Word Tap Modal -->
+<dialog id="wordDialog">
+  <div class="dlg-word" id="dlgWord">Fraction</div>
+  <div class="dlg-hindi" id="dlgHindi">भिन्न</div>
+  <div class="dlg-phonics" id="dlgPhonics">Phonics: Bhin-na</div>
+  <div class="dlg-desc" id="dlgDesc">A number representing equal parts of a whole quantity.</div>
+  <button class="dlg-btn" onclick="speakWord()">🔊 Listen Pronunciation</button>
+  <button class="dlg-btn" onclick="document.getElementById('wordDialog').close()" style="background:var(--muted);margin-top:8px;">Close</button>
+</dialog>
+
+<canvas id="confettiCanvas"></canvas>
+
+<script>
+// ═══ AASHA LLE DICTIONARY (Grammar Preservation & Natural English Structure) ═══
+var WM = {
+  "fraction": { hi: "भिन्न", ph: "Bhin-na", desc: "A numerical quantity that represents part of a whole or set." },
+  "numerator": { hi: "अंश", ph: "Ansh", desc: "The top number showing how many equal parts are selected." },
+  "denominator": { hi: "हर", ph: "Har", desc: "The bottom number showing total equal parts in the whole." },
+  "whole": { hi: "पूर्ण", ph: "Poor-na", desc: "The complete object or group before division." },
+  "equal": { hi: "बराबर", ph: "Ba-raa-bar", desc: "Identical in size, quantity, or degree." },
+  "parts": { hi: "भागों", ph: "Bhaa-gon", desc: "Divisions or pieces of a whole quantity." },
+  "equivalent": { hi: "तुल्य", ph: "Tul-ya", desc: "Fractions representing the exact same value or region." }
+};
+
+var CONN = {
+  "because": "क्योंकि (बिकॉज़)",
+  "therefore": "इसलिए (देयरफोर)",
+  "for example": "उदाहरण के लिए (फॉर एग्ज़ैम्पल)",
+  "which means": "जिसका अर्थ है (विच मीन्स)"
+};
+
+function rt(text) {
+  var words = text.split(' ');
+  return words.map(w => {
+    var clean = w.toLowerCase().replace(/[^a-z]/g, '');
+    if (WM[clean]) {
+      return `<span class="word" onclick="openWord('${clean}')">${w}</span>`;
+    }
+    return w;
+  }).join(' ');
+}
+
+function openWord(key) {
+  var data = WM[key];
+  if (!data) return;
+  document.getElementById('dlgWord').textContent = key.toUpperCase();
+  document.getElementById('dlgHindi').textContent = data.hi;
+  document.getElementById('dlgPhonics').textContent = `Phonics: ${data.ph}`;
+  document.getElementById('dlgDesc').textContent = data.desc;
+  document.getElementById('wordDialog').showModal();
+}
+
+function speakWord() {
+  var w = document.getElementById('dlgWord').textContent;
+  var hi = document.getElementById('dlgHindi').textContent;
+  if ('speechSynthesis' in window) {
+    var utter = new SpeechSynthesisUtterance(`${w}. In Hindi: ${hi}`);
+    window.speechSynthesis.speak(utter);
+  }
+}
+
+// Render Natural English LLE Text
+document.getElementById('lle-sec1').innerHTML = `
+  <div class="lle-text">
+    ${rt("A fraction names part of a whole. The numerator tells how many equal parts are taken, while the denominator tells the total equal parts that make up the whole.")}
+  </div>
+`;
+
+// ═══ NAVIGATION & GAMIFICATION STATE ═══
+var currentSec = 1;
+var totalSecs = 5;
+var coins = 120, xp = 350, lvl = 2;
+
+function updateTopbar() {
+  document.getElementById('progressFill').style.width = `${(currentSec / totalSecs) * 100}%`;
+  document.getElementById('coinCount').textContent = coins;
+  document.getElementById('xpCount').textContent = xp;
+  document.getElementById('lvlCount').textContent = lvl;
+}
+
+function goNext() {
+  if (currentSec < totalSecs) {
+    document.getElementById(`sec-${currentSec}`).classList.remove('active');
+    currentSec++;
+    document.getElementById(`sec-${currentSec}`).classList.add('active');
+    updateTopbar();
+    renderActiveSec();
+  }
+}
+
+function goBack() {
+  if (currentSec > 1) {
+    document.getElementById(`sec-${currentSec}`).classList.remove('active');
+    currentSec--;
+    document.getElementById(`sec-${currentSec}`).classList.add('active');
+    updateTopbar();
+    renderActiveSec();
+  }
+}
+
+// ═══ INTERACTIVE SIMULATOR ENGINES ═══
+// Sim 1: Strip Manipulative
+var stripNum = 1, stripDen = 4;
+function initStrip() {
+  var cells = document.getElementById('stripTapCells');
+  cells.innerHTML = '';
+  for (var i = 0; i < stripDen; i++) {
+    var div = document.createElement('div');
+    div.className = `tap-cell ${i < stripNum ? 'tapped' : ''}`;
+    div.onclick = (function(idx){ return function(){ stripNum = idx + 1; drawStripCanvas(); initStrip(); }; })(i);
+    cells.appendChild(div);
+  }
+  drawStripCanvas();
+}
+
+function drawStripCanvas() {
+  var cv = document.getElementById('stripCanvas');
+  var ctx = cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  var w = cv.width / stripDen;
+  for (var i = 0; i < stripDen; i++) {
+    ctx.fillStyle = i < stripNum ? '#3b82f6' : '#e2e8f0';
+    ctx.fillRect(i*w + 2, 4, w - 4, cv.height - 8);
+    ctx.strokeStyle = '#1d4ed8'; ctx.lineWidth = 2;
+    ctx.strokeRect(i*w + 2, 4, w - 4, cv.height - 8);
+  }
+  document.getElementById('stripReadout').textContent = `${stripNum} / ${stripDen}`;
+}
+
+// Sim 2: Pizza Pie Manipulative
+var pizzaSelected = [0, 1], pizzaDen = 6;
+function drawPizza() {
+  var cv = document.getElementById('pizzaCanvas');
+  var ctx = cv.getContext('2d');
+  var cx = cv.width/2, cy = cv.height/2, r = 90;
+  ctx.clearRect(0,0,cv.width,cv.height);
+  var angle = (2 * Math.PI) / pizzaDen;
+  for (var i = 0; i < pizzaDen; i++) {
+    var start = i * angle - Math.PI/2, end = (i+1) * angle - Math.PI/2;
+    ctx.fillStyle = pizzaSelected.includes(i) ? '#10b981' : '#f1f5f9';
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,end); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#047857'; ctx.lineWidth = 2; ctx.stroke();
+  }
+  document.getElementById('pizzaReadout').textContent = `${pizzaSelected.length} / ${pizzaDen}`;
+}
+
+document.getElementById('pizzaCanvas').onclick = function(e) {
+  var rect = this.getBoundingClientRect();
+  var x = e.clientX - rect.left - 110, y = e.clientY - rect.top - 110;
+  var angle = Math.atan2(y, x) + Math.PI/2;
+  if (angle < 0) angle += 2 * Math.PI;
+  var idx = Math.floor(angle / ((2 * Math.PI) / pizzaDen)) % pizzaDen;
+  if (pizzaSelected.includes(idx)) pizzaSelected = pizzaSelected.filter(i => i !== idx);
+  else pizzaSelected.push(idx);
+  drawPizza();
+};
+
+// Sim 3: 2D Grid Area
+function drawArea() {
+  var cv = document.getElementById('areaCanvas');
+  var ctx = cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  var cols = 4, rows = 2, shaded = 3;
+  var cw = cv.width/cols, ch = cv.height/rows;
+  var count = 0;
+  for (var r = 0; r < rows; r++) {
+    for (var c = 0; c < cols; c++) {
+      ctx.fillStyle = count < shaded ? '#8b5cf6' : '#f1f5f9';
+      ctx.fillRect(c*cw+2, r*ch+2, cw-4, ch-4);
+      ctx.strokeStyle = '#6d28d9'; ctx.lineWidth = 1.5; ctx.strokeRect(c*cw+2, r*ch+2, cw-4, ch-4);
+      count++;
+    }
+  }
+}
+
+// Game Engine 1: 3D Blocks
+var count3D = 3, total3D = 5;
+function render3D() {
+  var c = document.getElementById('css3dContainer');
+  c.innerHTML = '';
+  for (var i = 0; i < total3D; i++) {
+    var b = document.createElement('div');
+    b.className = `css3d-block ${i < count3D ? 'css3d-block-filled' : 'css3d-block-empty'}`;
+    c.appendChild(b);
+  }
+  document.getElementById('css3dReadout').textContent = `${count3D} / ${total3D}`;
+}
+
+function adjust3D(delta) {
+  count3D = Math.max(0, Math.min(total3D, count3D + delta));
+  render3D();
+}
+
+// Sim 4: Number Line Marker
+function drawNumline() {
+  var cv = document.getElementById('numlineCanvas');
+  var ctx = cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  var pad = 30, y = 45, w = cv.width - pad*2;
+  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(pad+w,y); ctx.stroke();
+  for (var i = 0; i <= 4; i++) {
+    var x = pad + (w * i / 4);
+    ctx.beginPath(); ctx.moveTo(x, y-8); ctx.lineTo(x, y+8); ctx.stroke();
+    ctx.fillStyle = '#64748b'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(`${i}/4`, x, y+24);
+  }
+  // Highlight 3/4 marker
+  var mx = pad + (w * 3 / 4);
+  ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.arc(mx, y, 9, 0, Math.PI*2); ctx.fill();
+}
+
+// Game Engine 2: Escape Runner
+function checkRunner(isCorrect) {
+  var fb = document.getElementById('runnerFeedback');
+  if (isCorrect) {
+    fb.textContent = "✅ Correct! 3/5 is larger than 2/5. (+40 XP)";
+    fb.style.color = "var(--green-dk)";
+    xp += 40; coins += 15; updateTopbar();
+  } else {
+    fb.textContent = "❌ Incorrect. With same denominator 5, compare numerators: 3 > 2.";
+    fb.style.color = "var(--red)";
+  }
+}
+
+// Game Engine 3: PhET Verify
+function triggerPhetMatch() {
+  document.getElementById('phetMatchMsg').textContent = "🎉 Match Verified! 2/4 simplify to 1/2. (+50 XP)";
+  xp += 50; coins += 20; updateTopbar();
+}
+
+// Assessment & Hints (H1-H4)
+var hints = [
+  "H1 (Visual Hook): Look at the bottom number of 3/8.",
+  "H2 (Concept): The bottom number is the Denominator (हर - Har), which shows total equal parts.",
+  "H3 (Formula): Top = Numerator (अंश), Bottom = Denominator (हर).",
+  "H4 (Intermediate Step): 8 shows the whole unit is divided into 8 equal parts."
+];
+var hintIdx = 0;
+
+function toggleHints() {
+  document.getElementById('hintsBox').style.display = 'block';
+}
+
+function nextHint() {
+  hintIdx = (hintIdx + 1) % hints.length;
+  document.getElementById('hintStepText').innerHTML = `<b>${hints[hintIdx].split(':')[0]}:</b> ${hints[hintIdx].split(':')[1]}`;
+}
+
+function answerQuiz(el, isCorrect, mId) {
+  var fb = document.getElementById('quizFeedback');
+  if (isCorrect) {
+    el.classList.add('correct');
+    fb.textContent = "🎉 Correct Answer! (+100 XP, +50 Coins)";
+    fb.style.color = "var(--green-dk)";
+    xp += 100; coins += 50; updateTopbar();
+  } else {
+    el.classList.add('wrong');
+    fb.textContent = mId === 'confused_numerator_denominator' ? 
+      "❌ Misconception: Top number (3) is Numerator (अंश). Bottom number (8) is Denominator (हर)." :
+      "❌ Misconception: Denominator counts ALL equal parts, not just unshaded ones.";
+    fb.style.color = "var(--red)";
+  }
+}
+
+function renderActiveSec() {
+  if (currentSec === 1) { initStrip(); }
+  else if (currentSec === 2) { drawPizza(); drawArea(); }
+  else if (currentSec === 3) { render3D(); drawNumline(); }
+}
+
+// Initialize on Load
+updateTopbar();
+initStrip();
+</script>
+</body>
+</html>

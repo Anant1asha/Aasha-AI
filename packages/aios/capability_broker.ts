@@ -16,6 +16,7 @@
 import 'dotenv/config';
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -55,6 +56,52 @@ export interface TaskProfile {
   costSensitivity?: 'FREE_ONLY' | 'LOW_COST' | 'ANY';
 }
 
+export interface ResourceRequirement {
+  requiredCapability: string;
+  subject?: string;
+  topic?: string;
+  grade?: number;
+  board?: string;
+  learningObjective?: string;
+  interactionType?: string;
+  offlineRequirement?: boolean;
+  mobileRequirement?: boolean;
+  accessibilityRequirement?: boolean;
+}
+
+export type ResourceCompatibility =
+  | 'EXACT_REUSE'
+  | 'PARAMETRIC_ADAPT'
+  | 'COMPOSE'
+  | 'LOCAL_ADAPTATION'
+  | 'CERTIFIED_GENERATION'
+  | 'SAFE_FALLBACK';
+
+export interface ResourceMatchCandidate {
+  resource_id: string;
+  name: string;
+  capability: string;
+  category: string;
+  compatibility: ResourceCompatibility;
+  adapter?: string;
+  dependencies: string[];
+  license: string;
+  offline_support: boolean;
+  mobile_support: boolean;
+  certification_status: 'CERTIFIED' | 'PROVISIONAL' | 'UNKNOWN';
+  provenance: string;
+  version: string;
+  score: number;
+  mechanics?: string[];
+}
+
+export interface VocabularyLookupResult {
+  found: Record<string, string>;
+  missing: string[];
+  totalRequested: number;
+  coveragePercentage: number;
+}
+
 export interface RoutingDecision {
   harness: Harness;
   modelTier: ModelTier;
@@ -70,10 +117,22 @@ export interface RoutingDecision {
 // Capability Matrix Loader
 // ---------------------------------------------------------------------------
 
-const MATRIX_PATH = path.join(
-  path.dirname(new URL(import.meta.url || `file://${__filename}`).pathname.replace(/^\/([A-Z]:)/, '$1')),
-  'capability_matrix.json'
-);
+const __filename_resolved = typeof __filename !== 'undefined' ? __filename : fileURLToPath(import.meta.url);
+const __dirname_resolved = path.dirname(__filename_resolved);
+const MATRIX_PATH = path.join(__dirname_resolved, 'capability_matrix.json');
+
+function findRepoRoot(startDir: string): string {
+  let curr = startDir;
+  for (let i = 0; i < 6; i++) {
+    if (fs.existsSync(path.join(curr, 'experience_registry', 'registry.json'))) {
+      return curr;
+    }
+    const parent = path.dirname(curr);
+    if (parent === curr) break;
+    curr = parent;
+  }
+  return startDir;
+}
 
 function loadMatrix(): Record<string, any> {
   try {
@@ -252,6 +311,302 @@ export class CapabilityBroker {
       if (entry?.supported === true) caps.push(cap);
     }
     return caps;
+  }
+
+  /**
+   * Match an educational resource requirement against the verified Experience Registry.
+   * Enforces the Resource-First Global Reuse Architecture:
+   * EXACT_REUSE -> PARAMETRIC_ADAPT -> COMPOSE -> LOCAL_ADAPTATION -> CERTIFIED_GENERATION.
+   */
+  matchResource(req: ResourceRequirement): ResourceMatchCandidate[] {
+    const candidates: ResourceMatchCandidate[] = [];
+    let registryData: any = null;
+
+    try {
+      const repoRoot = findRepoRoot(process.cwd());
+      const regPath = path.join(repoRoot, 'experience_registry', 'registry.json');
+      if (fs.existsSync(regPath)) {
+        registryData = JSON.parse(fs.readFileSync(regPath, 'utf-8'));
+      }
+    } catch (err) {
+      console.warn('[CapabilityBroker] Could not load registry.json:', err);
+    }
+
+    if (!registryData || !Array.isArray(registryData.foundations)) {
+      return [{
+        resource_id: 'FALLBACK_GENERATOR',
+        name: 'Standard Certified Sim Generator',
+        capability: req.requiredCapability,
+        category: 'simulations',
+        compatibility: 'CERTIFIED_GENERATION',
+        dependencies: ['@aasha/sim-core'],
+        license: 'MIT',
+        offline_support: true,
+        mobile_support: true,
+        certification_status: 'PROVISIONAL',
+        provenance: 'GENERATOR_FALLBACK',
+        version: '1.0.0',
+        score: 0,
+        mechanics: []
+      }];
+    }
+
+    for (const f of registryData.foundations) {
+      let score = 0;
+      const reqSubject = (req.subject || '').toLowerCase();
+      const fSubjects = (f.subjects || []).map((s: string) => s.toLowerCase());
+
+      // 1. Subject match (up to 30 pts)
+      if (fSubjects.includes(reqSubject) || fSubjects.includes('general')) {
+        score += 30;
+      }
+
+      // 2. Class / Grade match (up to 25 pts)
+      if (req.grade && Array.isArray(f.classes)) {
+        if (f.classes.includes(req.grade)) {
+          score += 25;
+        } else if (f.classes.some((c: number) => Math.abs(c - req.grade!) <= 2)) {
+          score += 15;
+        }
+      } else if (!req.grade) {
+        score += 15;
+      }
+
+      // 3. Capability / Mechanics match (up to 35 pts)
+      const reqCap = (req.requiredCapability || '').toLowerCase();
+      const reqInter = (req.interactionType || '').toLowerCase();
+      const fMechanics = (f.mechanics || []).map((m: string) => m.toLowerCase());
+
+      const mechanicMatch = fMechanics.some((m: string) =>
+        reqCap.includes(m) || m.includes(reqCap) || reqInter.includes(m) || m.includes(reqInter)
+      );
+
+      if (mechanicMatch) {
+        score += 35;
+      } else if (fMechanics.length > 0) {
+        score += 10;
+      }
+
+      // 4. Offline / Mobile requirement support (up to 10 pts)
+      if (req.offlineRequirement && fMechanics.includes('pwa_offline')) {
+        score += 10;
+      } else if (req.offlineRequirement && f.license === 'MIT') {
+        score += 5;
+      }
+
+      // Determine Compatibility classification
+      let compatibility: ResourceCompatibility = 'LOCAL_ADAPTATION';
+      if (score >= 80) {
+        compatibility = 'EXACT_REUSE';
+      } else if (score >= 55) {
+        compatibility = 'PARAMETRIC_ADAPT';
+      } else if (score >= 35) {
+        compatibility = 'COMPOSE';
+      } else if (score > 0) {
+        compatibility = 'LOCAL_ADAPTATION';
+      } else {
+        compatibility = 'CERTIFIED_GENERATION';
+      }
+
+      if (score > 0) {
+        candidates.push({
+          resource_id: f.id,
+          name: f.name,
+          capability: req.requiredCapability,
+          category: 'foundations',
+          compatibility,
+          adapter: f.reuse_strategy === 'WRAP' ? 'AashaSimWebComponent' : 'AashaExtractAdapter',
+          dependencies: [f.repo],
+          license: f.license,
+          offline_support: fMechanics.includes('pwa_offline') || true,
+          mobile_support: true,
+          certification_status: 'CERTIFIED',
+          provenance: f.repo || 'LOCAL_FOUNDATION',
+          version: '1.0.0',
+          score,
+          mechanics: f.mechanics
+        });
+      }
+    }
+
+    candidates.sort((a, b) => b.score - a.score);
+
+    if (candidates.length === 0) {
+      candidates.push({
+        resource_id: 'FALLBACK_GENERATOR',
+        name: 'Standard Certified Sim Generator',
+        capability: req.requiredCapability,
+        category: 'simulations',
+        compatibility: 'CERTIFIED_GENERATION',
+        dependencies: ['@aasha/sim-core'],
+        license: 'MIT',
+        offline_support: true,
+        mobile_support: true,
+        certification_status: 'PROVISIONAL',
+        provenance: 'GENERATOR_FALLBACK',
+        version: '1.0.0',
+        score: 0,
+        mechanics: []
+      });
+    }
+
+    return candidates;
+  }
+
+  /**
+   * Look up bilingual Hindi definitions from the verified local dictionary database.
+   * Zero API cost: operates strictly on local JSON storage.
+   */
+  lookupVocabulary(terms: string[]): VocabularyLookupResult {
+    const found: Record<string, string> = {};
+    const missing: string[] = [];
+
+    let dict: Record<string, string> = {};
+    try {
+      const repoRoot = findRepoRoot(process.cwd());
+      const dictPath = path.join(repoRoot, 'experience_registry', 'aasha_dictionary_db.json');
+      if (fs.existsSync(dictPath)) {
+        dict = JSON.parse(fs.readFileSync(dictPath, 'utf-8'));
+      }
+    } catch (err) {
+      console.warn('[CapabilityBroker] Could not load aasha_dictionary_db.json:', err);
+    }
+
+    for (const rawTerm of terms) {
+      const normalized = rawTerm.toLowerCase().trim().replace(/^[^\w]+|[^\w]+$/g, '');
+      if (!normalized) continue;
+
+      if (dict[normalized]) {
+        found[rawTerm] = dict[normalized];
+      } else {
+        missing.push(rawTerm);
+      }
+    }
+
+    const totalRequested = terms.length;
+    const foundCount = Object.keys(found).length;
+    const coveragePercentage = totalRequested > 0 ? Math.round((foundCount / totalRequested) * 100) : 100;
+
+    return {
+      found,
+      missing,
+      totalRequested,
+      coveragePercentage
+    };
+  }
+
+  /**
+   * Persist newly verified vocabulary entries to local dictionary storage.
+   * Auto-expands the zero-cost local substrate for all future runs.
+   */
+  autoPersistMissingVocabulary(newTerms: Record<string, string>): { addedCount: number; totalCount: number } {
+    const repoRoot = findRepoRoot(process.cwd());
+    const dictPath = path.join(repoRoot, 'experience_registry', 'aasha_dictionary_db.json');
+    let dict: Record<string, string> = {};
+
+    try {
+      if (fs.existsSync(dictPath)) {
+        dict = JSON.parse(fs.readFileSync(dictPath, 'utf-8'));
+      }
+    } catch (err) {
+      console.warn('[CapabilityBroker] Reading dictionary for persistence failed:', err);
+    }
+
+    let addedCount = 0;
+    for (const [k, v] of Object.entries(newTerms)) {
+      const normalized = k.toLowerCase().trim().replace(/^[^\w]+|[^\w]+$/g, '');
+      if (normalized && v && !dict[normalized]) {
+        dict[normalized] = v;
+        addedCount++;
+      }
+    }
+
+    if (addedCount > 0) {
+      // Sort alphabetically for clean git diff and deterministic serialization
+      const sorted: Record<string, string> = {};
+      for (const k of Object.keys(dict).sort()) {
+        sorted[k] = dict[k];
+      }
+      fs.writeFileSync(dictPath, JSON.stringify(sorted, null, 2), 'utf-8');
+    }
+
+    return {
+      addedCount,
+      totalCount: Object.keys(dict).length
+    };
+  }
+
+  /**
+   * Scan chapter HTML file(s) or directory, extract all bilingual vocabulary entries (window.WM),
+   * and automatically update the local vocabulary database (aasha_dictionary_db.json) with any new words.
+   * Enforces that local DB expands on every new chapter build / transform.
+   */
+  syncChapterVocabulary(targetPath: string): { filesScanned: number; totalExtracted: number; newAdded: number; totalDbCount: number } {
+    const filesToScan: string[] = [];
+
+    if (fs.existsSync(targetPath)) {
+      const stat = fs.statSync(targetPath);
+      if (stat.isDirectory()) {
+        const entries = fs.readdirSync(targetPath);
+        for (const entry of entries) {
+          if (entry.endsWith('.html')) {
+            filesToScan.push(path.join(targetPath, entry));
+          }
+        }
+      } else if (targetPath.endsWith('.html')) {
+        filesToScan.push(targetPath);
+      }
+    }
+
+    let totalExtracted = 0;
+    const extractedVocab: Record<string, string> = {};
+
+    for (const filePath of filesToScan) {
+      try {
+        const content = fs.readFileSync(filePath, 'utf-8');
+
+        // Pattern 1: var WM = { ... }; or window.WM = { ... }; or const WM = { ... };
+        const wmMatches = content.matchAll(/(?:var|window\.|const)\s*WM\s*=\s*(\{[\s\S]*?\});/g);
+        for (const match of wmMatches) {
+          const raw = match[1];
+          try {
+            const parsed = JSON.parse(raw);
+            for (const [w, def] of Object.entries(parsed)) {
+              if (typeof def === 'string' && def.trim().length > 0) {
+                extractedVocab[w] = def;
+                totalExtracted++;
+              }
+            }
+          } catch {
+            const pairMatches = raw.matchAll(/["']?([a-zA-Z0-9_\-]+)["']?\s*:\s*["']([^"']+)["']/g);
+            for (const p of pairMatches) {
+              extractedVocab[p[1]] = p[2];
+              totalExtracted++;
+            }
+          }
+        }
+
+        // Pattern 2: data-def="..." on word-tap elements
+        const tapMatches = content.matchAll(/<[^>]+class=["'][^"']*word-tap[^"']*["'][^>]*data-w=["']([^"']+)["'][^>]*data-def=["']([^"']+)["']/g);
+        for (const m of tapMatches) {
+          if (m[1] && m[2]) {
+            extractedVocab[m[1]] = m[2];
+            totalExtracted++;
+          }
+        }
+      } catch (err) {
+        console.warn(`[CapabilityBroker] Error reading ${filePath} for vocabulary:`, err);
+      }
+    }
+
+    const persistResult = this.autoPersistMissingVocabulary(extractedVocab);
+
+    return {
+      filesScanned: filesToScan.length,
+      totalExtracted,
+      newAdded: persistResult.addedCount,
+      totalDbCount: persistResult.totalCount
+    };
   }
 
   /** Reload matrix from disk (useful after updates) */

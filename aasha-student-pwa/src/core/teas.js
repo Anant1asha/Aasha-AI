@@ -1,4 +1,5 @@
 import { recordEvent } from './events.js';
+import { computeNodeMastery, TEAS_POLICY } from '../../../Aasha-Learning-Impact-Ecosystem-v0.3-full-repo/packages/teas-engine/src/policy.js';
 
 /**
  * Dynamic Difficulty Engine (DDA)
@@ -6,14 +7,37 @@ import { recordEvent } from './events.js';
  * to adjust scaffolding tier and challenge level in real-time.
  * Optimized O(1) backwards scan over recent events.
  */
+const eventEvidenceCache = new WeakMap();
+function getEventEvidence(state) {
+  const events = state.events || [];
+  let cache = eventEvidenceCache.get(state);
+  if (!cache || cache.processedCount > events.length) {
+    cache = { processedCount: 0, nodes: new Map() };
+    eventEvidenceCache.set(state, cache);
+  }
+  for (let i = cache.processedCount; i < events.length; i++) {
+    const event = events[i];
+    const nodeId = event?.payload?.node_id;
+    if (typeof nodeId !== 'string') continue;
+    let node = cache.nodes.get(nodeId);
+    if (!node) { node = { attempts: [], misconceptions: new Set(), simInteractions: 0 }; cache.nodes.set(nodeId, node); }
+    if (event.event_type === 'answer_submitted') {
+      const correct = event.payload.result === 'correct';
+      node.attempts.push({ correct });
+      if (!correct && event.payload.misconception) node.misconceptions.add(event.payload.misconception);
+    } else if (event.event_type === 'simulation_telemetry') node.simInteractions++;
+  }
+  cache.processedCount = events.length;
+  return cache;
+}
 export class DynamicDifficultyEngine {
   static evaluateDifficulty(state, nodeId) {
     const events = state.events || [];
     const recentAnswers = [];
-    let telemetryCount = 0;
+    const telemetryCount = getEventEvidence(state).nodes.get(nodeId)?.simInteractions || 0;
 
     // Fast backwards scan to get recent node activity without full array scans
-    for (let i = events.length - 1; i >= 0; i--) {
+    for (let i = events.length - 1; i >= 0 && recentAnswers.length < 5; i--) {
       const e = events[i];
       if (e.payload && e.payload.node_id === nodeId) {
         if (e.event_type === 'answer_submitted' && recentAnswers.length < 5) {
@@ -139,68 +163,17 @@ export function getScaffoldingHint(question, hintTier = 1) {
  * Single-pass event partition for sub-millisecond evaluation
  */
 export function computeMastery(state, nodeId) {
-  const events = state.events || [];
-  let correctCount = 0;
-  let totalAnswers = 0;
-  let recentCorrect = 0;
-  let recentCount = 0;
-  let telemetryCount = 0;
-  const misconceptionsSet = new Set();
-
-  // Bound scan window to recent 100 events for sub-millisecond O(1) evaluation
-  const maxScan = Math.min(events.length, 100);
-  const startIdx = events.length - 1;
-  const endIdx = events.length - maxScan;
-
-  for (let i = startIdx; i >= endIdx; i--) {
-    const e = events[i];
-    if (e.payload && e.payload.node_id === nodeId) {
-      if (e.event_type === 'answer_submitted') {
-        totalAnswers++;
-        const isCorrect = e.payload.result === 'correct';
-        if (isCorrect) correctCount++;
-        else if (e.payload.misconception) misconceptionsSet.add(e.payload.misconception);
-
-        if (recentCount < 5) {
-          recentCount++;
-          if (isCorrect) recentCorrect++;
-        }
-      } else if (e.event_type === 'simulation_telemetry') {
-        telemetryCount++;
-      }
-    }
-  }
-
-  if (totalAnswers === 0 && telemetryCount === 0) {
-    return { attempts: 0, correct: 0, accuracy: 0, mastery: 0, misconceptions: [], sim_interactions: 0 };
-  }
-
-  if (totalAnswers === 0) {
-    return {
-      attempts: 0,
-      correct: 0,
-      accuracy: 0,
-      mastery: Math.min(25, telemetryCount * 5),
-      misconceptions: [],
-      sim_interactions: telemetryCount
-    };
-  }
-
-  const accuracy = Math.round((correctCount / totalAnswers) * 100);
-  const recentAcc = recentCount > 0 ? Math.round((recentCorrect / recentCount) * 100) : 0;
-  const simBonus = Math.min(10, telemetryCount * 2);
-
-  const rawMastery = Math.round(accuracy * 0.6 + recentAcc * 0.4 + simBonus);
-  const mastery = Math.min(100, Math.max(0, rawMastery));
-
+  const evidence = getEventEvidence(state).nodes.get(nodeId) || { attempts: [], misconceptions: new Set(), simInteractions: 0 };
+  const mastery = computeNodeMastery(evidence.attempts);
   return {
-    attempts: totalAnswers,
-    correct: correctCount,
-    accuracy,
-    recent_accuracy: recentAcc,
-    mastery,
-    misconceptions: Array.from(misconceptionsSet),
-    sim_interactions: telemetryCount
+    attempts: mastery.attempts,
+    correct: mastery.correct,
+    accuracy: Math.round(mastery.accuracy * 100),
+    recent_accuracy: Math.round(mastery.recentAccuracy * 100),
+    mastery: Math.round(mastery.mastery * 100),
+    eligible_to_progress: mastery.eligibleToProgress,
+    misconceptions: [...evidence.misconceptions],
+    sim_interactions: evidence.simInteractions,
   };
 }
 
@@ -218,7 +191,10 @@ export function refreshMastery(state, chapter) {
 export function progressionDecision(state, nodeId) {
   const m = (state.mastery && state.mastery[nodeId]) || { attempts: 0, mastery: 0 };
   if (m.attempts === 0 && m.mastery === 0) {
-    return { action: 'learn', reason: 'No assessment or simulation evidence yet' };
+    return { action: 'learn', reason: 'No assessment attempt evidence yet' };
+  }
+  if (m.attempts < TEAS_POLICY.minimumAttempts) {
+    return { action: 'practice', reason: 'Minimum TEAS attempt count not reached.' };
   }
   if (m.mastery < 50) {
     return { action: 'remediate', reason: 'Evidence shows a significant learning gap; step-by-step review recommended' };
@@ -226,7 +202,8 @@ export function progressionDecision(state, nodeId) {
   if (m.mastery < 75) {
     return { action: 'practice', reason: 'Consolidate the concept with targeted practice' };
   }
-  return { action: 'advance', reason: 'Sufficient deterministic mastery evidence achieved' };
+  if (m.eligible_to_progress !== true) return { action: 'practice', reason: 'TEAS progression threshold not met.' };
+  return { action: 'advance', reason: 'Canonical TEAS threshold and attempt minimum satisfied.' };
 }
 
 export function recordSimulationTelemetry(state, nodeId, telemetryData) {
@@ -257,3 +234,7 @@ export function submitAssessment(state, question, selected, responseTimeMs) {
   refreshMastery(state, { nodes: [{ id: question.node_id }] });
   return { correct, dda, event_id: e.event_id };
 }
+
+
+
+

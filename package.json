@@ -12,8 +12,15 @@
     "chapter:init": "tsx admin_memory_cli.ts init-chapter",
     "admin:experience": "tsx admin_memory_cli.ts add-experience",
     "admin:learn": "tsx admin_memory_cli.ts learn",
+    "version:snapshot": "tsx admin_memory_cli.ts version-snapshot",
+    "version:list": "tsx admin_memory_cli.ts version-list",
+    "version:verify": "tsx admin_memory_cli.ts version-verify",
+    "version:rollback": "tsx admin_memory_cli.ts version-rollback",
+    "vocab:sync": "tsx admin_memory_cli.ts sync-vocab",
+    "memory:prime": "tsx ../scripts/jagiye_maakiran.ts",
     "test:ltruth": "node benchmarks/qa_ltruth_benchmark.js",
-    "test:all": "node benchmarks/qa_ltruth_benchmark.js"
+    "test:master": "node ../tests/e2e_all_chapters_suite.js",
+    "test:all": "node benchmarks/qa_ltruth_benchmark.js && node ../tests/e2e_all_chapters_suite.js"
   },
   "dependencies": {
     "dotenv": "^17.4.2"

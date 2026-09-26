@@ -1,4 +1,5 @@
 #!/usr/bin/env ts-node
+import * as path from 'path';
 import { ContextBus } from './packages/memory-engine/context_bus';
 import { AASHA_RULES } from './packages/aasha-rules/aasha_rules';
 import { AgentRole } from './packages/memory-engine/memory_interface';
@@ -247,6 +248,100 @@ async function main() {
       break;
     }
 
+    case 'version-snapshot': {
+      const filePath = args[1];
+      if (!filePath) {
+        console.error('Usage: npx tsx admin_memory_cli.ts version-snapshot <filePath> [status]');
+        process.exit(1);
+      }
+      const { VersionManager } = await import('./packages/aios/version_manager');
+      const vm = new VersionManager();
+      const status = (args[2] as any) || 'CERTIFIED';
+      console.log(`Snapshotting artifact: ${filePath} (status: ${status})...`);
+      const record = await vm.registerVersion({ filePath, status });
+      console.log(`\n✔ Artifact Version Snapshot Created!`);
+      console.log(`  Artifact ID:     ${record.artifact_id}`);
+      console.log(`  Version:         v${record.version}`);
+      console.log(`  Parent Hash:     ${record.parent_hash.substring(0, 16)}...`);
+      console.log(`  Artifact Hash:   ${record.artifact_hash}`);
+      console.log(`  Size (Bytes):    ${record.size_bytes} (${(record.size_bytes / (1024 * 1024)).toFixed(2)} MB)`);
+      console.log(`  Status:          ${record.status}`);
+      console.log(`  Snapshot Path:   ${record.storage_path}\n`);
+      break;
+    }
+
+    case 'version-list': {
+      const artifactId = args[1];
+      if (!artifactId) {
+        console.error('Usage: npx tsx admin_memory_cli.ts version-list <artifactId>');
+        process.exit(1);
+      }
+      const { VersionManager } = await import('./packages/aios/version_manager');
+      const vm = new VersionManager();
+      const lineage = vm.listLineage(artifactId);
+      console.log(`\n=== Version Lineage for Artifact: ${artifactId} ===`);
+      if (lineage.length === 0) {
+        console.log('No versions recorded yet.');
+      } else {
+        for (const v of lineage) {
+          console.log(`  v${v.version} [${v.status}] - Hash: ${v.artifact_hash.substring(0, 16)}... | Parent: ${v.parent_hash.substring(0, 16)}... | Size: ${(v.size_bytes / 1024).toFixed(1)} KB | Date: ${v.created_at}`);
+        }
+      }
+      console.log('');
+      break;
+    }
+
+    case 'version-verify': {
+      const artifactId = args[1];
+      const versionOrHash = args[2];
+      if (!artifactId || !versionOrHash) {
+        console.error('Usage: npx tsx admin_memory_cli.ts version-verify <artifactId> <versionOrHash>');
+        process.exit(1);
+      }
+      const { VersionManager } = await import('./packages/aios/version_manager');
+      const vm = new VersionManager();
+      const vArg = isNaN(Number(versionOrHash)) ? versionOrHash : Number(versionOrHash);
+      const res = vm.verifyIntegrity(artifactId, vArg);
+      console.log(`\n=== Snapshot Integrity Verification: ${artifactId} (${versionOrHash}) ===`);
+      if (res.valid) {
+        console.log(`✔ PASS: Snapshot integrity verified. Calculated SHA-256 matches recorded hash:\n  ${res.calculatedHash}\n`);
+      } else {
+        console.log(`✖ FAIL: Snapshot integrity compromised! Reason: ${res.reason}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+
+    case 'version-rollback': {
+      const artifactId = args[1];
+      const target = args[2];
+      const dest = args[3];
+      if (!artifactId || !target || !dest) {
+        console.error('Usage: npx tsx admin_memory_cli.ts version-rollback <artifactId> <targetVersionOrHash> <destinationPath>');
+        process.exit(1);
+      }
+      const { VersionManager } = await import('./packages/aios/version_manager');
+      const vm = new VersionManager();
+      const tArg = isNaN(Number(target)) ? target : Number(target);
+      console.log(`Rolling back ${artifactId} to ${target}...`);
+      const rollRes = await vm.rollbackTo(artifactId, tArg, dest);
+      console.log(`✔ Rollback Successful! Restored v${rollRes.version} (${rollRes.restoredHash.substring(0, 16)}...) to ${rollRes.path}\n`);
+      break;
+    }
+
+    case 'sync-vocab': {
+      const targetPath = args[1] || path.resolve(__dirname, 'chapters');
+      const { capabilityBroker } = await import('./packages/aios/capability_broker');
+      console.log(`\n=== Scanning and Syncing Chapter Vocabulary to Local Master DB ===`);
+      console.log(`Target: ${targetPath}`);
+      const res = capabilityBroker.syncChapterVocabulary(targetPath);
+      console.log(`✔ Scanned ${res.filesScanned} chapter file(s)`);
+      console.log(`✔ Extracted ${res.totalExtracted} bilingual vocabulary tokens`);
+      console.log(`✔ Newly added to aasha_dictionary_db.json: ${res.newAdded} word(s)`);
+      console.log(`✔ Total master vocabulary database count: ${res.totalDbCount} words\n`);
+      break;
+    }
+
     default: {
       console.log(`AASHA Super Admin AI Memory & Rules CLI
 Usage:
@@ -257,8 +352,13 @@ Usage:
   npx tsx admin_memory_cli.ts seed-foundations  - Seed 20 Prebuilt Open-Source Foundations
   npx tsx admin_memory_cli.ts match-foundation <Subject> <Class> <Topic> - Generate Resource Match Report
   npx tsx admin_memory_cli.ts init-chapter <Subject> <Class> <Topic>     - Auto-generate Resource Match Report & Section 24 YAML Contract
+  npx tsx admin_memory_cli.ts sync-vocab [path] - Sync chapter bilingual vocabulary (WM) into local DB
   npx tsx admin_memory_cli.ts learn             - Cement chat trail architectural pillars
   npx tsx admin_memory_cli.ts add-experience    - Add curated experience to memory
+  npx tsx admin_memory_cli.ts version-snapshot <file> [status]           - Snapshot artifact to immutable ledger
+  npx tsx admin_memory_cli.ts version-list <artifactId>                  - List version lineage and hashes
+  npx tsx admin_memory_cli.ts version-verify <artifactId> <version>      - Verify snapshot disk integrity
+  npx tsx admin_memory_cli.ts version-rollback <artifactId> <v> <dest>   - Safe non-destructive rollback
 `);
     }
   }

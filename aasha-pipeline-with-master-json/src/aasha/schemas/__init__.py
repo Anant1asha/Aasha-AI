@@ -247,6 +247,8 @@ class StageResult(BaseModel):
 
 class JobInput(BaseModel):
     source_pdf: str
+    source_pdf_sha256: str = ""
+    source_pdf_bytes: int = 0
     subject: str = "math"
     grade: int = 4
     provider: str = "openai"

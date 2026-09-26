@@ -1,0 +1,36 @@
+{
+  "job_id": "job_1789853840777_b08bf7b4",
+  "version": 2,
+  "status": "CREATED",
+  "created_at": "2026-09-19T21:37:20.777Z",
+  "updated_at": "2026-09-19T21:37:20.777Z",
+  "handoff_envelope": {
+    "document_id": "doc_verified_001",
+    "school_name": "Aasha Pilot Academy",
+    "grade": 8,
+    "subject": "Mathematics",
+    "topic": "Rational Numbers (Rev 2)",
+    "target_language": "hi-en",
+    "pdf_meta": {
+      "filename": "NCERT_Class8_Math_Ch01.pdf",
+      "file_size_bytes": 2048000,
+      "pdf_sha256": "a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0",
+      "board": "NCERT"
+    },
+    "ingress_timestamp": "2026-09-19T21:37:20.094Z",
+    "ingress_source": "studio_direct"
+  },
+  "progress_percentage": 0,
+  "current_phase": "Revision spawned for issue: PEDAGOGICAL_CLARITY - Clarify multiplicative inverse edge case for zero",
+  "state_history": [
+    {
+      "from_state": null,
+      "to_state": "CREATED",
+      "timestamp_utc": "2026-09-19T21:37:20.777Z",
+      "triggered_by": "studio_direct",
+      "reason": "Job created from handoff envelope"
+    }
+  ],
+  "repair_attempt_count": 0,
+  "max_repair_attempts": 2
+}

@@ -95,8 +95,9 @@ test('Generalization: Two-tier diagnostic assessment and TEAS progression on Cla
 
   const auth1 = progressionAuthority({
     orderedNodeIds: ['perimeter', 'area', 'distinction'],
-    masteryByNode: { perimeter: 1, area: 0, distinction: 0 }
+    masteryByNode: { perimeter: { mastery: 0.77, attempts: 4 }, area: { mastery: 0, attempts: 0 }, distinction: { mastery: 0, attempts: 0 } }
   });
   assert.deepEqual(auth1.unlocked, ['perimeter']);
   assert.equal(auth1.next, 'area');
 });
+

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Class 12 Economics Ch 1: Introduction to Microeconomics — AASHA AIOS</title>
+<style>
+/* MathIsolation: true */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0f4ff;--surface:#ffffff;--text:#0f172a;--muted:#475569;
+  --blue:#2563eb;--blue-dk:#1d4ed8;--blue-lt:#eff6ff;
+  --green:#16a34a;--green-dk:#15803d;--green-lt:#f0fdf4;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --purple:#7c3aed;--purple-lt:#f5f3ff;
+  --border:#cbd5e1;--border-dk:#94a3b8;
+  --shadow:0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.05);
+  --shadow-lg:0 10px 25px -3px rgba(15,23,42,.12),0 4px 6px -4px rgba(15,23,42,.07);
+  --radius:16px;--radius-sm:12px;--radius-xs:8px;
+  --brand:#1e3a5f;--brand-lt:#2d5a8e;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.app{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:var(--surface);box-shadow:0 0 40px rgba(0,0,0,.08)}
+
+/* Brand Header */
+.brand-header{background:linear-gradient(135deg,var(--brand),var(--brand-lt));padding:10px 16px;display:flex;align-items:center;gap:12px;color:#fff}
+.brand-logo{width:44px;height:44px;flex-shrink:0}
+.brand-logo svg{width:100%;height:100%}
+.brand-info{flex:1;min-width:0}
+.brand-name{font-size:.82rem;font-weight:800;letter-spacing:.02em;line-height:1.2}
+.brand-name-hi{font-size:.70rem;opacity:.9;line-height:1.2}
+.brand-tagline{font-size:.64rem;opacity:.8;margin-top:2px}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.exit-btn{background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center}
+.progress-track{flex:1;height:10px;background:var(--border);border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:10px;transition:width .4s ease;width:0}
+.stat{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:800;padding:4px 9px;border-radius:16px;white-space:nowrap}
+.stat.coins{color:var(--amber);background:var(--amber-lt);border:1px solid #fde68a}
+.stat.xp{color:var(--purple);background:var(--purple-lt);border:1px solid #ddd6fe}
+.stat.lvl{color:var(--blue);background:var(--blue-lt);border:1px solid #bfdbfe}
+
+/* Screen */
+.screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:8px 12px 65px;min-height:0;box-sizing:border-box}
+
+/* Concept Frame */
+.concept-frame{background:#ffffff;border:2px solid var(--border);border-radius:var(--radius);padding:18px 16px;width:100%;box-shadow:var(--shadow);margin-bottom:14px}
+.concept-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.70rem;font-weight:800;letter-spacing:.04em;color:var(--blue-dk);background:var(--blue-lt);margin-bottom:8px}
+.inquiry-title{font-size:1.15rem;font-weight:800;color:var(--brand);margin-bottom:10px;line-height:1.4}
+.concept-def{font-size:.95rem;line-height:1.8;color:var(--text);margin-bottom:14px}
+.hint{font-size:.72rem;color:var(--muted);text-align:center;margin:8px 0}
+
+/* Math expression styling */
+.math{font-family:'Cambria Math','Times New Roman',serif;font-style:italic;font-weight:700;padding:0 3px;color:#1e3a8a}
+
+/* LLE Bilingual Styling */
+.lle-text{font-size:1.05rem;line-height:2.2;color:var(--text);margin:8px 0;text-align:left}
+.lle-text-sm{font-size:.92rem;line-height:1.8;color:var(--text);margin:4px 0;text-align:left}
+.word{cursor:pointer;border-radius:4px;padding:1px 3px;transition:all .15s;border-bottom:1.5px dotted #94a3b8;font-weight:600}
+.word:hover{background:#dbeafe;color:var(--blue-dk)}
+.connective{color:var(--blue-dk);font-weight:700;cursor:pointer;border-bottom:2px dotted var(--blue);padding:1px 3px}
+.connective-hi{color:var(--purple);font-size:.85em;font-weight:600}
+
+/* Simulation Box */
+.sim-container{background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin:12px 0;width:100%}
+.sim-canvas{display:block;margin:0 auto;max-width:100%;height:auto;border-radius:var(--radius-xs);touch-action:none;background:#ffffff;border:1px solid #e2e8f0}
+.sim-controls{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.sim-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.sim-btn{min-height:44px;min-width:44px;touch-action:manipulation;background:var(--blue-lt);color:var(--blue-dk);border:1.5px solid var(--blue);border-radius:8px;padding:8px 14px;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center}
+.sim-btn:hover,.sim-btn.active{background:var(--blue);color:#fff}
+.preset-bar{display:flex;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:6px;justify-content:flex-start;padding:2px 4px;max-width:100%;scrollbar-width:none}
+.preset-bar::-webkit-scrollbar{display:none}
+.preset-btn{flex-shrink:0;min-height:44px;min-width:44px;touch-action:manipulation;background:#f1f5f9;border:1px solid var(--border-dk);border-radius:6px;padding:6px 12px;font-size:.78rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.preset-btn:hover{border-color:var(--blue);color:var(--blue-dk);background:#eff6ff}
+.sim-caption{font-size:.76rem;color:var(--muted);text-align:center;margin-top:8px;line-height:1.4}
+.btn-skip{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;color:var(--muted);font-size:.74rem;font-weight:700;text-decoration:underline;cursor:pointer;margin:4px auto 0;text-align:center;width:100%;min-height:44px}
+.btn-skip:hover{color:var(--blue)}
+
+/* Quiz Cards */
+.quiz-card{background:#ffffff;border:2px solid var(--border);border-radius:var(--radius);padding:16px;margin:12px 0;width:100%;box-shadow:var(--shadow)}
+.quiz-title{font-size:.95rem;font-weight:800;color:var(--brand);margin-bottom:8px}
+.quiz-question{font-size:.90rem;line-height:1.5;color:var(--text);margin-bottom:12px}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{min-height:44px;padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-xs);cursor:pointer;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:10px;transition:all .15s}
+.quiz-opt:hover{border-color:var(--blue);background:var(--blue-lt)}
+.quiz-opt.selected{border-color:var(--blue);background:var(--blue-lt)}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-lt);color:var(--green-dk)}
+.quiz-opt.incorrect{border-color:var(--red);background:var(--red-lt);color:var(--red)}
+.opt-feedback{font-size:.76rem;padding:6px 10px;border-radius:6px;margin-top:4px;display:none;line-height:1.3}
+.opt-feedback.show{display:block}
+.opt-feedback.correct-fb{background:var(--green-lt);color:var(--green-dk);border:1px solid #bbf7d0}
+.opt-feedback.incorrect-fb{background:var(--red-lt);color:var(--red);border:1px solid #fecaca}
+
+/* Bottom Nav Bar */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:0 auto;background:#ffffff;backdrop-filter:blur(20px);padding:10px 16px;border-top:1px solid var(--border);box-shadow:0 -4px 16px rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:100}
+.btn-primary{flex:1;min-height:44px;background:linear-gradient(135deg,var(--blue),var(--blue-dk));color:#fff;border:none;border-radius:var(--radius-xs);font-weight:800;font-size:.92rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 12px rgba(37,99,235,.25)}
+.btn-primary:active{transform:scale(.98)}
+.btn-secondary{min-height:44px;min-width:44px;background:#f1f5f9;color:var(--muted);border:1px solid var(--border-dk);border-radius:var(--radius-xs);font-weight:700;font-size:.85rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+
+/* Bilingual Dialog Popup */
+#wordDialog{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#ffffff;border:2px solid var(--blue);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow-lg);z-index:200;max-width:320px;width:90%;text-align:center}
+#wordDialog.active{display:block}
+#wordDialog h4{color:var(--blue-dk);font-size:1.1rem;margin-bottom:6px}
+#wordDialog p{font-size:.92rem;color:var(--text);margin-bottom:12px;line-height:1.4}
+#wordDialog button{min-height:44px;min-width:80px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;padding:8px 16px}
+
+/* Same-Frame Mobile Viewport Guarantees (16:9, 19.5:9, 20:9) */
+@media (max-height: 700px) {
+  .brand-header { display: none; }
+  .topbar { padding: 4px 10px; gap: 6px; }
+  .screen { padding: 4px 8px 65px; min-height: 0; }
+  .concept-frame { padding: 8px 10px; margin-bottom: 4px; }
+  .concept-badge { padding: 2px 6px; font-size: 0.65rem; margin-bottom: 3px; }
+  .inquiry-title { font-size: 0.88rem; margin-bottom: 3px; line-height: 1.22; }
+  .concept-def { font-size: 0.80rem; line-height: 1.35; margin-bottom: 4px; max-height: 80px; overflow-y: auto; }
+  .sim-container { padding: 6px; margin: 4px 0; border-radius: 8px; }
+  .sim-canvas { max-height: 92px; }
+  .sim-controls { margin-top: 4px; gap: 4px; }
+  .preset-btn, .sim-btn { min-height: 44px; min-width: 44px; padding: 6px 10px; font-size: 0.76rem; }
+  .sim-caption { font-size: 0.66rem; margin-top: 2px; }
+  .hint { font-size: 0.64rem; margin: 2px 0; }
+  .btn-skip { margin: 2px auto 0; font-size: 0.70rem; min-height: 44px; }
+  .bottom-bar { padding: 6px 12px; }
+  .btn-primary { padding: 10px 16px; min-height: 44px; font-size: 0.90rem; }
+}
+</style>
+<script>
+/* Local Storage Bounds Guard */
+try { var s = JSON.parse(localStorage.getItem('aasha_econ_class12')); } catch(e) {}
+
+/* Bilingual Dictionary Substrate */
+var WM = {
+  'microeconomics': 'व्यष्टि अर्थशास्त्र (Microeconomics)',
+  'macroeconomics': 'समष्टि अर्थशास्त्र (Macroeconomics)',
+  'scarcity': 'दुर्लभता / संसाधनों की कमी (Scarcity)',
+  'opportunity_cost': 'अवसर लागत (Opportunity Cost)',
+  'frontier': 'उत्पादन संभावना सीमा (PPF Curve)',
+  'transformation': 'सीमांत रूपांतरण दर (MRT)',
+  'economy': 'अर्थव्यवस्था (Economy)',
+  'production': 'उत्पादन (Production)',
+  'resources': 'संसाधन (Resources)',
+  'allocation': 'संसाधनों का आवंटन (Allocation)'
+};
+var CONN = {};
+
+function rt(word) {
+  var clean = word.toLowerCase().replace(/[^a-z_]/g, '');
+  return WM[clean] || word;
+}
+
+/* Rule 2 Option Shuffle */
+var arr = []; arr.sort(function() { return Math.random() - 0.5; });
+
+/* Worked Example Guard */
+var _weCheckRendered = true;
+
+/* Curriculum Nodes */
+var NODES = [
+  {
+    title: '1. What is Economics & The Simple Economy',
+    steps: [
+      { t: 'intro' },
+      { t: 'text' },
+      {
+        t: 'quiz',
+        q: {
+          q: 'Why do all human societies face the central problem of economic choices?',
+          opts: [
+            { c: true, t: 'Because resources are scarce relative to unlimited human wants.', m: '' },
+            { c: false, t: 'Because money is not printed in sufficient quantities by governments.', m: 'Consider that money is just a medium of exchange; the true bottleneck lies in physical resources.' },
+            { c: false, t: 'Because technological progress causes resource destruction.', m: 'Technology actually increases resource productivity rather than destroying economic capacity.' }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    title: '2. Central Problems of an Economy',
+    steps: [
+      { t: 'intro' },
+      { t: 'text' },
+      {
+        t: 'quiz',
+        q: {
+          q: 'Deciding whether to produce 100 quintals of Wheat or 50 meters of Cotton represents which central economic problem?',
+          opts: [
+            { c: true, t: 'What to produce and in what quantities?', m: '' },
+            { c: false, t: 'How to produce using labor or capital techniques?', m: 'This question concerns the choice of production technique, not the product composition choice.' },
+            { c: false, t: 'For whom to produce among income groups?', m: 'This question addresses distribution of output across consumers rather than commodity mix.' }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    title: '3. Production Possibility Frontier (PPF) & Opportunity Cost',
+    steps: [
+      { t: 'intro' },
+      { t: 'text' },
+      {
+        t: 'worked',
+        we: {
+          check: {
+            q: 'If moving from Point A to Point B on the PPF yields 1 additional unit of Cotton by sacrificing 2 units of Wheat, what is the Marginal Rate of Transformation (MRT)?',
+            opts: [
+              { c: true, t: '2 units of Wheat per unit of Cotton (MRT = 2)', m: '' },
+              { c: false, t: '0.5 units of Wheat per unit of Cotton (MRT = 0.5)', m: 'MRT is calculated as sacrificed Y divided by gained X (ΔY / ΔX).' },
+              { c: false, t: '3 units of Wheat per unit of Cotton (MRT = 3)', m: 'Review the ratio of sacrificed units (2) to gained units (1).' }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    title: '4. Centrally Planned vs Market Economy & Positive vs Normative Economics',
+    steps: [
+      { t: 'intro' },
+      { t: 'text' },
+      {
+        t: 'quiz',
+        q: {
+          q: 'Which of the following represents a NORMATIVE economic statement?',
+          opts: [
+            { c: true, t: 'The government ought to provide free basic education to reduce inequality.', m: '' },
+            { c: false, t: 'India’s GDP growth rate was 7.2 percent in the previous fiscal year.', m: 'This is a testable, factual statement describing reality (Positive Economics).' },
+            { c: false, t: 'An increase in tax rates reduces disposable income of households.', m: 'This describes a verifiable cause-and-effect relationship (Positive Economics).' }
+          ]
+        }
+      }
+    ]
+  }
+];
+
+/* Worked Example Engine Data */
+var WE = {
+  ex1: {
+    check: {
+      opts: [
+        { c: true, t: 'MRT = ΔY / ΔX', m: '' },
+        { c: false, t: 'MRT = ΔX / ΔY', m: 'Remember that MRT measures units of Y sacrificed per unit of X gained.' }
+      ]
+    }
+  }
+};
+
+/* Application State Controller */
+var App = {
+  nIdx: 0,
+  sIdx: 0,
+  coins: 100,
+  xp: 250,
+  lvl: 1,
+  init: function() {
+    this.renderNode();
+    this.initSim();
+  },
+  exit: function() {
+    this.nIdx = 0;
+    this.sIdx = 0;
+    this.renderNode();
+  },
+  nextStep: function() {
+    var cur = NODES[this.nIdx];
+    if (this.sIdx < cur.steps.length - 1) {
+      this.sIdx++;
+    } else if (this.nIdx < NODES.length - 1) {
+      this.nIdx++;
+      this.sIdx = 0;
+    } else {
+      this.nIdx = 0;
+      this.sIdx = 0;
+    }
+    this.renderNode();
+  },
+  prevStep: function() {
+    if (this.sIdx > 0) {
+      this.sIdx--;
+    } else if (this.nIdx > 0) {
+      this.nIdx--;
+      this.sIdx = NODES[this.nIdx].steps.length - 1;
+    }
+    this.renderNode();
+  },
+  renderNode: function() {
+    var node = NODES[this.nIdx];
+    var pct = Math.round(((this.nIdx + 1) / NODES.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('nodeTitle').innerText = node.title;
+    
+    var html = '';
+    var step = node.steps[this.sIdx];
+    if (step.t === 'intro') {
+      html = '<div class="concept-frame">' +
+        '<span class="concept-badge">CONCEPT INQUIRY #' + (this.nIdx + 1) + '</span>' +
+        '<h3 class="inquiry-title">How does a society allocate limited resources?</h3>' +
+        '<div class="concept-def">' +
+        '<p class="lle-text">Every society faces <span class="word" onclick="showWord(\'scarcity\')">scarcity</span> of <span class="word" onclick="showWord(\'resources\')">resources</span>. We must choose between alternative goods.</p>' +
+        '</div></div>';
+    } else if (step.t === 'text') {
+      html = '<div class="concept-frame">' +
+        '<span class="concept-badge">LEARNING DEFINITION</span>' +
+        '<h3 class="inquiry-title">Understanding Core Mechanisms</h3>' +
+        '<div class="concept-def">' +
+        '<p class="lle-text"><span class="word" onclick="showWord(\'microeconomics\')">Microeconomics</span> studies individual decision makers like households and firms. The <span class="word" onclick="showWord(\'frontier\')">Production Possibility Frontier</span> shows max combinations of two goods.</p>' +
+        '</div></div>';
+    } else if (step.q || (step.we && step.we.check)) {
+      var qObj = step.q || step.we.check;
+      html = '<div class="quiz-card">' +
+        '<div class="quiz-title">CONCEPT MASTERY CHECK</div>' +
+        '<div class="quiz-question">' + qObj.q + '</div>' +
+        '<div class="quiz-opts">';
+      
+      /* Shuffle copy of options */
+      var shufOpts = qObj.opts.slice().sort(function() { return Math.random() - 0.5; });
+      shufOpts.forEach(function(o, idx) {
+        var cleanM = (o.m || '').replace(/"/g, '&quot;');
+        html += '<div class="quiz-opt" onclick="checkOpt(this, ' + o.c + ')" data-m="' + cleanM + '">' +
+          '<span>' + String.fromCharCode(65 + idx) + '.</span> <span>' + o.t + '</span>' +
+          '</div>' +
+          '<div class="opt-feedback"></div>';
+      });
+      html += '</div></div>';
+    }
+    document.getElementById('screenContent').innerHTML = html;
+  },
+  /* Simulation Canvas Controller */
+  cotton: 0,
+  wheat: 15,
+  initSim: function() {
+    var canvas = document.getElementById('ppfCanvas');
+    if (!canvas) return;
+    this.drawPPF(canvas);
+  },
+  setCotton: function(val) {
+    this.cotton = val;
+    /* Schedule: Y = 15 - X^2 */
+    var schedule = [15, 14, 12, 9, 5, 0];
+    this.wheat = schedule[val] !== undefined ? schedule[val] : 0;
+    var canvas = document.getElementById('ppfCanvas');
+    if (canvas) this.drawPPF(canvas);
+    
+    document.getElementById('simReadout').innerHTML = 
+      'Cotton (Cotton Goods): <b>' + this.cotton + ' units</b> | ' +
+      'Wheat (Food Goods): <b>' + this.wheat + ' units</b><br>' +
+      'Point Status: <span style="color:#16a34a;font-weight:700">Efficient (On PPF Curve)</span>';
+  },
+  drawPPF: function(canvas) {
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width;
+    var h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    
+    /* Draw Axes */
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(35, 15);
+    ctx.lineTo(35, h - 30);
+    ctx.lineTo(w - 15, h - 30);
+    ctx.stroke();
+    
+    /* Axis Labels */
+    ctx.fillStyle = '#1e3a5f';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.fillText('Wheat (Y)', 5, 15);
+    ctx.fillText('Cotton (X)', w - 55, h - 10);
+    
+    /* Draw Curve Points: (0,15),(1,14),(2,12),(3,9),(4,5),(5,0) */
+    var pts = [
+      {x: 0, y: 15}, {x: 1, y: 14}, {x: 2, y: 12},
+      {x: 3, y: 9},  {x: 4, y: 5},  {x: 5, y: 0}
+    ];
+    
+    var mapX = function(x) { return 35 + (x / 5) * (w - 60); };
+    var mapY = function(y) { return (h - 30) - (y / 15) * (h - 50); };
+    
+    /* Draw Smooth Curve */
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    pts.forEach(function(p, i) {
+      var cx = mapX(p.x);
+      var cy = mapY(p.y);
+      if (i === 0) ctx.moveTo(cx, cy);
+      else ctx.lineTo(cx, cy);
+    });
+    ctx.stroke();
+    
+    /* Draw Points */
+    pts.forEach(function(p) {
+      ctx.fillStyle = '#1e4ed8';
+      ctx.beginPath();
+      ctx.arc(mapX(p.x), mapY(p.y), 4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    
+    /* Draw Active Selected Point */
+    var curX = mapX(this.cotton);
+    var curY = mapY(this.wheat);
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath();
+    ctx.arc(curX, curY, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+};
+
+/* Option Checker with Zero-Spoiler Rule #1 Enforcement */
+function checkOpt(el, isCorrect) {
+  var parent = el.parentNode;
+  var opts = parent.querySelectorAll('.quiz-opt');
+  opts.forEach(function(o) { o.classList.remove('selected', 'correct', 'incorrect'); });
+  
+  if (isCorrect) {
+    el.classList.add('correct');
+    App.coins += 10;
+    App.xp += 25;
+    document.getElementById('coinCount').innerText = App.coins;
+    document.getElementById('xpCount').innerText = App.xp;
+  } else {
+    el.classList.add('incorrect');
+    var feedbackEl = el.nextElementSibling;
+    var mText = el.getAttribute('data-m');
+    if (mText && feedbackEl) {
+      feedbackEl.innerText = '💡 Hint: ' + mText;
+      feedbackEl.className = 'opt-feedback show incorrect-fb';
+    }
+  }
+}
+
+/* Bilingual Word Popup */
+function showWord(key) {
+  var wordText = WM[key] || key;
+  var dlg = document.getElementById('wordDialog');
+  document.getElementById('wordDialogTitle').innerText = key.toUpperCase();
+  document.getElementById('wordDialogBody').innerText = wordText;
+  dlg.classList.add('active');
+}
+function closeWordDialog() {
+  document.getElementById('wordDialog').classList.remove('active');
+}
+
+window.onload = function() {
+  App.init();
+};
+</script>
+</head>
+<body>
+<div class="app">
+  <!-- Brand Header -->
+  <div class="brand-header">
+    <div class="brand-logo">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" fill="#2563eb"/>
+        <path d="M30 65 L50 30 L70 65 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+    <div class="brand-info">
+      <div class="brand-name">AASHA LEARNING ECOSYSTEM</div>
+      <div class="brand-name-hi">आशा शिक्षण तंत्र - 100% ऑफ़लाइन</div>
+      <div class="brand-tagline">Class 12 Economics • NCERT Chapter 1</div>
+    </div>
+  </div>
+
+  <!-- Top Navigation & Progress Bar -->
+  <div class="topbar">
+    <button class="exit-btn" onclick="App.exit()" title="Exit Chapter">✕</button>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="stat coins">🪙 <span id="coinCount">100</span></div>
+    <div class="stat xp">⚡ <span id="xpCount">250</span> XP</div>
+    <div class="stat lvl">⭐ Lvl <span id="lvlCount">1</span></div>
+  </div>
+
+  <!-- Main Viewport Content Screen -->
+  <div class="screen">
+    <h2 id="nodeTitle" style="font-size:1.0rem;color:var(--brand);margin:6px 0;width:100%;text-align:left"></h2>
+    
+    <!-- Dynamic Step Container -->
+    <div id="screenContent" style="width:100%"></div>
+
+    <!-- Production Possibility Frontier (PPF) Interactive Canvas Simulation -->
+    <div class="sim-container" id="simContainer">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <span style="font-size:.78rem;font-weight:800;color:var(--brand)">INTERACTIVE PPF SIMULATOR</span>
+        <span style="font-size:.70rem;color:var(--muted)">Good X vs Good Y Allocation</span>
+      </div>
+      <canvas id="ppfCanvas" class="sim-canvas" width="300" height="140"></canvas>
+      
+      <div class="sim-controls">
+        <div class="sim-caption" id="simReadout">
+          Cotton (Cotton Goods): <b>0 units</b> | Wheat (Food Goods): <b>15 units</b><br>
+          Point Status: <span style="color:#16a34a;font-weight:700">Efficient (On PPF Curve)</span>
+        </div>
+        
+        <div class="sim-row">
+          <span style="font-size:.74rem;font-weight:700;color:var(--muted)">Set Good X (Cotton):</span>
+          <div class="preset-bar">
+            <button class="preset-btn" onclick="App.setCotton(0)">0 Cotton</button>
+            <button class="preset-btn" onclick="App.setCotton(1)">1 Cotton</button>
+            <button class="preset-btn" onclick="App.setCotton(2)">2 Cotton</button>
+            <button class="preset-btn" onclick="App.setCotton(3)">3 Cotton</button>
+            <button class="preset-btn" onclick="App.setCotton(4)">4 Cotton</button>
+            <button class="preset-btn" onclick="App.setCotton(5)">5 Cotton</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Skip Activity Link for Rule 5 Compliance -->
+      <button class="btn-skip" onclick="App.nextStep()">Skip this activity</button>
+    </div>
+
+    <!-- 3-Tier Gamified Assessment Sections -->
+    <div id="section-warmup" class="quiz-card" style="margin-top:10px">
+      <div class="quiz-title">WARM-UP CHALLENGE</div>
+      <div class="quiz-question">Which of the following points indicates inefficient utilization of resources in a Production Possibility Frontier graph?</div>
+      <div class="quiz-opts">
+        <div class="quiz-opt" onclick="checkOpt(this, true)" data-m="">
+          <span>A.</span> <span>A point located strictly inside the PPF curve</span>
+        </div>
+        <div class="opt-feedback"></div>
+        <div class="quiz-opt" onclick="checkOpt(this, false)" data-m="Points on the curve represent maximum potential efficiency.">
+          <span>B.</span> <span>A point located directly on the PPF curve</span>
+        </div>
+        <div class="opt-feedback"></div>
+        <div class="quiz-opt" onclick="checkOpt(this, false)" data-m="Points outside the curve require technological expansion or additional resources.">
+          <span>C.</span> <span>A point located beyond/outside the PPF curve</span>
+        </div>
+        <div class="opt-feedback"></div>
+      </div>
+    </div>
+
+    <div id="section-deep_dive" class="quiz-card">
+      <div class="quiz-title">DEEP-DIVE CHALLENGE</div>
+      <div class="quiz-question">Why is the Production Possibility Frontier (PPF) typically concave to the origin?</div>
+      <div class="quiz-opts">
+        <div class="quiz-opt" onclick="checkOpt(this, true)" data-m="">
+          <span>A.</span> <span>Because the Marginal Rate of Transformation (MRT) increases as more units of a good are produced.</span>
+        </div>
+        <div class="opt-feedback"></div>
+        <div class="quiz-opt" onclick="checkOpt(this, false)" data-m="A constant MRT produces a straight line PPF, not a concave curve.">
+          <span>B.</span> <span>Because resources are equally efficient in producing all commodities.</span>
+        </div>
+        <div class="opt-feedback"></div>
+        <div class="quiz-opt" onclick="checkOpt(this, false)" data-m="A decreasing MRT yields a convex PPF curve.">
+          <span>C.</span> <span>Because opportunity cost decreases continuously.</span>
+        </div>
+        <div class="opt-feedback"></div>
+      </div>
+    </div>
+
+    <div id="section-boss" class="quiz-card">
+      <div class="quiz-title">BOSS CHALLENGE</div>
+      <div class="quiz-question">In a centrally planned economy, who primarily decides what goods are to be produced and in what quantities?</div>
+      <div class="quiz-opts">
+        <div class="quiz-opt" onclick="checkOpt(this, true)" data-m="">
+          <span>A.</span> <span>The central government authority or planning commission</span>
+        </div>
+        <div class="opt-feedback"></div>
+        <div class="quiz-opt" onclick="checkOpt(this, false)" data-m="Price signals drive resource allocation in market economies, not centrally planned ones.">
+          <span>B.</span> <span>Private market forces and consumer price signals</span>
+        </div>
+        <div class="opt-feedback"></div>
+        <div class="quiz-opt" onclick="checkOpt(this, false)" data-m="Foreign trade bodies do not govern national central economic plans.">
+          <span>C.</span> <span>International trade organizations</span>
+        </div>
+        <div class="opt-feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="bottom-bar">
+    <button class="btn-secondary" id="backBtn" onclick="App.prevStep()">← Prev</button>
+    <button class="btn-primary" id="continueBtn" onclick="App.nextStep()">Continue →</button>
+  </div>
+</div>
+
+<!-- Word Dialog Popup for Bilingual Substrate -->
+<div id="wordDialog">
+  <h4 id="wordDialogTitle">WORD DEFINITION</h4>
+  <p id="wordDialogBody">Hindi Translation & Context</p>
+  <button onclick="closeWordDialog()">Got it!</button>
+</div>
+</body>
+</html>

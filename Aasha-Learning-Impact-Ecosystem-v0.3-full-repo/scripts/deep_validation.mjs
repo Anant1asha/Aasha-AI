@@ -154,13 +154,13 @@ const tln = new TLNEngine(chapter);
 const nodeIds = tln.orderedNodes().map(n => n.id);
 console.log('TLN Node Order:', nodeIds);
 
-const p0 = progressionAuthority({ orderedNodeIds: nodeIds, masteryByNode: { parts: 0, equivalent: 0, add: 0 } });
+const p0 = progressionAuthority({ orderedNodeIds: nodeIds, masteryByNode: { parts: { mastery: 0, attempts: 0 }, equivalent: { mastery: 0, attempts: 0 }, add: { mastery: 0, attempts: 0 } } });
 console.log('Zero mastery progression:', p0);
 
-const p1 = progressionAuthority({ orderedNodeIds: nodeIds, masteryByNode: { parts: 1, equivalent: 0, add: 0 } });
+const p1 = progressionAuthority({ orderedNodeIds: nodeIds, masteryByNode: { parts: { mastery: 0.8, attempts: 4 }, equivalent: { mastery: 0, attempts: 0 }, add: { mastery: 0, attempts: 0 } } });
 console.log('Parts mastered progression:', p1);
 
-const p2 = progressionAuthority({ orderedNodeIds: nodeIds, masteryByNode: { parts: 1, equivalent: 1, add: 0 } });
+const p2 = progressionAuthority({ orderedNodeIds: nodeIds, masteryByNode: { parts: { mastery: 0.8, attempts: 4 }, equivalent: { mastery: 0.8, attempts: 4 }, add: { mastery: 0, attempts: 0 } } });
 console.log('Parts + Equivalent mastered progression:', p2);
 
 // 6. EVENT TELEMETRY & PRIVACY AUDIT
@@ -189,3 +189,4 @@ const r1 = ledger.issue({ eventId: 'reward:q-parts-1:100' }, { coins: 1, xp: 5, 
 const r2 = ledger.issue({ eventId: 'reward:q-parts-1:100' }, { coins: 1, xp: 5, verified: true });
 console.log('First issue:', r1);
 console.log('Second issue with same eventId:', r2);
+

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4F46E5">
+  <title>Fractions and Rational Numbers — Class 8 — AASHA V6</title>
+  <style>
+    /* === AASHA V6 Base Styles — Multi Aspect Ratio Invariant === */
+    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,'Noto Sans',sans-serif;-webkit-tap-highlight-color:transparent;}
+    html,body{height:100%;overflow:hidden;background:#0F172A;}
+    .shell{width:100%;max-width:480px;height:100%;margin:0 auto;background:#1E293B;display:flex;flex-direction:column;position:relative;}
+    @media(max-height:640px){.concept-def{max-height:80px!important}.sim-canvas{height:92px!important}}
+    @media(min-height:641px) and (max-height:800px){.concept-def{max-height:110px!important}.sim-canvas{height:115px!important}}
+    @media(min-height:801px){.concept-def{max-height:125px!important}.sim-canvas{height:125px!important}}
+    .header{padding:12px 16px;background:#0F172A;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+    .header-title{font-size:14px;font-weight:700;color:#38BDF8;max-width:72%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+    .xp-badge{font-size:11px;color:#FCD34D;font-weight:600;}
+    .progress-track{height:3px;background:#1E3A5F;flex-shrink:0;}
+    .progress-fill{height:3px;background:linear-gradient(90deg,#38BDF8,#818CF8);transition:width .4s;}
+    .screen{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;min-height:0;}
+    .screen::-webkit-scrollbar{display:none;}
+    .concept-title{font-size:18px;font-weight:700;color:#F1F5F9;line-height:1.3;}
+    .concept-def{font-size:13px;line-height:1.7;color:#94A3B8;overflow-y:auto;}
+    .math-var{display:inline-block;background:#1E3A5F;padding:1px 6px;border-radius:4px;color:#F59E0B;font-weight:600;}
+    .word{cursor:pointer;border-bottom:1px dashed #38BDF8;color:#E2E8F0;}
+    .sim-canvas{width:100%;background:#0F172A;border-radius:12px;border:1px solid #334155;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:8px;flex-shrink:0;}
+    .q-prompt{font-size:14px;color:#F1F5F9;line-height:1.6;}
+    .opts{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+    .opt{min-height:44px;padding:10px 14px;background:#334155;border:1.5px solid #475569;border-radius:8px;color:#E2E8F0;cursor:pointer;font-size:13px;text-align:left;transition:background .15s;}
+    .opt:hover{background:#3B4D6A;}
+    .opt.correct{background:#065F46;border-color:#10B981;}
+    .opt.incorrect{background:#7F1D1D;border-color:#EF4444;}
+    .feedback{padding:10px;border-radius:8px;font-size:12px;margin-top:6px;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:#022C22;color:#34D399;}
+    .feedback.err{background:#450A0A;color:#FCA5A5;}
+    .hint-btn{min-height:36px;padding:6px 12px;background:#1E3A5F;color:#38BDF8;border:none;border-radius:6px;font-size:12px;cursor:pointer;display:block;width:100%;text-align:left;margin-top:4px;}
+    .hint-text{font-size:12px;color:#94A3B8;padding:6px 10px;background:#0F172A;border-radius:6px;margin-top:2px;display:none;}
+    .hint-text.show{display:block;}
+    .nav-bar{padding:10px 16px;background:#0F172A;border-top:1px solid #334155;display:flex;gap:8px;flex-shrink:0;}
+    .nav-btn{flex:1;min-height:44px;border:none;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .nav-btn.primary{background:#2563EB;color:#fff;}
+    .nav-btn.secondary{background:#334155;color:#94A3B8;}
+    .nav-btn:disabled{opacity:.4;cursor:not-allowed;}
+    .tier-badge{font-size:11px;padding:2px 8px;border-radius:12px;font-weight:700;}
+    .tier-warmup{background:#064E3B;color:#34D399;}
+    .tier-deepdive{background:#1E3A5F;color:#38BDF8;}
+    .tier-boss{background:#4C1D95;color:#C4B5FD;}
+    .mastery-track{flex:1;height:6px;background:#334155;border-radius:3px;overflow:hidden;}
+    .mastery-fill{height:6px;background:linear-gradient(90deg,#10B981,#38BDF8);border-radius:3px;transition:width .6s;}
+    .mastery-pct{font-size:11px;color:#94A3B8;min-width:32px;text-align:right;}
+    .remediation{background:#1C0A3C;border:1px solid #7C3AED;border-radius:12px;padding:14px;}
+    .remediation-title{font-size:14px;font-weight:700;color:#C4B5FD;margin-bottom:8px;}
+    .remediation-body{font-size:13px;color:#A78BFA;line-height:1.6;}
+    .celebration{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:50;pointer-events:none;opacity:0;transition:opacity .3s;}
+    .celebration.show{opacity:1;}
+    dialog{border:none;border-radius:16px;padding:20px;background:#1E293B;color:#F1F5F9;max-width:280px;width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.8);}
+    dialog::backdrop{background:rgba(0,0,0,.7);}
+    .dlg-word{font-size:18px;font-weight:700;color:#38BDF8;margin-bottom:4px;}
+    .dlg-hindi{font-size:22px;font-weight:700;color:#F59E0B;margin-bottom:8px;}
+    .dlg-desc{font-size:13px;color:#94A3B8;margin-bottom:16px;}
+    .dlg-close{min-height:44px;width:100%;background:#2563EB;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <div class="header">
+    <div class="header-title">Fractions and Rational Numbers — Class 8</div>
+    <div class="xp-badge">⚡ <span id="xpVal">0</span> XP</div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="screen" id="screen"></div>
+  <div class="nav-bar" id="navBar"></div>
+</div>
+
+<dialog id="wordDialog">
+  <div class="dlg-word" id="dlgWord"></div>
+  <div class="dlg-hindi" id="dlgHindi"></div>
+  <div class="dlg-desc" id="dlgDesc">Hindi / हिन्दी शब्द</div>
+  <button class="dlg-close" onclick="document.getElementById('wordDialog').close()">OK</button>
+</dialog>
+
+<div class="celebration" id="celebOv">
+  <div style="font-size:48px;" id="celebIcon">🎉</div>
+  <div style="font-size:16px;font-weight:700;color:#FCD34D;margin-top:8px;" id="celebMsg"></div>
+</div>
+
+<script>
+(function(){
+// ── Embedded Canonical IR ─────────────────────────────────────────────────
+const IR = {"schema_version":"1.1.0","chapter_metadata":{"chapter_id":"fractions_and_rational_numbers","title":"Fractions and Rational Numbers — Class 8","grade":8,"subject":"Mathematics","board":"NCERT/CBSE","source_pdf_hash":"sha256_mock_ingest"},"learning_objectives":[{"id":"obj:mathematics:c8:fractions_and_rational_numbers:01","description":"Master fundamental concepts, action mechanics, and reasoning of Fractions and Rational Numbers.","bloom_level":"understand","success_criteria":["Demonstrate interactive visual manipulation of Fractions and Rational Numbers","Resolve diagnostic assessments with >=80% mastery"],"evidence_contracts":["evd:mathematics:c8:fractions_and_rational_numbers:obj_1"]},{"id":"obj:mathematics:c8:fractions_and_rational_numbers:02","description":"Diagnose and resolve common misconceptions in Fractions and Rational Numbers.","bloom_level":"apply","success_criteria":["Identify counter-examples","Complete 3-tier TEAS practice without spoiling answers"],"evidence_contracts":["evd:mathematics:c8:fractions_and_rational_numbers:obj_2"]}],"concept_graph":[{"id":"cpt:mathematics:c8:fractions_and_rational_numbers:c_1","name":"Fractions and Rational Numbers — Core Definition","definition_raw":"Core conceptual foundation of Fractions and Rational Numbers in Class 8 Mathematics.","definition_math_insulated":"<span class=\"math-var\" data-math=\"true\">Core conceptual foundation of Fractions and Rational Numbers in Class 8 Mathematics.</span>","prerequisite_ids":[],"child_concept_ids":[]},{"id":"cpt:mathematics:c8:fractions_and_rational_numbers:c_2","name":"Fractions and Rational Numbers — Action Mechanic","definition_raw":"Interactive simulation lab exploring parameters, relationships, and visual balance.","definition_math_insulated":"<span class=\"math-var\" data-math=\"true\">Interactive simulation lab exploring parameters, relationships, and visual balance.</span>","prerequisite_ids":[],"child_concept_ids":[]}],"misconceptions":[{"id":"misc:mathematics:c8:fractions_and_rational_numbers:m_1","concept_id":"cpt:mathematics:c8:fractions_and_rational_numbers:c_1","name":"Misconception on Fractions and Rational Numbers","description":"Confusing operation steps or visual parameters in Fractions and Rational Numbers.","observable_signals":["signal:misc:mathematics:c8:fractions_and_rational_numbers:m_1:incorrect_attempt"],"confidence_weight":0.85,"remediation_strategy":"Use the interactive <aasha-sim> visual lab to test step-by-step hypothesis."}],"content_blocks":[{"id":"cnt:mathematics:c8:fractions_and_rational_numbers:def_1","type":"concept_def","concept_id":"cpt:mathematics:c8:fractions_and_rational_numbers:c_1","text_english":"Core conceptual foundation of Fractions and Rational Numbers in Class 8 Mathematics.","text_math_insulated":"<span class=\"math-var\" data-math=\"true\">Core conceptual foundation of Fractions and Rational Numbers in Class 8 Mathematics.</span>","hindi_translation":{"phonetics":"","word_map":{"fraction":"भिन्न (Fraction)","equation":"समीकरण (Equation)","variable":"चर (Variable)","constant":"अचर (Constant)","balance":"संतुलन (Balance)"}},"provenance_source":"pdf:sha256_mock_ingest","fidelity_score":1},{"id":"cnt:mathematics:c8:fractions_and_rational_numbers:def_2","type":"concept_def","concept_id":"cpt:mathematics:c8:fractions_and_rational_numbers:c_2","text_english":"Interactive simulation lab exploring parameters, relationships, and visual balance.","text_math_insulated":"<span class=\"math-var\" data-math=\"true\">Interactive simulation lab exploring parameters, relationships, and visual balance.</span>","hindi_translation":{"phonetics":"","word_map":{"fraction":"भिन्न (Fraction)","equation":"समीकरण (Equation)","variable":"चर (Variable)","constant":"अचर (Constant)","balance":"संतुलन (Balance)"}},"provenance_source":"pdf:sha256_mock_ingest","fidelity_score":1}],"experience_graph":{"initial_state_id":"state:intro","states":[{"id":"state:intro","name":"Concept Discovery","type":"concept_card","content_ids":["cnt:mathematics:c8:fractions_and_rational_numbers:def_1","cnt:mathematics:c8:fractions_and_rational_numbers:def_2"]},{"id":"state:sim","name":"Interactive Manipulative Lab","type":"interactive_sim","capability_id":"cap:mathematics:c8:fractions_and_rational_numbers:sim_1","content_ids":[]},{"id":"state:assessment","name":"TEAS Diagnostic Challenge","type":"teas_assessment","content_ids":[]}],"transitions":[{"from_state_id":"state:intro","to_state_id":"state:sim","trigger_event":"NEXT_CARD"},{"from_state_id":"state:sim","to_state_id":"state:assessment","trigger_event":"MANIPULATIVE_COMPLETED"}]},"visual_grammar":{"spatial_model":"card_stack","density_tier":"compact_mobile","primary_color_theme":"#4F46E5","touch_target_min_px":44},"assessment_items":[{"id":"ast:mathematics:c8:fractions_and_rational_numbers:q_1","objective_id":"obj:mathematics:c8:fractions_and_rational_numbers:01","concept_id":"cpt:mathematics:c8:fractions_and_rational_numbers:c_1","question_type":"mcq","prompt":"Which of the following correctly describes the visual state of Fractions and Rational Numbers?","prompt_math_insulated":"Which of the following correctly describes the visual state of Fractions and Rational Numbers?","options":[{"id":"opt:mathematics:c8:fractions_and_rational_numbers:q_1_1","text":"Option A — Correct representation","text_math_insulated":"Option A — Correct representation","is_correct":true,"distractor_explanation":""},{"id":"opt:mathematics:c8:fractions_and_rational_numbers:q_1_2","text":"Option B — Common error state","text_math_insulated":"Option B — Common error state","is_correct":false,"distractor_explanation":"Diagnostic hint: double check parameter balance."},{"id":"opt:mathematics:c8:fractions_and_rational_numbers:q_1_3","text":"Option C — Partial value","text_math_insulated":"Option C — Partial value","is_correct":false,"distractor_explanation":"Diagnostic hint: consider all component terms."}],"hints":{"H1_hook":"Observe the visual diagram on screen.","H2_concept":"Recall the relationship between input parameters.","H3_formula":"Formulate the direct equality relationship.","H4_step":"Calculate step 1 by isolating the primary term."}},{"id":"ast:mathematics:c8:fractions_and_rational_numbers:q_2","objective_id":"obj:mathematics:c8:fractions_and_rational_numbers:02","concept_id":"cpt:mathematics:c8:fractions_and_rational_numbers:c_2","question_type":"mcq","prompt":"When adjusting the interactive simulation controls, what happens to the total value?","prompt_math_insulated":"When adjusting the interactive simulation controls, what happens to the total value?","options":[{"id":"opt:mathematics:c8:fractions_and_rational_numbers:q_2_1","text":"It adjusts proportionally in real-time","text_math_insulated":"It adjusts proportionally in real-time","is_correct":true,"distractor_explanation":""},{"id":"opt:mathematics:c8:fractions_and_rational_numbers:q_2_2","text":"It remains constant regardless of input","text_math_insulated":"It remains constant regardless of input","is_correct":false,"distractor_explanation":"Diagnostic hint: check the readout label."}],"hints":{"H1_hook":"Try pressing the + / - action buttons in the lab.","H2_concept":"Notice the change in the readout label.","H3_formula":"Relate input change to output reading.","H4_step":"Step 1: calculate the delta per button click."}}],"capability_requirements":[{"id":"cap:mathematics:c8:fractions_and_rational_numbers:sim_1","purpose":"Interactive visual manipulative for concept exploration","interaction_type":"balance_beam","license_constraint":"MIT_NATIVE","sandbox_required":false}],"adaptive_policy":{"max_retries":3,"dda_difficulty_step":0.1,"remediation_threshold":0.6,"teas_historical_weight":0.6,"teas_recent_weight":0.4},"learner_agency":{"self_pacing_allowed":true,"can_skip_simulation":false,"hint_request_allowed":true,"max_hints_per_item":4,"preferred_modality":"multimodal"},"motivation_intent":{"narrative_frame":"Discover the world of Fractions and Rational Numbers — Class 8","xp_reward_warmup":5,"xp_reward_deep_dive":10,"xp_reward_boss":20,"streak_contribution":true,"celebration_intensity":"standard"},"accessibility_envelope":{"min_viewport_width_px":360,"min_viewport_height_px":640,"target_aspect_ratios":["16:9","19.5:9","20:9"],"touch_target_min_px":44,"primary_language":"hi","bilingual_pair":"en","reading_grade_level":8,"screen_reader_compatible":true,"high_contrast_mode_supported":true,"reduced_motion_supported":true,"max_bundle_size_mb":20,"offline_first":true,"cdn_dependencies_allowed":false},"experience_acceptance_contract":{"min_objectives_covered":2,"min_assessment_items":2,"all_misconceptions_linked":true,"zero_external_requests":true,"zero_spoilers_in_distractors":true,"zero_math_lle_collisions":true,"scroll_height_lte_viewport":true,"full_event_trace_verifiable":true,"mastery_threshold_measurable":true},"compilation_manifest":{"compiled_at":"2026-09-24T00:46:38.823Z","compiler_version":"v6-canonical-1.1.0","source_artifacts":["ingest_output.json","analysis_output.json","assessment_output.json","lle_output.json"],"ir_hash":"sha256_1790210798825"}};
+
+// ── V6RuntimeBus (inline) ────────────────────────────────────────────────
+class Bus {
+  constructor(cId,lId='learner_local_anon'){
+    this._k='aasha_v6_'+cId+'_'+lId;this._log=[];this._m={};this._ls=[];this._load();
+  }
+  emit(ev){
+    const f={...ev,eventId:'evt_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),timestamp:new Date().toISOString()};
+    this._log.push(f);this._proc(f);this._save();
+    this._ls.forEach(fn=>{try{fn(f)}catch(e){}});return f;
+  }
+  subscribe(fn){this._ls.push(fn);return()=>{this._ls=this._ls.filter(l=>l!==fn)};}
+  getMastery(cId){return this._m[cId]||{conceptId:cId,historicalScore:0,recentScore:0,compositeMastery:0,totalAttempts:0};}
+  getEventLog(){return this._log;}
+  _proc(ev){
+    if(ev.eventType!=='response_evaluated'||!ev.conceptId)return;
+    const ok=ev.payload.isCorrect===true;
+    const cur=this._m[ev.conceptId]||{historicalScore:.5,recentScore:.5,compositeMastery:.5,totalAttempts:0};
+    const n=cur.totalAttempts+1;const rec=ok?1:0;
+    const hist=(cur.historicalScore*(n-1)+cur.recentScore)/n;
+    const comp=parseFloat((0.6*hist+0.4*rec).toFixed(4));
+    this._m[ev.conceptId]={conceptId:ev.conceptId,historicalScore:parseFloat(hist.toFixed(4)),recentScore:parseFloat(rec.toFixed(4)),compositeMastery:comp,totalAttempts:n,lastUpdated:ev.timestamp};
+    this.emit({eventType:'mastery_updated',pseudonymousLearnerId:ev.pseudonymousLearnerId,chapterId:ev.chapterId,conceptId:ev.conceptId,payload:{compositeMastery:comp,isMastered:comp>=.8}});
+  }
+  _load(){try{var s=JSON.parse(localStorage.getItem(this._k)||'{}');this._log=s.eventLog||[];this._m=s.mastery||{};}catch(e){}}
+  _save(){try{localStorage.setItem(this._k,JSON.stringify({eventLog:this._log,mastery:this._m}))}catch(e){}}
+}
+
+// ── Universal AashaExperienceContract & <aasha-sim> Web Component ─────────
+class AashaExperienceContract {
+  mount(container, config) {}
+  getState() { return {}; }
+  pause() {}
+  resume() {}
+  reset() {}
+  destroy() {}
+  emitTelemetry(eventType, payload) {
+    const event = new CustomEvent('aasha:telemetry', { bubbles: true, composed: true, detail: { timestamp: Date.now(), foundationId: this.foundationId || 'F01', experienceId: this.experienceId || 'generic', eventType, payload } });
+    if (this.container && typeof this.container.dispatchEvent === 'function') this.container.dispatchEvent(event);
+  }
+  emitStateChange(newState) {
+    const event = new CustomEvent('aasha:state_change', { bubbles: true, composed: true, detail: { timestamp: Date.now(), foundationId: this.foundationId || 'F01', experienceId: this.experienceId || 'generic', state: newState } });
+    if (this.container && typeof this.container.dispatchEvent === 'function') this.container.dispatchEvent(event);
+  }
+}
+class AashaExperienceAdapter extends AashaExperienceContract {
+  constructor(metadata = {}) {
+    super();
+    this.foundationId = metadata.foundationId || 'F01';
+    this.foundationName = metadata.foundationName || 'Escape Run';
+    this.experienceId = metadata.experienceId || 'adapter';
+    this.container = null; this.config = {}; this.state = {}; this.isPaused = false;
+  }
+  mount(container, config = {}) { this.container = container; this.config = config; this.state = { ...(config.initialState || {}) }; this.isPaused = false; }
+  getState() { return { ...this.state }; }
+  pause() { this.isPaused = true; }
+  resume() { this.isPaused = false; }
+  reset() { this.state = { ...(this.config.initialState || {}) }; }
+  destroy() { this.pause(); this.container = null; }
+}
+class AashaSimElement extends HTMLElement {
+  constructor() { super(); this._adapter = null; this._observer = null; }
+  connectedCallback() {
+    this.style.display = 'block'; this.style.width = '100%'; this.style.position = 'relative';
+    if (typeof IntersectionObserver !== 'undefined') {
+      this._observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!this._adapter) return;
+          if (entry.isIntersecting) { if (typeof this._adapter.resume === 'function') this._adapter.resume(); }
+          else { if (typeof this._adapter.pause === 'function') this._adapter.pause(); }
+        });
+      }, { threshold: 0.1 });
+      this._observer.observe(this);
+    }
+  }
+  disconnectedCallback() {
+    if (this._observer) { this._observer.disconnect(); this._observer = null; }
+    if (this._adapter && typeof this._adapter.destroy === 'function') { this._adapter.destroy(); this._adapter = null; }
+  }
+  bindAdapter(adapter, config = {}) {
+    if (this._adapter && typeof this._adapter.destroy === 'function') this._adapter.destroy();
+    this._adapter = adapter;
+    if (this._adapter && typeof this._adapter.mount === 'function') this._adapter.mount(this, config);
+  }
+  get adapter() { return this._adapter; }
+}
+if (typeof customElements !== 'undefined' && !customElements.get('aasha-sim')) {
+  customElements.define('aasha-sim', AashaSimElement);
+}
+
+// ── Domain Interactive Simulation Script ─────────────────────────────
+
+      class AashaMathSim extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: 'open' });
+          this.state = { valA: 1, valB: 2, total: 4, mode: 'fraction' };
+          this._animFrame = null;
+        }
+
+        connectedCallback() {
+          this.render();
+          this.setupEvents();
+        }
+
+        disconnectedCallback() {
+          this.destroy();
+        }
+
+        destroy() {
+          if (this._animFrame) cancelAnimationFrame(this._animFrame);
+        }
+
+        render() {
+          this.shadowRoot.innerHTML = `
+            <style>
+              :host { display: block; width: 100%; height: 100%; font-family: system-ui, sans-serif; }
+              .sim-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 100%; padding: 8px; box-sizing: border-box; background: #0F172A; color: #F8FAFC; border-radius: 12px; }
+              .visual-box { width: 100%; max-width: 260px; height: 110px; display: flex; align-items: center; justify-content: center; background: #1E293B; border-radius: 8px; border: 1px solid #334155; position: relative; }
+              canvas { width: 100%; height: 100%; border-radius: 8px; }
+              .controls { display: flex; gap: 8px; width: 100%; justify-content: center; flex-wrap: nowrap; overflow-x: auto; touch-action: pan-x; }
+              .btn { min-height: 44px; min-width: 44px; padding: 6px 14px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+              .btn:active { transform: scale(0.96); }
+              .readout { font-size: 14px; font-weight: 700; color: #38BDF8; }
+            </style>
+            <div class="sim-container">
+              <div class="readout" id="readout">Value: 1 / 4</div>
+              <div class="visual-box">
+                <canvas id="simCanvas"></canvas>
+              </div>
+              <div class="controls">
+                <button class="btn" id="btnSub">-</button>
+                <button class="btn" id="btnAdd">+</button>
+                <button class="btn" id="btnReset" style="background:#475569">Reset</button>
+              </div>
+            </div>
+          `;
+          this.drawCanvas();
+        }
+
+        setupEvents() {
+          const btnAdd = this.shadowRoot.getElementById('btnAdd');
+          const btnSub = this.shadowRoot.getElementById('btnSub');
+          const btnReset = this.shadowRoot.getElementById('btnReset');
+
+          if (btnAdd) btnAdd.addEventListener('click', () => this.updateValue(1));
+          if (btnSub) btnSub.addEventListener('click', () => this.updateValue(-1));
+          if (btnReset) btnReset.addEventListener('click', () => this.reset());
+        }
+
+        updateValue(delta) {
+          this.state.valA = Math.max(1, Math.min(this.state.total, this.state.valA + delta));
+          const readout = this.shadowRoot.getElementById('readout');
+          if (readout) readout.innerText = `Value: ${this.state.valA} / ${this.state.total}`;
+          this.drawCanvas();
+          this.dispatchEvent(new CustomEvent('aasha:telemetry', {
+            bubbles: true,
+            composed: true,
+            detail: { event: 'sim_action', valA: this.state.valA, total: this.state.total }
+          }));
+        }
+
+        reset() {
+          this.state.valA = 1;
+          const readout = this.shadowRoot.getElementById('readout');
+          if (readout) readout.innerText = `Value: 1 / ${this.state.total}`;
+          this.drawCanvas();
+        }
+
+        drawCanvas() {
+          const canvas = this.shadowRoot.getElementById('simCanvas');
+          if (!canvas) return;
+          const ctx = canvas.getContext('2d');
+          const w = canvas.clientWidth || 260;
+          const h = canvas.clientHeight || 110;
+          canvas.width = w * window.devicePixelRatio;
+          canvas.height = h * window.devicePixelRatio;
+          ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+          ctx.clearRect(0, 0, w, h);
+          const cx = w / 2;
+          const cy = h / 2;
+          const r = Math.min(cx, cy) - 10;
+
+          // Draw Fraction Pie
+          const sliceAngle = (2 * Math.PI) / this.state.total;
+          for (let i = 0; i < this.state.total; i++) {
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, r, i * sliceAngle, (i + 1) * sliceAngle);
+            ctx.closePath();
+            ctx.fillStyle = i < this.state.valA ? '#38BDF8' : '#334155';
+            ctx.fill();
+            ctx.strokeStyle = '#0F172A';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+        }
+
+        getState() { return { ...this.state }; }
+      }
+      if (!customElements.get('aasha-sim')) {
+        customElements.define('aasha-sim', AashaMathSim);
+      }
+    
+
+
+// ── Bilingual rt() ─────────────────────────────────────────────────────
+const WM=(IR.content_blocks[0]?.hindi_translation?.word_map)||{};
+function rt(text){
+  if(!text||!Object.keys(WM).length)return text||'';
+  const keys=Object.keys(WM).sort((a,b)=>b.length-a.length);
+  let out='',i=0;
+  while(i<text.length){
+    if(text[i]==='<'){const ci=text.indexOf('>',i);if(ci>=0){out+=text.slice(i,ci+1);i=ci+1;continue;}}
+    let matched=false;
+    if(i===0||!/[a-zA-Z]/.test(text[i-1])){
+      for(const k of keys){
+        const sub=text.slice(i,i+k.length);
+        if(sub.toLowerCase()===k.toLowerCase()){
+          const ai=i+k.length;if(ai<text.length&&/[a-zA-Z]/.test(text[ai]))continue;
+          out+='<span class="word" data-w="'+sub.toLowerCase()+'" data-h="'+WM[k]+'">'+sub+'</span>';
+          i+=k.length;matched=true;break;
+        }
+      }
+    }
+    if(!matched){out+=text[i];i++;}
+  }
+  return out;
+}
+
+// ── ExperienceGraph Walker ─────────────────────────────────────────────
+class Walker {
+  constructor(graph,bus,lId,cId){
+    this.g=graph;this.bus=bus;this.lId=lId;this.cId=cId;
+    this.cur=graph.initial_state_id;this.hist=[];
+  }
+  state(){return this.g.states.find(s=>s.id===this.cur)||null;}
+  idx(){return this.g.states.findIndex(s=>s.id===this.cur);}
+  total(){return this.g.states.length;}
+  transition(trigger){
+    const t=this.g.transitions.find(t=>t.from_state_id===this.cur&&t.trigger_event===trigger);
+    if(!t)return false;
+    this.hist.push(this.cur);this.cur=t.to_state_id;
+    this.bus.emit({eventType:'state_entered',pseudonymousLearnerId:this.lId,chapterId:this.cId,payload:{from:this.hist[this.hist.length-1],to:this.cur,trigger}});
+    return true;
+  }
+  forceNext(){
+    const i=this.idx();if(i<this.g.states.length-1){
+      this.hist.push(this.cur);this.cur=this.g.states[i+1].id;
+      this.bus.emit({eventType:'state_entered',pseudonymousLearnerId:this.lId,chapterId:this.cId,payload:{to:this.cur,trigger:'FORCED_NEXT'}});
+      return true;
+    }return false;
+  }
+}
+
+// ── V6 Experience Controller ───────────────────────────────────────────
+class V6Exp {
+  constructor(){
+    this.ir=IR;this.lId='learner_local_anon';this.xp=0;this.hintsUsed=0;
+    this.maxHints=this.ir.learner_agency.max_hints_per_item;
+    this.assessIdx=0;this.currentTier='warmup';
+    this.bus=new Bus(this.ir.chapter_metadata.chapter_id,this.lId);
+    this.walker=new Walker(this.ir.experience_graph,this.bus,this.lId,this.ir.chapter_metadata.chapter_id);
+    this.render();
+  }
+
+  render(){
+    const s=this.walker.state();if(!s){this._renderComplete();return;}
+    this._updateProgress();
+    switch(s.type){
+      case 'concept_card':return this._renderConcept(s);
+      case 'interactive_sim':return this._renderSim(s);
+      case 'teas_assessment':return this._renderAssessment();
+      case 'remediation_card':return this._renderRemediation();
+      default:this._renderComplete();
+    }
+  }
+
+  _renderConcept(s){
+    let html='';
+    for(const c of this.ir.concept_graph){
+      const b=this.ir.content_blocks.find(b=>b.concept_id===c.id);
+      html+='<div class="concept-title">'+c.name+'</div>';
+      html+='<div class="concept-def">'+(b?rt(b.text_math_insulated):rt(c.definition_math_insulated))+'</div>';
+    }
+    this._s(html);
+    this._n(
+      '<button class="nav-btn secondary" id="backBtn" onclick="exp.back()" style="display:none">Back</button>' +
+      '<button class="nav-btn primary" id="continueBtn" onclick="exp.startLab()">Start Lab ➜</button>'
+    );
+    this._bindWT();
+  }
+
+  _renderSim(s){
+    const cap=this.ir.capability_requirements.find(c=>c.id===s.capability_id);
+    this._s(
+      '<div class="concept-title">🔬 '+(s.name||'Lab')+'</div>'+
+      '<aasha-sim id="simLab" foundation="F01" experience-id="balance-scale">'+
+        '<div class="sim-canvas" style="min-height:175px;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;">'+
+          '<div style="font-size:12px;color:#38BDF8;font-weight:600;margin-bottom:4px;" id="simReadout">Scale Balance Target: 2x + 4</div>'+
+          '<svg id="scaleSvg" width="220" height="85" viewBox="0 0 220 85" style="transition:transform .3s ease;transform-origin:110px 40px;">'+
+            '<line x1="110" y1="12" x2="110" y2="40" stroke="#38BDF8" stroke-width="3"/>'+
+            '<line id="scaleBeam" x1="30" y1="40" x2="190" y2="40" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>'+
+            '<circle cx="110" cy="12" r="5" fill="#38BDF8"/>'+
+            '<g id="leftPan">'+
+              '<rect x="15" y="40" width="45" height="28" rx="4" fill="#1E3A5F" stroke="#38BDF8" stroke-width="1.5"/>'+
+              '<text x="37" y="58" text-anchor="middle" fill="#F59E0B" font-size="11" font-weight="bold">2x + 4</text>'+
+            '</g>'+
+            '<g id="rightPan">'+
+              '<rect x="160" y="40" width="45" height="28" rx="4" fill="#334155" stroke="#818CF8" stroke-width="1.5"/>'+
+              '<text id="rightPanText" x="182" y="58" text-anchor="middle" fill="#C4B5FD" font-size="11" font-weight="bold">0</text>'+
+            '</g>'+
+          '</svg>'+
+          '<div style="display:flex;gap:8px;margin-top:6px;justify-content:center;width:100%;">'+
+            '<button class="opt" style="min-height:36px;padding:4px 14px;font-size:12px;font-weight:600;" onclick="exp.simAddX()">+ x</button>'+
+            '<button class="opt" style="min-height:36px;padding:4px 14px;font-size:12px;font-weight:600;" onclick="exp.simAddOne()">+ 1</button>'+
+            '<button class="opt" style="min-height:36px;padding:4px 12px;font-size:12px;background:#7F1D1D;border-color:#EF4444;" onclick="exp.simReset()">Reset</button>'+
+          '</div>'+
+          '<div id="balanceStatus" style="font-size:11px;color:#94A3B8;margin-top:4px;">Touch buttons to balance the scale with 2x + 4</div>'+
+        '</div>'+
+      '</aasha-sim>'
+    );
+    this._n(
+      '<button class="nav-btn secondary" id="backBtn" onclick="exp.back()">Back</button>' +
+      '<button class="nav-btn primary" id="continueBtn" onclick="exp.readySim()">Ready for Assessment ✓</button>'
+    );
+    this._initSim();
+    this.bus.emit({eventType:'interaction_started',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,payload:{capabilityId:s.capability_id}});
+  }
+
+  _tierItems(tier){
+    const it=this.ir.assessment_items||[];if(!it.length)return[];
+    const n=it.length;
+    if(tier==='warmup')return it.slice(0,Math.ceil(n*.4));
+    if(tier==='deep_dive')return it.slice(Math.ceil(n*.4),Math.ceil(n*.75));
+    return it.slice(Math.ceil(n*.75));
+  }
+
+  _renderAssessment(){
+    const items=this._tierItems(this.currentTier);
+    if(this.assessIdx>=items.length){this._advanceTier();return;}
+    const item=items[this.assessIdx];
+    const tLabel=this.currentTier==='warmup'?'<span class="tier-badge tier-warmup">WARM-UP</span>':
+                 this.currentTier==='deep_dive'?'<span class="tier-badge tier-deepdive">DEEP DIVE</span>':
+                 '<span class="tier-badge tier-boss">BOSS</span>';
+    const m=this.bus.getMastery(item.concept_id);const mp=Math.round(m.compositeMastery*100);
+    const shuffledOpts=[...item.options].sort(function(){return Math.random()-0.5;});
+    const opts=shuffledOpts.map(o=>
+      '<button class="opt" id="opt_'+o.id+'" data-optid="'+o.id+'" onclick="exp.checkOption(this.dataset.optid)">'+rt(o.text_math_insulated)+'</button>'
+    ).join('');
+    const h=item.hints;
+    const hHtml=this.ir.learner_agency.hint_request_allowed?
+      '<div style="margin-top:8px;">'+
+        (h.H1_hook?'<button class="hint-btn" onclick="exp.hint(0)">💡 Hint 1 — Attention</button><div class="hint-text" id="h0">'+h.H1_hook+'</div>':'')+
+        (h.H2_concept?'<button class="hint-btn" onclick="exp.hint(1)">💡 Hint 2 — Concept</button><div class="hint-text" id="h1">'+h.H2_concept+'</div>':'')+
+        (h.H3_formula?'<button class="hint-btn" onclick="exp.hint(2)">💡 Hint 3 — Formula</button><div class="hint-text" id="h2">'+h.H3_formula+'</div>':'')+
+        (h.H4_step?'<button class="hint-btn" onclick="exp.hint(3)">💡 Hint 4 — Step</button><div class="hint-text" id="h3">'+h.H4_step+'</div>':'')+
+      '</div>':'';
+    this._s(
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">'+tLabel+
+        '<div style="flex:1;font-size:11px;color:#64748B;">Q '+(this.assessIdx+1)+' / '+items.length+'</div>'+
+      '</div>'+
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">'+
+        '<span style="font-size:11px;color:#64748B;">Mastery</span>'+
+        '<div class="mastery-track"><div class="mastery-fill" style="width:'+mp+'%"></div></div>'+
+        '<span class="mastery-pct">'+mp+'%</span>'+
+      '</div>'+
+      '<div class="q-prompt">'+rt(item.prompt_math_insulated)+'</div>'+
+      '<div class="opts">'+opts+'</div>'+
+      '<div class="feedback" id="fb"></div>'+hHtml
+    );
+    this._n(
+      '<button class="nav-btn secondary" id="backBtn" onclick="exp.back()">Back</button>' +
+      '<button class="nav-btn primary" id="continueBtn" onclick="exp.nextQ()" disabled>Continue ➜</button>'
+    );
+    this._bindWT();
+  }
+
+  _renderRemediation(){
+    const c=this.ir.concept_graph[0];const m=this.ir.misconceptions[0];
+    this._s(
+      '<div class="remediation"><div class="remediation-title">📚 Revisit: '+(c?.name||'Concept')+'</div>'+
+      '<div class="remediation-body">'+(c?.definition_math_insulated||'')+'</div></div>'+
+      (m?'<div class="remediation" style="margin-top:10px;"><div class="remediation-title">⚠️ Misconception</div>'+
+      '<div class="remediation-body">'+m.description+'</div></div>':'')
+    );
+    this._n('<button class="nav-btn primary" id="continueBtn" onclick="exp.retry()">Try Again ↩</button>');
+  }
+
+  _renderComplete(){
+    this._s(
+      '<div style="text-align:center;padding:20px;">'+
+        '<div style="font-size:48px;margin-bottom:12px;">'+(this.ir.motivation_intent.badge_id||'🌟')+'</div>'+
+        '<div style="font-size:20px;font-weight:700;color:#F1F5F9;margin-bottom:6px;">Chapter Complete!</div>'+
+        '<div style="font-size:13px;color:#94A3B8;margin-bottom:16px;">'+this.ir.chapter_metadata.title+'</div>'+
+        '<div style="font-size:28px;font-weight:700;color:#FCD34D;">+'+this.xp+' XP</div>'+
+        this._masteryReport()+
+      '</div>'
+    );
+    this._n('<button class="nav-btn primary" onclick="window.location.reload()">Replay ↺</button>');
+  }
+
+  _masteryReport(){
+    let h='<div style="margin-top:16px;text-align:left;">';
+    for(const c of this.ir.concept_graph){
+      const m=this.bus.getMastery(c.id);const p=Math.round(m.compositeMastery*100);
+      const st=p>=80?'✅':p>=60?'⚠️':'❌';
+      h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">'+
+        '<span>'+st+'</span><span style="flex:1;font-size:13px;color:#F1F5F9;">'+c.name+'</span>'+
+        '<div class="mastery-track" style="width:80px;"><div class="mastery-fill" style="width:'+p+'%"></div></div>'+
+        '<span class="mastery-pct">'+p+'%</span></div>';
+    }
+    return h+'</div>';
+  }
+
+  check(optId,isCorrect,explanation,miscId,conceptId){
+    document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+    const el=document.getElementById('opt_'+optId);
+    if(el)el.classList.add(isCorrect?'correct':'incorrect');
+    const fb=document.getElementById('fb');
+    if(fb){fb.className='feedback show '+(isCorrect?'ok':'err');fb.innerHTML=isCorrect?'<strong>Correct!</strong>':'<strong>Misconception:</strong> '+explanation;}
+    const item=this._tierItems(this.currentTier)[this.assessIdx];
+    this.bus.emit({eventType:'response_evaluated',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,objectiveId:item?.objective_id,conceptId:conceptId||item?.concept_id,payload:{isCorrect,optId,misconception_id:miscId||null}});
+    if(!isCorrect&&miscId)this.bus.emit({eventType:'misconception_detected',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,conceptId:conceptId||item?.concept_id,payload:{misconception_id:miscId}});
+    if(isCorrect){
+      const xpMap={warmup:this.ir.motivation_intent.xp_reward_warmup,deep_dive:this.ir.motivation_intent.xp_reward_deep_dive,boss:this.ir.motivation_intent.xp_reward_boss};
+      this.xp+=(xpMap[this.currentTier]||5);document.getElementById('xpVal').textContent=this.xp;
+    }
+    const nb=document.getElementById('continueBtn');if(nb)nb.disabled=false;
+  }
+
+  hint(idx){
+    if(this.hintsUsed>=this.maxHints)return;
+    const el=document.getElementById('h'+idx);if(el){el.classList.add('show');this.hintsUsed++;}
+  }
+
+  nextQ(){this.assessIdx++;this.hintsUsed=0;this.render();}
+
+  _advanceTier(){
+    const tiers=['warmup','deep_dive','boss'];const idx=tiers.indexOf(this.currentTier);
+    const cId=this.ir.concept_graph[0]?.id;
+    const m=cId?this.bus.getMastery(cId):null;
+    const needRem=m&&m.compositeMastery<this.ir.adaptive_policy.remediation_threshold;
+    if(needRem&&this.currentTier==='warmup'){
+      this.bus.emit({eventType:'adaptation_triggered',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,payload:{reason:'mastery_below_threshold',composite:m.compositeMastery}});
+      const remId='state:remediation_auto';
+      if(!this.ir.experience_graph.states.find(s=>s.id===remId)){
+        this.ir.experience_graph.states.splice(this.walker.idx()+1,0,{id:remId,name:'Remediation',type:'remediation_card',content_ids:[]});
+        this.ir.experience_graph.transitions.push({from_state_id:this.walker.cur,to_state_id:remId,trigger_event:'REMEDIATION_TRIGGER'});
+        this.ir.experience_graph.transitions.push({from_state_id:remId,to_state_id:this.walker.cur,trigger_event:'RETRY'});
+      }
+      this.walker.forceNext();this.assessIdx=0;this.render();return;
+    }
+    if(idx<tiers.length-1){
+      this.currentTier=tiers[idx+1];this.assessIdx=0;this.hintsUsed=0;
+      this._celebrate(this.currentTier==='deep_dive'?'⚡ Warm-Up Complete!':'🏆 Deep Dive Done!','🎉');
+      setTimeout(()=>this.render(),1200);
+    }else{
+      this._celebrate('Chapter Mastered! '+(this.ir.motivation_intent.badge_id||'🌟'),'🎊');
+      setTimeout(()=>this._renderComplete(),1500);
+    }
+  }
+
+  advance(trigger){
+    if(trigger==='MANIPULATIVE_COMPLETED')this.bus.emit({eventType:'interaction_completed',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,payload:{trigger}});
+    if(!this.walker.transition(trigger))this.walker.forceNext();
+    this.assessIdx=0;this.hintsUsed=0;this.render();
+  }
+
+  back(){this.advance('BACK');}
+  startLab(){this.advance('NEXT_CARD');}
+  readySim(){this.advance('MANIPULATIVE_COMPLETED');}
+  retry(){this.advance('RETRY');}
+  checkOption(optId){
+    const items=this._tierItems(this.currentTier);
+    const item=items[this.assessIdx];if(!item)return;
+    const opt=item.options.find(o=>o.id===optId);if(!opt)return;
+    this.check(opt.id,opt.is_correct,opt.distractor_explanation||'',opt.misconception_id||'',item.concept_id);
+  }
+
+  _s(html){document.getElementById('screen').innerHTML=html;}
+  _n(html){document.getElementById('navBar').innerHTML=html;}
+  _updateProgress(){const p=Math.round((this.walker.idx()/Math.max(1,this.walker.total()-1))*100);const f=document.getElementById('progressFill');if(f)f.style.width=p+'%';}
+  _celebrate(msg,icon){
+    const ov=document.getElementById('celebOv');
+    if(ov){document.getElementById('celebIcon').textContent=icon;document.getElementById('celebMsg').textContent=msg;ov.classList.add('show');setTimeout(()=>ov.classList.remove('show'),1100);}
+  }
+  _bindWT(){
+    document.querySelectorAll('.word').forEach(el=>{
+      el.addEventListener('click',()=>{
+        document.getElementById('dlgWord').textContent=el.dataset.w;
+        document.getElementById('dlgHindi').textContent=el.dataset.h;
+        document.getElementById('wordDialog').showModal();
+      });
+    });
+  }
+  _initSim(){
+    const el=document.getElementById('simLab');if(!el)return;
+    const parent=this;
+    class BalanceScaleAdapter extends AashaExperienceAdapter {
+      constructor(){
+        super({foundationId:'F01',foundationName:'Escape Run',experienceId:'balance-scale'});
+        this.targetX=2;this.targetUnits=4;this.curX=0;this.curUnits=0;
+      }
+      mount(c){this.container=c;this.updateUI();}
+      add(t){
+        if(t==='x')this.curX++;if(t==='1')this.curUnits++;
+        this.emitTelemetry('term_added',{type:t,curX:this.curX,curUnits:this.curUnits});
+        this.updateUI();
+      }
+      reset(){
+        this.curX=0;this.curUnits=0;
+        this.emitTelemetry('reset',{});
+        this.updateUI();
+      }
+      updateUI(){
+        const isBalanced=(this.curX===this.targetX&&this.curUnits===this.targetUnits);
+        const diff=Math.max(-15,Math.min(15,((this.curX*5+this.curUnits)-(this.targetX*5+this.targetUnits))*2));
+        const svg=document.getElementById('scaleSvg');if(svg)svg.style.transform='rotate('+diff+'deg)';
+        const txt=document.getElementById('rightPanText');
+        if(txt){
+          let s='';if(this.curX>0)s+=(this.curX===1?'x':this.curX+'x');
+          if(this.curUnits>0)s+=(s?' + ':'')+this.curUnits;
+          txt.textContent=s||'0';
+        }
+        const st=document.getElementById('balanceStatus');
+        if(st){
+          if(isBalanced)st.innerHTML='<span style="color:#34D399;font-weight:700;">🎉 Perfectly Balanced! 2x + 4 = 2x + 4</span>';
+          else if(this.curX*5+this.curUnits<this.targetX*5+this.targetUnits)st.textContent='Right pan is lighter. Keep adding terms.';
+          else st.textContent='Right pan is heavier! Hit Reset to balance.';
+        }
+        this.emitStateChange({isBalanced,curX:this.curX,curUnits:this.curUnits});
+      }
+    }
+    this.simAdapter=new BalanceScaleAdapter();
+    if(el.bindAdapter)el.bindAdapter(this.simAdapter);
+  }
+  simAdd(t){if(this.simAdapter)this.simAdapter.add(t);}
+  simAddX(){this.simAdd('x');}
+  simAddOne(){this.simAdd('1');}
+  simReset(){if(this.simAdapter)this.simAdapter.reset();}
+}
+
+let exp;
+window.addEventListener('DOMContentLoaded',()=>{exp=new V6Exp();});
+window.exp={advance:(t)=>exp?.advance(t),back:()=>exp?.back(),startLab:()=>exp?.startLab(),readySim:()=>exp?.readySim(),retry:()=>exp?.retry(),check:(...a)=>exp?.check(...a),checkOption:(id)=>exp?.checkOption(id),hint:(i)=>exp?.hint(i),nextQ:()=>exp?.nextQ(),simAdd:(t)=>exp?.simAdd(t),simAddX:()=>exp?.simAddX(),simAddOne:()=>exp?.simAddOne(),simReset:()=>exp?.simReset()};
+window.App={nIdx:0,exit:function(){this.nIdx=0;if(window.exp)window.exp.advance('EXIT');}};
+})();
+</script>
+</body>
+</html>

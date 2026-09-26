@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-08",
+  "last_updated": "2026-09-25",
   "foundations": [
     {
       "id": "F01",
@@ -781,5 +781,2372 @@
       "status": "certified_100_percent",
       "ltruth_score": 100
     }
-  }
+  },
+  "components": [
+    {
+      "component_id": "comp_financial_accounting",
+      "version": "1.0.0",
+      "status": "CERTIFIED",
+      "capability_contract": {
+        "capability_id": "cap:comp_financial_accounting",
+        "mechanics": [
+          "interactive_simulation",
+          "parameter_sliders"
+        ],
+        "inputs": [
+          "user_click",
+          "slider_drag"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeStep",
+          "value"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "interactive_simulation",
+        "parameter_sliders"
+      ],
+      "applicability": {
+        "subjects": [
+          "Commerce"
+        ],
+        "classes": [
+          12
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "AASHA_NATIVE_SYNTHESIS",
+        "origin_repo_or_pdf_hash": "66505e773e51fb965ff7bd27dccb67bbe3c146e6e338c7b3a8d905e2daae0cfc",
+        "author_or_pipeline_version": "v2.0"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "benchmark_evidence_hash": "372a085191e99ea9d9718d9efcc6c8c5c552556ae059c71cb50800b9cab6144e",
+        "verified_at": "2026-09-24T01:21:14.153Z"
+      },
+      "artifact_hash": "b56182f11b73466844f4d8729705ac15a56de922e72802457b4d3943fc4707ad",
+      "lineage": {}
+    },
+    {
+      "component_id": "AVR-P301-number-line-marker",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Interactive Number Line Marker & Integer Explorer",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P301-number-line-marker",
+        "mechanics": [
+          "number_line",
+          "direct_manipulative",
+          "interactive_simulation"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "number_line",
+        "direct_manipulative",
+        "interactive_simulation"
+      ],
+      "applicability": {
+        "subjects": [
+          "Mathematics"
+        ],
+        "classes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "NumberLineMarkerAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P301-number-line-marker.html",
+        "telemetry_events": [
+          "MARKER_MOVED",
+          "RANGE_SELECTED",
+          "HOP_STEP_RECORDED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P301-number-line-marker.html",
+        "source_hash": "cd6ef3778544abfa6c94b99cc3cdf991194f970f67dfbd4a68e68e48247b5a30"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.485Z"
+      }
+    },
+    {
+      "component_id": "AVR-P302-fraction-strip",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Fraction Area Slicing & Strip Comparison Manipulative",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P302-fraction-strip",
+        "mechanics": [
+          "fraction_strips",
+          "direct_manipulative",
+          "interactive_simulation"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "fraction_strips",
+        "direct_manipulative",
+        "interactive_simulation"
+      ],
+      "applicability": {
+        "subjects": [
+          "Mathematics"
+        ],
+        "classes": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "FractionStripAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P302-fraction-strip.html",
+        "telemetry_events": [
+          "SLICE_PARTITIONED",
+          "STRIP_COMPARED",
+          "FRACTION_EQUIVALENCE"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P302-fraction-strip.html",
+        "source_hash": "be7f4c01e5f821990646809dc8a154da92866d815a2e8a1608de9e6d50e60f04"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.491Z"
+      }
+    },
+    {
+      "component_id": "AVR-P303-shape-transformer",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Geometric Shape Transformer & Polygon Explorer",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P303-shape-transformer",
+        "mechanics": [
+          "geometry_manipulative",
+          "parameter_sliders"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "geometry_manipulative",
+        "parameter_sliders"
+      ],
+      "applicability": {
+        "subjects": [
+          "Mathematics"
+        ],
+        "classes": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "ShapeTransformerAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P303-shape-transformer.html",
+        "telemetry_events": [
+          "VERTEX_DRAGGED",
+          "ANGLE_MEASURED",
+          "AREA_CALCULATED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P303-shape-transformer.html",
+        "source_hash": "699fa6faa9136b79722f88eb9290c55c20e42327894ae79be894bcfdbb2d02f3"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.494Z"
+      }
+    },
+    {
+      "component_id": "AVR-P304-timeline-scrubber",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Chronological Historical Timeline Interactive Scrubber",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P304-timeline-scrubber",
+        "mechanics": [
+          "timeline_scrubbing",
+          "event_reveal"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "timeline_scrubbing",
+        "event_reveal"
+      ],
+      "applicability": {
+        "subjects": [
+          "History",
+          "Social Studies"
+        ],
+        "classes": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "TimelineScrubberAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P304-timeline-scrubber.html",
+        "telemetry_events": [
+          "ERA_SCRUBBED",
+          "EVENT_CLICKED",
+          "CHRONOLOGY_ORDERED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P304-timeline-scrubber.html",
+        "source_hash": "02964f53ee754ed41a2f3caf71042b37c21f3c40bb8b57accdee853d43c51dc2"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.497Z"
+      }
+    },
+    {
+      "component_id": "AVR-P305-process-branch",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Decision Tree & Process Branching Flow Simulator",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P305-process-branch",
+        "mechanics": [
+          "branching_logic",
+          "state_machine"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "branching_logic",
+        "state_machine"
+      ],
+      "applicability": {
+        "subjects": [
+          "Computer Science",
+          "Science"
+        ],
+        "classes": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "ProcessBranchAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P305-process-branch.html",
+        "telemetry_events": [
+          "BRANCH_SELECTED",
+          "PATH_TRACED",
+          "CONDITION_EVALUATED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P305-process-branch.html",
+        "source_hash": "ee786cf6aefdece6bae0f2ed6df1baee009bd68a20280519effb1c0781826fe2"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.504Z"
+      }
+    },
+    {
+      "component_id": "AVR-P306-hotspot-reveal",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Anatomical & Scientific Diagram Hotspot Reveal",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P306-hotspot-reveal",
+        "mechanics": [
+          "hotspot_reveal",
+          "diagram_interaction"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "hotspot_reveal",
+        "diagram_interaction"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Biology"
+        ],
+        "classes": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "HotspotRevealAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P306-hotspot-reveal.html",
+        "telemetry_events": [
+          "HOTSPOT_TAPPED",
+          "ORGAN_IDENTIFIED",
+          "ZOOM_LEVEL_CHANGED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P306-hotspot-reveal.html",
+        "source_hash": "3d6109f7de548d6b982add1108bff29f4a41c9d1f8fd336bfd848def436a08ca"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.509Z"
+      }
+    },
+    {
+      "component_id": "AVR-P307-layer-reveal",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Geological Strata & Atmospheric Layer Reveal Explorer",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P307-layer-reveal",
+        "mechanics": [
+          "layer_reveal",
+          "strata_inspection"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "layer_reveal",
+        "strata_inspection"
+      ],
+      "applicability": {
+        "subjects": [
+          "Geography",
+          "Science"
+        ],
+        "classes": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "LayerRevealAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P307-layer-reveal.html",
+        "telemetry_events": [
+          "LAYER_SLICED",
+          "DEPTH_INSPECTED",
+          "PROPERTY_CHECKED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P307-layer-reveal.html",
+        "source_hash": "e4d02f015514b65bbf79752f271a460361eaba5b7acb5aef3f24da9836e5f58f"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.512Z"
+      }
+    },
+    {
+      "component_id": "AVR-P308-node-connector",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Concept Graph & Ecological Food Web Node Connector",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P308-node-connector",
+        "mechanics": [
+          "node_connecting",
+          "graph_building"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "node_connecting",
+        "graph_building"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Computer Science"
+        ],
+        "classes": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "NodeConnectorAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P308-node-connector.html",
+        "telemetry_events": [
+          "NODES_LINKED",
+          "CIRCUIT_COMPLETED",
+          "TROPHIC_LEVEL_SET"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P308-node-connector.html",
+        "source_hash": "1a8d57a74f0de70bb6ccbe678b4e92b18310c3fcdcec2c5a9fe4c73c4de8a2e8"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.516Z"
+      }
+    },
+    {
+      "component_id": "AVR-P309-grid-coordinate-picker",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Cartesian Coordinate Plane & Grid Point Picker",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P309-grid-coordinate-picker",
+        "mechanics": [
+          "coordinate_picker",
+          "direct_manipulative"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "coordinate_picker",
+        "direct_manipulative"
+      ],
+      "applicability": {
+        "subjects": [
+          "Mathematics"
+        ],
+        "classes": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "GridCoordinatePickerAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P309-grid-coordinate-picker.html",
+        "telemetry_events": [
+          "POINT_PLOTTED",
+          "QUADRANT_SELECTED",
+          "SLOPE_OBSERVED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P309-grid-coordinate-picker.html",
+        "source_hash": "ab4cae31cda9e44d24409711732edfa165e717ffc18d9ca8f36e4b518d03821a"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.520Z"
+      }
+    },
+    {
+      "component_id": "AVR-P310-distance-ruler",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Digital Metric Ruler & Spatial Distance Measure Tool",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P310-distance-ruler",
+        "mechanics": [
+          "distance_measurement",
+          "scale_calibration"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "distance_measurement",
+        "scale_calibration"
+      ],
+      "applicability": {
+        "subjects": [
+          "Mathematics",
+          "Physics"
+        ],
+        "classes": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "DistanceRulerAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P310-distance-ruler.html",
+        "telemetry_events": [
+          "RULER_ALIGNED",
+          "DISTANCE_READ",
+          "UNIT_CONVERTED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P310-distance-ruler.html",
+        "source_hash": "1b9e0f586cb22739aae18daf653cae1ebbefa7fa9e6f539a380ad236082388c4"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.523Z"
+      }
+    },
+    {
+      "component_id": "AVR-P311-particle-temperature",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Kinetic Particle Thermal Motion Simulator",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P311-particle-temperature",
+        "mechanics": [
+          "particle_simulation",
+          "temperature_slider"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "particle_simulation",
+        "temperature_slider"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Physics",
+          "Chemistry"
+        ],
+        "classes": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "ParticleTemperatureAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P311-particle-temperature.html",
+        "telemetry_events": [
+          "TEMPERATURE_CHANGED",
+          "VELOCITY_MEASURED",
+          "PHASE_CHANGED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P311-particle-temperature.html",
+        "source_hash": "9a0e80c410f1eebc83933b247a83734b2fb52485794311042d00b8df1660dcad"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.526Z"
+      }
+    },
+    {
+      "component_id": "AVR-P312-particle-diffusion",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Molecular Diffusion & Concentration Gradient Simulator",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P312-particle-diffusion",
+        "mechanics": [
+          "diffusion_simulation",
+          "membrane_permeability"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "diffusion_simulation",
+        "membrane_permeability"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Chemistry",
+          "Biology"
+        ],
+        "classes": [
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "ParticleDiffusionAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P312-particle-diffusion.html",
+        "telemetry_events": [
+          "BARRIER_REMOVED",
+          "EQUILIBRIUM_TIMED",
+          "CONCENTRATION_PLOTTED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P312-particle-diffusion.html",
+        "source_hash": "41b5b7cac942a49ecb6f1118f74588e76d8a089f239365e4ae09fd42dd85de61"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.529Z"
+      }
+    },
+    {
+      "component_id": "AVR-P313-atom-builder",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Subatomic Particle Rutherford-Bohr Atom Builder",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P313-atom-builder",
+        "mechanics": [
+          "atom_building",
+          "electron_shells"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "atom_building",
+        "electron_shells"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Chemistry"
+        ],
+        "classes": [
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "AtomBuilderAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P313-atom-builder.html",
+        "telemetry_events": [
+          "PROTON_ADDED",
+          "ELECTRON_SHELL_FILLED",
+          "ISOTOPE_IDENTIFIED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P313-atom-builder.html",
+        "source_hash": "0f7bc3b6c90f72c0f0d157aa29529ff5814f3421b1489a99d249cb3512ebf939"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.533Z"
+      }
+    },
+    {
+      "component_id": "AVR-P314-switch-circuit",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Electric Circuit Switch, Bulb & Resistor Manipulative",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P314-switch-circuit",
+        "mechanics": [
+          "circuit_builder",
+          "switch_toggle"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "circuit_builder",
+        "switch_toggle"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Physics"
+        ],
+        "classes": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "SwitchCircuitAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P314-switch-circuit.html",
+        "telemetry_events": [
+          "SWITCH_TOGGLED",
+          "BULB_ILLUMINATED",
+          "SHORT_CIRCUIT_TRIGGERED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P314-switch-circuit.html",
+        "source_hash": "fe137790b37a6ace7616185d9eea80e58a6150afb30900473f21f5879809870b"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.535Z"
+      }
+    },
+    {
+      "component_id": "AVR-P315-logic-gate",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Boolean Logic Gates (AND, OR, NOT, NAND) Interactive Circuit",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P315-logic-gate",
+        "mechanics": [
+          "logic_gates",
+          "truth_table_generator"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "logic_gates",
+        "truth_table_generator"
+      ],
+      "applicability": {
+        "subjects": [
+          "Computer Science",
+          "Science"
+        ],
+        "classes": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "LogicGateAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P315-logic-gate.html",
+        "telemetry_events": [
+          "INPUT_TOGGLED",
+          "TRUTH_TABLE_VERIFIED",
+          "GATE_COMBINED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P315-logic-gate.html",
+        "source_hash": "bbc7d816d07c56afc4db101b2beb7396f64e1f6992a15363a4f9a9753f96e2d7"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.538Z"
+      }
+    },
+    {
+      "component_id": "AVR-P316-system-flow",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Dynamic Feedback Loops & Ecological System Flow",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P316-system-flow",
+        "mechanics": [
+          "system_dynamics",
+          "flow_simulation"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "system_dynamics",
+        "flow_simulation"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Biology",
+          "Environmental Science"
+        ],
+        "classes": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "SystemFlowAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P316-system-flow.html",
+        "telemetry_events": [
+          "INFLOW_ADJUSTED",
+          "OUTFLOW_MEASURED",
+          "FEEDBACK_TRIGGERED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P316-system-flow.html",
+        "source_hash": "9eb87c03ae3c82cd81e01be399bdc007b19e9c1164784506c27f5125021b344b"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.542Z"
+      }
+    },
+    {
+      "component_id": "AVR-P317-parameterized-spring",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Hooke Law Parameterized Spring & Oscillation Explorer",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P317-parameterized-spring",
+        "mechanics": [
+          "harmonic_oscillation",
+          "spring_constant_slider"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "harmonic_oscillation",
+        "spring_constant_slider"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Physics"
+        ],
+        "classes": [
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "ParameterizedSpringAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P317-parameterized-spring.html",
+        "telemetry_events": [
+          "SPRING_STRETCHED",
+          "MASS_ATTACHED",
+          "PERIOD_TIMED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P317-parameterized-spring.html",
+        "source_hash": "32d615cc340ab5d687cf934b349511477339a8e10876431b25e44ee25cd82656"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.544Z"
+      }
+    },
+    {
+      "component_id": "AVR-P318-population-growth",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Exponential & Logistic Population Growth Dynamics Simulator",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P318-population-growth",
+        "mechanics": [
+          "population_dynamics",
+          "carrying_capacity_slider"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "population_dynamics",
+        "carrying_capacity_slider"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Biology",
+          "Mathematics"
+        ],
+        "classes": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "PopulationGrowthAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P318-population-growth.html",
+        "telemetry_events": [
+          "CAPACITY_CHANGED",
+          "GROWTH_RATE_SET",
+          "CRASH_SIMULATED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P318-population-growth.html",
+        "source_hash": "7f3b4c5133c7314873f23e80b47af6e4f3d295d4cff8dc1812e786b80a86fdde"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.547Z"
+      }
+    },
+    {
+      "component_id": "AVR-P319-projectile-explorer",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Kinematic 2D Projectile Motion Trajectory Explorer",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P319-projectile-explorer",
+        "mechanics": [
+          "projectile_trajectory",
+          "angle_velocity_sliders"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "projectile_trajectory",
+        "angle_velocity_sliders"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Physics"
+        ],
+        "classes": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "ProjectileExplorerAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P319-projectile-explorer.html",
+        "telemetry_events": [
+          "CANNON_FIRED",
+          "TARGET_HIT",
+          "TRAJECTORY_CALCULATED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P319-projectile-explorer.html",
+        "source_hash": "990a2c804e3c2914c39018d3d03556dcb987623dfda1b96105958501e9031e2b"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.550Z"
+      }
+    },
+    {
+      "component_id": "AVR-P320-bar-data-manipulator",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Interactive Statistical Bar Chart Data Manipulator",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P320-bar-data-manipulator",
+        "mechanics": [
+          "bar_chart_manipulation",
+          "mean_median_calculator"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "bar_chart_manipulation",
+        "mean_median_calculator"
+      ],
+      "applicability": {
+        "subjects": [
+          "Mathematics"
+        ],
+        "classes": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "BarDataManipulatorAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P320-bar-data-manipulator.html",
+        "telemetry_events": [
+          "BAR_HEIGHT_ADJUSTED",
+          "MEAN_RECALCULATED",
+          "FREQUENCY_RECORDED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P320-bar-data-manipulator.html",
+        "source_hash": "b1e6d5aeed04263c97eb23ca23789a3663c0eb2a1f2d9227f17c70b168d7b5c9"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.552Z"
+      }
+    },
+    {
+      "component_id": "AVR-P321-cause-effect-reveal",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Historical & Environmental Cause-and-Effect Chain Reveal",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P321-cause-effect-reveal",
+        "mechanics": [
+          "causal_chain",
+          "scenario_branching"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "causal_chain",
+        "scenario_branching"
+      ],
+      "applicability": {
+        "subjects": [
+          "Social Studies",
+          "Science"
+        ],
+        "classes": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "CauseEffectRevealAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P321-cause-effect-reveal.html",
+        "telemetry_events": [
+          "FACTOR_TRIGGERED",
+          "CHAIN_REVEALED",
+          "OUTCOME_ANALYZED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "AASHA_Visual_Mass_Harvest_Phase3/resources/AVR-P321-cause-effect-reveal.html",
+        "source_hash": "5781687404c50f2517b6b738b970d790e235a206131418a700644615f1477684"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.555Z"
+      }
+    },
+    {
+      "component_id": "CINE-LAB-01-vernier-caliper",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Precision Vernier Caliper Measurement Virtual Lab",
+      "capability_contract": {
+        "capability_id": "cap:CINE-LAB-01-vernier-caliper",
+        "mechanics": [
+          "virtual_lab",
+          "vernier_scale_reading",
+          "zero_error_correction"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "virtual_lab",
+        "vernier_scale_reading",
+        "zero_error_correction"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Physics"
+        ],
+        "classes": [
+          9,
+          10,
+          11
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "VernierCaliperAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "external_sources/CinePhysicsHQ-Labs/vernier_caliper_lab/index.html",
+        "telemetry_events": [
+          "JAW_MOVED",
+          "MEASUREMENT_READ",
+          "ZERO_ERROR_ADJUSTED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "external_sources/CinePhysicsHQ-Labs/vernier_caliper_lab/index.html",
+        "source_hash": "e862a4329b68485c5e2065b0cf0835f22c334b14a11bec32cc7a2523f510f9de"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.558Z"
+      }
+    },
+    {
+      "component_id": "CINE-LAB-02-dimensional-analysis",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Dimensional Analysis & SI Unit Homogeneity Virtual Lab",
+      "capability_contract": {
+        "capability_id": "cap:CINE-LAB-02-dimensional-analysis",
+        "mechanics": [
+          "virtual_lab",
+          "dimensional_formula",
+          "unit_conversion"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "virtual_lab",
+        "dimensional_formula",
+        "unit_conversion"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Physics"
+        ],
+        "classes": [
+          11,
+          12
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "DimensionalAnalysisAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "external_sources/CinePhysicsHQ-Labs/Dimensional_analysis_lab/index.html",
+        "telemetry_events": [
+          "EQUATION_INPUTTED",
+          "DIMENSIONS_MATCHED",
+          "POWER_SOLVED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "external_sources/CinePhysicsHQ-Labs/Dimensional_analysis_lab/index.html",
+        "source_hash": "38aa88b3079500ad3bfe66669f78f83666be556dd4a32ed13f164770249f3bc7"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.562Z"
+      }
+    },
+    {
+      "component_id": "CINE-LAB-03-error-analysis",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Experimental Error Analysis & Significant Figures Lab",
+      "capability_contract": {
+        "capability_id": "cap:CINE-LAB-03-error-analysis",
+        "mechanics": [
+          "virtual_lab",
+          "random_systematic_errors",
+          "percentage_error"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "virtual_lab",
+        "random_systematic_errors",
+        "percentage_error"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Physics"
+        ],
+        "classes": [
+          11,
+          12
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "ErrorAnalysisAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "external_sources/CinePhysicsHQ-Labs/error_analysis_lab/index.html",
+        "telemetry_events": [
+          "READINGS_LOGGED",
+          "UNCERTAINTY_COMPUTED",
+          "ERROR_PROPAGATED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "external_sources/CinePhysicsHQ-Labs/error_analysis_lab/index.html",
+        "source_hash": "ce53c79ab4c02fc8aa1944dc08e409cba62aed0e332dbce6d15b755a2597116f"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.567Z"
+      }
+    },
+    {
+      "component_id": "CINE-LAB-04-lorentz-force",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Magnetic Lorentz Force & Charged Particle Deflection Lab",
+      "capability_contract": {
+        "capability_id": "cap:CINE-LAB-04-lorentz-force",
+        "mechanics": [
+          "virtual_lab",
+          "lorentz_vector_field",
+          "cyclotron_radius"
+        ],
+        "inputs": [
+          "user_click",
+          "touch_drag",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "activeState",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "virtual_lab",
+        "lorentz_vector_field",
+        "cyclotron_radius"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Physics"
+        ],
+        "classes": [
+          12
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "LorentzForceAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "external_sources/CinePhysicsHQ-Labs/Magnetic lorentz-force/index.html",
+        "telemetry_events": [
+          "B_FIELD_SET",
+          "CHARGE_INJECTED",
+          "RADIUS_MEASURED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "external_sources/CinePhysicsHQ-Labs/Magnetic lorentz-force/index.html",
+        "source_hash": "b0d8b5b74766aa86a31ea53059b4bedf3b245962f654faf797bb321f660effe4"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-09-25T23:57:17.584Z"
+      }
+    }
+  ]
 }
