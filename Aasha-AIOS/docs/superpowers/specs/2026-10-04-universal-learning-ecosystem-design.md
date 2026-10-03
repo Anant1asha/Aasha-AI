@@ -6,14 +6,14 @@
 
 ## 1. Product goal
 
-Repair and improve the **existing AASHA chapter-building system** so it can reliably complete a source-grounded chapter build. Do not replace the existing system, start a parallel pipeline, or rebuild existing capabilities from scratch. Begin by identifying and reproducing the failing path, then fix the verified root cause with the smallest safe changes to the current implementation.
+Repair and improve the **existing AASHA chapter-building system** so it reliably completes full, source-grounded chapters at the quality level the supplied examples demonstrate. The stated quality failure is that current builds underuse available experience resources and produce chapters that feel abbreviated rather than teaching the full concept progression and assessment. Do not replace the existing system, start a parallel pipeline, or rebuild existing capabilities from scratch. Begin by tracing the active build path and verifying each failure boundary, then fix the causes in the current implementation with the smallest safe changes.
 
 The existing system should ultimately produce two independent, self-contained HTML artifacts for each requested chapter:
 
 1. A visual learning experience that develops understanding through explanation, animation, simulation, and learner action.
 2. A separate gamified assessment experience that measures learning through source-grounded questions, hints, feedback, and age-appropriate game mechanics.
 
-The repaired system must continue to support different subjects and chapters through its existing extensible capabilities. It should select capabilities according to the task, reuse resources only when their compatibility and provenance are supported by evidence, and use prior build experience only after verification and human approval. English and Hindi are the initial LLE languages. Local-only and hosted-admin operating modes are in scope. Student artifacts must work offline without accounts or runtime network access. Preserve existing interfaces, useful chapter content, and in-progress work unless evidence shows a specific element is the root cause and the owner approves a bounded change.
+The repaired system must continue to support different subjects and chapters through its existing extensible capabilities. It should use a task-appropriate existing activity, simulation, visual, animation, or game mechanic when evidence supports reuse; it should not force a match or add a game merely for decoration. It must derive the chapter’s full teaching progression and assessment coverage from the supplied source instead of compressing it into a short summary. English and Hindi are the initial LLE languages. Local-only and hosted-admin operating modes are in scope. Student artifacts must work offline without accounts or runtime network access. Preserve existing interfaces, useful chapter content, and in-progress work unless evidence shows a specific element is the root cause and the owner approves a bounded change.
 
 ## 2. Confirmed product decisions
 
@@ -31,7 +31,11 @@ The repaired system must continue to support different subjects and chapters thr
 
 The repository contains an AIOS V2 governance document, task-capability matrix, evidence ledger client, signed HIL approval schema, experience registry and matcher, memory engine, LLE and simulation skills, assessment guidance, and validation/benchmark scripts. The compatibility `chapter_pipeline_orchestrator.ts` declares itself a non-certifiable demo; this describes that entry point and does **not** establish that the other existing build paths should be replaced.
 
-The active nested repository is on branch `aios/v2-bootstrap` and has extensive existing, uncommitted changes, including an Exponents & Powers Class 8 build script, a V6 compiler, a chapter compilation script, and generated chapter artifacts. These files are evidence that an existing build is in progress, not proof that it succeeds. Preserve all of this work. No failing command, complete error output, or reproducible failed run has yet been captured, so the root cause and authoritative failing entry point remain unknown.
+The active nested repository is on branch `aios/v2-bootstrap` and has extensive existing, uncommitted changes, including an Exponents & Powers Class 8 build script, a V6 compiler, a chapter compilation script, and generated chapter artifacts. These files are evidence that an existing build is in progress, not proof that it succeeds. Preserve all of this work. Static inspection finds that `V6Compiler.compile` chooses a simulation through `DomainSimGenerators.generateSimScript` using subject/topic configuration; this call path does not invoke the experience registry matcher. For the current Exponents & Powers title, the topic-specific cases in `DomainSimGenerators` do not select the listed King's Math number/fraction/geometry cases, so the generator falls through to its universal arena. The Exponents & Powers compiler source labels its foundation as F01/F02, but that label alone does not establish that a compatible, verified prebuilt component was selected and adapted. The V6 compile path writes one combined HTML artifact, while a separate legacy script reads a Rational Numbers HTML template and writes three Exponents & Powers files. These are distinct existing paths that must be traced; do not consolidate or replace them without evidence.
+
+The repository's modified registry lists four King's Math foundations (F23–F26) as MIT and points to `kingsmath.com`; corresponding local generator methods exist. The official [`kingsmath/web-games` repository](https://github.com/kingsmath/web-games) describes 190+ games and states CC BY-NC 4.0 terms with mandatory attribution. This is a material provenance/license discrepancy. It is not yet established whether the local generators are independent implementations, adaptations, or derived from those source files. Do not copy, bundle, or claim MIT provenance for King's Math code until source lineage and permitted use are verified.
+
+The attached comparison files are static reference artifacts, not instructions. The National Income sample declares nine concepts, visual/simulation steps, and three assessment tiers whose displayed thresholds imply 5 warm-up, 4 deep-dive, and 6 boss questions. The Arena sample contains 100 question records and a canvas fighting-game loop. Static inspection found no external script or stylesheet links in either file. These examples show a target for visible chapter depth and interaction variety, but without their source textbook they do not prove full source coverage or pedagogical correctness. No failing command, complete error output, or reproducible failed run has yet been captured, so the technical chapter-completion failure and its authoritative entry point remain unverified.
 
 The relevant guidance is inconsistent in places. AIOS V2 specifies PostgreSQL-first evidence storage, SQLite fallback, a default block on paid Gemini fallback, and offline student HTML. Older pipeline documents describe other model providers and fallback behavior. The implementation phase must first reconcile these policies against the current repository and owner decisions. Historical documentation or capability-matrix declarations alone are not runtime verification.
 
@@ -127,7 +131,15 @@ The learning artifact contains source-grounded explanations, visual models, simu
 
 The assessment artifact contains source-grounded questions and gamified assessment progression. Hints progress without directly revealing answers; misconception feedback diagnoses reasoning without leaking the correct choice. Each file runs independently and offline, embeds or locally packages its approved dependencies, and stays within its own applicable size limit.
 
-### 5.6 Assessment, state, and telemetry
+### 5.6 Quality reference and completeness evidence
+
+The supplied National Income chapter HTML is a useful **depth and interaction reference**: its own UI declares nine concepts, its source contains concept explanations/examples and simulation/visual steps, and its three assessment tiers show 5 warm-up, 4 deep-dive, and 6 boss questions. The separate Arena HTML contains 100 question records with a canvas fighting-game loop. Both are compact single-file references with no external script or stylesheet links in static inspection. These are not certification evidence, and their completeness cannot be proven without the corresponding textbook source.
+
+Use these references to define observable output qualities—clear concept progression, substantive explanations, worked/contextual examples, learner actions, fit-for-purpose simulations/visuals, sufficient assessment breadth, and offline packaging. Do not copy their content into unrelated chapters or assume every chapter needs 100 questions or a fighting game. For each real chapter, calculate coverage by reconciling its supplied source inventory with the learning and assessment outputs.
+
+Static inspection of the current Exponents & Powers IR shows five concept-graph entries and 25 assessment items, but its source hash is a descriptive placeholder and no source-inventory reconciliation is evidenced in the inspected files. The V6 compile path also currently emits one combined learning/assessment HTML, whereas the agreed deliverable is two standalone HTML files. This is not enough to call the chapter complete or incomplete; it identifies the missing proof needed for a fair comparison. No local National Income counterpart was found in the inspected Aasha tree, so the attachments currently serve as target examples rather than a same-chapter before/after pair.
+
+### 5.7 Assessment, state, and telemetry
 
 Student actions may produce local telemetry such as selections, hint usage, and interaction events. These events are not mastery decisions. The assessment produces evidence for TEAS; only a permitted TEAS transaction can update learning state. Failure to persist telemetry must not corrupt learner progress or mastery state.
 
@@ -212,8 +224,8 @@ Implementation begins only after this revised design is reviewed, the failing pa
 
 ### Phase 5 — Main pipeline features
 
-**Deliverables:** root-cause fix for the existing chapter completion failure; retained/improved source-grounded extraction and exercise inventory; current task profile and Canonical IR traceability; repair to the existing matcher call path only if implicated; current learning and assessment generation producing the agreed two files; English/Hindi LLE and math insulation preserved or repaired.
-**Exit gate:** the same existing build path completes a chapter from source PDF through both outputs, with coverage and provenance evidence. No parallel generator is introduced.
+**Deliverables:** root-cause fix for existing build incompletion; source inventory reconciled to the full chapter concept progression, worked examples, activities, and exercises; task profile and Canonical IR traceability; actual use of the best compatible, license-reviewed existing visual/game/simulation resource through the current build path; learning and assessment outputs at source-appropriate depth; English/Hindi LLE and math insulation preserved or repaired. The current build path must select existing registry resources by capability where suitable, and must explain why selected mechanics support objectives and which content still needs native adaptation. Adapt the current compiler/output path to produce the agreed pair of standalone HTML artifacts without creating a parallel generator.
+**Exit gate:** the same existing build path completes a source chapter through both outputs, demonstrates reconciled coverage and evidence-backed reuse/adaptation, and meets the observable depth criteria. No parallel generator is introduced.
 
 ### Phase 6 — Integrations
 
@@ -242,16 +254,19 @@ The repair is eligible for release only when evidence demonstrates that:
 1. The existing chapter-build path completes the reproduced failing job without requiring a replacement or parallel pipeline.
 2. The repaired path continues to support different subjects and chapters through its existing extensibility.
 3. Each requested chapter produces exactly two independently usable, source-traceable HTML artifacts: learning and assessment.
-4. Coverage claims derive from reconciled source inventory and mapped output, not fixed template values.
-5. Matching results accurately distinguish verified certification, reviewed candidates, blocked resources, no match, and unknown evidence.
-6. Both artifacts work offline, make no runtime network requests, satisfy their size limits, and include no unapproved external dependencies.
-7. English/Hindi LLE preserves protected math and reports missing or uncertain vocabulary honestly.
-8. Assessment rules enforce one correct choice, meaningful misconception feedback, progressive hints, and no answer leakage under adversarial checks.
-9. Telemetry cannot directly mutate learning/mastery state; TEAS remains authoritative.
-10. Certification and registry promotion require evidence bound to the artifact hash and authenticated HIL approval.
-11. Positive build memory cannot be created from unverified or unapproved output; failure evidence never becomes a successful fact.
-12. Retrieval selects lessons relevant to the current task and exposes their provenance, version, status, and limits.
-13. Existing user changes are preserved, repair attempts are bounded, and rollback is documented and verified.
+4. The learning artifact covers the source's concepts, explanations, examples, activities, and required progression; omitted or unreadable source items are surfaced, not silently dropped.
+5. Assessment coverage is reconciled against the source inventory, with visible counts and traceability rather than fixed template claims.
+6. The capability matcher is exercised by the actual existing build path. Each selected resource has a concrete mechanic-to-learning-objective rationale, provenance, license status, adaptation boundary, and runtime/accessibility evidence.
+7. The chapter has substantive explanation, visual/action-based learning, and assessment at a depth appropriate to the source. Game mechanics reinforce the learning objective rather than replace teaching content.
+8. Matching results accurately distinguish verified certification, reviewed candidates, blocked resources, no match, and unknown evidence.
+9. Both artifacts work offline, make no runtime network requests, satisfy their size limits, and include no unapproved external dependencies.
+10. English/Hindi LLE preserves protected math and reports missing or uncertain vocabulary honestly.
+11. Assessment rules enforce one correct choice, meaningful misconception feedback, progressive hints, and no answer leakage under adversarial checks.
+12. Telemetry cannot directly mutate learning/mastery state; TEAS remains authoritative.
+13. Certification and registry promotion require evidence bound to the artifact hash and authenticated HIL approval.
+14. Positive build memory cannot be created from unverified or unapproved output; failure evidence never becomes a successful fact.
+15. Retrieval selects lessons relevant to the current task and exposes their provenance, version, status, and limits.
+16. Existing user changes are preserved, repair attempts are bounded, and rollback is documented and verified.
 
 No current benchmark score, deployment status, or end-to-end success is asserted by this design.
 
@@ -264,6 +279,7 @@ No current benchmark score, deployment status, or end-to-end success is asserted
 5. What exact teacher/reviewer actions constitute required approval before a learning/assessment artifact may be distributed?
 6. Are any build evidence or approved lessons allowed to sync between local and hosted modes? Default: no learner data sync; only approved, non-PII build evidence under explicit policy.
 7. How should visual/animation complexity trade off against low-end device performance and the per-file size ceiling?
+8. What source files/commits were used to create the local F23–F26 King's Math implementations, and is the intended deployment non-commercial under the upstream CC BY-NC 4.0 terms with required attribution?
 
 ## 12. Explicitly out of scope for this repair
 
@@ -282,6 +298,6 @@ No current benchmark score, deployment status, or end-to-end success is asserted
 
 - **Scope:** This is a repair-and-hardening plan for the existing ecosystem, organized into gated phases; it is not a greenfield build or replacement.
 - **Consistency:** Separate learner artifacts remain offline; hosted admin functions do not become runtime dependencies. TEAS, Canonical IR, signed HIL, and registry promotion retain their authority.
-- **Evidence:** Existing repository mechanisms and uncommitted chapter-build work are preserved. A specific failing command and root cause remain unknown until reproduced; the fail-closed compatibility orchestrator is not treated as proof that all current build paths are unusable.
+- **Evidence:** Existing repository mechanisms and uncommitted chapter-build work are preserved. Matcher bypass in the inspected V6 compile call path is verified; it supports the user's underuse-of-reuse diagnosis, but does not by itself explain the separate inability to finish a chapter. The latter still requires a reproduced command/error or sufficient logs. The fail-closed compatibility orchestrator is not treated as proof that all current build paths are unusable.
 - **Open decisions:** Provider, identity, hosted deployment, first pilot sources, and review policy remain visible and are not filled with assumptions.
 - **No implementation:** This document is a proposed repair design; no implementation code, installation, database mutation, chapter build, certification, or deployment has been performed.
