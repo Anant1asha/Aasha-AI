@@ -1,21 +1,23 @@
-# Universal Source-Grounded Learning Ecosystem
+# Repair and Harden the Existing AASHA Chapter Builder
 
-**Status:** Draft for product-owner review
+**Status:** Revised draft for product-owner review
 **Date:** 2026-10-04
 **Scope:** AIOS/LLM ecosystem design; no implementation authorized by this document
 
 ## 1. Product goal
 
-Build a universal AASHA workflow that accepts a children’s textbook PDF and produces two independent, self-contained HTML artifacts for each requested chapter:
+Repair and improve the **existing AASHA chapter-building system** so it can reliably complete a source-grounded chapter build. Do not replace the existing system, start a parallel pipeline, or rebuild existing capabilities from scratch. Begin by identifying and reproducing the failing path, then fix the verified root cause with the smallest safe changes to the current implementation.
+
+The existing system should ultimately produce two independent, self-contained HTML artifacts for each requested chapter:
 
 1. A visual learning experience that develops understanding through explanation, animation, simulation, and learner action.
 2. A separate gamified assessment experience that measures learning through source-grounded questions, hints, feedback, and age-appropriate game mechanics.
 
-The workflow applies across subjects and chapters. It selects capabilities according to the task, reuses resources only when their compatibility and provenance are supported by evidence, and uses prior build experience only after verification and human approval. English and Hindi are the initial LLE languages. Local-only and hosted-admin operating modes are in scope. Student artifacts must work offline without accounts or runtime network access.
+The repaired system must continue to support different subjects and chapters through its existing extensible capabilities. It should select capabilities according to the task, reuse resources only when their compatibility and provenance are supported by evidence, and use prior build experience only after verification and human approval. English and Hindi are the initial LLE languages. Local-only and hosted-admin operating modes are in scope. Student artifacts must work offline without accounts or runtime network access. Preserve existing interfaces, useful chapter content, and in-progress work unless evidence shows a specific element is the root cause and the owner approves a bounded change.
 
 ## 2. Confirmed product decisions
 
-- One universal, source-grounded pipeline; subject-specific behavior is supplied through bounded adapters and capability contracts.
+- Repair and extend the existing source-grounded pipeline; do not create a replacement or parallel pipeline.
 - Both teachers and AASHA administrators use the workspace with role-appropriate permissions.
 - The system supports a local-only mode and a separately hosted admin mode.
 - Initial LLE support is English and Hindi. Additional languages are future expansion.
@@ -27,11 +29,13 @@ The workflow applies across subjects and chapters. It selects capabilities accor
 
 ## 3. Evidence baseline and constraints
 
-The repository contains an AIOS V2 governance document, task-capability matrix, evidence ledger client, signed HIL approval schema, experience registry and matcher, memory engine, LLE and simulation skills, assessment guidance, and validation/benchmark scripts. The chapter pipeline orchestrator currently declares itself a non-certifiable demo. The system is therefore not presumed ready to generate certified artifacts.
+The repository contains an AIOS V2 governance document, task-capability matrix, evidence ledger client, signed HIL approval schema, experience registry and matcher, memory engine, LLE and simulation skills, assessment guidance, and validation/benchmark scripts. The compatibility `chapter_pipeline_orchestrator.ts` declares itself a non-certifiable demo; this describes that entry point and does **not** establish that the other existing build paths should be replaced.
+
+The active nested repository is on branch `aios/v2-bootstrap` and has extensive existing, uncommitted changes, including an Exponents & Powers Class 8 build script, a V6 compiler, a chapter compilation script, and generated chapter artifacts. These files are evidence that an existing build is in progress, not proof that it succeeds. Preserve all of this work. No failing command, complete error output, or reproducible failed run has yet been captured, so the root cause and authoritative failing entry point remain unknown.
 
 The relevant guidance is inconsistent in places. AIOS V2 specifies PostgreSQL-first evidence storage, SQLite fallback, a default block on paid Gemini fallback, and offline student HTML. Older pipeline documents describe other model providers and fallback behavior. The implementation phase must first reconcile these policies against the current repository and owner decisions. Historical documentation or capability-matrix declarations alone are not runtime verification.
 
-The current repository also has unrelated local modifications in `.agents/skills/aasha-ecosystem/SKILL.md` and `.serena/project.yml`; implementation must preserve them.
+The parent workspace has local modifications in `.agents/skills/aasha-ecosystem/SKILL.md` and `.serena/project.yml`, while the nested Aasha repository has many user changes. All pre-existing work must be preserved. Do not run a builder that overwrites generated files until its effects and target paths are understood.
 
 ### Non-negotiable system invariants
 
@@ -74,24 +78,21 @@ The approved workflow and evidence operate locally using the governed local pers
 
 The admin workspace and evidence services may use the approved hosted infrastructure. Hosted connectivity is an operational option, not a runtime dependency for learner files. Hosting provider, identity provider, and deployment environment remain undecided.
 
-## 5. Universal pipeline and data flow
+## 5. Existing pipeline repair model and target data flow
 
 ```text
-PDF + task context
-  → source intake, hash, provenance, and extraction inventory
-  → chapter/task classification and source-grounded learning map
-  → capability request and canonical evidence-backed matching
-  → learning design ───────────┐
-  → assessment design ─────────┤
-  → English/Hindi LLE + math protection
-  → compile two standalone HTML artifacts
-  → static, pedagogical, security, accessibility, offline, and browser gates
-  → evidence manifest and review preview
-  → authenticated HIL approval / certification / promotion
-  → approved experience memory, eligible for future task-matched retrieval
+Existing PDF/build command + its current inputs and outputs
+  → inspect the actual existing job/stage flow and capture the failure
+  → trace source, configuration, and state through the failing boundary
+  → make the smallest root-cause fix in the current implementation
+  → resume the current chapter build through its existing stages
+  → produce the required learning and assessment artifacts
+  → validate source coverage, LLE, math, assessment, UI, and offline behavior
+  → record evidence and use existing review/approval controls
+  → add an approved, evidence-linked lesson to existing memory, if eligible
 ```
 
-Each job carries a stable task identifier, source PDF hash, source/page references, relevant Canonical IR references, selected capability IDs and versions, language and math-insulation results, output hashes, test evidence, review decisions, and final status. A changed source or artifact creates a new immutable version rather than silently replacing an approved one.
+The repair must first identify the current job record and preserve its existing lifecycle. Where the current implementation already supports them, retain and verify the task identifier, source PDF hash, source/page references, Canonical IR references, selected capability IDs and versions, language and math-insulation results, output hashes, test evidence, review decisions, and final status. Add or repair evidence fields only when the reproduced failure or a required governance invariant demonstrates the need. A changed source or approved artifact creates a new immutable version rather than silently replacing an approved one.
 
 ### 5.1 Task classification
 
@@ -101,7 +102,7 @@ Classification routes work to capability categories (for example, PDF extraction
 
 ### 5.2 One capability-selection path
 
-The eventual implementation will reconcile the existing task-capability broker and three-tier matcher behind one canonical selection contract. Selection follows evidence and policy rather than a fixed subject-to-tool mapping:
+The first task is to trace which existing matcher the failing build actually calls and compare its behavior with the repository’s other matcher. Do not replace either path by default. A minimal reconciliation is in scope only if reproduced evidence shows inconsistent matching is a cause of the chapter-build failure and the owner approves that change. The repaired selection behavior should follow evidence and policy rather than a fixed subject-to-tool mapping:
 
 1. Match a certified AASHA component whose current artifact hash, certification evidence, license, runtime, accessibility, and HIL approval verify.
 2. Consider a foundation with documented provenance and reviewed compatibility; return it as an adaptation candidate unless its actual artifact and required gates are certified.
@@ -167,7 +168,7 @@ Retrieval filters by task class, capability, subject/grade only when relevant, l
 
 ## 8. Core UI scope
 
-The teacher/admin workspace includes:
+The existing teacher/admin workspace, if used by the failing flow, should be inspected and repaired in place. Do not build a new workspace as part of this repair. The required workflow should let users:
 
 1. Job creation and PDF intake with source metadata and task profile.
 2. Extraction and source-coverage review with unresolved items visible.
@@ -182,74 +183,75 @@ Learner-facing UI belongs in the generated HTML and follows the same offline, ac
 
 ## 9. Phased build plan and deliverables
 
-Implementation begins only after this design is reviewed and the implementation plan is separately approved. Each phase has its own review gate; failure at a gate blocks downstream promotion.
+Implementation begins only after this revised design is reviewed, the failing path and root cause are evidenced, and the implementation plan is separately approved. Each phase has its own review gate; failure at a gate blocks downstream promotion. The phases below repair the existing system in place and preserve existing work. They do not authorize a replacement pipeline.
 
-### Phase 0 — Governance and repository reconciliation
+### Phase 0 — Preserve the existing build and reproduce its failure
 
-**Deliverables:** authoritative document/source map; resolution of conflicting model, translation, database, and pipeline guidance; preserved-work baseline; scoped threat/privacy assumptions; signed decision record for unresolved policy.
-**Exit gate:** owner approves canonical policies and the pipeline entry point.
+**Deliverables:** clean inventory of current build entry points and in-progress changes; exact failing command, inputs, full error/logs, and output paths; traced stage-by-stage data flow; current Git baseline and preservation plan; documented policy conflicts. Do not clean, reset, overwrite, or run a builder against the active working tree. If logs are insufficient, reproduce only in a verified isolated copy/output location after confirming its inputs and write paths.
+**Exit gate:** the failure is reproduced safely or sufficient logs establish the failing boundary; the existing path and affected files are identified. If not reproducible safely, request the smallest missing evidence rather than guessing.
 
-### Phase 1 — Setup and foundation
+### Phase 1 — Existing environment and configuration
 
-**Deliverables:** reproducible development/build environment; configuration profiles for local and hosted-admin modes; job workspace and immutable artifact naming; PDF intake contract; CI/check command inventory; secrets policy.
-**Exit gate:** clean setup is reproducible without changing the learner offline contract.
+**Deliverables:** verified command/runtime versions and current dependencies; actual configuration and provider routing used by the failing build; local and hosted-admin mode behavior; existing job workspace and PDF inputs/outputs; setup gaps tied to observed failures. Reuse current dependencies and configuration; no reinstall or new scaffold by default.
+**Exit gate:** the existing environment can reach the reproduced failing stage without changing unrelated workspace state.
 
 ### Phase 2 — Authentication and approval authority
 
-**Deliverables:** role/permission matrix; teacher/admin workflows; trusted key configuration; scoped, expiring HIL approval verification; audit events and denial paths.
-**Exit gate:** automated actors cannot approve their own outputs or exceed assigned authority.
+**Deliverables:** trace of current authentication and approval paths; verified role permissions and trusted-key configuration; only the minimal repair required for a demonstrated authorization defect. Reuse the existing signed HIL mechanisms.
+**Exit gate:** automated actors cannot approve their own outputs or exceed assigned authority, and existing authorized review still works.
 
 ### Phase 3 — Database and evidence ledger
 
-**Deliverables:** schema/migrations for task/source/artifact/test/approval/memory references; PostgreSQL hosted and local persistence design; SQLite fallback behavior; integrity and backup/restore procedures; explicit telemetry/learning-state separation.
-**Exit gate:** evidence remains traceable and recoverable; no learner PII is included in reusable build memory.
+**Deliverables:** inventory and health evidence for the current database, registry, memory, and evidence ledger; trace of which store the failing build uses; data-integrity diagnosis; minimal, backward-compatible persistence repair if required. Do not introduce a new database or schema absent evidence and approval.
+**Exit gate:** the current build’s state is traceable and recoverable; no learner PII is added to reusable build memory.
 
 ### Phase 4 — Core teacher/admin UI
 
-**Deliverables:** accessible workspace flows for upload, job setup, source coverage, matching, LLE status, previews, validation, approval, versioning, and downloads; responsive and keyboard-accessible design.
-**Exit gate:** role restrictions and review states are understandable and testable.
+**Deliverables:** existing UI failure trace and the smallest in-place fix; clear visibility of current job stage, source coverage, errors, LLE status, previews, and approval state where the existing UI already owns those functions. New screens are excluded unless a diagnosed user-blocking failure cannot be fixed within the existing interface.
+**Exit gate:** users can complete and review the repaired existing flow with role restrictions and accessible controls.
 
 ### Phase 5 — Main pipeline features
 
-**Deliverables:** source-grounded chapter extraction and exercise inventory; task classifier/profile; Canonical IR traceability; unified capability selection; learning composer; gamified assessment composer; English/Hindi LLE and math insulation; paired standalone HTML manifest.
-**Exit gate:** content coverage, source provenance, state separation, and output boundaries are demonstrated for representative cross-subject tasks.
+**Deliverables:** root-cause fix for the existing chapter completion failure; retained/improved source-grounded extraction and exercise inventory; current task profile and Canonical IR traceability; repair to the existing matcher call path only if implicated; current learning and assessment generation producing the agreed two files; English/Hindi LLE and math insulation preserved or repaired.
+**Exit gate:** the same existing build path completes a chapter from source PDF through both outputs, with coverage and provenance evidence. No parallel generator is introduced.
 
 ### Phase 6 — Integrations
 
-**Deliverables:** governed model/harness adapters; evidence-backed experience registry adapters; approved simulation contracts; local language resources; optional hosted evidence/operations integration; license/provenance records.
-**Exit gate:** each integration declares limits and has a verified fallback or a fail-closed outcome. No remote student-runtime dependency is introduced.
+**Deliverables:** verified integration path actually used by the current builder; compatibility repairs to existing model, registry, simulation, LLE, or storage adapters only where root-cause evidence points. Preserve approved resource contracts and licensing boundaries.
+**Exit gate:** current integrations complete the chapter build or fail with a precise, recoverable diagnostic. No new integration is added without a demonstrated need.
 
 ### Phase 7 — Testing and certification
 
-**Deliverables:** source coverage and schema tests; mathematical and LLE checks; adversarial no-spoiler fixtures; accessibility/touch/keyboard tests; offline network audit; file-size check; browser tests across target mobile viewports; signed certification evidence bundle.
-**Exit gate:** all mandatory checks pass for the exact artifact hashes; failures block certification and stop after at most two repair attempts per defect class.
+**Deliverables:** baseline reproduction evidence; targeted regression test for the diagnosed failure; relevant existing test/benchmark results; source coverage, mathematical/LLE, no-spoiler, accessibility, offline, file-size, and browser evidence for the exact outputs. Do not claim unrun checks.
+**Exit gate:** the original failure is fixed, the chapter build completes, and mandatory gates pass for the output hashes; at most two repairs per defect class.
 
 ### Phase 8 — Deployment and delivery
 
-**Deliverables:** local deployment package; hosted-admin deployment/runbook if selected; access controls; backups and recovery; versioned artifact delivery; rollback instructions; monitoring that excludes learner runtime dependence.
-**Exit gate:** explicit release approval and successful deployment verification. Deployment target remains a product-owner decision.
+**Deliverables:** repair release notes, existing local/hosted deployment instructions, backup and rollback steps, and versioned artifact delivery. No deployment changes unless needed for the verified fix and separately approved.
+**Exit gate:** the repaired build is reproducible in the selected existing environment; release/deployment requires explicit approval.
 
 ### Phase 9 — Final polish and governed learning loop
 
-**Deliverables:** teacher/admin/learner documentation; English/Hindi quality review; accessibility and usability polish; approved-build lesson curation; relevant retrieval rules; stale-memory handling; versioned release notes and operational checklist.
-**Exit gate:** only verified, approved lessons can influence future task plans, and each influence is traceable to its evidence.
+**Deliverables:** focused polish to existing chapter workflow and output; English/Hindi review; accessibility fixes; memory curation only for approved build evidence; relevant retrieval and stale-memory handling; operator runbook. Avoid broad unrelated refactoring.
+**Exit gate:** the existing system completes the intended chapter-build flow reliably, and only verified, approved lessons influence future task plans.
 
 ## 10. Acceptance criteria
 
-The system is eligible for release only when evidence demonstrates that:
+The repair is eligible for release only when evidence demonstrates that:
 
-1. A task can be configured for different subjects and chapters without a subject-specific hard-coded pipeline.
-2. Each requested chapter produces exactly two independently usable, source-traceable HTML artifacts: learning and assessment.
-3. Coverage claims derive from reconciled source inventory and mapped output, not fixed template values.
-4. Matching results accurately distinguish verified certification, reviewed candidates, blocked resources, no match, and unknown evidence.
-5. Both artifacts work offline, make no runtime network requests, satisfy their size limits, and include no unapproved external dependencies.
-6. English/Hindi LLE preserves protected math and reports missing or uncertain vocabulary honestly.
-7. Assessment rules enforce one correct choice, meaningful misconception feedback, progressive hints, and no answer leakage under adversarial checks.
-8. Telemetry cannot directly mutate learning/mastery state; TEAS remains authoritative.
-9. Certification and registry promotion require evidence bound to the artifact hash and authenticated HIL approval.
-10. Positive build memory cannot be created from unverified or unapproved output; failure evidence never becomes a successful fact.
-11. Retrieval selects lessons relevant to the current task and exposes their provenance, version, status, and limits.
-12. Existing user changes are preserved, repair attempts are bounded, and rollback is documented and verified.
+1. The existing chapter-build path completes the reproduced failing job without requiring a replacement or parallel pipeline.
+2. The repaired path continues to support different subjects and chapters through its existing extensibility.
+3. Each requested chapter produces exactly two independently usable, source-traceable HTML artifacts: learning and assessment.
+4. Coverage claims derive from reconciled source inventory and mapped output, not fixed template values.
+5. Matching results accurately distinguish verified certification, reviewed candidates, blocked resources, no match, and unknown evidence.
+6. Both artifacts work offline, make no runtime network requests, satisfy their size limits, and include no unapproved external dependencies.
+7. English/Hindi LLE preserves protected math and reports missing or uncertain vocabulary honestly.
+8. Assessment rules enforce one correct choice, meaningful misconception feedback, progressive hints, and no answer leakage under adversarial checks.
+9. Telemetry cannot directly mutate learning/mastery state; TEAS remains authoritative.
+10. Certification and registry promotion require evidence bound to the artifact hash and authenticated HIL approval.
+11. Positive build memory cannot be created from unverified or unapproved output; failure evidence never becomes a successful fact.
+12. Retrieval selects lessons relevant to the current task and exposes their provenance, version, status, and limits.
+13. Existing user changes are preserved, repair attempts are bounded, and rollback is documented and verified.
 
 No current benchmark score, deployment status, or end-to-end success is asserted by this design.
 
@@ -263,8 +265,11 @@ No current benchmark score, deployment status, or end-to-end success is asserted
 6. Are any build evidence or approved lessons allowed to sync between local and hosted modes? Default: no learner data sync; only approved, non-PII build evidence under explicit policy.
 7. How should visual/animation complexity trade off against low-end device performance and the per-file size ceiling?
 
-## 12. Explicitly out of scope for the first release
+## 12. Explicitly out of scope for this repair
 
+- Replacing the existing chapter pipeline or creating a parallel generator.
+- Rebuilding existing UI, authentication, persistence, matcher, simulation, or LLE capabilities without a proven root cause and approved scope.
+- Broad refactors unrelated to completing the existing chapter build.
 - Automatic curriculum or Canonical IR mutation by an LLM.
 - Automatic mastery updates from interaction telemetry.
 - Student accounts or cloud identity requirements for offline HTML.
@@ -275,8 +280,8 @@ No current benchmark score, deployment status, or end-to-end success is asserted
 
 ## 13. Design self-review
 
-- **Scope:** This is one ecosystem design with nine sequenced implementation phases, not a single feature patch.
+- **Scope:** This is a repair-and-hardening plan for the existing ecosystem, organized into gated phases; it is not a greenfield build or replacement.
 - **Consistency:** Separate learner artifacts remain offline; hosted admin functions do not become runtime dependencies. TEAS, Canonical IR, signed HIL, and registry promotion retain their authority.
-- **Evidence:** Existing repository mechanisms are treated as starting points, not as proof of end-to-end operation. Conflicting guidance and disabled demo pipelines are explicitly called out.
+- **Evidence:** Existing repository mechanisms and uncommitted chapter-build work are preserved. A specific failing command and root cause remain unknown until reproduced; the fail-closed compatibility orchestrator is not treated as proof that all current build paths are unusable.
 - **Open decisions:** Provider, identity, hosted deployment, first pilot sources, and review policy remain visible and are not filled with assumptions.
-- **No implementation:** This document is a proposed design; code, installation, database mutation, build, certification, and deployment remain unperformed.
+- **No implementation:** This document is a proposed repair design; no implementation code, installation, database mutation, chapter build, certification, or deployment has been performed.
