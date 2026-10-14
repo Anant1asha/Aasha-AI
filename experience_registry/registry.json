@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-25",
+  "last_updated": "2026-09-27",
   "foundations": [
     {
       "id": "F01",
@@ -3251,6 +3251,93 @@
         ],
         "verified_at": "2026-09-25T23:57:17.584Z"
       }
+    },
+    {
+      "component_id": "comp_exp_mathematics_c8_math_c8_cubes_roots_01",
+      "version": "1.1.0",
+      "status": "CERTIFIED",
+      "title": "AASHA Certified Experience: exp:mathematics:c8:math_c8_cubes_roots_01",
+      "capability_contract": {
+        "capability_id": "cap:comp_exp_mathematics_c8_math_c8_cubes_roots_01",
+        "mechanics": [
+          "procedural_canvas_loop"
+        ],
+        "inputs": [
+          "user_interaction",
+          "touch_tap",
+          "slider_change"
+        ],
+        "outputs": [
+          "state_change",
+          "telemetry"
+        ],
+        "state": [
+          "active_state",
+          "parameters"
+        ],
+        "interaction_model": "direct_manipulative",
+        "telemetry_events": [
+          "STATE_CHANGED",
+          "RESET_TRIGGERED"
+        ]
+      },
+      "mechanic_tags": [
+        "procedural_canvas_loop"
+      ],
+      "applicability": {
+        "subjects": [
+          "mathematics"
+        ],
+        "classes": [
+          8
+        ],
+        "boards": [
+          "CBSE",
+          "NCERT"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "IEC_NATIVE_SYNTHESIS",
+        "origin_file": "packages/iec/runtime/child_bundles/exp:mathematics:c8:math_c8_cubes_roots_01.html",
+        "source_hash": "993f011a62733aef55af8aa4747e72e815c3a914d36964804aeb9c30e706b420",
+        "compiler_version": "v2.1.0-iec"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "html_structure_validation",
+          "single_document_validation",
+          "script_syntax_validation",
+          "widget_config_validation",
+          "interaction_selector_validation",
+          "state_machine_validation",
+          "reset_validation",
+          "performance_validation",
+          "mobile_layout_validation",
+          "touch_target_validation",
+          "accessibility_validation",
+          "offline_dependency_validation",
+          "asset_manifest_validation",
+          "bundle_size_validation",
+          "aasha_experience_contract_validation",
+          "canonical_ir_traceability_validation",
+          "lle_alignment_validation",
+          "evidence_contract_validation",
+          "license_and_provenance_validation"
+        ],
+        "verified_at": "2026-09-27T21:29:49.397Z",
+        "offline_cdp_verified": true
+      },
+      "artifact_hash": "993f011a62733aef55af8aa4747e72e815c3a914d36964804aeb9c30e706b420"
     }
   ]
 }

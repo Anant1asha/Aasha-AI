@@ -135,6 +135,10 @@ export interface RunAgentOptions {
   conceptId?: string;
   llmCompleter?: (req: any) => Promise<{ content: string; [key: string]: any }>;
   maxRepairAttempts?: number;
+  useIEC?: boolean; // Default: true when IECAIOSBridge is available
+  pipelineInput?: PipelineInput;
+  required_manipulative?: string;
+  iecOptions?: any;
 }
 
 export function getContextBus(): ContextBus {
@@ -245,6 +249,37 @@ export async function runAgent(
       console.warn(`[Agent: ${role}] Memory banking warning:`, memErr);
     }
 
+    // 4. Governed IEC Integration Hook for DesignAgent (Phase 6)
+    const useIEC = options.useIEC !== false;
+    if (role === 'DesignAgent' && useIEC) {
+      try {
+        const { IECAIOSBridge } = await import('./packages/iec/runtime/iec_aios_bridge');
+        if (IECAIOSBridge.isAvailable()) {
+          const pipelineInput = options.pipelineInput || {
+            subject: 'Mathematics',
+            grade: 8,
+            topic: conceptId || 'General',
+          };
+          const conceptNode = {
+            id: conceptId || 'concept_math_c8',
+            required_manipulative: options.required_manipulative || 'procedural_canvas_loop',
+          };
+          const iecCompilation = await IECAIOSBridge.compileForConcept(
+            conceptNode,
+            pipelineInput,
+            options.iecOptions
+          );
+          (response as any).iec_experience = iecCompilation;
+        }
+      } catch (iecErr: any) {
+        if (iecErr instanceof QuarantineError || iecErr.name === 'QuarantineError') {
+          // Preserve existing AIOS quarantine and downstream blocking
+          throw iecErr;
+        }
+        console.warn(`[Agent: DesignAgent] IEC Bridge notice:`, iecErr.message);
+      }
+    }
+
     console.log(`[Agent: ${role}] Task completed successfully (repairAttempts: ${repairAttempts}).`);
     return response;
   } catch (error) {
@@ -347,7 +382,7 @@ export async function orchestrateChapterPipeline(
         runAgent(
           'DesignAgent',
           `Sequence pedagogical flow for: ${JSON.stringify(frozenContentMap)}`,
-          { ...options, conceptId }
+          { ...options, conceptId, pipelineInput: input }
         ),
         runAgent(
           'AssessmentAgent',
@@ -379,7 +414,7 @@ export async function orchestrateChapterPipeline(
   } else {
     // Stage 3 (Sequential Fallback)
     try {
-      designResult = await runAgent('DesignAgent', `Sequence pedagogical flow for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId });
+      designResult = await runAgent('DesignAgent', `Sequence pedagogical flow for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId, pipelineInput: input });
       assessmentResult = await runAgent('AssessmentAgent', `Create assessments with zero spoilers for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId });
       lleResult = await runAgent('LLEAgent', `Translate and insulate math terms for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId });
     } catch (err: any) {

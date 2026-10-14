@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
 import { ContextBus } from '../memory-engine/context_bus.ts';
-import { SignedApproval, verifyApproval, verifyTrustedSignature } from '../aios/trust_authority.ts';
+import { type SignedApproval, verifyApproval, verifyTrustedSignature } from '../aios/trust_authority.ts';
 
 export type GateStatus = 'PASS' | 'FAIL' | 'NOT_APPLICABLE' | 'UNKNOWN';
 
@@ -77,7 +77,7 @@ export class RegistryIngestionEngine {
   private evidenceDir: string;
 
   constructor(baseDir?: string) {
-    this.baseDir = baseDir || path.resolve(__dirname, '../..');
+    this.baseDir = baseDir || (typeof __dirname !== 'undefined' ? path.resolve(__dirname, '../..') : process.cwd());
     this.registryPath = path.resolve(this.baseDir, 'experience_registry/registry.json');
     this.candidatesDir = path.resolve(this.baseDir, 'experience_registry/candidates');
     this.componentsDir = path.resolve(this.baseDir, 'experience_registry/components');

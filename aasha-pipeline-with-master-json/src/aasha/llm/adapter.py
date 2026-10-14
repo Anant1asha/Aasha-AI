@@ -69,11 +69,11 @@ class LLMAdapter:
             "openai": "gpt-4o-mini",
             "gemini": "gemini-1.5-flash",
             "anthropic": "claude-3-haiku-20240307",
-            "openrouter": "openai/gpt-4o-mini",
+            "openrouter": "meta-llama/llama-3.1-8b-instruct:free",
             "huggingface": "meta-llama/Llama-3-8b-chat-hf",
             "freebuff": "default-freebuff-model",
         }
-        return defaults.get(provider, "gpt-4o-mini")
+        return defaults.get(provider, "meta-llama/llama-3.1-8b-instruct:free")
 
     @property
     def cost_estimate(self) -> float:
@@ -226,7 +226,20 @@ class LLMAdapter:
                 raise LLMGenerationError("openai package not installed.")
             api_key = os.environ.get("OPENROUTER_API_KEY")
             if not api_key:
-                raise LLMGenerationError("OPENROUTER_API_KEY not set in environment")
+                vault_path = Path.home() / ".aasha" / "config.json"
+                if vault_path.exists():
+                    try:
+                        with open(vault_path, "r", encoding="utf-8") as f:
+                            vdata = json.load(f)
+                            api_key = vdata.get("openrouter_key")
+                    except Exception:
+                        pass
+            if not api_key:
+                raise LLMGenerationError(
+                    "OPENROUTER_API_KEY not set in environment or local vault (~/.aasha/config.json).\n"
+                    "Configure it via: aasha config openrouter_key <key>\n"
+                    "or set OPENROUTER_API_KEY in Aasha-AI/.env."
+                )
             self._client = OpenAI(
                 base_url="https://openrouter.ai/api/v1",
                 api_key=api_key

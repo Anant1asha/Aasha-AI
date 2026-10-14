@@ -38,3 +38,9 @@ dist/
 build/
 *.tmp
 temp/
+
+# IEC Compiler & Browser Test Artifacts
+.chrome_temp_*/
+*.bak
+chapters/test_*.html
+

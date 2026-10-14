@@ -18,32 +18,33 @@ Aasha-AI is a comprehensive, modular monorepo implementing the **Annanth Aasha F
 
 ```
 Aasha-AI/
-├── Aasha-AIOS/                              # Core OS Layer (4-layer architecture)
-│   ├── layer-1-core/                        # Runtime, crypto, persistence
-│   ├── layer-2-education/                   # Learning engines, curriculum
-│   ├── layer-3-product/                     # Student app, teacher dashboard
-│   └── layer-4-extensions/                  # Integrations, custom modules
+├── packages/                                # Canonical V6 & AIOS Execution Architecture
+│   ├── v6-engine/                           # High-production V6 single-file HTML compiler
+│   ├── canonical-ir/                        # Canonical IR schema & assembler
+│   ├── aios/                                # Trust authority, version manager, evidence client
+│   └── adapters/                            # Prebuilt foundation & domain sim adapters
 │
-├── Aasha-Learning-Impact-Ecosystem-v0.3/    # Monorepo Phase 0-10 roadmap
-│   ├── docs/architecture/                   # Authority chain, phase gates
-│   ├── packages/                            # Modular learning engines
-│   ├── server/                              # Backend + sync logic
-│   └── tests/                               # Phase validation tests
+├── Aasha-AIOS/                              # Core AIOS Layer
+│   ├── layer-1-core/                        # Runtime bus, LLM adapter
+│   ├── layer-2-education/                   # LLE Indic dictionaries, misconceptions, visual contracts
+│   ├── layer-3-product/                     # Product pipeline bridge & single-file templates
+│   └── skills/                              # Specialized agent skills
 │
-├── aasha-pipeline-with-master-json/         # Multi-Agent Chapter Generator
-│   ├── aasha/                               # 4-agent orchestrator (Python)
-│   ├── agents/                              # Analyze, Design, Assess, Synthesize
-│   └── templates/                           # HTML5/Tailwind output
+├── Aasha-Learning-Impact-Ecosystem-v0.3-full-repo/ # Micro-packages & Services
+│   ├── packages/                            # 15 modular learning engines (assessment, teas, tln)
+│   ├── services/                            # Workers (assessment, content, reporting, sync, api)
+│   └── apps/learner-web/                    # Student PWA runtime
 │
-├── aasha-student-pwa/                       # Progressive Web App (Student)
-│   ├── src/                                 # React/Vue app UI
-│   └── public/                              # Offline-ready assets
+├── aasha-pipeline-with-master-json/         # Deterministic PDF Harvester
+│   ├── src/aasha/                           # Python PyMuPDF extractor & CLI
+│   └── schema/                              # Chapter JSON validation schemas
 │
-├── agent_orchestrator.ts                    # Agent coordination layer
-├── freebuff_batch_orchestrator.js           # Batch processing system
-├── ncert_books.json                         # ~561KB NCERT metadata
-├── PROJECT_AI_RULES.md                      # AI safety + guardrails
-└── ECOSYSTEM_MAP.md                         # Dependency graph
+├── content/contracts/                       # Section 24 YAML Reusable Content Contracts
+├── experience_registry/                     # F01-F20 Prebuilt foundation catalog & bilingual DB
+├── benchmarks/                              # L-Truth 100/100 anti-spoiler QA benchmarks
+├── admin_memory_cli.ts                      # Super Admin unified operational CLI
+├── agent_orchestrator.ts                    # Multi-agent coordination layer
+└── ECOSYSTEM_MAP.md                         # Architecture dependency graph
 ```
 
 ---
@@ -98,18 +99,33 @@ Aasha-AI/
    npm run validate
    ```
 
-3. **Start the Student App**
+3. **Start the Student App or Local API**
    ```bash
    npm run dev:learner
-   # Open http://localhost:4173
+   # Or run local event ingestion API:
+   npm run dev:api
    ```
 
-4. **Generate a Chapter (Pipeline)**
+4. **Super Admin CLI & Chapter Compilation (V6 Engine)**
+   ```bash
+   # Prime local memory & check status
+   npm run admin:status
+
+   # Initialize Section 24 contract with prebuilt foundation matching
+   npm run chapter:init -- "Mathematics" 8 "Exponents and Powers"
+
+   # Compile canonical V6 single-file HTML bundle
+   npm run build:chapter
+
+   # Run 100/100 L-Truth Anti-Spoiler verification
+   npm run test:ltruth
+   ```
+
+5. **Textbook PDF Harvester (Deterministic PyMuPDF Pipeline)**
    ```bash
    cd aasha-pipeline-with-master-json
    pip install -e ".[dev]"
    python -m aasha.cli --pdf path/to/chapter.pdf --subject math --grade 4 --mode v2
-   # Or: python -m aasha.cli --web
    ```
 
 ---

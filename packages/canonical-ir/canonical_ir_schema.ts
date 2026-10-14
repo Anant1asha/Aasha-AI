@@ -25,8 +25,11 @@ export interface LearningObjective {
 export interface ConceptNode {
   id: string; // e.g. "cpt:math:like_terms"
   name: string;
+  name_hindi?: string;
   definition_raw: string;
   definition_math_insulated: string;
+  definition_hindi?: string;
+  definition_hindi_math_insulated?: string;
   prerequisite_ids: string[];
   child_concept_ids: string[];
 }
@@ -36,6 +39,7 @@ export interface MisconceptionEntity {
   concept_id: string;
   name: string;
   description: string;
+  description_hindi?: string;
   observable_signals: string[];
   confidence_weight: number; // 0.0 to 1.0
   remediation_strategy: string;
@@ -46,6 +50,8 @@ export interface ContentBlock {
   type: 'concept_def' | 'worked_example' | 'guided_step' | 'summary' | 'key_takeaway';
   concept_id: string;
   text_english: string;
+  text_hindi?: string;
+  text_hindi_math_insulated?: string;
   text_math_insulated: string;
   hindi_translation?: {
     phonetics: string; // Devanagari transliteration
@@ -81,10 +87,14 @@ export interface ExperienceGraph {
 export interface AssessmentOption {
   id: string;
   text: string;
+  text_hindi?: string;
+  text_hindi_math_insulated?: string;
   text_math_insulated: string;
   is_correct: boolean;
   misconception_id?: string;
   distractor_explanation: string; // Zero-spoiler diagnostic explanation
+  distractor_explanation_hindi?: string;
+  distractor_explanation_hindi_math_insulated?: string;
 }
 
 export interface AssessmentItem {
@@ -93,9 +103,23 @@ export interface AssessmentItem {
   concept_id: string;
   question_type: 'mcq' | 'matching' | 'numerical' | 'manipulative_target';
   prompt: string;
+  prompt_hindi?: string;
+  prompt_hindi_math_insulated?: string;
   prompt_math_insulated: string;
   options: AssessmentOption[];
   hints: {
+    H1_hook: string;
+    H2_concept: string;
+    H3_formula: string;
+    H4_step: string;
+  };
+  hints_hindi?: {
+    H1_hook: string;
+    H2_concept: string;
+    H3_formula: string;
+    H4_step: string;
+  };
+  hints_hindi_math_insulated?: {
     H1_hook: string;
     H2_concept: string;
     H3_formula: string;
@@ -106,9 +130,58 @@ export interface AssessmentItem {
 export interface CapabilityRequirement {
   id: string; // e.g. "cap:sim:balance_scale:v1"
   purpose: string;
-  interaction_type: 'slider' | 'drag_drop' | 'balance_beam' | 'graph_plot' | 'circuit_switch';
+  /** Exact registry mechanic tag; extensible as reusable resources are added. */
+  interaction_type: string;
   license_constraint: 'MIT_NATIVE' | 'APACHE_2.0' | 'GPL_3.0_ISOLATED' | 'GEOGEBRA_REFERENCE_ONLY';
   sandbox_required: boolean;
+}
+
+export type SourceInventoryKind = 'chapter_concept' | 'worked_example' | 'activity' | 'textbook_exercise' | 'other';
+export type SourceInventoryGranularity = 'concept' | 'worked_example' | 'activity' | 'activity_step' | 'question' | 'question_part' | 'other';
+
+export interface SourceDocument {
+  id: string;
+  file_name: string;
+  sha256: string;
+  page_count: number;
+}
+
+export interface SourceInventoryItem {
+  id: string;
+  kind: SourceInventoryKind;
+  pages: number[];
+  label: string;
+  document_id?: string;
+  /** Smallest independently traceable source unit; required before a FULL claim. */
+  granularity?: SourceInventoryGranularity;
+}
+
+export interface SourceCoverageEntry {
+  source_item_id: string;
+  learning_target_ids: string[];
+  assessment_item_ids: string[];
+  coverage: 'FULL' | 'PARTIAL' | 'OMITTED';
+  note?: string;
+}
+
+export interface SourceCoverageReport {
+  status: 'FULL' | 'INCOMPLETE' | 'UNKNOWN' | 'INVALID';
+  source_hash_status: 'UNVERIFIED' | 'VERIFIED' | 'MISMATCH' | 'MISSING';
+  total_items: number;
+  fully_covered: number;
+  partial: number;
+  omitted: number;
+  unmapped: number;
+  invalid_references: string[];
+}
+
+export interface LLECoverageReport {
+  status: 'COMPLETE' | 'INCOMPLETE' | 'UNKNOWN';
+  hindi_required: boolean;
+  translatable_fields: number;
+  translated_fields: number;
+  coverage_percent: number;
+  missing_fields: string[];
 }
 
 export interface VisualGrammar {
@@ -207,6 +280,8 @@ export interface CanonicalIR {
     subject: string;
     board: string;
     source_pdf_hash: string;
+    /** Ordered source manifest; source_pdf_hash remains for legacy single-PDF IRs. */
+    source_documents?: SourceDocument[];
   };
   learning_objectives: LearningObjective[];
   concept_graph: ConceptNode[];
@@ -216,6 +291,10 @@ export interface CanonicalIR {
   visual_grammar: VisualGrammar;
   assessment_items: AssessmentItem[];
   capability_requirements: CapabilityRequirement[];
+  /** Extracted source inventory and explicit mappings are required before coverage may be claimed. */
+  source_inventory_scope?: 'FULL_CHAPTER' | 'PARTIAL' | 'UNKNOWN';
+  source_inventory?: SourceInventoryItem[];
+  source_coverage?: SourceCoverageEntry[];
   adaptive_policy: AdaptivePolicyEnvelope;
 
   // v1.1.0 — 4 new mandatory fields (Spec §7)
@@ -241,6 +320,30 @@ export function validateCanonicalIR(ir: CanonicalIR): { valid: boolean; errors: 
   if (!ir.chapter_metadata || !ir.chapter_metadata.chapter_id) {
     errors.push('Missing chapter_metadata.chapter_id');
   }
+
+  const sourcePdfHash = ir.chapter_metadata?.source_pdf_hash;
+  if (!/^sha256:[a-f0-9]{64}$/i.test(sourcePdfHash || '')) {
+    errors.push('chapter_metadata.source_pdf_hash must be the SHA-256 digest of the supplied source PDF (sha256:<64 hexadecimal characters>); descriptive placeholders are not valid provenance');
+  }
+  const documents = ir.chapter_metadata?.source_documents;
+  if (documents !== undefined) {
+    if (!Array.isArray(documents) || documents.length === 0) errors.push('chapter_metadata.source_documents must be a non-empty array when provided');
+    const documentIds = new Set<string>();
+    for (const document of documents || []) {
+      if (!document.id?.trim() || documentIds.has(document.id)) errors.push(`chapter_metadata.source_documents contains a missing or duplicate document ID: '${document.id}'`);
+      documentIds.add(document.id);
+      if (!document.file_name?.trim()) errors.push(`Source document '${document.id}' is missing file_name`);
+      if (!/^([a-f0-9]{64})$/i.test(document.sha256 || '')) errors.push(`Source document '${document.id}' sha256 must be 64 hexadecimal characters`);
+      if (!Number.isInteger(document.page_count) || document.page_count < 1) errors.push(`Source document '${document.id}' page_count must be a positive integer`);
+    }
+    if (documents.length > 0 && /^sha256:[a-f0-9]{64}$/i.test(sourcePdfHash || '') &&
+        documents[0].sha256.toLowerCase() !== sourcePdfHash.slice('sha256:'.length).toLowerCase()) {
+      errors.push('chapter_metadata.source_pdf_hash must match the first source_documents entry for backward-compatible provenance');
+    }
+  }
+
+  const sourceCoverage = evaluateSourceCoverage(ir);
+  errors.push(...sourceCoverage.invalid_references);
 
   // 1. Schema version check
   if ((ir as any).schema_version !== '1.1.0') {
@@ -329,3 +432,120 @@ export function validateCanonicalIR(ir: CanonicalIR): { valid: boolean; errors: 
   };
 }
 
+/** Deterministic source-to-output coverage status; absence is UNKNOWN, never complete. */
+export function evaluateSourceCoverage(ir: Pick<CanonicalIR, 'source_inventory' | 'source_coverage' | 'source_inventory_scope' | 'content_blocks' | 'concept_graph' | 'assessment_items'> & { chapter_metadata?: Pick<CanonicalIR['chapter_metadata'], 'source_documents'> }): SourceCoverageReport {
+  const inventory = ir.source_inventory;
+  if (!Array.isArray(inventory) || inventory.length === 0) {
+    return { status: 'UNKNOWN', source_hash_status: 'UNVERIFIED', total_items: 0, fully_covered: 0, partial: 0, omitted: 0, unmapped: 0, invalid_references: [] };
+  }
+
+  const invalid: string[] = [];
+  if (ir.source_inventory_scope !== undefined && !['FULL_CHAPTER', 'PARTIAL', 'UNKNOWN'].includes(ir.source_inventory_scope)) {
+    invalid.push(`Unsupported source_inventory_scope '${ir.source_inventory_scope}'`);
+  }
+  const documents = ir.chapter_metadata?.source_documents || [];
+  const documentsById = new Map(documents.map((document) => [document.id, document]));
+  if (documents.length > 0 && new Set(documents.map((document) => document.id)).size !== documents.length) invalid.push('Source document manifest contains duplicate document IDs');
+  const seen = new Set<string>();
+  for (const item of inventory) {
+    if (!item.id || seen.has(item.id)) invalid.push(`Source inventory contains a missing or duplicate item ID: '${item.id}'`);
+    seen.add(item.id);
+    if (!['chapter_concept', 'worked_example', 'activity', 'textbook_exercise', 'other'].includes(item.kind)) {
+      invalid.push(`Source inventory item '${item.id}' has an unsupported kind '${item.kind}'`);
+    }
+    if (!Array.isArray(item.pages) || item.pages.length === 0 || item.pages.some((page) => !Number.isInteger(page) || page < 1)) {
+      invalid.push(`Source inventory item '${item.id}' must cite one or more positive integer PDF pages`);
+    }
+    if (documents.length > 1 && !item.document_id) invalid.push(`Source inventory item '${item.id}' must identify document_id when multiple source PDFs are declared`);
+    if (item.document_id && !documentsById.has(item.document_id)) invalid.push(`Source inventory item '${item.id}' references unknown source document '${item.document_id}'`);
+    const sourceDocument = item.document_id ? documentsById.get(item.document_id) : documents.length === 1 ? documents[0] : undefined;
+    if (sourceDocument && Array.isArray(item.pages) && item.pages.some((page) => page > sourceDocument.page_count)) {
+      invalid.push(`Source inventory item '${item.id}' cites a page beyond source document '${sourceDocument.id}' page_count ${sourceDocument.page_count}`);
+    }
+    if (!item.label?.trim()) invalid.push(`Source inventory item '${item.id}' is missing a readable label`);
+    if (item.granularity && !['concept', 'worked_example', 'activity', 'activity_step', 'question', 'question_part', 'other'].includes(item.granularity)) {
+      invalid.push(`Source inventory item '${item.id}' has unsupported granularity '${item.granularity}'`);
+    }
+  }
+
+  const contentIds = new Set((ir.content_blocks || []).map((block) => block.id));
+  const conceptIds = new Set((ir.concept_graph || []).map((concept) => concept.id));
+  const assessmentIds = new Set((ir.assessment_items || []).map((item) => item.id));
+  const entries = ir.source_coverage || [];
+  const bySource = new Map<string, SourceCoverageEntry>();
+  for (const entry of entries) {
+    if (!seen.has(entry.source_item_id)) invalid.push(`Coverage entry references unknown source item '${entry.source_item_id}'`);
+    if (bySource.has(entry.source_item_id)) invalid.push(`Coverage entry is duplicated for source item '${entry.source_item_id}'`);
+    bySource.set(entry.source_item_id, entry);
+    if (!['FULL', 'PARTIAL', 'OMITTED'].includes(entry.coverage)) invalid.push(`Source item '${entry.source_item_id}' has unsupported coverage status '${entry.coverage}'`);
+    for (const target of entry.learning_target_ids || []) {
+      if (!contentIds.has(target) && !conceptIds.has(target)) invalid.push(`Source item '${entry.source_item_id}' references unknown learning target '${target}'`);
+    }
+    for (const target of entry.assessment_item_ids || []) {
+      if (!assessmentIds.has(target)) invalid.push(`Source item '${entry.source_item_id}' references unknown assessment item '${target}'`);
+    }
+    if (entry.coverage === 'FULL') {
+      const item = inventory.find((candidate) => candidate.id === entry.source_item_id);
+      const needsLearning = item?.kind !== 'textbook_exercise';
+      const needsAssessment = item?.kind === 'textbook_exercise';
+      const permittedGranularity: Record<SourceInventoryKind, SourceInventoryGranularity[]> = {
+        chapter_concept: ['concept'],
+        worked_example: ['worked_example'],
+        activity: ['activity', 'activity_step'],
+        textbook_exercise: ['question', 'question_part'],
+        other: ['other'],
+      };
+      if (item && !permittedGranularity[item.kind].includes(item.granularity as SourceInventoryGranularity)) {
+        invalid.push(`Source item '${item.id}' cannot be FULL without an independently traceable ${permittedGranularity[item.kind].join(' or ')} granularity`);
+      }
+      if (needsLearning && (entry.learning_target_ids || []).length === 0) invalid.push(`Source item '${entry.source_item_id}' cannot be FULL without a learning target`);
+      if (needsAssessment && (entry.assessment_item_ids || []).length === 0) invalid.push(`Textbook exercise '${entry.source_item_id}' cannot be FULL without an assessment target`);
+    }
+  }
+
+  let fullyCovered = 0, partial = 0, omitted = 0, unmapped = 0;
+  for (const item of inventory) {
+    const entry = bySource.get(item.id);
+    if (!entry) { unmapped++; continue; }
+    if (entry.coverage === 'FULL') fullyCovered++;
+    else if (entry.coverage === 'PARTIAL') partial++;
+    else omitted++;
+  }
+  const status = invalid.length
+    ? 'INVALID'
+    : ir.source_inventory_scope === 'FULL_CHAPTER' && fullyCovered === inventory.length
+      ? 'FULL'
+      : 'INCOMPLETE';
+  return { status, source_hash_status: 'UNVERIFIED', total_items: inventory.length, fully_covered: fullyCovered, partial, omitted, unmapped, invalid_references: invalid };
+}
+
+/** Tracks actual English/Hindi field coverage; a language toggle alone is not LLE evidence. */
+export function evaluateLLECoverage(ir: Pick<CanonicalIR, 'accessibility_envelope' | 'concept_graph' | 'content_blocks' | 'misconceptions' | 'assessment_items'>): LLECoverageReport {
+  const hindiRequired = ir.accessibility_envelope?.primary_language?.toLowerCase().startsWith('hi') === true ||
+    ir.accessibility_envelope?.bilingual_pair?.toLowerCase().startsWith('hi') === true;
+  if (!hindiRequired) return { status: 'UNKNOWN', hindi_required: false, translatable_fields: 0, translated_fields: 0, coverage_percent: 0, missing_fields: [] };
+
+  const missing: string[] = [];
+  let total = 0, translated = 0;
+  const count = (field: string, value?: string) => {
+    total++;
+    if (value?.trim()) translated++;
+    else missing.push(field);
+  };
+  for (const concept of ir.concept_graph || []) count(`concept:${concept.id}:name_hindi`, concept.name_hindi);
+  for (const block of ir.content_blocks || []) count(`content:${block.id}:text_hindi`, block.text_hindi);
+  for (const misconception of ir.misconceptions || []) count(`misconception:${misconception.id}:description_hindi`, misconception.description_hindi);
+  for (const item of ir.assessment_items || []) {
+    count(`assessment:${item.id}:prompt_hindi`, item.prompt_hindi);
+    for (const option of item.options || []) {
+      count(`option:${option.id}:text_hindi`, option.text_hindi);
+      if (!option.is_correct) count(`option:${option.id}:distractor_explanation_hindi`, option.distractor_explanation_hindi);
+    }
+    for (const hint of ['H1_hook', 'H2_concept', 'H3_formula', 'H4_step'] as const) {
+      count(`assessment:${item.id}:hints_hindi.${hint}`, item.hints_hindi?.[hint]);
+    }
+  }
+  const percent = total ? Math.round((translated / total) * 100) : 0;
+  const status = total === 0 ? 'UNKNOWN' : missing.length ? 'INCOMPLETE' : 'COMPLETE';
+  return { status, hindi_required: true, translatable_fields: total, translated_fields: translated, coverage_percent: percent, missing_fields: missing };
+}

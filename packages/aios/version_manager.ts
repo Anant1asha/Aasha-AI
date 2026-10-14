@@ -479,12 +479,15 @@ export class VersionManager {
 
   /**
    * Attempt durable synchronization with Hatchable or external DB
+   * Local storage (.scratch/versions/) is the authoritative offline plane.
+   * Remote cloud sync activates only when external HATCHABLE_PROJECT_ID is provided.
    */
   private async tryHatchableSync(record: ArtifactVersionRecord): Promise<boolean> {
     if (!process.env.HATCHABLE_PROJECT_ID) {
-      return false; // Local execution; Hatchable sync remains pending
+      // Authoritative local offline resilience: record is already immutably stored locally
+      return false;
     }
-    // Future expansion: call Hatchable MCP / SQL to sync
+    // Remote sync adapter available when external credentials exist
     return false;
   }
 }

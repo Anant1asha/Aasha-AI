@@ -211,12 +211,80 @@ class Orchestrator:
         with open(job_file, "r", encoding="utf-8") as f:
             return Job.model_validate(json.load(f))
 
+    def _validate_stage_prerequisites(self, stage: str, mode: str, work_dir: Path) -> list:
+        """Validate that all prerequisite artifacts exist before starting a stage.
+        If cross-mode artifacts exist (e.g. content_map.json for a pedagogy_map.json requirement),
+        it attempts automatic non-destructive synthesis/adaptation first.
+        Returns a list of missing required artifact filenames.
+        """
+        # Cross-mode adapter 1: If pedagogy_map.json is needed, but content_map.json exists
+        if stage in ("design", "assess", "synthesize") and not (work_dir / "pedagogy_map.json").exists() and (work_dir / "content_map.json").exists():
+            try:
+                from ..exercise import ExerciseExtractor
+                extractor = ExerciseExtractor()
+                raw_path = work_dir / "raw_extract.json"
+                if raw_path.exists():
+                    raw_data = json.loads(raw_path.read_text(encoding="utf-8"))
+                    ex_dicts = [ex.to_dict() for ex in extractor.extract(raw_data)]
+                else:
+                    ex_dicts = []
+                content_map = json.loads((work_dir / "content_map.json").read_text(encoding="utf-8"))
+                pedagogy_map = enrich_content_map(content_map, ex_dicts)
+                (work_dir / "pedagogy_map.json").write_text(json.dumps(pedagogy_map, indent=2), encoding="utf-8")
+                logger.info("Cross-mode adapter: Synthesized pedagogy_map.json from content_map.json")
+            except Exception as e:
+                logger.warning(f"Could not adapt content_map.json to pedagogy_map.json: {e}")
+
+        # Cross-mode adapter 2: If content_map.json is needed, but pedagogy_map.json exists
+        if stage in ("design", "assess") and not (work_dir / "content_map.json").exists() and (work_dir / "pedagogy_map.json").exists():
+            try:
+                pedagogy_map = json.loads((work_dir / "pedagogy_map.json").read_text(encoding="utf-8"))
+                (work_dir / "content_map.json").write_text(json.dumps(pedagogy_map, indent=2), encoding="utf-8")
+                logger.info("Cross-mode adapter: Synthesized content_map.json from pedagogy_map.json")
+            except Exception as e:
+                logger.warning(f"Could not adapt pedagogy_map.json to content_map.json: {e}")
+
+        # Cross-mode adapter 3: If assessment_suite.json is needed, but assessment_bank.json exists
+        if stage == "synthesize" and not (work_dir / "assessment_suite.json").exists() and (work_dir / "assessment_bank.json").exists():
+            try:
+                bank = json.loads((work_dir / "assessment_bank.json").read_text(encoding="utf-8"))
+                suite = {"warmup": bank.get("warmup", []), "deep_dive": bank.get("deep_dive", []), "boss": bank.get("boss", [])}
+                (work_dir / "assessment_suite.json").write_text(json.dumps(suite, indent=2), encoding="utf-8")
+                logger.info("Cross-mode adapter: Adapted assessment_bank.json to assessment_suite.json")
+            except Exception:
+                pass
+
+        if mode == "full-synthesis":
+            prereq_map = {
+                "ingest": ["source.pdf"],
+                "analyze": ["source.pdf", "raw_extract.json"],
+                "design": ["pedagogy_map.json"],
+                "assess": ["pedagogy_map.json", "experience_plan.json"],
+                "synthesize": ["pedagogy_map.json", "experience_plan.json", "assessment_suite.json"],
+                "qa": ["chapter.html"],
+                "output": ["chapter.html"],
+            }
+        else:
+            prereq_map = {
+                "ingest": ["source.pdf"],
+                "analyze": ["source.pdf", "raw_extract.json"],
+                "design": ["content_map.json"],
+                "assess": ["content_map.json"],
+                "lle": ["chapter_spec.json"],
+                "assemble": ["chapter_spec.json", "lle.json"],
+                "qa": ["chapter.html"],
+                "output": ["chapter.html"],
+            }
+        required_files = prereq_map.get(stage, [])
+        return [f for f in required_files if not (work_dir / f).exists()]
+
     def run_pipeline(
         self,
         job_id: str,
         from_stage: str | None = None,
         log_callback=None,
         max_cost: float = 0.50,
+        mode: str | None = None,
     ) -> Job:
         """Run the full pipeline for a job.
 
@@ -225,6 +293,7 @@ class Orchestrator:
             from_stage: Resume from this stage (skip earlier stages)
             log_callback: Optional callback for log messages
             max_cost: Maximum allowed cost in USD
+            mode: Optional pipeline execution mode override
 
         Returns:
             Updated Job object
@@ -234,14 +303,6 @@ class Orchestrator:
 
         if not work_dir.exists():
             raise FileNotFoundError(f"Work directory not found for job {job_id}")
-
-        context = {
-            "pdf_path": str(work_dir / "source.pdf"),
-            "source_pdf_sha256": job.input.source_pdf_sha256,
-            "subject": job.input.subject,
-            "grade": job.input.grade,
-            "provider": job.input.provider,
-        }
 
         json_log_path = work_dir / "pipeline.log"
         
@@ -259,6 +320,26 @@ class Orchestrator:
                 f.write(json.dumps(log_entry) + "\n")
 
         from ..schemas import STAGE_ORDER_V5, STAGE_ORDER_FS
+
+        # Mode handling & auto-detection
+        if mode:
+            job.input.mode = mode
+        elif from_stage:
+            if from_stage == "synthesize" and job.input.mode != "full-synthesis":
+                log(f"Stage 'synthesize' belongs to full-synthesis mode; auto-switching job mode to full-synthesis")
+                job.input.mode = "full-synthesis"
+            elif from_stage in ("assemble", "lle") and job.input.mode != "v5-engine":
+                log(f"Stage '{from_stage}' belongs to v5-engine mode; auto-switching job mode to v5-engine")
+                job.input.mode = "v5-engine"
+
+        context = {
+            "pdf_path": str(work_dir / "source.pdf"),
+            "source_pdf_sha256": job.input.source_pdf_sha256,
+            "subject": job.input.subject,
+            "grade": job.input.grade,
+            "provider": job.input.provider,
+        }
+
         stage_order = STAGE_ORDER_FS if job.input.mode == "full-synthesis" else STAGE_ORDER_V5
 
         # Determine starting stage
@@ -266,9 +347,49 @@ class Orchestrator:
         if from_stage:
             if from_stage in stage_order:
                 start_idx = stage_order.index(from_stage)
-                log(f"Resuming from stage: {from_stage}")
+                log(f"Resuming from stage: {from_stage} (mode: {job.input.mode})")
             else:
-                log(f"Unknown stage '{from_stage}', starting from beginning")
+                other_mode = "full-synthesis" if job.input.mode == "v5-engine" else "v5-engine"
+                other_order = STAGE_ORDER_FS if other_mode == "full-synthesis" else STAGE_ORDER_V5
+                if from_stage in other_order:
+                    error_msg = (
+                        f"MODE_MISMATCH: Stage '{from_stage}' belongs to '{other_mode}' mode, but job '{job_id}' is in '{job.input.mode}' mode. "
+                        f"To resume with this stage, pass '--mode {other_mode}'."
+                    )
+                else:
+                    error_msg = (
+                        f"INVALID_STAGE: Unknown stage '{from_stage}'. "
+                        f"Valid stages for mode '{job.input.mode}' are: {', '.join(stage_order)}."
+                    )
+                log(f"  ERROR: {error_msg}")
+                self._update_stage(job, from_stage, "failed", error=error_msg)
+                job.status = "failed"
+                job.error_stage = from_stage
+                job.error_message = error_msg
+                self._save_job(job, work_dir)
+                bus = AgentBus(work_dir)
+                bus.publish("stage.failed", {"stage": from_stage, "error": error_msg})
+                return job
+
+        # Validate prerequisite artifacts before resuming from a later stage
+        if from_stage and start_idx > 0:
+            stage_to_resume = stage_order[start_idx]
+            missing_prereqs = self._validate_stage_prerequisites(stage_to_resume, job.input.mode, work_dir)
+            if missing_prereqs:
+                error_msg = (
+                    f"RESUME_PREREQUISITES_MISSING: Cannot resume from stage '{stage_to_resume}'. "
+                    f"Missing required artifact(s): {', '.join(missing_prereqs)}. "
+                    f"Earlier stages in job '{job_id}' must complete before resuming from '{stage_to_resume}'."
+                )
+                log(f"  ERROR: {error_msg}")
+                self._update_stage(job, stage_to_resume, "failed", error=error_msg)
+                job.status = "failed"
+                job.error_stage = stage_to_resume
+                job.error_message = error_msg
+                self._save_job(job, work_dir)
+                bus = AgentBus(work_dir)
+                bus.publish("stage.failed", {"stage": stage_to_resume, "error": error_msg})
+                return job
 
         job.status = "running"
         self._save_job(job, work_dir)
@@ -406,11 +527,15 @@ class Orchestrator:
                                 res = agent.run(work_dir, context)
                                 return "LLEAgent", llm.cost_estimate, agent.logs, res
 
+                            # LLEAgent reads chapter_spec.json, which DesignAgent writes.
+                            # Running them concurrently races on that file: LLE can start
+                            # before the spec exists and abort the stage. Design must finish
+                            # (and flush its output) before LLE is submitted.
                             with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
                                 future_d = executor.submit(run_design_agent)
-                                future_l = executor.submit(run_lle_agent)
-                                
                                 agent_name_d, cost_d, logs_d, res_d = future_d.result()
+
+                                future_l = executor.submit(run_lle_agent)
                                 agent_name_l, cost_l, logs_l, res_l = future_l.result()
                                 
                             total_cost += cost_d + cost_l

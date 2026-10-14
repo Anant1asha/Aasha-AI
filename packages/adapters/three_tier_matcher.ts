@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import { SignedApproval, verifyApproval, verifyTrustedSignature } from '../aios/trust_authority.ts';
+import { type SignedApproval, verifyApproval, verifyTrustedSignature } from '../aios/trust_authority.ts';
 
 export interface CapabilityRequest {
   capability_id: string;
@@ -20,12 +20,24 @@ export type MatchStatus = 'MATCH_FOUND' | 'NO_MATCH' | 'BLOCKED' | 'UNKNOWN';
 export interface MatchResult {
   tier: 1 | 2 | 3;
   status: MatchStatus;
+  reuse_class?: 'CERTIFIED_COMPONENT' | 'ADAPTATION_CANDIDATE';
+  runtime_verified?: boolean;
   component_id?: string;
   version?: string;
   foundation_id?: string;
   capability_match?: Record<string, any>;
   provenance?: Record<string, any>;
   license?: Record<string, any>;
+  /** A locally hash-verified artifact may be adapted; this never implies browser certification. */
+  runtime_artifact?: {
+    resource_id: string;
+    source_path: string;
+    source_sha256: string;
+    media_type: 'text/html';
+    local_verified: true;
+    browser_verified: false;
+    language?: string;
+  };
   reason: string;
 }
 
@@ -34,7 +46,7 @@ export class ThreeTierMatcher {
   private registryPath: string;
 
   constructor(baseDir?: string) {
-    this.baseDir = baseDir || path.resolve(__dirname, '../..');
+    this.baseDir = baseDir || (typeof __dirname !== 'undefined' ? path.resolve(__dirname, '../..') : process.cwd());
     this.registryPath = path.resolve(this.baseDir, 'experience_registry/registry.json');
   }
 
@@ -70,6 +82,33 @@ export class ThreeTierMatcher {
   private hashFile(filePath: string): string {
     return crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
   }
+
+  private resolveLocalResource(sourcePath: string, expectedHash: string): { filePath: string; html: string } | null {
+    const resourceRoot = path.resolve(this.baseDir, '..');
+    const filePath = path.resolve(resourceRoot, sourcePath);
+    const rel = path.relative(resourceRoot, filePath);
+    if (rel.startsWith('..') || path.isAbsolute(rel) || !fs.existsSync(filePath)) return null;
+    try {
+      const realRoot = fs.realpathSync(resourceRoot);
+      const realFile = fs.realpathSync(filePath);
+      const realRel = path.relative(realRoot, realFile);
+      if (realRel.startsWith('..') || path.isAbsolute(realRel)) return null;
+      if (this.hashFile(realFile) !== expectedHash.toLowerCase()) return null;
+      const html = fs.readFileSync(realFile, 'utf8');
+      if (!/<html\b/i.test(html) || !/<script\b/i.test(html)) return null;
+      if (/<base\b|\b(?:src|href|poster|srcset)\s*=\s*["']?\s*(?:https?:)?\/\/|url\(\s*["']?\s*(?:https?:)?\/\/|@import\s+url|\b(?:fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon)\s*\(|\bimport\s*\(/i.test(html)) return null;
+      return { filePath: realFile, html };
+    } catch {
+      return null;
+    }
+  }
+
+  /** Reload the exact matched file and re-check its recorded digest immediately before bundling. */
+  loadRuntimeArtifact(result: MatchResult): string | null {
+    const artifact = result.runtime_artifact;
+    if (!artifact?.local_verified || artifact.media_type !== 'text/html') return null;
+    return this.resolveLocalResource(artifact.source_path, artifact.source_sha256)?.html || null;
+  }
   /**
    * Evaluates Capability Request against Tier 1 (Certified Components), Tier 2 (Foundations), Tier 3 (Synthesis).
    */
@@ -77,7 +116,14 @@ export class ThreeTierMatcher {
     const offlineRequired = request.offline_required !== false;
 
     let registryData: any = { foundations: [], components: [] };
-    if (fs.existsSync(this.registryPath)) {
+    if (!fs.existsSync(this.registryPath)) {
+      return {
+        tier: 3,
+        status: 'UNKNOWN',
+        reason: 'Authoritative experience registry is missing; reusable capability evidence cannot be evaluated',
+      };
+    }
+    {
       try {
         registryData = JSON.parse(fs.readFileSync(this.registryPath, 'utf-8'));
       } catch (e) {
@@ -113,6 +159,8 @@ export class ThreeTierMatcher {
         return {
           tier: 1,
           status: 'MATCH_FOUND',
+          reuse_class: 'CERTIFIED_COMPONENT',
+          runtime_verified: true,
           component_id: comp.component_id,
           version: comp.version,
           capability_match: comp.capability_contract,
@@ -124,7 +172,51 @@ export class ThreeTierMatcher {
     }
 
     // =========================================================================
-    // TIER 2: Approved Foundation Match (F01–F20 Catalog)
+    // TIER 2: Locally verifiable approved artifacts remain adaptation candidates.
+    // Registry status, source hash, license metadata, and offline shape are checked;
+    // browser certification is deliberately not inferred here.
+    // =========================================================================
+    for (const component of registryData.components || []) {
+      if (component.status !== 'APPROVED') continue;
+      if (offlineRequired && component.runtime?.offline !== true) continue;
+      if (offlineRequired && (!Array.isArray(component.runtime?.external_urls) || component.runtime.external_urls.length > 0)) continue;
+      if (component.license?.license_status !== 'APPROVED') continue;
+      const componentMechanics: string[] = component.capability_contract?.mechanics || component.mechanic_tags || [];
+      const hasMechanicOverlap = request.mechanics.length > 0 && request.mechanics.some((m) => componentMechanics.includes(m));
+      const componentSubjects: string[] = component.applicability?.subjects || [];
+      const componentClasses: number[] = component.applicability?.classes || [];
+      const matchSubject = componentSubjects.length === 0 || componentSubjects.some((s) => s.toLowerCase() === request.subject.toLowerCase() || s === 'General');
+      const matchClass = componentClasses.length === 0 || componentClasses.includes(request.grade);
+      const sourcePath = component.adapter?.source_path;
+      const sourceHash = component.provenance?.source_hash;
+      if (!hasMechanicOverlap || !matchSubject || !matchClass || typeof sourcePath !== 'string' || typeof sourceHash !== 'string') continue;
+      const localResource = this.resolveLocalResource(sourcePath, sourceHash);
+      if (!localResource) continue;
+      return {
+        tier: 2,
+        status: 'MATCH_FOUND',
+        reuse_class: 'ADAPTATION_CANDIDATE',
+        runtime_verified: false,
+        component_id: component.component_id,
+        version: component.version,
+        capability_match: component.capability_contract,
+        provenance: component.provenance,
+        license: component.license,
+        runtime_artifact: {
+          resource_id: component.component_id,
+          source_path: sourcePath,
+          source_sha256: sourceHash,
+          media_type: 'text/html',
+          local_verified: true,
+          browser_verified: false,
+          language: component.language || 'en',
+        },
+        reason: `Tier 2 adaptation candidate: '${component.component_id}@${component.version}' has a local source hash and offline/license metadata match; browser certification is still required`,
+      };
+    }
+
+    // =========================================================================
+    // TIER 2: Foundation adaptation candidate (catalog metadata is not certification)
     // =========================================================================
     const foundations = registryData.foundations || [];
     for (const f of foundations) {
@@ -141,17 +233,19 @@ export class ThreeTierMatcher {
 
       const matchSub = fSubjects.some((s) => s.toLowerCase() === request.subject.toLowerCase() || s === 'General');
       const matchCls = fClasses.includes(request.grade);
-      const matchMech = request.mechanics.some((m) => fMechanics.includes(m)) || fMechanics.length > 0;
+      const matchMech = request.mechanics.length > 0 && request.mechanics.some((m) => fMechanics.includes(m));
 
       if (matchSub && matchCls && matchMech) {
         return {
           tier: 2,
           status: 'MATCH_FOUND',
+          reuse_class: 'ADAPTATION_CANDIDATE',
+          runtime_verified: false,
           foundation_id: f.id,
           capability_match: { mechanics: f.mechanics, reuse_strategy: f.reuse_strategy },
-          provenance: { repo: f.repo, license: f.license },
-          license: { spdx_identifier: f.license, license_status: 'APPROVED' },
-          reason: `Tier 2 Match: Approved open-source foundation '${f.name}' (${f.id}: ${f.reuse_strategy || 'EXTRACT'})`,
+          provenance: { repo: f.repo, license: f.license, source_revision: f.source_revision || null },
+          license: { spdx_identifier: f.license, license_status: f.license_status || 'REVIEW_REQUIRED' },
+          reason: `Tier 2 candidate: '${f.name}' advertises a relevant mechanic; artifact, license, offline, and compatibility evidence must be reviewed before adaptation or bundling`,
         };
       }
     }

@@ -1,5 +1,11 @@
-import { CanonicalIR, validateCanonicalIR, AssessmentItem, MisconceptionEntity, ContentBlock, LearningObjective, LearnerAgencyContract, MotivationIntent, AccessibilityEnvelope, ExperienceAcceptanceContract } from './canonical_ir_schema.ts';
+import { CanonicalIR, validateCanonicalIR, AssessmentItem, MisconceptionEntity, ContentBlock, LearningObjective, LearnerAgencyContract, MotivationIntent, AccessibilityEnvelope, ExperienceAcceptanceContract, CapabilityRequirement, SourceInventoryItem, SourceCoverageEntry, SourceDocument } from './canonical_ir_schema.ts';
 import { MathInsulator } from '../aasha-rules/math_insulator.ts';
+
+function insulateOptionalTranslation(text?: string): string | undefined {
+  if (!text) return undefined;
+  const masked = MathInsulator.tokenize(text);
+  return MathInsulator.wrapWithIsolation(MathInsulator.restore(masked.maskedText, masked.tokenMap));
+}
 
 export interface AgentProposalsInput {
   chapter_id: string;
@@ -8,17 +14,24 @@ export interface AgentProposalsInput {
   subject: string;
   board: string;
   source_pdf_hash: string;
+  source_documents?: SourceDocument[];
   raw_objectives: Array<{ description: string; bloom_level: string; success_criteria: string[] }>;
-  raw_concepts: Array<{ name: string; definition: string; prerequisites?: string[] }>;
-  raw_misconceptions: Array<{ concept_name: string; name: string; description: string; remediation: string }>;
+  raw_concepts: Array<{ name: string; name_hindi?: string; definition: string; definition_hindi?: string; prerequisites?: string[] }>;
+  raw_misconceptions: Array<{ concept_name: string; name: string; description: string; description_hindi?: string; remediation: string }>;
   raw_assessments: Array<{
     objective_index: number;
     concept_name: string;
     question_type: string;
     prompt: string;
-    options: Array<{ text: string; is_correct: boolean; distractor_explanation: string; misconception_name?: string }>;
+    prompt_hindi?: string;
+    options: Array<{ text: string; text_hindi?: string; is_correct: boolean; distractor_explanation: string; distractor_explanation_hindi?: string; misconception_name?: string }>;
     hints: { H1: string; H2: string; H3: string; H4: string };
+    hints_hindi?: { H1: string; H2: string; H3: string; H4: string };
   }>;
+  raw_capabilities?: Array<Omit<CapabilityRequirement, 'id'> & { id?: string }>;
+  source_inventory_scope?: CanonicalIR['source_inventory_scope'];
+  source_inventory?: SourceInventoryItem[];
+  source_coverage?: SourceCoverageEntry[];
   word_map?: Record<string, string>;
 }
 
@@ -50,8 +63,11 @@ export class IRAssembler {
       return {
         id: opaqueId,
         name: c.name,
+        name_hindi: c.name_hindi,
         definition_raw: c.definition,
         definition_math_insulated: MathInsulator.wrapWithIsolation(mathInsulated),
+        definition_hindi: c.definition_hindi,
+        definition_hindi_math_insulated: insulateOptionalTranslation(c.definition_hindi),
         prerequisite_ids: (c.prerequisites || []).map((p) => conceptMap.get(p) || `cpt:prereq:${p}`),
         child_concept_ids: [],
       };
@@ -69,6 +85,7 @@ export class IRAssembler {
         concept_id: conceptId,
         name: m.name,
         description: m.description,
+        description_hindi: m.description_hindi,
         observable_signals: [`signal:${opaqueId}:incorrect_attempt`],
         confidence_weight: 0.85,
         remediation_strategy: m.remediation,
@@ -81,12 +98,16 @@ export class IRAssembler {
       type: 'concept_def',
       concept_id: concept_graph[idx].id,
       text_english: c.definition,
+      text_hindi: c.definition_hindi,
+      text_hindi_math_insulated: insulateOptionalTranslation(c.definition_hindi),
       text_math_insulated: concept_graph[idx].definition_math_insulated,
       hindi_translation: input.word_map ? {
         phonetics: '',
         word_map: input.word_map,
       } : undefined,
-      provenance_source: `pdf:${input.source_pdf_hash}`,
+      provenance_source: input.source_documents?.length
+        ? `source-set:${input.source_documents.map((document) => `${document.id}=sha256:${document.sha256}`).join('|')}`
+        : `pdf:${input.source_pdf_hash}`,
       fidelity_score: 1.0,
     }));
 
@@ -102,16 +123,22 @@ export class IRAssembler {
         concept_id: cptId,
         question_type: (a.question_type || 'mcq') as any,
         prompt: a.prompt,
+        prompt_hindi: a.prompt_hindi,
+        prompt_hindi_math_insulated: insulateOptionalTranslation(a.prompt_hindi),
         prompt_math_insulated: MathInsulator.restore(maskedPrompt.maskedText, maskedPrompt.tokenMap),
         options: a.options.map((opt, optIdx) => {
           const maskedOpt = MathInsulator.tokenize(opt.text);
           return {
             id: `opt:${chapterPrefix}:q_${idx + 1}_${optIdx + 1}`,
             text: opt.text,
+            text_hindi: opt.text_hindi,
+            text_hindi_math_insulated: insulateOptionalTranslation(opt.text_hindi),
             text_math_insulated: MathInsulator.restore(maskedOpt.maskedText, maskedOpt.tokenMap),
             is_correct: opt.is_correct,
             misconception_id: opt.misconception_name ? miscMap.get(opt.misconception_name) : undefined,
             distractor_explanation: opt.distractor_explanation,
+            distractor_explanation_hindi: opt.distractor_explanation_hindi,
+            distractor_explanation_hindi_math_insulated: insulateOptionalTranslation(opt.distractor_explanation_hindi),
           };
         }),
         hints: {
@@ -120,8 +147,27 @@ export class IRAssembler {
           H3_formula: a.hints.H3,
           H4_step: a.hints.H4,
         },
+        hints_hindi: a.hints_hindi ? {
+          H1_hook: a.hints_hindi.H1,
+          H2_concept: a.hints_hindi.H2,
+          H3_formula: a.hints_hindi.H3,
+          H4_step: a.hints_hindi.H4,
+        } : undefined,
+        hints_hindi_math_insulated: a.hints_hindi ? {
+          H1_hook: insulateOptionalTranslation(a.hints_hindi.H1) || '',
+          H2_concept: insulateOptionalTranslation(a.hints_hindi.H2) || '',
+          H3_formula: insulateOptionalTranslation(a.hints_hindi.H3) || '',
+          H4_step: insulateOptionalTranslation(a.hints_hindi.H4) || '',
+        } : undefined,
       };
     });
+
+    // Capability requirements are task/source inputs. Never assign a math-specific
+    // manipulative to every subject as a default.
+    const capability_requirements: CapabilityRequirement[] = (input.raw_capabilities || []).map((capability, idx) => ({
+      ...capability,
+      id: capability.id || `cap:${chapterPrefix}:sim_${idx + 1}`,
+    }));
 
     // 6. Build Experience Graph
     const experience_graph = {
@@ -137,7 +183,7 @@ export class IRAssembler {
           id: 'state:sim',
           name: 'Interactive Manipulative Lab',
           type: 'interactive_sim' as const,
-          capability_id: `cap:${chapterPrefix}:sim_1`,
+          capability_id: capability_requirements[0]?.id,
           content_ids: [],
         },
         {
@@ -171,6 +217,7 @@ export class IRAssembler {
         subject: input.subject,
         board: input.board,
         source_pdf_hash: input.source_pdf_hash,
+        source_documents: input.source_documents,
       },
       learning_objectives,
       concept_graph,
@@ -184,15 +231,10 @@ export class IRAssembler {
         touch_target_min_px: 44,
       },
       assessment_items,
-      capability_requirements: [
-        {
-          id: `cap:${chapterPrefix}:sim_1`,
-          purpose: 'Interactive visual manipulative for concept exploration',
-          interaction_type: 'balance_beam',
-          license_constraint: 'MIT_NATIVE',
-          sandbox_required: false,
-        },
-      ],
+      capability_requirements,
+      source_inventory_scope: input.source_inventory_scope,
+      source_inventory: input.source_inventory,
+      source_coverage: input.source_coverage,
       adaptive_policy: {
         max_retries: 3,
         dda_difficulty_step: 0.1,
@@ -261,4 +303,3 @@ export class IRAssembler {
     };
   }
 }
-

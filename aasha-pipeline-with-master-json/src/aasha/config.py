@@ -7,6 +7,7 @@ API keys are always read from environment variables, never from config.
 from __future__ import annotations
 
 import os
+import json
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -22,7 +23,7 @@ class LLMProviderConfig:
 
 @dataclass
 class LLMConfig:
-    default_provider: str = "openai"
+    default_provider: str = "openrouter"
     providers: dict[str, LLMProviderConfig] = field(default_factory=dict)
     cache_dir: str = "./.llm_cache"
     max_retries: int = 3
@@ -63,9 +64,54 @@ class Config:
     web: WebConfig = field(default_factory=WebConfig)
     project_root: Path = field(default_factory=lambda: Path("."))
 
+    @staticmethod
+    def _bootstrap_credentials(config_path: Path | None = None) -> None:
+        """Load API keys from ~/.aasha/config.json or nearby .env files into os.environ if missing."""
+        # 1. Local BYOK Vault (~/.aasha/config.json)
+        vault_path = Path.home() / ".aasha" / "config.json"
+        if vault_path.exists():
+            try:
+                with open(vault_path, "r", encoding="utf-8") as f:
+                    vault_data = json.load(f)
+                    if "OPENROUTER_API_KEY" not in os.environ and vault_data.get("openrouter_key"):
+                        os.environ["OPENROUTER_API_KEY"] = vault_data["openrouter_key"]
+                    if "GEMINI_API_KEY" not in os.environ and vault_data.get("gemini_key"):
+                        os.environ["GEMINI_API_KEY"] = vault_data["gemini_key"]
+            except Exception:
+                pass
+
+        # 2. Nearby .env files (Aasha-AI/.env, monorepo root)
+        search_dirs = [
+            Path("."),
+            Path(".."),
+            Path("../.."),
+            Path(__file__).resolve().parent.parent.parent.parent,
+        ]
+        for d in search_dirs:
+            env_file = d / ".env"
+            if env_file.exists():
+                try:
+                    with open(env_file, "r", encoding="utf-8") as f:
+                        for line in f:
+                            line = line.strip()
+                            if not line or line.startswith("#") or "=" not in line:
+                                continue
+                            k, v = line.split("=", 1)
+                            k = k.strip()
+                            v = v.strip().strip("'\"")
+                            if k and v:
+                                if k in ("OPENROUTER_API_KEY", "OPENROUTER_KEY") and "OPENROUTER_API_KEY" not in os.environ:
+                                    os.environ["OPENROUTER_API_KEY"] = v
+                                elif k not in os.environ:
+                                    os.environ[k] = v
+                except Exception:
+                    pass
+
     @classmethod
     def load(cls, config_path: str | Path | None = None) -> "Config":
-        """Load configuration from YAML file."""
+        """Load configuration from YAML file and bootstrap credentials."""
+        cls._bootstrap_credentials()
+
         if config_path is None:
             config_path = os.environ.get("AASHA_CONFIG", "config.yaml")
         config_path = Path(config_path)
@@ -86,7 +132,7 @@ class Config:
 
         return cls(
             llm=LLMConfig(
-                default_provider=llm_raw.get("default_provider", "openai"),
+                default_provider=llm_raw.get("default_provider", "openrouter"),
                 providers=providers,
                 cache_dir=llm_raw.get("cache_dir", "./.llm_cache"),
                 max_retries=llm_raw.get("max_retries", 3),
@@ -116,15 +162,29 @@ class Config:
         )
 
     def get_api_key(self, provider: str) -> str | None:
-        """Get the API key for a provider from environment variables."""
+        """Get the API key for a provider from environment variables or vault."""
         env_vars = {
             "openai": "OPENAI_API_KEY",
             "gemini": "GEMINI_API_KEY",
             "anthropic": "ANTHROPIC_API_KEY",
+            "openrouter": "OPENROUTER_API_KEY",
         }
         env_var = env_vars.get(provider.lower())
-        if env_var:
+        if env_var and os.environ.get(env_var):
             return os.environ.get(env_var)
+        
+        # Check ~/.aasha/config.json vault
+        vault_path = Path.home() / ".aasha" / "config.json"
+        if vault_path.exists():
+            try:
+                with open(vault_path, "r", encoding="utf-8") as f:
+                    vault_data = json.load(f)
+                    if provider.lower() == "openrouter" and vault_data.get("openrouter_key"):
+                        return vault_data["openrouter_key"]
+                    if provider.lower() == "gemini" and vault_data.get("gemini_key"):
+                        return vault_data["gemini_key"]
+            except Exception:
+                pass
         return None
 
     def template_full_path(self) -> Path:

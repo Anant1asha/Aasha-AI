@@ -7,7 +7,7 @@ import { V6Compiler } from './v6_compiler';
 // Full Agent Proposals for Class 8 Mathematics: Linear Equations in One Variable
 // Curricular Source: NCERT Class 8 Mathematics Chapter 2 ("Linear Equations in One Variable")
 // Contract Binding: Aasha-AI/content/contracts/Mathematics_Class8_linear_equations.yaml
-// Foundation Match: F01 Escape Run (Balance Scale Manipulative) - MIT License
+// Resource selection is determined at compile time from registry evidence; this label alone is not a match.
 const linearEquationsProposal: AgentProposalsInput = {
   chapter_id: 'c8_math_linear_equations',
   title: 'Linear Equations in One Variable',
@@ -276,28 +276,34 @@ export function compileLinearEquationsChapter() {
     console.error('ERROR: Invariant Validation Failed:', validation.errors);
     process.exit(1);
   }
-  console.log('   ✓ Touch Target >= 44px: PASS');
-  console.log('   ✓ Zero Spoilers in Distractors: PASS');
+  console.log('   ✓ Declared touch-target constraints >= 44px: PASS (runtime controls still require verification)');
+  console.log('   ✓ Basic schema spoiler heuristic: PASS (adversarial answer-leakage review remains required)');
   console.log('   ✓ Misconception Bindings: PASS');
-  console.log('   ✓ Offline-First & No External Requests: PASS');
-  console.log('   ✓ Experience Acceptance Contract: PASS');
+  console.log('   • Offline runtime and zero-network verification: PENDING');
+  console.log('   ✓ Experience acceptance metadata: PASS (runtime criteria still require verification)');
 
   console.log('\n3. Running V6 Compiler...');
-  const compiled = V6Compiler.compile(canonicalIR);
+  const compiled = V6Compiler.compilePair(canonicalIR);
   if (compiled.errors.length > 0) {
     console.error('ERROR: V6 Compilation Failed:', compiled.errors);
     process.exit(1);
   }
-  console.log('   ✓ Standalone HTML5 package generated (' + compiled.html.length + ' bytes)');
+  console.log('   Source coverage:', compiled.sourceCoverage.status, '(' + compiled.sourceCoverage.fully_covered + '/' + compiled.sourceCoverage.total_items + ' mapped); source PDF hash:', compiled.sourceCoverage.source_hash_status);
+  console.log('   English/Hindi LLE coverage:', compiled.lleCoverage.status, '(' + compiled.lleCoverage.coverage_percent + '%)');
+  console.log('   ✓ Standalone learning + assessment packages generated (' + compiled.learningHtml.length + ' + ' + compiled.assessmentHtml.length + ' bytes)');
 
   const chaptersDir = path.resolve(__dirname, '../../chapters');
   if (!fs.existsSync(chaptersDir)) {
     fs.mkdirSync(chaptersDir, { recursive: true });
   }
 
-  const htmlPath = path.resolve(chaptersDir, 'LinearEquations_Class8_v6.html');
-  fs.writeFileSync(htmlPath, compiled.html, 'utf-8');
-  console.log('   ✓ Written HTML Chapter to:', htmlPath);
+  const learningPath = path.resolve(chaptersDir, 'LinearEquations_Class8_learning.html');
+  fs.writeFileSync(learningPath, compiled.learningHtml, 'utf-8');
+  console.log('   ✓ Written learning HTML to:', learningPath);
+
+  const assessmentPath = path.resolve(chaptersDir, 'LinearEquations_Class8_assessment.html');
+  fs.writeFileSync(assessmentPath, compiled.assessmentHtml, 'utf-8');
+  console.log('   ✓ Written assessment HTML to:', assessmentPath);
 
   const irPath = path.resolve(chaptersDir, 'LinearEquations_Class8_canonical_ir.json');
   fs.writeFileSync(irPath, JSON.stringify(canonicalIR, null, 2), 'utf-8');
@@ -308,8 +314,8 @@ export function compileLinearEquationsChapter() {
   const proposalContent = `# AASHA AIOS — Teacher HIL Proposal & Pedagogical Review
 **Chapter**: Class 8 Mathematics — Linear Equations in One Variable (\`c8_math_linear_equations\`)  
 **Target Board/Curriculum**: NCERT / CBSE Class 8 Mathematics Chapter 2  
-**Foundation Match**: Foundation F01: Escape Run (Balance Scale Manipulative) — MIT License (Extract Strategy)  
-**Status**: Production Candidate (Dual-Benchmark Certified)  
+**Resource status**: Generated resource match report is embedded in each artifact; only verified registry evidence is treated as a match.
+**Status**: Draft — source coverage and teacher review required
 
 ---
 
@@ -329,7 +335,7 @@ export function compileLinearEquationsChapter() {
 3. **द्विभाषी सहायता (Bilingual Word-Tap Assistance)**:
    - कठिन पारिभाषिक शब्दों (जैसे *Linear Equation*, *Transposition*, *Equality*) पर टैप करते ही हिंदी अर्थ और उच्चारण तुरंत प्रदर्शित होता है।
 4. **पूर्णतः ऑफ़लाइन (Zero Remote Dependency)**:
-   - अध्याय का आकार 1 MB से कम है और यह बिना किसी इंटरनेट या सर्वर के पूर्णतः ऑफ़लाइन संचालित होता है।
+   - Offline behavior and final artifact size remain subject to the build's evidence-backed validation gates.
 `;
   fs.writeFileSync(proposalPath, proposalContent, 'utf-8');
   console.log('   ✓ Written Teacher HIL Proposal to:', proposalPath);

@@ -20,7 +20,13 @@
     "memory:prime": "tsx ../scripts/jagiye_maakiran.ts",
     "test:ltruth": "node benchmarks/qa_ltruth_benchmark.js",
     "test:master": "node ../tests/e2e_all_chapters_suite.js",
-    "test:all": "node benchmarks/qa_ltruth_benchmark.js && node ../tests/e2e_all_chapters_suite.js"
+    "test:server": "npm --prefix server test",
+    "test:all": "node benchmarks/qa_ltruth_benchmark.js && node ../tests/e2e_all_chapters_suite.js && npm run test:server",
+    "test": "npm run test:all",
+    "validate": "npm run test:ltruth",
+    "dev:api": "node Aasha-Learning-Impact-Ecosystem-v0.3-full-repo/services/api/src/server.js",
+    "dev:learner": "node Aasha-Learning-Impact-Ecosystem-v0.3-full-repo/apps/learner-web/src/server.js",
+    "build:chapter": "tsx packages/v6-engine/compile_beta_chapter.ts"
   },
   "dependencies": {
     "dotenv": "^17.4.2"

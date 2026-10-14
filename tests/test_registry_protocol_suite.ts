@@ -52,13 +52,24 @@ export async function runProtocolTestSuite(): Promise<{ total: number; passed: n
 
   // TEST_08: Tier-3 Fallback
   try {
+    const missingRegistry = matcher.resolveExperience({
+      capability_id: 'cap:non_existent_unique_mech_99',
+      subject: 'UnknownSubject',
+      grade: 12,
+      mechanics: ['unique_non_existent_mechanic_99'],
+    });
+    assert('TEST_08A: Missing registry remains unknown', missingRegistry.tier === 3 && missingRegistry.status === 'UNKNOWN', 'Missing authoritative evidence is not treated as a proven no-match');
+
+    const registryDir = path.join(baseDir, 'experience_registry');
+    fs.mkdirSync(registryDir, { recursive: true });
+    fs.writeFileSync(path.join(registryDir, 'registry.json'), JSON.stringify({ foundations: [], components: [] }));
     const res = matcher.resolveExperience({
       capability_id: 'cap:non_existent_unique_mech_99',
       subject: 'UnknownSubject',
       grade: 12,
       mechanics: ['unique_non_existent_mechanic_99'],
     });
-    assert('TEST_08: Tier-3 fallback', res.tier === 3 && res.status === 'NO_MATCH', `Correctly fell back to Tier 3 synthesis`);
+    assert('TEST_08B: Tier-3 fallback after complete search', res.tier === 3 && res.status === 'NO_MATCH', `Readable empty registry supports a no-match result`);
   } catch (e: any) {
     assert('TEST_08: Tier-3 fallback', false, e.message);
   }

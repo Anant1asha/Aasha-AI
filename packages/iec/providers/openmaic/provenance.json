@@ -1,0 +1,28 @@
+{
+  "resource_id": "RESOURCE_OPENMAIC_INTERACTIVE_PRIMITIVES",
+  "repository": "https://github.com/THU-MAIC/OpenMAIC",
+  "release_tag": "v1.1.0",
+  "exact_commit": "21d83ec51b908a4b169ee2be7498a29da213c74d",
+  "license": "MIT",
+  "license_source": "https://github.com/THU-MAIC/OpenMAIC/blob/main/LICENSE",
+  "provenance_status": "PINNED_IMMUTABLE",
+  "floating_dependency": false,
+  "role": "APPROVED_REUSABLE_INTERACTIVE_GENERATION_FOUNDATION",
+  "extracted_primitives": [
+    "parameter_slider_state_loops",
+    "responsive_canvas_touch_controls",
+    "postmessage_state_schemas",
+    "step_state_toggle_patterns"
+  ],
+  "rejected_components": [
+    "OpenMAIC_classroom_UI",
+    "OpenMAIC_course_management",
+    "OpenMAIC_PPTX_pipeline",
+    "unapproved_external_runtime_CDNs",
+    "external_mastery_authority",
+    "external_telemetry_authority"
+  ],
+  "adaptation_version": "1.0.0",
+  "adapter_path": "Aasha-AI/packages/iec/providers/openmaic/openmaic_adapter_provider.ts",
+  "verified_at": "2026-09-28T02:05:00+05:30"
+}

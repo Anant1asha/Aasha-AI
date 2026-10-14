@@ -1,0 +1,1667 @@
+{
+  "schema_version": "1.1.0",
+  "chapter_metadata": {
+    "chapter_id": "c8_math_exponents_powers",
+    "title": "Exponents and Powers",
+    "grade": 8,
+    "subject": "Mathematics",
+    "board": "NCERT / CBSE / ICSE",
+    "source_pdf_hash": "sha256_math_matrix_8_ch02_exponents_and_powers"
+  },
+  "learning_objectives": [
+    {
+      "id": "obj:mathematics:c8:c8_math_exponents_powers:01",
+      "description": "Understand the exponential notation, distinguishing base and power, and apply sign rules for odd/even powers of negative rational numbers.",
+      "bloom_level": "understand",
+      "success_criteria": [
+        "Identify base and exponent in exponential notation",
+        "Evaluate odd and even powers of negative numbers accurately"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c8:c8_math_exponents_powers:obj_1"
+      ]
+    },
+    {
+      "id": "obj:mathematics:c8:c8_math_exponents_powers:02",
+      "description": "Reason and apply the concept of negative integral exponents as multiplicative inverses and reciprocal fractions.",
+      "bloom_level": "apply",
+      "success_criteria": [
+        "Transform negative exponents into reciprocal positive powers",
+        "Compute values of rational bases with negative powers"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c8:c8_math_exponents_powers:obj_2"
+      ]
+    },
+    {
+      "id": "obj:mathematics:c8:c8_math_exponents_powers:03",
+      "description": "Master and apply the 5 fundamental laws of exponents with integral powers to simplify complex numerical and algebraic expressions.",
+      "bloom_level": "apply",
+      "success_criteria": [
+        "Execute product, quotient, and power of power laws correctly",
+        "Apply zero exponent identity a^0 = 1 for any non-zero base"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c8:c8_math_exponents_powers:obj_3"
+      ]
+    },
+    {
+      "id": "obj:mathematics:c8:c8_math_exponents_powers:04",
+      "description": "Solve exponential equations by transforming expressions to common bases and equating exponents.",
+      "bloom_level": "analyze",
+      "success_criteria": [
+        "Align LHS and RHS to identical prime or rational bases",
+        "Formulate and solve linear equations in the exponent variable"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c8:c8_math_exponents_powers:obj_4"
+      ]
+    },
+    {
+      "id": "obj:mathematics:c8:c8_math_exponents_powers:05",
+      "description": "Convert extreme astronomical and microscopic scientific measurements between usual decimal form and standard scientific notation.",
+      "bloom_level": "analyze",
+      "success_criteria": [
+        "Express numbers in standard form k * 10^n with 1 <= k < 10",
+        "Compare real-world physical dimensions and perform arithmetic on scientific numbers"
+      ],
+      "evidence_contracts": [
+        "evd:mathematics:c8:c8_math_exponents_powers:obj_5"
+      ]
+    }
+  ],
+  "concept_graph": [
+    {
+      "id": "cpt:mathematics:c8:c8_math_exponents_powers:c_1",
+      "name": "Exponential Notation and Sign Rules",
+      "definition_raw": "Repeated multiplication of a rational number by itself is expressed as exponential notation \\(a^n\\), where \\(a\\) is the base and \\(n\\) is the exponent or index. For any fraction, \\((\\frac{p}{q})^n = \\frac{p^n}{q^n}\\). A negative base raised to an odd power retains a negative value, whereas raised to an even power produces a positive value.",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">Repeated multiplication of a rational number by itself is expressed as exponential notation \\(a^n\\), where \\(a\\) is the base and \\(n\\) is the exponent or index. For any fraction, \\((\\frac{p}{q})^n = \\frac{p^n}{q^n}\\). A negative base raised to an odd power retains a negative value, whereas raised to an even power produces a positive value.</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    },
+    {
+      "id": "cpt:mathematics:c8:c8_math_exponents_powers:c_2",
+      "name": "Negative Integral Exponents and Reciprocals",
+      "definition_raw": "A negative integral exponent indicates repeated division and represents the multiplicative inverse of the corresponding positive power: \\(a^{-n} = \\frac{1}{a^n}\\). For any non-zero rational fraction, \\((\\frac{p}{q})^{-n} = (\\frac{q}{p})^n\\). The product of a non-zero number and its multiplicative inverse always equals 1.",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">A negative integral exponent indicates repeated division and represents the multiplicative inverse of the corresponding positive power: \\(a^{-n} = \\frac{1}{a^n}\\). For any non-zero rational fraction, \\((\\frac{p}{q})^{-n} = (\\frac{q}{p})^n\\). The product of a non-zero number and its multiplicative inverse always equals 1.</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    },
+    {
+      "id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "name": "The Five Fundamental Laws of Exponents",
+      "definition_raw": "For non-zero rational bases and integral exponents: (1) Product Law: \\(a^m \\times a^n = a^{m+n}\\); (2) Quotient Law: \\(a^m \\div a^n = a^{m-n}\\); (3) Power of a Power: \\((a^m)^n = a^{mn}\\); (4) Power of a Product: \\(a^m \\times b^m = (ab)^m\\); and (5) Zero Exponent Law: \\(a^0 = 1\\) for every non-zero base \\(a\\).",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">For non-zero rational bases and integral exponents: (1) Product Law: \\(a^m \\times a^n = a^{m+n}\\); (2) Quotient Law: \\(a^m \\div a^n = a^{m-n}\\); (3) Power of a Power: \\((a^m)^n = a^{mn}\\); (4) Power of a Product: \\(a^m \\times b^m = (ab)^m\\); and (5) Zero Exponent Law: \\(a^0 = 1\\) for every non-zero base \\(a\\).</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    },
+    {
+      "id": "cpt:mathematics:c8:c8_math_exponents_powers:c_4",
+      "name": "Solving Exponential Equations",
+      "definition_raw": "An exponential equation contains an unknown variable in the exponent. When two exponential expressions with the same non-zero base (other than 1 or -1) are equal, their exponents must be equal: if \\(a^x = a^y\\), then \\(x = y\\). Unknown terms are isolated by aligning both sides to common bases.",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">An exponential equation contains an unknown variable in the exponent. When two exponential expressions with the same non-zero base (other than 1 or -1) are equal, their exponents must be equal: if \\(a^x = a^y\\), then \\(x = y\\). Unknown terms are isolated by aligning both sides to common bases.</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    },
+    {
+      "id": "cpt:mathematics:c8:c8_math_exponents_powers:c_5",
+      "name": "Standard Form and Scientific Notation",
+      "definition_raw": "Scientific notation represents extreme numbers in the normalized form \\(k \\times 10^n\\), where \\(1 \\le k < 10\\) and \\(n\\) is an integer. For numbers smaller than 1, shifting the decimal point to the right produces a negative exponent \\(n\\). For numbers greater than 10, shifting to the left produces a positive exponent \\(n\\).",
+      "definition_math_insulated": "<span class=\"math-var\" data-math=\"true\">Scientific notation represents extreme numbers in the normalized form \\(k \\times 10^n\\), where \\(1 \\le k < 10\\) and \\(n\\) is an integer. For numbers smaller than 1, shifting the decimal point to the right produces a negative exponent \\(n\\). For numbers greater than 10, shifting to the left produces a positive exponent \\(n\\).</span>",
+      "prerequisite_ids": [],
+      "child_concept_ids": []
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "misc:mathematics:c8:c8_math_exponents_powers:m_1",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_2",
+      "name": "Base Negation Error",
+      "description": "Student confuses a negative exponent with a negative base value, assuming a negative power turns the whole number negative.",
+      "observable_signals": [
+        "signal:misc:mathematics:c8:c8_math_exponents_powers:m_1:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "A negative sign in an exponent designates reciprocal division (multiplicative inverse), not an arithmetic negative sign on the base."
+    },
+    {
+      "id": "misc:mathematics:c8:c8_math_exponents_powers:m_2",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "name": "Base Multiplication Confusion",
+      "description": "Student multiplies the bases together when applying the product law (e.g. treating 2^3 * 2^4 as 4^7).",
+      "observable_signals": [
+        "signal:misc:mathematics:c8:c8_math_exponents_powers:m_2:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "When identical bases are multiplied, the base represents the unchanging factor; only the counts of factors (exponents) combine."
+    },
+    {
+      "id": "misc:mathematics:c8:c8_math_exponents_powers:m_3",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "name": "Quotient Exponent Division",
+      "description": "Student divides exponents by each other during base division instead of subtracting them (e.g. treating 3^6 / 3^2 as 3^3).",
+      "observable_signals": [
+        "signal:misc:mathematics:c8:c8_math_exponents_powers:m_3:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "Division of like bases cancels common factors one by one; therefore, denominator exponent count subtracts from numerator count."
+    },
+    {
+      "id": "misc:mathematics:c8:c8_math_exponents_powers:m_4",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "name": "Zero Power Value Confusion",
+      "description": "Student assumes raising a non-zero base to power zero equals zero or equals the base itself.",
+      "observable_signals": [
+        "signal:misc:mathematics:c8:c8_math_exponents_powers:m_4:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "By the quotient rule, dividing any non-zero quantity by itself yields an exponent difference of zero and an arithmetic value of 1."
+    },
+    {
+      "id": "misc:mathematics:c8:c8_math_exponents_powers:m_5",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_5",
+      "name": "Non-Normalized Coefficient Error",
+      "description": "Student leaves multiple non-zero digits before the decimal point (e.g. writing 35 * 10^4 instead of 3.5 * 10^5).",
+      "observable_signals": [
+        "signal:misc:mathematics:c8:c8_math_exponents_powers:m_5:incorrect_attempt"
+      ],
+      "confidence_weight": 0.85,
+      "remediation_strategy": "Standard scientific notation requires the leading decimal coefficient to contain strictly one non-zero digit to the left of the point."
+    }
+  ],
+  "content_blocks": [
+    {
+      "id": "cnt:mathematics:c8:c8_math_exponents_powers:def_1",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_1",
+      "text_english": "Repeated multiplication of a rational number by itself is expressed as exponential notation \\(a^n\\), where \\(a\\) is the base and \\(n\\) is the exponent or index. For any fraction, \\((\\frac{p}{q})^n = \\frac{p^n}{q^n}\\). A negative base raised to an odd power retains a negative value, whereas raised to an even power produces a positive value.",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">Repeated multiplication of a rational number by itself is expressed as exponential notation \\(a^n\\), where \\(a\\) is the base and \\(n\\) is the exponent or index. For any fraction, \\((\\frac{p}{q})^n = \\frac{p^n}{q^n}\\). A negative base raised to an odd power retains a negative value, whereas raised to an even power produces a positive value.</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "exponent": "घातांक (एक्सपोनेंट)",
+          "exponents": "घातांक (एक्सपोनेंट्स)",
+          "power": "घात (पावर)",
+          "powers": "घातें (पावर्स)",
+          "base": "आधार (बेस)",
+          "bases": "आधार (बेसेस)",
+          "integral": "पूर्णांक (इंटीग्रल)",
+          "reciprocal": "व्युत्क्रम (रेसिप्रोकल)",
+          "reciprocals": "व्युत्क्रम (रेसिप्रोकल्स)",
+          "multiplicative": "गुणात्मक (मल्टीप्लिकेटिव)",
+          "inverse": "प्रतिलोम (इन्वर्स)",
+          "product": "गुणनफल (प्रोडक्ट)",
+          "quotient": "भागफल (कोटिएंट)",
+          "law": "नियम (लॉ)",
+          "laws": "नियम (लॉज़)",
+          "notation": "संकेतन (नोटेशन)",
+          "scientific": "वैज्ञानिक (साइंटिफिक)",
+          "standard": "मानक रूप (स्टैंडर्ड)",
+          "form": "रूप (फॉर्म)",
+          "decimal": "दशमलव (डेसिमल)",
+          "equation": "समीकरण (इक्वेशन)",
+          "equations": "समीकरण (इक्वेशन्स)",
+          "variable": "चर (वेरिएबल)",
+          "simplify": "सरल करना (सिम्प्लिफाई)",
+          "evaluate": "मान ज्ञात करना (इवैल्यूएट)",
+          "express": "व्यक्त करना (एक्सप्रेस)",
+          "rational": "परिमेय संख्या (रैशनल)",
+          "positive": "धनात्मक (पॉज़िटिव)",
+          "negative": "ऋणात्मक (नेगेटिव)",
+          "numerator": "अंश (न्यूमरेटर)",
+          "denominator": "हर (डिनॉमिनेटर)",
+          "multiply": "गुणा करना (मल्टीप्लाई)",
+          "divide": "भाग देना (डिवाइड)",
+          "add": "जोड़ना (ऐड)",
+          "subtract": "घटाना (सबट्रैक्ट)",
+          "spinner": "चकरी (स्पिनर)",
+          "arena": "अखाड़ा / मैदान (एरीना)",
+          "battle": "मुकाबला (बैटल)"
+        }
+      },
+      "provenance_source": "pdf:sha256_math_matrix_8_ch02_exponents_and_powers",
+      "fidelity_score": 1
+    },
+    {
+      "id": "cnt:mathematics:c8:c8_math_exponents_powers:def_2",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_2",
+      "text_english": "A negative integral exponent indicates repeated division and represents the multiplicative inverse of the corresponding positive power: \\(a^{-n} = \\frac{1}{a^n}\\). For any non-zero rational fraction, \\((\\frac{p}{q})^{-n} = (\\frac{q}{p})^n\\). The product of a non-zero number and its multiplicative inverse always equals 1.",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">A negative integral exponent indicates repeated division and represents the multiplicative inverse of the corresponding positive power: \\(a^{-n} = \\frac{1}{a^n}\\). For any non-zero rational fraction, \\((\\frac{p}{q})^{-n} = (\\frac{q}{p})^n\\). The product of a non-zero number and its multiplicative inverse always equals 1.</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "exponent": "घातांक (एक्सपोनेंट)",
+          "exponents": "घातांक (एक्सपोनेंट्स)",
+          "power": "घात (पावर)",
+          "powers": "घातें (पावर्स)",
+          "base": "आधार (बेस)",
+          "bases": "आधार (बेसेस)",
+          "integral": "पूर्णांक (इंटीग्रल)",
+          "reciprocal": "व्युत्क्रम (रेसिप्रोकल)",
+          "reciprocals": "व्युत्क्रम (रेसिप्रोकल्स)",
+          "multiplicative": "गुणात्मक (मल्टीप्लिकेटिव)",
+          "inverse": "प्रतिलोम (इन्वर्स)",
+          "product": "गुणनफल (प्रोडक्ट)",
+          "quotient": "भागफल (कोटिएंट)",
+          "law": "नियम (लॉ)",
+          "laws": "नियम (लॉज़)",
+          "notation": "संकेतन (नोटेशन)",
+          "scientific": "वैज्ञानिक (साइंटिफिक)",
+          "standard": "मानक रूप (स्टैंडर्ड)",
+          "form": "रूप (फॉर्म)",
+          "decimal": "दशमलव (डेसिमल)",
+          "equation": "समीकरण (इक्वेशन)",
+          "equations": "समीकरण (इक्वेशन्स)",
+          "variable": "चर (वेरिएबल)",
+          "simplify": "सरल करना (सिम्प्लिफाई)",
+          "evaluate": "मान ज्ञात करना (इवैल्यूएट)",
+          "express": "व्यक्त करना (एक्सप्रेस)",
+          "rational": "परिमेय संख्या (रैशनल)",
+          "positive": "धनात्मक (पॉज़िटिव)",
+          "negative": "ऋणात्मक (नेगेटिव)",
+          "numerator": "अंश (न्यूमरेटर)",
+          "denominator": "हर (डिनॉमिनेटर)",
+          "multiply": "गुणा करना (मल्टीप्लाई)",
+          "divide": "भाग देना (डिवाइड)",
+          "add": "जोड़ना (ऐड)",
+          "subtract": "घटाना (सबट्रैक्ट)",
+          "spinner": "चकरी (स्पिनर)",
+          "arena": "अखाड़ा / मैदान (एरीना)",
+          "battle": "मुकाबला (बैटल)"
+        }
+      },
+      "provenance_source": "pdf:sha256_math_matrix_8_ch02_exponents_and_powers",
+      "fidelity_score": 1
+    },
+    {
+      "id": "cnt:mathematics:c8:c8_math_exponents_powers:def_3",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "text_english": "For non-zero rational bases and integral exponents: (1) Product Law: \\(a^m \\times a^n = a^{m+n}\\); (2) Quotient Law: \\(a^m \\div a^n = a^{m-n}\\); (3) Power of a Power: \\((a^m)^n = a^{mn}\\); (4) Power of a Product: \\(a^m \\times b^m = (ab)^m\\); and (5) Zero Exponent Law: \\(a^0 = 1\\) for every non-zero base \\(a\\).",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">For non-zero rational bases and integral exponents: (1) Product Law: \\(a^m \\times a^n = a^{m+n}\\); (2) Quotient Law: \\(a^m \\div a^n = a^{m-n}\\); (3) Power of a Power: \\((a^m)^n = a^{mn}\\); (4) Power of a Product: \\(a^m \\times b^m = (ab)^m\\); and (5) Zero Exponent Law: \\(a^0 = 1\\) for every non-zero base \\(a\\).</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "exponent": "घातांक (एक्सपोनेंट)",
+          "exponents": "घातांक (एक्सपोनेंट्स)",
+          "power": "घात (पावर)",
+          "powers": "घातें (पावर्स)",
+          "base": "आधार (बेस)",
+          "bases": "आधार (बेसेस)",
+          "integral": "पूर्णांक (इंटीग्रल)",
+          "reciprocal": "व्युत्क्रम (रेसिप्रोकल)",
+          "reciprocals": "व्युत्क्रम (रेसिप्रोकल्स)",
+          "multiplicative": "गुणात्मक (मल्टीप्लिकेटिव)",
+          "inverse": "प्रतिलोम (इन्वर्स)",
+          "product": "गुणनफल (प्रोडक्ट)",
+          "quotient": "भागफल (कोटिएंट)",
+          "law": "नियम (लॉ)",
+          "laws": "नियम (लॉज़)",
+          "notation": "संकेतन (नोटेशन)",
+          "scientific": "वैज्ञानिक (साइंटिफिक)",
+          "standard": "मानक रूप (स्टैंडर्ड)",
+          "form": "रूप (फॉर्म)",
+          "decimal": "दशमलव (डेसिमल)",
+          "equation": "समीकरण (इक्वेशन)",
+          "equations": "समीकरण (इक्वेशन्स)",
+          "variable": "चर (वेरिएबल)",
+          "simplify": "सरल करना (सिम्प्लिफाई)",
+          "evaluate": "मान ज्ञात करना (इवैल्यूएट)",
+          "express": "व्यक्त करना (एक्सप्रेस)",
+          "rational": "परिमेय संख्या (रैशनल)",
+          "positive": "धनात्मक (पॉज़िटिव)",
+          "negative": "ऋणात्मक (नेगेटिव)",
+          "numerator": "अंश (न्यूमरेटर)",
+          "denominator": "हर (डिनॉमिनेटर)",
+          "multiply": "गुणा करना (मल्टीप्लाई)",
+          "divide": "भाग देना (डिवाइड)",
+          "add": "जोड़ना (ऐड)",
+          "subtract": "घटाना (सबट्रैक्ट)",
+          "spinner": "चकरी (स्पिनर)",
+          "arena": "अखाड़ा / मैदान (एरीना)",
+          "battle": "मुकाबला (बैटल)"
+        }
+      },
+      "provenance_source": "pdf:sha256_math_matrix_8_ch02_exponents_and_powers",
+      "fidelity_score": 1
+    },
+    {
+      "id": "cnt:mathematics:c8:c8_math_exponents_powers:def_4",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_4",
+      "text_english": "An exponential equation contains an unknown variable in the exponent. When two exponential expressions with the same non-zero base (other than 1 or -1) are equal, their exponents must be equal: if \\(a^x = a^y\\), then \\(x = y\\). Unknown terms are isolated by aligning both sides to common bases.",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">An exponential equation contains an unknown variable in the exponent. When two exponential expressions with the same non-zero base (other than 1 or -1) are equal, their exponents must be equal: if \\(a^x = a^y\\), then \\(x = y\\). Unknown terms are isolated by aligning both sides to common bases.</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "exponent": "घातांक (एक्सपोनेंट)",
+          "exponents": "घातांक (एक्सपोनेंट्स)",
+          "power": "घात (पावर)",
+          "powers": "घातें (पावर्स)",
+          "base": "आधार (बेस)",
+          "bases": "आधार (बेसेस)",
+          "integral": "पूर्णांक (इंटीग्रल)",
+          "reciprocal": "व्युत्क्रम (रेसिप्रोकल)",
+          "reciprocals": "व्युत्क्रम (रेसिप्रोकल्स)",
+          "multiplicative": "गुणात्मक (मल्टीप्लिकेटिव)",
+          "inverse": "प्रतिलोम (इन्वर्स)",
+          "product": "गुणनफल (प्रोडक्ट)",
+          "quotient": "भागफल (कोटिएंट)",
+          "law": "नियम (लॉ)",
+          "laws": "नियम (लॉज़)",
+          "notation": "संकेतन (नोटेशन)",
+          "scientific": "वैज्ञानिक (साइंटिफिक)",
+          "standard": "मानक रूप (स्टैंडर्ड)",
+          "form": "रूप (फॉर्म)",
+          "decimal": "दशमलव (डेसिमल)",
+          "equation": "समीकरण (इक्वेशन)",
+          "equations": "समीकरण (इक्वेशन्स)",
+          "variable": "चर (वेरिएबल)",
+          "simplify": "सरल करना (सिम्प्लिफाई)",
+          "evaluate": "मान ज्ञात करना (इवैल्यूएट)",
+          "express": "व्यक्त करना (एक्सप्रेस)",
+          "rational": "परिमेय संख्या (रैशनल)",
+          "positive": "धनात्मक (पॉज़िटिव)",
+          "negative": "ऋणात्मक (नेगेटिव)",
+          "numerator": "अंश (न्यूमरेटर)",
+          "denominator": "हर (डिनॉमिनेटर)",
+          "multiply": "गुणा करना (मल्टीप्लाई)",
+          "divide": "भाग देना (डिवाइड)",
+          "add": "जोड़ना (ऐड)",
+          "subtract": "घटाना (सबट्रैक्ट)",
+          "spinner": "चकरी (स्पिनर)",
+          "arena": "अखाड़ा / मैदान (एरीना)",
+          "battle": "मुकाबला (बैटल)"
+        }
+      },
+      "provenance_source": "pdf:sha256_math_matrix_8_ch02_exponents_and_powers",
+      "fidelity_score": 1
+    },
+    {
+      "id": "cnt:mathematics:c8:c8_math_exponents_powers:def_5",
+      "type": "concept_def",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_5",
+      "text_english": "Scientific notation represents extreme numbers in the normalized form \\(k \\times 10^n\\), where \\(1 \\le k < 10\\) and \\(n\\) is an integer. For numbers smaller than 1, shifting the decimal point to the right produces a negative exponent \\(n\\). For numbers greater than 10, shifting to the left produces a positive exponent \\(n\\).",
+      "text_math_insulated": "<span class=\"math-var\" data-math=\"true\">Scientific notation represents extreme numbers in the normalized form \\(k \\times 10^n\\), where \\(1 \\le k < 10\\) and \\(n\\) is an integer. For numbers smaller than 1, shifting the decimal point to the right produces a negative exponent \\(n\\). For numbers greater than 10, shifting to the left produces a positive exponent \\(n\\).</span>",
+      "hindi_translation": {
+        "phonetics": "",
+        "word_map": {
+          "exponent": "घातांक (एक्सपोनेंट)",
+          "exponents": "घातांक (एक्सपोनेंट्स)",
+          "power": "घात (पावर)",
+          "powers": "घातें (पावर्स)",
+          "base": "आधार (बेस)",
+          "bases": "आधार (बेसेस)",
+          "integral": "पूर्णांक (इंटीग्रल)",
+          "reciprocal": "व्युत्क्रम (रेसिप्रोकल)",
+          "reciprocals": "व्युत्क्रम (रेसिप्रोकल्स)",
+          "multiplicative": "गुणात्मक (मल्टीप्लिकेटिव)",
+          "inverse": "प्रतिलोम (इन्वर्स)",
+          "product": "गुणनफल (प्रोडक्ट)",
+          "quotient": "भागफल (कोटिएंट)",
+          "law": "नियम (लॉ)",
+          "laws": "नियम (लॉज़)",
+          "notation": "संकेतन (नोटेशन)",
+          "scientific": "वैज्ञानिक (साइंटिफिक)",
+          "standard": "मानक रूप (स्टैंडर्ड)",
+          "form": "रूप (फॉर्म)",
+          "decimal": "दशमलव (डेसिमल)",
+          "equation": "समीकरण (इक्वेशन)",
+          "equations": "समीकरण (इक्वेशन्स)",
+          "variable": "चर (वेरिएबल)",
+          "simplify": "सरल करना (सिम्प्लिफाई)",
+          "evaluate": "मान ज्ञात करना (इवैल्यूएट)",
+          "express": "व्यक्त करना (एक्सप्रेस)",
+          "rational": "परिमेय संख्या (रैशनल)",
+          "positive": "धनात्मक (पॉज़िटिव)",
+          "negative": "ऋणात्मक (नेगेटिव)",
+          "numerator": "अंश (न्यूमरेटर)",
+          "denominator": "हर (डिनॉमिनेटर)",
+          "multiply": "गुणा करना (मल्टीप्लाई)",
+          "divide": "भाग देना (डिवाइड)",
+          "add": "जोड़ना (ऐड)",
+          "subtract": "घटाना (सबट्रैक्ट)",
+          "spinner": "चकरी (स्पिनर)",
+          "arena": "अखाड़ा / मैदान (एरीना)",
+          "battle": "मुकाबला (बैटल)"
+        }
+      },
+      "provenance_source": "pdf:sha256_math_matrix_8_ch02_exponents_and_powers",
+      "fidelity_score": 1
+    }
+  ],
+  "experience_graph": {
+    "initial_state_id": "state:intro",
+    "states": [
+      {
+        "id": "state:intro",
+        "name": "Concept Discovery",
+        "type": "concept_card",
+        "content_ids": [
+          "cnt:mathematics:c8:c8_math_exponents_powers:def_1",
+          "cnt:mathematics:c8:c8_math_exponents_powers:def_2",
+          "cnt:mathematics:c8:c8_math_exponents_powers:def_3",
+          "cnt:mathematics:c8:c8_math_exponents_powers:def_4",
+          "cnt:mathematics:c8:c8_math_exponents_powers:def_5"
+        ]
+      },
+      {
+        "id": "state:sim",
+        "name": "Interactive Manipulative Lab",
+        "type": "interactive_sim",
+        "capability_id": "cap:mathematics:c8:c8_math_exponents_powers:sim_1",
+        "content_ids": []
+      },
+      {
+        "id": "state:assessment",
+        "name": "TEAS Diagnostic Challenge",
+        "type": "teas_assessment",
+        "content_ids": []
+      }
+    ],
+    "transitions": [
+      {
+        "from_state_id": "state:intro",
+        "to_state_id": "state:sim",
+        "trigger_event": "NEXT_CARD"
+      },
+      {
+        "from_state_id": "state:sim",
+        "to_state_id": "state:assessment",
+        "trigger_event": "MANIPULATIVE_COMPLETED"
+      }
+    ]
+  },
+  "visual_grammar": {
+    "spatial_model": "card_stack",
+    "density_tier": "compact_mobile",
+    "primary_color_theme": "#4F46E5",
+    "touch_target_min_px": 44
+  },
+  "assessment_items": [
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_1",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:01",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_1",
+      "question_type": "mcq",
+      "prompt": "What is the value of \\((-1)^7\\)?",
+      "prompt_math_insulated": "What is the value of \\((-1)^7\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_1_1",
+          "text": "-1",
+          "text_math_insulated": "-1",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_1_2",
+          "text": "1",
+          "text_math_insulated": "1",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_1",
+          "distractor_explanation": "Raising a negative unit base to an odd exponent retains a negative sign through unpaired factors."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_1_3",
+          "text": "-7",
+          "text_math_insulated": "-7",
+          "is_correct": false,
+          "distractor_explanation": "Exponents represent repeated multiplication of the base, not multiplication of base with exponent."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_1_4",
+          "text": "7",
+          "text_math_insulated": "7",
+          "is_correct": false,
+          "distractor_explanation": "Repeated multiplication of unit factors cannot increase the absolute numerical magnitude above one."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Notice whether the exponent 7 is an even number or an odd number.",
+        "H2_concept": "An odd number of negative signs leaves one unpaired negative factor.",
+        "H3_formula": "Recall the rule: (-1) raised to any odd natural number retains its negative sign.",
+        "H4_step": "Multiplying negative one by itself seven times pairs three negatives into positives, leaving one negative."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_2",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:01",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_1",
+      "question_type": "mcq",
+      "prompt": "Evaluate \\(13^3\\) into expanded standard value.",
+      "prompt_math_insulated": "Evaluate \\(13^3\\) into expanded standard value.",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_2_1",
+          "text": "2,197",
+          "text_math_insulated": "2,197",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_2_2",
+          "text": "169",
+          "text_math_insulated": "169",
+          "is_correct": false,
+          "distractor_explanation": "This value corresponds to 13 multiplied twice; a cube requires three factors of thirteen."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_2_3",
+          "text": "39",
+          "text_math_insulated": "39",
+          "is_correct": false,
+          "distractor_explanation": "Multiplying base thirteen by the exponent three confuses repeated addition with repeated multiplication."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_2_4",
+          "text": "2,097",
+          "text_math_insulated": "2,097",
+          "is_correct": false,
+          "distractor_explanation": "Carefully compute intermediate multiplication: 169 multiplied by 13."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Identify the power: 13 raised to exponent 3 means 13 * 13 * 13.",
+        "H2_concept": "First calculate the square: 13 * 13.",
+        "H3_formula": "Now multiply the product 169 by 13 once more.",
+        "H4_step": "Compute: 169 * 10 + 169 * 3."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_3",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:01",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_1",
+      "question_type": "mcq",
+      "prompt": "Which power notation correctly expresses \\(-15,625\\)?",
+      "prompt_math_insulated": "Which power notation correctly expresses \\(-15,625\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_3_1",
+          "text": "\\((-25)^3\\)",
+          "text_math_insulated": "\\((-25)^3\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_3_2",
+          "text": "\\((-5)^6\\)",
+          "text_math_insulated": "\\((-5)^6\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_1",
+          "distractor_explanation": "An even exponent applied to a negative base creates a positive number rather than a negative quantity."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_3_3",
+          "text": "\\((-5)^5\\)",
+          "text_math_insulated": "\\((-5)^5\\)",
+          "is_correct": false,
+          "distractor_explanation": "Multiplying five factors of negative five reaches negative 3,125."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_3_4",
+          "text": "\\((-25)^2\\)",
+          "text_math_insulated": "\\((-25)^2\\)",
+          "is_correct": false,
+          "distractor_explanation": "Squaring negative twenty-five reaches positive 625."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Observe the negative sign in the given number -15,625.",
+        "H2_concept": "A negative power result requires an odd exponent on a negative base.",
+        "H3_formula": "Factor 15625: 25 * 25 * 25 = 25^3.",
+        "H4_step": "Since the final value is negative, (-25)^3 preserves the negative sign."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_4",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_2",
+      "question_type": "mcq",
+      "prompt": "What is the rational value of \\(4^{-3}\\)?",
+      "prompt_math_insulated": "What is the rational value of \\(4^{-3}\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_4_1",
+          "text": "\\(\\frac{1}{64}\\)",
+          "text_math_insulated": "\\(\\frac{1}{64}\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_4_2",
+          "text": "-64",
+          "text_math_insulated": "-64",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_1",
+          "distractor_explanation": "A negative sign in an exponent inverts the factor into a denominator; it does not turn the product negative."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_4_3",
+          "text": "64",
+          "text_math_insulated": "64",
+          "is_correct": false,
+          "distractor_explanation": "A negative exponent represents reciprocal division rather than positive direct power."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_4_4",
+          "text": "\\(-\\frac{1}{64}\\)",
+          "text_math_insulated": "\\(-\\frac{1}{64}\\)",
+          "is_correct": false,
+          "distractor_explanation": "With a positive base, reciprocal inversion retains positivity without introducing negative signs."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Focus on the negative sign in the exponent -3.",
+        "H2_concept": "Recall the rule: a^(-n) = 1 / a^n.",
+        "H3_formula": "Invert the base into the denominator: 1 / 4^3.",
+        "H4_step": "Calculate 4 * 4 * 4 in the denominator."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_5",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_2",
+      "question_type": "mcq",
+      "prompt": "Express \\((\\frac{5}{3})^{-3}\\) as a rational number of the form \\(\\frac{p}{q}\\).",
+      "prompt_math_insulated": "Express \\((\\frac{5}{3})^{-3}\\) as a rational number of the form \\(\\frac{p}{q}\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_5_1",
+          "text": "\\(\\frac{27}{125}\\)",
+          "text_math_insulated": "\\(\\frac{27}{125}\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_5_2",
+          "text": "\\(-\\frac{27}{125}\\)",
+          "text_math_insulated": "\\(-\\frac{27}{125}\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_1",
+          "distractor_explanation": "The negative exponent indicates fractional inversion; both numerator and denominator remain positive."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_5_3",
+          "text": "\\(\\frac{125}{27}\\)",
+          "text_math_insulated": "\\(\\frac{125}{27}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Invert the fraction to remove the negative exponent before cubing numerator and denominator."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_5_4",
+          "text": "\\(\\frac{9}{15}\\)",
+          "text_math_insulated": "\\(\\frac{9}{15}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Exponents indicate repeated multiplication, not multiplication of numerator and denominator by three."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Observe the negative exponent on the rational fraction (5/3).",
+        "H2_concept": "Apply the fractional reciprocal law: (p/q)^(-n) = (q/p)^n.",
+        "H3_formula": "Swap numerator and denominator: (3/5)^3.",
+        "H4_step": "Cube both terms: 3^3 / 5^3."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_6",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "question_type": "mcq",
+      "prompt": "What is the value of \\((5^0 - 7^0) \\times 3^3 \\div 6^0\\)?",
+      "prompt_math_insulated": "What is the value of \\((5^0 - 7^0) \\times 3^3 \\div 6^0\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_6_1",
+          "text": "0",
+          "text_math_insulated": "0",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_6_2",
+          "text": "27",
+          "text_math_insulated": "27",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_4",
+          "distractor_explanation": "Subtracting equal zero-power terms reduces the inner bracket to zero."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_6_3",
+          "text": "1",
+          "text_math_insulated": "1",
+          "is_correct": false,
+          "distractor_explanation": "Parentheses evaluate to zero prior to subsequent multiplication."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_6_4",
+          "text": "-27",
+          "text_math_insulated": "-27",
+          "is_correct": false,
+          "distractor_explanation": "The term inside parentheses evaluates to 1 - 1, which completely eliminates the factor."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Look at the terms raised to exponent 0: 5^0 and 7^0.",
+        "H2_concept": "Recall the zero exponent law: any non-zero base to power zero equals 1.",
+        "H3_formula": "Evaluate the bracket first: (1 - 1).",
+        "H4_step": "Multiply zero by any finite power product."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_7",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "question_type": "mcq",
+      "prompt": "Simplify and express as a single power: \\(9^5 \\times 6^5\\).",
+      "prompt_math_insulated": "Simplify and express as a single power: \\(9^5 \\times 6^5\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_7_1",
+          "text": "\\(54^5\\)",
+          "text_math_insulated": "\\(54^5\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_7_2",
+          "text": "\\(54^{10}\\)",
+          "text_math_insulated": "\\(54^{10}\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_2",
+          "distractor_explanation": "When bases differ but exponents match, exponents do not add; bases multiply under the shared exponent."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_7_3",
+          "text": "\\(15^5\\)",
+          "text_math_insulated": "\\(15^5\\)",
+          "is_correct": false,
+          "distractor_explanation": "Bases undergo multiplication under a common power, rather than basic addition."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_7_4",
+          "text": "\\(15^{10}\\)",
+          "text_math_insulated": "\\(15^{10}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Both bases must multiply, and the shared exponent stays unchanged."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Notice that both factors share the exact same exponent 5.",
+        "H2_concept": "Recall the common power law: a^m * b^m = (ab)^m.",
+        "H3_formula": "Combine the bases under a single exponent: (9 * 6)^5.",
+        "H4_step": "Compute the base product: 9 * 6."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_8",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_2",
+      "question_type": "mcq",
+      "prompt": "Simplify the sum of reciprocal powers: \\((\\frac{1}{2})^{-2} + (\\frac{1}{3})^{-2} + (\\frac{1}{4})^{-2}\\).",
+      "prompt_math_insulated": "Simplify the sum of reciprocal powers: \\((\\frac{1}{2})^{-2} + (\\frac{1}{3})^{-2} + (\\frac{1}{4})^{-2}\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_8_1",
+          "text": "29",
+          "text_math_insulated": "29",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_8_2",
+          "text": "\\(\\frac{1}{29}\\)",
+          "text_math_insulated": "\\(\\frac{1}{29}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Inverting each unit fraction turns each denominator into an integer before squaring."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_8_3",
+          "text": "9",
+          "text_math_insulated": "9",
+          "is_correct": false,
+          "distractor_explanation": "Squaring 2, 3, and 4 generates separate terms that sum together."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_8_4",
+          "text": "-29",
+          "text_math_insulated": "-29",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_1",
+          "distractor_explanation": "Negative exponents invert positive fractions into positive integers; no negative signs enter."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Invert each fraction first: (1/a)^(-2) = a^2.",
+        "H2_concept": "Calculate the three squared integers: 2^2, 3^2, and 4^2.",
+        "H3_formula": "Add the three values: 4 + 9 + 16.",
+        "H4_step": "Sum the numbers: 13 + 16."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_9",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "question_type": "mcq",
+      "prompt": "Simplify: \\([6^{-1} + (\\frac{3}{2})^{-1}]^{-1}\\).",
+      "prompt_math_insulated": "Simplify: \\([6^{-1} + (\\frac{3}{2})^{-1}]^{-1}\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_9_1",
+          "text": "\\(\\frac{6}{5}\\)",
+          "text_math_insulated": "\\(\\frac{6}{5}\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_9_2",
+          "text": "\\(\\frac{5}{6}\\)",
+          "text_math_insulated": "\\(\\frac{5}{6}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Do not forget the outermost exponent -1, which inverts the bracketed sum."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_9_3",
+          "text": "\\(\\frac{1}{6}\\)",
+          "text_math_insulated": "\\(\\frac{1}{6}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Add both reciprocal fractions using their common denominator six."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_9_4",
+          "text": "6",
+          "text_math_insulated": "6",
+          "is_correct": false,
+          "distractor_explanation": "Compute 1/6 + 2/3 = 5/6, then take the reciprocal."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Evaluate the two inner terms: 6^(-1) = 1/6 and (3/2)^(-1) = 2/3.",
+        "H2_concept": "Find a common denominator to add the inner fractions: 1/6 + 4/6.",
+        "H3_formula": "The inner sum is 5/6.",
+        "H4_step": "Apply the outer negative exponent: (5/6)^(-1)."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_10",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_2",
+      "question_type": "mcq",
+      "prompt": "By what number should \\((-6)^{-1}\\) be multiplied so that the product becomes \\(15^{-1}\\)?",
+      "prompt_math_insulated": "By what number should \\((-6)^{-1}\\) be multiplied so that the product becomes \\(15^{-1}\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_10_1",
+          "text": "\\(-\\frac{2}{5}\\)",
+          "text_math_insulated": "\\(-\\frac{2}{5}\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_10_2",
+          "text": "\\(\\frac{2}{5}\\)",
+          "text_math_insulated": "\\(\\frac{2}{5}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Dividing a positive target fraction by a negative factor leaves a negative quotient."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_10_3",
+          "text": "\\(-\\frac{5}{2}\\)",
+          "text_math_insulated": "\\(-\\frac{5}{2}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Invert the divisor when converting division to multiplication."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_10_4",
+          "text": "\\(-\\frac{1}{90}\\)",
+          "text_math_insulated": "\\(-\\frac{1}{90}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Divide the product by the known factor rather than multiplying them together."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Set up the equation: (-6)^(-1) * y = 15^(-1).",
+        "H2_concept": "Write with unit fractions: (-1/6) * y = 1/15.",
+        "H3_formula": "Isolate y: y = (1/15) / (-1/6) = (1/15) * (-6).",
+        "H4_step": "Simplify -6/15 by dividing numerator and denominator by 3."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_11",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "question_type": "mcq",
+      "prompt": "What number should be multiplied with \\(5^{-3}\\) so that the product becomes \\(125\\)?",
+      "prompt_math_insulated": "What number should be multiplied with \\(5^{-3}\\) so that the product becomes \\(125\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_11_1",
+          "text": "\\(5^6\\) (or 15,625)",
+          "text_math_insulated": "\\(5^6\\) (or 15,625)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_11_2",
+          "text": "\\(5^0\\) (or 1)",
+          "text_math_insulated": "\\(5^0\\) (or 1)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_2",
+          "distractor_explanation": "Multiplying by one retains the reciprocal fraction rather than reaching the target whole number."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_11_3",
+          "text": "\\(5^3\\) (or 125)",
+          "text_math_insulated": "\\(5^3\\) (or 125)",
+          "is_correct": false,
+          "distractor_explanation": "Multiplying opposite powers cancels to 5^0 = 1, not the target power."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_11_4",
+          "text": "\\(5^{-6}\\)",
+          "text_math_insulated": "\\(5^{-6}\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_1",
+          "distractor_explanation": "A negative power of five decreases the numerical value further into smaller decimals."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Write 125 as a power of 5: 125 = 5^3.",
+        "H2_concept": "Set up the equation: 5^(-3) * y = 5^3.",
+        "H3_formula": "Isolate y: y = 5^3 / 5^(-3).",
+        "H4_step": "Apply the quotient law: 3 - (-3) = 3 + 3."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_12",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:04",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_4",
+      "question_type": "mcq",
+      "prompt": "Find the value of \\(x\\) in: \\((\\frac{5}{3})^{-5} \\times (\\frac{5}{3})^{-11} = (\\frac{5}{3})^{8x}\\).",
+      "prompt_math_insulated": "Find the value of \\(x\\) in: \\((\\frac{5}{3})^{-5} \\times (\\frac{5}{3})^{-11} = (\\frac{5}{3})^{8x}\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_12_1",
+          "text": "x = -2",
+          "text_math_insulated": "x = -2",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_12_2",
+          "text": "x = 2",
+          "text_math_insulated": "x = 2",
+          "is_correct": false,
+          "distractor_explanation": "Summing negative exponents -5 and -11 keeps a negative sign."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_12_3",
+          "text": "x = -16",
+          "text_math_insulated": "x = -16",
+          "is_correct": false,
+          "distractor_explanation": "Remember to divide the combined exponent -16 by the coefficient 8."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_12_4",
+          "text": "x = 1",
+          "text_math_insulated": "x = 1",
+          "is_correct": false,
+          "distractor_explanation": "Equate the sum of left exponents directly to 8x."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Apply the product law to the left-hand side: add exponents -5 and -11.",
+        "H2_concept": "The combined left exponent is -5 + (-11) = -16.",
+        "H3_formula": "Since bases match, equate exponents: 8x = -16.",
+        "H4_step": "Divide -16 by 8 to isolate x."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_13",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:04",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_4",
+      "question_type": "mcq",
+      "prompt": "Solve for \\(x\\): \\((-\\frac{1}{2})^{-19} \\div (-\\frac{1}{2})^8 = (-\\frac{1}{2})^{-2x + 1}\\).",
+      "prompt_math_insulated": "Solve for \\(x\\): \\((-\\frac{1}{2})^{-19} \\div (-\\frac{1}{2})^8 = (-\\frac{1}{2})^{-2x + 1}\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_13_1",
+          "text": "x = 14",
+          "text_math_insulated": "x = 14",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_13_2",
+          "text": "x = -14",
+          "text_math_insulated": "x = -14",
+          "is_correct": false,
+          "distractor_explanation": "Be attentive with signs when isolating variable terms across the equals sign."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_13_3",
+          "text": "x = 13",
+          "text_math_insulated": "x = 13",
+          "is_correct": false,
+          "distractor_explanation": "Subtracting positive 8 from -19 reaches -27; then isolate the variable term."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_13_4",
+          "text": "x = 28",
+          "text_math_insulated": "x = 28",
+          "is_correct": false,
+          "distractor_explanation": "Divide -28 by -2 to find x."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Apply the quotient law to the LHS: subtract the denominator exponent: -19 - 8.",
+        "H2_concept": "The left-hand exponent simplifies to -27.",
+        "H3_formula": "Equate exponents: -2x + 1 = -27.",
+        "H4_step": "Subtract 1 from both sides to get -2x = -28, then divide by -2."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_14",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:05",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_5",
+      "question_type": "mcq",
+      "prompt": "Express the decimal \\(0.000000000086\\) in standard scientific form.",
+      "prompt_math_insulated": "Express the decimal \\(0.000000000086\\) in standard scientific form.",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_14_1",
+          "text": "\\(8.6 \\times 10^{-11}\\)",
+          "text_math_insulated": "\\(8.6 \\times 10^{-11}\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_14_2",
+          "text": "\\(86 \\times 10^{-12}\\)",
+          "text_math_insulated": "\\(86 \\times 10^{-12}\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_5",
+          "distractor_explanation": "The leading factor in scientific notation must have only one non-zero digit before the decimal point."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_14_3",
+          "text": "\\(8.6 \\times 10^{11}\\)",
+          "text_math_insulated": "\\(8.6 \\times 10^{11}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Decimals smaller than one require negative exponents of base ten."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_14_4",
+          "text": "\\(0.86 \\times 10^{-10}\\)",
+          "text_math_insulated": "\\(0.86 \\times 10^{-10}\\)",
+          "is_correct": false,
+          "distractor_explanation": "The coefficient must be greater than or equal to one."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Locate the first non-zero digit: 8.",
+        "H2_concept": "Place the decimal point immediately after 8 to get 8.6.",
+        "H3_formula": "Count how many places the decimal shifts to the right from original position to 8.6.",
+        "H4_step": "Shifting 11 places to the right gives an exponent of -11."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_15",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:05",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_5",
+      "question_type": "mcq",
+      "prompt": "Write \\(3.05 \\times 10^{-6}\\) in usual decimal form.",
+      "prompt_math_insulated": "Write \\(3.05 \\times 10^{-6}\\) in usual decimal form.",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_15_1",
+          "text": "0.00000305",
+          "text_math_insulated": "0.00000305",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_15_2",
+          "text": "0.0000305",
+          "text_math_insulated": "0.0000305",
+          "is_correct": false,
+          "distractor_explanation": "Ensure decimal shifts account for the single whole digit."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_15_3",
+          "text": "3,050,000",
+          "text_math_insulated": "3,050,000",
+          "is_correct": false,
+          "distractor_explanation": "A negative exponent shifts the decimal point leftward, creating a small decimal fraction."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_15_4",
+          "text": "0.000000305",
+          "text_math_insulated": "0.000000305",
+          "is_correct": false,
+          "distractor_explanation": "Moving 6 places left shifts past the digit 3 plus five additional zero placeholders."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Observe the exponent -6: move the decimal point 6 places to the left.",
+        "H2_concept": "Moving one place left passes digit 3: .305.",
+        "H3_formula": "The remaining 5 shifts require inserting 5 zeros before 3.",
+        "H4_step": "Write the result: 0.00000305."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_16",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "question_type": "mcq",
+      "prompt": "Evaluate the expression: \\(\\frac{2^{2001} + 2^{1999}}{2^{2000} - 2^{1999}}\\).",
+      "prompt_math_insulated": "Evaluate the expression: \\(\\frac{2^{2001} + 2^{1999}}{2^{2000} - 2^{1999}}\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_16_1",
+          "text": "5",
+          "text_math_insulated": "5",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_16_2",
+          "text": "2",
+          "text_math_insulated": "2",
+          "is_correct": false,
+          "distractor_explanation": "Factor out the lowest power 2^1999 from both numerator and denominator."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_16_3",
+          "text": "\\(2^{1000} + 1\\)",
+          "text_math_insulated": "\\(2^{1000} + 1\\)",
+          "is_correct": false,
+          "distractor_explanation": "Exponents cannot be subtracted across fraction bars without factoring out common base multiples."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_16_4",
+          "text": "10",
+          "text_math_insulated": "10",
+          "is_correct": false,
+          "distractor_explanation": "Calculate bracket terms after factoring: (4 + 1) / (2 - 1)."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Notice the common base 2 and very close exponent values: 1999, 2000, 2001.",
+        "H2_concept": "Factor out 2^1999 from both numerator and denominator.",
+        "H3_formula": "Numerator becomes 2^1999 * (2^2 + 1) = 2^1999 * (4 + 1).",
+        "H4_step": "Denominator becomes 2^1999 * (2^1 - 1) = 2^1999 * 1. Cancel common factor 2^1999."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_17",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_2",
+      "question_type": "mcq",
+      "prompt": "When simplified, the algebraic expression \\(x^{-1} + y^{-1}\\) is equal to:",
+      "prompt_math_insulated": "When simplified, the algebraic expression \\(x^{-1} + y^{-1}\\) is equal to:",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_17_1",
+          "text": "\\(\\frac{x + y}{xy}\\)",
+          "text_math_insulated": "\\(\\frac{x + y}{xy}\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_17_2",
+          "text": "x + y",
+          "text_math_insulated": "x + y",
+          "is_correct": false,
+          "distractor_explanation": "Negative exponents invert variables into denominators before addition."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_17_3",
+          "text": "xy",
+          "text_math_insulated": "xy",
+          "is_correct": false,
+          "distractor_explanation": "Fraction addition retains separate denominator relationships."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_17_4",
+          "text": "\\(\\frac{1}{xy}\\)",
+          "text_math_insulated": "\\(\\frac{1}{xy}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Adding 1/x + 1/y requires cross-multiplying numerators over common denominator xy."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Rewrite each term with positive exponents: 1/x + 1/y.",
+        "H2_concept": "Identify the common denominator for adding fractions with denominators x and y.",
+        "H3_formula": "Convert each fraction: y/(xy) + x/(xy).",
+        "H4_step": "Combine the numerators over the common denominator."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_18",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:01",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_1",
+      "question_type": "mcq",
+      "prompt": "Find the numerical value of \\(x + x(x^x)\\) when \\(x = 2\\).",
+      "prompt_math_insulated": "Find the numerical value of \\(x + x(x^x)\\) when \\(x = 2\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_18_1",
+          "text": "10",
+          "text_math_insulated": "10",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_18_2",
+          "text": "16",
+          "text_math_insulated": "16",
+          "is_correct": false,
+          "distractor_explanation": "Follow order of operations: evaluate innermost power 2^2 first, then multiply by 2, then add 2."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_18_3",
+          "text": "18",
+          "text_math_insulated": "18",
+          "is_correct": false,
+          "distractor_explanation": "Carefully compute: 2 + 2 * (2^2) = 2 + 2 * 4."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_18_4",
+          "text": "36",
+          "text_math_insulated": "36",
+          "is_correct": false,
+          "distractor_explanation": "Do not add the outer terms before completing multiplication."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Substitute x = 2 into the expression: 2 + 2 * (2^2).",
+        "H2_concept": "Evaluate the exponent first: 2^2 = 4.",
+        "H3_formula": "Multiply the outer factor: 2 * 4 = 8.",
+        "H4_step": "Complete the addition: 2 + 8."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_19",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:02",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_2",
+      "question_type": "mcq",
+      "prompt": "What is the multiplicative inverse of \\(10^{-100}\\)?",
+      "prompt_math_insulated": "What is the multiplicative inverse of \\(10^{-100}\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_19_1",
+          "text": "\\(10^{100}\\)",
+          "text_math_insulated": "\\(10^{100}\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_19_2",
+          "text": "\\(10^{-100}\\)",
+          "text_math_insulated": "\\(10^{-100}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Multiplying a number by itself does not equal 1 unless the power exponent cancels to zero."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_19_3",
+          "text": "\\(-10^{100}\\)",
+          "text_math_insulated": "\\(-10^{100}\\)",
+          "is_correct": false,
+          "misconception_id": "misc:mathematics:c8:c8_math_exponents_powers:m_1",
+          "distractor_explanation": "The multiplicative inverse inverts exponent sign; it never negates the base."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_19_4",
+          "text": "\\(10^{-50}\\)",
+          "text_math_insulated": "\\(10^{-50}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Adding -50 to -100 does not equal zero."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Recall the definition: the product of a number and its multiplicative inverse must equal 1.",
+        "H2_concept": "Set up: 10^(-100) * 10^k = 10^0 = 1.",
+        "H3_formula": "Apply the product law: -100 + k = 0.",
+        "H4_step": "Solve for k: k = 100."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_20",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "question_type": "mcq",
+      "prompt": "Evaluate: \\((3^2)^3 + (\\frac{2}{3})^0 + 3^5\\).",
+      "prompt_math_insulated": "Evaluate: \\((3^2)^3 + (\\frac{2}{3})^0 + 3^5\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_20_1",
+          "text": "973",
+          "text_math_insulated": "973",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_20_2",
+          "text": "930",
+          "text_math_insulated": "930",
+          "is_correct": false,
+          "distractor_explanation": "Ensure all three terms are calculated and included in the sum."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_20_3",
+          "text": "932",
+          "text_math_insulated": "932",
+          "is_correct": false,
+          "distractor_explanation": "Check the zero power term: any non-zero fraction to power zero equals one."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_20_4",
+          "text": "950",
+          "text_math_insulated": "950",
+          "is_correct": false,
+          "distractor_explanation": "Sum the three evaluated components accurately without omitting terms."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Apply power of power to the first term: (3^2)^3 = 3^(2 * 3) = 3^6.",
+        "H2_concept": "Evaluate 3^6: 729.",
+        "H3_formula": "Apply zero power rule: (2/3)^0 = 1. Evaluate 3^5: 243.",
+        "H4_step": "Add: 729 + 1 + 243."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_21",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:04",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_4",
+      "question_type": "mcq",
+      "prompt": "If \\(\\frac{10}{3} \\times 3^x - 3^{x-1} = 81\\), find the value of \\(x\\).",
+      "prompt_math_insulated": "If \\(\\frac{10}{3} \\times 3^x - 3^{x-1} = 81\\), find the value of \\(x\\).",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_21_1",
+          "text": "x = 3",
+          "text_math_insulated": "x = 3",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_21_2",
+          "text": "x = 2",
+          "text_math_insulated": "x = 2",
+          "is_correct": false,
+          "distractor_explanation": "Factor out the common variable term before equating with the target power."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_21_3",
+          "text": "x = 4",
+          "text_math_insulated": "x = 4",
+          "is_correct": false,
+          "distractor_explanation": "Equate exponents after converting both sides to identical bases."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_21_4",
+          "text": "x = 1",
+          "text_math_insulated": "x = 1",
+          "is_correct": false,
+          "distractor_explanation": "Carefully isolate the variable term across the equals sign."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Express 3^(x-1) as (3^x) / 3 = (1/3) * 3^x.",
+        "H2_concept": "Factor out 3^x: (10/3 - 1/3) * 3^x = (9/3) * 3^x = 3 * 3^x.",
+        "H3_formula": "Simplify the LHS: 3^(x + 1). Write 81 as base 3: 81 = 3^4.",
+        "H4_step": "Equate exponents: x + 1 = 4, so x = 4 - 1."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_22",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "question_type": "mcq",
+      "prompt": "What is the reciprocal of the rational number \\((\\frac{3}{2})^{-2} \\div (\\frac{1}{3})^{-3}\\)?",
+      "prompt_math_insulated": "What is the reciprocal of the rational number \\((\\frac{3}{2})^{-2} \\div (\\frac{1}{3})^{-3}\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_22_1",
+          "text": "\\(\\frac{243}{4}\\)",
+          "text_math_insulated": "\\(\\frac{243}{4}\\)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_22_2",
+          "text": "\\(\\frac{4}{243}\\)",
+          "text_math_insulated": "\\(\\frac{4}{243}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Remember to invert the final rational quotient to obtain the requested reciprocal."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_22_3",
+          "text": "\\(\\frac{241}{4}\\)",
+          "text_math_insulated": "\\(\\frac{241}{4}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Calculate 9 * 27 for the inverted product."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_22_4",
+          "text": "\\(\\frac{240}{4}\\)",
+          "text_math_insulated": "\\(\\frac{240}{4}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Carefully compute (2/3)^2 / 3^3 = (4/9) / 27."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Simplify (3/2)^(-2) = (2/3)^2 = 4/9.",
+        "H2_concept": "Simplify (1/3)^(-3) = 3^3 = 27.",
+        "H3_formula": "Divide: (4/9) / 27 = 4 / (9 * 27) = 4/243.",
+        "H4_step": "Take the reciprocal of 4/243 by inverting numerator and denominator."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_23",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:04",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_4",
+      "question_type": "mcq",
+      "prompt": "If \\([((\\frac{1}{3})^{-1} - (\\frac{1}{4})^{-1})^{-1}]^m = 1\\), what is the least positive integral value of \\(m\\)?",
+      "prompt_math_insulated": "If \\([((\\frac{1}{3})^{-1} - (\\frac{1}{4})^{-1})^{-1}]^m = 1\\), what is the least positive integral value of \\(m\\)?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_23_1",
+          "text": "m = 2",
+          "text_math_insulated": "m = 2",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_23_2",
+          "text": "m = 1",
+          "text_math_insulated": "m = 1",
+          "is_correct": false,
+          "distractor_explanation": "An odd power on base -1 preserves a negative value."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_23_3",
+          "text": "m = 0",
+          "text_math_insulated": "m = 0",
+          "is_correct": false,
+          "distractor_explanation": "The problem explicitly asks for the least positive integer (greater than zero)."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_23_4",
+          "text": "m = 3",
+          "text_math_insulated": "m = 3",
+          "is_correct": false,
+          "distractor_explanation": "An odd exponent preserves the negative sign on base -1."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Evaluate the inner terms: (1/3)^(-1) = 3 and (1/4)^(-1) = 4.",
+        "H2_concept": "Subtract inside brackets: 3 - 4 = -1.",
+        "H3_formula": "Take reciprocal: (-1)^(-1) = -1. The expression simplifies to (-1)^m = 1.",
+        "H4_step": "Recall that (-1) raised to an even power equals 1; the smallest positive even integer is 2."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_24",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:03",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_3",
+      "question_type": "mcq",
+      "prompt": "Prove the algebraic identity: \\(\\frac{1}{1 + x^{q-p}} + \\frac{1}{1 + x^{p-q}}\\). What does it simplify to?",
+      "prompt_math_insulated": "Prove the algebraic identity: \\(\\frac{1}{1 + x^{q-p}} + \\frac{1}{1 + x^{p-q}}\\). What does it simplify to?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_24_1",
+          "text": "1",
+          "text_math_insulated": "1",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_24_2",
+          "text": "0",
+          "text_math_insulated": "0",
+          "is_correct": false,
+          "distractor_explanation": "Express the negative index difference as a reciprocal fraction to establish matching denominators."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_24_3",
+          "text": "\\(x^{p+q}\\)",
+          "text_math_insulated": "\\(x^{p+q}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Multiply numerator and denominator of the second term by x^q to align denominators."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_24_4",
+          "text": "2",
+          "text_math_insulated": "2",
+          "is_correct": false,
+          "distractor_explanation": "Summing the unified fractions forms (x^p + x^q) / (x^p + x^q) = 1."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Express x^(p-q) as 1 / x^(q-p).",
+        "H2_concept": "Substitute into the second fraction: 1 / [1 + 1 / x^(q-p)].",
+        "H3_formula": "Multiply numerator and denominator of second term by x^(q-p).",
+        "H4_step": "Add the two fractions with identical denominators: [1 + x^(q-p)] / [1 + x^(q-p)]."
+      }
+    },
+    {
+      "id": "ast:mathematics:c8:c8_math_exponents_powers:q_25",
+      "objective_id": "obj:mathematics:c8:c8_math_exponents_powers:05",
+      "concept_id": "cpt:mathematics:c8:c8_math_exponents_powers:c_5",
+      "question_type": "mcq",
+      "prompt": "A spacecraft travels at \\(12\\text{ km/s} = 1.2 \\times 10^4\\text{ m/s}\\). If distance to Moon is \\(3.48 \\times 10^8\\text{ m}\\), how much time is required to reach the Moon?",
+      "prompt_math_insulated": "A spacecraft travels at \\(12\\text{ km/s} = 1.2 \\times 10^4\\text{ m/s}\\). If distance to Moon is \\(3.48 \\times 10^8\\text{ m}\\), how much time is required to reach the Moon?",
+      "options": [
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_25_1",
+          "text": "\\(2.9 \\times 10^4\\text{ s}\\) (approx 8 hours 3.3 minutes)",
+          "text_math_insulated": "\\(2.9 \\times 10^4\\text{ s}\\) (approx 8 hours 3.3 minutes)",
+          "is_correct": true,
+          "distractor_explanation": "Correct choice."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_25_2",
+          "text": "\\(2.9 \\times 10^3\\text{ s}\\)",
+          "text_math_insulated": "\\(2.9 \\times 10^3\\text{ s}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Divide exponents of ten: 10^8 / 10^4 = 10^(8 - 4) = 10^4."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_25_3",
+          "text": "\\(4.176 \\times 10^{12}\\text{ s}\\)",
+          "text_math_insulated": "\\(4.176 \\times 10^{12}\\text{ s}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Time equals distance divided by speed, not distance multiplied by speed."
+        },
+        {
+          "id": "opt:mathematics:c8:c8_math_exponents_powers:q_25_4",
+          "text": "\\(2.9 \\times 10^5\\text{ s}\\)",
+          "text_math_insulated": "\\(2.9 \\times 10^5\\text{ s}\\)",
+          "is_correct": false,
+          "distractor_explanation": "Direct coefficient division leaves the base value unchanged while powers of ten subtract directly."
+        }
+      ],
+      "hints": {
+        "H1_hook": "Apply the physics formula: Time = Distance / Speed.",
+        "H2_concept": "Divide coefficients: 3.48 / 1.2.",
+        "H3_formula": "Divide powers of ten: 10^8 / 10^4 = 10^(8 - 4).",
+        "H4_step": "Combine: 2.9 * 10^4 seconds."
+      }
+    }
+  ],
+  "capability_requirements": [
+    {
+      "id": "cap:mathematics:c8:c8_math_exponents_powers:sim_1",
+      "purpose": "Interactive visual manipulative for concept exploration",
+      "interaction_type": "balance_beam",
+      "license_constraint": "MIT_NATIVE",
+      "sandbox_required": false
+    }
+  ],
+  "adaptive_policy": {
+    "max_retries": 3,
+    "dda_difficulty_step": 0.1,
+    "remediation_threshold": 0.6,
+    "teas_historical_weight": 0.6,
+    "teas_recent_weight": 0.4
+  },
+  "learner_agency": {
+    "self_pacing_allowed": true,
+    "can_skip_simulation": false,
+    "hint_request_allowed": true,
+    "max_hints_per_item": 4,
+    "preferred_modality": "multimodal"
+  },
+  "motivation_intent": {
+    "narrative_frame": "Discover the world of Exponents and Powers",
+    "xp_reward_warmup": 5,
+    "xp_reward_deep_dive": 10,
+    "xp_reward_boss": 20,
+    "streak_contribution": true,
+    "celebration_intensity": "standard"
+  },
+  "accessibility_envelope": {
+    "min_viewport_width_px": 360,
+    "min_viewport_height_px": 640,
+    "target_aspect_ratios": [
+      "16:9",
+      "19.5:9",
+      "20:9"
+    ],
+    "touch_target_min_px": 44,
+    "primary_language": "hi",
+    "bilingual_pair": "en",
+    "reading_grade_level": 8,
+    "screen_reader_compatible": true,
+    "high_contrast_mode_supported": true,
+    "reduced_motion_supported": true,
+    "max_bundle_size_mb": 20,
+    "offline_first": true,
+    "cdn_dependencies_allowed": false
+  },
+  "experience_acceptance_contract": {
+    "min_objectives_covered": 5,
+    "min_assessment_items": 25,
+    "all_misconceptions_linked": true,
+    "zero_external_requests": true,
+    "zero_spoilers_in_distractors": true,
+    "zero_math_lle_collisions": true,
+    "scroll_height_lte_viewport": true,
+    "full_event_trace_verifiable": true,
+    "mastery_threshold_measurable": true
+  },
+  "compilation_manifest": {
+    "compiled_at": "2026-09-27T22:31:40.352Z",
+    "compiler_version": "v6-canonical-1.1.0",
+    "source_artifacts": [
+      "ingest_output.json",
+      "analysis_output.json",
+      "assessment_output.json",
+      "lle_output.json"
+    ],
+    "ir_hash": "sha256_1790548300353"
+  }
+}

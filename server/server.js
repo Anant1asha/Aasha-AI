@@ -20,7 +20,7 @@ db.serialize(() => {
     synced_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 
-  // AIOS V2: Evidence Ledger (SQLite fallback — primary is hatchable PostgreSQL)
+  // AIOS V2: Evidence Ledger (SQLite Authoritative Local Storage — primary offline execution plane)
   db.run(`CREATE TABLE IF NOT EXISTS evidence_ledger (
     task_id        TEXT PRIMARY KEY,
     created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -200,4 +200,10 @@ const start = async () => {
     process.exit(1);
   }
 };
-start();
+
+if (require.main === module) {
+  start();
+}
+
+module.exports = { fastify, db };
+

@@ -37,12 +37,20 @@ def _check_one_correct(opts: list[Option], context: str, result: ValidationResul
 def _check_misconceptions(opts: list[Option], context: str, result: ValidationResult) -> None:
     """Rule 7: Every wrong option has non-empty m that doesn't leak the answer."""
     correct_opts = [o.t for o in opts if o.c]
-    correct_text = correct_opts[0].lower() if correct_opts else ""
+    correct_text = correct_opts[0].lower().strip() if correct_opts else ""
+    # Match the correct answer as a whole token, not as a raw substring. A short
+    # answer such as "A", "B" or "6" otherwise collides with ordinary English
+    # (the article "a"), flagging every misconception as a leak.
+    leak_pattern = (
+        re.compile(r"(?<!\w)" + re.escape(correct_text) + r"(?!\w)")
+        if correct_text
+        else None
+    )
     for o in opts:
         if not o.c:
             if not o.m or not o.m.strip():
                 result.add_error(f"{context}: wrong option '{o.t[:40]}' has empty misconception")
-            elif correct_text and correct_text in o.m.lower():
+            elif leak_pattern is not None and leak_pattern.search(o.m.lower()):
                 result.add_error(
                     f"{context}: misconception for '{o.t[:40]}' leaks the correct answer"
                 )

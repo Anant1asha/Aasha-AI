@@ -1,9 +1,29 @@
-import { CanonicalIR, validateCanonicalIR } from '../canonical-ir/canonical_ir_schema.ts';
+import * as crypto from 'node:crypto';
+import * as fs from 'node:fs';
+import { type CanonicalIR, evaluateLLECoverage, evaluateSourceCoverage, type LLECoverageReport, type SourceCoverageReport, validateCanonicalIR } from '../canonical-ir/canonical_ir_schema.ts';
 import { DomainSimGenerators } from '../adapters/domain_sim_generators.ts';
+import { ThreeTierMatcher, type MatchResult } from '../adapters/three_tier_matcher.ts';
 
 export interface V6CompilerOptions {
   minify?: boolean;
   inlineBase64Assets?: boolean;
+  /** Registry root override for deterministic builds and isolated validation. */
+  registryBaseDir?: string;
+  /** Optional original PDF path; when supplied its bytes must match chapter_metadata.source_pdf_hash. */
+  sourcePdfPath?: string;
+  /** Paths keyed by source_documents[].id; every declared PDF must be present and hash-match. */
+  sourcePdfPaths?: Record<string, string>;
+  /** Defaults to strict source evidence. Set false only for isolated test fixtures or explicitly untrusted previews. */
+  requireFullSourceCoverage?: boolean;
+  artifactMode?: 'combined' | 'learning' | 'assessment';
+}
+
+export interface V6CompilerPairResult {
+  learningHtml: string;
+  assessmentHtml: string;
+  errors: string[];
+  sourceCoverage: SourceCoverageReport;
+  lleCoverage: LLECoverageReport;
 }
 
 export class V6Compiler {
@@ -13,24 +33,138 @@ export class V6Compiler {
    * 4-tier progressive hints (H1-H4), adaptive remediation, bilingual word-tap (WM/CONN),
    * XP/motivation system, mobile viewport invariants, zero external requests.
    */
-  static compile(ir: CanonicalIR, options: V6CompilerOptions = {}): { html: string; errors: string[] } {
+  static compile(ir: CanonicalIR, options: V6CompilerOptions = {}): { html: string; errors: string[]; capabilityMatches: Array<{ capability_id: string; result: MatchResult }>; sourceCoverage: SourceCoverageReport; lleCoverage: LLECoverageReport } {
     // 1. Validate Canonical IR v1.1.0 Invariants
+    const sourceCoverage = evaluateSourceCoverage(ir);
+    let lleCoverage = evaluateLLECoverage(ir);
     const validation = validateCanonicalIR(ir);
-    if (!validation.valid) {
-      return { html: '', errors: validation.errors };
+    const provenanceErrors: string[] = [];
+    if (options.sourcePdfPath && options.sourcePdfPaths) {
+      provenanceErrors.push('Provide either sourcePdfPath for legacy single-PDF IR or sourcePdfPaths for a source manifest, not both');
+    }
+    if (options.sourcePdfPath) {
+      if (!fs.existsSync(options.sourcePdfPath)) {
+        sourceCoverage.source_hash_status = 'MISSING';
+        provenanceErrors.push(`Source PDF does not exist: ${options.sourcePdfPath}`);
+      } else {
+        const actualHash = crypto.createHash('sha256').update(fs.readFileSync(options.sourcePdfPath)).digest('hex');
+        const expectedHash = (ir.chapter_metadata.source_pdf_hash || '').replace(/^sha256:/i, '').toLowerCase();
+        sourceCoverage.source_hash_status = actualHash === expectedHash ? 'VERIFIED' : 'MISMATCH';
+        if (actualHash !== expectedHash) provenanceErrors.push('Source PDF SHA-256 does not match chapter_metadata.source_pdf_hash');
+        const sourceDocuments = ir.chapter_metadata.source_documents || [];
+        if (actualHash === expectedHash && sourceDocuments.length > 1) {
+          sourceCoverage.source_hash_status = 'MISSING';
+          provenanceErrors.push('A single sourcePdfPath cannot verify a multi-document source_documents manifest; provide sourcePdfPaths for every document ID');
+        }
+      }
+    }
+    if (options.sourcePdfPaths) {
+      const documents = ir.chapter_metadata.source_documents || [];
+      if (!documents.length) {
+        sourceCoverage.source_hash_status = 'MISSING';
+        provenanceErrors.push('sourcePdfPaths were supplied but chapter_metadata.source_documents is missing');
+      } else {
+        const expectedIds = new Set(documents.map((document) => document.id));
+        const suppliedIds = new Set(Object.keys(options.sourcePdfPaths));
+        const missingIds = [...expectedIds].filter((id) => !suppliedIds.has(id));
+        const unexpectedIds = [...suppliedIds].filter((id) => !expectedIds.has(id));
+        let missing = missingIds.length > 0 || unexpectedIds.length > 0;
+        let mismatch = false;
+        for (const document of documents) {
+          const sourcePath = options.sourcePdfPaths[document.id];
+          if (!sourcePath || !fs.existsSync(sourcePath)) {
+            missing = true;
+            provenanceErrors.push(`Source PDF for document '${document.id}' is missing${sourcePath ? `: ${sourcePath}` : ' from sourcePdfPaths'}`);
+            continue;
+          }
+          const actualHash = crypto.createHash('sha256').update(fs.readFileSync(sourcePath)).digest('hex');
+          if (actualHash !== document.sha256.toLowerCase()) {
+            mismatch = true;
+            provenanceErrors.push(`Source PDF SHA-256 does not match source_documents entry '${document.id}'`);
+          }
+        }
+        if (missingIds.length) provenanceErrors.push(`sourcePdfPaths is missing document IDs: ${missingIds.join(', ')}`);
+        if (unexpectedIds.length) provenanceErrors.push(`sourcePdfPaths contains undeclared document IDs: ${unexpectedIds.join(', ')}`);
+        sourceCoverage.source_hash_status = mismatch ? 'MISMATCH' : missing ? 'MISSING' : 'VERIFIED';
+      }
+    }
+    const requireFullSourceCoverage = options.requireFullSourceCoverage !== false;
+    if (requireFullSourceCoverage &&
+        (sourceCoverage.status !== 'FULL' || sourceCoverage.source_hash_status !== 'VERIFIED')) {
+      const coverageDetail = sourceCoverage.status === 'UNKNOWN'
+        ? 'source_inventory is missing or empty; extract and inventory source concepts, examples, activities, and every exercise item'
+        : sourceCoverage.status === 'INCOMPLETE'
+          ? `${ir.source_inventory_scope !== 'FULL_CHAPTER' ? `source inventory scope is ${ir.source_inventory_scope || 'UNSPECIFIED'}; ` : ''}coverage inventory is incomplete (${sourceCoverage.fully_covered}/${sourceCoverage.total_items} full, ${sourceCoverage.partial} partial, ${sourceCoverage.omitted} omitted, ${sourceCoverage.unmapped} unmapped)`
+          : sourceCoverage.status === 'INVALID'
+            ? 'coverage inventory contains invalid source or output references'
+            : '';
+      const hashDetail = sourceCoverage.source_hash_status === 'VERIFIED' ? '' : `; source hash evidence is ${sourceCoverage.source_hash_status}`;
+      provenanceErrors.push(`Artifact emission requires FULL source coverage and VERIFIED source hashes: ${coverageDetail}${hashDetail}`);
+    }
+    if (!validation.valid || provenanceErrors.length) {
+      return { html: '', errors: [...validation.errors, ...provenanceErrors], capabilityMatches: [], sourceCoverage, lleCoverage };
     }
 
-    const irJson = JSON.stringify(ir);
+    // Reuse the governed registry matcher in the actual chapter build path.
+    // A match is recorded for review; the current V6 runtime remains offline and
+    // does not claim to bundle third-party candidate code automatically.
+    const matcher = new ThreeTierMatcher(options.registryBaseDir);
+    const capabilityMatches = (ir.capability_requirements || []).map((requirement) => ({
+      capability_id: requirement.id,
+      result: matcher.resolveExperience({
+        capability_id: requirement.id,
+        subject: ir.chapter_metadata.subject || 'General',
+        grade: ir.chapter_metadata.grade,
+        board: ir.chapter_metadata.board,
+        mechanics: [requirement.interaction_type],
+        offline_required: true,
+      }),
+    }));
+
+    const simulationState = (ir.experience_graph.states || []).find((state) => state.type === 'interactive_sim');
+    const simulationMatch = simulationState?.capability_id
+      ? capabilityMatches.find((match) => match.capability_id === simulationState.capability_id)
+      : undefined;
+    const selectedResourceHtml = options.artifactMode === 'assessment' || !simulationMatch
+      ? null
+      : matcher.loadRuntimeArtifact(simulationMatch.result);
+    const selectedRuntimeResource = selectedResourceHtml && simulationMatch?.result.runtime_artifact
+      ? simulationMatch.result.runtime_artifact
+      : null;
+    if (selectedRuntimeResource && lleCoverage.hindi_required && !selectedRuntimeResource.language?.toLowerCase().startsWith('hi')) {
+      const missing = `resource:${selectedRuntimeResource.resource_id}:hindi_interface`;
+      if (!lleCoverage.missing_fields.includes(missing)) {
+        const translatableFields = lleCoverage.translatable_fields + 1;
+        lleCoverage = {
+          ...lleCoverage,
+          status: 'INCOMPLETE',
+          translatable_fields: translatableFields,
+          coverage_percent: Math.round((lleCoverage.translated_fields / translatableFields) * 100),
+          missing_fields: [...lleCoverage.missing_fields, missing],
+        };
+      }
+    }
+
+    const runtimeIR = this.projectRuntimeIR(ir, options.artifactMode || 'combined');
+    const irJson = JSON.stringify(runtimeIR);
     const title = ir.chapter_metadata.title;
     const lang = ir.accessibility_envelope.primary_language;
     const theme = ir.visual_grammar.primary_color_theme;
 
-    const simScript = DomainSimGenerators.generateSimScript({
-      subject: ir.chapter_metadata.subject || 'Math',
-      topic: ir.chapter_metadata.title || 'Concept',
-      topicSlug: ir.chapter_metadata.chapter_id || 'ch1',
-      grade: ir.chapter_metadata.grade || 8
-    });
+    const simScript = options.artifactMode === 'assessment'
+      ? ''
+      : selectedResourceHtml && selectedRuntimeResource
+        ? DomainSimGenerators.generateHtmlResourceAdapterScript({
+            resourceId: selectedRuntimeResource.resource_id,
+            title: `${ir.chapter_metadata.title} — ${simulationState?.name || 'Interactive activity'}`,
+            html: selectedResourceHtml,
+          })
+        : DomainSimGenerators.generateSimScript({
+            subject: ir.chapter_metadata.subject || 'Math',
+            topic: ir.chapter_metadata.title || 'Concept',
+            topicSlug: ir.chapter_metadata.chapter_id || 'ch1',
+            grade: ir.chapter_metadata.grade || 8
+          });
 
     // 2. Generate Standalone Offline HTML Package
     const html = `<!DOCTYPE html>
@@ -45,9 +179,9 @@ export class V6Compiler {
     *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,'Noto Sans',sans-serif;-webkit-tap-highlight-color:transparent;}
     html,body{height:100%;overflow:hidden;background:#0F172A;}
     .shell{width:100%;max-width:480px;height:100%;margin:0 auto;background:#1E293B;display:flex;flex-direction:column;position:relative;}
-    @media(max-height:640px){.concept-def{max-height:80px!important}.sim-canvas{height:92px!important}}
-    @media(min-height:641px) and (max-height:800px){.concept-def{max-height:110px!important}.sim-canvas{height:115px!important}}
-    @media(min-height:801px){.concept-def{max-height:125px!important}.sim-canvas{height:125px!important}}
+    @media(max-height:640px){.sim-canvas{height:92px!important}}
+    @media(min-height:641px) and (max-height:800px){.sim-canvas{height:115px!important}}
+    @media(min-height:801px){.sim-canvas{height:125px!important}}
     .header{padding:12px 16px;background:#0F172A;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
     .header-title{font-size:14px;font-weight:700;color:#38BDF8;max-width:72%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
     .xp-badge{font-size:11px;color:#FCD34D;font-weight:600;}
@@ -128,6 +262,14 @@ export class V6Compiler {
 (function(){
 // ── Embedded Canonical IR ─────────────────────────────────────────────────
 const IR = ${irJson};
+const CAPABILITY_MATCHES = ${JSON.stringify(capabilityMatches).replace(/</g, '\\u003c')};
+window.__AASHA_CAPABILITY_MATCHES__ = CAPABILITY_MATCHES;
+const SELECTED_RUNTIME_RESOURCE = ${JSON.stringify(selectedRuntimeResource).replace(/</g, '\\u003c')};
+window.__AASHA_SELECTED_RUNTIME_RESOURCE__ = SELECTED_RUNTIME_RESOURCE;
+const SOURCE_COVERAGE = ${JSON.stringify(sourceCoverage).replace(/</g, '\\u003c')};
+window.__AASHA_SOURCE_COVERAGE__ = SOURCE_COVERAGE;
+const LLE_COVERAGE = ${JSON.stringify(lleCoverage).replace(/</g, '\\u003c')};
+window.__AASHA_LLE_COVERAGE__ = LLE_COVERAGE;
 
 // ── V6RuntimeBus (inline) ────────────────────────────────────────────────
 class Bus {
@@ -172,6 +314,7 @@ class AashaExperienceContract {
     const event = new CustomEvent('aasha:state_change', { bubbles: true, composed: true, detail: { timestamp: Date.now(), foundationId: this.foundationId || 'F01', experienceId: this.experienceId || 'generic', state: newState } });
     if (this.container && typeof this.container.dispatchEvent === 'function') this.container.dispatchEvent(event);
   }
+
 }
 class AashaExperienceAdapter extends AashaExperienceContract {
   constructor(metadata = {}) {
@@ -230,6 +373,7 @@ window.AashaLang = {
     const btn = document.getElementById('langToggleBtn');
     if (btn) btn.innerText = window.__AASHA_LANG__ === 'hi' ? 'हिन्दी ➔ EN' : 'EN ➔ हिन्दी';
     window.dispatchEvent(new CustomEvent('aasha:language_change', { detail: { lang: window.__AASHA_LANG__ } }));
+    if (window.exp && typeof window.exp.languageChanged === 'function') window.exp.languageChanged();
   }
 };
 document.addEventListener('DOMContentLoaded', () => {
@@ -292,7 +436,7 @@ class V6Exp {
   constructor(){
     this.ir=IR;this.lId='learner_local_anon';this.xp=0;this.hintsUsed=0;
     this.maxHints=this.ir.learner_agency.max_hints_per_item;
-    this.assessIdx=0;this.currentTier='warmup';
+    this.assessIdx=0;this.currentTier='warmup';this.conceptIdx=0;
     this.bus=new Bus(this.ir.chapter_metadata.chapter_id,this.lId);
     this.walker=new Walker(this.ir.experience_graph,this.bus,this.lId,this.ir.chapter_metadata.chapter_id);
     this.render();
@@ -304,60 +448,85 @@ class V6Exp {
     switch(s.type){
       case 'concept_card':return this._renderConcept(s);
       case 'interactive_sim':return this._renderSim(s);
-      case 'teas_assessment':return this._renderAssessment();
+      case 'teas_assessment':
+      case 'assessment_gate':
+      case 'assessment':
+      case 'quiz':
+        return this._renderAssessment();
       case 'remediation_card':return this._renderRemediation();
       default:this._renderComplete();
     }
   }
 
   _renderConcept(s){
-    let html='';
-    for(const c of this.ir.concept_graph){
-      const b=this.ir.content_blocks.find(b=>b.concept_id===c.id);
-      html+='<div class="concept-title">'+c.name+'</div>';
-      html+='<div class="concept-def">'+(b?rt(b.text_math_insulated):rt(c.definition_math_insulated))+'</div>';
-    }
-    this._s(html);
+    const concepts=this.ir.concept_graph||[];
+    if(!concepts.length){this.startLab();return;}
+    this.conceptIdx=Math.max(0,Math.min(this.conceptIdx,concepts.length-1));
+    const concept=concepts[this.conceptIdx];
+    const hi=window.AashaLang?.get()==='hi';
+    const blocks=(this.ir.content_blocks||[]).filter(b=>b.concept_id===concept.id);
+    const labels=hi?{concept_def:'समझें',worked_example:'हल किया उदाहरण',guided_step:'अब आज़माएँ',summary:'मुख्य विचार',key_takeaway:'याद रखें'}:{concept_def:'Understand',worked_example:'Worked example',guided_step:'Try it',summary:'Key idea',key_takeaway:'Remember'};
+    const body=blocks.length?blocks.map(b=>
+      '<section class="concept-content concept-content-'+b.type+'">'+
+        (labels[b.type]?'<div class="concept-content-label">'+labels[b.type]+'</div>':'')+
+        '<div class="concept-def">'+rt((hi?(b.text_hindi_math_insulated||b.text_hindi||b.text_math_insulated||b.text_english):(b.text_english||b.text_math_insulated))||'')+'</div>'+
+      '</section>'
+    ).join(''):
+      '<section class="concept-content"><div class="concept-def">'+rt((hi?(concept.definition_hindi_math_insulated||concept.definition_hindi||concept.definition_math_insulated):(concept.definition_raw||concept.definition_math_insulated))||'')+'</div></section>';
+    const isLast=this.conceptIdx===concepts.length-1;
+    this._s(
+      '<div class="concept-count">'+(hi?'अवधारणा ':'Concept ')+(this.conceptIdx+1)+(hi?' / ':' of ')+concepts.length+'</div>'+
+      '<div class="concept-title">'+(hi?(concept.name_hindi||concept.name):concept.name)+'</div>'+body
+    );
     this._n(
-      '<button class="nav-btn secondary" id="backBtn" onclick="exp.back()" style="display:none">Back</button>' +
-      '<button class="nav-btn primary" id="continueBtn" onclick="exp.startLab()">Start Lab ➜</button>'
+      '<button class="nav-btn secondary" id="backBtn" onclick="exp.previousConcept()" '+(this.conceptIdx===0?'disabled':'')+'>'+(hi?'पीछे':'Back')+'</button>' +
+      '<button class="nav-btn primary" id="continueBtn" onclick="exp.nextConcept()">'+(isLast?(hi?'प्रयोग शुरू करें ➜':'Start Lab ➜'):(hi?'अगली अवधारणा ➜':'Next Concept ➜'))+'</button>'
     );
     this._bindWT();
+  }
+
+  languageChanged(){this.render();}
+
+  previousConcept(){
+    if(this.conceptIdx<=0)return;
+    this.conceptIdx--;
+    this._renderConcept(this.walker.state());
+  }
+
+  nextConcept(){
+    if(this.conceptIdx<(this.ir.concept_graph||[]).length-1){
+      this.conceptIdx++;
+      this._renderConcept(this.walker.state());
+      return;
+    }
+    this.startLab();
   }
 
   _renderSim(s){
     const cap=this.ir.capability_requirements.find(c=>c.id===s.capability_id);
     this._s(
-      '<div class="concept-title">🔬 '+(s.name||'Lab')+'</div>'+
-      '<aasha-sim id="simLab" foundation="F01" experience-id="balance-scale">'+
-        '<div class="sim-canvas" style="min-height:175px;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;">'+
-          '<div style="font-size:12px;color:#38BDF8;font-weight:600;margin-bottom:4px;" id="simReadout">Scale Balance Target: 2x + 4</div>'+
-          '<svg id="scaleSvg" width="220" height="85" viewBox="0 0 220 85" style="transition:transform .3s ease;transform-origin:110px 40px;">'+
-            '<line x1="110" y1="12" x2="110" y2="40" stroke="#38BDF8" stroke-width="3"/>'+
-            '<line id="scaleBeam" x1="30" y1="40" x2="190" y2="40" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>'+
-            '<circle cx="110" cy="12" r="5" fill="#38BDF8"/>'+
-            '<g id="leftPan">'+
-              '<rect x="15" y="40" width="45" height="28" rx="4" fill="#1E3A5F" stroke="#38BDF8" stroke-width="1.5"/>'+
-              '<text x="37" y="58" text-anchor="middle" fill="#F59E0B" font-size="11" font-weight="bold">2x + 4</text>'+
-            '</g>'+
-            '<g id="rightPan">'+
-              '<rect x="160" y="40" width="45" height="28" rx="4" fill="#334155" stroke="#818CF8" stroke-width="1.5"/>'+
-              '<text id="rightPanText" x="182" y="58" text-anchor="middle" fill="#C4B5FD" font-size="11" font-weight="bold">0</text>'+
-            '</g>'+
-          '</svg>'+
-          '<div style="display:flex;gap:8px;margin-top:6px;justify-content:center;width:100%;">'+
-            '<button class="opt" style="min-height:36px;padding:4px 14px;font-size:12px;font-weight:600;" onclick="exp.simAddX()">+ x</button>'+
-            '<button class="opt" style="min-height:36px;padding:4px 14px;font-size:12px;font-weight:600;" onclick="exp.simAddOne()">+ 1</button>'+
-            '<button class="opt" style="min-height:36px;padding:4px 12px;font-size:12px;background:#7F1D1D;border-color:#EF4444;" onclick="exp.simReset()">Reset</button>'+
-          '</div>'+
-          '<div id="balanceStatus" style="font-size:11px;color:#94A3B8;margin-top:4px;">Touch buttons to balance the scale with 2x + 4</div>'+
-        '</div>'+
-      '</aasha-sim>'
+      '<div class="concept-title">🔬 '+(s.name||'Interactive Lab')+'</div>'+
+      '<div class="sim-wrapper" style="width:100%;flex:1;min-height:220px;display:flex;flex-direction:column;position:relative;">'+
+        '<aasha-sim id="simLab" capability-id="'+(s.capability_id||'')+'" style="width:100%;height:100%;display:block;"></aasha-sim>'+
+      '</div>'
     );
     this._n(
       '<button class="nav-btn secondary" id="backBtn" onclick="exp.back()">Back</button>' +
-      '<button class="nav-btn primary" id="continueBtn" onclick="exp.readySim()">Ready for Assessment ✓</button>'
+      '<button class="nav-btn primary" id="continueBtn" onclick="exp.readySim()">Ready for Assessment ➜</button>'
     );
+    const simEl = document.getElementById('simLab');
+    if (simEl) {
+      simEl.addEventListener('aasha:telemetry', (e) => {
+        if (e.detail?.isCorrect === true || e.detail?.competencyAchieved === true) {
+          this._celebrate('Goal Solved! 🌟', '🎉');
+          const btn = document.getElementById('continueBtn');
+          if (btn) {
+            btn.style.background = '#059669';
+            btn.innerText = 'Solved! Start Assessment ➜';
+          }
+        }
+      });
+    }
     this._initSim();
     this.bus.emit({eventType:'interaction_started',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,payload:{capabilityId:s.capability_id}});
   }
@@ -374,64 +543,67 @@ class V6Exp {
     const items=this._tierItems(this.currentTier);
     if(this.assessIdx>=items.length){this._advanceTier();return;}
     const item=items[this.assessIdx];
-    const tLabel=this.currentTier==='warmup'?'<span class="tier-badge tier-warmup">WARM-UP</span>':
-                 this.currentTier==='deep_dive'?'<span class="tier-badge tier-deepdive">DEEP DIVE</span>':
-                 '<span class="tier-badge tier-boss">BOSS</span>';
+    const hi=window.AashaLang?.get()==='hi';
+    const tLabel=this.currentTier==='warmup'?'<span class="tier-badge tier-warmup">'+(hi?'अभ्यास':'WARM-UP')+'</span>':
+                 this.currentTier==='deep_dive'?'<span class="tier-badge tier-deepdive">'+(hi?'गहराई से':'DEEP DIVE')+'</span>':
+                 '<span class="tier-badge tier-boss">'+(hi?'अंतिम चुनौती':'BOSS')+'</span>';
     const m=this.bus.getMastery(item.concept_id);const mp=Math.round(m.compositeMastery*100);
     const shuffledOpts=[...item.options].sort(function(){return Math.random()-0.5;});
     const opts=shuffledOpts.map(o=>
-      '<button class="opt" id="opt_'+o.id+'" data-optid="'+o.id+'" onclick="exp.checkOption(this.dataset.optid)">'+rt(o.text_math_insulated)+'</button>'
+      '<button class="opt" id="opt_'+o.id+'" data-optid="'+o.id+'" onclick="exp.checkOption(this.dataset.optid)">'+rt(hi?(o.text_hindi_math_insulated||o.text_hindi||o.text_math_insulated):(o.text||o.text_math_insulated))+'</button>'
     ).join('');
-    const h=item.hints;
+    const h=hi?(item.hints_hindi_math_insulated||item.hints_hindi||item.hints):item.hints;
     const hHtml=this.ir.learner_agency.hint_request_allowed?
       '<div style="margin-top:8px;">'+
-        (h.H1_hook?'<button class="hint-btn" onclick="exp.hint(0)">💡 Hint 1 — Attention</button><div class="hint-text" id="h0">'+h.H1_hook+'</div>':'')+
-        (h.H2_concept?'<button class="hint-btn" onclick="exp.hint(1)">💡 Hint 2 — Concept</button><div class="hint-text" id="h1">'+h.H2_concept+'</div>':'')+
-        (h.H3_formula?'<button class="hint-btn" onclick="exp.hint(2)">💡 Hint 3 — Formula</button><div class="hint-text" id="h2">'+h.H3_formula+'</div>':'')+
-        (h.H4_step?'<button class="hint-btn" onclick="exp.hint(3)">💡 Hint 4 — Step</button><div class="hint-text" id="h3">'+h.H4_step+'</div>':'')+
+        (h.H1_hook?'<button class="hint-btn" onclick="exp.hint(0)">💡 '+(hi?'संकेत 1 — ध्यान':'Hint 1 — Attention')+'</button><div class="hint-text" id="h0">'+h.H1_hook+'</div>':'')+
+        (h.H2_concept?'<button class="hint-btn" onclick="exp.hint(1)">💡 '+(hi?'संकेत 2 — अवधारणा':'Hint 2 — Concept')+'</button><div class="hint-text" id="h1">'+h.H2_concept+'</div>':'')+
+        (h.H3_formula?'<button class="hint-btn" onclick="exp.hint(2)">💡 '+(hi?'संकेत 3 — सूत्र':'Hint 3 — Formula')+'</button><div class="hint-text" id="h2">'+h.H3_formula+'</div>':'')+
+        (h.H4_step?'<button class="hint-btn" onclick="exp.hint(3)">💡 '+(hi?'संकेत 4 — चरण':'Hint 4 — Step')+'</button><div class="hint-text" id="h3">'+h.H4_step+'</div>':'')+
       '</div>':'';
     this._s(
       '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">'+tLabel+
-        '<div style="flex:1;font-size:11px;color:#64748B;">Q '+(this.assessIdx+1)+' / '+items.length+'</div>'+
+        '<div style="flex:1;font-size:11px;color:#64748B;">'+(hi?'प्रश्न ':'Q ')+(this.assessIdx+1)+' / '+items.length+'</div>'+
       '</div>'+
       '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">'+
-        '<span style="font-size:11px;color:#64748B;">Mastery</span>'+
+        '<span style="font-size:11px;color:#64748B;">'+(hi?'महारत':'Mastery')+'</span>'+
         '<div class="mastery-track"><div class="mastery-fill" style="width:'+mp+'%"></div></div>'+
         '<span class="mastery-pct">'+mp+'%</span>'+
       '</div>'+
-      '<div class="q-prompt">'+rt(item.prompt_math_insulated)+'</div>'+
+      '<div class="q-prompt">'+rt(hi?(item.prompt_hindi_math_insulated||item.prompt_hindi||item.prompt_math_insulated):(item.prompt||item.prompt_math_insulated))+'</div>'+
       '<div class="opts">'+opts+'</div>'+
       '<div class="feedback" id="fb"></div>'+hHtml
     );
     this._n(
-      '<button class="nav-btn secondary" id="backBtn" onclick="exp.back()">Back</button>' +
-      '<button class="nav-btn primary" id="continueBtn" onclick="exp.nextQ()" disabled>Continue ➜</button>'
+      '<button class="nav-btn secondary" id="backBtn" onclick="exp.back()">'+(hi?'पीछे':'Back')+'</button>' +
+      '<button class="nav-btn primary" id="continueBtn" onclick="exp.nextQ()" disabled>'+(hi?'जारी रखें ➜':'Continue ➜')+'</button>'
     );
     this._bindWT();
   }
 
   _renderRemediation(){
     const c=this.ir.concept_graph[0];const m=this.ir.misconceptions[0];
+    const hi=window.AashaLang?.get()==='hi';
     this._s(
-      '<div class="remediation"><div class="remediation-title">📚 Revisit: '+(c?.name||'Concept')+'</div>'+
-      '<div class="remediation-body">'+(c?.definition_math_insulated||'')+'</div></div>'+
-      (m?'<div class="remediation" style="margin-top:10px;"><div class="remediation-title">⚠️ Misconception</div>'+
-      '<div class="remediation-body">'+m.description+'</div></div>':'')
+      '<div class="remediation"><div class="remediation-title">📚 '+(hi?'फिर से देखें: ':'Revisit: ')+(hi?(c?.name_hindi||c?.name):(c?.name||'Concept'))+'</div>'+
+      '<div class="remediation-body">'+(hi?(c?.definition_hindi_math_insulated||c?.definition_hindi||c?.definition_math_insulated):(c?.definition_raw||c?.definition_math_insulated)||'')+'</div></div>'+
+      (m?'<div class="remediation" style="margin-top:10px;"><div class="remediation-title">⚠️ '+(hi?'गलतफहमी':'Misconception')+'</div>'+
+      '<div class="remediation-body">'+(hi?(m.description_hindi||m.description):m.description)+'</div></div>':'')
     );
     this._n('<button class="nav-btn primary" id="continueBtn" onclick="exp.retry()">Try Again ↩</button>');
   }
 
   _renderComplete(){
+    const hi=window.AashaLang?.get()==='hi';
     this._s(
       '<div style="text-align:center;padding:20px;">'+
         '<div style="font-size:48px;margin-bottom:12px;">'+(this.ir.motivation_intent.badge_id||'🌟')+'</div>'+
-        '<div style="font-size:20px;font-weight:700;color:#F1F5F9;margin-bottom:6px;">Chapter Complete!</div>'+
+        '<div style="font-size:20px;font-weight:700;color:#F1F5F9;margin-bottom:6px;">'+(hi?'अध्याय पूरा हुआ!':'Chapter Complete!')+'</div>'+
         '<div style="font-size:13px;color:#94A3B8;margin-bottom:16px;">'+this.ir.chapter_metadata.title+'</div>'+
         '<div style="font-size:28px;font-weight:700;color:#FCD34D;">+'+this.xp+' XP</div>'+
         this._masteryReport()+
       '</div>'
     );
-    this._n('<button class="nav-btn primary" onclick="window.location.reload()">Replay ↺</button>');
+    this._n('<button class="nav-btn primary" onclick="window.location.reload()">'+(hi?'फिर से शुरू करें ↺':'Replay ↺')+'</button>');
   }
 
   _masteryReport(){
@@ -448,11 +620,12 @@ class V6Exp {
   }
 
   check(optId,isCorrect,explanation,miscId,conceptId){
+    const hi=window.AashaLang?.get()==='hi';
     document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
     const el=document.getElementById('opt_'+optId);
     if(el)el.classList.add(isCorrect?'correct':'incorrect');
     const fb=document.getElementById('fb');
-    if(fb){fb.className='feedback show '+(isCorrect?'ok':'err');fb.innerHTML=isCorrect?'<strong>Correct!</strong>':'<strong>Misconception:</strong> '+explanation;}
+    if(fb){fb.className='feedback show '+(isCorrect?'ok':'err');fb.innerHTML=isCorrect?'<strong>'+(hi?'सही!':'Correct!')+'</strong>':'<strong>'+(hi?'सोचने का तरीका:':'Misconception:')+'</strong> '+explanation;}
     const item=this._tierItems(this.currentTier)[this.assessIdx];
     this.bus.emit({eventType:'response_evaluated',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,objectiveId:item?.objective_id,conceptId:conceptId||item?.concept_id,payload:{isCorrect,optId,misconception_id:miscId||null}});
     if(!isCorrect&&miscId)this.bus.emit({eventType:'misconception_detected',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,conceptId:conceptId||item?.concept_id,payload:{misconception_id:miscId}});
@@ -497,11 +670,31 @@ class V6Exp {
 
   advance(trigger){
     if(trigger==='MANIPULATIVE_COMPLETED')this.bus.emit({eventType:'interaction_completed',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,payload:{trigger}});
-    if(!this.walker.transition(trigger))this.walker.forceNext();
+    const moved = this.walker.transition(trigger) || this.walker.forceNext();
+    if (!moved) {
+      // If state graph has no next explicit state, transition smoothly to assessment or completion
+      const curType = this.walker.state()?.type;
+      if (this.ir.assessment_items && this.ir.assessment_items.length > 0 && !['teas_assessment', 'assessment_gate', 'assessment', 'quiz'].includes(curType)) {
+        this.assessIdx = 0;
+        this.hintsUsed = 0;
+        this._renderAssessment();
+        return;
+      }
+      this._renderComplete();
+      return;
+    }
     this.assessIdx=0;this.hintsUsed=0;this.render();
   }
 
-  back(){this.advance('BACK');}
+  back(){
+    const previous=this.walker.hist.pop();
+    if(!previous)return;
+    const from=this.walker.cur;
+    this.walker.cur=previous;
+    this.bus.emit({eventType:'state_entered',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,payload:{from,to:previous,trigger:'BACK'}});
+    if(this.walker.state()?.type==='concept_card')this.conceptIdx=(this.ir.concept_graph||[]).length-1;
+    this.assessIdx=0;this.hintsUsed=0;this.render();
+  }
   startLab(){this.advance('NEXT_CARD');}
   readySim(){this.advance('MANIPULATIVE_COMPLETED');}
   retry(){this.advance('RETRY');}
@@ -509,7 +702,8 @@ class V6Exp {
     const items=this._tierItems(this.currentTier);
     const item=items[this.assessIdx];if(!item)return;
     const opt=item.options.find(o=>o.id===optId);if(!opt)return;
-    this.check(opt.id,opt.is_correct,opt.distractor_explanation||'',opt.misconception_id||'',item.concept_id);
+    const explanation=window.AashaLang?.get()==='hi'?(opt.distractor_explanation_hindi_math_insulated||opt.distractor_explanation_hindi||opt.distractor_explanation||''):(opt.distractor_explanation||'');
+    this.check(opt.id,opt.is_correct,explanation,opt.misconception_id||'',item.concept_id);
   }
 
   _s(html){document.getElementById('screen').innerHTML=html;}
@@ -530,6 +724,7 @@ class V6Exp {
   }
   _initSim(){
     const el=document.getElementById('simLab');if(!el)return;
+    const svg=document.getElementById('scaleSvg');if(!svg)return;
     const parent=this;
     class BalanceScaleAdapter extends AashaExperienceAdapter {
       constructor(){
@@ -577,23 +772,75 @@ class V6Exp {
 
 let exp;
 window.addEventListener('DOMContentLoaded',()=>{exp=new V6Exp();});
-window.exp={advance:(t)=>exp?.advance(t),back:()=>exp?.back(),startLab:()=>exp?.startLab(),readySim:()=>exp?.readySim(),retry:()=>exp?.retry(),check:(...a)=>exp?.check(...a),checkOption:(id)=>exp?.checkOption(id),hint:(i)=>exp?.hint(i),nextQ:()=>exp?.nextQ(),simAdd:(t)=>exp?.simAdd(t),simAddX:()=>exp?.simAddX(),simAddOne:()=>exp?.simAddOne(),simReset:()=>exp?.simReset()};
+window.exp={advance:(t)=>exp?.advance(t),back:()=>exp?.back(),startLab:()=>exp?.startLab(),nextConcept:()=>exp?.nextConcept(),previousConcept:()=>exp?.previousConcept(),languageChanged:()=>exp?.languageChanged(),readySim:()=>exp?.readySim(),retry:()=>exp?.retry(),check:(...a)=>exp?.check(...a),checkOption:(id)=>exp?.checkOption(id),hint:(i)=>exp?.hint(i),nextQ:()=>exp?.nextQ(),simAdd:(t)=>exp?.simAdd(t),simAddX:()=>exp?.simAddX(),simAddOne:()=>exp?.simAddOne(),simReset:()=>exp?.simReset()};
 window.App={nIdx:0,exit:function(){this.nIdx=0;if(window.exp)window.exp.advance('EXIT');}};
 })();
 </script>
 </body>
 </html>`;
 
-    // Enforce 40 MB hard bundle ceiling per AASHA-SPEC-02-TRD
+    // Keep each self-contained student artifact within the governed 20 MiB ceiling.
     const byteLength = Buffer.byteLength(html, 'utf8');
-    if (byteLength > 41943040) {
+    if (byteLength > 20971520) {
       return {
         html: '',
-        errors: [`Rule 11 Violation: Child HTML5 learning bundle size (${byteLength} bytes / ${(byteLength / (1024 * 1024)).toFixed(2)} MB) exceeds hard 40 MB ceiling (41943040 bytes).`]
+        errors: [`Bundle limit exceeded: standalone student HTML is ${byteLength} bytes; the governed ceiling is 20,971,520 bytes.`],
+        capabilityMatches,
+        sourceCoverage,
+        lleCoverage,
       };
     }
 
-    return { html, errors: [] };
+    return { html, errors: [], capabilityMatches, sourceCoverage, lleCoverage };
+  }
+
+  /** Produces both student artifacts from the same source IR and compiler. */
+  static compilePair(ir: CanonicalIR, options: Omit<V6CompilerOptions, 'artifactMode'> = {}): V6CompilerPairResult {
+    const learning = this.compile(ir, { ...options, artifactMode: 'learning' });
+    if (learning.errors.length) return { learningHtml: '', assessmentHtml: '', errors: learning.errors, sourceCoverage: learning.sourceCoverage, lleCoverage: learning.lleCoverage };
+    const assessment = this.compile(ir, { ...options, artifactMode: 'assessment' });
+    if (assessment.errors.length) return { learningHtml: '', assessmentHtml: '', errors: assessment.errors, sourceCoverage: assessment.sourceCoverage, lleCoverage: assessment.lleCoverage };
+    return { learningHtml: learning.html, assessmentHtml: assessment.html, errors: [], sourceCoverage: learning.sourceCoverage, lleCoverage: learning.lleCoverage };
+  }
+
+  private static projectRuntimeIR(ir: CanonicalIR, mode: NonNullable<V6CompilerOptions['artifactMode']>): CanonicalIR {
+    const projected = JSON.parse(JSON.stringify(ir)) as CanonicalIR;
+    if (mode === 'learning') {
+      projected.assessment_items = [];
+      const learningStates = projected.experience_graph.states.filter((state) =>
+        !['teas_assessment', 'assessment_gate', 'assessment', 'quiz'].includes(state.type)
+      );
+      const stateIds = new Set(learningStates.map((state) => state.id));
+      if (!stateIds.has(projected.experience_graph.initial_state_id)) {
+        if (learningStates.length === 0) {
+          learningStates.push({
+            id: 'state:learning:intro',
+            name: 'Concept Discovery',
+            type: 'concept_card',
+            content_ids: projected.content_blocks.map((block) => block.id),
+          });
+        }
+        projected.experience_graph.initial_state_id = learningStates[0].id;
+      }
+      projected.experience_graph.states = learningStates;
+      projected.experience_graph.transitions = projected.experience_graph.transitions.filter((transition) =>
+        stateIds.has(transition.from_state_id) && stateIds.has(transition.to_state_id)
+      );
+    } else if (mode === 'assessment') {
+      const assessmentState = projected.experience_graph.states.find((state) =>
+        ['teas_assessment', 'assessment_gate', 'assessment', 'quiz'].includes(state.type)
+      ) || {
+        id: 'state:assessment', name: 'TEAS Assessment', type: 'teas_assessment' as const, content_ids: [] as string[],
+      };
+      assessmentState.content_ids = [];
+      projected.content_blocks = [];
+      projected.experience_graph = {
+        initial_state_id: assessmentState.id,
+        states: [assessmentState],
+        transitions: [],
+      };
+      projected.capability_requirements = [];
+    }
+    return projected;
   }
 }
-

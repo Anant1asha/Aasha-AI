@@ -269,28 +269,34 @@ export function compileBetaChapter() {
     console.error('ERROR: Invariant Validation Failed:', validation.errors);
     process.exit(1);
   }
-  console.log('   ✓ Touch Target >= 44px: PASS');
-  console.log('   ✓ Zero Spoilers in Distractors: PASS');
+  console.log('   ✓ Declared touch-target constraints >= 44px: PASS (runtime controls still require verification)');
+  console.log('   ✓ Basic schema spoiler heuristic: PASS (adversarial answer-leakage review remains required)');
   console.log('   ✓ Misconception Bindings: PASS');
-  console.log('   ✓ Offline-First & No External Requests: PASS');
-  console.log('   ✓ Experience Acceptance Contract: PASS');
+  console.log('   • Offline runtime and zero-network verification: PENDING');
+  console.log('   ✓ Experience acceptance metadata: PASS (runtime criteria still require verification)');
 
   console.log('\n3. Running V6 Compiler...');
-  const compiled = V6Compiler.compile(canonicalIR);
+  const compiled = V6Compiler.compilePair(canonicalIR);
   if (compiled.errors.length > 0) {
     console.error('ERROR: V6 Compilation Failed:', compiled.errors);
     process.exit(1);
   }
-  console.log('   ✓ Standalone HTML5 package generated (' + compiled.html.length + ' bytes)');
+  console.log('   Source coverage:', compiled.sourceCoverage.status, '(' + compiled.sourceCoverage.fully_covered + '/' + compiled.sourceCoverage.total_items + ' mapped); source PDF hash:', compiled.sourceCoverage.source_hash_status);
+  console.log('   English/Hindi LLE coverage:', compiled.lleCoverage.status, '(' + compiled.lleCoverage.coverage_percent + '%)');
+  console.log('   ✓ Standalone learning + assessment packages generated (' + compiled.learningHtml.length + ' + ' + compiled.assessmentHtml.length + ' bytes)');
 
   const chaptersDir = path.resolve(__dirname, '../../chapters');
   if (!fs.existsSync(chaptersDir)) {
     fs.mkdirSync(chaptersDir, { recursive: true });
   }
 
-  const htmlPath = path.resolve(chaptersDir, 'AlgebraicExpressions_Class7_BETA_v6.html');
-  fs.writeFileSync(htmlPath, compiled.html, 'utf-8');
-  console.log('   ✓ Written HTML Chapter to:', htmlPath);
+  const learningPath = path.resolve(chaptersDir, 'AlgebraicExpressions_Class7_BETA_learning.html');
+  fs.writeFileSync(learningPath, compiled.learningHtml, 'utf-8');
+  console.log('   ✓ Written learning HTML to:', learningPath);
+
+  const assessmentPath = path.resolve(chaptersDir, 'AlgebraicExpressions_Class7_BETA_assessment.html');
+  fs.writeFileSync(assessmentPath, compiled.assessmentHtml, 'utf-8');
+  console.log('   ✓ Written assessment HTML to:', assessmentPath);
 
   const irPath = path.resolve(chaptersDir, 'AlgebraicExpressions_Class7_BETA_canonical_ir.json');
   fs.writeFileSync(irPath, JSON.stringify(canonicalIR, null, 2), 'utf-8');

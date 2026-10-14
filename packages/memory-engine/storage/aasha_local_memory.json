@@ -1625,6 +1625,396 @@
         "repairAttempts": 1
       },
       "timestamp": "2026-09-15T22:14:40.465959Z"
+    },
+    {
+      "id": "LLEAgent_experience_5daeb5cc0c83",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "\"{\\n  \\\"term\\\": \\\"fraction\\\",\\n  \\\"translation\\\": \\\"भिन्न\\\",\\n  \\\"local_meaning\\\": \\\"भिन्न (फ्रैक्शन)\\\",\\n  \\\"confidence\\\": 1.0,\\n  \\\"caveats\\\": \\\"\\\"\\n}\"",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "general_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:16:36.708644Z"
+    },
+    {
+      "id": "DesignAgent_experience_2bba22b58c29",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\",\"simulation\",\"practice\"],\"visual_manipulative\":\"math_c8_cubes_roots_01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:17:37.185673Z"
+    },
+    {
+      "id": "DesignAgent_experience_dad870627d9c",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\",\"simulation\",\"practice\"],\"visual_manipulative\":\"math_c8_cubes_roots_01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:19:01.974096Z"
+    },
+    {
+      "id": "DesignAgent_experience_afa5aacb424e",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\",\"simulation\",\"practice\"],\"visual_manipulative\":\"math_c8_cubes_roots_01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:20:10.331843Z"
+    },
+    {
+      "id": "DesignAgent_experience_dd0162f88570",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\"],\"notes\":\"Legacy deterministic flow\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:20:24.191961Z"
+    },
+    {
+      "id": "DesignAgent_experience_d27363259f5b",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"valid\":true}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_broken_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:20:36.328394Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_27a3c89faf8f",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"chapter_id\":\"math_c8_cubes\",\"concept_nodes\":[{\"id\":\"math_c8_broken_concept\"}]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:20:48.665291Z"
+    },
+    {
+      "id": "DesignAgent_experience_0910c1bc4df9",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"ok\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:21:00.955627Z"
+    },
+    {
+      "id": "DesignAgent_experience_1b8824a061b0",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\",\"simulation\",\"practice\"],\"visual_manipulative\":\"math_c8_cubes_roots_01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:22:22.472600Z"
+    },
+    {
+      "id": "DesignAgent_experience_70eb1e34c0bf",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\"],\"notes\":\"Legacy deterministic flow\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:22:34.864343Z"
+    },
+    {
+      "id": "DesignAgent_experience_bf04e4588729",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"valid\":true}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_broken_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:22:47.008817Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_46aa949e916a",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"chapter_id\":\"math_c8_cubes\",\"concept_nodes\":[{\"id\":\"math_c8_broken_concept\"}]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:23:01.785622Z"
+    },
+    {
+      "id": "DesignAgent_experience_b8b006677c73",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"ok\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:23:14.463175Z"
+    },
+    {
+      "id": "DesignAgent_experience_a85f23aeda6b",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\",\"simulation\",\"practice\"],\"visual_manipulative\":\"math_c8_cubes_roots_01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:28:29.044783Z"
+    },
+    {
+      "id": "DesignAgent_experience_bf75a90d1633",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\"],\"notes\":\"Legacy deterministic flow\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:28:50.007074Z"
+    },
+    {
+      "id": "DesignAgent_experience_6fc55f46b269",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"valid\":true}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_broken_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:29:08.837847Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_90904f9cb805",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"chapter_id\":\"math_c8_cubes\",\"concept_nodes\":[{\"id\":\"math_c8_broken_concept\"}]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:29:27.272880Z"
+    },
+    {
+      "id": "DesignAgent_experience_3bf6114ab009",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"ok\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:29:43.172828Z"
+    },
+    {
+      "id": "DesignAgent_experience_634f849e394b",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\",\"simulation\",\"practice\"],\"visual_manipulative\":\"math_c8_cubes_roots_01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:30:38.440866Z"
+    },
+    {
+      "id": "DesignAgent_experience_b389b4c10955",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\"],\"notes\":\"Legacy deterministic flow\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:30:52.540708Z"
+    },
+    {
+      "id": "DesignAgent_experience_5392ed011e09",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"valid\":true}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_broken_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:31:05.684318Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_60c5bb227c12",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"chapter_id\":\"math_c8_cubes\",\"concept_nodes\":[{\"id\":\"math_c8_broken_concept\"}]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:31:19.424299Z"
+    },
+    {
+      "id": "DesignAgent_experience_3d5fc873c215",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"ok\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:31:35.276469Z"
+    },
+    {
+      "id": "DesignAgent_experience_4fb314a9657d",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\",\"simulation\",\"practice\"],\"visual_manipulative\":\"math_c8_cubes_roots_01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:34:17.825808Z"
+    },
+    {
+      "id": "DesignAgent_experience_2fcb41230655",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"success\",\"pedagogical_flow\":[\"intro\",\"concept\"],\"notes\":\"Legacy deterministic flow\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_cubes_roots_01",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:34:30.518057Z"
+    },
+    {
+      "id": "DesignAgent_experience_2d63c7dfdf72",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"valid\":true}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "math_c8_broken_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:34:42.648861Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_3beaf31a91c3",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"chapter_id\":\"math_c8_cubes\",\"concept_nodes\":[{\"id\":\"math_c8_broken_concept\"}]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:34:54.671533Z"
+    },
+    {
+      "id": "DesignAgent_experience_dc4c8d21f638",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"ok\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Cubes",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-09-27T21:35:06.749145Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_5eda1822f5d9",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 2x + 5 = 15 \\\\)\",\"opts\":[{\"t\":\"x = 5\",\"c\":true},{\"t\":\"x = 10\",\"c\":false,\"m\":\"Subtracted 5 incorrectly without dividing by 2\"},{\"t\":\"x = 4\",\"c\":false,\"m\":\"Divided both sides by 2 before subtracting 5\"},{\"t\":\"x = 20\",\"c\":false,\"m\":\"Added 5 instead of subtracting from 15\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "general_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 2
+      },
+      "timestamp": "2026-10-08T23:58:46.634682Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_5bd2460f7f6b",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 2x + 5 = 15 \\\\)\",\"opts\":[{\"t\":\"x = 5\",\"c\":true},{\"t\":\"x = 10\",\"c\":false,\"m\":\"Subtracted 5 incorrectly without dividing by 2\"},{\"t\":\"x = 4\",\"c\":false,\"m\":\"Divided both sides by 2 before subtracting 5\"},{\"t\":\"x = 20\",\"c\":false,\"m\":\"Added 5 instead of subtracting from 15\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "general_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 1
+      },
+      "timestamp": "2026-10-09T00:00:07.382441Z"
     }
   ]
 }

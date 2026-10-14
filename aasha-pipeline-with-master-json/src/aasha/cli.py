@@ -44,65 +44,82 @@ def setup_logging(verbose: bool = False):
 def run_single(args, config: Config) -> int:
     """Run a single chapter build."""
     orch = Orchestrator(config)
-
-    pdf_path = Path(args.pdf)
-    if not pdf_path.exists():
-        print(f"Error: PDF not found: {pdf_path}")
-        return 1
-
-    # Validate PDF
-    if pdf_path.stat().st_size > 50 * 1024 * 1024:
-        print(f"Error: PDF exceeds max size of 50MB")
-        return 1
-
-    try:
-        import PyPDF2
-        with open(pdf_path, "rb") as f:
-            reader = PyPDF2.PdfReader(f)
-            num_pages = len(reader.pages)
-            if num_pages > 200:
-                print(f"Error: PDF exceeds max page count of 200 (has {num_pages})")
-                return 1
-            
-            # check text-based
-            text_found = False
-            for i in range(min(5, num_pages)):
-                page = reader.pages[i]
-                text = page.extract_text()
-                if text and len(text.strip()) > 50:
-                    text_found = True
-                    break
-            
-            if not text_found:
-                print("Error: PDF appears to be non-text based (scanned/images). Please provide a text-based PDF.")
-                return 1
-    except ImportError:
-        pass # Skip if PyPDF2 not installed
-    except Exception as e:
-        print(f"Error validating PDF: {e}")
-        return 1
-
-    job_id = orch.create_job(
-        pdf_path=pdf_path,
-        subject=args.subject,
-        grade=args.grade,
-        provider=args.provider,
-        mode=args.mode,
-    )
-
+    job_id = getattr(args, "job_id", None)
     json_events = getattr(args, "json_events", False)
-    if json_events:
-        print(json.dumps({
-            "event": "job_created",
-            "job_id": job_id,
-            "pdf": str(pdf_path),
-            "subject": args.subject,
-            "grade": args.grade,
-            "mode": args.mode
-        }), flush=True)
+
+    if job_id:
+        work_dir = orch._get_job_work_dir(job_id)
+        job_file = orch.jobs_dir / f"{job_id}.json"
+        if not work_dir.exists() and not job_file.exists():
+            print(f"Error: Job ID '{job_id}' not found in {orch.work_root} or {orch.jobs_dir}")
+            return 1
+        if json_events:
+            print(json.dumps({"event": "job_resumed", "job_id": job_id}), flush=True)
+        else:
+            print(f"Resuming existing job: {job_id}")
     else:
-        print(f"Creating job for: {pdf_path.name}")
-        print(f"Job ID: {job_id}")
+        if not args.pdf:
+            print("Error: --pdf required when not resuming via --job-id")
+            return 1
+
+        pdf_path = Path(args.pdf)
+        if not pdf_path.exists():
+            print(f"Error: PDF not found: {pdf_path}")
+            return 1
+
+        # Validate PDF
+        if pdf_path.stat().st_size > 50 * 1024 * 1024:
+            print(f"Error: PDF exceeds max size of 50MB")
+            return 1
+
+        try:
+            import PyPDF2
+            with open(pdf_path, "rb") as f:
+                reader = PyPDF2.PdfReader(f)
+                num_pages = len(reader.pages)
+                if num_pages > 200:
+                    print(f"Error: PDF exceeds max page count of 200 (has {num_pages})")
+                    return 1
+                
+                # check text-based
+                text_found = False
+                for i in range(min(5, num_pages)):
+                    page = reader.pages[i]
+                    text = page.extract_text()
+                    if text and len(text.strip()) > 50:
+                        text_found = True
+                        break
+                
+                if not text_found:
+                    print("Error: PDF appears to be non-text based (scanned/images). Please provide a text-based PDF.")
+                    return 1
+        except ImportError:
+            pass # Skip if PyPDF2 not installed
+        except Exception as e:
+            print(f"Error validating PDF: {e}")
+            return 1
+
+        effective_mode = args.mode or "v5-engine"
+        job_id = orch.create_job(
+            pdf_path=pdf_path,
+            subject=args.subject,
+            grade=args.grade,
+            provider=args.provider,
+            mode=effective_mode,
+        )
+
+        if json_events:
+            print(json.dumps({
+                "event": "job_created",
+                "job_id": job_id,
+                "pdf": str(pdf_path),
+                "subject": args.subject,
+                "grade": args.grade,
+                "mode": effective_mode
+            }), flush=True)
+        else:
+            print(f"Creating job for: {pdf_path.name}")
+            print(f"Job ID: {job_id}")
 
     from_stage = args.from_stage if hasattr(args, "from_stage") and args.from_stage else None
 
@@ -125,7 +142,8 @@ def run_single(args, config: Config) -> int:
         job_id,
         from_stage=from_stage,
         log_callback=log_callback,
-        max_cost=args.max_cost
+        max_cost=args.max_cost,
+        mode=getattr(args, "mode", None),
     )
     duration = time.time() - start_time
 
@@ -155,7 +173,7 @@ def run_single(args, config: Config) -> int:
         print(f"Failed at stage: {job.error_stage}")
         print(f"Error: {job.error_message}")
         print(f"To resume after fixing, run:")
-        print(f"python -m aasha.cli --pdf {args.pdf} --from-stage {job.error_stage}")
+        print(f"python -m aasha.cli --job-id {job_id} --from-stage {job.error_stage}")
         return 1
 
 
@@ -182,12 +200,13 @@ def run_batch(args, config: Config) -> int:
         print(f"[{i}/{len(pdfs)}] {pdf_path.name}...", end=" ", flush=True)
 
         orch = Orchestrator(config)
+        effective_mode = args.mode or "v5-engine"
         job_id = orch.create_job(
             pdf_path=pdf_path,
             subject=args.subject,
             grade=args.grade,
             provider=args.provider,
-            mode=args.mode,
+            mode=effective_mode,
         )
 
         start = time.time()
@@ -243,11 +262,21 @@ Examples:
         """,
     )
     parser.add_argument("--pdf", help="Path to a single PDF file")
+    parser.add_argument("--job-id", dest="job_id", help="Resume or execute an existing job by ID from work/ directory")
     parser.add_argument("--batch", help="Directory of PDFs for batch processing")
     parser.add_argument("--subject", default="math", help="Subject (math, science, english, evs)")
     parser.add_argument("--grade", type=int, default=4, help="Grade level (3-8)")
-    parser.add_argument("--provider", default="openai", help="LLM provider (openai, gemini, anthropic)")
-    parser.add_argument("--mode", default="v5-engine", choices=["v5-engine", "full-synthesis"], help="Pipeline mode: v5-engine (default, 6-agent flow) or full-synthesis (4-agent flow with plugin registry, exercise extractor, code synthesizer)")
+    try:
+        _cfg = Config.load()
+        _default_provider = _cfg.llm.default_provider
+    except Exception:
+        _default_provider = "openai"
+    parser.add_argument(
+        "--provider",
+        default=_default_provider,
+        help=f"LLM provider (openai, gemini, anthropic, openrouter); default from config: {_default_provider}",
+    )
+    parser.add_argument("--mode", default=None, choices=["v5-engine", "full-synthesis"], help="Pipeline mode: v5-engine (default, 6-agent flow) or full-synthesis (4-agent flow with plugin registry, exercise extractor, code synthesizer)")
     parser.add_argument("--from-stage", dest="from_stage", help="Resume from stage. v5-engine: ingest, analyze, design, assess, lle, assemble, qa, output. full-synthesis: ingest, analyze, design, assess, synthesize, qa, output")
     parser.add_argument("--web", action="store_true", help="Start the web UI")
     parser.add_argument("--max-cost", type=float, default=0.50, help="Maximum cost in USD (default 0.50)")
@@ -264,7 +293,7 @@ Examples:
         return run_web(args, config)
     elif args.batch:
         return run_batch(args, config)
-    elif args.pdf:
+    elif args.pdf or getattr(args, "job_id", None):
         return run_single(args, config)
     else:
         parser.print_help()

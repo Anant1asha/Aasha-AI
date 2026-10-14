@@ -321,7 +321,9 @@ For each word, provide the {lang_conf['name']} meaning and English pronunciation
 Format: {lang_conf['meaning_placeholder']} ({lang_conf['pronunciation_placeholder']})
 """
 
-                result = self.llm.complete(system_prompt, user_prompt, temperature=0.2)
+                # Temperature is configured on the LLMAdapter instance
+                # (see adapter.py __init__), not per call.
+                result = self.llm.complete(system_prompt, user_prompt)
                 translations = result.get("translations", {})
 
                 for word, translation in translations.items():

@@ -2,8 +2,13 @@
 # API keys are read from environment variables, never from this file.
 
 llm:
-  default_provider: openai
+  default_provider: openrouter
   providers:
+    openrouter:
+      # meta-llama/llama-3.1-8b-instruct:free was retired by OpenRouter (404:
+      # "unavailable for free"). Verified working free models returning valid JSON.
+      model: nvidia/nemotron-3-super-120b-a12b:free
+      temperature: 0
     openai:
       model: gpt-4o-mini
       temperature: 0

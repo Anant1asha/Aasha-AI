@@ -17,6 +17,7 @@ export interface SignedApproval {
   key_id: string;
   signature: string;
 }
+export const SignedApproval = {};
 
 type TrustedKey = { reviewer_id: string; role: string; public_key_pem: string };
 

@@ -13,7 +13,7 @@ function runCanonicalIRTestSuite() {
     grade: 7,
     subject: 'Mathematics',
     board: 'CBSE',
-    source_pdf_hash: 'abc123sha256hash',
+    source_pdf_hash: 'sha256:0000000000000000000000000000000000000000000000000000000000000000',
     raw_objectives: [
       {
         description: 'Understand terms, factors, and coefficients in algebraic expressions.',
@@ -109,7 +109,7 @@ function runCanonicalIRTestSuite() {
 
   // 5. Test V6 Compiler Output
   console.log('\n4. Testing V6 Stateful Compiler...');
-  const compiled = V6Compiler.compile(canonicalIR);
+  const compiled = V6Compiler.compile(canonicalIR, { requireFullSourceCoverage: false });
   if (compiled.errors.length > 0) {
     console.error('FAILED V6 Compiler:', compiled.errors);
     process.exit(1);
