@@ -64,7 +64,22 @@ def run_single(args, config: Config) -> int:
 
         pdf_path = Path(args.pdf)
         if not pdf_path.exists():
-            print(f"Error: PDF not found: {pdf_path}")
+            # Search in content/pdfs and common repository locations
+            search_candidates = [
+                Path("content/pdfs") / args.pdf,
+                Path("content/pdfs") / Path(args.pdf).name,
+                Path("../content/pdfs") / Path(args.pdf).name,
+                Path("../../content/pdfs") / Path(args.pdf).name,
+                Path("Aasha-AI/content/pdfs") / Path(args.pdf).name,
+                Path("c:/Users/admin/Downloads/NGO AI LLM/Aasha-AI/content/pdfs") / Path(args.pdf).name,
+            ]
+            for cand in search_candidates:
+                if cand.is_file():
+                    pdf_path = cand
+                    break
+
+        if not pdf_path.exists():
+            print(f"Error: PDF not found: {args.pdf}")
             return 1
 
         # Validate PDF
@@ -121,7 +136,15 @@ def run_single(args, config: Config) -> int:
             print(f"Creating job for: {pdf_path.name}")
             print(f"Job ID: {job_id}")
 
-    from_stage = args.from_stage if hasattr(args, "from_stage") and args.from_stage else None
+    STAGE_ALIASES = {
+        "extract": "ingest",
+        "structure": "analyze",
+        "pedagogy": "design",
+        "assessment": "assess",
+        "synthesis": "synthesize",
+    }
+    raw_from_stage = args.from_stage if hasattr(args, "from_stage") and args.from_stage else None
+    from_stage = STAGE_ALIASES.get(raw_from_stage, raw_from_stage)
 
     stage_labels = {
         "ingest": "Ingesting PDF", "analyze": "Analyzing content",
@@ -144,6 +167,7 @@ def run_single(args, config: Config) -> int:
         log_callback=log_callback,
         max_cost=args.max_cost,
         mode=getattr(args, "mode", None),
+        auto_rewind=getattr(args, "auto_rewind", True),
     )
     duration = time.time() - start_time
 
@@ -277,7 +301,8 @@ Examples:
         help=f"LLM provider (openai, gemini, anthropic, openrouter); default from config: {_default_provider}",
     )
     parser.add_argument("--mode", default=None, choices=["v5-engine", "full-synthesis"], help="Pipeline mode: v5-engine (default, 6-agent flow) or full-synthesis (4-agent flow with plugin registry, exercise extractor, code synthesizer)")
-    parser.add_argument("--from-stage", dest="from_stage", help="Resume from stage. v5-engine: ingest, analyze, design, assess, lle, assemble, qa, output. full-synthesis: ingest, analyze, design, assess, synthesize, qa, output")
+    parser.add_argument("--from-stage", dest="from_stage", help="Resume from stage. v5-engine: ingest, analyze, design, assess, lle, assemble, qa, output. full-synthesis: ingest, analyze, design, assess, synthesize, qa, output (also supports aliases: extract, structure, pedagogy)")
+    parser.add_argument("--no-auto-rewind", dest="auto_rewind", action="store_false", default=True, help="Disable automatic rewinding to earlier stages when prerequisites are missing")
     parser.add_argument("--web", action="store_true", help="Start the web UI")
     parser.add_argument("--max-cost", type=float, default=0.50, help="Maximum cost in USD (default 0.50)")
     parser.add_argument("--json-events", action="store_true", help="Output streaming line-delimited JSON events for IPC with TUI/GUI")

@@ -53,6 +53,15 @@ def validate_child_bundle_size(size_bytes: int) -> int:
     return size_bytes
 
 
+STAGE_ALIASES = {
+    "extract": "ingest",
+    "structure": "analyze",
+    "pedagogy": "design",
+    "assessment": "assess",
+    "synthesis": "synthesize",
+}
+
+
 class Orchestrator:
     """Coordinates the multi-agent pipeline.
 
@@ -202,6 +211,123 @@ class Orchestrator:
     def _get_job_work_dir(self, job_id: str) -> Path:
         return self.work_root / job_id
 
+    def _find_source_pdf(self, source_pdf_name: str, source_sha256: str = "", exclude_dir: Path | None = None) -> Path | None:
+        """Find a source PDF across content/pdfs, samples, sister work dirs, and common disk paths."""
+        candidates = []
+        if source_pdf_name:
+            candidates.extend([
+                Path(source_pdf_name),
+                Path("content/pdfs") / source_pdf_name,
+                Path("content/pdfs") / Path(source_pdf_name).name,
+                Path("../content/pdfs") / Path(source_pdf_name).name,
+                Path("../../content/pdfs") / Path(source_pdf_name).name,
+                self.work_root.parent / "content" / "pdfs" / Path(source_pdf_name).name,
+                self.work_root.parent.parent / "content" / "pdfs" / Path(source_pdf_name).name,
+                Path("c:/Users/admin/Downloads/NGO AI LLM/Aasha-AI/content/pdfs") / Path(source_pdf_name).name,
+                Path("samples") / source_pdf_name,
+                Path("samples") / Path(source_pdf_name).name,
+                Path("../samples") / Path(source_pdf_name).name,
+                self.work_root.parent / "samples" / Path(source_pdf_name).name,
+            ])
+
+        # Scan all PDFs in content/pdfs directories
+        content_dirs = [
+            Path("content/pdfs"),
+            Path("../content/pdfs"),
+            Path("../../content/pdfs"),
+            self.work_root.parent / "content" / "pdfs",
+            self.work_root.parent.parent / "content" / "pdfs",
+            Path("c:/Users/admin/Downloads/NGO AI LLM/Aasha-AI/content/pdfs"),
+            Path("samples"),
+            Path("../samples"),
+            self.work_root.parent / "samples",
+        ]
+        for cdir in content_dirs:
+            if cdir.is_dir():
+                for p in cdir.glob("*.pdf"):
+                    candidates.append(p)
+
+        # Scan sister work directories
+        if self.work_root.exists():
+            for other_dir in self.work_root.iterdir():
+                if other_dir.is_dir() and (exclude_dir is None or other_dir != exclude_dir) and (other_dir / "source.pdf").is_file():
+                    candidates.append(other_dir / "source.pdf")
+
+        # First priority: match exact SHA-256
+        if source_sha256:
+            for cand in candidates:
+                try:
+                    if cand.is_file() and _sha256_file(cand) == source_sha256:
+                        return cand
+                except Exception:
+                    continue
+
+        # Second priority: match filename (case-insensitive)
+        if source_pdf_name:
+            target_name = Path(source_pdf_name).name.lower()
+            for cand in candidates:
+                try:
+                    if cand.is_file() and cand.name.lower() == target_name:
+                        return cand
+                except Exception:
+                    continue
+
+        return None
+
+    def _recover_work_dir_if_needed(self, job: Job, job_id: str) -> Path:
+        """Attempt to restore a deleted or missing work directory from available sources."""
+        work_dir = self.work_root / job_id
+        if work_dir.exists():
+            return work_dir
+
+        source_pdf_name = ""
+        source_sha256 = ""
+        if hasattr(job, "input") and job.input:
+            source_pdf_name = getattr(job.input, "source_pdf", "") or ""
+            source_sha256 = getattr(job.input, "source_pdf_sha256", "") or ""
+
+        found_pdf = self._find_source_pdf(source_pdf_name, source_sha256)
+        if not found_pdf:
+            raise FileNotFoundError(
+                f"WORK_DIR_DELETED_UNRECOVERABLE: Work directory for job '{job_id}' was deleted and source PDF "
+                f"'{source_pdf_name}' could not be located in content/pdfs, samples, or disk to reconstruct it."
+            )
+
+        work_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(str(found_pdf), str(work_dir / "source.pdf"))
+        manifest = {
+            "manifest_version": "1.0.0",
+            "source_artifact_id": f"sha256:{source_sha256 or _sha256_file(found_pdf)}",
+            "source_sha256": source_sha256 or _sha256_file(found_pdf),
+            "source_file": Path(source_pdf_name).name if source_pdf_name else found_pdf.name,
+            "byte_size": found_pdf.stat().st_size,
+            "page_count": None,
+            "created_at": self._now_iso(),
+            "lineage_status": "SOURCE_HASHED_RESTORED_FROM_BACKUP",
+        }
+        (work_dir / "source_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+        self._save_job(job, work_dir)
+        logger.info(f"Auto-recovery: Restored missing work directory for job '{job_id}' from '{found_pdf}'.")
+        return work_dir
+
+    def _recover_source_pdf_if_needed(self, job: Job, work_dir: Path) -> bool:
+        """Attempt to recover missing source.pdf in an existing work directory."""
+        target = work_dir / "source.pdf"
+        if target.is_file():
+            return True
+        source_pdf_name = ""
+        source_sha256 = ""
+        if hasattr(job, "input") and job.input:
+            source_pdf_name = getattr(job.input, "source_pdf", "") or ""
+            source_sha256 = getattr(job.input, "source_pdf_sha256", "") or ""
+
+        found_pdf = self._find_source_pdf(source_pdf_name, source_sha256, exclude_dir=work_dir)
+        if found_pdf:
+            shutil.copyfile(str(found_pdf), str(target))
+            logger.info(f"Auto-recovery: Restored missing source.pdf from '{found_pdf}'.")
+            return True
+        return False
+
     def _load_job(self, job_id: str) -> Job:
         job_file = self.jobs_dir / f"{job_id}.json"
         if not job_file.exists():
@@ -285,6 +411,7 @@ class Orchestrator:
         log_callback=None,
         max_cost: float = 0.50,
         mode: str | None = None,
+        auto_rewind: bool = True,
     ) -> Job:
         """Run the full pipeline for a job.
 
@@ -294,15 +421,17 @@ class Orchestrator:
             log_callback: Optional callback for log messages
             max_cost: Maximum allowed cost in USD
             mode: Optional pipeline execution mode override
+            auto_rewind: Automatically rewind to earliest runnable stage if prerequisites are missing
 
         Returns:
             Updated Job object
         """
-        job = self._load_job(job_id)
-        work_dir = self._get_job_work_dir(job_id)
+        if from_stage:
+            from_stage = STAGE_ALIASES.get(from_stage, from_stage)
 
-        if not work_dir.exists():
-            raise FileNotFoundError(f"Work directory not found for job {job_id}")
+        job = self._load_job(job_id)
+        work_dir = self._recover_work_dir_if_needed(job, job_id)
+        self._recover_source_pdf_if_needed(job, work_dir)
 
         json_log_path = work_dir / "pipeline.log"
         
@@ -376,20 +505,58 @@ class Orchestrator:
             stage_to_resume = stage_order[start_idx]
             missing_prereqs = self._validate_stage_prerequisites(stage_to_resume, job.input.mode, work_dir)
             if missing_prereqs:
-                error_msg = (
-                    f"RESUME_PREREQUISITES_MISSING: Cannot resume from stage '{stage_to_resume}'. "
-                    f"Missing required artifact(s): {', '.join(missing_prereqs)}. "
-                    f"Earlier stages in job '{job_id}' must complete before resuming from '{stage_to_resume}'."
-                )
-                log(f"  ERROR: {error_msg}")
-                self._update_stage(job, stage_to_resume, "failed", error=error_msg)
-                job.status = "failed"
-                job.error_stage = stage_to_resume
-                job.error_message = error_msg
-                self._save_job(job, work_dir)
-                bus = AgentBus(work_dir)
-                bus.publish("stage.failed", {"stage": stage_to_resume, "error": error_msg})
-                return job
+                if auto_rewind:
+                    log(f"  NOTICE: Missing required prerequisite artifact(s) for stage '{stage_to_resume}': {', '.join(missing_prereqs)}")
+                    # Find earliest preceding stage that needs to run
+                    rewind_idx = start_idx
+                    while rewind_idx > 0:
+                        rewind_idx -= 1
+                        earlier_stage = stage_order[rewind_idx]
+                        earlier_missing = self._validate_stage_prerequisites(earlier_stage, job.input.mode, work_dir)
+                        if not earlier_missing:
+                            break
+
+                    earliest_stage = stage_order[rewind_idx]
+                    earliest_missing = self._validate_stage_prerequisites(earliest_stage, job.input.mode, work_dir)
+                    if earliest_missing and "source.pdf" in earliest_missing:
+                        if self._recover_source_pdf_if_needed(job, work_dir):
+                            earliest_missing = self._validate_stage_prerequisites(earliest_stage, job.input.mode, work_dir)
+
+                    if earliest_missing:
+                        error_msg = (
+                            f"RESUME_PREREQUISITES_MISSING: Cannot resume from stage '{stage_to_resume}'. "
+                            f"Missing required artifact(s): {', '.join(missing_prereqs)}, and auto-rewind to '{earliest_stage}' "
+                            f"failed due to missing {', '.join(earliest_missing)}. "
+                            f"Earlier stages in job '{job_id}' must complete before resuming from '{stage_to_resume}'."
+                        )
+                        log(f"  ERROR: {error_msg}")
+                        self._update_stage(job, stage_to_resume, "failed", error=error_msg)
+                        job.status = "failed"
+                        job.error_stage = stage_to_resume
+                        job.error_message = error_msg
+                        self._save_job(job, work_dir)
+                        bus = AgentBus(work_dir)
+                        bus.publish("stage.failed", {"stage": stage_to_resume, "error": error_msg})
+                        return job
+
+                    rewound_stage = stage_order[rewind_idx]
+                    log(f"  AUTO-REWIND: Automatically rewinding execution from '{stage_to_resume}' to '{rewound_stage}' to backfill missing prerequisites seamlessly.")
+                    start_idx = rewind_idx
+                else:
+                    error_msg = (
+                        f"RESUME_PREREQUISITES_MISSING: Cannot resume from stage '{stage_to_resume}'. "
+                        f"Missing required artifact(s): {', '.join(missing_prereqs)}. "
+                        f"Earlier stages in job '{job_id}' must complete before resuming from '{stage_to_resume}'."
+                    )
+                    log(f"  ERROR: {error_msg}")
+                    self._update_stage(job, stage_to_resume, "failed", error=error_msg)
+                    job.status = "failed"
+                    job.error_stage = stage_to_resume
+                    job.error_message = error_msg
+                    self._save_job(job, work_dir)
+                    bus = AgentBus(work_dir)
+                    bus.publish("stage.failed", {"stage": stage_to_resume, "error": error_msg})
+                    return job
 
         job.status = "running"
         self._save_job(job, work_dir)

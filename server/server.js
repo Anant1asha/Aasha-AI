@@ -92,15 +92,26 @@ fastify.post('/api/generate/math', async (req, reply) => {
  */
 fastify.post('/api/generate/humanities', async (req, reply) => {
   const { text, template_type } = req.body;
+  const is9Router = (process.env.DEFAULT_LLM_PROVIDER || '9router') === '9router';
+  const targetUrl = is9Router
+    ? `${process.env.NINEROUTER_BASE_URL || 'http://localhost:20128/v1'}/chat/completions`
+    : 'https://openrouter.ai/api/v1/chat/completions';
+  const authToken = is9Router
+    ? (process.env.NINEROUTER_API_KEY || 'sk-d672920e9d3d1993-xq1kzx-afac3200')
+    : (process.env.OPENROUTER_API_KEY || 'YOUR_KEY');
+  const targetModel = is9Router
+    ? (process.env.NINEROUTER_DEFAULT_MODEL || 'claude-combo')
+    : 'nvidia/nemotron-3.5-lightning:free';
+
   try {
-    const response = await request('https://openrouter.ai/api/v1/chat/completions', {
+    const response = await request(targetUrl, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY || 'YOUR_KEY'}` 
+        'Authorization': `Bearer ${authToken}` 
       },
       body: JSON.stringify({
-        model: 'nvidia/nemotron-3.5-lightning:free',
+        model: targetModel,
         messages: [
           { role: 'system', content: `You are an AI generating gamified JSON for H5P. Template: ${template_type}.` },
           { role: 'user', content: `Extract entities from this textbook text and output JSON: ${text}` }
@@ -111,7 +122,7 @@ fastify.post('/api/generate/humanities', async (req, reply) => {
     return { success: true, ai_output: data };
   } catch (error) {
     fastify.log.error(error);
-    reply.code(500).send({ success: false, error: 'OpenRouter API failed' });
+    reply.code(500).send({ success: false, error: 'LLM Generation failed' });
   }
 });
 

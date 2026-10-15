@@ -193,7 +193,7 @@ async function runPhase5Certification() {
 
   const bindings: ConstituentComponentBinding[] = [
     { slot: 'visual', artifact: visualArtifact, role: 'Procedural 3D Projection Canvas' },
-    { slot: 'mechanics', artifact: mechanicsArtifact, role: 'MicroSims Foundation Stepping Engine' },
+    { slot: 'workspace', artifact: mechanicsArtifact, role: 'MicroSims Foundation Stepping Engine' },
     { slot: 'controls', artifact: controlsArtifact, role: 'Dual Dimension Parameter Controls' },
   ];
 
@@ -305,7 +305,7 @@ async function runPhase5Certification() {
   hashRep.update(repairableArtifact.htmlFragment);
   hashRep.update(repairableArtifact.javascriptCode);
   hashRep.update(repairableArtifact.cssCode);
-  repairableArtifact.contentSha256 = hashRep.digest('hex');
+  (repairableArtifact as any).contentSha256 = hashRep.digest('hex');
 
   const repairResult = FailureContainmentManager.validateAndContain(repairableArtifact, reqMath);
   if (!repairResult.success) {

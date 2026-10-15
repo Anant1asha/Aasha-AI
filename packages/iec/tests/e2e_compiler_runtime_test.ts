@@ -102,13 +102,16 @@ async function runE2ECompilerProof() {
 
   // 1. CANONICAL IR SOURCE DEFINITION
   console.log('--- Step 1: Canonical IR Learning Ground Truth ---');
-  const mockCanonicalIR: CanonicalIR = {
-    ir_version: '1.1.0',
-    chapter_id: 'math:c8:squares',
-    subject: 'Mathematics',
-    grade: 8,
-    board: 'CBSE',
-    source_pdf_hash: 'sha256:mock_source_pdf_hash',
+  const mockCanonicalIR: any = {
+    schema_version: '1.1.0',
+    chapter_metadata: {
+      chapter_id: 'math:c8:squares',
+      title: 'Squares and Square Roots',
+      subject: 'Mathematics',
+      grade: 8,
+      board: 'CBSE',
+      source_pdf_hash: 'sha256:mock_source_pdf_hash',
+    },
     learning_objectives: [
       {
         id: 'obj:math:c8:squares:01',
@@ -140,8 +143,11 @@ async function runE2ECompilerProof() {
       },
     ],
     content_blocks: [],
-    experience_states: [],
-    experience_transitions: [],
+    experience_graph: {
+      initial_state_id: '',
+      states: [],
+      transitions: [],
+    },
     capability_requirements: [
       {
         id: 'cap:sim:square_grid',
@@ -159,7 +165,7 @@ async function runE2ECompilerProof() {
     },
     assessment_items: [],
   };
-  assert(Boolean(mockCanonicalIR.chapter_id), 'Canonical IR ground truth loaded');
+  assert(Boolean(mockCanonicalIR.chapter_metadata.chapter_id), 'Canonical IR ground truth loaded');
 
   // 2. REQUIREMENT EXTRACTION & CAPABILITY DISCOVERY
   console.log('\n--- Step 2: Requirement Extraction & Discovery ---');

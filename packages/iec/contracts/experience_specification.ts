@@ -91,7 +91,7 @@ export class ExperienceSpecificationMapper {
     return {
       experience_id: experienceId,
       capability_id: capabilityReq.id,
-      tln_ids: [cir.chapter_id],
+      tln_ids: [cir.chapter_metadata?.chapter_id || (cir as any).chapter_id || ''],
       learning_objective_ids: cir.learning_objectives.map(o => o.id),
       concept_ids: cir.concept_graph.map(c => c.id),
       misconception_ids: cir.misconceptions.map(m => m.id),

@@ -1,6 +1,9 @@
 import 'dotenv/config';
 import * as fs from 'fs';
 import * as path from 'path';
+import { classifyTaskWithLaya, type LayaClassification } from './packages/llm-router/laya_classifier';
+
+export { classifyTaskWithLaya, type LayaClassification };
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -250,7 +253,17 @@ function recordUsage(data: UsageData, providerId: ProviderId, estimatedTokens: n
 // ─────────────────────────────────────────────────────────────────────────────
 
 export async function getLLMCompletion(request: LLMRequest): Promise<string> {
-  const taskType: TaskType = request.taskType || 'analysis';
+  let taskType: TaskType = request.taskType as TaskType;
+
+  // Laya System 1 routing when taskType is not provided
+  if (!taskType) {
+    const promptSummary = request.messages.map((m) => m.content).join(' ');
+    const layaResult = await classifyTaskWithLaya(promptSummary);
+    taskType = layaResult.taskType;
+    console.log(
+      `[Router] ⚡ Laya System 1 routed task to '${taskType}' (confidence: ${(layaResult.confidence * 100).toFixed(1)}%, source: ${layaResult.source}, ${layaResult.latencyMs}ms)`
+    );
+  }
 
   if (taskType === 'deterministic') {
     console.log('[Router] Deterministic task — no LLM call needed.');

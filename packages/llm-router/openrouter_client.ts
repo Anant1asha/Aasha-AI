@@ -91,6 +91,70 @@ export function assertGeminiAuthorized(taskType: string): void {
 }
 
 // ---------------------------------------------------------------------------
+// 9Router Gateway (Primary Zero-Bleed Provider on Local Port 20128)
+// ---------------------------------------------------------------------------
+
+const NINEROUTER_BASE_URL = process.env.NINEROUTER_BASE_URL ?? 'http://localhost:20128/v1';
+const NINEROUTER_API_KEY = process.env.NINEROUTER_API_KEY ?? 'sk-d672920e9d3d1993-xq1kzx-afac3200';
+export const DEFAULT_LLM_PROVIDER = process.env.DEFAULT_LLM_PROVIDER ?? '9router';
+
+const TIER1_9ROUTER_POOL: string[] = [
+  process.env.NINEROUTER_DEFAULT_MODEL ?? 'claude-combo',
+  'ag/gemini-3.8-flash',
+  'gh/gpt-5.4-nano',
+];
+
+const TIER2_9ROUTER_POOL: string[] = [
+  process.env.NINEROUTER_CODING_MODEL ?? 'claude-combo',
+  'ag/gemini-3.8-flash-high',
+  'ag/gemini-3.8-flash',
+];
+
+async function execute9Router(
+  pool: string[],
+  req: LLMRequest,
+  tier: ModelTier,
+  attempt = 0
+): Promise<LLMResponse> {
+  const model = pool[attempt % pool.length];
+  const messages: { role: string; content: string }[] = [];
+  if (req.systemPrompt) messages.push({ role: 'system', content: req.systemPrompt });
+  messages.push({ role: 'user', content: req.prompt });
+
+  try {
+    const res = await fetch(`${NINEROUTER_BASE_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${NINEROUTER_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model,
+        messages,
+        stream: false,
+        max_tokens: req.maxTokens ?? (tier === 2 ? 4096 : 2048),
+      }),
+      signal: AbortSignal.timeout(45_000),
+    });
+
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`[9ROUTER TIER ${tier}] HTTP ${res.status} (${model}): ${body.slice(0, 200)}`);
+    }
+
+    const data = (await res.json()) as { choices: { message: { content: string } }[] };
+    const content = data.choices[0]?.message?.content || '';
+    return { content, model, tier, retries: attempt };
+  } catch (err: unknown) {
+    if (attempt < pool.length - 1) {
+      console.warn(`[9ROUTER TIER ${tier}] Retry model ${pool[(attempt + 1) % pool.length]} after error on ${model}: ${err}`);
+      return execute9Router(pool, req, tier, attempt + 1);
+    }
+    throw err;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // OpenRouter Execution Helper with Key & Model Rotation
 // ---------------------------------------------------------------------------
 
@@ -155,17 +219,23 @@ async function executeOpenRouter(
 }
 
 // ---------------------------------------------------------------------------
-// Tier 1: OpenRouter Free Pool (Routine Chat / Search / Admin)
+// Tier 1: 9Router (Default) / OpenRouter Free Pool (Fallback)
 // ---------------------------------------------------------------------------
 
 export async function callTier1(req: LLMRequest): Promise<LLMResponse> {
+  if (DEFAULT_LLM_PROVIDER === '9router') {
+    try {
+      return await execute9Router(TIER1_9ROUTER_POOL, req, 1);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`[ROUTER] 9Router Tier 1 failed (${msg}). Cascading to OpenRouter free pool.`);
+    }
+  }
   return executeOpenRouter(TIER1_FREE_POOL, req, 1);
 }
 
 // ---------------------------------------------------------------------------
-// Tier 2: OpenRouter Free Coding Pool (Coding / TS Synthesis / HTML Generation)
-// Uses OpenRouter free coding models (qwen-2.5-coder, nemotron, gemini-flash-exp)
-// No paid Anthropic/Claude API key required!
+// Tier 2: 9Router Coding Pool (Default) / OpenRouter Free Coding Pool (Fallback)
 // ---------------------------------------------------------------------------
 
 export async function callTier2(req: LLMRequest): Promise<LLMResponse> {
@@ -198,11 +268,20 @@ export async function callTier2(req: LLMRequest): Promise<LLMResponse> {
         return { content: text, model, tier: 2, retries: 0 };
       }
     } catch {
-      console.warn('[TIER 2] Direct Anthropic API call skipped/failed. Falling back to OpenRouter free coding pool.');
+      console.warn('[TIER 2] Direct Anthropic API call skipped/failed. Falling back to 9router/OpenRouter pool.');
     }
   }
 
-  // DEFAULT: Route through OpenRouter Free Coding Models (0 Paid Bleed)
+  // DEFAULT: Route through 9Router Free Coding Models, falling back to OpenRouter
+  if (DEFAULT_LLM_PROVIDER === '9router') {
+    try {
+      return await execute9Router(TIER2_9ROUTER_POOL, req, 2);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`[ROUTER] 9Router Tier 2 failed (${msg}). Cascading to OpenRouter coding pool.`);
+    }
+  }
+
   return executeOpenRouter(TIER2_FREE_CODING_POOL, req, 2);
 }
 

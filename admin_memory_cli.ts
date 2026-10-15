@@ -151,7 +151,7 @@ async function main() {
           id: `${nodeId}_EXTENDS_DesignAgent`,
           source: nodeId,
           target: 'DesignAgent',
-          relation: 'EXTENDS_AGENT',
+          relation: 'EXTENDS_AGENT' as any,
           properties: { foundationId: f.id },
         });
 

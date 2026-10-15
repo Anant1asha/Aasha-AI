@@ -37,19 +37,19 @@ export class AiosPipelineBridge {
    * Assembles a verified Canonical IR model from agent proposals
    */
   public assembleIR(proposals: AgentProposalsInput): CanonicalIR {
-    const ir = IRAssembler.assemble(proposals);
-    const validation = validateCanonicalIR(ir);
-    if (!validation.valid) {
-      throw new Error(`Canonical IR validation failed: ${validation.errors.join('; ')}`);
+    const { canonicalIR, validationErrors } = IRAssembler.assemble(proposals);
+    if (validationErrors && validationErrors.length > 0) {
+      throw new Error(`Canonical IR validation failed: ${validationErrors.join('; ')}`);
     }
-    return ir;
+    return canonicalIR;
   }
 
   /**
    * Compiles a Canonical IR into an offline-first single-file HTML5 chapter bundle
    */
   public compileIR(ir: CanonicalIR): string {
-    return this.compiler.compile(ir);
+    const res = V6Compiler.compile(ir);
+    return res.html;
   }
 
   /**

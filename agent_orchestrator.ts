@@ -194,7 +194,7 @@ export async function runAgent(
     });
 
     // 2. AASHA Two-Phase Gatekeeper Validation & Bounded 2-Tier Repair Loop
-    let content = response.content || JSON.stringify(response);
+    let content = typeof response === 'string' ? response : (response.content || JSON.stringify(response));
     let audit = contextBus.validateOutput(content, role);
     let repairAttempts = 0;
 
@@ -215,7 +215,7 @@ export async function runAgent(
         messages,
       });
 
-      content = response.content || JSON.stringify(response);
+      content = typeof response === 'string' ? response : (response.content || JSON.stringify(response));
       audit = contextBus.validateOutput(content, role);
     }
 

@@ -84,8 +84,9 @@ export async function runFaultInjectionSuite() {
       maxRepairAttempts: 2,
     });
 
+    const actualContent = typeof res === 'string' ? res : res.content;
     assert(
-      callCount === 3 && res.content === VALID_ASSESSMENT_JSON,
+      callCount === 3 && actualContent === VALID_ASSESSMENT_JSON,
       'TEST_002',
       'REPAIR_ATTEMPT_1_FAILURE',
       `Attempt 1 failed and agent proceeded to Attempt 2, which recovered successfully (Total calls: ${callCount})`
@@ -236,8 +237,9 @@ export async function runFaultInjectionSuite() {
       maxRepairAttempts: 2,
     });
 
+    const actualContent = typeof res === 'string' ? res : res.content;
     assert(
-      callCount === 2 && res.content === VALID_ASSESSMENT_JSON,
+      callCount === 2 && actualContent === VALID_ASSESSMENT_JSON,
       'TEST_008',
       'SUCCESSFUL_RECOVERY',
       `Autonomous recovery succeeded on Attempt 1 without reaching quarantine`

@@ -234,7 +234,7 @@ async function runPhase6Tests(): Promise<void> {
         concurrency: false,
         useIEC: true,
         iecOptions: { forceFailure: true },
-      }
+      } as any
     );
 
     assert(pipeResult.status === 'QUARANTINED', 'Pipeline status is QUARANTINED when IEC fails');
