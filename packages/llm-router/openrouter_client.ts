@@ -94,8 +94,16 @@ export function assertGeminiAuthorized(taskType: string): void {
 // 9Router Gateway (Primary Zero-Bleed Provider on Local Port 20128)
 // ---------------------------------------------------------------------------
 
+function sanitizeApiKey(key?: string): string {
+  const k = (key || '').trim();
+  if (!k || k.includes('YOUR_') || k.toLowerCase().includes('placeholder')) {
+    return '';
+  }
+  return k;
+}
+
 const NINEROUTER_BASE_URL = process.env.NINEROUTER_BASE_URL ?? 'http://localhost:20128/v1';
-const NINEROUTER_API_KEY = process.env.NINEROUTER_API_KEY ?? '';
+const NINEROUTER_API_KEY = sanitizeApiKey(process.env.NINEROUTER_API_KEY);
 export const DEFAULT_LLM_PROVIDER = process.env.DEFAULT_LLM_PROVIDER ?? '9router';
 
 const TIER1_9ROUTER_POOL: string[] = [
@@ -139,6 +147,15 @@ async function execute9Router(
 
     if (!res.ok) {
       const body = await res.text();
+      // On 401/403: gateway authorization failed — abort model retries and fast-cascade to OpenRouter
+      if (res.status === 401 || res.status === 403) {
+        console.warn(
+          `[9ROUTER TIER ${tier}] ⚠️ Proxy authorization failed (HTTP ${res.status}).\n` +
+          `→ Set NINEROUTER_API_KEY in your local .env to authenticate.\n` +
+          `→ Fast-cascading immediately to OpenRouter pool.`
+        );
+        throw new Error(`[9ROUTER_AUTH_FAIL] HTTP ${res.status}: ${body.slice(0, 200)}`);
+      }
       throw new Error(`[9ROUTER TIER ${tier}] HTTP ${res.status} (${model}): ${body.slice(0, 200)}`);
     }
 
@@ -146,6 +163,18 @@ async function execute9Router(
     const content = data.choices[0]?.message?.content || '';
     return { content, model, tier, retries: attempt };
   } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    const isGatewayFailure =
+      msg.includes('9ROUTER_AUTH_FAIL') ||
+      msg.includes('ECONNREFUSED') ||
+      msg.includes('ENOTFOUND') ||
+      msg.includes('fetch failed');
+
+    // Gateway-level failure (auth failure or dead port) - abort retry loop and cascade immediately
+    if (isGatewayFailure) {
+      throw err;
+    }
+
     if (attempt < pool.length - 1) {
       console.warn(`[9ROUTER TIER ${tier}] Retry model ${pool[(attempt + 1) % pool.length]} after error on ${model}: ${err}`);
       return execute9Router(pool, req, tier, attempt + 1);

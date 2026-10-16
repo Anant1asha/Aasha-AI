@@ -96,9 +96,10 @@ fastify.post('/api/generate/humanities', async (req, reply) => {
   const targetUrl = is9Router
     ? `${process.env.NINEROUTER_BASE_URL || 'http://localhost:20128/v1'}/chat/completions`
     : 'https://openrouter.ai/api/v1/chat/completions';
-  const authToken = is9Router
-    ? (process.env.NINEROUTER_API_KEY || '')
-    : (process.env.OPENROUTER_API_KEY || '');
+  const rawAuth = is9Router ? process.env.NINEROUTER_API_KEY : process.env.OPENROUTER_API_KEY;
+  const authToken = (rawAuth && !rawAuth.includes('YOUR_') && !rawAuth.toLowerCase().includes('placeholder'))
+    ? rawAuth.trim()
+    : '';
   const targetModel = is9Router
     ? (process.env.NINEROUTER_DEFAULT_MODEL || 'claude-combo')
     : 'nvidia/nemotron-3.5-lightning:free';

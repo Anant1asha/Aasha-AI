@@ -16,9 +16,17 @@ export interface OpenRouterResponse {
   }[];
 }
 
+function sanitizeApiKey(key?: string): string {
+  const k = (key || '').trim();
+  if (!k || k.includes('YOUR_') || k.toLowerCase().includes('placeholder')) {
+    return '';
+  }
+  return k;
+}
+
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const NINEROUTER_BASE_URL = process.env.NINEROUTER_BASE_URL || 'http://localhost:20128/v1';
-const NINEROUTER_API_KEY = process.env.NINEROUTER_API_KEY; // Must be set in .env; not hard‑coded
+const NINEROUTER_API_KEY = sanitizeApiKey(process.env.NINEROUTER_API_KEY);
 const DEFAULT_LLM_PROVIDER = process.env.DEFAULT_LLM_PROVIDER || '9router';
 const SITE_URL = process.env.SITE_URL || 'http://localhost:3000';
 const SITE_NAME = process.env.SITE_NAME || 'Aasha AI';
@@ -37,7 +45,7 @@ export async function getOpenRouterCompletion(request: OpenRouterRequest): Promi
       const response = await fetch(`${NINEROUTER_BASE_URL}/chat/completions`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${NINEROUTER_API_KEY}`,
+          ...(NINEROUTER_API_KEY ? { 'Authorization': `Bearer ${NINEROUTER_API_KEY}` } : {}),
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
