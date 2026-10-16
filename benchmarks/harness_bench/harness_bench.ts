@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AASHA-HARNESS-BENCH — benchmarks/harness_bench/harness_bench.ts
  *
  * Equivalent task runner for comparing harness performance.
@@ -125,7 +125,7 @@ export const ANTIGRAVITY_BASELINE: Partial<HarnessSummary> = {
 // ---------------------------------------------------------------------------
 
 export class HarnessBench {
-  private reportPath: string;
+  public readonly reportPath: string;
 
   constructor(reportPath?: string) {
     this.reportPath = reportPath ?? path.join(__dirname, 'harness_bench_results.json');

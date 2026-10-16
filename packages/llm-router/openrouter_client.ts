@@ -95,7 +95,7 @@ export function assertGeminiAuthorized(taskType: string): void {
 // ---------------------------------------------------------------------------
 
 const NINEROUTER_BASE_URL = process.env.NINEROUTER_BASE_URL ?? 'http://localhost:20128/v1';
-const NINEROUTER_API_KEY = process.env.NINEROUTER_API_KEY ?? 'sk-d672920e9d3d1993-xq1kzx-afac3200';
+const NINEROUTER_API_KEY = process.env.NINEROUTER_API_KEY ?? '';
 export const DEFAULT_LLM_PROVIDER = process.env.DEFAULT_LLM_PROVIDER ?? '9router';
 
 const TIER1_9ROUTER_POOL: string[] = [
@@ -125,7 +125,7 @@ async function execute9Router(
     const res = await fetch(`${NINEROUTER_BASE_URL}/chat/completions`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${NINEROUTER_API_KEY}`,
+        ...(NINEROUTER_API_KEY ? { 'Authorization': `Bearer ${NINEROUTER_API_KEY}` } : {}),
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -341,20 +341,20 @@ export async function route(req: LLMRequest): Promise<LLMResponse> {
     return callTier3({ ...req, taskType });
   }
 
-  // 2. Tier 2 — coding tasks (routes via OpenRouter free coding pool if no paid key)
+  // 2. Tier 2 — coding tasks (routes via 9Router / OpenRouter free coding pool if no paid key)
   if (CODE_TASK_TYPES.has(taskType)) {
-    console.log(`[ROUTER] → TIER 2 (OpenRouter free coding pool) for task: ${taskType}`);
+    console.log(`[ROUTER] → TIER 2 (${DEFAULT_LLM_PROVIDER}) for task: ${taskType}`);
     return callTier2(req);
   }
 
   // 3. Tier 1 — routine work
-  console.log(`[ROUTER] → TIER 1 (OpenRouter free pool) for task: ${taskType}`);
+  console.log(`[ROUTER] → TIER 1 (${DEFAULT_LLM_PROVIDER}) for task: ${taskType}`);
   try {
     return await callTier1(req);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     console.warn(`[ROUTER] Tier 1 exhausted: ${msg}`);
-    console.warn('[ROUTER] → Escalating to TIER 2 (OpenRouter free coding pool). NOT Tier 3.');
+    console.warn(`[ROUTER] → Escalating to TIER 2 (${DEFAULT_LLM_PROVIDER}). NOT Tier 3.`);
     return callTier2(req);
   }
 }
@@ -382,9 +382,18 @@ if (process.argv.includes('--test')) {
       console.error('❌ FAIL:', e);
     }
 
-    // Test 3: Test key rotation and routing
+    // Test 3: Test 9Router primary gateway
+    console.log(`ℹ️  Default LLM Provider: ${DEFAULT_LLM_PROVIDER} (${NINEROUTER_BASE_URL})`);
+    try {
+      const res = await callTier1({ prompt: 'Say test in one word' });
+      console.log(`✅ PASS: Tier 1 routed via ${res.model} (${DEFAULT_LLM_PROVIDER}): "${res.content.trim().slice(0, 30)}"`);
+    } catch (err) {
+      console.error('⚠️ Tier 1 live test note:', err instanceof Error ? err.message : err);
+    }
+
+    // Test 4: Test key rotation and routing
     const keys = getOpenRouterKeys();
-    console.log(`ℹ️  Loaded ${keys.length} OpenRouter API key(s) for 0-bleed execution.`);
+    console.log(`ℹ️  Loaded ${keys.length} OpenRouter fallback key(s).`);
 
     console.log('\n✅ Anti-bleed guard is active. Gemini paid API: RESERVED.\n');
   })();

@@ -18,7 +18,7 @@ export interface OpenRouterResponse {
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const NINEROUTER_BASE_URL = process.env.NINEROUTER_BASE_URL || 'http://localhost:20128/v1';
-const NINEROUTER_API_KEY = process.env.NINEROUTER_API_KEY || 'sk-d672920e9d3d1993-xq1kzx-afac3200';
+const NINEROUTER_API_KEY = process.env.NINEROUTER_API_KEY; // Must be set in .env; not hard‑coded
 const DEFAULT_LLM_PROVIDER = process.env.DEFAULT_LLM_PROVIDER || '9router';
 const SITE_URL = process.env.SITE_URL || 'http://localhost:3000';
 const SITE_NAME = process.env.SITE_NAME || 'Aasha AI';

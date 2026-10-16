@@ -78,6 +78,11 @@ class LayaDaemonClient {
         stdio: ['pipe', 'pipe', 'pipe'],
       });
 
+      this.proc.unref();
+      (this.proc.stdout as any)?.unref?.();
+      (this.proc.stderr as any)?.unref?.();
+      (this.proc.stdin as any)?.unref?.();
+
       this.proc.stdout?.on('data', (data: { toString: () => string }) => {
         this.buffer += data.toString();
         this.processBuffer();
@@ -162,6 +167,15 @@ class LayaDaemonClient {
     return this.isReady && this.proc !== null;
   }
 
+  public stop(): void {
+    if (this.proc) {
+      try {
+        this.proc.kill();
+      } catch {}
+      this.cleanup();
+    }
+  }
+
   private cleanup(): void {
     this.proc = null;
     this.isReady = false;
@@ -177,11 +191,20 @@ class LayaDaemonClient {
 const daemon = new LayaDaemonClient();
 daemon.start();
 
+export function stopLayaDaemon(): void {
+  daemon.stop();
+}
+
+export { daemon as layaDaemonClient };
+
 /**
  * Classifies an incoming educational or system prompt using Laya's System 1 non-autoregressive engine.
  * Never throws — on any system error or timeout, falls back to a clean local heuristic.
  */
-export async function classifyTaskWithLaya(text: string): Promise<LayaClassification> {
+export async function classifyTaskWithLaya(
+  text: string,
+  options?: { forceHeuristic?: boolean }
+): Promise<LayaClassification> {
   const t0 = performance.now();
   const trimmed = (text || '').trim();
 
@@ -238,8 +261,8 @@ export async function classifyTaskWithLaya(text: string): Promise<LayaClassifica
     };
   }
 
-  // 3. Query resident daemon if ready
-  if (daemon.ready) {
+  // 3. Query resident daemon if ready and not forced heuristic
+  if (!options?.forceHeuristic && daemon.ready) {
     try {
       return await daemon.classify(trimmed);
     } catch {
