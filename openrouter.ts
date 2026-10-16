@@ -1,4 +1,13 @@
-import 'dotenv/config';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+dotenv.config();
+try {
+  const currentDir = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+  dotenv.config({ path: path.resolve(currentDir, '.env') });
+  dotenv.config({ path: path.resolve(currentDir, 'Aasha-AI/.env') });
+} catch {}
 export interface OpenRouterMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;

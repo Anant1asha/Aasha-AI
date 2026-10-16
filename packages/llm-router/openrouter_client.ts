@@ -11,7 +11,15 @@
  * - Tier 3 (Gemini paid) is STRICTLY blocked unless ALLOW_PAID_GEMINI_FALLBACK=true or authorized taskType
  */
 
-import 'dotenv/config';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+dotenv.config();
+try {
+  const currentDir = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+  dotenv.config({ path: path.resolve(currentDir, '../../.env') });
+} catch {}
 
 // ---------------------------------------------------------------------------
 // Types & Interface
