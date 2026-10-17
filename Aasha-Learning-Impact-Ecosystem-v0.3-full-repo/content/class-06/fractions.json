@@ -74,7 +74,7 @@
         { "text": "3/5", "misconceptionId": "ratio_shaded_to_unshaded", "feedback": "3/5 compares colored parts to uncolored parts. A fraction must compare colored parts to the WHOLE (8)." },
         { "text": "3/8", "isCorrect": true, "feedback": "Correct! 3 colored parts over 8 total equal parts gives 3/8." },
         { "text": "8/3", "misconceptionId": "inverted_fraction", "feedback": "Remember: The colored count goes on TOP (numerator) and total parts on the BOTTOM (denominator)." },
-        { "text": "5/8", "misconceptionId": "unshaded_fraction_selected", "feedback": "5/8 is the uncolored part. The question asked for the colored fraction (3/8)." }
+        { "text": "5/8", "misconceptionId": "unshaded_fraction_selected", "feedback": "5/8 is the uncolored part. Re-read the question carefully to find the fraction that is colored." }
       ],
       "answerIndex": 1,
       "points": 1
@@ -112,7 +112,7 @@
       "options": [
         { "text": "2/3", "misconceptionId": "doubled_numerator_only", "feedback": "When you split every piece in half, the total number of pieces doubles too!" },
         { "text": "2/6", "isCorrect": true, "feedback": "Correct! 1 piece becomes 2, and 3 total pieces become 6: 1/3 = 2/6." },
-        { "text": "1/6", "misconceptionId": "halved_fraction", "feedback": "1/6 is the size of one small piece, but you have 2 of those pieces (2/6)." },
+        { "text": "1/6", "misconceptionId": "halved_fraction", "feedback": "1/6 is the size of a single smaller piece. Consider how many of those smaller pieces you hold." },
         { "text": "2/5", "misconceptionId": "arbitrary_denominator", "feedback": "Doubling 3 pieces gives 6 pieces, not 5." }
       ],
       "answerIndex": 1,
@@ -125,7 +125,7 @@
       "options": [
         { "text": "2/3", "misconceptionId": "subtraction_reduction", "feedback": "Divide numerator and denominator by 4; do not subtract." },
         { "text": "1/2", "isCorrect": true, "feedback": "Correct! 4 is half of 8, so 4/8 simplifies directly to 1/2." },
-        { "text": "1/4", "misconceptionId": "denominator_halved", "feedback": "4/8 equals 2/4 or 1/2, not 1/4." },
+        { "text": "1/4", "misconceptionId": "denominator_halved", "feedback": "Dividing both numerator and denominator by 4 gives the simplest equivalent form." },
         { "text": "4/4", "misconceptionId": "unit_confusion", "feedback": "4/4 is one whole. 4/8 is one half." }
       ],
       "answerIndex": 1,
@@ -136,7 +136,7 @@
       "nodeId": "add",
       "prompt": "What is 1/5 + 2/5?",
       "options": [
-        { "text": "3/10", "misconceptionId": "added_denominators", "feedback": "Notice that the slice size remains fifths. Do not add denominators: 1/5 + 2/5 = 3/5." },
+        { "text": "3/10", "misconceptionId": "added_denominators", "feedback": "Denominators indicate the size of equal slices. When adding like fractions, the slice size does not change." },
         { "text": "2/5", "misconceptionId": "ignored_first_numerator", "feedback": "Remember to add both numerators: 1 + 2 = 3." },
         { "text": "3/5", "isCorrect": true, "feedback": "Correct! When denominators are equal, keep the denominator and add numerators: 1/5 + 2/5 = 3/5." },
         { "text": "1/5", "misconceptionId": "no_addition_performed", "feedback": "Combine both quantities together: 1 + 2 = 3 fifths." }
@@ -149,9 +149,9 @@
       "nodeId": "add",
       "prompt": "A roti is divided into 8 equal parts. Simran eats 2/8 and Aman eats 3/8. How much did they eat in total?",
       "options": [
-        { "text": "5/16", "misconceptionId": "added_denominators", "feedback": "The roti still has 8 total parts, not 16. They ate 2 + 3 = 5 parts out of 8." },
+        { "text": "5/16", "misconceptionId": "added_denominators", "feedback": "The total equal divisions of the roti remain unchanged. Combine the portions eaten without altering the total divisions." },
         { "text": "5/8", "isCorrect": true, "feedback": "Correct! 2/8 + 3/8 = 5/8 of the roti." },
-        { "text": "6/8", "misconceptionId": "calculation_slip", "feedback": "Check your addition: 2 + 3 = 5, not 6." },
+        { "text": "6/8", "misconceptionId": "calculation_slip", "feedback": "Carefully recount the combined parts eaten by both persons." },
         { "text": "1/8", "misconceptionId": "subtracted_instead_of_added", "feedback": "They ate the pieces together, so add the amounts." }
       ],
       "answerIndex": 1,

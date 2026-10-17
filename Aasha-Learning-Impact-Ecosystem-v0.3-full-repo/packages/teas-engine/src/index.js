@@ -1,6 +1,6 @@
 import { TEAS_POLICY, computeNodeMastery, canProgress } from './policy.js';
 
-export { TEAS_POLICY, canProgress };
+export { TEAS_POLICY, canProgress, computeNodeMastery };
 
 /** Accept only attempt-level evidence. Aggregate mastery booleans are not evidence. */
 export function computeMasteryByNode(results) {

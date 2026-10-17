@@ -46,9 +46,6 @@ function rt(text) {
           if (connCount <= 2) {
             result += `<span class="connective" data-w="${sub}" data-h="${hi}">${sub} <span class="connective-hi">(${hi})</span></span>`;
           } else {
-          streak = 0;
-          if(comboInd) comboInd.classList.remove('show');
-
             result += `<span class="word" data-w="${sub.toLowerCase()}" data-h="${hi}">${sub}</span>`;
           }
           i += c.length;
@@ -68,9 +65,6 @@ function rt(text) {
       if (hi) result += `<span class="word" data-w="${cw}" data-h="${hi}">${word}</span>`;
       else result += `<span class="word" data-w="${cw}" data-h="">${word}</span>`;
     } else {
-          streak = 0;
-          if(comboInd) comboInd.classList.remove('show');
-
       result += ch;
       i++;
     }
@@ -251,12 +245,6 @@ function launchStandaloneView(chapter) {
     htmlUrl: chapter.standaloneHtml,
     onEvent: (type, payload) => {
       event(type, payload);
-      if (payload && (payload.coins || payload.xp)) {
-        rewards.issue(
-          { eventId: `standalone:${chapter.id}:${Date.now()}` },
-          { coins: payload.coins || 1, xp: payload.xp || 10, verified: true }
-        );
-      }
     }
   });
 
@@ -406,8 +394,7 @@ function practice(nodeId){
           streak++;
           if(streak > 1 && comboInd) { comboInd.textContent = streak + ' IN A ROW 🔥'; comboInd.classList.add('show'); }
 
-          const rewardEventId = `reward:${profile ? profile.learnerId : 'guest'}:${nodeId}:${q.id}`;
-          rewards.issue({ eventId: rewardEventId }, { coins: 1, xp: 5, verified: true });
+          event('practice_correct', { nodeId, questionId: q.id });
           feedbackBox.innerHTML = `
             <div class="feedback-box ok">
               <strong>✓ Correct!</strong> ${r.feedback}

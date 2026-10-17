@@ -83,10 +83,10 @@
       "nodeId": "perimeter",
       "prompt": "A rectangular garden has a length of 6 m and a breadth of 4 m. What is its perimeter?",
       "options": [
-        { "text": "24 m²", "misconceptionId": "multiplied_instead_of_added", "feedback": "24 m² is the Area (6 × 4). Perimeter is the boundary distance: 2 × (6 + 4) = 20 m." },
-        { "text": "10 m", "misconceptionId": "added_only_two_sides", "feedback": "A rectangle has 4 sides, not 2. Add both lengths and both breadths: 6 + 4 + 6 + 4 = 20 m." },
+        { "text": "24 m²", "misconceptionId": "multiplied_instead_of_added", "feedback": "Area measures internal surface coverage in square units. Perimeter measures the outer boundary path." },
+        { "text": "10 m", "misconceptionId": "added_only_two_sides", "feedback": "Remember that a rectangle has four enclosing sides: two lengths and two breadths." },
         { "text": "20 m", "isCorrect": true, "feedback": "Correct! Perimeter = 2 × (length + breadth) = 2 × (6 + 4) = 20 m." },
-        { "text": "48 m", "misconceptionId": "calculation_slip", "feedback": "Check your formula: 2 × (6 + 4) = 2 × 10 = 20 m." }
+        { "text": "48 m", "misconceptionId": "calculation_slip", "feedback": "Recheck the perimeter formula for a rectangle: 2 × (length + breadth)." }
       ],
       "answerIndex": 2,
       "points": 1
@@ -122,9 +122,9 @@
       "nodeId": "area",
       "prompt": "What is the area of a square tile with a side length of 7 cm?",
       "options": [
-        { "text": "28 cm", "misconceptionId": "calculated_perimeter_instead_of_area", "feedback": "28 cm is the perimeter (4 × 7). Area is side × side = 7 × 7 = 49 cm²." },
+        { "text": "28 cm", "misconceptionId": "calculated_perimeter_instead_of_area", "feedback": "Perimeter measures boundary length, but area requires finding surface coverage by multiplying side by side." },
         { "text": "49 cm²", "isCorrect": true, "feedback": "Correct! Area of a square = side × side = 7 cm × 7 cm = 49 cm²." },
-        { "text": "14 cm²", "misconceptionId": "doubled_instead_of_squared", "feedback": "Do not multiply by 2. Multiply the side by itself: 7 × 7 = 49 cm²." },
+        { "text": "14 cm²", "misconceptionId": "doubled_instead_of_squared", "feedback": "Do not double the side length. For area of a square, multiply the side length by itself." },
         { "text": "49 cm", "misconceptionId": "wrong_unit_dimension", "feedback": "Area must be expressed in square units (cm²), not linear units (cm)." }
       ],
       "answerIndex": 1,
@@ -135,9 +135,9 @@
       "nodeId": "area",
       "prompt": "A grid paper rectangle covers 4 rows of 6 squares. Each square is 1 cm × 1 cm. What is the total area?",
       "options": [
-        { "text": "20 cm", "misconceptionId": "calculated_perimeter_instead_of_area", "feedback": "20 cm is the boundary perimeter (2 × (6 + 4)). Area is the total number of squares inside: 4 × 6 = 24 cm²." },
+        { "text": "20 cm", "misconceptionId": "calculated_perimeter_instead_of_area", "feedback": "This calculation measures the outer perimeter. Area counts all unit squares covering the flat surface." },
         { "text": "24 cm²", "isCorrect": true, "feedback": "Correct! 4 rows with 6 squares each make 4 × 6 = 24 unit squares = 24 cm²." },
-        { "text": "10 cm²", "misconceptionId": "added_instead_of_multiplied", "feedback": "Do not add rows and columns (4 + 6). Multiply them to find the grid count: 4 × 6 = 24 cm²." },
+        { "text": "10 cm²", "misconceptionId": "added_instead_of_multiplied", "feedback": "Adding rows and columns does not give coverage. Multiply rows by columns to find the total square units." },
         { "text": "24 cm", "misconceptionId": "wrong_unit_dimension", "feedback": "Area must always have square units (cm²)." }
       ],
       "answerIndex": 1,
@@ -163,8 +163,8 @@
       "options": [
         { "text": "Both have the same perimeter (20 cm), but Rectangle B has a larger area (25 cm² vs 16 cm²)", "isCorrect": true, "feedback": "Brilliant! Perimeter of both is 20 cm, but Rectangle B encloses more surface (25 cm² > 16 cm²). Same perimeter does NOT mean same area." },
         { "text": "Because they have the same perimeter, their areas must be identical", "misconceptionId": "same_perimeter_means_same_area", "feedback": "A common mistake! Shapes with identical perimeter often have very different areas." },
-        { "text": "Rectangle A has a larger area because 8 is larger than 5", "misconceptionId": "single_dimension_dominance", "feedback": "Compare total area: 8 × 2 = 16 cm², whereas 5 × 5 = 25 cm²." },
-        { "text": "Rectangle B has a larger perimeter", "misconceptionId": "calculation_slip", "feedback": "Check perimeters: 2 × (8 + 2) = 20 cm, and 4 × 5 = 20 cm. Perimeters are equal." }
+        { "text": "Rectangle A has a larger area because 8 is larger than 5", "misconceptionId": "single_dimension_dominance", "feedback": "A larger single dimension does not guarantee larger area. Calculate and compare the 2D surface coverage of both shapes." },
+        { "text": "Rectangle B has a larger perimeter", "misconceptionId": "calculation_slip", "feedback": "Add all four outer sides of each shape to compare their linear boundary distances." }
       ],
       "answerIndex": 0,
       "points": 1
