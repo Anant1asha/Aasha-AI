@@ -185,8 +185,8 @@ console.log('Contains deviceId?:', 'deviceId' in sampleEvent);
 // 7. REWARD IDEMPOTENCE AUDIT
 console.log('\n--- 7. REWARD LEDGER AUDIT ---');
 const ledger = new RewardLedger();
-const r1 = ledger.issue({ eventId: 'reward:q-parts-1:100' }, { coins: 1, xp: 5, verified: true });
-const r2 = ledger.issue({ eventId: 'reward:q-parts-1:100' }, { coins: 1, xp: 5, verified: true });
+const r1 = ledger.issue({ eventId: 'reward:q-parts-1:100', type: 'assessment_passed', verifiedByHuman: true }, { coins: 1, xp: 5 });
+const r2 = ledger.issue({ eventId: 'reward:q-parts-1:100', type: 'assessment_passed', verifiedByHuman: true }, { coins: 1, xp: 5 });
 console.log('First issue:', r1);
 console.log('Second issue with same eventId:', r2);
 

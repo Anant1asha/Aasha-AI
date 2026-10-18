@@ -153,14 +153,16 @@ test('ISS-03: Deterministic reward event ID prevents duplicate coins on replay',
 
   const rewardEventId = `reward:${learnerId}:${nodeId}:${qId}`;
 
+  const rewardEvent = { eventId: rewardEventId, type: 'assessment_passed', verifiedByHuman: true };
+
   // First run: earns reward
-  const firstClaim = ledger.issue({ eventId: rewardEventId }, { coins: 1, xp: 5, verified: true });
+  const firstClaim = ledger.issue(rewardEvent, { coins: 1, xp: 5 });
   assert.equal(firstClaim.issued, true);
   assert.equal(firstClaim.coins, 1);
   assert.equal(ledger.balance, 1);
 
   // Second run (replay): deduplicated, zero extra coins
-  const secondClaim = ledger.issue({ eventId: rewardEventId }, { coins: 1, xp: 5, verified: true });
+  const secondClaim = ledger.issue(rewardEvent, { coins: 1, xp: 5 });
   assert.equal(secondClaim.issued, false);
   assert.equal(secondClaim.reason, 'duplicate');
   assert.equal(ledger.balance, 1, 'Balance does not increase on replay');

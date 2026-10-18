@@ -121,7 +121,7 @@ async function simulateLearnerExperience() {
   retryLog1.push({ questionId: qs1[0].id, attemptNumber: 2, correct: true, isRetry: true });
   console.log(`    Result: ✓ Correct! Feedback: "${q1a2.feedback}"`);
   console.log('    UI: Option turns green, "Continue →" button appears.');
-  const r1 = rewards.issue({ eventId: `reward:${learnerId}:parts:${qs1[0].id}` }, { coins: 1, xp: 5, verified: true });
+  const r1 = rewards.issue({ eventId: `reward:${learnerId}:parts:${qs1[0].id}`, type: 'assessment_passed', verifiedByHuman: true }, { coins: 1, xp: 5 });
   console.log(`    Reward granted: ${r1.issued} (Coins: ${r1.coins}, Balance: ${r1.balance})`);
 
   // Question 2: Paper strip 8 parts, 3 colored
@@ -131,7 +131,7 @@ async function simulateLearnerExperience() {
   firstAttempts1.push(q2a1);
   retryLog1.push({ questionId: qs1[1].id, attemptNumber: 1, correct: true, isRetry: false });
   console.log(`    Result: ✓ Correct! Feedback: "${q2a1.feedback}"`);
-  const r2 = rewards.issue({ eventId: `reward:${learnerId}:parts:${qs1[1].id}` }, { coins: 1, xp: 5, verified: true });
+  const r2 = rewards.issue({ eventId: `reward:${learnerId}:parts:${qs1[1].id}`, type: 'assessment_passed', verifiedByHuman: true }, { coins: 1, xp: 5 });
   console.log(`    Reward granted: ${r2.issued} (Coins: ${r2.coins}, Balance: ${r2.balance})`);
 
   // Question 3: Why cutting into 4 pieces doesn't always make fourths
@@ -141,7 +141,7 @@ async function simulateLearnerExperience() {
   firstAttempts1.push(q3a1);
   retryLog1.push({ questionId: qs1[2].id, attemptNumber: 1, correct: true, isRetry: false });
   console.log(`    Result: ✓ Correct! Feedback: "${q3a1.feedback}"`);
-  const r3 = rewards.issue({ eventId: `reward:${learnerId}:parts:${qs1[2].id}` }, { coins: 1, xp: 5, verified: true });
+  const r3 = rewards.issue({ eventId: `reward:${learnerId}:parts:${qs1[2].id}`, type: 'assessment_passed', verifiedByHuman: true }, { coins: 1, xp: 5 });
   console.log(`    Reward granted: ${r3.issued} (Coins: ${r3.coins}, Balance: ${r3.balance})`);
 
   // Assessment Evaluation
@@ -156,7 +156,7 @@ async function simulateLearnerExperience() {
   // Test Replay Idempotence
   console.log('\n[Testing Replay Idempotence]');
   console.log('  Learner re-plays Question 1...');
-  const replayReward = rewards.issue({ eventId: `reward:${learnerId}:parts:${qs1[0].id}` }, { coins: 1, xp: 5, verified: true });
+  const replayReward = rewards.issue({ eventId: `reward:${learnerId}:parts:${qs1[0].id}`, type: 'assessment_passed', verifiedByHuman: true }, { coins: 1, xp: 5 });
   console.log(`  Replay Reward Issued: ${replayReward.issued} (Reason: ${replayReward.reason})`);
   console.log(`  Balance remains strictly: ${replayReward.balance} coins (No duplicate inflation!)`);
 

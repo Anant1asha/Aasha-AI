@@ -244,22 +244,34 @@ test('Vertical Slice - Scenario 11 & 12: TEAS deterministic mastery and sequenti
 
 test('Vertical Slice - Scenario 13 & 14: Unverified reward rejection and idempotent ledger issuance', () => {
   const ledger = new RewardLedger();
-  const event = { eventId: 'evt-test-1', type: 'assessment_passed' };
+  const event = { eventId: 'evt-test-1', type: 'assessment_passed', verifiedByHuman: true };
+  const forgedEvent = { eventId: 'evt-forged-1', type: 'assessment_passed' };
+
+  // Forged client event claiming verified:true -> policy gate ignores the flag entirely
+  const forgedClaim = ledger.issue(forgedEvent, { coins: 9999, xp: 9999, verified: true });
+  assert.equal(forgedClaim.issued, false, 'caller-supplied verified must not mint rewards');
+  assert.equal(forgedClaim.reason, 'verification_required');
+  assert.equal(ledger.balance, 0);
+
+  // Untrusted event type
+  const wrongType = ledger.issue({ eventId: 'evt-x', type: 'free_coins', verifiedByHuman: true }, { coins: 5 });
+  assert.equal(wrongType.issued, false);
+  assert.equal(wrongType.reason, 'verification_required');
 
   // Unverified call (omitted verified flag) -> MUST be rejected under default verified=false
-  const rejectedOmitted = ledger.issue(event, { coins: 5 });
+  const rejectedOmitted = ledger.issue({ ...event, verifiedByHuman: false }, { coins: 5 });
   assert.equal(rejectedOmitted.issued, false);
   assert.equal(rejectedOmitted.reason, 'verification_required');
   assert.equal(ledger.balance, 0);
 
   // Explicitly unverified call
-  const rejectedExplicit = ledger.issue(event, { coins: 5, verified: false });
+  const rejectedExplicit = ledger.issue({ ...event, verifiedByHuman: false }, { coins: 5 });
   assert.equal(rejectedExplicit.issued, false);
   assert.equal(rejectedExplicit.reason, 'verification_required');
   assert.equal(ledger.balance, 0);
 
   // Invalid event (missing eventId)
-  const rejectedInvalid = ledger.issue({}, { coins: 5, verified: true });
+  const rejectedInvalid = ledger.issue({ type: 'assessment_passed', verifiedByHuman: true }, { coins: 5 });
   assert.equal(rejectedInvalid.issued, false);
   assert.equal(rejectedInvalid.reason, 'invalid_event');
 
