@@ -327,5 +327,102 @@
       "Rule #11: Air-Gapped Offline Bundle Size (0.06 MB) satisfies <= 40 MB ceiling (59315 <= 41943040 bytes)."
     ],
     "failedChecks": []
+  },
+  "SquareCubeRoots_Class8_Gamified_v5_Enhanced_v6.html": {
+    "filename": "SquareCubeRoots_Class8_Gamified_v5_Enhanced_v6.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\SquareCubeRoots_Class8_Gamified_v5_Enhanced_v6.html",
+    "finalScore": 100,
+    "passedChecksCount": 13,
+    "failedChecksCount": 0,
+    "stats": {
+      "totalNodes": 5,
+      "totalSteps": 25,
+      "totalQuestions": 49,
+      "totalMisconceptions": 147,
+      "spoilerViolations": 0,
+      "missingMisconceptions": 0,
+      "mathRtCollisions": 0,
+      "ruleViolations": 0
+    },
+    "passedChecks": [
+      "Rule #1 (Zero-Spoiler Misconceptions): 100% compliant. No correct answers leaked.",
+      "Math-rt Isolation: Math expressions and variables are insulated from bilingual dictionary collision.",
+      "Rule #2: All assessment options are shuffled using randomized sorting.",
+      "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop events).",
+      "Rule #4: Clean execution without browser-freezing alert(), confirm(), or prompt().",
+      "Rule #5: Skip action present on interactive canvas / drag-drop activities.",
+      "Rule #6: Primary navigation buttons (Back / Continue) properly anchored.",
+      "Rule #7: _weCheckRendered flag present for multi-phase Worked Example check flow.",
+      "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
+      "Rule #9: exit() resets state immediately without modal dialogs.",
+      "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.26 MB) satisfies <= 40 MB ceiling (269890 <= 41943040 bytes).",
+      "Know-Stage Pedagogy: Every concept node follows proven Intro -> Concept Text -> Verification flow."
+    ],
+    "failedChecks": []
+  },
+  "AlgebraicExpressions_Class7_BETA_v6.html": {
+    "filename": "AlgebraicExpressions_Class7_BETA_v6.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\AlgebraicExpressions_Class7_BETA_v6.html",
+    "finalScore": 100,
+    "passedChecksCount": 12,
+    "failedChecksCount": 0,
+    "stats": {
+      "totalNodes": 0,
+      "totalSteps": 0,
+      "totalQuestions": 9,
+      "totalMisconceptions": 27,
+      "spoilerViolations": 0,
+      "missingMisconceptions": 0,
+      "mathRtCollisions": 0,
+      "ruleViolations": 0
+    },
+    "passedChecks": [
+      "Rule #1 (Zero-Spoiler Misconceptions): 100% compliant. No correct answers leaked.",
+      "Math-rt Isolation: Math expressions and variables are insulated from bilingual dictionary collision.",
+      "Rule #2: All assessment options are shuffled using randomized sorting.",
+      "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop events).",
+      "Rule #4: Clean execution without browser-freezing alert(), confirm(), or prompt().",
+      "Rule #5: Skip action present on interactive canvas / drag-drop activities.",
+      "Rule #6: Primary navigation buttons (Back / Continue) properly anchored.",
+      "Rule #7: _weCheckRendered flag present for multi-phase Worked Example check flow.",
+      "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
+      "Rule #9: exit() resets state immediately without modal dialogs.",
+      "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.06 MB) satisfies <= 40 MB ceiling (57802 <= 41943040 bytes)."
+    ],
+    "failedChecks": []
+  },
+  "quadratic_systems_lab_Class8_v6.html": {
+    "filename": "quadratic_systems_lab_Class8_v6.html",
+    "filePath": "C:\\Users\\admin\\Downloads\\NGO AI LLM\\Aasha-AI\\chapters\\quadratic_systems_lab_Class8_v6.html",
+    "finalScore": 100,
+    "passedChecksCount": 12,
+    "failedChecksCount": 0,
+    "stats": {
+      "totalNodes": 0,
+      "totalSteps": 0,
+      "totalQuestions": 1,
+      "totalMisconceptions": 1,
+      "spoilerViolations": 0,
+      "missingMisconceptions": 0,
+      "mathRtCollisions": 0,
+      "ruleViolations": 0
+    },
+    "passedChecks": [
+      "Rule #1 (Zero-Spoiler Misconceptions): 100% compliant. No correct answers leaked.",
+      "Math-rt Isolation: Math expressions and variables are insulated from bilingual dictionary collision.",
+      "Rule #2: All assessment options are shuffled using randomized sorting.",
+      "Rule #3: Tap-only interaction enforced (zero HTML5 drag-and-drop events).",
+      "Rule #4: Clean execution without browser-freezing alert(), confirm(), or prompt().",
+      "Rule #5: Skip action present on interactive canvas / drag-drop activities.",
+      "Rule #6: Primary navigation buttons (Back / Continue) properly anchored.",
+      "Rule #7: _weCheckRendered flag present for multi-phase Worked Example check flow.",
+      "Rule #8: localStorage safely wrapped in bounds-checked try-catch blocks.",
+      "Rule #9: exit() resets state immediately without modal dialogs.",
+      "Rule #10: 100% Offline-First compliant. Zero external script or stylesheet CDN dependencies.",
+      "Rule #11: Air-Gapped Offline Bundle Size (0.04 MB) satisfies <= 40 MB ceiling (41218 <= 41943040 bytes)."
+    ],
+    "failedChecks": []
   }
 }

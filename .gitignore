@@ -38,9 +38,18 @@ dist/
 build/
 *.tmp
 temp/
+.scratch/
+**/.scratch/
+scratch/
+**/scratch/
+*cookie*
+*.cookie
+*.zip
+.claude/
 
 # IEC Compiler & Browser Test Artifacts
 .chrome_temp_*/
 *.bak
 chapters/test_*.html
+
 

@@ -437,7 +437,10 @@ if (fileArgIdx !== -1 && args[fileArgIdx + 1]) {
     resolveChapterPath('RationalNumbers_Class8_Gamified_v5_Enhanced_v6.html'),
     resolveChapterPath('ExponentsPowers_Class8_Gamified_v5_Enhanced_v6.html'),
     resolveChapterPath('RationalNumbers_Class8_AD.html'),
-    resolveChapterPath('LinearEquations_Class8_v6.html')
+    resolveChapterPath('LinearEquations_Class8_v6.html'),
+    resolveChapterPath('SquareCubeRoots_Class8_Gamified_v5_Enhanced_v6.html'),
+    resolveChapterPath('AlgebraicExpressions_Class7_BETA_v6.html'),
+    resolveChapterPath('quadratic_systems_lab_Class8_v6.html')
   ].filter(p => fs.existsSync(p));
 }
 

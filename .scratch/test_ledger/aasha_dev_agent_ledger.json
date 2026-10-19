@@ -10,8 +10,8 @@
     "commandsExecuted": [],
     "testResults": [],
     "repairAttempts": 0,
-    "createdAt": "2026-10-11T19:39:44.312Z",
-    "updatedAt": "2026-10-11T19:39:44.460Z",
+    "createdAt": "2026-10-19T18:47:45.236Z",
+    "updatedAt": "2026-10-19T18:47:45.238Z",
     "diffHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   {
@@ -25,11 +25,11 @@
     "commandsExecuted": [],
     "testResults": [],
     "repairAttempts": 0,
-    "createdAt": "2026-10-11T19:39:44.467Z",
-    "updatedAt": "2026-10-11T19:39:44.471Z",
+    "createdAt": "2026-10-19T18:47:45.244Z",
+    "updatedAt": "2026-10-19T18:47:45.248Z",
     "diffHash": "diff_hash_22222222222222222222222222222222",
     "approval": {
-      "approvalId": "APP-1791747584470",
+      "approvalId": "APP-1792435665246",
       "taskId": "TASK-004",
       "repository": "Anant1asha/Aasha-AI",
       "baseCommitSha": "61fce9d",
@@ -39,9 +39,9 @@
       ],
       "approverIdentity": "SuperAdmin",
       "policyVersion": "2.0.0",
-      "approvedAt": "2026-10-11T19:39:44.469Z",
-      "expiresAt": "2026-10-12T19:39:44.469Z",
-      "signature": "39dc0cf6522ce224604fd49e186ce72bf7eaee289eff573aa62a16af20886f1d",
+      "approvedAt": "2026-10-19T18:47:45.246Z",
+      "expiresAt": "2026-10-20T18:47:45.246Z",
+      "signature": "4187f7b63c316b4d69106c86022b4824b99b1ff767ff2017a0fe6a2c2728d5d0",
       "isValid": false
     },
     "rejectionReason": "APPROVAL_INVALIDATED_DIFF_CHANGED"
