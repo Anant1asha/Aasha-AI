@@ -1,4 +1,4 @@
-﻿import { orchestrateChapterPipeline, getContextBus } from '../agent_orchestrator';
+import { orchestrateChapterPipeline, getContextBus } from '../agent_orchestrator';
 
 // Mock completers that simulate async work
 const createDeterministicCompleter = (delayMs: number = 50) => {
@@ -91,6 +91,7 @@ export async function runConcurrencySuite() {
     const concurrentResult = await orchestrateChapterPipeline(input, {
       concurrency: true,
       llmCompleter: completer,
+      useIEC: false,
     });
     const concurrentDuration = Date.now() - start;
 
@@ -114,11 +115,13 @@ export async function runConcurrencySuite() {
     const seqResult = await orchestrateChapterPipeline(input, {
       concurrency: false,
       llmCompleter: completer,
+      useIEC: false,
     });
 
     const parResult = await orchestrateChapterPipeline(input, {
       concurrency: true,
       llmCompleter: completer,
+      useIEC: false,
     });
 
     const seqPayload = JSON.stringify({
@@ -149,11 +152,11 @@ export async function runConcurrencySuite() {
     const completer = createDeterministicCompleter(delay);
 
     const seqStart = Date.now();
-    await orchestrateChapterPipeline(input, { concurrency: false, llmCompleter: completer });
+    await orchestrateChapterPipeline(input, { concurrency: false, llmCompleter: completer, useIEC: false });
     const seqDuration = Date.now() - seqStart;
 
     const parStart = Date.now();
-    await orchestrateChapterPipeline(input, { concurrency: true, llmCompleter: completer });
+    await orchestrateChapterPipeline(input, { concurrency: true, llmCompleter: completer, useIEC: false });
     const parDuration = Date.now() - parStart;
 
     // Sequential: 1 analysis + 3 branches (design, assessment, lle) + QA ~ 4*80 = ~320ms
@@ -180,6 +183,7 @@ export async function runConcurrencySuite() {
     const pipeResult = await orchestrateChapterPipeline(input, {
       concurrency: true,
       llmCompleter: faultyCompleter,
+      useIEC: false,
     });
 
     assert(
@@ -197,7 +201,7 @@ export async function runConcurrencySuite() {
     const completer = createDeterministicCompleter(10);
     const runs = [];
     for (let i = 0; i < 5; i++) {
-      runs.push(await orchestrateChapterPipeline(input, { concurrency: true, llmCompleter: completer }));
+      runs.push(await orchestrateChapterPipeline(input, { concurrency: true, llmCompleter: completer, useIEC: false }));
     }
 
     const baseline = JSON.stringify({
