@@ -18,6 +18,8 @@ import hashlib
 import json
 import logging
 import os
+import random
+import threading
 import time
 from pathlib import Path
 from typing import Any
@@ -30,6 +32,12 @@ from tenacity import (
 )
 
 logger = logging.getLogger(__name__)
+
+# Module-level thread-safe circuit breaker and rate pacing for multimodal vision
+_vision_cooldown_lock = threading.Lock()
+_vision_model_cooldowns: dict[str, float] = {}
+_vision_round_robin_counter: int = 0
+_last_vision_call_time: float = 0.0
 
 
 def _load_env_if_missing() -> None:
@@ -612,11 +620,12 @@ class LLMAdapter:
         schema_hint: str = "",
     ) -> dict[str, Any]:
         """Send a multimodal completion request with an image and return parsed JSON."""
-        cache_raw = f"{system}\n{user}\n{len(image_b64)}\n{image_b64[:100]}"
+        img_hash = hashlib.sha256(image_b64.encode("ascii")).hexdigest()
+        cache_raw = f"{system}\n{user}\n{img_hash}"
         cache_key = hashlib.sha256(cache_raw.encode("utf-8")).hexdigest()
         cached = self._cache_get(cache_key)
         if cached is not None:
-            logger.debug("Vision LLM cache hit")
+            logger.debug("Vision LLM cache hit — 0 network latency")
             return cached
 
         prompt = user
@@ -642,6 +651,8 @@ class LLMAdapter:
         mime_type: str = "image/png",
     ) -> str:
         """Execute multimodal vision request with automatic 9Router -> OpenRouter cascade."""
+        global _vision_round_robin_counter, _last_vision_call_time
+
         # 1. Try 9Router if available (0 cost)
         if os.environ.get("NINEROUTER_API_KEY"):
             self.ensure_9router_daemon()
@@ -653,9 +664,9 @@ class LLMAdapter:
                     self._9router_client = OpenAI(base_url=base_url, api_key=key, timeout=60.0)
                 client = self._9router_client
                 models = [
-                    "openrouter/nvidia/nemotron-3.5-super-vl:free",
                     "ag/gemini-3.8-flash",
                     "gc/gemini-2.5-flash-lite",
+                    "ag/gemini-3.7-flash-medium",
                 ]
                 for m in models:
                     try:
@@ -677,24 +688,54 @@ class LLMAdapter:
                             return content
                     except Exception as e:
                         logger.warning(f"[Vision] 9Router model {m} failed ({e}) — trying next vision model.")
-                        time.sleep(1)
+                        time.sleep(0.5)
 
-        # 2. Try OpenRouter direct free multimodal pool
+        # 2. Try OpenRouter direct free multimodal pool with round-robin & circuit breaker
         or_key = os.environ.get("OPENROUTER_API_KEY")
         if or_key:
             if self._openrouter_client is None:
                 from openai import OpenAI
                 self._openrouter_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=or_key, timeout=60.0)
             client = self._openrouter_client
-            or_models = [
-                "openrouter/nvidia/nemotron-3.5-super-vl:free",
+
+            raw_or_models = [
+                "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+                "nvidia/nemotron-3.5-super-vl:free",
                 "google/gemma-4-31b-it:free",
+                "google/gemma-4-26b-a4b-it:free",
+                "dots-studio/dots-3-note-preview:free",
+                "thinkingmachines/inkling:free",
             ]
-            for m in or_models:
+
+            # Round-robin starting point to balance traffic across upstream providers
+            with _vision_cooldown_lock:
+                start_idx = _vision_round_robin_counter % len(raw_or_models)
+                _vision_round_robin_counter += 1
+            ordered_models = raw_or_models[start_idx:] + raw_or_models[:start_idx]
+
+            # Filter out models currently in cooldown due to rate limits
+            now = time.time()
+            healthy_models = [
+                m for m in ordered_models
+                if _vision_model_cooldowns.get(m, 0.0) <= now
+            ]
+            candidates = healthy_models if healthy_models else ordered_models
+
+            for m in candidates:
+                # Direct OpenRouter model IDs must not have "openrouter/" prefix
+                clean_model = m.replace("openrouter/", "")
+
+                # Micro-pacing: space requests by at least 120ms to avoid Cloudflare burst rate limits
+                with _vision_cooldown_lock:
+                    elapsed = time.time() - _last_vision_call_time
+                    if elapsed < 0.12:
+                        time.sleep(0.12 - elapsed)
+                    _last_vision_call_time = time.time()
+
                 try:
-                    logger.info(f"[Vision] Trying OpenRouter direct model: {m}")
+                    logger.info(f"[Vision] Trying OpenRouter direct model: {clean_model}")
                     resp = client.chat.completions.create(
-                        model=m,
+                        model=clean_model,
                         messages=[
                             {
                                 "role": "user",
@@ -705,12 +746,25 @@ class LLMAdapter:
                             }
                         ],
                     )
-                    content = resp.choices[0].message.content or ""
-                    if content:
-                        return content
+                    if resp and getattr(resp, "choices", None) and len(resp.choices) > 0:
+                        content = resp.choices[0].message.content or ""
+                        if content:
+                            return content
                 except Exception as e:
-                    logger.warning(f"[Vision] OpenRouter model {m} failed ({e}) — 3s backoff.")
-                    time.sleep(3)
+                    err_str = str(e).lower()
+                    if "429" in err_str or "rate" in err_str or "limit" in err_str:
+                        # Trip circuit breaker for 20s
+                        with _vision_cooldown_lock:
+                            _vision_model_cooldowns[clean_model] = time.time() + 20.0
+                        logger.warning(
+                            f"[Vision] OpenRouter model {clean_model} rate-limited (429) — "
+                            f"tripping 20s circuit breaker. Instantly switching to next model."
+                        )
+                    else:
+                        logger.warning(f"[Vision] OpenRouter model {clean_model} failed ({e}) — trying next vision model.")
+
+            # If all candidates failed, short jittered pause
+            time.sleep(min(3.0, 1.0 + random.uniform(0.5, 1.5)))
 
         # 3. Tier 3 Reserve (Gemini multimodal vision ingestion if authorized)
         gemini_key = os.environ.get("GEMINI_API_KEY")

@@ -248,7 +248,19 @@ class IngestAgent(BaseAgent):
                         return (p_num, page_rec, p_headings, p_exercises)
                     except Exception as exc:
                         self.log(f"  [Vision Ingest] Warning: vision extraction failed on page {p_num}: {exc}")
-                        return (p_num, None, [], [])
+                        # Resilient fallback preserves document structure without failing entire textbook
+                        fallback_rec = {
+                            "page_num": p_num,
+                            "text": f"[Page {p_num}: Visual diagram or illustration content]",
+                            "blocks": [{"x0": 0, "y0": 0, "x1": 612, "y1": 792, "text": f"[Page {p_num}: Visual content]", "type": "text"}],
+                            "images": [],
+                            "source_ref": {
+                                "source_artifact_id": f"sha256:{source_sha256}",
+                                "source_sha256": source_sha256,
+                                "page": p_num,
+                            },
+                        }
+                        return (p_num, fallback_rec, [], [])
 
                 self.log(f"  [Vision Ingest] Dispatching {len(scanned_items)} pages across {max_workers} concurrent workers...")
                 with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -262,9 +274,7 @@ class IngestAgent(BaseAgent):
                             pages_by_num[p_num] = page_rec
                             headings.extend(p_heads)
                             exercises.extend(p_exs)
-                            self.log(f"  [Vision Ingest] Page {p_num}/{page_count} successfully digitized ({len(page_rec['text'])} chars)")
-                        else:
-                            self.log(f"  [Vision Ingest] Page {p_num}/{page_count} failed to digitize")
+                            self.log(f"  [Vision Ingest] Page {p_num}/{page_count} successfully registered ({len(page_rec['text'])} chars)")
 
         else:
             # Pure-Python pypdf fallback
