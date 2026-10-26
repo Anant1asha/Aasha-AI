@@ -2938,6 +2938,1436 @@
         "repairAttempts": 0
       },
       "timestamp": "2026-10-19T20:47:00.984953Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_b9e48d3cea96",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:42:27.332364Z"
+    },
+    {
+      "id": "DesignAgent_experience_4e64640a8c15",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:43:05.503337Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_e2bc047dba0f",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:43:14.296754Z"
+    },
+    {
+      "id": "LLEAgent_experience_1c81c754573d",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:43:22.618256Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_51a76c0950ce",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:43:40.805430Z"
+    },
+    {
+      "id": "DesignAgent_experience_5e21feb5b547",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:43:58.848104Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_56c8bef73fa3",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:44:21.127291Z"
+    },
+    {
+      "id": "LLEAgent_experience_f38e3d17138f",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:44:41.841857Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_fd7532a90701",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:44:59.547205Z"
+    },
+    {
+      "id": "DesignAgent_experience_f3f73e5e0ff5",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:45:36.661717Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_b086dfeebd2a",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:45:45.823833Z"
+    },
+    {
+      "id": "LLEAgent_experience_240e9ecd01c4",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:45:56.839274Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_c9623bca59b1",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:46:15.617509Z"
+    },
+    {
+      "id": "DesignAgent_experience_0d70b295fddd",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:46:36.741141Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_47025a806ed6",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:46:54.883700Z"
+    },
+    {
+      "id": "LLEAgent_experience_d4c8cf2b57f7",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:47:13.058807Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_e1952f8fffd5",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:47:33.350646Z"
+    },
+    {
+      "id": "DesignAgent_experience_ad76a337f39a",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:48:19.421050Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_6fedc755b452",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:48:31.881775Z"
+    },
+    {
+      "id": "LLEAgent_experience_7be46d85df6d",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:48:40.088726Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_90aae7373f14",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 2x + 5 = 15 \\\\)\",\"opts\":[{\"t\":\"x = 5\",\"c\":true},{\"t\":\"x = 10\",\"c\":false,\"m\":\"Subtracted 5 incorrectly without dividing by 2\"},{\"t\":\"x = 4\",\"c\":false,\"m\":\"Divided both sides by 2 before subtracting 5\"},{\"t\":\"x = 20\",\"c\":false,\"m\":\"Added 5 instead of subtracting from 15\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "general_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 2
+      },
+      "timestamp": "2026-10-25T18:49:33.105357Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_9238116329ae",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 2x + 5 = 15 \\\\)\",\"opts\":[{\"t\":\"x = 5\",\"c\":true},{\"t\":\"x = 10\",\"c\":false,\"m\":\"Subtracted 5 incorrectly without dividing by 2\"},{\"t\":\"x = 4\",\"c\":false,\"m\":\"Divided both sides by 2 before subtracting 5\"},{\"t\":\"x = 20\",\"c\":false,\"m\":\"Added 5 instead of subtracting from 15\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "general_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 1
+      },
+      "timestamp": "2026-10-25T18:50:51.443960Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954386065_dh068",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:06.065Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954391046_6rfdr",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:11.046Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954391078_2in36",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:11.078Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954391090_qnrpg",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:11.090Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954392319_yoglz",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:12.319Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954393258_g7ej0",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:13.258Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954394399_sgqor",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:14.399Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954395772_f7n69",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:15.772Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954396830_pdrxw",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:16.830Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954400950_chd5r",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:20.950Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954400962_8hn6q",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:20.963Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954400975_hc5vk",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:20.975Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954402963_1numq",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:22.963Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954404204_oshnb",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:24.204Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954406122_m3feb",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:26.122Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954407619_mgl32",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:27.619Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954408862_9ggib",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:28.862Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954413839_bim4r",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:33.839Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954413847_qlyee",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:33.847Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954413856_0cmh1",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:33.856Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954414763_8pfm2",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"status\":\"OK\"}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:34.763Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954419473_6j5fj",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"OK\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:39.473Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954419487_ivmuc",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"status\":\"OK\"}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:39.487Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954420969_nvpe9",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:40.969Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954425697_ktbqn",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:45.697Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954425707_5vjff",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:45.707Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954425718_kumyv",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:45.718Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954427318_zlkxd",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:47.318Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954431545_408xx",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:51.545Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954431552_q7oza",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:51.552Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954431563_mjyn9",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:51.563Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954433069_gxqur",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:53.069Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954436140_e649e",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:56.140Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954436149_w23yz",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:56.149Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954436157_fxuk7",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:56.157Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954437106_wynxh",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:57.106Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954439872_2g7on",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:59.872Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954439879_20204",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:59.879Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954439889_9q755",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:53:59.889Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954440909_coamz",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:54:00.909Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954444338_artqy",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:54:04.338Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954444346_6xxby",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:54:04.346Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954444356_12ezg",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:54:04.356Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954461042_nfnsc",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 2x + 5 = 15 \\\\)\",\"opts\":[{\"t\":\"x = 5\",\"c\":true},{\"t\":\"x = 10\",\"c\":false,\"m\":\"Subtracted 5 incorrectly without dividing by 2\"},{\"t\":\"x = 4\",\"c\":false,\"m\":\"Divided both sides by 2 before subtracting 5\"},{\"t\":\"x = 20\",\"c\":false,\"m\":\"Added 5 instead of subtracting from 15\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "general_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 2
+      },
+      "timestamp": "2026-10-25T18:54:21.042Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954470250_c3l24",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 2x + 5 = 15 \\\\)\",\"opts\":[{\"t\":\"x = 5\",\"c\":true},{\"t\":\"x = 10\",\"c\":false,\"m\":\"Subtracted 5 incorrectly without dividing by 2\"},{\"t\":\"x = 4\",\"c\":false,\"m\":\"Divided both sides by 2 before subtracting 5\"},{\"t\":\"x = 20\",\"c\":false,\"m\":\"Added 5 instead of subtracting from 15\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "general_concept",
+        "gatekeeperPassed": true,
+        "repairAttempts": 1
+      },
+      "timestamp": "2026-10-25T18:54:30.250Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954524255_gqfam",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:24.255Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954530212_zkh2p",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:30.212Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954530241_vscn0",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:30.241Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954530251_gsd5w",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:30.251Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954531565_vebio",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:31.565Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954533800_1i5mh",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:33.800Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954535007_tqoqu",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:35.007Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954536150_vjkvy",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:36.151Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954538093_w3wbz",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:38.093Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954541614_34wxn",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:41.614Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954541624_maofd",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:41.624Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954541634_2lsim",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:41.634Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954543070_ylfns",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:43.070Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954544271_0yfsp",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:44.271Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954545277_td8c0",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:45.277Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954546521_0vszg",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:46.521Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954547683_dwhrx",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:47.683Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954550765_nr7wg",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:50.765Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954550773_cvpcb",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:50.773Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954550784_u89qd",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:50.784Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954551697_625me",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"status\":\"OK\"}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:51.697Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954554806_epsgb",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"status\":\"OK\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:54.806Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954554816_206uz",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"status\":\"OK\"}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:54.816Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954555669_jbatj",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:55.669Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954558837_bv534",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:58.837Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954558846_nma7s",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:58.846Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954558856_zq6c1",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:58.856Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954559747_40d2o",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:55:59.747Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954563659_6jhoz",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:03.659Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954563669_majlu",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:03.669Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954563682_aju6m",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:03.682Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954564802_gqy5o",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:04.802Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954567705_yjaz4",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:07.705Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954567713_sraiz",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:07.713Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954567721_2kges",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:07.721Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954569186_cuveh",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:09.186Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954572699_08p0y",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:12.699Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954572707_4uqba",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:12.707Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954572716_g4wkl",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:12.716Z"
+    },
+    {
+      "id": "AnalysisAgent_experience_1792954573617_ty96m",
+      "agentRole": "AnalysisAgent",
+      "category": "experience",
+      "content": "{\"conceptNodes\":[\"cpt:linear_eq_intro\",\"cpt:balance_method\"],\"grade\":8,\"competencies\":[\"algebraic_balance\",\"isolation\"]}",
+      "metadata": {
+        "taskType": "analysis",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:13.617Z"
+    },
+    {
+      "id": "DesignAgent_experience_1792954576587_qqlgh",
+      "agentRole": "DesignAgent",
+      "category": "experience",
+      "content": "{\"screens\":[\"screen:intro\",\"screen:interactive_balance\",\"screen:practice\"],\"foundationId\":\"F01\"}",
+      "metadata": {
+        "taskType": "design",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:16.587Z"
+    },
+    {
+      "id": "AssessmentAgent_experience_1792954576596_kn5k3",
+      "agentRole": "AssessmentAgent",
+      "category": "experience",
+      "content": "{\"assessments\":[{\"q\":\"Solve \\\\( 3x = 12 \\\\)\",\"opts\":[{\"t\":\"x = 4\",\"c\":true},{\"t\":\"x = 9\",\"c\":false,\"m\":\"Subtracted 3 instead of dividing\"},{\"t\":\"x = 36\",\"c\":false,\"m\":\"Multiplied by 3 instead of dividing\"}]}]}",
+      "metadata": {
+        "taskType": "assessment",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:16.596Z"
+    },
+    {
+      "id": "LLEAgent_experience_1792954576606_1au5a",
+      "agentRole": "LLEAgent",
+      "category": "experience",
+      "content": "{\"dictionary\":{\"equation\":\"समीकरण (इक्वेशन)\",\"variable\":\"चर (वैरिएबल)\"}}",
+      "metadata": {
+        "taskType": "lle",
+        "conceptId": "Mathematics_Class8_Linear Equations",
+        "gatekeeperPassed": true,
+        "repairAttempts": 0
+      },
+      "timestamp": "2026-10-25T18:56:16.606Z"
     }
   ]
 }

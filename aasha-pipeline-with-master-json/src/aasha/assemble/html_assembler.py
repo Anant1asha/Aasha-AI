@@ -37,6 +37,20 @@ class HTMLAssembler:
             raise FileNotFoundError(f"Template not found: {self.template_path}")
         with open(self.template_path, "r", encoding="utf-8") as f:
             self.template = f.read()
+        # Gate: verify all 9 placeholders exist in the template at construction time
+        self._verify_template_placeholders()
+
+    def _verify_template_placeholders(self) -> None:
+        """Raise ValueError if any required placeholder is missing from the template.
+
+        Called at construction time so failures surface immediately, not mid-pipeline.
+        """
+        missing = [ph for ph in PLACEHOLDERS if ph not in self.template]
+        if missing:
+            raise ValueError(
+                f"Template is missing required placeholders: {missing}. "
+                f"Check {self.template_path}"
+            )
 
     def _serialize(self, data: Any) -> str:
         """Serialize to JSON with ensure_ascii=False to preserve Devanagari."""

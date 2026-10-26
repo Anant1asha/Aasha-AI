@@ -146,6 +146,61 @@ class DesignAgent(BaseAgent):
         spec.setdefault("WE", {})
         spec.setdefault("SOLVE", {})
 
+        # Normalize WE keys, steps inline checks, and end checks
+        if spec.get("WE"):
+            normalized_we = {}
+            for k, v in spec["WE"].items():
+                norm_k = re.sub(r"^we_we_", "we_", k)
+                if not norm_k.startswith("we_"):
+                    norm_k = f"we_{norm_k}"
+
+                # Ensure steps have valid structure and at least one step has an inline check
+                has_inline = False
+                for s in v.get("steps", []):
+                    if s.get("check"):
+                        if s["check"].get("q") in ("string", "", None):
+                            s["check"]["q"] = f"What was identified in this step of {v.get('title', 'the problem')}?"
+                        s["check"]["opts"] = None  # to be filled by AssessmentAgent
+                        has_inline = True
+                if not has_inline and v.get("steps") and len(v["steps"]) > 1:
+                    # Provide an inline check scaffolding on step 1 (0-indexed)
+                    v["steps"][1]["check"] = {
+                        "q": f"What is the key calculation or rule in this step?",
+                        "opts": None,
+                    }
+
+                # Ensure end check
+                if not v.get("check"):
+                    v["check"] = {
+                        "q": f"What is the key takeaway from {v.get('title', 'this worked example')}?",
+                        "opts": None,
+                    }
+                elif v["check"].get("q") in ("string", "", None):
+                    v["check"]["q"] = f"What is the key takeaway from {v.get('title', 'this worked example')}?"
+                v["check"]["opts"] = None
+
+                normalized_we[norm_k] = v
+            spec["WE"] = normalized_we
+
+            # Synchronize steps in NODES referencing WE
+            we_keys = list(spec["WE"].keys())
+            we_idx = 0
+            for node in spec.get("NODES", []):
+                for step in node.get("steps", []):
+                    if step.get("t") == "worked":
+                        curr_ref = step.get("we", "")
+                        norm_ref = re.sub(r"^WE\.we_we_", "WE.we_", curr_ref)
+                        if not norm_ref.startswith("WE."):
+                            norm_ref = f"WE.{norm_ref}"
+                        key_only = norm_ref.replace("WE.", "")
+                        if key_only not in spec["WE"]:
+                            # Bind to available WE entry
+                            assigned_key = we_keys[we_idx % len(we_keys)] if we_keys else "we_basic"
+                            step["we"] = f"WE.{assigned_key}"
+                            we_idx += 1
+                        else:
+                            step["we"] = norm_ref
+
         # Fix final node's last step
         if spec.get("NODES"):
             last_node = spec["NODES"][-1]

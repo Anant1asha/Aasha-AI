@@ -1,3 +1,6 @@
+process.env.NODE_ENV = 'test';
+process.env.MEMO0_OFFLINE = '1';
+
 import { orchestrateChapterPipeline, getContextBus } from '../agent_orchestrator';
 
 // Mock completers that simulate async work

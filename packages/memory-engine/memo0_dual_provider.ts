@@ -44,6 +44,23 @@ export class Memo0DualProvider implements IMemoryProvider {
   }
 
   async addMemory(item: Omit<MemoryItem, 'id' | 'timestamp'>): Promise<MemoryItem> {
+    // Fast path: bypass external Python spawn and network call during tests or offline mode
+    if (process.env.MEMO0_OFFLINE === '1' || process.env.NODE_ENV === 'test' || process.env.AASHA_TEST_MODE === '1') {
+      const memId = `${item.agentRole}_${item.category}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+      const timestamp = new Date().toISOString();
+      const record: MemoryItem = {
+        id: memId,
+        ...item,
+        timestamp,
+      };
+
+      const localData = this.readLocalDb();
+      localData.memories.push(record);
+      this.writeLocalDb(localData);
+
+      return record;
+    }
+
     const args = [
       'add',
       '--role', item.agentRole,
@@ -77,6 +94,26 @@ export class Memo0DualProvider implements IMemoryProvider {
   }
 
   async searchMemory(query: string, options?: MemorySearchOptions): Promise<MemoryItem[]> {
+    // Fast path: bypass external Python spawn and network call during tests or offline mode
+    if (process.env.MEMO0_OFFLINE === '1' || process.env.NODE_ENV === 'test' || process.env.AASHA_TEST_MODE === '1') {
+      const localData = this.readLocalDb();
+      let candidates = localData.memories;
+      if (options?.agentRole) {
+        candidates = candidates.filter(m => m.agentRole === options.agentRole);
+      }
+      if (options?.category) {
+        candidates = candidates.filter(m => m.category === options.category);
+      }
+
+      const qWords = query.toLowerCase().split(/\s+/).filter(Boolean);
+      return candidates
+        .filter(m => {
+          const text = `${m.content} ${JSON.stringify(m.metadata || {})}`.toLowerCase();
+          return qWords.some(w => text.includes(w));
+        })
+        .slice(0, options?.limit || 5);
+    }
+
     const args = ['search', '--query', query];
     if (options?.agentRole) {
       args.push('--role', options.agentRole);

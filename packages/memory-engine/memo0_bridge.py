@@ -42,6 +42,8 @@ def save_local_db(db):
         json.dump(db, f, indent=2, ensure_ascii=False)
 
 def get_mem0_client():
+    if os.getenv('MEMO0_OFFLINE') == '1' or os.getenv('AASHA_TEST_MODE') == '1' or os.getenv('NODE_ENV') == 'test':
+        return None
     api_key = os.getenv('MEMO0_API_KEY')
     if not api_key or api_key == 'YOUR_MEMO0_API_KEY_HERE':
         return None

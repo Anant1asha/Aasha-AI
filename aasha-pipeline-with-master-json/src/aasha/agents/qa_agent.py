@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -35,7 +36,15 @@ class QAAgent(BaseAgent):
     def _run_node_qa(self, html_path: Path, mode: str = "v5-engine") -> dict[str, Any]:
         """Run the Node.js QA harness."""
         cmd_parts = self.qa_runner.split()
-        cmd = cmd_parts + [str(html_path), mode]
+        if len(cmd_parts) >= 2 and cmd_parts[0] == "node":
+            script_rel = Path(cmd_parts[1])
+            pkg_script = (Path(__file__).resolve().parent.parent.parent.parent / script_rel).resolve()
+            if pkg_script.exists():
+                cmd = ["node", str(pkg_script), str(html_path), mode]
+            else:
+                cmd = cmd_parts + [str(html_path), mode]
+        else:
+            cmd = cmd_parts + [str(html_path), mode]
 
         try:
             result = subprocess.run(
@@ -71,7 +80,25 @@ class QAAgent(BaseAgent):
             return self._fallback_qa(html_path, str(e), mode)
 
     def _fallback_qa(self, html_path: Path, note: str = "", mode: str = "v5-engine") -> dict[str, Any]:
-        """Python-based fallback QA — runs structural checks without jsdom."""
+        """Python-based fallback QA — runs structural checks without jsdom.
+
+        15-check suite (extended from original 13):
+          1.  No external CDN URLs
+          2.  No confirm()/alert()
+          3.  Has NODES variable (regex-safe)
+          4.  Has WE variable   (regex-safe)
+          5.  Has WM variable   (regex-safe)
+          6.  Has CONN variable (regex-safe)
+          7.  Has App.init()
+          8.  No unresolved {{PLACEHOLDER}} tokens
+          9.  No HTML5 drag-and-drop API
+          10. File size within limit
+          11. Has exit button
+          12. Has progress indicator
+          13. Devanagari characters present (LLE check — threshold ≥ 50 chars)
+          14. KaTeX math library present (math insulation check)
+          15. UTF-8 charset meta tag present
+        """
         failures = []
         checks_total = 0
         checks_passed = 0
@@ -79,108 +106,83 @@ class QAAgent(BaseAgent):
         with open(html_path, "r", encoding="utf-8") as f:
             html = f.read()
 
-        # Check 1: Single file (no external URLs)
-        checks_total += 1
-        import re
+        def check(name: str, passed: bool, reason: str = "") -> None:
+            nonlocal checks_total, checks_passed
+            checks_total += 1
+            if passed:
+                checks_passed += 1
+            else:
+                failures.append({"check": name, "reason": reason})
+
+        # 1: No external CDN URLs
         external = re.findall(r'(?:src|href)\s*=\s*["\']https?://', html)
-        if not external:
-            checks_passed += 1
-        else:
-            failures.append({"check": "no_external_urls", "reason": f"Found {len(external)} external URLs"})
+        check("no_external_urls", not external,
+              f"Found {len(external)} external URLs (file must be fully offline)")
 
-        # Check 2: No confirm()/alert()
-        checks_total += 1
-        if "confirm(" not in html and "alert(" not in html:
-            checks_passed += 1
-        else:
-            failures.append({"check": "no_confirm_alert", "reason": "Found confirm() or alert()"})
+        # 2: No confirm()/alert()
+        check("no_confirm_alert",
+              "confirm(" not in html and "alert(" not in html,
+              "Found confirm() or alert() — blocked for child-safe content")
 
-        # Check 3: Has NODES
-        checks_total += 1
-        if "var NODES=" in html or "var NODES =" in html:
-            checks_passed += 1
-        else:
-            failures.append({"check": "has_nodes", "reason": "NODES not found in HTML"})
+        # 3: Has NODES variable (flexible whitespace regex)
+        check("has_nodes", bool(re.search(r'var\s+NODES\s*=', html)),
+              "NODES data structure not found in HTML")
 
-        # Check 4: Has WE
-        checks_total += 1
-        if "var WE=" in html or "var WE =" in html:
-            checks_passed += 1
-        else:
-            failures.append({"check": "has_we", "reason": "WE not found in HTML"})
+        # 4: Has WE variable
+        check("has_we", bool(re.search(r'var\s+WE\s*=', html)),
+              "WE (worked examples) not found in HTML")
 
-        # Check 5: Has WM
-        checks_total += 1
-        if "var WM=" in html or "var WM =" in html:
-            checks_passed += 1
-        else:
-            failures.append({"check": "has_wm", "reason": "WM not found in HTML"})
+        # 5: Has WM variable
+        check("has_wm", bool(re.search(r'var\s+WM\s*=', html)),
+              "WM (word map / bilingual dictionary) not found in HTML")
 
-        # Check 6: Has CONN
-        checks_total += 1
-        if "var CONN=" in html or "var CONN =" in html:
-            checks_passed += 1
-        else:
-            failures.append({"check": "has_conn", "reason": "CONN not found in HTML"})
+        # 6: Has CONN variable
+        check("has_conn", bool(re.search(r'var\s+CONN\s*=', html)),
+              "CONN (concept connections) not found in HTML")
 
-        # Check 7: Has App.init()
-        checks_total += 1
-        if "App.init()" in html:
-            checks_passed += 1
-        else:
-            failures.append({"check": "has_app_init", "reason": "App.init() not found"})
+        # 7: Has App.init()
+        check("has_app_init", "App.init()" in html,
+              "App.init() not found — engine may not start")
 
-        # Check 8: No unresolved placeholders
-        checks_total += 1
+        # 8: No unresolved placeholders
         placeholders = re.findall(r"\{\{[A-Z_]+\}\}", html)
-        if not placeholders:
-            checks_passed += 1
-        else:
-            failures.append({
-                "check": "no_unresolved_placeholders",
-                "reason": f"Found {len(placeholders)} unresolved placeholders: {placeholders[:5]}",
-            })
+        check("no_unresolved_placeholders", not placeholders,
+              f"Found {len(placeholders)} unresolved placeholders: {placeholders[:5]}")
 
-        # Check 9: No HTML5 drag-and-drop API (dragstart, dragend, ondrop event handlers)
-        # Note: the v5 engine uses "dd_build"/"dd_match" step names and "dropZone" IDs
-        # for historical reasons, but implements tap-to-select, NOT HTML5 DnD.
-        checks_total += 1
-        has_html5_dnd = "dragstart" in html or "dragend" in html or "ondrop" in html or "draggable=" in html
-        if not has_html5_dnd:
-            checks_passed += 1
-        else:
-            failures.append({"check": "no_drag_drop", "reason": "HTML5 drag-and-drop API found"})
+        # 9: No HTML5 drag-and-drop API (v5 engine uses tap-to-select instead)
+        has_html5_dnd = any(kw in html for kw in ("dragstart", "dragend", "ondrop", 'draggable="true"'))
+        check("no_html5_dnd", not has_html5_dnd,
+              "HTML5 drag-and-drop API found — use tap-to-select pattern")
 
-        # Check 10: File size limit
-        checks_total += 1
-        size_kb = len(html) / 1024
+        # 10: File size limit
+        size_kb = len(html.encode("utf-8")) / 1024
         size_limit_kb = 20480 if mode == "full-synthesis" else 200
-        if size_kb < size_limit_kb:
-            checks_passed += 1
-        else:
-            failures.append({"check": "file_size", "reason": f"File is {size_kb:.0f}KB (limit {size_limit_kb}KB)"})
+        check("file_size", size_kb < size_limit_kb,
+              f"File is {size_kb:.0f} KB (limit {size_limit_kb} KB)")
 
-        # Check 11: Has exit button
-        checks_total += 1
-        if "exit" in html.lower() or "exitBtn" in html or "exit-btn" in html:
-            checks_passed += 1
-        else:
-            failures.append({"check": "has_exit", "reason": "Exit button not found"})
+        # 11: Has exit button
+        check("has_exit",
+              "exit" in html.lower() or "exitBtn" in html or "exit-btn" in html,
+              "Exit button not found")
 
-        # Check 12: Has progress bar
-        checks_total += 1
-        if "progress" in html.lower():
-            checks_passed += 1
-        else:
-            failures.append({"check": "has_progress", "reason": "Progress indicator not found"})
+        # 12: Has progress indicator
+        check("has_progress", "progress" in html.lower(),
+              "Progress indicator not found")
 
-        # Check 13: Devanagari characters present (LLE check)
-        checks_total += 1
+        # 13: Devanagari characters (LLE bilingual content — at least 50 chars)
         devanagari = re.findall(r"[\u0900-\u097F]", html)
-        if len(devanagari) > 10:
-            checks_passed += 1
-        else:
-            failures.append({"check": "has_devanagari", "reason": "Insufficient Devanagari text (LLE may be missing)"})
+        check("has_devanagari", len(devanagari) >= 50,
+              f"Insufficient Devanagari text ({len(devanagari)} chars found, need ≥ 50) — LLE may be missing")
+
+        # 14: KaTeX math library (math insulation check)
+        check("has_katex",
+              "katex" in html.lower() or "__AASHA_MATH" not in html,
+              "KaTeX not found — math insulation may be broken")
+
+        # 15: UTF-8 charset declaration
+        check("has_utf8_charset",
+              bool(re.search(r'<meta\s[^>]*charset\s*=\s*["\']?utf-8', html, re.IGNORECASE)),
+              "Missing <meta charset=\"UTF-8\"> — Devanagari may not render correctly")
 
         passed = len(failures) == 0
 
@@ -191,7 +193,7 @@ class QAAgent(BaseAgent):
             "failures": failures,
             "categories": {
                 "structural": {"passed": checks_total - len(failures), "failed": len(failures)},
-                "note": note or "Python fallback QA",
+                "note": note or "Python fallback QA (15-check suite)",
             },
         }
 

@@ -89,9 +89,17 @@ class Orchestrator:
         self.jobs_dir.mkdir(parents=True, exist_ok=True)
 
     def _create_llm(self, provider: str, temperature: float = 0.0) -> LLMAdapter:
-        """Create an LLM adapter for the given provider."""
+        """Create an LLM adapter for the given provider.
+
+        For OpenRouter, passes fallback_models from config to enable the
+        Tier-1 anti-bleed free-model cascade (3s backoff on 429/404).
+        """
         provider_config = self.config.llm.providers.get(provider, None)
         model = provider_config.model if provider_config else ""
+        # Extract fallback cascade list (OpenRouter only)
+        fallback_models: list[str] = []
+        if provider == "openrouter" and provider_config:
+            fallback_models = getattr(provider_config, "fallback_models", []) or []
         return LLMAdapter(
             provider=provider,
             model=model,
@@ -100,7 +108,8 @@ class Orchestrator:
             max_retries=self.config.llm.max_retries,
             backoff_base=self.config.llm.backoff_base,
             backoff_max=self.config.llm.backoff_max,
-            rate_limit_delay=getattr(self.config.llm, "rate_limit_delay", 1.0),
+            rate_limit_delay=getattr(self.config.llm, "rate_limit_delay", 3.0),
+            fallback_models=fallback_models,
         )
 
     def _now_iso(self) -> str:
@@ -591,7 +600,7 @@ class Orchestrator:
 
                 try:
                     if stage == "ingest":
-                        agent = IngestAgent()
+                        agent = IngestAgent(llm=self.llm)
                         stage_result = agent.run(work_dir, context)
                         if stage_result.get("error"):
                             raise ValueError(f"SOURCE_EXTRACTION_FAILED: {stage_result['error']}")

@@ -19,6 +19,7 @@ import yaml
 class LLMProviderConfig:
     model: str
     temperature: float = 0.0
+    fallback_models: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -112,12 +113,25 @@ class Config:
         """Load configuration from YAML file and bootstrap credentials."""
         cls._bootstrap_credentials()
 
+        pkg_root = Path(__file__).resolve().parent.parent.parent
         if config_path is None:
-            config_path = os.environ.get("AASHA_CONFIG", "config.yaml")
-        config_path = Path(config_path)
+            env_cfg = os.environ.get("AASHA_CONFIG")
+            if env_cfg and Path(env_cfg).exists():
+                config_path = Path(env_cfg)
+            elif Path("config.yaml").exists():
+                config_path = Path("config.yaml")
+            elif (pkg_root / "config.yaml").exists():
+                config_path = pkg_root / "config.yaml"
+            else:
+                config_path = Path("config.yaml")
+        else:
+            config_path = Path(config_path)
 
         if not config_path.exists():
-            return cls(project_root=Path("."))
+            if (pkg_root / "config.yaml").exists():
+                config_path = pkg_root / "config.yaml"
+            else:
+                return cls(project_root=pkg_root)
 
         with open(config_path, "r", encoding="utf-8") as f:
             raw: dict[str, Any] = yaml.safe_load(f) or {}
@@ -128,6 +142,7 @@ class Config:
             providers[name] = LLMProviderConfig(
                 model=pcfg.get("model", ""),
                 temperature=pcfg.get("temperature", 0.0),
+                fallback_models=pcfg.get("fallback_models", []),
             )
 
         return cls(
@@ -190,19 +205,37 @@ class Config:
     def template_full_path(self) -> Path:
         p = Path(self.pipeline.template_path)
         if not p.is_absolute():
-            p = self.project_root / p
+            cand = (self.project_root / p).resolve()
+            if cand.exists():
+                return cand
+            pkg_cand = (Path(__file__).resolve().parent.parent.parent / p).resolve()
+            if pkg_cand.exists():
+                return pkg_cand
+            return cand
         return p
 
     def defaults_full_path(self) -> Path:
         p = Path(self.pipeline.defaults_path)
         if not p.is_absolute():
-            p = self.project_root / p
+            cand = (self.project_root / p).resolve()
+            if cand.exists():
+                return cand
+            pkg_cand = (Path(__file__).resolve().parent.parent.parent / p).resolve()
+            if pkg_cand.exists():
+                return pkg_cand
+            return cand
         return p
 
     def schema_full_path(self) -> Path:
         p = Path(self.pipeline.schema_path)
         if not p.is_absolute():
-            p = self.project_root / p
+            cand = (self.project_root / p).resolve()
+            if cand.exists():
+                return cand
+            pkg_cand = (Path(__file__).resolve().parent.parent.parent / p).resolve()
+            if pkg_cand.exists():
+                return pkg_cand
+            return cand
         return p
 
 

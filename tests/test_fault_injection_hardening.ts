@@ -1,3 +1,6 @@
+process.env.NODE_ENV = 'test';
+process.env.MEMO0_OFFLINE = '1';
+
 import { runAgent, orchestrateChapterPipeline, QuarantineError, QuarantinePacket, getContextBus } from '../agent_orchestrator';
 
 // Helper: create a valid assessment JSON string (zero spoilers, formal notation)

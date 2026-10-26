@@ -116,17 +116,22 @@ class LLEAgent(BaseAgent):
         self.dict_dir = Path(dict_dir)
 
     def _load_baseline(self, lang: str) -> tuple[dict[str, str], dict[str, str]]:
-        """Load the baseline WM/CONN dictionaries from config/dictionaries/<lang>.json."""
+        """Load the baseline WM/CONN dictionaries from config/dictionaries/<lang>.json or defaults.json."""
         baseline_wm, baseline_conn = {}, {}
         
-        # Try specific language file
-        lang_path = self.dict_dir / f"{lang}.json"
-        
-        # Fallback for Hindi (which used to be defaults.json)
-        if not lang_path.exists() and lang == "hi":
-            alt_path = self.dict_dir.parent / "defaults.json"
-            if alt_path.exists():
-                lang_path = alt_path
+        # If dict_dir was passed as a file path (e.g. config/defaults.json)
+        if self.dict_dir.is_file():
+            if lang == "hi":
+                lang_path = self.dict_dir
+            else:
+                lang_path = self.dict_dir.parent / "dictionaries" / f"{lang}.json"
+        else:
+            lang_path = self.dict_dir / f"{lang}.json"
+            if not lang_path.exists() and lang == "hi":
+                for alt in [self.dict_dir / "defaults.json", self.dict_dir.parent / "defaults.json"]:
+                    if alt.exists():
+                        lang_path = alt
+                        break
 
         if lang_path.exists():
             with open(lang_path, "r", encoding="utf-8") as f:

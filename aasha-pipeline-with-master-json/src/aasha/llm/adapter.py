@@ -32,6 +32,35 @@ from tenacity import (
 logger = logging.getLogger(__name__)
 
 
+def _load_env_if_missing() -> None:
+    """Auto-load environment variables from Aasha-AI/.env or root .env if not set."""
+    candidates = [
+        Path.cwd() / "Aasha-AI" / ".env",
+        Path.cwd() / ".env",
+        Path(__file__).resolve().parents[4] / "Aasha-AI" / ".env",
+        Path(__file__).resolve().parents[4] / ".env",
+        Path(__file__).resolve().parents[3] / "Aasha-AI" / ".env",
+        Path(__file__).resolve().parents[3] / ".env",
+    ]
+    for p in candidates:
+        if p.is_file():
+            try:
+                for line in p.read_text(encoding="utf-8").splitlines():
+                    line = line.strip()
+                    if not line or line.startswith("#") or "=" not in line:
+                        continue
+                    k, v = line.split("=", 1)
+                    k, v = k.strip(), v.strip().strip("'\"")
+                    if k and k not in os.environ:
+                        os.environ[k] = v
+                break
+            except Exception:
+                pass
+
+
+_load_env_if_missing()
+
+
 class LLMGenerationError(Exception):
     """Raised when an LLM call fails after all retries."""
 
@@ -49,6 +78,7 @@ class LLMAdapter:
         backoff_base: float = 1.0,
         backoff_max: float = 30.0,
         rate_limit_delay: float = 1.0,
+        fallback_models: list | None = None,
     ):
         self.provider = provider
         self.model = model or self._default_model(provider)
@@ -59,8 +89,20 @@ class LLMAdapter:
         self.backoff_base = backoff_base
         self.backoff_max = backoff_max
         self.rate_limit_delay = rate_limit_delay
+        # Anti-bleed Tier-1 fallback cascade for OpenRouter free models
+        self._fallback_models: list[str] = (
+            fallback_models if fallback_models is not None else [
+                "liquid/lfm-2.5-2.6b:free",
+                "cohere/north-mini-code:free",
+                "recursive/flint-v1.0:free",
+                "openrouter/nvidia/nemotron-3.5-super-vl:free",
+                "google/gemma-4-31b-it:free",
+            ]
+        )
         self._last_call_time = 0.0
         self._client = None
+        self._9router_client = None
+        self._openrouter_client = None
         self._total_cost = 0.0
 
     @staticmethod
@@ -69,11 +111,11 @@ class LLMAdapter:
             "openai": "gpt-4o-mini",
             "gemini": "gemini-1.5-flash",
             "anthropic": "claude-3-haiku-20240307",
-            "openrouter": "meta-llama/llama-3.1-8b-instruct:free",
+            "openrouter": "nvidia/nemotron-3.5-lightning:free",
             "huggingface": "meta-llama/Llama-3-8b-chat-hf",
             "freebuff": "default-freebuff-model",
         }
-        return defaults.get(provider, "meta-llama/llama-3.1-8b-instruct:free")
+        return defaults.get(provider, "nvidia/nemotron-3.5-lightning:free")
 
     @property
     def cost_estimate(self) -> float:
@@ -217,36 +259,101 @@ class LLMAdapter:
         )
         return response.content[0].text if response.content else ""
 
-    def _call_openrouter(self, system: str, user: str) -> str:
-        """Call OpenRouter API."""
-        if self._client is None:
-            try:
-                from openai import OpenAI
-            except ImportError:
-                raise LLMGenerationError("openai package not installed.")
-            api_key = os.environ.get("OPENROUTER_API_KEY")
-            if not api_key:
-                vault_path = Path.home() / ".aasha" / "config.json"
-                if vault_path.exists():
-                    try:
-                        with open(vault_path, "r", encoding="utf-8") as f:
-                            vdata = json.load(f)
-                            api_key = vdata.get("openrouter_key")
-                    except Exception:
-                        pass
-            if not api_key:
-                raise LLMGenerationError(
-                    "OPENROUTER_API_KEY not set in environment or local vault (~/.aasha/config.json).\n"
-                    "Configure it via: aasha config openrouter_key <key>\n"
-                    "or set OPENROUTER_API_KEY in Aasha-AI/.env."
-                )
-            self._client = OpenAI(
-                base_url="https://openrouter.ai/api/v1",
-                api_key=api_key
-            )
+    @staticmethod
+    def is_9router_alive() -> bool:
+        """Check if 9Router is listening on port 20128 (<1ms socket check)."""
+        import socket
+        try:
+            with socket.create_connection(("127.0.0.1", 20128), timeout=0.5):
+                return True
+        except (OSError, socket.timeout):
+            return False
 
-        response = self._client.chat.completions.create(
-            model=self.model,
+    @classmethod
+    def ensure_9router_daemon(cls) -> bool:
+        """Ensure 9Router daemon is running on port 20128; auto-spawn detached if missing."""
+        if cls.is_9router_alive():
+            return True
+
+        appdata = os.environ.get("APPDATA", "")
+        server_js = Path(appdata) / "npm" / "node_modules" / "9router" / "app" / "custom-server.js"
+        if not server_js.exists():
+            return False
+
+        import subprocess
+        env = {**os.environ, "PORT": "20128", "HOSTNAME": "127.0.0.1"}
+        flags = 0
+        if os.name == "nt":
+            flags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
+
+        try:
+            logger.info("[9Router] Auto-starting background daemon on port 20128...")
+            subprocess.Popen(
+                ["node", str(server_js)],
+                env=env,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                stdin=subprocess.DEVNULL,
+                creationflags=flags,
+            )
+            for _ in range(10):
+                time.sleep(0.5)
+                if cls.is_9router_alive():
+                    logger.info("[9Router] Daemon successfully online on port 20128.")
+                    return True
+        except Exception as e:
+            logger.warning(f"[9Router] Failed to auto-start daemon: {e}")
+
+        return False
+
+    def _call_9router(self, system: str, user: str, model_override: str = "") -> str:
+        """Call 9Router local gateway (port 20128) using OpenAI-compatible client."""
+        try:
+            from openai import OpenAI
+        except ImportError:
+            raise LLMGenerationError("openai package not installed.")
+        api_key = os.environ.get("NINEROUTER_API_KEY")
+        if not api_key:
+            raise LLMGenerationError("NINEROUTER_API_KEY not configured")
+        base_url = os.environ.get("NINEROUTER_BASE_URL", "http://localhost:20128/v1")
+        model_to_use = model_override or os.environ.get("NINEROUTER_DEFAULT_MODEL", "claude-combo")
+        client = OpenAI(base_url=base_url, api_key=api_key, timeout=60.0)
+        # 9Router reasoning / combo models reject temperature parameter
+        response = client.chat.completions.create(
+            model=model_to_use,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+        )
+        return response.choices[0].message.content or ""
+
+    def _call_openrouter(self, system: str, user: str, model_override: str = "") -> str:
+        """Call OpenRouter API using the openai-compatible client."""
+        try:
+            from openai import OpenAI
+        except ImportError:
+            raise LLMGenerationError("openai package not installed.")
+        api_key = os.environ.get("OPENROUTER_API_KEY")
+        if not api_key:
+            vault_path = Path.home() / ".aasha" / "config.json"
+            if vault_path.exists():
+                try:
+                    with open(vault_path, "r", encoding="utf-8") as f:
+                        vdata = json.load(f)
+                        api_key = vdata.get("openrouter_key")
+                except Exception:
+                    pass
+        if not api_key:
+            raise LLMGenerationError(
+                "OPENROUTER_API_KEY not set in environment or local vault (~/.aasha/config.json).\n"
+                "Configure it via: aasha config openrouter_key <key>\n"
+                "or set OPENROUTER_API_KEY in Aasha-AI/.env."
+            )
+        client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key, timeout=60.0)
+        model_to_use = model_override or self.model
+        response = client.chat.completions.create(
+            model=model_to_use,
             messages=[
                 {"role": "system", "content": system},
                 {"role": "user", "content": user},
@@ -254,6 +361,73 @@ class LLMAdapter:
             temperature=self.temperature,
         )
         return response.choices[0].message.content or ""
+
+    def _call_openrouter_with_cascade(self, system: str, user: str) -> str:
+        """OpenRouter & 9Router call with Tier-1 anti-bleed fallback cascade.
+
+        Tries 9Router local gateway first if available, then cascades to
+        OpenRouter free-model pool. Handles provider traffic variations, rate limits,
+        and transient network errors with 3s anti-bleed backoff.
+        """
+        # Step 1: Try 9Router local gateway first (zero token bleed, unlimited)
+        if os.environ.get("NINEROUTER_API_KEY"):
+            # Ensure daemon is alive or auto-start it
+            self.ensure_9router_daemon()
+            if self.is_9router_alive():
+                try:
+                    logger.info("[Router] Attempting primary 9Router gateway on port 20128...")
+                    return self._call_9router(system, user)
+                except Exception as e:
+                    err_msg = str(e)
+                    logger.warning(
+                        "[Router] 9Router gateway unavailable or failed (%s). Cascading to OpenRouter free pool.",
+                        err_msg[:100],
+                    )
+            else:
+                logger.warning("[Router] 9Router port 20128 unreachable. Cascading to OpenRouter free pool.")
+
+        # Step 2: OpenRouter free-model cascade
+        models_to_try = [self.model] + list(self._fallback_models)
+        last_err: Exception | None = None
+        for attempt, model in enumerate(models_to_try):
+            try:
+                logger.info(
+                    "[OpenRouter] attempt %d/%d — model: %s",
+                    attempt + 1, len(models_to_try), model,
+                )
+                return self._call_openrouter(system, user, model_override=model)
+            except Exception as exc:
+                err_str = str(exc)
+                is_transient = any(
+                    sig in err_str.lower()
+                    for sig in [
+                        "429", "404", "500", "502", "503", "504",
+                        "rate", "timeout", "connection", "traffic", "overloaded", "exhausted"
+                    ]
+                )
+                if is_transient:
+                    logger.warning(
+                        "[OpenRouter] Transient error on model '%s' (%s) — 3s backoff, trying next model.",
+                        model, err_str[:80],
+                    )
+                    time.sleep(3)
+                    last_err = exc
+                    self._client = None
+                    continue
+                # Non-transient error: log and try next model rather than immediate hard failure
+                logger.warning(
+                    "[OpenRouter] Call failed on model '%s' (%s) — trying next fallback model.",
+                    model, err_str[:80],
+                )
+                time.sleep(1)
+                last_err = exc
+                self._client = None
+                continue
+
+        raise LLMGenerationError(
+            f"All LLM routing options (9Router + {len(models_to_try)} OpenRouter free models) exhausted. "
+            f"Last error: {last_err}"
+        )
 
     def _call_huggingface(self, system: str, user: str) -> str:
         """Call Hugging Face Inference API."""
@@ -297,15 +471,27 @@ class LLMAdapter:
             raise LLMGenerationError(f"Freebuff call failed: {e}")
 
     def _call_provider(self, system: str, user: str) -> str:
-        """Route to the correct provider."""
+        """Route to the correct provider.
+
+        OpenRouter uses the anti-bleed free-model cascade.
+        Paid Gemini is guarded by ALLOW_PAID_GEMINI_FALLBACK env var.
+        """
         if self.provider == "openai":
             return self._call_openai(system, user)
         elif self.provider == "gemini":
+            # Anti-bleed guard: block paid Gemini unless explicitly authorized
+            if os.environ.get("ALLOW_PAID_GEMINI_FALLBACK", "false").lower() != "true":
+                raise LLMGenerationError(
+                    "Paid Gemini API is locked out (ALLOW_PAID_GEMINI_FALLBACK=false). "
+                    "Use OpenRouter free tier (provider=openrouter) instead. "
+                    "Gemini is Tier-3 reserve — requires explicit Super Admin authorization."
+                )
             return self._call_gemini(system, user)
         elif self.provider == "anthropic":
             return self._call_anthropic(system, user)
-        elif self.provider == "openrouter":
-            return self._call_openrouter(system, user)
+        elif self.provider in ("openrouter", "9router"):
+            # Use cascade: 9Router primary → OpenRouter fallback_models with 3s anti-bleed backoff
+            return self._call_openrouter_with_cascade(system, user)
         elif self.provider == "huggingface":
             return self._call_huggingface(system, user)
         elif self.provider == "freebuff":
@@ -417,6 +603,135 @@ class LLMAdapter:
                 results.append({"error": str(e)})
         return results
 
+    def complete_vision(
+        self,
+        system: str,
+        user: str,
+        image_b64: str,
+        mime_type: str = "image/png",
+        schema_hint: str = "",
+    ) -> dict[str, Any]:
+        """Send a multimodal completion request with an image and return parsed JSON."""
+        cache_raw = f"{system}\n{user}\n{len(image_b64)}\n{image_b64[:100]}"
+        cache_key = hashlib.sha256(cache_raw.encode("utf-8")).hexdigest()
+        cached = self._cache_get(cache_key)
+        if cached is not None:
+            logger.debug("Vision LLM cache hit")
+            return cached
+
+        prompt = user
+        if schema_hint:
+            prompt += f"\n\nRespond with valid JSON matching this structure:\n{schema_hint}"
+        prompt += "\n\nRespond with valid JSON only, no markdown fences."
+
+        raw_response = self._call_vision_with_cascade(system, prompt, image_b64, mime_type)
+        try:
+            result = self._parse_json_response(raw_response)
+        except json.JSONDecodeError:
+            logger.warning("[Vision] Response was not pure JSON, wrapping into text payload.")
+            result = {"text": raw_response, "headings": [], "exercises": []}
+
+        self._cache_set(cache_key, result)
+        return result
+
+    def _call_vision_with_cascade(
+        self,
+        system: str,
+        user: str,
+        image_b64: str,
+        mime_type: str = "image/png",
+    ) -> str:
+        """Execute multimodal vision request with automatic 9Router -> OpenRouter cascade."""
+        # 1. Try 9Router if available (0 cost)
+        if os.environ.get("NINEROUTER_API_KEY"):
+            self.ensure_9router_daemon()
+            if self.is_9router_alive():
+                base_url = os.environ.get("NINEROUTER_BASE_URL", "http://localhost:20128/v1")
+                key = os.environ.get("NINEROUTER_API_KEY")
+                if self._9router_client is None:
+                    from openai import OpenAI
+                    self._9router_client = OpenAI(base_url=base_url, api_key=key, timeout=60.0)
+                client = self._9router_client
+                models = [
+                    "openrouter/nvidia/nemotron-3.5-super-vl:free",
+                    "ag/gemini-3.8-flash",
+                    "gc/gemini-2.5-flash-lite",
+                ]
+                for m in models:
+                    try:
+                        logger.info(f"[Vision] Trying 9Router model: {m}")
+                        resp = client.chat.completions.create(
+                            model=m,
+                            messages=[
+                                {
+                                    "role": "user",
+                                    "content": [
+                                        {"type": "text", "text": f"{system}\n\n{user}"},
+                                        {"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{image_b64}"}},
+                                    ],
+                                }
+                            ],
+                        )
+                        content = resp.choices[0].message.content or ""
+                        if content:
+                            return content
+                    except Exception as e:
+                        logger.warning(f"[Vision] 9Router model {m} failed ({e}) — trying next vision model.")
+                        time.sleep(1)
+
+        # 2. Try OpenRouter direct free multimodal pool
+        or_key = os.environ.get("OPENROUTER_API_KEY")
+        if or_key:
+            if self._openrouter_client is None:
+                from openai import OpenAI
+                self._openrouter_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=or_key, timeout=60.0)
+            client = self._openrouter_client
+            or_models = [
+                "openrouter/nvidia/nemotron-3.5-super-vl:free",
+                "google/gemma-4-31b-it:free",
+            ]
+            for m in or_models:
+                try:
+                    logger.info(f"[Vision] Trying OpenRouter direct model: {m}")
+                    resp = client.chat.completions.create(
+                        model=m,
+                        messages=[
+                            {
+                                "role": "user",
+                                "content": [
+                                    {"type": "text", "text": f"{system}\n\n{user}"},
+                                    {"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{image_b64}"}},
+                                ],
+                            }
+                        ],
+                    )
+                    content = resp.choices[0].message.content or ""
+                    if content:
+                        return content
+                except Exception as e:
+                    logger.warning(f"[Vision] OpenRouter model {m} failed ({e}) — 3s backoff.")
+                    time.sleep(3)
+
+        # 3. Tier 3 Reserve (Gemini multimodal vision ingestion if authorized)
+        gemini_key = os.environ.get("GEMINI_API_KEY")
+        if gemini_key and os.environ.get("ALLOW_PAID_GEMINI_FALLBACK", "false").lower() == "true":
+            try:
+                logger.info("[Vision] Falling back to Tier-3 Gemini reserve for multimodal vision ingestion...")
+                import google.generativeai as genai
+                genai.configure(api_key=gemini_key)
+                model = genai.GenerativeModel("gemini-1.5-flash")
+                import base64
+                img_data = base64.b64decode(image_b64)
+                response = model.generate_content([
+                    f"{system}\n\n{user}\n\nRespond with valid JSON only.",
+                    {"mime_type": mime_type, "data": img_data}
+                ])
+                return response.text
+            except Exception as e:
+                logger.error(f"[Vision] Gemini Tier-3 vision failed: {e}")
+
+        raise LLMGenerationError("All multimodal vision options failed. Provider traffic may be temporarily exhausted.")
+
 
 def create_adapter(
     provider: str = "openai",
@@ -435,3 +750,8 @@ def create_adapter(
         max_retries=max_retries,
         rate_limit_delay=rate_limit_delay,
     )
+
+
+# Module-level convenience functions
+is_9router_alive = LLMAdapter.is_9router_alive
+ensure_9router_daemon = LLMAdapter.ensure_9router_daemon
