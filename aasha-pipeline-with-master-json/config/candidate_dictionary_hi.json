@@ -343,12 +343,13 @@
   },
   "identify": {
     "translation": "पहचानना (आइडेंटिफाइ)",
-    "frequency": 2,
+    "frequency": 4,
     "chapters": [
-      "Understanding Tax Identification Numbers"
+      "Understanding Tax Identification Numbers",
+      "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-10-14 18:41:26 UTC"
+    "last_seen": "2026-10-26 07:53:02 UTC"
   },
   "identifying": {
     "translation": "पहचानते हुए (आइडेंटिफाइइंग)",
@@ -460,12 +461,13 @@
   },
   "numbers": {
     "translation": "संख्याएँ (नंबर्स)",
-    "frequency": 2,
+    "frequency": 4,
     "chapters": [
-      "Understanding Tax Identification Numbers"
+      "Understanding Tax Identification Numbers",
+      "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-10-14 18:41:26 UTC"
+    "last_seen": "2026-10-26 07:53:02 UTC"
   },
   "order": {
     "translation": "आदेश (ऑर्डर)",
@@ -541,12 +543,13 @@
   },
   "represent": {
     "translation": "दर्शाना (रेप्रज़ेंट)",
-    "frequency": 2,
+    "frequency": 4,
     "chapters": [
-      "Understanding Tax Identification Numbers"
+      "Understanding Tax Identification Numbers",
+      "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-10-14 18:41:26 UTC"
+    "last_seen": "2026-10-26 07:53:02 UTC"
   },
   "reviews": {
     "translation": "समीक्षा (रीव्यूज़)",
@@ -691,5 +694,554 @@
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
     "last_seen": "2026-10-14 18:41:26 UTC"
+  },
+  "3rd": {
+    "translation": "तीसरा (थर्ड)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "accurately": {
+    "translation": "सटीकता से (एक्युरेटली)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "added": {
+    "translation": "जोड़ दिया (ऐडेड)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "adding": {
+    "translation": "जोड़ना (ऐडिंग)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "adjust": {
+    "translation": "समायोजित करना (अजस्ट)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "allows": {
+    "translation": "अनुमति देता है (अलाउज़)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "along": {
+    "translation": "साथ में (अलोंग)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "balance": {
+    "translation": "संतुलन (बैलन्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "bars": {
+    "translation": "बार (बार्ज)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "between": {
+    "translation": "बीच में (बिटवीन)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "cannot": {
+    "translation": "नहीं कर सकता (कैनॉट)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "combine": {
+    "translation": "मिलाना (कम्बाइन)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "comparing": {
+    "translation": "तुलना करना (कम्पैरिंग)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "continuous": {
+    "translation": "निरंतर (कंटीन्युअस)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "converts": {
+    "translation": "परिवर्तित करता है (कन्वर्ट्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "denominators": {
+    "translation": "हर (डिनॉमिनेटर्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "determine": {
+    "translation": "निर्धारित करना (डिटरमाइन)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "digits": {
+    "translation": "अंकों (डिजिट्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "directly": {
+    "translation": "सीधे (डायरेक्टली)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "discover": {
+    "translation": "खोज करना (डिस्कवर)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "equals": {
+    "translation": "बराबर है (ई-क्वॉल्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "evaluating": {
+    "translation": "मूल्यांकन कर रहा है (इ-वैल्यू-एटिंग)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "examine": {
+    "translation": "जांच करना (एक-सैम-इन)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "finding": {
+    "translation": "पाना (फाइंड-इंग)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "forward": {
+    "translation": "आगे (फॉर-वर्ड)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "fourths": {
+    "translation": "चौथाई (फॉर्-थ्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "get": {
+    "translation": "पाना (गेट)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "helps": {
+    "translation": "मदद करता है (हेल्प्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "locate": {
+    "translation": "ढूँढना/स्थित करना (लो-केट)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "locating": {
+    "translation": "ढूँढ रहा है/स्थित कर रहा है (लो-केट-इंग)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "look": {
+    "translation": "देखना (लुक)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "mark": {
+    "translation": "निशान (मार्क)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "marked": {
+    "translation": "निशान लगा हुआ (मार्क्ड)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "marker": {
+    "translation": "मार्कर (मार-कर)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "multiplied": {
+    "translation": "गुणा किया गया (मल्टि-प्लाइड)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "multiplier": {
+    "translation": "गुणक (मल्टि-प्लायर)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "multiplying": {
+    "translation": "गुणा कर रहा है (मल्टि-प्लाइ-इंग)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "numerators": {
+    "translation": "अंश (न्यू-मेर-एटर्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "occupy": {
+    "translation": "स्थान घेरना (ऑक्यूपाइ)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "once": {
+    "translation": "एक बार (वन्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "opposite": {
+    "translation": "विपरीत (ऑपोज़िट)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "portion": {
+    "translation": "भाग (पोर्शन)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "position": {
+    "translation": "स्थिति (पोज़ीशन)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "positions": {
+    "translation": "स्थितियाँ (पोज़ीशन्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "precise": {
+    "translation": "सटीक (प्रिसाइज़)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "products": {
+    "translation": "गुणनफल / उत्पाद (प्रोडक्ट्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "quickly": {
+    "translation": "तेज़ी से (क्विकली)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "relative": {
+    "translation": "सापेक्ष (रिलेटिव)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "represents": {
+    "translation": "दर्शाता है (रिप्रेज़ेंट्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "scale": {
+    "translation": "पैमाना (स्केल)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "second": {
+    "translation": "दूसरा (सेकंड)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "segments": {
+    "translation": "रेखाखंड / भाग (सेगमेंट्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "selected": {
+    "translation": "चुना हुआ (सिलेक्टेड)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "simply": {
+    "translation": "सरलता से (सिंपली)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "sizes": {
+    "translation": "आकार (साइज़ेज़)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "slide": {
+    "translation": "फिसलना / खिसकना (स्लाइड)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "spot": {
+    "translation": "स्थान / बिंदु (स्पॉट)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "unchanged": {
+    "translation": "अपरिवर्तित (अनचेंज्ड)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "unlike": {
+    "translation": "असमान (अनलाइक)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "using": {
+    "translation": "उपयोग करते हुए (यूज़िंग)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
+  },
+  "weights": {
+    "translation": "भार (वेट्स)",
+    "frequency": 2,
+    "chapters": [
+      "Rational Numbers and Fractions"
+    ],
+    "first_seen": "2026-10-26 07:45:07 UTC",
+    "last_seen": "2026-10-26 07:53:02 UTC"
   }
 }

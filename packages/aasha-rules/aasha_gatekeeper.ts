@@ -94,6 +94,16 @@ export class AASHAGatekeeper {
       }
     }
 
+    // 4. Check Section 24: Open-Source Cleanroom Reuse & GPL-3.0 License Isolation
+    if (/GNU GENERAL PUBLIC LICENSE|GNU Affero General Public License|\bGPL-3\.0\b|\bGPLv3\b/i.test(content)) {
+      violations.push({
+        sectionNumber: 24,
+        ruleTitle: 'Open-Source Cleanroom Reuse & License Isolation',
+        severity: 'ERROR',
+        message: 'GPL_COPYLEFT_CONTAGION: Raw GPL-3.0 copyleft license text detected. Foundations with copyleft licenses (such as PhET, Escapp, Code for Life) must strictly use the EXTRACT cleanroom strategy, adapting only mathematical models, parameters, and public mechanics into isolated <aasha-sim> Web Component adapters to prevent copyleft contagion into core MIT chapter files.',
+      });
+    }
+
     const passed = violations.filter(v => v.severity === 'ERROR').length === 0;
 
     let repairPrompt: string | undefined;

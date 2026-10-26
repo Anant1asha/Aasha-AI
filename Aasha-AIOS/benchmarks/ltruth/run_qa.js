@@ -184,6 +184,10 @@ function checkCriticalRules() {
     // Rule 10: No dead code (basic check — look for function definitions)
     const funcDefs = html.match(/function\s+(\w+)\s*\(/g) || [];
     check('rule10_has_functions', funcDefs.length > 5, `Only ${funcDefs.length} functions found`);
+
+    // Rule 12: Section 24 Cleanroom License Isolation check (GPL-3.0 strictly EXTRACT cleanroom)
+    const hasRawGpl = /GNU GENERAL PUBLIC LICENSE|GPL-3\.0|GPLv3/i.test(html);
+    check('rule12_cleanroom_license_isolation', !hasRawGpl, 'Found raw GPL copyleft license declarations in chapter HTML. Open-source foundations must be cleanroom EXTRACT-adapted.');
 }
 
 // ─── 4. jsdom-based render checks (if available) ──────────────────────

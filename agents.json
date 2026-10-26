@@ -1,8 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "orchestration_standard": "TypeScript/Node agent_orchestrator + ContextBus",
-  "description": "Canonical multi-agent registry for Annanth Aasha Learning Ecosystem",
+  "description": "Canonical multi-agent capability and authority registry for Annanth Aasha Learning Ecosystem",
+  "pedagogical_standard": "Action-Based Visual Learning & Understanding Through Action (Kriyātmaka Bodha)",
   "agents": [
     {
       "id": "AGT-001",
@@ -10,8 +11,45 @@
       "type": "deterministic",
       "runtime": "python",
       "entry_point": "src/aasha/agents/ingest_agent.py",
-      "responsibility": "PDF structural and text extraction using PyMuPDF",
-      "outputs": ["raw_extract.json"],
+      "secondary_entry_point": "agent_orchestrator.ts::runAgent('IngestAgent')",
+      "responsibility": "PDF structural and text extraction using PyMuPDF and resilient multimodal vision",
+      "action_learning_role": "Extracts real-world problems, diagram figures, and laboratory exercises from raw textbook PDF chapters to provide authentic source material for interactive manipulative creation.",
+      "skills": [
+        "chapter-compile",
+        "anti-bleed",
+        "ecosystem-identity-audit"
+      ],
+      "tools": [
+        "PyMuPDF (fitz) vector text and layout block extractor (<1ms per digital page)",
+        "Pillow web-optimized JPEG downsampler (max width 1000px, quality 80, alpha=False)",
+        "Direct OpenRouter multimodal vision rotation pool (Nemotron 3.5 VL, Gemma 4, Dots Note)",
+        "In-memory 20-second circuit-breaker on HTTP 429 rate limits",
+        "Hybrid per-page text layer isolator (>=50 chars digital parse, <50 chars vision)",
+        "Collision-free SHA-256 disk cache for OCR image digests",
+        "Resilient pagination fallback preserving 100% chapter page count"
+      ],
+      "plugins": [
+        "pdf-layer-isolator",
+        "image-asset-extractor"
+      ],
+      "mcp_servers": [
+        "filesystem"
+      ],
+      "contracts": [
+        "CON-002",
+        "CON-006",
+        "CON-007",
+        "CON-008"
+      ],
+      "quality_gates": [
+        "SOURCE_HASH_MATCH",
+        "PAGINATION_INTEGRITY",
+        "ZERO_SECRET_LEAKAGE"
+      ],
+      "outputs": [
+        "raw_extract.json",
+        "source_manifest.json"
+      ],
       "parallelizable": false,
       "hil_gate": false
     },
@@ -21,9 +59,47 @@
       "type": "llm",
       "runtime": "node",
       "routing": "openrouter/free",
+      "entry_point": "src/aasha/agents/analysis_agent.py",
+      "secondary_entry_point": "agent_orchestrator.ts::runAgent('AnalysisAgent')",
       "contract": "content_map_schema",
-      "responsibility": "Pedagogical concept mapping into 3-5 core Concept Nodes",
-      "outputs": ["content_map.json"],
+      "responsibility": "Pedagogical concept mapping into 3-5 core Concept Nodes with Action Verbs",
+      "action_learning_role": "Translates raw chapter sections into 3-5 core Topic Learning Nodes (TLNs) keyed by Pedagogical Action Verbs (manipulate_ratio, balance_scale, trace_ray, simulate_pendulum, slice_fractions), mapping what the student must interactively do to master the concept.",
+      "skills": [
+        "karaka-compiler",
+        "aasha-prompt-compiler",
+        "reasoning-check",
+        "universal-sim-engine"
+      ],
+      "tools": [
+        "Pāṇinian Kāraka computational decision compiler (8-relation semantic mapping)",
+        "Bloom's Revised Taxonomy action verb classifier",
+        "Cognitive Load Ceiling enforcer (strictly 3 to 5 nodes per chapter)",
+        "Prerequisite and Misconception ontology mapper",
+        "Worked Example candidate selector and exercise extractor"
+      ],
+      "plugins": [
+        "graphify AST knowledge graph",
+        "aasha_operational.db SQLite ontology"
+      ],
+      "mcp_servers": [
+        "context7",
+        "postgres"
+      ],
+      "contracts": [
+        "CON-002",
+        "CON-003",
+        "CON-006",
+        "CON-011"
+      ],
+      "quality_gates": [
+        "COGNITIVE_LOAD_CEILING (max 5 nodes)",
+        "ZERO_EXTERNAL_CURRICULUM_HALLUCINATION",
+        "ACTION_VERB_MAPPING"
+      ],
+      "outputs": [
+        "content_map.json",
+        "pedagogy_map.json"
+      ],
       "parallelizable": false,
       "hil_gate": false
     },
@@ -33,9 +109,64 @@
       "type": "llm",
       "runtime": "node",
       "routing": "openrouter/free",
+      "entry_point": "src/aasha/agents/design_agent.py",
+      "secondary_entry_point": "packages/adapters/domain_sim_generators.ts",
       "contract": "chapter_spec_schema",
       "responsibility": "Pedagogical sequencing and Experience Warehouse foundation binding",
-      "outputs": ["design_branch.json"],
+      "action_learning_role": "Binds each Concept Node to proven open-source interactive foundations (F01-F20 catalog) and synthesizes <aasha-sim> Web Component adapters where students learn through action (sliders, tap-to-select, step progression) before encountering formal definitions.",
+      "skills": [
+        "universal-sim-engine",
+        "open-source-harvesting",
+        "aasha-ecosystem",
+        "generative_ui"
+      ],
+      "tools": [
+        "ThreeTierMatcher (Tier 1: Certified -> Tier 2: Foundation -> Tier 3: Universal Engine)",
+        "DomainSimGenerators (Math, Science, Geography, Commerce, Language Grammar)",
+        "Section 24 Reusable Content Contract manager (chapter-contract-manager.ts)",
+        "Mobile Touch Optimizer (strictly >=44x44px touch targets, tap-to-select, zero drag-and-drop)",
+        "AashaExperienceContract standardizer (mount, getState, reset, destroy, telemetry)"
+      ],
+      "plugins": [
+        "F01 Escape Run",
+        "F02 MicroSims",
+        "F03 All Science Sims",
+        "F04 PhET (cleanroom)",
+        "F05 Lightbot",
+        "F08 Physics Notebook",
+        "F09 Escapp",
+        "F12 GeoGuess",
+        "F13 Learn Worldmap",
+        "F17 Code for Life",
+        "JSXGraph",
+        "Mafs",
+        "Fabric.js",
+        "Mermaid.js",
+        "CinePhysicsHQ-Labs",
+        "KingsMath"
+      ],
+      "mcp_servers": [
+        "filesystem",
+        "github-mcp-server"
+      ],
+      "contracts": [
+        "CON-002",
+        "CON-005",
+        "CON-006",
+        "CON-009",
+        "CON-012"
+      ],
+      "quality_gates": [
+        "EXPERIENCE_CONTRACT_COMPLIANCE",
+        "MOBILE_TOUCH_TARGET_44PX",
+        "CLEANROOM_LICENSE_ISOLATION (GPL-3.0 extract/inspire only)",
+        "SAME_FRAME_MOBILE_VIEWPORT"
+      ],
+      "outputs": [
+        "chapter_spec.json",
+        "experience_plan.json",
+        "design_branch.json"
+      ],
       "parallelizable": true,
       "hil_gate": false
     },
@@ -45,9 +176,46 @@
       "type": "llm",
       "runtime": "node",
       "routing": "openrouter/free",
+      "entry_point": "src/aasha/agents/assessment_agent.py",
+      "secondary_entry_point": "packages/aasha-rules/question_schema_validator.ts",
       "contract": "question_schema",
       "responsibility": "3-tier gamified assessment and zero-spoiler misconception explanations",
-      "outputs": ["assessment_branch.json"],
+      "action_learning_role": "Turns assessment into an interactive challenge with instant visual feedback, 4-tier progressive hints (H1 to H4), XP streaks, and distractor-specific verbal misconception feedback (m field) that guides the student to re-evaluate their mental model without spoiling the correct answer.",
+      "skills": [
+        "reasoning-check",
+        "aasha-prompt-compiler",
+        "anti-bleed"
+      ],
+      "tools": [
+        "4-Tier Progressive Hint Generator (H1: Socratic -> H2: Visual Anchor -> H3: Elimination -> H4: Procedural Step)",
+        "Golden Zero-Spoiler Rule #1 regex auditor (never states or implies the answer)",
+        "Diagnostic Distractor Matrix generator (every wrong option maps to a distinct cognitive error)",
+        "3-Tier Gamified Level Stager (Warmup -> Deep Dive -> Boss Challenge)",
+        "Streak multiplier and XP reward calculation engine"
+      ],
+      "plugins": [
+        "question_schema_validator.ts",
+        "SQLite Question Bank"
+      ],
+      "mcp_servers": [
+        "postgres"
+      ],
+      "contracts": [
+        "CON-002",
+        "CON-004",
+        "CON-006",
+        "CON-010"
+      ],
+      "quality_gates": [
+        "ZERO_SPOILER_RULE_1",
+        "EXACTLY_ONE_CORRECT_OPTION",
+        "MEANINGFUL_MISCONCEPTION_FIELD_M",
+        "OPTION_COUNT_3_OR_4"
+      ],
+      "outputs": [
+        "assessment_suite.json",
+        "assessment_branch.json"
+      ],
       "parallelizable": true,
       "hil_gate": false
     },
@@ -57,9 +225,44 @@
       "type": "llm",
       "runtime": "node",
       "routing": "openrouter/free",
+      "entry_point": "src/aasha/agents/lle_agent.py",
+      "secondary_entry_point": "packages/aasha-rules/math_insulator.ts",
       "contract": "lle_schema",
       "responsibility": "Bilingual Indic/Hindi Word Map and phonetics with math insulation",
-      "outputs": ["lle_branch.json"],
+      "action_learning_role": "Eliminates the language barrier for rural and vernacular school students by providing inline conversational Hindi/Indic glossing (CONN), rich word cards (WM), and pronunciation tooltips, while strictly insulating mathematical notation so action equations remain pristine.",
+      "skills": [
+        "aasha-prompt-compiler",
+        "anti-bleed"
+      ],
+      "tools": [
+        "KaTeX Math Insulator (math_insulator.ts, protects formulas via __AASHA_MATH_X__ tokens)",
+        "3-Layer LLE Cascade (Layer 1: local dictionary -> Layer 2: free Indic endpoint -> Layer 3: OpenRouter free tier)",
+        "Procedural Web Audio API phonetic tone synthesizer",
+        "Devanagari and Indic Unicode script validator",
+        "Context-aware domain vocabulary transliterator"
+      ],
+      "plugins": [
+        "aasha_dictionary_db.json",
+        "config/dictionaries/hi.json",
+        "Phonics Audio Engine"
+      ],
+      "mcp_servers": [
+        "filesystem"
+      ],
+      "contracts": [
+        "CON-002",
+        "CON-006",
+        "CON-008"
+      ],
+      "quality_gates": [
+        "MATH_COLLISION_INSULATION",
+        "ACCURATE_PHONETIC_TRANSLITERATION",
+        "VERNACULAR_RURAL_VOCABULARY_SUITABILITY"
+      ],
+      "outputs": [
+        "lle.json",
+        "lle_branch.json"
+      ],
       "parallelizable": true,
       "hil_gate": false
     },
@@ -69,8 +272,46 @@
       "type": "deterministic",
       "runtime": "node",
       "entry_point": "benchmarks/qa_ltruth_benchmark.js",
+      "secondary_entry_point": "src/aasha/agents/qa_agent.py",
       "responsibility": "L-Truth 200+ evaluation check, anti-spoiler audit, math-rt collision scan",
-      "outputs": ["qa_report.json"],
+      "action_learning_role": "Enforces that every interactive module functions reliably offline, without broken scripts, without spoiler leaks, and within strict ergonomics (>=44px touch targets) so no student gets stuck due to technical errors.",
+      "skills": [
+        "reasoning-check",
+        "anti-bleed",
+        "ci-workflow-sanitizer"
+      ],
+      "tools": [
+        "200+ Automated Verification Suite (benchmarks/qa_ltruth_benchmark.js)",
+        "Anti-Spoiler Leak Scanner (detects numerical, formula, and verbal answer leaks)",
+        "Math-RT Collision Detector",
+        "20MB Standalone Single-File Bundle Ceiling Enforcer",
+        "Zero-CDN Network Sandbox Auditor (strictly zero remote HTTP/HTTPS/CDN script/link tags)",
+        "Offline Asset Integrator & Checksum Auditor"
+      ],
+      "plugins": [
+        "JSDOM sandbox",
+        "Local CDN Validator (scripts/harvest_engine.mjs)"
+      ],
+      "mcp_servers": [
+        "filesystem"
+      ],
+      "contracts": [
+        "CON-002",
+        "CON-004",
+        "CON-006",
+        "CON-007",
+        "CON-009"
+      ],
+      "quality_gates": [
+        "L_TRUTH_100_PERCENT_PASS",
+        "ZERO_SPOILER_LEAKS",
+        "BUNDLE_UNDER_20MB",
+        "ZERO_EXTERNAL_CDNS"
+      ],
+      "outputs": [
+        "qa_report.json",
+        "ltruth_benchmark_report.json"
+      ],
       "parallelizable": true,
       "hil_gate": false
     },
@@ -80,8 +321,44 @@
       "type": "deterministic",
       "runtime": "node",
       "entry_point": "scripts/automated_browser_verification.js",
+      "secondary_entry_point": "benchmarks/automated_browser_verification.js",
       "responsibility": "Headless Chrome CDP verification, 44x44px touch targets, mobile viewport invariants",
-      "outputs": ["browser_test_report.json"],
+      "action_learning_role": "Simulates real student actions in a mobile browser (tapping buttons, dragging sliders, selecting quiz options, observing celebratory badge animations) to verify that learning through action works fluidly with 0 console errors on mobile viewports.",
+      "skills": [
+        "aasha-ecosystem",
+        "ci-workflow-sanitizer",
+        "universal-sim-engine"
+      ],
+      "tools": [
+        "Headless Chrome DevTools Protocol (CDP) automation engine",
+        "Mobile Viewport Clamping (390x844px, same-frame rule, min-height 0)",
+        "Touch Target Ergonomics Oracle (validates every clickable element is >=44x44px)",
+        "User Flow Action Simulator (synthetic clicks, slider inputs, postMessage event bus logging)",
+        "Console Error and Memory Leak Monitor (0 errors tolerated)",
+        "Automated Screenshot and Visual Evidence Capture"
+      ],
+      "plugins": [
+        "playwright",
+        "puppeteer CDP runner"
+      ],
+      "mcp_servers": [
+        "playwright"
+      ],
+      "contracts": [
+        "CON-002",
+        "CON-005",
+        "CON-006",
+        "CON-009"
+      ],
+      "quality_gates": [
+        "ZERO_CONSOLE_ERRORS",
+        "ALL_TOUCH_TARGETS_GE_44PX",
+        "ZERO_HORIZONTAL_OVERFLOW",
+        "TELEMETRY_EVENT_EMISSION"
+      ],
+      "outputs": [
+        "browser_test_report.json"
+      ],
       "parallelizable": true,
       "hil_gate": true
     }

@@ -14,6 +14,7 @@ param(
     [string]$Mode       = "v5-engine",
     [string]$FromStage  = "",
     [string]$JobId      = "",
+    [switch]$Offline,
     [switch]$Web,
     [switch]$Verbose,
     [switch]$JsonEvents
@@ -105,6 +106,7 @@ if ($Web) {
     if ($FromStage) { $cliArgs += "--from-stage", $FromStage }
     if ($JobId)     { $cliArgs += "--job-id", $JobId }
     if ($JsonEvents){ $cliArgs += "--json-events" }
+    if ($Offline)   { $cliArgs += "--offline" }
     if ($Verbose)   { $cliArgs += "--verbose" }
 }
 

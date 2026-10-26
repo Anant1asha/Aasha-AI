@@ -168,18 +168,18 @@ const BOSS_QUESTIONS = [
   {
     id: "ep_boss_10",
     tag: "Textbook MCQ 10",
-    prompt: "If \\(2^{3-x} = 1\\), what is the value of \\(x\\)?",
+    prompt: "If \\(2^{x-4} = 1\\), what is the value of \\(x\\)?",
     opts: [
-      { text: "3", correct: true, m: "" },
-      { text: "0", correct: false, m: "Substituted x = 0 which would produce 2^3 = 8, not 1." },
-      { text: "2", correct: false, m: "Computed 2^1 = 2, falling short of RHS unit value." },
-      { text: "-3", correct: false, m: "Set 3 - x = 1 instead of equating exponent to 0 for base 2^0 = 1." }
+      { text: "4", correct: true, m: "" },
+      { text: "3", correct: false, m: "This value leaves the exponent one unit below zero." },
+      { text: "2", correct: false, m: "This value leaves the exponent two units below zero." },
+      { text: "1", correct: false, m: "This value leaves the exponent three units below zero." }
     ],
     hints: {
       h1: "Express RHS 1 as a power of base 2: 1 = 2^0.",
-      h2: "Set exponents equal: 3 - x = 0.",
-      h3: "Add x to both sides of the linear equation.",
-      h4: "x matches the constant on the left."
+      h2: "For equal positive bases, compare the exponents.",
+      h3: "Set the exponent on the left equal to zero.",
+      h4: "Use the inverse operation to isolate x."
     },
     xp: 20
   },
@@ -244,7 +244,7 @@ const BOSS_QUESTIONS = [
     opts: [
       { text: "1", correct: true, m: "" },
       { text: "a^2", correct: false, m: "Mishandled exponent multiplication on numerator factors." },
-      { text: "a^0", correct: false, m: "Although mathematically equivalent, an unsimplified zero power is not in terminal reduced form." },
+      { text: "a^{-2}", correct: false, m: "A nonzero exponent remains after subtracting the matching numerator and denominator powers." },
       { text: "a^{pqr}", correct: false, m: "Confused addition of exponents with multiplication of exponents." }
     ],
     hints: {

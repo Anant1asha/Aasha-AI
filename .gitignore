@@ -49,7 +49,14 @@ scratch/
 
 # IEC Compiler & Browser Test Artifacts
 .chrome_temp_*/
+.chrome_temp_profile/
+.chrome_temp_profile*/
 *.bak
 chapters/test_*.html
+
+# Ephemeral Runtime Cache & Local Databases
+packages/memory-engine/storage/*.json
+*.db
+
 
 

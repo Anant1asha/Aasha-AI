@@ -184,6 +184,11 @@ class QAAgent(BaseAgent):
               bool(re.search(r'<meta\s[^>]*charset\s*=\s*["\']?utf-8', html, re.IGNORECASE)),
               "Missing <meta charset=\"UTF-8\"> — Devanagari may not render correctly")
 
+        # 16: Section 24 Cleanroom License Isolation check (GPL-3.0 strictly EXTRACT cleanroom)
+        has_gpl = bool(re.search(r'GNU GENERAL PUBLIC LICENSE|GPL-3\.0|GPLv3', html, re.IGNORECASE))
+        check("rule12_cleanroom_license_isolation", not has_gpl,
+              "Found raw GPL copyleft license declarations in chapter HTML. Open-source foundations must be cleanroom EXTRACT-adapted.")
+
         passed = len(failures) == 0
 
         return {

@@ -426,6 +426,12 @@ the correct answer. Options must be age-appropriate for Grade {grade}.
         # Ensure 100% schema completeness and generate fallbacks if any were missed
         spec = self._ensure_all_options_filled(spec)
 
+        # Anti-Spoiler Scrubbing & Repair (Strict L-Truth Section 24 compliance)
+        from ..synthesis.offline_synthesizer import sanitize_spec_misconceptions
+        repaired = sanitize_spec_misconceptions(spec)
+        if repaired:
+            self.log(f"Auto-scrubbed and repaired {repaired} answer leaks in misconceptions.")
+
         # Check for answer leakage
         leaks = self._check_answer_leakage(spec)
         if leaks:

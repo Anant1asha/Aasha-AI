@@ -4,7 +4,44 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 
-const CHROME_PATH = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+function resolveBrowserExecutable() {
+  const envVars = ['CHROME_PATH', 'CHROME_BIN', 'PUPPETEER_EXECUTABLE_PATH', 'PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH', 'BROWSER_PATH'];
+  for (const v of envVars) {
+    if (process.env[v] && fs.existsSync(process.env[v])) return process.env[v];
+  }
+  const localAppData = process.env.LOCALAPPDATA || '';
+  if (localAppData) {
+    const pwDir = path.join(localAppData, 'ms-playwright');
+    if (fs.existsSync(pwDir)) {
+      try {
+        const dirs = fs.readdirSync(pwDir).filter(d => d.startsWith('chromium-')).sort().reverse();
+        for (const d of dirs) {
+          const p1 = path.join(pwDir, d, 'chrome-win64', 'chrome.exe');
+          if (fs.existsSync(p1)) return p1;
+          const p2 = path.join(pwDir, d, 'chrome-win', 'chrome.exe');
+          if (fs.existsSync(p2)) return p2;
+        }
+      } catch (e) {}
+    }
+  }
+  const standardPaths = [
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+    localAppData ? path.join(localAppData, 'Google', 'Chrome', 'Application', 'chrome.exe') : '',
+    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/usr/bin/google-chrome',
+    '/usr/bin/google-chrome-stable',
+    '/usr/bin/chromium'
+  ].filter(Boolean);
+  for (const sp of standardPaths) {
+    if (fs.existsSync(sp)) return sp;
+  }
+  return 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+}
+
+const CHROME_PATH = resolveBrowserExecutable();
 const PORT = 9222;
 
 function sleep(ms) {

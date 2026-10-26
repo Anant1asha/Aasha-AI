@@ -33,8 +33,10 @@ export async function runPhase2TestSuite() {
   console.log(' AASHA AIOS DEVELOPMENT AGENT — PHASE 2 VERIFICATION TEST SUITE');
   console.log('======================================================================\n');
 
-  const rootDir = path.resolve('..');
-  const aashaDir = path.resolve('.');
+  const isAashaSubdir = fs.existsSync(path.resolve('package.json')) &&
+    (() => { try { return JSON.parse(fs.readFileSync('package.json', 'utf8')).name === 'aasha-ai'; } catch { return false; } })();
+  const rootDir = isAashaSubdir ? path.resolve('..') : path.resolve('.');
+  const aashaDir = isAashaSubdir ? path.resolve('.') : path.resolve('Aasha-AI');
 
   // 1. TC_P2_01_WORKTREE_CLEAN_CHECK
   {

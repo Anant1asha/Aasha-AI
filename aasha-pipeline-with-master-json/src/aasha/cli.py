@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import sys
 import time
 from pathlib import Path
@@ -303,6 +304,7 @@ Examples:
     parser.add_argument("--mode", default=None, choices=["v5-engine", "full-synthesis"], help="Pipeline mode: v5-engine (default, 6-agent flow) or full-synthesis (4-agent flow with plugin registry, exercise extractor, code synthesizer)")
     parser.add_argument("--from-stage", dest="from_stage", help="Resume from stage. v5-engine: ingest, analyze, design, assess, lle, assemble, qa, output. full-synthesis: ingest, analyze, design, assess, synthesize, qa, output (also supports aliases: extract, structure, pedagogy)")
     parser.add_argument("--no-auto-rewind", dest="auto_rewind", action="store_false", default=True, help="Disable automatic rewinding to earlier stages when prerequisites are missing")
+    parser.add_argument("--offline", action="store_true", help="Run 100%% offline with Tier-0 Deterministic Local Synthesizer (zero network, zero tokens, instant execution)")
     parser.add_argument("--web", action="store_true", help="Start the web UI")
     parser.add_argument("--max-cost", type=float, default=0.50, help="Maximum cost in USD (default 0.50)")
     parser.add_argument("--json-events", action="store_true", help="Output streaming line-delimited JSON events for IPC with TUI/GUI")
@@ -310,6 +312,9 @@ Examples:
     parser.add_argument("--config", default=None, help="Path to config.yaml (default: ./config.yaml)")
 
     args = parser.parse_args()
+    if getattr(args, "offline", False):
+        os.environ["AASHA_OFFLINE"] = "1"
+        args.provider = "offline"
     setup_logging(args.verbose)
 
     config = Config.load(args.config)

@@ -1,5 +1,6 @@
 import { getLLMCompletion, LLMMessage, TaskType } from './packages/llm-router/openrouter_client';
 import { ContextBus } from './packages/memory-engine/context_bus';
+import type { TaskCapabilityProfile } from './packages/memory-engine/memory_interface';
 
 const contextBus = new ContextBus();
 
@@ -137,6 +138,7 @@ export interface RunAgentOptions {
   maxRepairAttempts?: number;
   useIEC?: boolean; // Default: true when IECAIOSBridge is available
   pipelineInput?: PipelineInput;
+  taskCapabilityProfile?: TaskCapabilityProfile;
   required_manipulative?: string;
   iecOptions?: any;
 }
@@ -175,7 +177,7 @@ export async function runAgent(
   // 1. Context Bus Memory & Ontology Enrichment
   let enrichedSystemPrompt = agent.systemPrompt;
   try {
-    const memoryContext = await contextBus.buildAgentContext(role, conceptId || 'general_concept', userPrompt);
+    const memoryContext = await contextBus.buildAgentContext(role, conceptId || 'general_concept', userPrompt, options.taskCapabilityProfile);
     enrichedSystemPrompt += memoryContext.systemContextInjection;
   } catch (err) {
     console.warn(`[Agent: ${role}] Context Bus enrichment warning:`, err);
@@ -300,6 +302,8 @@ export interface PipelineInput {
   grade: number;
   subject: string;
   rawSourceText?: string;
+  /** Capability classification supplied by the intake/design contract; no topic-only lesson reuse. */
+  taskCapabilityProfile?: TaskCapabilityProfile;
 }
 
 export interface PipelineOptions {
@@ -307,6 +311,7 @@ export interface PipelineOptions {
   modelOverride?: string;
   llmCompleter?: (req: any) => Promise<{ content: string; [key: string]: any }>;
   maxRepairAttempts?: number;
+  taskCapabilityProfile?: TaskCapabilityProfile;
 }
 
 export interface PipelineResult {
@@ -341,6 +346,7 @@ export async function orchestrateChapterPipeline(
   const useConcurrency = options.concurrency !== false;
   const concurrencyMode = useConcurrency ? 'PARALLEL_FORK_JOIN' : 'SEQUENTIAL';
   const conceptId = `${input.subject}_Class${input.grade}_${input.topic}`;
+  const taskCapabilityProfile = options.taskCapabilityProfile || input.taskCapabilityProfile;
 
   // Stage 1: Deterministic Ingest
   await runAgent('IngestAgent', `Ingest text for ${conceptId}`, options);
@@ -351,7 +357,7 @@ export async function orchestrateChapterPipeline(
     analysisResult = await runAgent(
       'AnalysisAgent',
       `Analyze curriculum for ${input.subject} Class ${input.grade}: ${input.topic}. Source: ${input.rawSourceText || ''}`,
-      { ...options, conceptId }
+      { ...options, conceptId, taskCapabilityProfile }
     );
   } catch (err: any) {
     if (err instanceof QuarantineError) {
@@ -382,17 +388,17 @@ export async function orchestrateChapterPipeline(
         runAgent(
           'DesignAgent',
           `Sequence pedagogical flow for: ${JSON.stringify(frozenContentMap)}`,
-          { ...options, conceptId, pipelineInput: input }
+          { ...options, conceptId, pipelineInput: input, taskCapabilityProfile }
         ),
         runAgent(
           'AssessmentAgent',
           `Create assessments with zero spoilers for: ${JSON.stringify(frozenContentMap)}`,
-          { ...options, conceptId }
+          { ...options, conceptId, taskCapabilityProfile }
         ),
         runAgent(
           'LLEAgent',
           `Translate and insulate math terms for: ${JSON.stringify(frozenContentMap)}`,
-          { ...options, conceptId }
+          { ...options, conceptId, taskCapabilityProfile }
         ),
       ]);
       designResult = dRes;
@@ -414,9 +420,9 @@ export async function orchestrateChapterPipeline(
   } else {
     // Stage 3 (Sequential Fallback)
     try {
-      designResult = await runAgent('DesignAgent', `Sequence pedagogical flow for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId, pipelineInput: input });
-      assessmentResult = await runAgent('AssessmentAgent', `Create assessments with zero spoilers for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId });
-      lleResult = await runAgent('LLEAgent', `Translate and insulate math terms for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId });
+      designResult = await runAgent('DesignAgent', `Sequence pedagogical flow for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId, pipelineInput: input, taskCapabilityProfile });
+      assessmentResult = await runAgent('AssessmentAgent', `Create assessments with zero spoilers for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId, taskCapabilityProfile });
+      lleResult = await runAgent('LLEAgent', `Translate and insulate math terms for: ${JSON.stringify(frozenContentMap)}`, { ...options, conceptId, taskCapabilityProfile });
     } catch (err: any) {
       if (err instanceof QuarantineError) {
         return {

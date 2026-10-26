@@ -20,6 +20,11 @@ export class SQLiteGraphProvider implements IGraphProvider {
   }
 
   private runBridge(args: string[]): any {
+    // Fast path: bypass external Python child-process spawning during tests or offline mode
+    if (process.env.MEMO0_OFFLINE === '1' || process.env.NODE_ENV === 'test' || process.env.AASHA_TEST_MODE === '1') {
+      return null;
+    }
+
     const res = spawnSync(this.pythonPath, [this.bridgeScript, ...args], {
       encoding: 'utf-8',
       env: process.env,

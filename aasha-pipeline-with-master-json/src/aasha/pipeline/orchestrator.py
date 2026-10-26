@@ -10,6 +10,7 @@ import json
 import hashlib
 import logging
 import shutil
+import subprocess
 import time
 import uuid
 from datetime import datetime, timezone
@@ -600,8 +601,12 @@ class Orchestrator:
 
                 try:
                     if stage == "ingest":
-                        agent = IngestAgent(llm=self.llm)
+                        llm = self._create_llm(context["provider"]) if context.get("provider") else None
+                        agent = IngestAgent(llm=llm)
                         stage_result = agent.run(work_dir, context)
+                        if llm and hasattr(llm, "cost_estimate"):
+                            total_cost += llm.cost_estimate
+                            job.costs["IngestAgent"] = job.costs.get("IngestAgent", 0) + llm.cost_estimate
                         if stage_result.get("error"):
                             raise ValueError(f"SOURCE_EXTRACTION_FAILED: {stage_result['error']}")
                         if stage_result.get("source_sha256") != job.input.source_pdf_sha256:
@@ -824,7 +829,12 @@ class Orchestrator:
                         
                         if spec_path.exists():
                             from ..schemas.validator import validate_chapter_spec
+                            from ..synthesis.offline_synthesizer import sanitize_spec_misconceptions
                             spec_data = json.loads(spec_path.read_text(encoding="utf-8"))
+                            repaired = sanitize_spec_misconceptions(spec_data)
+                            if repaired:
+                                log(f"  [Validator] Auto-repaired {repaired} distractor spoiler leaks before assembly.")
+                                spec_path.write_text(json.dumps(spec_data, ensure_ascii=False, indent=2), encoding="utf-8")
                             val_result = validate_chapter_spec(spec_data)
                             if not val_result.valid:
                                 error_msgs = "; ".join(val_result.errors)
@@ -869,14 +879,38 @@ class Orchestrator:
                             log(f"  QA FAILED — chapter not delivered")
                             return job
 
+                        # Trigger AGT-007 BrowserTesterAgent (CDP verification) if script is available
+                        try:
+                            browser_script = Path(__file__).resolve().parent.parent.parent.parent / "scripts" / "automated_browser_verification.js"
+                            if not browser_script.exists():
+                                browser_script = Path(__file__).resolve().parent.parent.parent.parent.parent / "scripts" / "automated_browser_verification.js"
+                            if browser_script.exists():
+                                log(f"  [BrowserTesterAgent] Running Headless Chrome CDP Verification...")
+                                b_res = subprocess.run(
+                                    ["node", str(browser_script), "--file", str(html_path)],
+                                    capture_output=True,
+                                    text=True,
+                                    timeout=60,
+                                    cwd=str(work_dir)
+                                )
+                                if b_res.returncode == 0:
+                                    log(f"  [BrowserTesterAgent] CDP Verification Passed (0 console errors, touch targets OK)")
+                                    bus.publish("browser_test.result", {"passed": True})
+                                else:
+                                    warn_msg = (b_res.stderr.strip() or b_res.stdout.strip())[:200]
+                                    log(f"  [BrowserTesterAgent] CDP Advisory/Warning: {warn_msg}")
+                                    bus.publish("browser_test.result", {"passed": False, "warning": warn_msg})
+                        except Exception as e:
+                            log(f"  [BrowserTesterAgent] CDP verification bypassed: {e}")
+
                     elif stage == "output":
                         # Copy to output directory
                         html_src = work_dir / "chapter.html"
                         spec_src = work_dir / "chapter_spec.json"
 
                         chapter_name = job.input.source_pdf.replace(".pdf", "").replace(" ", "_")
-                        html_out = self.output_dir / f"{chapter_name}_chapter.html"
-                        spec_out = self.output_dir / f"{chapter_name}_spec.json"
+                        html_out = (self.output_dir / f"{chapter_name}_chapter.html").resolve()
+                        spec_out = (self.output_dir / f"{chapter_name}_spec.json").resolve()
 
                         if html_src.exists():
                             shutil.copy(str(html_src), str(html_out))

@@ -74,11 +74,57 @@ The Aasha chapter generation workflow employs 6 dedicated pipeline agents:
    - Prohibitions: MATH COLLISION ISOLATION — Must never translate or mangle mathematical variables (, y, a, b$) or numerical equations.
    - Model Required: Fast / Indic Specialized (Gemini Flash / Local Dictionaries).
 
-6. **QAAgent**:
+6. **QAAgent (AGT-006)**:
    - Responsibility: Execute the 200+ check L-Truth evaluation suite.
    - Decision Rights: Can issue PASS / FAIL gates; halts pipeline on rule violation.
    - Prohibitions: Cannot alter chapter content to force a pass; must report failure to bus.
    - Model Required: NO (Deterministic Node.js / Python harness).
+
+7. **BrowserTesterAgent (AGT-007)**:
+   - Responsibility: Headless Chrome CDP verification, 44x44px touch targets, mobile viewport invariants, and 0 console errors.
+   - Decision Rights: Can reject a chapter build on mobile layout overflow, missing touch ergonomics, or browser execution failures.
+   - Prohibitions: Cannot approve builds without full automated headless CDP interaction run.
+   - Model Required: NO (Deterministic Node.js / Puppeteer CDP).
+
+---
+
+## 4.1 Action-Based Visual Learning & Understanding Through Action (Kriyātmaka Bodha)
+
+The ecosystem rejects passive reading and rote memorization. Every generated chapter adheres strictly to **Understanding Through Action**:
+1. **Action Hook / Phenomenon**: Concepts begin with an interactive manipulative, not text walls. Students manipulate a slider, balance a scale, slice a fraction, or trace a light ray before encountering formal notation.
+2. **Bilingual Concept Bridge**: Micro-concept card with bilingual Hindi/Indic glossing (`CONN` + `WM`), KaTeX math insulation, and procedural audio pronunciation.
+3. **Guided Action Worked Example**: Interactive step-by-step example where the student must perform an intermediate action to advance.
+4. **Action Sim Manipulation**: A rich, self-contained `<aasha-sim>` Web Component adapter powered by prebuilt proven open-source foundations (PhET, JSXGraph, Mafs, CinePhysicsHQ, KingsMath).
+5. **Gamified Socratic Assessment**: 3-tier gamified challenge levels (Warmup $\to$ Deep Dive $\to$ Boss Challenge) with 4-tier progressive hints ($H_1 \to H_4$), XP streaks, and distractor-specific verbal misconception feedback (`m` field) with zero spoilers.
+
+---
+
+## 4.2 Autonomous Open-Source Search, Harvesting, & Adaptation Protocol
+
+Rather than reinventing complex interactive simulations from scratch, the ecosystem autonomously discovers, harvests, and adapts prebuilt proven open-source code from global foundations:
+- **Foundations Catalog (F01–F20)**: F01 Escape Run, F02 MicroSims, F03 All Science Sims, F04 PhET, F05 Lightbot, F06 MathFluency, F07 Wiki Physics Game, F08 Physics Notebook, F09 Escapp, F10 QuestJS, F11 Squiffy, F12 GeoGuess, F13 Learn Worldmap, F14 Geographical Adventures, F15 The Long Game, F16 FinanceGame/LearnBu, F17 Code for Life, F18 Secure Code Game, F19 Chocolate Broccoli Challenge, F20 GameBox/Mini Games.
+- **5-Point Quality Gate**:
+  1. *100% Offline Integrity*: Zero external network CDNs, scripts, styles, or tracking pixels.
+  2. *Strict Bundle Ceiling*: Under 20MB per standalone chapter (typically < 300KB).
+  3. *License Isolation & Cleanroom Compliance*: Permissive MIT/Apache used directly; copyleft (GPL-3.0) isolated via cleanroom mechanics extraction wrapped in `<aasha-sim>` Web Components.
+  4. *Same-Frame Mobile Viewport Clamping*: Clamped to mobile viewport (390x844px), zero horizontal scroll, minimum touch target $\ge 44 \times 44\text{px}$.
+  5. *AashaExperienceContract Compliance*: Standard lifecycle hooks (`mount`, `getState`, `reset`, `destroy`, `telemetry`).
+
+---
+
+## 4.3 Expanded Capabilities Matrix: Skills, Tools, Plugins, and MCP Servers
+
+| Agent | Skills | Tools | Interactive Plugins | MCP Servers |
+| :--- | :--- | :--- | :--- | :--- |
+| **IngestAgent (AGT-001)** | `chapter-compile`, `anti-bleed`, `ecosystem-identity-audit` | PyMuPDF (fitz), Pillow JPEG downsampler, OpenRouter vision rotation pool (Nemotron 3.5 VL, Gemma 4), 20s circuit-breaker, collision-free SHA-256 disk cache | `pdf-layer-isolator`, `diagram-extractor` | `filesystem` |
+| **AnalysisAgent (AGT-002)** | `karaka-compiler`, `aasha-prompt-compiler`, `reasoning-check`, `universal-sim-engine` | Pāṇinian Kāraka 8-relation compiler, Bloom's action verb classifier, Cognitive Load Ceiling enforcer (3-5 nodes), Prerequisite & Misconception ontology mapper | Graphify AST Graph, SQLite Knowledge Graph (`aasha_operational.db`) | `context7`, `postgres` |
+| **DesignAgent (AGT-003)** | `universal-sim-engine`, `open-source-harvesting`, `aasha-ecosystem`, `generative_ui` | ThreeTierMatcher, DomainSimGenerators, Section 24 Contract Manager, Mobile Touch Optimizer ($\ge 44\text{px}$) | F01–F20 Foundations, PhET (cleanroom), JSXGraph, Mafs, Fabric.js, CinePhysicsHQ, KingsMath | `filesystem`, `github-mcp-server` |
+| **AssessmentAgent (AGT-004)** | `reasoning-check`, `aasha-prompt-compiler`, `anti-bleed` | 4-Tier Progressive Hint Generator ($H_1 \to H_4$), Anti-Spoiler Rule #1 auditor, Misconception Diagnostic Matrix, 3-tier gamified level stager, XP streak engine | `question_schema_validator.ts`, SQLite Question Bank | `postgres` |
+| **LLEAgent (AGT-005)** | `aasha-prompt-compiler`, `anti-bleed` | KaTeX Math Insulator (`math_insulator.ts`), 3-Layer LLE Cascade, Procedural Web Audio API phonetic synthesizer, Devanagari Unicode validator | `aasha_dictionary_db.json`, `config/dictionaries/hi.json`, Phonics Audio Engine | `filesystem` |
+| **QAAgent (AGT-006)** | `reasoning-check`, `anti-bleed`, `ci-workflow-sanitizer` | 200+ Automated Verification Suite, Anti-Spoiler Leak Scanner, Math-RT Collision Detector, 20MB Bundle Ceiling Gate, Zero-CDN Sandbox Auditor | JSDOM Sandbox, Local CDN Auditor (`scripts/harvest_engine.mjs`) | `filesystem` |
+| **BrowserTesterAgent (AGT-007)** | `aasha-ecosystem`, `ci-workflow-sanitizer`, `universal-sim-engine` | Headless Chrome CDP automation engine, Mobile Viewport Clamping (390x844px), Touch Target Ergonomics Oracle ($\ge 44\text{px}$), Action Flow Simulator | `playwright`, Puppeteer CDP runner | `playwright` |
+
+---
 
 ---
 

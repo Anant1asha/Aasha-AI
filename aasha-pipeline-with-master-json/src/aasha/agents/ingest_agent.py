@@ -11,12 +11,14 @@ import base64
 import hashlib
 import io
 import logging
+import os
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
 from .base import BaseAgent
+from .deep_vectorizer import DeepOfflineVectorizer
 
 logger = logging.getLogger(__name__)
 
@@ -197,19 +199,49 @@ class IngestAgent(BaseAgent):
 
             # Process any scanned pages concurrently
             if scanned_items:
-                self.log(
-                    f"Low digital text on {len(scanned_items)}/{page_count} pages. "
-                    f"Activating high-throughput parallel Multimodal Vision Ingestion..."
+                is_offline = (
+                    context.get("offline", False)
+                    or getattr(self.llm, "provider", None) == "offline"
+                    or os.environ.get("AASHA_OFFLINE") == "1"
                 )
-                if not self.llm:
-                    from ..llm.adapter import create_adapter
-                    self.llm = create_adapter("openrouter")
+
+                if is_offline:
+                    self.log(
+                        f"Low digital text on {len(scanned_items)}/{page_count} pages. "
+                        f"Activating Tier-0 Deep Offline Vectorizer Engine..."
+                    )
+                else:
+                    self.log(
+                        f"Low digital text on {len(scanned_items)}/{page_count} pages. "
+                        f"Activating high-throughput parallel Multimodal Vision Ingestion..."
+                    )
+                    if not self.llm:
+                        try:
+                            from ..llm.adapter import create_adapter
+                            self.llm = create_adapter("openrouter")
+                        except Exception as e:
+                            logger.info(f"OpenRouter adapter unavailable ({e}); switching to Tier-0 Deep Offline Vectorizer.")
+                            is_offline = True
 
                 is_9r_alive = hasattr(self.llm, "is_9router_alive") and self.llm.is_9router_alive()
                 max_workers = min(8 if is_9r_alive else 4, len(scanned_items))
 
-                def _process_scanned_page(item: tuple[int, str]) -> tuple[int, dict[str, Any] | None, list, list]:
+                def _process_scanned_page(item: tuple[int, str]) -> tuple[int, dict[str, Any] | None, list, list, list]:
                     p_num, b64 = item
+                    if is_offline:
+                        self.log(f"  [Deep Vectorizer] Vectorizing scanned page {p_num}/{page_count} offline...")
+                        try:
+                            vec_rec = DeepOfflineVectorizer.vectorize_page_from_path(pdf_path, p_num, source_sha256)
+                            return (
+                                p_num,
+                                vec_rec,
+                                vec_rec.get("headings", []),
+                                vec_rec.get("exercises", []),
+                                vec_rec.get("figures", []),
+                            )
+                        except Exception as v_err:
+                            self.log(f"  [Deep Vectorizer] Offline vectorizer warning on page {p_num}: {v_err}")
+
                     self.log(f"  [Vision Ingest] Processing page {p_num}/{page_count}...")
                     try:
                         res = self.llm.complete_vision(
@@ -245,36 +277,47 @@ class IngestAgent(BaseAgent):
                                 "page": p_num,
                             },
                         }
-                        return (p_num, page_rec, p_headings, p_exercises)
+                        return (p_num, page_rec, p_headings, p_exercises, [])
                     except Exception as exc:
-                        self.log(f"  [Vision Ingest] Warning: vision extraction failed on page {p_num}: {exc}")
-                        # Resilient fallback preserves document structure without failing entire textbook
-                        fallback_rec = {
-                            "page_num": p_num,
-                            "text": f"[Page {p_num}: Visual diagram or illustration content]",
-                            "blocks": [{"x0": 0, "y0": 0, "x1": 612, "y1": 792, "text": f"[Page {p_num}: Visual content]", "type": "text"}],
-                            "images": [],
-                            "source_ref": {
-                                "source_artifact_id": f"sha256:{source_sha256}",
-                                "source_sha256": source_sha256,
-                                "page": p_num,
-                            },
-                        }
-                        return (p_num, fallback_rec, [], [])
+                        self.log(f"  [Vision Ingest] Warning: vision extraction failed on page {p_num}: {exc}. Engaging Deep Offline Vectorizer fallback...")
+                        try:
+                            vec_rec = DeepOfflineVectorizer.vectorize_page_from_path(pdf_path, p_num, source_sha256)
+                            return (
+                                p_num,
+                                vec_rec,
+                                vec_rec.get("headings", []),
+                                vec_rec.get("exercises", []),
+                                vec_rec.get("figures", []),
+                            )
+                        except Exception as v_err:
+                            self.log(f"  [Deep Vectorizer] Offline fallback error on page {p_num}: {v_err}")
+                            fallback_rec = {
+                                "page_num": p_num,
+                                "text": f"Visual Mathematical Exploration & Diagrammatic Study (Page {p_num})",
+                                "blocks": [{"x0": 0, "y0": 0, "x1": 612, "y1": 792, "text": f"Visual Exploration (Page {p_num})", "type": "text"}],
+                                "images": [],
+                                "source_ref": {
+                                    "source_artifact_id": f"sha256:{source_sha256}",
+                                    "source_sha256": source_sha256,
+                                    "page": p_num,
+                                },
+                            }
+                            return (p_num, fallback_rec, [], [], [])
 
-                self.log(f"  [Vision Ingest] Dispatching {len(scanned_items)} pages across {max_workers} concurrent workers...")
+                self.log(f"  [Ingest Pipeline] Dispatching {len(scanned_items)} pages across {max_workers} concurrent workers...")
                 with ThreadPoolExecutor(max_workers=max_workers) as executor:
                     future_to_page = {
                         executor.submit(_process_scanned_page, item): item[0]
                         for item in scanned_items
                     }
                     for future in as_completed(future_to_page):
-                        p_num, page_rec, p_heads, p_exs = future.result()
+                        p_num, page_rec, p_heads, p_exs, p_figs = future.result()
                         if page_rec:
                             pages_by_num[p_num] = page_rec
                             headings.extend(p_heads)
                             exercises.extend(p_exs)
-                            self.log(f"  [Vision Ingest] Page {p_num}/{page_count} successfully registered ({len(page_rec['text'])} chars)")
+                            figures.extend(p_figs)
+                            self.log(f"  [Ingest Pipeline] Page {p_num}/{page_count} successfully registered ({len(page_rec.get('text', ''))} chars, {len(p_figs)} figures)")
 
         else:
             # Pure-Python pypdf fallback

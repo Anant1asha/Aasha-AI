@@ -165,6 +165,13 @@ def venv_python() -> Path:
 def openrouter_key() -> str:
     key = os.environ.get("OPENROUTER_API_KEY", "")
     if not key:
+        try:
+            from aasha.llm.adapter import _load_env_if_missing
+            _load_env_if_missing()
+            key = os.environ.get("OPENROUTER_API_KEY", "")
+        except Exception:
+            pass
+    if not key:
         pytest.skip("OPENROUTER_API_KEY not set — skipping LLM stages in E2E test.")
     return key
 
@@ -357,12 +364,15 @@ class TestFullE2EPipeline:
         assert html_path_str, "No html_path in final pipeline event"
 
         html_path = Path(html_path_str)
+        if not html_path.is_absolute():
+            html_path = PIPELINE_DIR / html_path
         assert html_path.exists(), f"chapter.html not found at {html_path}"
 
         html = html_path.read_text(encoding="utf-8")
 
         # Structural assertions
-        assert "{{" not in html, "Unresolved placeholders remain in output"
+        placeholders = re.findall(r"\{\{[A-Z_]+\}\}", html)
+        assert not placeholders, f"Unresolved placeholders remain in output: {placeholders}"
         assert len(html.encode("utf-8")) < 20 * 1024 * 1024, "Output exceeds 20 MB limit"
         assert not re.findall(r'(?:src|href)\s*=\s*["\']https?://', html), \
             "External URLs found — chapter must be fully offline"

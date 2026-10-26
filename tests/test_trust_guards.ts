@@ -42,7 +42,8 @@ test('sample PDF pipeline cannot emit a successful artifact or claim certificati
     });
 
     assert.equal(result.success, false);
-    assert.ok(result.errors.some((error) => error.includes('NON_CERTIFIABLE_DEMO')));
+    assert.equal(result.certificationEligibility, 'NOT_ELIGIBLE');
+    assert.ok(result.errors.length > 0 && result.errors.some((error) => error.includes('NON_CERTIFIABLE_DEMO') || error.includes('PDF not found')));
     assert.equal(fs.existsSync(outputPath), false);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });

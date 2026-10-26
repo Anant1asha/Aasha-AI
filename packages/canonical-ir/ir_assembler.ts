@@ -17,6 +17,14 @@ export interface AgentProposalsInput {
   source_documents?: SourceDocument[];
   raw_objectives: Array<{ description: string; bloom_level: string; success_criteria: string[] }>;
   raw_concepts: Array<{ name: string; name_hindi?: string; definition: string; definition_hindi?: string; prerequisites?: string[] }>;
+  raw_learning_content?: Array<{
+    source_item_id: string;
+    concept_name: string;
+    type: ContentBlock['type'];
+    text_english: string;
+    text_hindi?: string;
+    fidelity_score?: number;
+  }>;
   raw_misconceptions: Array<{ concept_name: string; name: string; description: string; description_hindi?: string; remediation: string }>;
   raw_assessments: Array<{
     objective_index: number;
@@ -93,7 +101,7 @@ export class IRAssembler {
     });
 
     // 4. Resolve Content Blocks
-    const content_blocks: ContentBlock[] = input.raw_concepts.map((c, idx) => ({
+    const conceptContentBlocks: ContentBlock[] = input.raw_concepts.map((c, idx) => ({
       id: `cnt:${chapterPrefix}:def_${idx + 1}`,
       type: 'concept_def',
       concept_id: concept_graph[idx].id,
@@ -110,6 +118,36 @@ export class IRAssembler {
         : `pdf:${input.source_pdf_hash}`,
       fidelity_score: 1.0,
     }));
+    const learningContentErrors: string[] = [];
+    const sourceInventoryIds = new Set((input.source_inventory || []).map((item) => item.id));
+    const learningContentBlocks = (input.raw_learning_content || []).flatMap((content, idx): ContentBlock[] => {
+      const conceptId = conceptMap.get(content.concept_name);
+      if (!conceptId) {
+        learningContentErrors.push(`Source learning content '${content.source_item_id}' references unknown concept '${content.concept_name}'`);
+        return [];
+      }
+      if (input.source_inventory && !sourceInventoryIds.has(content.source_item_id)) {
+        learningContentErrors.push(`Source learning content references unknown inventory item '${content.source_item_id}'`);
+        return [];
+      }
+      const masked = MathInsulator.tokenize(content.text_english);
+      const sourceSet = input.source_documents?.length
+        ? `source-set:${input.source_documents.map((document) => `${document.id}=sha256:${document.sha256}`).join('|')}`
+        : `pdf:${input.source_pdf_hash}`;
+      return [{
+        id: `cnt:${chapterPrefix}:learning_${idx + 1}`,
+        type: content.type,
+        concept_id: conceptId,
+        text_english: content.text_english,
+        text_hindi: content.text_hindi,
+        text_hindi_math_insulated: insulateOptionalTranslation(content.text_hindi),
+        text_math_insulated: MathInsulator.wrapWithIsolation(MathInsulator.restore(masked.maskedText, masked.tokenMap)),
+        hindi_translation: input.word_map ? { phonetics: '', word_map: input.word_map } : undefined,
+        provenance_source: `source-item:${content.source_item_id}|${sourceSet}`,
+        fidelity_score: content.fidelity_score ?? 1.0,
+      }];
+    });
+    const content_blocks: ContentBlock[] = [...conceptContentBlocks, ...learningContentBlocks];
 
     // 5. Resolve Assessment Items with Zero-Spoiler Math Insulation
     const assessment_items: AssessmentItem[] = input.raw_assessments.map((a, idx) => {
@@ -299,7 +337,7 @@ export class IRAssembler {
 
     return {
       canonicalIR,
-      validationErrors: validationResult.errors,
+      validationErrors: [...validationResult.errors, ...learningContentErrors],
     };
   }
 }

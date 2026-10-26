@@ -9,13 +9,15 @@ export class Memo0DualProvider implements IMemoryProvider {
   private storageDir: string;
   private localDbFile: string;
 
-  constructor() {
+  constructor(options: { localDbFile?: string } = {}) {
     // Locate virtualenv python or system python
     const venvPython = path.resolve(__dirname, '../../aasha-pipeline-with-master-json/venv/Scripts/python.exe');
     this.pythonPath = fs.existsSync(venvPython) ? venvPython : 'python';
     this.bridgeScript = path.resolve(__dirname, 'memo0_bridge.py');
     this.storageDir = path.resolve(__dirname, 'storage');
-    this.localDbFile = path.resolve(this.storageDir, 'aasha_local_memory.json');
+    this.localDbFile = options.localDbFile
+      ? path.resolve(options.localDbFile)
+      : path.resolve(this.storageDir, 'aasha_local_memory.json');
 
     if (!fs.existsSync(this.storageDir)) {
       fs.mkdirSync(this.storageDir, { recursive: true });
@@ -91,6 +93,26 @@ export class Memo0DualProvider implements IMemoryProvider {
     this.writeLocalDb(localData);
 
     return record;
+  }
+
+  /** Persist governed memory locally without invoking the optional Mem0 bridge. */
+  async addLocalMemory(item: Omit<MemoryItem, 'id' | 'timestamp'>): Promise<MemoryItem> {
+    const record: MemoryItem = {
+      id: `${item.agentRole}_${item.category}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+      ...item,
+      timestamp: new Date().toISOString(),
+    };
+    const localData = this.readLocalDb();
+    localData.memories.push(record);
+    this.writeLocalDb(localData);
+    return record;
+  }
+
+  /** Read only the local memory file; this method never contacts a provider. */
+  async getLocalMemoriesByRole(agentRole: AgentRole, category?: MemoryCategory): Promise<MemoryItem[]> {
+    const localData = this.readLocalDb();
+    return localData.memories.filter((memory) =>
+      memory.agentRole === agentRole && (!category || memory.category === category));
   }
 
   async searchMemory(query: string, options?: MemorySearchOptions): Promise<MemoryItem[]> {

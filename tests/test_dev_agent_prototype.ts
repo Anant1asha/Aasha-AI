@@ -10,6 +10,7 @@ import { TestDiscoveryEngine } from '../packages/dev-agent/test_discovery';
 import { ReaAdapter } from '../packages/dev-agent/rea_adapter';
 import { GitHubReader } from '../packages/dev-agent/github_reader';
 import * as path from 'path';
+import * as fs from 'fs';
 
 interface TestResult {
   id: string;
@@ -35,7 +36,9 @@ export async function runPrototypeTestSuite() {
   console.log(' AASHA AIOS DEVELOPMENT AGENT — PHASE 1 PROTOTYPE ACCEPTANCE SUITE');
   console.log('======================================================================\n');
 
-  const rootDir = path.resolve('..');
+  const isAashaSubdir = fs.existsSync(path.resolve('package.json')) &&
+    (() => { try { return JSON.parse(fs.readFileSync('package.json', 'utf8')).name === 'aasha-ai'; } catch { return false; } })();
+  const rootDir = isAashaSubdir ? path.resolve('..') : path.resolve('.');
 
   // TC-01: READ_ONLY_AUDIT
   {

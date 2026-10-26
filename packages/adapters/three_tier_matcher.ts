@@ -236,16 +236,29 @@ export class ThreeTierMatcher {
       const matchMech = request.mechanics.length > 0 && request.mechanics.some((m) => fMechanics.includes(m));
 
       if (matchSub && matchCls && matchMech) {
+        const isCopyleftGpl = licenseStr.includes('gpl');
+        const reuseStrategy = isCopyleftGpl ? 'EXTRACT' : (f.reuse_strategy || 'EXTRACT');
+
         return {
           tier: 2,
           status: 'MATCH_FOUND',
           reuse_class: 'ADAPTATION_CANDIDATE',
           runtime_verified: false,
           foundation_id: f.id,
-          capability_match: { mechanics: f.mechanics, reuse_strategy: f.reuse_strategy },
+          capability_match: {
+            mechanics: f.mechanics,
+            reuse_strategy: reuseStrategy,
+            cleanroom_enforced: isCopyleftGpl,
+          },
           provenance: { repo: f.repo, license: f.license, source_revision: f.source_revision || null },
-          license: { spdx_identifier: f.license, license_status: f.license_status || 'REVIEW_REQUIRED' },
-          reason: `Tier 2 candidate: '${f.name}' advertises a relevant mechanic; artifact, license, offline, and compatibility evidence must be reviewed before adaptation or bundling`,
+          license: {
+            spdx_identifier: f.license,
+            license_status: f.license_status || (isCopyleftGpl ? 'GPL_3.0_ISOLATED' : 'REVIEW_REQUIRED'),
+            isolation_strategy: isCopyleftGpl ? 'CLEANROOM_EXTRACT_ONLY' : 'PERMISSIVE_WRAP'
+          },
+          reason: isCopyleftGpl
+            ? `Tier 2 candidate: '${f.name}' has copyleft license (${f.license}). Strict EXTRACT cleanroom strategy enforced: adapting mathematical models and parameters into <aasha-sim> adapters; direct source code embedding is prohibited to prevent copyleft contagion.`
+            : `Tier 2 candidate: '${f.name}' advertises a relevant mechanic; artifact, license, offline, and compatibility evidence must be reviewed before adaptation or bundling`,
         };
       }
     }

@@ -18,6 +18,7 @@ class AgentBus:
         "interaction.assigned",
         "assessment.generated",
         "qa.result",
+        "browser_test.result",
     ]
 
     def __init__(self, work_dir: Path):

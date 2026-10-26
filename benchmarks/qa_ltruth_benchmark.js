@@ -334,6 +334,15 @@ class ChapterAuditor {
       this.failedChecks.push(`Rule #11 Violation: Could not stat file size for ${this.filePath}: ${e.message}`);
       this.stats.ruleViolations++;
     }
+
+    // Rule 12: Cleanroom GPL-3.0 License Isolation (Zero copyleft contagion into MIT core chapter)
+    const hasGplContagion = /GNU GENERAL PUBLIC LICENSE|GNU Affero General Public License|\bGPL-3\.0\b|\bGPLv3\b/i.test(this.content);
+    if (!hasGplContagion) {
+      this.passedChecks.push('Rule #12: Cleanroom License Isolation verified. Zero GPL-3.0 copyleft license contagion detected in core chapter.');
+    } else {
+      this.failedChecks.push('Rule #12 Violation: Found raw GPL copyleft license declaration in standalone chapter. Foundations with copyleft licenses (PhET, Escapp) must use the EXTRACT cleanroom strategy only.');
+      this.stats.ruleViolations++;
+    }
   }
 
   auditKnowStagePedagogy() {
