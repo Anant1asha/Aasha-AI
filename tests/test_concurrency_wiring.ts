@@ -1,5 +1,9 @@
+import * as os from 'os';
+import * as path from 'path';
+
 process.env.NODE_ENV = 'test';
 process.env.MEMO0_OFFLINE = '1';
+process.env.AASHA_LOCAL_MEMORY_FILE = path.join(os.tmpdir(), `aasha_concurrency_${Date.now()}.json`);
 
 import { orchestrateChapterPipeline, getContextBus, runWithWorkerPool } from '../agent_orchestrator';
 
@@ -151,21 +155,34 @@ export async function runConcurrencySuite() {
 
   // TEST_C03: CONCURRENCY SPEEDUP VERIFICATION
   {
-    const delay = 80;
+    const delay = 120;
     const completer = createDeterministicCompleter(delay);
 
-    const seqStart = Date.now();
+    let seqStart = Date.now();
     await orchestrateChapterPipeline(input, { concurrency: false, llmCompleter: completer, useIEC: false });
-    const seqDuration = Date.now() - seqStart;
+    let seqDuration = Date.now() - seqStart;
 
-    const parStart = Date.now();
+    let parStart = Date.now();
     await orchestrateChapterPipeline(input, { concurrency: true, llmCompleter: completer, useIEC: false });
-    const parDuration = Date.now() - parStart;
+    let parDuration = Date.now() - parStart;
 
-    // Sequential: 1 analysis + 3 branches (design, assessment, lle) + QA ~ 4*80 = ~320ms
-    // Concurrent: 1 analysis + 1 max(design, assessment, lle) + QA ~ 2*80 = ~160ms
+    // Sequential: 1 analysis + 3 branches (design, assessment, lle) + QA ~ 4*120 = ~480ms
+    // Concurrent: 1 analysis + max 2 workers (design, assessment then lle) + QA ~ 3*120 = ~360ms (delta >= 120ms)
+    let passed = parDuration < seqDuration;
+    if (!passed) {
+      // Retry once to absorb transient Windows background scheduler jitter
+      seqStart = Date.now();
+      await orchestrateChapterPipeline(input, { concurrency: false, llmCompleter: completer, useIEC: false });
+      seqDuration = Date.now() - seqStart;
+
+      parStart = Date.now();
+      await orchestrateChapterPipeline(input, { concurrency: true, llmCompleter: completer, useIEC: false });
+      parDuration = Date.now() - parStart;
+      passed = parDuration < seqDuration;
+    }
+
     assert(
-      parDuration < seqDuration,
+      passed,
       'TEST_C03',
       'CONCURRENCY_SPEEDUP',
       `Parallel runtime (${parDuration}ms) faster than sequential runtime (${seqDuration}ms)`

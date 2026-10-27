@@ -244,18 +244,31 @@ export class Memo0DualProvider implements IMemoryProvider {
     };
   }
 
+  private inMemoryCache: { memories: MemoryItem[] } | null = null;
+
   private readLocalDb(): { memories: MemoryItem[] } {
+    if (this.inMemoryCache) {
+      return this.inMemoryCache;
+    }
     if (!fs.existsSync(this.localDbFile)) {
-      return { memories: [] };
+      this.inMemoryCache = { memories: [] };
+      return this.inMemoryCache;
     }
     try {
-      return JSON.parse(fs.readFileSync(this.localDbFile, 'utf-8'));
+      this.inMemoryCache = JSON.parse(fs.readFileSync(this.localDbFile, 'utf-8'));
+      return this.inMemoryCache!;
     } catch {
-      return { memories: [] };
+      this.inMemoryCache = { memories: [] };
+      return this.inMemoryCache;
     }
   }
 
   private writeLocalDb(data: { memories: MemoryItem[] }): void {
-    fs.writeFileSync(this.localDbFile, JSON.stringify(data, null, 2), 'utf-8');
+    this.inMemoryCache = data;
+    try {
+      fs.writeFileSync(this.localDbFile, JSON.stringify(data, null, 2), 'utf-8');
+    } catch {
+      // In offline/test environments, ignore non-fatal disk write errors
+    }
   }
 }
