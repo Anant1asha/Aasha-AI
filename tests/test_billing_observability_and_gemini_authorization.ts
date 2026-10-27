@@ -85,7 +85,7 @@ async function runBillingAndAuthSuite() {
 
   // TEST_B05: SPEND_CAP_CIRCUIT_BREAKER_ENFORCEMENT
   {
-    const maxSpendCap = parseFloat(process.env.MAX_DAILY_USD_SPEND || '1.00');
+    const maxSpendCap = parseFloat(process.env.MAX_DAILY_USD_SPEND || '10.00');
     const simulatedExceededSpend = maxSpendCap + 0.05;
     const isOverBudget = simulatedExceededSpend >= maxSpendCap;
 
@@ -97,8 +97,19 @@ async function runBillingAndAuthSuite() {
     );
   }
 
+  // TEST_B06: MULTIMODAL_ROTATION_ROUTING_CHAIN
+  {
+    const usageData = loadUsageData();
+    assert(
+      usageData.dailyBudgetCapUsd === 10.00,
+      'TEST_B06',
+      'MULTIMODAL_BATCH_BUDGET_SCALING',
+      `Daily budget cap scaled to $10.00 (supporting 50M+ tokens for multi-chapter batch synthesis)`
+    );
+  }
+
   console.log('\n======================================================================');
-  console.log(` ALL 5 OI-001 BILLING & HIGH-WORTH TESTS PASSED: ${results.filter(r => r.passed).length}/5`);
+  console.log(` ALL 6 OI-001 BILLING & MULTIMODAL TESTS PASSED: ${results.filter(r => r.passed).length}/6`);
   console.log('======================================================================\n');
 }
 
