@@ -1,0 +1,57 @@
+﻿{
+    "schema_version":  "1.0.0",
+    "timestamp_utc":  "2026-10-27T04:16:57.9969441Z",
+    "pc_hostname":  "DESKTOP-7RHB41C",
+    "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
+    "infrastructure":  {
+                           "antigravity_running":  true,
+                           "docker_running":  false,
+                           "gemini_proxy_running":  false,
+                           "node_version":  "v24.19.0",
+                           "python_version":  "Python 3.15.0b3"
+                       },
+    "repositories":  {
+                         "ngo_ai_llm_root":  {
+                                                 "branch":  "master",
+                                                 "head_commit":  "fa46beef4e0ab38a65116d10dd2fedb2b98774eb",
+                                                 "dirty_file_count":  12,
+                                                 "dirty_files_sample":  [
+                                                                            " M .githooks/pre-commit",
+                                                                            " M .gitignore",
+                                                                            " M CANONICAL_CONTRACT_REGISTER.md",
+                                                                            " M package.json",
+                                                                            " M scripts/aasha_root_orchestrator.js",
+                                                                            "?? .agents/mcp_config.json",
+                                                                            "?? CHANGELOG.md",
+                                                                            "?? Sync-Phase1-And-PC-Bridge.cmd",
+                                                                            "?? aasha_antigravity_daily_ecosystem_runner.py",
+                                                                            "?? aasha_pc_antigravity_daemon.ps1",
+                                                                            "?? scripts/aasha_continuous_loop.mjs",
+                                                                            "?? scripts/lint_staged_secrets.mjs"
+                                                                        ]
+                                             },
+                         "aasha_ai_monorepo":  {
+                                                   "branch":  "aios/v2-bootstrap",
+                                                   "head_commit":  "dcdb40863f52e8ad4effbf1893ad2df274572000",
+                                                   "dirty_file_count":  16,
+                                                   "dirty_files_sample":  [
+                                                                              " M .gitignore",
+                                                                              " M admin_memory_cli.ts",
+                                                                              " M agent_orchestrator.ts",
+                                                                              " M experience_registry/registry.json",
+                                                                              " M llm_router.ts",
+                                                                              " M package.json",
+                                                                              " M packages/aios/version_manager.ts",
+                                                                              " M packages/memory-engine/context_bus.ts",
+                                                                              " M packages/memory-engine/memo0_dual_provider.ts",
+                                                                              " M packages/memory-engine/storage/aasha_local_memory.json",
+                                                                              " M tests/test_concurrency_wiring.ts",
+                                                                              " M tests/test_version_manager.ts",
+                                                                              "?? experience_registry/adapters/aasha_gamified_assessment_adapter.js",
+                                                                              "?? tests/admin_memory_cli_version_workflow.test.ts",
+                                                                              "?? tests/test_approved_build_lesson_capture.ts",
+                                                                              "?? tests/verify_gamified_assessment_integration.js"
+                                                                          ]
+                                               }
+                     }
+}
