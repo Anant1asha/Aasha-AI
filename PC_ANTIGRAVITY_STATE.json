@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-27T05:13:20.4420078Z",
+    "timestamp_utc":  "2026-10-27T05:24:18.2362043Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -13,7 +13,7 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "0e68a8cd56cbe44fd1a7b3aaf67e52ccffc12863",
+                                                 "head_commit":  "fe41ce0324f5c5214b72190240ba120383a811e8",
                                                  "dirty_file_count":  0,
                                                  "dirty_files_sample":  {
 
@@ -21,11 +21,12 @@
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "1b4c61994cbe1f04ffb7bed3abf3bcc405a6c520",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "358ad86c6e06185eb9d8058c9a4303272c3e8a12",
+                                                   "dirty_file_count":  2,
+                                                   "dirty_files_sample":  [
+                                                                              " M packages/memory-engine/memo0_dual_provider.ts",
+                                                                              " M tests/test_concurrency_wiring.ts"
+                                                                          ]
                                                }
                      }
 }
