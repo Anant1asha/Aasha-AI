@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-27T05:24:18.2362043Z",
+    "timestamp_utc":  "2026-10-27T05:28:43.3672305Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,16 +14,15 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "fe41ce0324f5c5214b72190240ba120383a811e8",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M PC_ANTIGRAVITY_STATE.json"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "358ad86c6e06185eb9d8058c9a4303272c3e8a12",
-                                                   "dirty_file_count":  2,
+                                                   "head_commit":  "8f35043a9fafce3f5baf3401f2ea17ec2227af62",
+                                                   "dirty_file_count":  3,
                                                    "dirty_files_sample":  [
+                                                                              " D Aasha-AIOS/tests/contract/test_visual_contract.js",
                                                                               " M packages/memory-engine/memo0_dual_provider.ts",
                                                                               " M tests/test_concurrency_wiring.ts"
                                                                           ]
