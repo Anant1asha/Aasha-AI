@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-27T05:43:55.9104969Z",
+    "timestamp_utc":  "2026-10-27T05:54:16.5194621Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -13,17 +13,21 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "3e1c6ce10d6c661e84c9ef77d3e120e06e3b22fd",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "head_commit":  "ee4a452712dc064c259f96a5904225657b6de5a0",
+                                                 "dirty_file_count":  2,
+                                                 "dirty_files_sample":  [
+                                                                            " M package.json",
+                                                                            " M scripts/aasha_continuous_loop.mjs"
+                                                                        ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "b99f95ab217bfe98e669f9588a686a36b07806f2",
-                                                   "dirty_file_count":  1,
-                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
+                                                   "head_commit":  "b87cf3f57e3ba93bf010472798d31972da05a499",
+                                                   "dirty_file_count":  2,
+                                                   "dirty_files_sample":  [
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/llm/adapter.py",
+                                                                              "?? aasha-pipeline-with-master-json/tests/test_offline_chapter_compilation.py"
+                                                                          ]
                                                }
                      }
 }
