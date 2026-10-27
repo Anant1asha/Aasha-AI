@@ -153,6 +153,20 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const ALLOW_PAID_GEMINI_FALLBACK = process.env.ALLOW_PAID_GEMINI_FALLBACK === 'true';
+const MAX_DAILY_USD_SPEND = parseFloat(process.env.MAX_DAILY_USD_SPEND || '10.00');
+
+export function getGeminiReserveTasks(): string[] {
+  return (process.env.GEMINI_RESERVE_TASKS ?? 'pdf_ingestion,final_qa_certification,super_admin_boost,high_worth_coding,complex_refactor,coding')
+    .split(',')
+    .map(t => t.trim())
+    .filter(Boolean);
+}
+
+export function isGeminiAuthorizedForTask(taskType?: string): boolean {
+  if (!taskType) return false;
+  const allowed = getGeminiReserveTasks();
+  return allowed.includes(taskType);
+}
 
 const ROUTING_CHAINS: Record<TaskType, ProviderId[]> = {
   deterministic: [],
@@ -161,7 +175,7 @@ const ROUTING_CHAINS: Record<TaskType, ProviderId[]> = {
   assessment:    ['openrouter', 'openrouter2', 'openrouter3', 'groq', 'nara', 'gemini1', 'gemini2'],
   lle:           ['openrouter', 'openrouter2', 'openrouter3', 'groq', 'nara', 'xpl', 'gemini1', 'gemini2'],
   'lle-indic':   ['openrouter', 'openrouter2', 'openrouter3', 'groq', 'xpl', 'gemini1', 'gemini2'],
-  vision:        ['openrouter', 'gemini1', 'gemini2'],
+  vision:        ['openrouter', 'openrouter2', 'openrouter3', 'gemini1', 'gemini2'],
   coding:        ['openrouter', 'openrouter2', 'openrouter3', 'nara', 'xpl', 'gemini1', 'gemini2'],
 };
 
@@ -175,9 +189,11 @@ const MODEL_OVERRIDES: Partial<Record<TaskType, Partial<Record<ProviderId, strin
     gemini2: 'gemini-3.6-flash',
   },
   vision: {
-    openrouter: 'google/gemini-2.0-flash-exp:free',
-    gemini1: 'gemini-3.6-flash',
-    gemini2: 'gemini-3.6-flash',
+    openrouter:  'google/gemini-2.0-flash-exp:free',
+    openrouter2: 'nvidia/nemotron-3.5-super-vl:free',
+    openrouter3: 'google/gemini-2.0-flash-exp:free',
+    gemini1:     'gemini-2.0-flash',
+    gemini2:     'gemini-2.0-flash',
   },
 };
 
@@ -188,10 +204,13 @@ const MODEL_OVERRIDES: Partial<Record<TaskType, Partial<Record<ProviderId, strin
 interface ProviderUsage {
   tokensUsed: number;
   requestCount: number;
+  estimatedCostUsd: number;
 }
 
 interface UsageData {
   date: string;
+  totalDailyCostUsd: number;
+  dailyBudgetCapUsd: number;
   usage: Record<ProviderId, ProviderUsage>;
 }
 
@@ -201,31 +220,37 @@ function getTodayDateString(): string {
   return new Date().toISOString().split('T')[0];
 }
 
-function loadUsageData(): UsageData {
+export function loadUsageData(): UsageData {
   const today = getTodayDateString();
   if (fs.existsSync(USAGE_FILE)) {
     try {
       const raw = fs.readFileSync(USAGE_FILE, 'utf-8');
       const data: UsageData = JSON.parse(raw);
-      if (data.date === today) return data;
+      if (data.date === today) {
+        data.dailyBudgetCapUsd = MAX_DAILY_USD_SPEND;
+        if (typeof data.totalDailyCostUsd !== 'number') data.totalDailyCostUsd = 0;
+        return data;
+      }
     } catch { /* corrupt — reset */ }
   }
   return {
     date: today,
+    totalDailyCostUsd: 0.0,
+    dailyBudgetCapUsd: MAX_DAILY_USD_SPEND,
     usage: {
-      openrouter:  { tokensUsed: 0, requestCount: 0 },
-      openrouter2: { tokensUsed: 0, requestCount: 0 },
-      openrouter3: { tokensUsed: 0, requestCount: 0 },
-      groq:        { tokensUsed: 0, requestCount: 0 },
-      nara:        { tokensUsed: 0, requestCount: 0 },
-      xpl:         { tokensUsed: 0, requestCount: 0 },
-      gemini1:     { tokensUsed: 0, requestCount: 0 },
-      gemini2:     { tokensUsed: 0, requestCount: 0 },
+      openrouter:  { tokensUsed: 0, requestCount: 0, estimatedCostUsd: 0 },
+      openrouter2: { tokensUsed: 0, requestCount: 0, estimatedCostUsd: 0 },
+      openrouter3: { tokensUsed: 0, requestCount: 0, estimatedCostUsd: 0 },
+      groq:        { tokensUsed: 0, requestCount: 0, estimatedCostUsd: 0 },
+      nara:        { tokensUsed: 0, requestCount: 0, estimatedCostUsd: 0 },
+      xpl:         { tokensUsed: 0, requestCount: 0, estimatedCostUsd: 0 },
+      gemini1:     { tokensUsed: 0, requestCount: 0, estimatedCostUsd: 0 },
+      gemini2:     { tokensUsed: 0, requestCount: 0, estimatedCostUsd: 0 },
     },
   };
 }
 
-function saveUsageData(data: UsageData): void {
+export function saveUsageData(data: UsageData): void {
   try {
     fs.writeFileSync(USAGE_FILE, JSON.stringify(data, null, 2), 'utf-8');
   } catch (err) {
@@ -237,6 +262,18 @@ function estimateTokens(messages: LLMMessage[]): number {
   return Math.ceil(messages.reduce((sum, m) => sum + m.content.length, 0) / 4);
 }
 
+function estimateTokenCostUsd(providerId: ProviderId, estimatedTokens: number): number {
+  if (providerId === 'gemini1' || providerId === 'gemini2') {
+    // Gemini 2.0 Flash blended token rate (~$0.20 per 1M tokens)
+    return parseFloat((estimatedTokens * 0.0000002).toFixed(6));
+  }
+  return 0.0;
+}
+
+function isCostCapReached(data: UsageData): boolean {
+  return (data.totalDailyCostUsd || 0) >= MAX_DAILY_USD_SPEND;
+}
+
 function isBudgetExhausted(provider: ProviderConfig, usage: ProviderUsage): boolean {
   const tokenHit = provider.dailyTokenBudget > 0 && usage.tokensUsed >= provider.dailyTokenBudget * 0.8;
   const reqHit   = provider.dailyRequestBudget > 0 && usage.requestCount >= provider.dailyRequestBudget * 0.8;
@@ -244,8 +281,11 @@ function isBudgetExhausted(provider: ProviderConfig, usage: ProviderUsage): bool
 }
 
 function recordUsage(data: UsageData, providerId: ProviderId, estimatedTokens: number): void {
+  const cost = estimateTokenCostUsd(providerId, estimatedTokens);
   data.usage[providerId].tokensUsed += estimatedTokens;
   data.usage[providerId].requestCount += 1;
+  data.usage[providerId].estimatedCostUsd = parseFloat(((data.usage[providerId].estimatedCostUsd || 0) + cost).toFixed(6));
+  data.totalDailyCostUsd = parseFloat(((data.totalDailyCostUsd || 0) + cost).toFixed(6));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -288,9 +328,16 @@ export async function getLLMCompletion(request: LLMRequest): Promise<string> {
       continue;
     }
 
-    if ((providerId === 'gemini1' || providerId === 'gemini2') && !ALLOW_PAID_GEMINI_FALLBACK) {
-      console.log(`[Router] Skipping ${provider.label} — ALLOW_PAID_GEMINI_FALLBACK is disabled (Circuit Breaker active).`);
-      continue;
+    if (providerId === 'gemini1' || providerId === 'gemini2') {
+      const isExplicitlyAuthorized = isGeminiAuthorizedForTask(taskType);
+      if (!ALLOW_PAID_GEMINI_FALLBACK && !isExplicitlyAuthorized) {
+        console.log(`[Router] Skipping ${provider.label} — task '${taskType}' not in GEMINI_RESERVE_TASKS and ALLOW_PAID_GEMINI_FALLBACK is false.`);
+        continue;
+      }
+      if (isCostCapReached(usageData)) {
+        console.warn(`[Router] ⚠️ Skipping ${provider.label} — Daily USD spend cap ($${MAX_DAILY_USD_SPEND}) reached ($${usageData.totalDailyCostUsd} spent).`);
+        continue;
+      }
     }
 
     if (isBudgetExhausted(provider, usageData.usage[providerId])) {
@@ -366,17 +413,29 @@ async function routeByModelString(modelStr: string, messages: LLMMessage[]): Pro
   switch (provider) {
     case 'groq':    return await callGroq(modelName || 'llama-3.1-8b-instant', messages);
     case 'gemini':
-    case 'gemini2':
-      if (!ALLOW_PAID_GEMINI_FALLBACK) {
+    case 'gemini2': {
+      const usageData = loadUsageData();
+      const isExplicitlyAuthorized = isGeminiAuthorizedForTask('coding') || isGeminiAuthorizedForTask('high_worth_coding');
+      if (!ALLOW_PAID_GEMINI_FALLBACK && !isExplicitlyAuthorized) {
         throw new Error(
-          `[ANTI-BLEED GUARD] ❌ Explicit route to '${provider}' BLOCKED. ALLOW_PAID_GEMINI_FALLBACK is disabled.`
+          `[ANTI-BLEED GUARD] ❌ Explicit route to '${provider}' BLOCKED. ALLOW_PAID_GEMINI_FALLBACK is disabled and task is not in GEMINI_RESERVE_TASKS.`
         );
       }
-      return await callGemini(
+      if (isCostCapReached(usageData)) {
+        throw new Error(
+          `[BILLING TELEMETRY GUARD] ❌ Daily USD spend cap ($${MAX_DAILY_USD_SPEND}) reached for today ($${usageData.totalDailyCostUsd} spent). Route to '${provider}' blocked.`
+        );
+      }
+      const result = await callGemini(
         modelName || 'gemini-2.0-flash',
         messages,
         provider === 'gemini2' ? 'GEMINI_API_KEY_2' : 'GEMINI_API_KEY'
       );
+      const estimatedTokens = estimateTokens(messages);
+      recordUsage(usageData, provider === 'gemini2' ? 'gemini2' : 'gemini1', estimatedTokens);
+      saveUsageData(usageData);
+      return result;
+    }
     case 'nara':    return await callNara(modelName || 'meta-llama/llama-3-8b-instruct', messages);
     case 'xpl':     return await callXpl(modelName || 'gpt-4o-mini', messages);
     default:        return await callOpenRouter(modelStr, messages, PROVIDERS.openrouter.apiKey || '');
