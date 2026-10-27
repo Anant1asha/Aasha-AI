@@ -552,13 +552,12 @@ class LLMAdapter:
             ]
             for idx, loc in enumerate(locs):
                 ans, wrong = sample_answers[idx % len(sample_answers)]
-                opts = [{"t": ans, "c": True}]
+                opts = [{"t": ans, "c": True, "m": ""}]
                 for wt, wm in wrong:
                     opts.append({"t": wt, "c": False, "m": wm})
                 assessments.append({
-                    "id": loc.get("id", f"loc_{idx}"),
-                    "type": loc.get("type", "quiz"),
-                    "options": opts,
+                    "location": loc.get("location", f"loc_{idx}"),
+                    "opts": opts,
                 })
             return {"assessments": assessments}
 

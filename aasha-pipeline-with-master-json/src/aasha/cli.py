@@ -107,8 +107,7 @@ def run_single(args, config: Config) -> int:
                         break
                 
                 if not text_found:
-                    print("Error: PDF appears to be non-text based (scanned/images). Please provide a text-based PDF.")
-                    return 1
+                    logger.info("PDF appears to be non-text based (scanned/images). Engaging Deep Offline Vectorizer / Multimodal Vision pipeline.")
         except ImportError:
             pass # Skip if PyPDF2 not installed
         except Exception as e:

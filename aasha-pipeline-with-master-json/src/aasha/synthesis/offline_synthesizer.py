@@ -340,7 +340,7 @@ class OfflineSynthesizer:
                 "desc": f"Awarded for discovering {cname}.",
             })
 
-        return {
+        spec = {
             "chapter": chapter_meta,
             "title": title,
             "subject": clean_subject,
@@ -351,6 +351,7 @@ class OfflineSynthesizer:
             "BADGES": badges,
             "SOLVE": {},
         }
+        return cls.synthesize_assessment(spec, subject=clean_subject, grade=clean_grade)
 
     @classmethod
     def synthesize_assessment(
