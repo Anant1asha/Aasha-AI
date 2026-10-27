@@ -521,7 +521,9 @@ class LLMAdapter:
         # 3. AssessmentAgent
         elif "assessment" in sys_lower or "distractor" in sys_lower or "options for these" in user.lower():
             locs = []
-            json_m = re.search(r"(\[[\s\S]*\])", user)
+            json_m = re.search(r"assessment locations:\s*(\[[\s\S]*?\])\s*(?:For each location|\Z)", user, re.I)
+            if not json_m:
+                json_m = re.search(r"(\[[\s\S]*\])", user)
             if json_m:
                 try:
                     locs = json.loads(json_m.group(1))
