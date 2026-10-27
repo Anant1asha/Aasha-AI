@@ -38,7 +38,10 @@ class DeepOfflineVectorizer:
         source_sha256: str = "",
     ) -> dict[str, Any]:
         """Deeply vectorize a scanned/raster PDF page offline by safely opening the PDF."""
-        import fitz
+        try:
+            import pymupdf as fitz
+        except ImportError:
+            import fitz
         doc = fitz.open(str(pdf_path))
         try:
             page = doc[page_num - 1]
