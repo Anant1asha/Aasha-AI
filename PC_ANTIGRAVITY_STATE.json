@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-27T06:12:30.7090349Z",
+    "timestamp_utc":  "2026-10-27T06:31:01.4762443Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -13,19 +13,15 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "448a9e31e0045a6f5a17c5ca07eb276702caae66",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "head_commit":  "dc3dabe4a119e31945dabcba8c2242f973993bbf",
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M scripts/aasha_continuous_loop.mjs"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "5fc4476192b818627a8a20425ba2a3e7b08f5c08",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "cc981a4d6fc45d3fe792e4280a8ee885b7aedec3",
+                                                   "dirty_file_count":  1,
+                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
                                                }
                      }
 }
