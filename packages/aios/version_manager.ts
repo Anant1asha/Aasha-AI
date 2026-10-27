@@ -17,6 +17,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
 import { SignedApproval, SignedCertification, verifyApproval, verifyCertificationSignature } from './trust_authority.ts';
+import type { ContextBus } from '../memory-engine/context_bus.ts';
+import type { AgentRole, ApprovedBuildLesson, MemoryItem } from '../memory-engine/memory_interface.ts';
 
 export const MAX_BUNDLE_BYTES = 41943040; // 40 MB = 40 * 1024 * 1024 bytes
 export const ROOT_PARENT_HASH = 'ROOT_0000000000000000000000000000000000000000000000000000000000000000';
@@ -100,6 +102,8 @@ export class VersionManager {
    * Resolve default .scratch/versions directory, prioritizing workspace root .scratch
    */
   public static resolveDefaultVersionsDir(): string {
+    const configuredDir = process.env.AASHA_VERSION_STORE_DIR?.trim();
+    if (configuredDir) return path.resolve(configuredDir);
     const candidates = [
       path.resolve(__dirname, '../../../.scratch/versions'),
       path.resolve(__dirname, '../../.scratch/versions'),
@@ -199,6 +203,35 @@ export class VersionManager {
     };
 
     fs.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2), 'utf8');
+  }
+
+  /** Re-read a signed certification and all of its evidence files from disk. */
+  private readVerifiedCertification(target: ArtifactVersionRecord, certificatePath: string): SignedCertification {
+    if (!fs.existsSync(certificatePath)) throw new Error(`CERTIFICATION_BLOCKED: evidence record not found: ${certificatePath}`);
+    let evidence: SignedCertification;
+    try { evidence = JSON.parse(fs.readFileSync(certificatePath, 'utf8')); }
+    catch { throw new Error('CERTIFICATION_BLOCKED: evidence record is invalid JSON.'); }
+    const verification = verifyCertificationSignature(evidence, {
+      artifactId: target.artifact_id,
+      artifactHash: target.artifact_hash,
+      version: target.version,
+    });
+    if (!verification.valid) throw new Error(`CERTIFICATION_BLOCKED: ${verification.reason}`);
+    if (target.source_hash === 'UNSPECIFIED' || target.contract_hash === 'UNSPECIFIED' ||
+        evidence.source_hash !== target.source_hash || evidence.contract_hash !== target.contract_hash) {
+      throw new Error('CERTIFICATION_BLOCKED: source or contract lineage mismatch.');
+    }
+    const evidenceRoot = path.dirname(path.resolve(certificatePath));
+    for (const gate of evidence.gate_results) for (const ref of gate.evidence_refs) {
+      if (!/^[a-f0-9]{64}$/.test(ref.sha256)) throw new Error(`CERTIFICATION_BLOCKED: invalid evidence digest for ${ref.path}`);
+      const fullPath = path.resolve(evidenceRoot, ref.path);
+      const rel = path.relative(evidenceRoot, fullPath);
+      if (rel.startsWith('..') || path.isAbsolute(rel) || !fs.existsSync(fullPath) || !fs.statSync(fullPath).isFile()) {
+        throw new Error(`CERTIFICATION_BLOCKED: evidence reference is missing or escapes its evidence directory: ${ref.path}`);
+      }
+      if (VersionManager.calculateFileHash(fullPath) !== ref.sha256) throw new Error(`CERTIFICATION_BLOCKED: evidence hash mismatch: ${ref.path}`);
+    }
+    return evidence;
   }
 
   /**
@@ -418,20 +451,7 @@ export class VersionManager {
     if (!target) throw new Error(`Artifact version with hash '${artifactHash}' not found in ledger.`);
     if (target.status !== 'CANDIDATE') throw new Error('CERTIFICATION_BLOCKED: only a candidate can be certified.');
     if (target.source_hash === 'UNSPECIFIED' || target.contract_hash === 'UNSPECIFIED') throw new Error('CERTIFICATION_BLOCKED: source and contract hashes are required.');
-    if (!fs.existsSync(certificatePath)) throw new Error(`CERTIFICATION_BLOCKED: evidence record not found: ${certificatePath}`);
-    let evidence: SignedCertification;
-    try { evidence = JSON.parse(fs.readFileSync(certificatePath, 'utf8')); } catch { throw new Error('CERTIFICATION_BLOCKED: evidence record is invalid JSON.'); }
-    const verification = verifyCertificationSignature(evidence, { artifactId, artifactHash, version: target.version });
-    if (!verification.valid) throw new Error(`CERTIFICATION_BLOCKED: ${verification.reason}`);
-    if (evidence.source_hash !== target.source_hash || evidence.contract_hash !== target.contract_hash) throw new Error('CERTIFICATION_BLOCKED: source or contract lineage mismatch.');
-    const evidenceRoot = path.dirname(path.resolve(certificatePath));
-    for (const gate of evidence.gate_results) for (const ref of gate.evidence_refs) {
-      if (!/^[a-f0-9]{64}$/.test(ref.sha256)) throw new Error(`CERTIFICATION_BLOCKED: invalid evidence digest for ${ref.path}`);
-      const fullPath = path.resolve(evidenceRoot, ref.path);
-      const rel = path.relative(evidenceRoot, fullPath);
-      if (rel.startsWith('..') || path.isAbsolute(rel) || !fs.existsSync(fullPath) || !fs.statSync(fullPath).isFile()) throw new Error(`CERTIFICATION_BLOCKED: evidence reference is missing or escapes its evidence directory: ${ref.path}`);
-      if (VersionManager.calculateFileHash(fullPath) !== ref.sha256) throw new Error(`CERTIFICATION_BLOCKED: evidence hash mismatch: ${ref.path}`);
-    }
+    this.readVerifiedCertification(target, certificatePath);
     target.status = 'CERTIFIED';
     target.certification_hash = VersionManager.calculateFileHash(certificatePath);
     this.saveLedger(ledger);
@@ -452,6 +472,68 @@ export class VersionManager {
     ledger.last_approved_hash = artifactHash;
     this.saveLedger(ledger);
     return target;
+  }
+
+  /**
+   * Capture a separately reviewed build lesson only when it is bound to this
+   * manager's approved artifact, signed certification, source/contract hashes,
+   * certification test evidence, and the approval actually stored in its ledger.
+   */
+  public async captureApprovedBuildLesson(
+    artifactId: string,
+    artifactHash: string,
+    certificatePath: string,
+    agentRole: AgentRole,
+    lesson: ApprovedBuildLesson,
+    lessonRecorder: Pick<ContextBus, 'recordApprovedBuildLesson'>,
+  ): Promise<MemoryItem> {
+    const ledger = this.loadLedger(artifactId);
+    const target = ledger.versions.find(version => version.artifact_hash === artifactHash);
+    if (!target) throw new Error(`LESSON_CAPTURE_BLOCKED: artifact hash '${artifactHash}' is not in the version ledger.`);
+    if (!lesson || !lesson.artifact || !lesson.build_approval || !Array.isArray(lesson.source_provenance) ||
+        !Array.isArray(lesson.test_evidence) || !lessonRecorder || typeof lessonRecorder.recordApprovedBuildLesson !== 'function') {
+      throw new Error('LESSON_CAPTURE_BLOCKED: lesson evidence or local lesson recorder is missing or malformed.');
+    }
+    if (target.status !== 'APPROVED' && target.status !== 'DEPLOYED') {
+      throw new Error(`LESSON_CAPTURE_BLOCKED: artifact must be approved before lesson capture (status: ${target.status}).`);
+    }
+    if (lesson.artifact.artifact_id !== target.artifact_id || lesson.artifact.sha256 !== target.artifact_hash ||
+        String(lesson.artifact.version) !== String(target.version)) {
+      throw new Error('LESSON_CAPTURE_BLOCKED: lesson artifact identity does not match the approved version.');
+    }
+    const recordedApproval = (ledger.approval_records || []).find(record =>
+      record.action === 'APPROVE' && record.artifact_id === target.artifact_id && record.artifact_hash === target.artifact_hash &&
+      String(record.version) === String(target.version) && record.decision_id === lesson.build_approval.decision_id &&
+      record.nonce === lesson.build_approval.nonce && record.signature === lesson.build_approval.signature);
+    if (!recordedApproval) throw new Error('LESSON_CAPTURE_BLOCKED: lesson build approval is not present in the artifact ledger.');
+    const approvalIssuedAt = Date.parse(recordedApproval.issued_at);
+    const approvalCheck = verifyApproval(recordedApproval, {
+      action: 'APPROVE', artifactId: target.artifact_id, artifactHash: target.artifact_hash, version: target.version,
+    }, undefined, approvalIssuedAt + 1);
+    if (!approvalCheck.valid) throw new Error(`LESSON_CAPTURE_BLOCKED: stored artifact approval is invalid (${approvalCheck.reason}).`);
+
+    if (!/^[a-f0-9]{64}$/i.test(target.certification_hash)) throw new Error('LESSON_CAPTURE_BLOCKED: approved version has no verified certification digest.');
+    if (VersionManager.calculateFileHash(certificatePath) !== target.certification_hash) {
+      throw new Error('LESSON_CAPTURE_BLOCKED: certification report differs from the report verified for this version.');
+    }
+    const certification = this.readVerifiedCertification(target, certificatePath);
+    if (!Array.isArray(lesson.source_provenance) ||
+        !lesson.source_provenance.some(source => source.sha256 === target.source_hash) ||
+        !lesson.source_provenance.some(source => source.sha256 === target.contract_hash)) {
+      throw new Error('LESSON_CAPTURE_BLOCKED: lesson source provenance must include the approved source and contract hashes.');
+    }
+    const gateById = new Map(certification.gate_results.map(gate => [gate.gate_id, gate]));
+    for (const evidence of lesson.test_evidence || []) {
+      const gate = gateById.get(evidence.test_id);
+      if (!gate || gate.status !== 'PASS' || gate.method !== evidence.command || gate.timestamp !== evidence.run_at ||
+          !gate.evidence_refs.some(reference => reference.sha256 === evidence.sha256)) {
+        throw new Error(`LESSON_CAPTURE_BLOCKED: test evidence '${evidence.test_id}' is not backed by the signed certification report.`);
+      }
+    }
+
+    // ContextBus performs the independent lesson-manifest HIL signature check
+    // and persists only to its local memory store. No registry or remote path.
+    return lessonRecorder.recordApprovedBuildLesson(agentRole, lesson);
   }
 
   public async promoteToDeployed(artifactId: string, artifactHash: string, approval: SignedApproval): Promise<ArtifactVersionRecord> {

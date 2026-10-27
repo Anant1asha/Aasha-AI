@@ -671,6 +671,50 @@
       ],
       "reuse_strategy": "EXTRACT",
       "adapter": "Aasha-AI/packages/adapters/domain_sim_generators.ts#generateSymmetryFoldSim"
+    },
+    {
+      "id": "F27",
+      "name": "King's Math Universal Gamified Assessment Engine",
+      "repo": "https://github.com/kingsmath/web-games",
+      "license": "CC BY-NC 4.0 / MIT Component",
+      "subjects": [
+        "Mathematics",
+        "Science",
+        "Social Studies",
+        "English",
+        "Physics",
+        "Chemistry",
+        "Biology",
+        "General"
+      ],
+      "classes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "mechanics": [
+        "universal_gamified_assessment",
+        "speed_racing_lane_dodger",
+        "lilypad_river_hopper",
+        "category_classification_sorter",
+        "card_memory_matcher",
+        "procedural_web_audio_oscillator",
+        "touch_responsive_controls",
+        "progressive_pedagogical_hints",
+        "distractor_misconception_diagnostics",
+        "zero_token_bleed_offline"
+      ],
+      "reuse_strategy": "EXTRACT",
+      "adapter": "Aasha-AI/experience_registry/adapters/aasha_gamified_assessment_adapter.js#AashaGamifiedAssessmentAdapter"
     }
   ],
   "secondary_libraries": {

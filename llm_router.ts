@@ -365,8 +365,18 @@ async function routeByModelString(modelStr: string, messages: LLMMessage[]): Pro
 
   switch (provider) {
     case 'groq':    return await callGroq(modelName || 'llama-3.1-8b-instant', messages);
-    case 'gemini':  return await callGemini(modelName || 'gemini-2.0-flash', messages, 'GEMINI_API_KEY');
-    case 'gemini2': return await callGemini(modelName || 'gemini-2.0-flash', messages, 'GEMINI_API_KEY_2');
+    case 'gemini':
+    case 'gemini2':
+      if (!ALLOW_PAID_GEMINI_FALLBACK) {
+        throw new Error(
+          `[ANTI-BLEED GUARD] ❌ Explicit route to '${provider}' BLOCKED. ALLOW_PAID_GEMINI_FALLBACK is disabled.`
+        );
+      }
+      return await callGemini(
+        modelName || 'gemini-2.0-flash',
+        messages,
+        provider === 'gemini2' ? 'GEMINI_API_KEY_2' : 'GEMINI_API_KEY'
+      );
     case 'nara':    return await callNara(modelName || 'meta-llama/llama-3-8b-instruct', messages);
     case 'xpl':     return await callXpl(modelName || 'gpt-4o-mini', messages);
     default:        return await callOpenRouter(modelStr, messages, PROVIDERS.openrouter.apiKey || '');

@@ -4,7 +4,7 @@
  * Verifies:
  * 1. SHA-256 calculation and immutable snapshot creation
  * 2. Strict parent-child hash lineage (v1 -> v2 -> v3)
- * 3. Blocking Rule 11 hard 20MB ceiling gate
+ * 3. Blocking Rule 11 hard 40 MiB ceiling gate
  * 4. Snapshot integrity verification & tamper detection
  * 5. Non-destructive rollback restoration and rollback audit log
  * 6. Governed state progression (CERTIFIED -> APPROVED -> DEPLOYED)
@@ -101,12 +101,12 @@ async function runVersionManagerTests() {
   }
   console.log('✔ Test 3 Passed: Invalid parent hash was strictly rejected.\n');
 
-  // ─── Test 4: Hard 20MB Bundle Gate ───
-  console.log('[Test 4] Testing hard 20MB ceiling gate...');
+  // ─── Test 4: Hard 40 MiB Bundle Gate ───
+  console.log('[Test 4] Testing hard 40 MiB ceiling gate...');
   const oversizedPath = path.join(tmpTestDir, 'oversized.html');
   fs.writeFileSync(oversizedPath, '<html>oversized</html>', 'utf8');
   const fd = fs.openSync(oversizedPath, 'r+');
-  fs.ftruncateSync(fd, MAX_BUNDLE_BYTES + 1024); // 20 MB + 1 KB
+  fs.ftruncateSync(fd, MAX_BUNDLE_BYTES + 1024); // 40 MiB + 1 KiB
   fs.closeSync(fd);
 
   let sizeGateCaught = false;
@@ -120,9 +120,9 @@ async function runVersionManagerTests() {
     console.log(`  Caught expected size gate error: ${e.message}`);
   }
   if (!sizeGateCaught) {
-    throw new Error('Test 4 Failed: VersionManager allowed registering an artifact exceeding 20 MB!');
+    throw new Error('Test 4 Failed: VersionManager allowed registering an artifact exceeding 40 MiB!');
   }
-  console.log('✔ Test 4 Passed: Artifact exceeding 20 MB was strictly rejected.\n');
+  console.log('✔ Test 4 Passed: Artifact exceeding 40 MiB was strictly rejected.\n');
 
   // ─── Test 5: Integrity Check & Tamper Detection ───
   console.log('[Test 5] Testing integrity verification...');

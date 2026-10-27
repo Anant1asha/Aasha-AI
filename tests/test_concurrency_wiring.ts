@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 process.env.MEMO0_OFFLINE = '1';
 
-import { orchestrateChapterPipeline, getContextBus } from '../agent_orchestrator';
+import { orchestrateChapterPipeline, getContextBus, runWithWorkerPool } from '../agent_orchestrator';
 
 // Mock completers that simulate async work
 const createDeterministicCompleter = (delayMs: number = 50) => {
@@ -229,8 +229,32 @@ export async function runConcurrencySuite() {
     );
   }
 
+  // TEST_C06: BOUNDED_WORKER_POOL_CAPACITY
+  {
+    let activeWorkers = 0;
+    let maxObservedWorkers = 0;
+    const taskCount = 5;
+
+    const taskFactories = Array.from({ length: taskCount }, (_, i) => async () => {
+      activeWorkers++;
+      maxObservedWorkers = Math.max(maxObservedWorkers, activeWorkers);
+      await new Promise(r => setTimeout(r, 40));
+      activeWorkers--;
+      return `result_${i}`;
+    });
+
+    const poolResults = await runWithWorkerPool(taskFactories, 2);
+
+    assert(
+      maxObservedWorkers === 2 && poolResults.length === 5 && activeWorkers === 0,
+      'TEST_C06',
+      'BOUNDED_WORKER_POOL_CAPACITY',
+      `Worker pool strictly throttled concurrency to max 2 workers (observed max: ${maxObservedWorkers}, total results: ${poolResults.length})`
+    );
+  }
+
   console.log('\n======================================================================');
-  console.log(` ALL 5 OI-002 CONCURRENCY TESTS PASSED: ${testResults.filter(r => r.passed).length}/5`);
+  console.log(` ALL 6 OI-002/RG-001 CONCURRENCY TESTS PASSED: ${testResults.filter(r => r.passed).length}/6`);
   console.log('======================================================================\n');
 
   return testResults;

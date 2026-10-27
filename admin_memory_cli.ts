@@ -1,8 +1,23 @@
 #!/usr/bin/env ts-node
 import * as path from 'path';
+import * as fs from 'fs';
 import { ContextBus } from './packages/memory-engine/context_bus';
 import { AASHA_RULES } from './packages/aasha-rules/aasha_rules';
-import { AgentRole } from './packages/memory-engine/memory_interface';
+import { AgentRole, ApprovedBuildLesson } from './packages/memory-engine/memory_interface';
+import { SignedApproval } from './packages/aios/trust_authority';
+
+const AGENT_ROLES: readonly AgentRole[] = [
+  'IngestAgent', 'AnalysisAgent', 'DesignAgent', 'AssessmentAgent', 'LLEAgent', 'QAAgent', 'BrowserTesterAgent', 'SuperAdmin',
+];
+
+function readJsonFile<T>(filePath: string, description: string): T {
+  const resolvedPath = path.resolve(filePath);
+  if (!fs.existsSync(resolvedPath) || !fs.statSync(resolvedPath).isFile()) {
+    throw new Error(`${description} file not found: ${resolvedPath}`);
+  }
+  try { return JSON.parse(fs.readFileSync(resolvedPath, 'utf8')) as T; }
+  catch { throw new Error(`${description} file is invalid JSON: ${resolvedPath}`); }
+}
 
 async function main() {
   const args = process.argv.slice(2);
@@ -251,14 +266,16 @@ async function main() {
     case 'version-snapshot': {
       const filePath = args[1];
       if (!filePath) {
-        console.error('Usage: npx tsx admin_memory_cli.ts version-snapshot <filePath> [status]');
+        console.error('Usage: npx tsx admin_memory_cli.ts version-snapshot <filePath> [artifactId|-] [sourcePath|-] [contractPath|-]');
         process.exit(1);
       }
       const { VersionManager } = await import('./packages/aios/version_manager');
       const vm = new VersionManager();
-      const status = (args[2] as any) || 'CERTIFIED';
-      console.log(`Snapshotting artifact: ${filePath} (status: ${status})...`);
-      const record = await vm.registerVersion({ filePath, status });
+      const artifactId = args[2] && args[2] !== '-' ? args[2] : undefined;
+      const sourcePath = args[3] && args[3] !== '-' ? args[3] : undefined;
+      const contractPath = args[4] && args[4] !== '-' ? args[4] : undefined;
+      console.log(`Snapshotting artifact: ${filePath} (status: CANDIDATE)...`);
+      const record = await vm.registerVersion({ filePath, artifactId, sourcePath, contractPath, status: 'CANDIDATE' });
       console.log(`\n✔ Artifact Version Snapshot Created!`);
       console.log(`  Artifact ID:     ${record.artifact_id}`);
       console.log(`  Version:         v${record.version}`);
@@ -267,6 +284,47 @@ async function main() {
       console.log(`  Size (Bytes):    ${record.size_bytes} (${(record.size_bytes / (1024 * 1024)).toFixed(2)} MB)`);
       console.log(`  Status:          ${record.status}`);
       console.log(`  Snapshot Path:   ${record.storage_path}\n`);
+      break;
+    }
+
+    case 'version-certify': {
+      const [artifactId, artifactHash, certificatePath] = args.slice(1);
+      if (!artifactId || !artifactHash || !certificatePath) {
+        console.error('Usage: npx tsx admin_memory_cli.ts version-certify <artifactId> <artifactHash> <signedCertificate.json>');
+        process.exit(1);
+      }
+      const { VersionManager } = await import('./packages/aios/version_manager');
+      const record = await new VersionManager().certifyVersion(artifactId, artifactHash, certificatePath);
+      console.log(`✔ Version certified: ${record.artifact_id} v${record.version} (${record.artifact_hash})`);
+      break;
+    }
+
+    case 'version-approve': {
+      const [artifactId, artifactHash, approvalPath] = args.slice(1);
+      if (!artifactId || !artifactHash || !approvalPath) {
+        console.error('Usage: npx tsx admin_memory_cli.ts version-approve <artifactId> <artifactHash> <signedApproval.json>');
+        process.exit(1);
+      }
+      const approval = readJsonFile<SignedApproval>(approvalPath, 'Signed approval');
+      const { VersionManager } = await import('./packages/aios/version_manager');
+      const record = await new VersionManager().promoteToApproved(artifactId, artifactHash, approval);
+      console.log(`✔ Artifact approved: ${record.artifact_id} v${record.version} by ${record.reviewer}`);
+      break;
+    }
+
+    case 'version-capture-lesson': {
+      const [artifactId, artifactHash, certificatePath, roleInput, lessonPath] = args.slice(1);
+      if (!artifactId || !artifactHash || !certificatePath || !roleInput || !lessonPath) {
+        console.error('Usage: npx tsx admin_memory_cli.ts version-capture-lesson <artifactId> <artifactHash> <signedCertificate.json> <AgentRole> <signedLesson.json>');
+        process.exit(1);
+      }
+      if (!AGENT_ROLES.includes(roleInput as AgentRole)) throw new Error(`Invalid agent role: ${roleInput}`);
+      const lesson = readJsonFile<ApprovedBuildLesson>(lessonPath, 'Approved build lesson');
+      const { VersionManager } = await import('./packages/aios/version_manager');
+      const record = await new VersionManager().captureApprovedBuildLesson(
+        artifactId, artifactHash, certificatePath, roleInput as AgentRole, lesson, bus,
+      );
+      console.log(`✔ Approved-build lesson stored locally: ${record.id}`);
       break;
     }
 
@@ -355,7 +413,10 @@ Usage:
   npx tsx admin_memory_cli.ts sync-vocab [path] - Sync chapter bilingual vocabulary (WM) into local DB
   npx tsx admin_memory_cli.ts learn             - Cement chat trail architectural pillars
   npx tsx admin_memory_cli.ts add-experience    - Add curated experience to memory
-  npx tsx admin_memory_cli.ts version-snapshot <file> [status]           - Snapshot artifact to immutable ledger
+  npx tsx admin_memory_cli.ts version-snapshot <file> [id|-] [source|-] [contract|-] - Snapshot a candidate artifact
+  npx tsx admin_memory_cli.ts version-certify <id> <hash> <certificate.json> - Verify certification and gate evidence
+  npx tsx admin_memory_cli.ts version-approve <id> <hash> <approval.json> - Record signed Super Admin approval
+  npx tsx admin_memory_cli.ts version-capture-lesson <id> <hash> <certificate.json> <AgentRole> <lesson.json> - Capture signed local build lesson
   npx tsx admin_memory_cli.ts version-list <artifactId>                  - List version lineage and hashes
   npx tsx admin_memory_cli.ts version-verify <artifactId> <version>      - Verify snapshot disk integrity
   npx tsx admin_memory_cli.ts version-rollback <artifactId> <v> <dest>   - Safe non-destructive rollback

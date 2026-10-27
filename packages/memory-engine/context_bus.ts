@@ -198,6 +198,22 @@ export class ContextBus {
 
   /** Store an approved build lesson only after its evidence and signed HIL decision verify. */
   async recordApprovedBuildLesson(agentRole: AgentRole, lesson: ApprovedBuildLesson): Promise<MemoryItem> {
+    // An exact retry is safe even after the original short-lived HIL approval
+    // expires. The original decision must still verify at its issuance time.
+    const historicalErrors = validateApprovedBuildLesson(lesson, this.trustedKeysJson, { verifyApprovalsAtIssuance: true });
+    if (historicalErrors.length) throw new Error(`Approved build lesson rejected: ${historicalErrors.join('; ')}`);
+    const incomingHash = computeApprovedBuildLessonManifestHash(lesson);
+    const existingLessons = await this.memoryProvider.getLocalMemoriesByRole(agentRole, 'approved_build_lesson');
+    const existing = existingLessons.find(memory =>
+      memory.metadata?.approved_build_lesson?.lesson_id === lesson.lesson_id);
+    if (existing) {
+      const existingLesson = existing.metadata?.approved_build_lesson as ApprovedBuildLesson | undefined;
+      if (!existingLesson || validateApprovedBuildLesson(existingLesson, this.trustedKeysJson, { verifyApprovalsAtIssuance: true }).length > 0 ||
+          computeApprovedBuildLessonManifestHash(existingLesson) !== incomingHash) {
+        throw new Error(`Approved build lesson rejected: lesson ID '${lesson.lesson_id}' already refers to different or invalid evidence`);
+      }
+      return existing;
+    }
     const errors = validateApprovedBuildLesson(lesson, this.trustedKeysJson);
     if (errors.length) throw new Error(`Approved build lesson rejected: ${errors.join('; ')}`);
     return this.memoryProvider.addLocalMemory({

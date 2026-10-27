@@ -17,7 +17,7 @@ export class Memo0DualProvider implements IMemoryProvider {
     this.storageDir = path.resolve(__dirname, 'storage');
     this.localDbFile = options.localDbFile
       ? path.resolve(options.localDbFile)
-      : path.resolve(this.storageDir, 'aasha_local_memory.json');
+      : path.resolve(process.env.AASHA_LOCAL_MEMORY_FILE || path.join(this.storageDir, 'aasha_local_memory.json'));
 
     if (!fs.existsSync(this.storageDir)) {
       fs.mkdirSync(this.storageDir, { recursive: true });

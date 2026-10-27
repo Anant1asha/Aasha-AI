@@ -339,6 +339,39 @@ export function deepFreeze<T>(obj: T): T {
   return obj;
 }
 
+/**
+ * Executes an array of asynchronous task factories with a strict concurrency ceiling.
+ * Prevents process table thrashing and thread starvation on Windows hosts.
+ */
+export async function runWithWorkerPool<T>(
+  taskFactories: (() => Promise<T>)[],
+  maxConcurrency: number = 2
+): Promise<T[]> {
+  const results: T[] = new Array(taskFactories.length);
+  let currentIndex = 0;
+  let firstError: any = null;
+
+  async function worker(): Promise<void> {
+    while (currentIndex < taskFactories.length) {
+      if (firstError) return;
+      const index = currentIndex++;
+      try {
+        results[index] = await taskFactories[index]();
+      } catch (err) {
+        if (!firstError) firstError = err;
+        return;
+      }
+    }
+  }
+
+  const workerCount = Math.min(Math.max(1, maxConcurrency), taskFactories.length);
+  const workers = Array.from({ length: workerCount }, () => worker());
+  await Promise.all(workers);
+
+  if (firstError) throw firstError;
+  return results;
+}
+
 export async function orchestrateChapterPipeline(
   input: PipelineInput,
   options: PipelineOptions = {}
@@ -382,25 +415,25 @@ export async function orchestrateChapterPipeline(
   let lleResult: any;
 
   if (useConcurrency) {
-    // Stage 3 (Parallel Fork-Join): Concurrently execute independent stages
+    // Stage 3 (Parallel Fork-Join): Concurrently execute independent stages with bounded 2-worker pool
     try {
-      const [dRes, aRes, lRes] = await Promise.all([
-        runAgent(
+      const [dRes, aRes, lRes] = await runWithWorkerPool([
+        () => runAgent(
           'DesignAgent',
           `Sequence pedagogical flow for: ${JSON.stringify(frozenContentMap)}`,
           { ...options, conceptId, pipelineInput: input, taskCapabilityProfile }
         ),
-        runAgent(
+        () => runAgent(
           'AssessmentAgent',
           `Create assessments with zero spoilers for: ${JSON.stringify(frozenContentMap)}`,
           { ...options, conceptId, taskCapabilityProfile }
         ),
-        runAgent(
+        () => runAgent(
           'LLEAgent',
           `Translate and insulate math terms for: ${JSON.stringify(frozenContentMap)}`,
           { ...options, conceptId, taskCapabilityProfile }
         ),
-      ]);
+      ], 2);
       designResult = dRes;
       assessmentResult = aRes;
       lleResult = lRes;
