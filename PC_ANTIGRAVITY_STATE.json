@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-27T04:49:13.0444114Z",
+    "timestamp_utc":  "2026-10-27T04:59:47.1008177Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -13,22 +13,25 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "a46a11c6f9fa1e699bec4952e4650e39e2071601",
-                                                 "dirty_file_count":  6,
+                                                 "head_commit":  "86376501367762fb429dc4f2543f18a604cc2c04",
+                                                 "dirty_file_count":  7,
                                                  "dirty_files_sample":  [
-                                                                            " M .gitignore",
-                                                                            " M PC_ANTIGRAVITY_STATE.json",
-                                                                            " M package.json",
+                                                                            " M .agents/rules/custom_skills_governance.md",
+                                                                            " M .github/workflows/aios-integrity.yml",
+                                                                            " M .superbrain/rules/custom-skills-governance.md",
                                                                             " M scripts/aasha_continuous_loop.mjs",
                                                                             "?? .agents/skills/sprint-verifier/",
+                                                                            "?? SPRINT_VERIFICATION_REPORT.md",
                                                                             "?? scripts/verify_sprint_integrity.mjs"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "a0b05ffbe7a3d072ece11c125be75b75a674fe00",
-                                                   "dirty_file_count":  1,
-                                                   "dirty_files_sample":  " M packages/memory-engine/storage/aasha_local_memory.json"
+                                                   "head_commit":  "0aeca179c72816f5bc991bb10a59fe98b5a06258",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
