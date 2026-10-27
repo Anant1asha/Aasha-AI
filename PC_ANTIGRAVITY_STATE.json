@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-27T04:30:36.4880162Z",
+    "timestamp_utc":  "2026-10-27T04:39:31.5402046Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -13,32 +13,24 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "f51faa0e2a4720266a131ab222de9cf5da804142",
-                                                 "dirty_file_count":  11,
+                                                 "head_commit":  "17af7b1d3734658a2ae0dd72d9d230efc0e5a58b",
+                                                 "dirty_file_count":  6,
                                                  "dirty_files_sample":  [
-                                                                            " M CANONICAL_CONTRACT_REGISTER.md",
-                                                                            " M VERIFICATION_REPORT.md",
-                                                                            " M package.json",
+                                                                            " M .agents/rules/api_routing_policy.md",
+                                                                            " M .agents/rules/super_admin_governance.md",
+                                                                            " M .superbrain/rules/api-routing-policy.md",
+                                                                            " M .superbrain/rules/super-admin-governance.md",
                                                                             " M scripts/aasha_continuous_loop.mjs",
-                                                                            " M scripts/aasha_root_orchestrator.js",
-                                                                            "?? .agents/mcp_config.json",
-                                                                            "?? PC_ANTIGRAVITY_STATE.json",
-                                                                            "?? Sync-Phase1-And-PC-Bridge.cmd",
-                                                                            "?? aasha_antigravity_daily_ecosystem_runner.py",
-                                                                            "?? aasha_pc_antigravity_daemon.ps1",
-                                                                            "?? docs/AASHA_ROADMAP_CHARTER_V2.md"
+                                                                            "?? router_usage.json"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "55bd0164bb1ad7db2555d74e8a3a6a97482605ed",
-                                                   "dirty_file_count":  4,
-                                                   "dirty_files_sample":  [
-                                                                              " M .env.example",
-                                                                              " M llm_router.ts",
-                                                                              " M packages/memory-engine/storage/aasha_local_memory.json",
-                                                                              "?? tests/test_billing_observability_and_gemini_authorization.ts"
-                                                                          ]
+                                                   "head_commit":  "62303b7c22c43bd7c55f3116455a76454fbfa1ea",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
