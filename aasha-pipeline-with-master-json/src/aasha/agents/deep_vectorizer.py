@@ -76,7 +76,10 @@ class DeepOfflineVectorizer:
 
         # 3. Render high-resolution page pixmap for raster stroke analysis
         scale = min(2.0, 1200.0 / max(1.0, width))
-        import fitz
+        try:
+            import pymupdf as fitz
+        except ImportError:
+            import fitz
         matrix = fitz.Matrix(scale, scale)
         pix = page.get_pixmap(matrix=matrix, alpha=False)
         img_bytes = pix.tobytes("png")
@@ -595,6 +598,15 @@ class DeepOfflineVectorizer:
                     p4x, p4y = getattr(p4, "x", p4[0]), getattr(p4, "y", p4[1])
                     svg_elements.append(
                         f'<path d="M {p1x:.1f} {p1y:.1f} C {p2x:.1f} {p2y:.1f}, {p3x:.1f} {p3y:.1f}, {p4x:.1f} {p4y:.1f}" '
+                        f'stroke="{stroke_hex}" stroke-width="{width_val:.1f}" fill="{fill_hex}"/>'
+                    )
+                elif cmd in ("v", "y"):  # Specialized cubic bezier curves
+                    p2, p3, p4 = item[1], item[2], item[3]
+                    p2x, p2y = getattr(p2, "x", p2[0]), getattr(p2, "y", p2[1])
+                    p3x, p3y = getattr(p3, "x", p3[0]), getattr(p3, "y", p3[1])
+                    p4x, p4y = getattr(p4, "x", p4[0]), getattr(p4, "y", p4[1])
+                    svg_elements.append(
+                        f'<path d="S {p2x:.1f} {p2y:.1f}, {p3x:.1f} {p3y:.1f} {p4x:.1f} {p4y:.1f}" '
                         f'stroke="{stroke_hex}" stroke-width="{width_val:.1f}" fill="{fill_hex}"/>'
                     )
                 elif cmd == "qu":  # Quad
