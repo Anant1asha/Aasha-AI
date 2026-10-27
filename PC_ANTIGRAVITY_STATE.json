@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-27T05:28:43.3672305Z",
+    "timestamp_utc":  "2026-10-27T05:34:18.3823607Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -13,19 +13,19 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "fe41ce0324f5c5214b72190240ba120383a811e8",
-                                                 "dirty_file_count":  1,
-                                                 "dirty_files_sample":  " M PC_ANTIGRAVITY_STATE.json"
+                                                 "head_commit":  "6add99950053339bfb47735c5b903d276a6bd856",
+                                                 "dirty_file_count":  0,
+                                                 "dirty_files_sample":  {
+
+                                                                        }
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "8f35043a9fafce3f5baf3401f2ea17ec2227af62",
-                                                   "dirty_file_count":  3,
-                                                   "dirty_files_sample":  [
-                                                                              " D Aasha-AIOS/tests/contract/test_visual_contract.js",
-                                                                              " M packages/memory-engine/memo0_dual_provider.ts",
-                                                                              " M tests/test_concurrency_wiring.ts"
-                                                                          ]
+                                                   "head_commit":  "92f47c7ca073ab8a7baabfd8e163fe85f65c823a",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
