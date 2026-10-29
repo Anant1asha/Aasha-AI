@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-29T10:05:50.5296960Z",
+    "timestamp_utc":  "2026-10-29T11:38:20.1017868Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,18 +14,28 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "5769bc6bab1b43b106f245c0fb86f1d773297aad",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "dirty_file_count":  2,
+                                                 "dirty_files_sample":  [
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
+                                                                            " M SPRINT_VERIFICATION_REPORT.md"
+                                                                        ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "1ceffbac53f3c4f893d1f24acdb14c567b11cd32",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "5970d4ad1ded2f4c02499c07be2455329daa4c74",
+                                                   "dirty_file_count":  10,
+                                                   "dirty_files_sample":  [
+                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
+                                                                              " M chapters/AlgebraicExpressions_Class7_BETA_canonical_ir.json",
+                                                                              " M packages/llm-router/laya_classifier.ts",
+                                                                              " M packages/llm-router/openrouter_client.ts",
+                                                                              " M packages/v6-engine/compile_beta_chapter.ts",
+                                                                              " M scripts/laya_task_classifier.py",
+                                                                              " M server/offline_sync.db",
+                                                                              " M tests/laya_router.test.ts",
+                                                                              "?? chapters/AlgebraicExpressions_Class7_BETA_assessment.html",
+                                                                              "?? chapters/AlgebraicExpressions_Class7_BETA_learning.html"
+                                                                          ]
                                                }
                      }
 }
