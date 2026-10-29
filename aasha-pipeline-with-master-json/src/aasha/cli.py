@@ -156,7 +156,16 @@ def run_single(args, config: Config) -> int:
 
     def log_callback(msg: str):
         if json_events:
-            print(json.dumps({"event": "log", "message": msg}), flush=True)
+            if "[ControlPlane] Pipeline PAUSED" in msg:
+                print(json.dumps({"event": "job_paused", "job_id": job_id, "message": msg}), flush=True)
+            elif "[ControlPlane] Pipeline RESUMED" in msg:
+                print(json.dumps({"event": "job_resumed", "job_id": job_id, "message": msg}), flush=True)
+            elif "[ControlPlane] Human Intervention APPROVED" in msg:
+                print(json.dumps({"event": "intervention_approved", "job_id": job_id, "message": msg}), flush=True)
+            elif "[Quarantine] Repair attempts exhausted" in msg:
+                print(json.dumps({"event": "quarantine_activated", "job_id": job_id, "message": msg}), flush=True)
+            else:
+                print(json.dumps({"event": "log", "message": msg}), flush=True)
         else:
             print(f"  {msg}")
 

@@ -425,6 +425,94 @@ class Orchestrator:
         required_files = prereq_map.get(stage, [])
         return [f for f in required_files if not (work_dir / f).exists()]
 
+    def _check_control_signals(
+        self,
+        work_dir: Path,
+        bus: AgentBus,
+        job: Job,
+        log: Any,
+    ) -> str:
+        """Check work_dir/control.json for cooperative pause, resume, intervention, or abort signals."""
+        control_path = work_dir / "control.json"
+        if not control_path.exists():
+            return "ok"
+
+        try:
+            data = json.loads(control_path.read_text(encoding="utf-8"))
+        except Exception:
+            return "ok"
+
+        action = str(data.get("action", "")).lower()
+
+        if action == "abort":
+            data["status"] = "acknowledged"
+            control_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+            job.status = "aborted"
+            job.error_message = data.get("reason", "Pipeline aborted by control plane.")
+            self._save_job(job, work_dir)
+            log(f"  [ControlPlane] Pipeline ABORT requested by {data.get('issuer', 'admin')}.")
+            return "abort"
+
+        if action == "approve_intervention":
+            approval_record = {
+                "approved": True,
+                "approved_by": data.get("issuer", "super_admin"),
+                "reason": data.get("reason", "Human intervention approved override"),
+                "timestamp": self._now_iso(),
+            }
+            (work_dir / "intervention_approval.json").write_text(
+                json.dumps(approval_record, indent=2), encoding="utf-8"
+            )
+            job.quarantined = False
+            job.quarantine_packet = None
+            job.error_stage = ""
+            job.error_message = ""
+            if job.status == "quarantined":
+                job.status = "running"
+            self._save_job(job, work_dir)
+            data["status"] = "acknowledged"
+            control_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+            bus.publish("intervention.approved", approval_record)
+            log(f"  [ControlPlane] Human Intervention APPROVED by {approval_record['approved_by']}. Quarantine cleared.")
+            return "intervention_approved"
+
+        if action == "pause":
+            if job.status != "paused":
+                job.status = "paused"
+                self._save_job(job, work_dir)
+                bus.publish("job.paused", {"issuer": data.get("issuer", "user"), "timestamp": self._now_iso()})
+                data["status"] = "acknowledged"
+                control_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+                log(f"  [ControlPlane] Pipeline PAUSED by {data.get('issuer', 'user')}. Awaiting resume signal...")
+
+            # Cooperative wait loop
+            while True:
+                time.sleep(0.5)
+                if not control_path.exists():
+                    break
+                try:
+                    cdata = json.loads(control_path.read_text(encoding="utf-8"))
+                    caction = str(cdata.get("action", "")).lower()
+                    if caction == "resume":
+                        job.status = "running"
+                        self._save_job(job, work_dir)
+                        bus.publish("job.resumed", {"issuer": cdata.get("issuer", "user"), "timestamp": self._now_iso()})
+                        cdata["status"] = "acknowledged"
+                        control_path.write_text(json.dumps(cdata, indent=2), encoding="utf-8")
+                        log(f"  [ControlPlane] Pipeline RESUMED by {cdata.get('issuer', 'user')}.")
+                        return "resumed"
+                    elif caction == "abort":
+                        job.status = "aborted"
+                        self._save_job(job, work_dir)
+                        cdata["status"] = "acknowledged"
+                        control_path.write_text(json.dumps(cdata, indent=2), encoding="utf-8")
+                        log(f"  [ControlPlane] Pipeline ABORTED while paused.")
+                        return "abort"
+                except Exception:
+                    pass
+
+        return "ok"
+
     def _execute_qa_stage(
         self,
         work_dir: Path,
@@ -542,6 +630,29 @@ class Orchestrator:
             job.quarantine_packet = None
             job.error_stage = ""
             job.error_message = ""
+
+        # Check if Human Intervention was already approved (Educator sign-off)
+        if not stage_result.get("passed", False):
+            if (work_dir / "intervention_approval.json").exists():
+                log("  [HIL] Human Intervention Approval verified! Bypassing quarantine block under Educator Authorization.")
+                job.quarantined = False
+                job.quarantine_packet = None
+                job.error_stage = ""
+                job.error_message = ""
+                stage_result["passed"] = True
+                stage_result["human_intervention_override"] = True
+                return stage_result
+
+            ctrl_status = self._check_control_signals(work_dir, bus, job, log)
+            if ctrl_status == "intervention_approved" or (work_dir / "intervention_approval.json").exists():
+                log("  [HIL] Human Intervention Approval received! Bypassing quarantine block under Educator Authorization.")
+                job.quarantined = False
+                job.quarantine_packet = None
+                job.error_stage = ""
+                job.error_message = ""
+                stage_result["passed"] = True
+                stage_result["human_intervention_override"] = True
+                return stage_result
 
         # If QA still failed after exhausting 2 repairs -> QUARANTINE ACTIVATION
         if not stage_result.get("passed", False):
@@ -782,6 +893,12 @@ class Orchestrator:
         try:
             for i in range(start_idx, len(stage_order)):
                 stage = stage_order[i]
+
+                # Cooperative control signal check (pause, resume, abort)
+                ctrl_signal = self._check_control_signals(work_dir, bus, job, log)
+                if ctrl_signal == "abort":
+                    return job
+
                 log(f"[{i+1}/{len(stage_order)}] {stage}...")
                 
                 if total_cost > max_cost:

@@ -20,6 +20,9 @@ class AgentBus:
         "qa.result",
         "qa.repaired",
         "quarantine.activated",
+        "job.paused",
+        "job.resumed",
+        "intervention.approved",
         "browser_test.result",
     ]
 
