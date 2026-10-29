@@ -191,12 +191,21 @@ export class V6Compiler {
     .screen::-webkit-scrollbar{display:none;}
     .concept-title{font-size:18px;font-weight:700;color:#F1F5F9;line-height:1.3;}
     .concept-def{font-size:13px;line-height:1.7;color:#94A3B8;overflow-y:auto;}
-    .math-var{display:inline-block;background:#1E3A5F;padding:1px 6px;border-radius:4px;color:#F59E0B;font-weight:600;}
+    /* KaTeX & Mathematical Typography Subset */
+    .katex-math, .math-var{display:inline-block;font-family:'KaTeX_Math','Cambria Math','Latin Modern Math','Times New Roman',serif;font-style:italic;letter-spacing:0.02em;padding:1px 5px;border-radius:4px;color:#FCD34D;background:rgba(30,58,95,0.45);line-height:1.2;vertical-align:baseline;}
+    .katex-math sup, .math-var sup{font-size:0.72em;font-style:normal;vertical-align:0.45em;line-height:0;color:#38BDF8;}
+    .katex-math sub, .math-var sub{font-size:0.72em;font-style:normal;vertical-align:-0.3em;line-height:0;color:#38BDF8;}
+    .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;padding:0 2px;font-size:0.88em;line-height:1.1;}
+    .frac-top{border-bottom:1px solid currentColor;padding-bottom:1px;}
+    .frac-bot{padding-top:1px;}
+    .sqrt{display:inline-flex;align-items:baseline;vertical-align:middle;}
+    .sqrt .radical{font-size:1.1em;margin-right:1px;}
+    .sqrt .radicand{border-top:1px solid currentColor;padding-top:1px;}
     .word{cursor:pointer;border-bottom:1px dashed #38BDF8;color:#E2E8F0;}
     .sim-canvas{width:100%;background:#0F172A;border-radius:12px;border:1px solid #334155;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:8px;flex-shrink:0;}
     .q-prompt{font-size:14px;color:#F1F5F9;line-height:1.6;}
     .opts{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
-    .opt{min-height:44px;padding:10px 14px;background:#334155;border:1.5px solid #475569;border-radius:8px;color:#E2E8F0;cursor:pointer;font-size:13px;text-align:left;transition:background .15s;}
+    .opt{min-height:44px;min-width:44px;padding:10px 14px;background:#334155;border:1.5px solid #475569;border-radius:8px;color:#E2E8F0;cursor:pointer;font-size:13px;text-align:left;transition:background .15s;box-sizing:border-box;}
     .opt:hover{background:#3B4D6A;}
     .opt.correct{background:#065F46;border-color:#10B981;}
     .opt.incorrect{background:#7F1D1D;border-color:#EF4444;}
@@ -204,11 +213,11 @@ export class V6Compiler {
     .feedback.show{display:block;}
     .feedback.ok{background:#022C22;color:#34D399;}
     .feedback.err{background:#450A0A;color:#FCA5A5;}
-    .hint-btn{min-height:36px;padding:6px 12px;background:#1E3A5F;color:#38BDF8;border:none;border-radius:6px;font-size:12px;cursor:pointer;display:block;width:100%;text-align:left;margin-top:4px;}
+    .hint-btn{min-height:44px;min-width:44px;padding:8px 12px;background:#1E3A5F;color:#38BDF8;border:none;border-radius:6px;font-size:12px;cursor:pointer;display:flex;align-items:center;width:100%;text-align:left;margin-top:6px;box-sizing:border-box;}
     .hint-text{font-size:12px;color:#94A3B8;padding:6px 10px;background:#0F172A;border-radius:6px;margin-top:2px;display:none;}
     .hint-text.show{display:block;}
     .nav-bar{padding:10px 16px;background:#0F172A;border-top:1px solid #334155;display:flex;gap:8px;flex-shrink:0;}
-    .nav-btn{flex:1;min-height:44px;border:none;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .nav-btn{flex:1;min-height:44px;min-width:44px;border:none;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-sizing:border-box;}
     .nav-btn.primary{background:#2563EB;color:#fff;}
     .nav-btn.secondary{background:#334155;color:#94A3B8;}
     .nav-btn:disabled{opacity:.4;cursor:not-allowed;}
@@ -229,7 +238,7 @@ export class V6Compiler {
     .dlg-word{font-size:18px;font-weight:700;color:#38BDF8;margin-bottom:4px;}
     .dlg-hindi{font-size:22px;font-weight:700;color:#F59E0B;margin-bottom:8px;}
     .dlg-desc{font-size:13px;color:#94A3B8;margin-bottom:16px;}
-    .dlg-close{min-height:44px;width:100%;background:#2563EB;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;}
+    .dlg-close{min-height:44px;min-width:44px;width:100%;background:#2563EB;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;box-sizing:border-box;}
   </style>
 </head>
 <body>
@@ -237,7 +246,7 @@ export class V6Compiler {
   <div class="header">
     <div class="header-title">${title}</div>
     <div style="display:flex;align-items:center;gap:8px;">
-      <button class="lang-toggle-btn" id="langToggleBtn" aria-label="Toggle Language" style="min-height:36px;min-width:44px;padding:4px 8px;border-radius:6px;border:1px solid #475569;background:#334155;color:#F1F5F9;font-size:12px;font-weight:700;cursor:pointer;">EN | हिन्दी</button>
+      <button class="lang-toggle-btn" id="langToggleBtn" aria-label="Toggle Language" style="min-height:44px;min-width:44px;padding:6px 10px;border-radius:8px;border:1px solid #475569;background:#334155;color:#F1F5F9;font-size:12px;font-weight:700;cursor:pointer;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;">EN | हिन्दी</button>
       <div class="xp-badge">⚡ <span id="xpVal">0</span> XP</div>
     </div>
   </div>
@@ -332,9 +341,46 @@ class AashaExperienceAdapter extends AashaExperienceContract {
   destroy() { this.pause(); this.container = null; }
 }
 class AashaSimElement extends HTMLElement {
-  constructor() { super(); this._adapter = null; this._observer = null; }
+  constructor() {
+    super();
+    this._adapter = null;
+    this._observer = null;
+    this._shadowRoot = this.attachShadow({ mode: 'open' });
+    this._setupShadowDOM();
+  }
+  _setupShadowDOM() {
+    this._shadowRoot.innerHTML = '<style>' +
+      ':host{display:block;width:100%;position:relative;box-sizing:border-box;contain:content;}' +
+      '.sim-mount-point{width:100%;min-height:220px;display:flex;flex-direction:column;box-sizing:border-box;}' +
+      'button,input,select,textarea,[role="button"],.btn,.opt-btn{min-width:44px;min-height:44px;touch-action:manipulation;box-sizing:border-box;}' +
+      '</style>' +
+      '<div class="sim-mount-point" id="simMountPoint"><slot></slot></div>';
+
+    // Seamless event tunneling across Shadow DOM boundary into V6RuntimeBus
+    this._shadowRoot.addEventListener('aasha:telemetry', (e) => {
+      if (!e.composed) {
+        this.dispatchEvent(new CustomEvent('aasha:telemetry', {
+          bubbles: true,
+          composed: true,
+          detail: e.detail
+        }));
+      }
+    });
+
+    this._shadowRoot.addEventListener('aasha:state_change', (e) => {
+      if (!e.composed) {
+        this.dispatchEvent(new CustomEvent('aasha:state_change', {
+          bubbles: true,
+          composed: true,
+          detail: e.detail
+        }));
+      }
+    });
+  }
   connectedCallback() {
-    this.style.display = 'block'; this.style.width = '100%'; this.style.position = 'relative';
+    this.style.display = 'block';
+    this.style.width = '100%';
+    this.style.position = 'relative';
     if (typeof IntersectionObserver !== 'undefined') {
       this._observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -350,10 +396,15 @@ class AashaSimElement extends HTMLElement {
     if (this._observer) { this._observer.disconnect(); this._observer = null; }
     if (this._adapter && typeof this._adapter.destroy === 'function') { this._adapter.destroy(); this._adapter = null; }
   }
+  get mountPoint() {
+    return this._shadowRoot.getElementById('simMountPoint') || this._shadowRoot;
+  }
   bindAdapter(adapter, config = {}) {
     if (this._adapter && typeof this._adapter.destroy === 'function') this._adapter.destroy();
     this._adapter = adapter;
-    if (this._adapter && typeof this._adapter.mount === 'function') this._adapter.mount(this, config);
+    if (this._adapter && typeof this._adapter.mount === 'function') {
+      this._adapter.mount(this.mountPoint, config);
+    }
   }
   get adapter() { return this._adapter; }
 }
@@ -382,12 +433,99 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// ── Bilingual rt() ─────────────────────────────────────────────────────
+// ── KaTeX Math Formatting & Insulation ─────────────────────────────────
+function formatKatexMath(formula) {
+  var s = (formula || '').trim();
+  s = s.replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '<span class="frac"><span class="frac-top">$1</span><span class="frac-bot">$2</span></span>');
+  s = s.replace(/\\sqrt\{([^}]+)\}/g, '<span class="sqrt"><span class="radical">√</span><span class="radicand">$1</span></span>');
+  s = s.replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>');
+  s = s.replace(/\^([0-9a-zA-Z+-]+)/g, '<sup>$1</sup>');
+  s = s.replace(/_\{([^}]+)\}/g, '<sub>$1</sub>');
+  s = s.replace(/_([0-9a-zA-Z+-]+)/g, '<sub>$1</sub>');
+  s = s.replace(/\\times/g, '×')
+       .replace(/\\cdot/g, '·')
+       .replace(/\\pm/g, '±')
+       .replace(/\\leq?/g, '≤')
+       .replace(/\\geq?/g, '≥')
+       .replace(/\\neq/g, '≠')
+       .replace(/\\approx/g, '≈')
+       .replace(/\\pi/g, 'π')
+       .replace(/\\alpha/g, 'α')
+       .replace(/\\beta/g, 'β')
+       .replace(/\\theta/g, 'θ')
+       .replace(/\\left[()\[\]{}|.]/g, '')
+       .replace(/\\right[()\[\]{}|.]/g, '');
+  return '<span class="katex-math math-var" data-math="true">' + s + '</span>';
+}
+
+function insulateMathContent(raw) {
+  if (!raw) return { text: '', tokens: {} };
+  var tokens = {};
+  var c = 0;
+  raw = raw.replace(/\\\[([\s\S]*?)\\\]/g, function(m, inner){
+    var k = '__AASHA_MATH_' + (c++) + '__';
+    tokens[k] = formatKatexMath(inner);
+    return k;
+  });
+  raw = raw.replace(/\\\(([\s\S]*?)\\\)/g, function(m, inner){
+    var k = '__AASHA_MATH_' + (c++) + '__';
+    tokens[k] = formatKatexMath(inner);
+    return k;
+  });
+  raw = raw.replace(/\$\$([\s\S]*?)\$\$/g, function(m, inner){
+    var k = '__AASHA_MATH_' + (c++) + '__';
+    tokens[k] = formatKatexMath(inner);
+    return k;
+  });
+  raw = raw.replace(/\$([^\$\n]+?)\$/g, function(m, inner){
+    var k = '__AASHA_MATH_' + (c++) + '__';
+    tokens[k] = formatKatexMath(inner);
+    return k;
+  });
+  raw = raw.replace(/<span[^>]*class=["'][^"']*(?:math-var|katex-math)[^"']*["'][^>]*>[\s\S]*?<\/span>/gi, function(m){
+    var k = '__AASHA_MATH_' + (c++) + '__';
+    tokens[k] = m;
+    return k;
+  });
+  return { text: raw, tokens: tokens };
+}
+
+// ── Bilingual rt() with KaTeX Math Restoration ───────────────────────────
 const WM=(IR.content_blocks[0]?.hindi_translation?.word_map)||{};
 function rt(text){
-  if(!text||!Object.keys(WM).length)return text||'';
-  const keys=Object.keys(WM).sort((a,b)=>b.length-a.length);
-  let out='',i=0;
+  if(!text)return '';
+  var ins = insulateMathContent(String(text));
+  var raw = ins.text;
+  var tokens = ins.tokens;
+
+  if (Object.keys(WM).length > 0) {
+    const keys=Object.keys(WM).sort((a,b)=>b.length-a.length);
+    let out='',i=0;
+    while(i<raw.length){
+      if(raw[i]==='<'){const ci=raw.indexOf('>',i);if(ci>=0){out+=raw.slice(i,ci+1);i=ci+1;continue;}}
+      let matched=false;
+      if(i===0||!/[a-zA-Z]/.test(raw[i-1])){
+        for(const k of keys){
+          const sub=raw.slice(i,i+k.length);
+          if(sub.toLowerCase()===k.toLowerCase()){
+            const ai=i+k.length;if(ai<raw.length&&/[a-zA-Z]/.test(raw[ai]))continue;
+            out+='<span class="word" data-w="'+sub.toLowerCase()+'" data-h="'+(WM[k]||'')+'">'+sub+'</span>';
+            i+=k.length;matched=true;break;
+          }
+        }
+      }
+      if(!matched){out+=raw[i];i++;}
+    }
+    raw = out;
+  }
+
+  for (var k in tokens) {
+    if (raw.indexOf(k) !== -1) {
+      raw = raw.replace(new RegExp(k, 'g'), tokens[k]);
+    }
+  }
+  return raw;
+}
   while(i<text.length){
     if(text[i]==='<'){const ci=text.indexOf('>',i);if(ci>=0){out+=text.slice(i,ci+1);i=ci+1;continue;}}
     let matched=false;
@@ -555,10 +693,10 @@ class V6Exp {
     const h=hi?(item.hints_hindi_math_insulated||item.hints_hindi||item.hints):item.hints;
     const hHtml=this.ir.learner_agency.hint_request_allowed?
       '<div style="margin-top:8px;">'+
-        (h.H1_hook?'<button class="hint-btn" onclick="exp.hint(0)">💡 '+(hi?'संकेत 1 — ध्यान':'Hint 1 — Attention')+'</button><div class="hint-text" id="h0">'+h.H1_hook+'</div>':'')+
-        (h.H2_concept?'<button class="hint-btn" onclick="exp.hint(1)">💡 '+(hi?'संकेत 2 — अवधारणा':'Hint 2 — Concept')+'</button><div class="hint-text" id="h1">'+h.H2_concept+'</div>':'')+
-        (h.H3_formula?'<button class="hint-btn" onclick="exp.hint(2)">💡 '+(hi?'संकेत 3 — सूत्र':'Hint 3 — Formula')+'</button><div class="hint-text" id="h2">'+h.H3_formula+'</div>':'')+
-        (h.H4_step?'<button class="hint-btn" onclick="exp.hint(3)">💡 '+(hi?'संकेत 4 — चरण':'Hint 4 — Step')+'</button><div class="hint-text" id="h3">'+h.H4_step+'</div>':'')+
+        (h.H1_hook?'<button class="hint-btn" onclick="exp.hint(0)">💡 '+(hi?'संकेत 1 — ध्यान':'Hint 1 — Attention')+'</button><div class="hint-text" id="h0">'+rt(h.H1_hook)+'</div>':'')+
+        (h.H2_concept?'<button class="hint-btn" onclick="exp.hint(1)">💡 '+(hi?'संकेत 2 — अवधारणा':'Hint 2 — Concept')+'</button><div class="hint-text" id="h1">'+rt(h.H2_concept)+'</div>':'')+
+        (h.H3_formula?'<button class="hint-btn" onclick="exp.hint(2)">💡 '+(hi?'संकेत 3 — सूत्र':'Hint 3 — Formula')+'</button><div class="hint-text" id="h2">'+rt(h.H3_formula)+'</div>':'')+
+        (h.H4_step?'<button class="hint-btn" onclick="exp.hint(3)">💡 '+(hi?'संकेत 4 — चरण':'Hint 4 — Step')+'</button><div class="hint-text" id="h3">'+rt(h.H4_step)+'</div>':'')+
       '</div>':'';
     this._s(
       '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">'+tLabel+
@@ -625,7 +763,7 @@ class V6Exp {
     const el=document.getElementById('opt_'+optId);
     if(el)el.classList.add(isCorrect?'correct':'incorrect');
     const fb=document.getElementById('fb');
-    if(fb){fb.className='feedback show '+(isCorrect?'ok':'err');fb.innerHTML=isCorrect?'<strong>'+(hi?'सही!':'Correct!')+'</strong>':'<strong>'+(hi?'सोचने का तरीका:':'Misconception:')+'</strong> '+explanation;}
+    if(fb){fb.className='feedback show '+(isCorrect?'ok':'err');fb.innerHTML=isCorrect?'<strong>'+(hi?'सही!':'Correct!')+'</strong>':'<strong>'+(hi?'सोचने का तरीका:':'Misconception:')+'</strong> '+rt(explanation);}
     const item=this._tierItems(this.currentTier)[this.assessIdx];
     this.bus.emit({eventType:'response_evaluated',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,objectiveId:item?.objective_id,conceptId:conceptId||item?.concept_id,payload:{isCorrect,optId,misconception_id:miscId||null}});
     if(!isCorrect&&miscId)this.bus.emit({eventType:'misconception_detected',pseudonymousLearnerId:this.lId,chapterId:this.ir.chapter_metadata.chapter_id,conceptId:conceptId||item?.concept_id,payload:{misconception_id:miscId}});

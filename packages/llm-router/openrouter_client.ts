@@ -14,6 +14,7 @@
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import { classifyTaskWithLaya } from './laya_classifier';
 
 dotenv.config();
 try {
@@ -485,19 +486,27 @@ const TIER3_TASK_TYPES_EXT = new Set<TaskType>(['vision']);
  * Import from here in new code. llm_router.ts is preserved for backward compat.
  */
 export async function getLLMCompletion(req: LLMCompletionRequest): Promise<string> {
-  const taskType = req.taskType ?? 'analysis';
-
-  // Deterministic agents — no LLM call
-  if (taskType === 'deterministic') {
-    return 'DETERMINISTIC_OK';
-  }
-
   // Extract system prompt and user prompt from messages
   const systemMsg = req.messages.find(m => m.role === 'system')?.content ?? '';
   const userMsg = req.messages
     .filter(m => m.role !== 'system')
     .map(m => m.content)
     .join('\n');
+
+  let taskType = req.taskType;
+  if (!taskType) {
+    try {
+      const layaResult = await classifyTaskWithLaya(userMsg);
+      taskType = layaResult.taskType;
+    } catch {
+      taskType = 'analysis';
+    }
+  }
+
+  // Deterministic agents — no LLM call
+  if (taskType === 'deterministic') {
+    return 'DETERMINISTIC_OK';
+  }
 
   const llmReq: LLMRequest = {
     prompt: userMsg,

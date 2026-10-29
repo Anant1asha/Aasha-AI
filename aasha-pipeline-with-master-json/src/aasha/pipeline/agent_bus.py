@@ -18,6 +18,8 @@ class AgentBus:
         "interaction.assigned",
         "assessment.generated",
         "qa.result",
+        "qa.repaired",
+        "quarantine.activated",
         "browser_test.result",
     ]
 

@@ -225,7 +225,8 @@ export class DomainSimGenerators {
               .bulb { width: 44px; height: 44px; border-radius: 50%; background: #475569; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: background 0.3s, box-shadow 0.3s; }
               .bulb.on { background: #F59E0B; box-shadow: 0 0 24px #F59E0B; }
               .controls { display: flex; gap: 8px; width: 100%; justify-content: center; }
-              .btn { min-height: 44px; padding: 6px 16px; background: #10B981; color: #FFF; border: none; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; }
+              .btn { min-height: 44px; min-width: 44px; padding: 6px 16px; background: #10B981; color: #FFF; border: none; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; touch-action: manipulation; }
+              button, input, select { min-width: 44px; min-height: 44px; }
               .readout { font-size: 13px; font-weight: 700; color: #34D399; }
             </style>
             <div class="sim-container">
@@ -257,6 +258,11 @@ export class DomainSimGenerators {
             if (bulb) bulb.classList.remove('on');
             if (readout) readout.innerText = 'Current I = 0.00 A (OPEN)';
           }
+          this.dispatchEvent(new CustomEvent('aasha:telemetry', {
+            bubbles: true,
+            composed: true,
+            detail: { event: 'switch_toggled', switchState: this.state.switchState, isCorrect: this.state.switchState }
+          }));
         }
 
         reset() {
@@ -300,7 +306,8 @@ export class DomainSimGenerators {
               .col-title { font-size: 11px; font-weight: 700; color: #94A3B8; }
               .val { font-size: 14px; font-weight: 700; color: #38BDF8; }
               .controls { display: flex; gap: 8px; width: 100%; justify-content: center; }
-              .btn { min-height: 44px; padding: 6px 12px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; }
+              .btn { min-height: 44px; min-width: 44px; padding: 6px 12px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; touch-action: manipulation; }
+              button, input, select { min-width: 44px; min-height: 44px; }
               .status { font-size: 12px; font-weight: 700; color: #34D399; }
             </style>
             <div class="sim-container">
@@ -359,6 +366,11 @@ export class DomainSimGenerators {
               status.style.color = '#F87171';
             }
           }
+          this.dispatchEvent(new CustomEvent('aasha:telemetry', {
+            bubbles: true,
+            composed: true,
+            detail: { event: 'ledger_updated', debit: this.state.debit, credit: this.state.credit, isCorrect: this.state.balanced }
+          }));
         }
 
         reset() {
@@ -399,7 +411,8 @@ export class DomainSimGenerators {
               .sim-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 100%; padding: 8px; box-sizing: border-box; background: #0F172A; color: #F8FAFC; border-radius: 12px; }
               .visual-box { width: 100%; max-width: 260px; height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #1E293B; border-radius: 8px; border: 1px solid #334155; padding: 12px; text-align: center; }
               .controls { display: flex; gap: 8px; width: 100%; justify-content: center; }
-              .btn { min-height: 44px; padding: 6px 14px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; }
+              .btn { min-height: 44px; min-width: 44px; padding: 6px 14px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; touch-action: manipulation; }
+              button, input, select { min-width: 44px; min-height: 44px; }
               .step-title { font-size: 14px; font-weight: 700; color: #38BDF8; }
               .step-desc { font-size: 12px; color: #94A3B8; margin-top: 4px; }
             </style>
@@ -421,8 +434,13 @@ export class DomainSimGenerators {
             this.state.activeStep = (this.state.activeStep % this.state.maxSteps) + 1;
             const title = this.shadowRoot.getElementById('stepTitle');
             const desc = this.shadowRoot.getElementById('stepDesc');
-            if (title) title.innerText = \`Step \${this.state.activeStep}: Action Mechanic\`;
-            if (desc) desc.innerText = \`Executing visual concept step \${this.state.activeStep} of \${this.state.maxSteps}.\`;
+            if (title) title.innerText = 'Step ' + this.state.activeStep + ': Action Mechanic';
+            if (desc) desc.innerText = 'Executing visual concept step ' + this.state.activeStep + ' of ' + this.state.maxSteps + '.';
+            this.dispatchEvent(new CustomEvent('aasha:telemetry', {
+              bubbles: true,
+              composed: true,
+              detail: { event: 'step_advanced', activeStep: this.state.activeStep, isCorrect: this.state.activeStep >= this.state.maxSteps }
+            }));
           });
         }
 
@@ -1778,7 +1796,8 @@ export class DomainSimGenerators {
               .flash-spark { border-color: #34D399; box-shadow: 0 0 16px rgba(52, 211, 153, 0.6); transform: scale(1.02); }
               .q-text { font-size: 14px; font-weight: 700; color: #F8FAFC; line-height: 1.5; margin-bottom: 8px; }
               .options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-top: 8px; }
-              .opt-btn { min-height: 44px; padding: 8px; background: #312E81; border: 1px solid #4F46E5; border-radius: 8px; color: #F1F5F9; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+              .opt-btn { min-height: 44px; min-width: 44px; padding: 8px; background: #312E81; border: 1px solid #4F46E5; border-radius: 8px; color: #F1F5F9; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; box-sizing: border-box; touch-action: manipulation; }
+              button, input, select { min-width: 44px; min-height: 44px; }
               .opt-btn:active { transform: scale(0.96); background: #4338CA; }
               .feedback-box { display: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; text-align: center; margin-top: 6px; }
               @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-8px); } }

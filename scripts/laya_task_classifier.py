@@ -185,6 +185,14 @@ def main():
     args = parser.parse_args()
 
     if args.daemon:
+        # Reconfigure stdio streams for unbuffered, low-latency line-by-line IPC
+        stdin_reconf = getattr(sys.stdin, "reconfigure", None)
+        if callable(stdin_reconf):
+            stdin_reconf(line_buffering=True)
+        stdout_reconf = getattr(sys.stdout, "reconfigure", None)
+        if callable(stdout_reconf):
+            stdout_reconf(line_buffering=True)
+
         # Preload router
         get_router()
         sys.stdout.write(json.dumps({"status": "ready"}) + "\n")
@@ -193,17 +201,38 @@ def main():
             line = line.strip()
             if not line:
                 continue
+            req_id = None
             try:
                 payload = json.loads(line)
-                text = payload.get("text", "")
                 req_id = payload.get("id")
+                req_type = payload.get("type")
+
+                # Handle ping/heartbeat health check
+                if req_type == "ping":
+                    pong_resp = {"status": "ok", "type": "pong"}
+                    if req_id is not None:
+                        pong_resp["id"] = req_id
+                    sys.stdout.write(json.dumps(pong_resp) + "\n")
+                    sys.stdout.flush()
+                    continue
+
+                # Handle graceful exit signal
+                if req_type == "exit":
+                    sys.stdout.write(json.dumps({"status": "exiting", "id": req_id}) + "\n")
+                    sys.stdout.flush()
+                    break
+
+                text = payload.get("text", "")
                 result = classify(text)
                 if req_id is not None:
                     result["id"] = req_id
                 sys.stdout.write(json.dumps(result) + "\n")
                 sys.stdout.flush()
             except Exception as ex:
-                sys.stdout.write(json.dumps({"error": str(ex)}) + "\n")
+                err_resp = {"error": str(ex)}
+                if req_id is not None:
+                    err_resp["id"] = req_id
+                sys.stdout.write(json.dumps(err_resp) + "\n")
                 sys.stdout.flush()
     elif args.text:
         res = classify(args.text)

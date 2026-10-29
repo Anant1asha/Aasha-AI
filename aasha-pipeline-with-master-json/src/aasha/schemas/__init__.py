@@ -123,7 +123,7 @@ class ChapterSpec(BaseModel):
     and the HTML assembler."""
     chapter: ChapterMeta
     LEVELS: list[LevelEntry] | None = None
-    BADGES: list[Badge] = Field(None, min_length=3, max_length=5)
+    BADGES: list[Badge] | None = Field(None, min_length=3, max_length=5)
     WE: dict[str, WorkedExample] | None = None
     SOLVE: dict[str, SolveDefinition] | None = None
     NODES: list[Node] = Field(..., min_length=3, max_length=5)
@@ -256,6 +256,26 @@ class JobInput(BaseModel):
     mode: str = "v5-engine"
 
 
+class QuarantinePacket(BaseModel):
+    """Structured quarantine packet emitted upon bounded repair exhaustion."""
+    quarantined: bool = True
+    role: str
+    stage: str
+    repair_attempts: int
+    exhausted: bool = True
+    violations: list[Any] = Field(default_factory=list)
+    quarantine_timestamp: str = ""
+    action_required: Literal["SUPER_ADMIN_INTERVENTION"] = "SUPER_ADMIN_INTERVENTION"
+    message: str = ""
+
+
+class QuarantineError(Exception):
+    """Raised when an agent or stage exhausts its bounded repair budget."""
+    def __init__(self, message: str, packet: QuarantinePacket | dict[str, Any] | None = None):
+        super().__init__(message)
+        self.packet = packet
+
+
 class Job(BaseModel):
     """Job tracking JSON — the state of a single chapter build."""
     id: str
@@ -270,6 +290,8 @@ class Job(BaseModel):
     outputs: dict[str, str] = Field(default_factory=dict)
     error_stage: str = ""
     error_message: str = ""
+    quarantined: bool = False
+    quarantine_packet: dict[str, Any] | None = None
 
 
 # Stage names in order

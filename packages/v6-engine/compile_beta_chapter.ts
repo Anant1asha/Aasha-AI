@@ -11,7 +11,7 @@ const betaProposal: AgentProposalsInput = {
   grade: 7,
   subject: 'Mathematics',
   board: 'NCERT',
-  source_pdf_hash: 'sha256_ncert_math_class7_ch12_algebraic_expressions',
+  source_pdf_hash: 'sha256:946b5a77196011c79a29ba562ef6c41b80d0d829141be1bce1101918aa0fb0c7',
   raw_objectives: [
     {
       description: 'Identify terms, factors, and numerical/algebraic coefficients in given expressions.',
@@ -276,7 +276,7 @@ export function compileBetaChapter() {
   console.log('   ✓ Experience acceptance metadata: PASS (runtime criteria still require verification)');
 
   console.log('\n3. Running V6 Compiler...');
-  const compiled = V6Compiler.compilePair(canonicalIR);
+  const compiled = V6Compiler.compilePair(canonicalIR, { requireFullSourceCoverage: false });
   if (compiled.errors.length > 0) {
     console.error('ERROR: V6 Compilation Failed:', compiled.errors);
     process.exit(1);

@@ -28,7 +28,18 @@ from ..agents import (
 from ..assemble import HTMLAssembler
 from ..config import Config
 from ..llm import LLMAdapter, LLMGenerationError
-from ..schemas import STAGE_ORDER, Job, StageResult, generate_supplementary_assessments, enrich_content_map
+from ..schemas import (
+    STAGE_ORDER,
+    STAGE_ORDER_V5,
+    STAGE_ORDER_FS,
+    Job,
+    JobInput,
+    StageResult,
+    QuarantinePacket,
+    QuarantineError,
+    generate_supplementary_assessments,
+    enrich_content_map,
+)
 from ..schemas.validator import validate_chapter_spec
 from .agent_bus import AgentBus
 
@@ -168,16 +179,16 @@ class Orchestrator:
             status="queued",
             created_at=self._now_iso(),
             updated_at=self._now_iso(),
-            input={
-                "source_pdf": pdf_path.name,
-                "source_pdf_sha256": source_sha256,
-                "source_pdf_bytes": source_pdf_bytes,
-                "subject": subject,
-                "grade": grade,
-                "provider": provider,
-                "model": "",
-                "mode": mode,
-            },
+            input=JobInput(
+                source_pdf=pdf_path.name,
+                source_pdf_sha256=source_sha256,
+                source_pdf_bytes=source_pdf_bytes,
+                subject=subject,
+                grade=grade,
+                provider=provider,
+                model="",
+                mode=mode,
+            ),
             stages=[
                 StageResult(name=stage, status="pending")
                 for stage in stage_order
@@ -413,6 +424,200 @@ class Orchestrator:
             }
         required_files = prereq_map.get(stage, [])
         return [f for f in required_files if not (work_dir / f).exists()]
+
+    def _execute_qa_stage(
+        self,
+        work_dir: Path,
+        context: dict[str, Any],
+        bus: AgentBus,
+        log: Any,
+        job: Job,
+        total_cost: float,
+        stage_start: float,
+    ) -> dict[str, Any] | None:
+        """Execute Stage 8 (QA) with Bounded 2-Tier Autonomous Self-Repair Loop."""
+        html_path = work_dir / "chapter.html"
+        if not html_path.is_file():
+            raise FileNotFoundError("CHILD_BUNDLE_MISSING: chapter.html")
+        bundle_size_bytes = validate_child_bundle_size(html_path.stat().st_size)
+        qa_runner = self.config.pipeline.qa_runner
+        agent = QAAgent(qa_runner)
+        stage_result = agent.run(work_dir, context)
+        stage_result["bundle_size_bytes"] = bundle_size_bytes
+        for entry in agent.logs:
+            log(f"  {entry}")
+
+        # ─── Bounded 2-Tier Autonomous Self-Repair Loop ───────────
+        # GEMINI.md: 1 initial invocation + at most 2 autonomous targeted repairs (ceiling: 3 total)
+        repair_attempts = 0
+        max_repair_attempts = 2
+        while not stage_result.get("passed", False) and repair_attempts < max_repair_attempts:
+            repair_attempts += 1
+            failures = stage_result.get("failures", [])
+            failure_names = [f.get("check") or str(f) for f in failures] if isinstance(failures, list) else []
+            log(f"  [Auto-Repair] QA flagged failures: {failure_names} (Repair Attempt {repair_attempts}/{max_repair_attempts})")
+
+            # Targeted Diagnostic Repair
+            spec_path = work_dir / "chapter_spec.json"
+            lle_path = work_dir / "lle.json"
+
+            # 1. Sanitize distractor misconceptions and spoiler leaks
+            if spec_path.exists():
+                from ..synthesis.offline_synthesizer import sanitize_spec_misconceptions
+                try:
+                    spec_data = json.loads(spec_path.read_text(encoding="utf-8"))
+                    spoilers_fixed = sanitize_spec_misconceptions(spec_data)
+                    if spoilers_fixed:
+                        log(f"  [Auto-Repair] Sanitized {spoilers_fixed} misconception spoilers in chapter spec.")
+                        spec_path.write_text(json.dumps(spec_data, ensure_ascii=False, indent=2), encoding="utf-8")
+                except Exception as err:
+                    logger.warning(f"Spec sanitization note: {err}")
+
+            # 2. Devanagari character / Indic dictionary substrate repair
+            if any("Devanagari" in str(fn) or "lle" in str(fn).lower() for fn in failure_names):
+                try:
+                    if self.defaults_path.exists():
+                        defaults_data = json.loads(self.defaults_path.read_text(encoding="utf-8"))
+                        default_lle = defaults_data.get("lle_dictionary", {})
+                        if default_lle and lle_path.exists():
+                            existing_lle = json.loads(lle_path.read_text(encoding="utf-8"))
+                            if isinstance(existing_lle, dict):
+                                for k, v in default_lle.items():
+                                    if k not in existing_lle:
+                                        existing_lle[k] = v
+                                lle_path.write_text(json.dumps(existing_lle, ensure_ascii=False, indent=2), encoding="utf-8")
+                                log(f"  [Auto-Repair] Restored Indic bilingual dictionary terms from defaults.")
+                except Exception as err:
+                    logger.warning(f"LLE repair note: {err}")
+
+            # 3. Math-rt isolation repair
+            if any("math_rt_isolation" in str(fn) for fn in failure_names):
+                try:
+                    if lle_path.exists():
+                        existing_lle = json.loads(lle_path.read_text(encoding="utf-8"))
+                        modified = False
+                        if isinstance(existing_lle, dict):
+                            if "WM" in existing_lle and isinstance(existing_lle["WM"], dict) and "a" in existing_lle["WM"]:
+                                del existing_lle["WM"]["a"]
+                                modified = True
+                            if "a" in existing_lle:
+                                del existing_lle["a"]
+                                modified = True
+                        if modified:
+                            lle_path.write_text(json.dumps(existing_lle, ensure_ascii=False, indent=2), encoding="utf-8")
+                            log("  [Auto-Repair] Removed ambiguous 'a' key from bilingual dictionary to resolve math_rt_isolation.")
+                except Exception as err:
+                    logger.warning(f"Math isolation repair note: {err}")
+
+            # 4. Re-assemble chapter.html with repaired spec and LLE
+            if spec_path.exists():
+                try:
+                    assembler = HTMLAssembler(str(self.template_path))
+                    assembler.assemble_to_file(
+                        spec_path, lle_path, html_path, str(self.defaults_path)
+                    )
+                    log(f"  [Auto-Repair] Re-assembled chapter.html ({html_path.stat().st_size / 1024:.0f} KB)")
+                except Exception as err:
+                    logger.warning(f"Assembly repair note: {err}")
+
+            # Re-run QA agent on the repaired bundle
+            stage_result = agent.run(work_dir, context)
+            stage_result["bundle_size_bytes"] = html_path.stat().st_size
+            for entry in agent.logs:
+                log(f"  [Auto-Repair] {entry}")
+
+            if stage_result.get("passed", False):
+                log(f"  [Auto-Repair] Autonomous self-repair SUCCEEDED on attempt {repair_attempts}/{max_repair_attempts}! All checks passed.")
+                job.quarantined = False
+                job.quarantine_packet = None
+                job.error_stage = ""
+                job.error_message = ""
+                bus.publish("qa.repaired", {"attempts": repair_attempts, "passed": True})
+                break
+
+        bus.publish("qa.result", {"passed": stage_result.get("passed", False)})
+
+        if stage_result.get("passed", False):
+            job.quarantined = False
+            job.quarantine_packet = None
+            job.error_stage = ""
+            job.error_message = ""
+
+        # If QA still failed after exhausting 2 repairs -> QUARANTINE ACTIVATION
+        if not stage_result.get("passed", False):
+            q_packet_obj = QuarantinePacket(
+                quarantined=True,
+                role="QAAgent",
+                stage="qa",
+                repair_attempts=repair_attempts,
+                exhausted=True,
+                violations=stage_result.get("failures", []),
+                quarantine_timestamp=self._now_iso(),
+                action_required="SUPER_ADMIN_INTERVENTION",
+                message=f"QA failed validation after {repair_attempts} autonomous repair attempts ({stage_result.get('failure_count', 0)} failures). Downstream delivery quarantined."
+            )
+            q_packet = q_packet_obj.model_dump()
+            (work_dir / "quarantine_packet.json").write_text(
+                json.dumps(q_packet, indent=2), encoding="utf-8"
+            )
+            job.status = "quarantined"
+            job.quarantined = True
+            job.quarantine_packet = q_packet
+            job.error_stage = "qa"
+            job.error_message = q_packet["message"]
+            self._update_stage(
+                job, "qa", "quarantined",
+                duration=time.time() - stage_start,
+                output=stage_result.get("output_file", ""),
+                error=q_packet["message"]
+            )
+            job.cost_usd = total_cost
+            self._save_job(job, work_dir)
+            bus.publish("quarantine.activated", q_packet)
+
+            # Purge any previously delivered output bundle to prevent quarantine bypass
+            chapter_name = job.input.source_pdf.replace(".pdf", "").replace(" ", "_")
+            html_out = (self.output_dir / f"{chapter_name}_chapter.html").resolve()
+            if html_out.exists():
+                try:
+                    html_out.unlink()
+                except Exception:
+                    pass
+            spec_out = (self.output_dir / f"{chapter_name}_spec.json").resolve()
+            if spec_out.exists():
+                try:
+                    spec_out.unlink()
+                except Exception:
+                    pass
+
+            log(f"  [Quarantine] Repair attempts exhausted ({repair_attempts}/{max_repair_attempts}). Output QUARANTINED. Downstream delivery BLOCKED.")
+            return None
+
+        # Trigger AGT-007 BrowserTesterAgent (CDP verification) if script is available
+        try:
+            browser_script = Path(__file__).resolve().parent.parent.parent.parent / "scripts" / "automated_browser_verification.js"
+            if not browser_script.exists():
+                browser_script = Path(__file__).resolve().parent.parent.parent.parent.parent / "scripts" / "automated_browser_verification.js"
+            if browser_script.exists():
+                log(f"  [BrowserTesterAgent] Running Headless Chrome CDP Verification...")
+                b_res = subprocess.run(
+                    ["node", str(browser_script), "--file", str(html_path)],
+                    capture_output=True,
+                    text=True,
+                    timeout=60,
+                    cwd=str(work_dir)
+                )
+                if b_res.returncode == 0:
+                    log(f"  [BrowserTesterAgent] CDP Verification Passed (0 console errors, touch targets OK)")
+                    bus.publish("browser_test.result", {"passed": True})
+                else:
+                    warn_msg = (b_res.stderr.strip() or b_res.stdout.strip())[:200]
+                    log(f"  [BrowserTesterAgent] CDP Advisory/Warning: {warn_msg}")
+                    bus.publish("browser_test.result", {"passed": False, "warning": warn_msg})
+        except Exception as e:
+            log(f"  [BrowserTesterAgent] CDP verification bypassed: {e}")
+
+        return stage_result
 
     def run_pipeline(
         self,
@@ -717,7 +922,7 @@ class Orchestrator:
                                 agent_name_d, cost_d, logs_d, res_d = future_d.result()
 
                                 future_l = executor.submit(run_lle_agent)
-                                agent_name_l, cost_l, logs_l, res_l = future_l.result()
+                                agent_name_l, cost_l, logs_l, _res_l = future_l.result()
                                 
                             total_cost += cost_d + cost_l
                             job.costs[agent_name_d] = job.costs.get(agent_name_d, 0) + cost_d
@@ -741,7 +946,7 @@ class Orchestrator:
                             from ..exercise import ExerciseExtractor
                             extractor = ExerciseExtractor()
 
-                            assessment_suite: dict[str, list] = {
+                            assessment_suite: dict[str, Any] = {
                                 "warmup": [],
                                 "deep_dive": [],
                                 "boss": [],
@@ -850,58 +1055,12 @@ class Orchestrator:
                         log(f"  Assembled chapter.html ({html_path.stat().st_size / 1024:.0f} KB)")
 
                     elif stage == "qa":
-                        html_path = work_dir / "chapter.html"
-                        if not html_path.is_file():
-                            raise FileNotFoundError("CHILD_BUNDLE_MISSING: chapter.html")
-                        bundle_size_bytes = validate_child_bundle_size(html_path.stat().st_size)
-                        qa_runner = self.config.pipeline.qa_runner
-                        agent = QAAgent(qa_runner)
-                        stage_result = agent.run(work_dir, context)
-                        stage_result["bundle_size_bytes"] = bundle_size_bytes
-                        for entry in agent.logs:
-                            log(f"  {entry}")
-                        
-                        bus.publish("qa.result", {"passed": stage_result.get("passed", False)})
-
-                        # Check if QA passed
-                        if not stage_result.get("passed", False):
-                            job.status = "qa_failed"
-                            job.error_stage = "qa"
-                            self._update_stage(
-                                job, stage, "failed",
-                                duration=time.time() - stage_start,
-                                output=stage_result.get("output_file", ""),
-                                error=f"QA failed with {stage_result.get('failure_count', 0)} failures"
-                            )
-                            job.cost_usd = total_cost
-                            self._save_job(job, work_dir)
-                            bus.publish("stage.failed", {"stage": stage, "error": f"QA failed with {stage_result.get('failure_count', 0)} failures"})
-                            log(f"  QA FAILED — chapter not delivered")
+                        qa_res = self._execute_qa_stage(
+                            work_dir, context, bus, log, job, total_cost, stage_start
+                        )
+                        if qa_res is None:
                             return job
-
-                        # Trigger AGT-007 BrowserTesterAgent (CDP verification) if script is available
-                        try:
-                            browser_script = Path(__file__).resolve().parent.parent.parent.parent / "scripts" / "automated_browser_verification.js"
-                            if not browser_script.exists():
-                                browser_script = Path(__file__).resolve().parent.parent.parent.parent.parent / "scripts" / "automated_browser_verification.js"
-                            if browser_script.exists():
-                                log(f"  [BrowserTesterAgent] Running Headless Chrome CDP Verification...")
-                                b_res = subprocess.run(
-                                    ["node", str(browser_script), "--file", str(html_path)],
-                                    capture_output=True,
-                                    text=True,
-                                    timeout=60,
-                                    cwd=str(work_dir)
-                                )
-                                if b_res.returncode == 0:
-                                    log(f"  [BrowserTesterAgent] CDP Verification Passed (0 console errors, touch targets OK)")
-                                    bus.publish("browser_test.result", {"passed": True})
-                                else:
-                                    warn_msg = (b_res.stderr.strip() or b_res.stdout.strip())[:200]
-                                    log(f"  [BrowserTesterAgent] CDP Advisory/Warning: {warn_msg}")
-                                    bus.publish("browser_test.result", {"passed": False, "warning": warn_msg})
-                        except Exception as e:
-                            log(f"  [BrowserTesterAgent] CDP verification bypassed: {e}")
+                        stage_result = qa_res
 
                     elif stage == "output":
                         # Copy to output directory
@@ -946,6 +1105,25 @@ class Orchestrator:
                     })
 
                     log(f"  Done ({duration:.1f}s)")
+
+                except QuarantineError as qe:
+                    log(f"  QUARANTINE ACTIVATED: {qe}")
+                    self._update_stage(job, stage, "quarantined", error=str(qe))
+                    job.status = "quarantined"
+                    job.quarantined = True
+                    if isinstance(qe.packet, QuarantinePacket):
+                        q_dict = qe.packet.model_dump()
+                    elif isinstance(qe.packet, dict):
+                        q_dict = qe.packet
+                    else:
+                        q_dict = {"message": str(qe)}
+                    job.quarantine_packet = q_dict
+                    job.error_stage = stage
+                    job.error_message = str(qe)
+                    job.cost_usd = total_cost
+                    self._save_job(job, work_dir)
+                    bus.publish("quarantine.activated", job.quarantine_packet)
+                    return job
 
                 except LLMGenerationError as e:
                     log(f"  ERROR: {e}")

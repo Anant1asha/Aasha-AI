@@ -197,6 +197,9 @@ dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
 .css3d-block-filled{height:60px;background:linear-gradient(135deg,var(--blue),var(--blue-dk));border-radius:6px;box-shadow:0 4px 8px rgba(59,130,246,.3);border:1px solid rgba(255,255,255,.2)}
 .css3d-block-empty{height:8px;background:var(--border);border-radius:3px;margin-top:26px}
 .css3d-label{text-align:center;font-size:1.2rem;font-weight:800;margin-top:8px;color:var(--blue)}
+/* Math isolation and KaTeX typography */
+.math, [data-math] { font-style: italic; font-family: 'KaTeX_Math', 'Times New Roman', serif; }
+
 .css3d-controls{display:flex;gap:8px;justify-content:center;margin-top:10px}
 .css3d-btn{padding:6px 14px;background:var(--blue-lt);border:1px solid var(--blue);border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600;color:var(--blue)}
 .css3d-btn:hover{background:var(--blue);color:#fff}
@@ -301,6 +304,8 @@ dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
 <canvas id="confettiCanvas"></canvas>
 
 <script>
+/* MathIsolation and KaTeX offline rendering hook */
+window.__AASHA_MATH_ISOLATION__ = true;
 var WM={{WM_JSON}};
 
 

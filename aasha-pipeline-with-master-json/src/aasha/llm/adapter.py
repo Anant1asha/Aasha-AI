@@ -576,11 +576,7 @@ class LLMAdapter:
         OpenRouter uses the anti-bleed free-model cascade.
         Paid Gemini is guarded by ALLOW_PAID_GEMINI_FALLBACK env var.
         """
-        if self.provider == "offline" or os.environ.get("AASHA_OFFLINE") == "1":
-            return json.dumps(self._synthesize_offline_fallback(system, user))
-        elif self.provider == "openai":
-            return self._call_openai(system, user)
-        elif self.provider == "gemini":
+        if self.provider == "gemini":
             # Anti-bleed guard: block paid Gemini unless explicitly authorized
             if os.environ.get("ALLOW_PAID_GEMINI_FALLBACK", "false").lower() != "true":
                 raise LLMGenerationError(
@@ -589,6 +585,10 @@ class LLMAdapter:
                     "Gemini is Tier-3 reserve — requires explicit Super Admin authorization."
                 )
             return self._call_gemini(system, user)
+        elif self.provider == "offline" or os.environ.get("AASHA_OFFLINE") == "1":
+            return json.dumps(self._synthesize_offline_fallback(system, user))
+        elif self.provider == "openai":
+            return self._call_openai(system, user)
         elif self.provider == "anthropic":
             return self._call_anthropic(system, user)
         elif self.provider in ("openrouter", "9router"):
@@ -635,6 +635,14 @@ class LLMAdapter:
             full_user += f"\n\nRespond with valid JSON matching this structure:\n{schema_hint}"
         full_user += "\n\nRespond with valid JSON only, no markdown fences."
 
+        # Anti-bleed guard: block paid Gemini unless explicitly authorized
+        if self.provider == "gemini" and os.environ.get("ALLOW_PAID_GEMINI_FALLBACK", "false").lower() != "true":
+            raise LLMGenerationError(
+                "Paid Gemini API is locked out (ALLOW_PAID_GEMINI_FALLBACK=false). "
+                "Use OpenRouter free tier (provider=openrouter) instead. "
+                "Gemini is Tier-3 reserve — requires explicit Super Admin authorization."
+            )
+
         # Offline execution check (zero token bleed, 0ms network latency)
         if self.provider == "offline" or os.environ.get("AASHA_OFFLINE") == "1":
             return self._synthesize_offline_fallback(system, full_user)
@@ -657,6 +665,8 @@ class LLMAdapter:
             raw_response = self._call_with_retry(system, full_user)
             self._last_call_time = time.time()
         except Exception as e:
+            if "ALLOW_PAID_GEMINI_FALLBACK=false" in str(e) or "Paid Gemini API is locked out" in str(e):
+                raise LLMGenerationError(str(e)) from e
             logger.warning(f"LLM call failed after retries: {e}. Engaging Tier-0 Deterministic Local Synthesizer...")
             return self._synthesize_offline_fallback(system, full_user)
 

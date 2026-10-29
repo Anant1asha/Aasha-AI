@@ -6,7 +6,7 @@
     "grade": 7,
     "subject": "Mathematics",
     "board": "NCERT",
-    "source_pdf_hash": "sha256_ncert_math_class7_ch12_algebraic_expressions"
+    "source_pdf_hash": "sha256:946b5a77196011c79a29ba562ef6c41b80d0d829141be1bce1101918aa0fb0c7"
   },
   "learning_objectives": [
     {
@@ -140,7 +140,7 @@
           "powers": "घात"
         }
       },
-      "provenance_source": "pdf:sha256_ncert_math_class7_ch12_algebraic_expressions",
+      "provenance_source": "pdf:sha256:946b5a77196011c79a29ba562ef6c41b80d0d829141be1bce1101918aa0fb0c7",
       "fidelity_score": 1
     },
     {
@@ -175,7 +175,7 @@
           "powers": "घात"
         }
       },
-      "provenance_source": "pdf:sha256_ncert_math_class7_ch12_algebraic_expressions",
+      "provenance_source": "pdf:sha256:946b5a77196011c79a29ba562ef6c41b80d0d829141be1bce1101918aa0fb0c7",
       "fidelity_score": 1
     },
     {
@@ -210,7 +210,7 @@
           "powers": "घात"
         }
       },
-      "provenance_source": "pdf:sha256_ncert_math_class7_ch12_algebraic_expressions",
+      "provenance_source": "pdf:sha256:946b5a77196011c79a29ba562ef6c41b80d0d829141be1bce1101918aa0fb0c7",
       "fidelity_score": 1
     }
   ],
@@ -231,7 +231,6 @@
         "id": "state:sim",
         "name": "Interactive Manipulative Lab",
         "type": "interactive_sim",
-        "capability_id": "cap:mathematics:c7:c7_math_algebraic_expressions:sim_1",
         "content_ids": []
       },
       {
@@ -666,15 +665,7 @@
       }
     }
   ],
-  "capability_requirements": [
-    {
-      "id": "cap:mathematics:c7:c7_math_algebraic_expressions:sim_1",
-      "purpose": "Interactive visual manipulative for concept exploration",
-      "interaction_type": "balance_beam",
-      "license_constraint": "MIT_NATIVE",
-      "sandbox_required": false
-    }
-  ],
+  "capability_requirements": [],
   "adaptive_policy": {
     "max_retries": 3,
     "dda_difficulty_step": 0.1,
@@ -728,7 +719,7 @@
     "mastery_threshold_measurable": true
   },
   "compilation_manifest": {
-    "compiled_at": "2026-09-13T22:04:37.909Z",
+    "compiled_at": "2026-10-29T12:38:12.912Z",
     "compiler_version": "v6-canonical-1.1.0",
     "source_artifacts": [
       "ingest_output.json",
@@ -736,6 +727,6 @@
       "assessment_output.json",
       "lle_output.json"
     ],
-    "ir_hash": "sha256_1789337077911"
+    "ir_hash": "sha256_1793277492913"
   }
 }

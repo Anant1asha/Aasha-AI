@@ -54,10 +54,8 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
     """Scrub and repair any misconception that leaks the correct answer across the entire spec."""
     repaired_count = 0
 
-    def clean_opts(opts: list[dict[str, Any]], context: str) -> None:
+    def clean_opts(opts: list[dict[str, Any]], _context: str = "") -> None:
         nonlocal repaired_count
-        if not isinstance(opts, list):
-            return
         correct_opts = [o.get("t", "") for o in opts if isinstance(o, dict) and o.get("c")]
         if not correct_opts:
             return
@@ -77,7 +75,8 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
                 repaired_count += 1
                 continue
 
-            has_leak = bool(leak_pattern.search(m.lower()))
+            explicit_spoiler = bool(re.search(r"\b(?:correct\s+answer\s+is|answer\s+is|the\s+answer\s+is)\b", m, re.IGNORECASE))
+            has_leak = bool(leak_pattern.search(m.lower())) or explicit_spoiler
             if not has_leak and nums:
                 for n in nums:
                     rx = re.compile(r"(?:is|=|giving|becomes|, not \+?)\s*" + re.escape(n) + r"\b", re.IGNORECASE)
@@ -91,7 +90,9 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
                     rx = re.compile(r"(?:is|=|giving|becomes|, not \+?)\s*" + re.escape(n) + r"\b", re.IGNORECASE)
                     repaired_m = rx.sub("an incorrect step calculation", repaired_m)
 
-                if leak_pattern.search(repaired_m.lower()):
+                if explicit_spoiler or re.search(r"\b(?:correct\s+answer|answer\s+is)\b", repaired_m, re.IGNORECASE):
+                    repaired_m = "Check the mathematical operation carefully rather than assuming this value."
+                elif leak_pattern.search(repaired_m.lower()):
                     repaired_m = "Check the mathematical operation carefully rather than assuming this value."
 
                 o["m"] = repaired_m

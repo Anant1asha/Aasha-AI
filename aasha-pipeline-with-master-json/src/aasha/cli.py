@@ -144,7 +144,7 @@ def run_single(args, config: Config) -> int:
         "synthesis": "synthesize",
     }
     raw_from_stage = args.from_stage if hasattr(args, "from_stage") and args.from_stage else None
-    from_stage = STAGE_ALIASES.get(raw_from_stage, raw_from_stage)
+    from_stage = STAGE_ALIASES.get(raw_from_stage, raw_from_stage) if raw_from_stage else None
 
     stage_labels = {
         "ingest": "Ingesting PDF", "analyze": "Analyzing content",
@@ -173,10 +173,17 @@ def run_single(args, config: Config) -> int:
 
     if json_events:
         html_path = job.outputs.get("html", "") if job.status == "completed" else ""
+        event_name = (
+            "pipeline_complete" if job.status == "completed"
+            else "pipeline_quarantined" if job.status == "quarantined"
+            else "pipeline_failed"
+        )
         print(json.dumps({
-            "event": "pipeline_complete" if job.status == "completed" else "pipeline_failed",
+            "event": event_name,
             "job_id": job_id,
             "status": job.status,
+            "quarantined": getattr(job, "quarantined", False),
+            "quarantine_packet": getattr(job, "quarantine_packet", None),
             "duration": duration,
             "cost_usd": job.cost_usd,
             "html_path": html_path,
@@ -185,7 +192,7 @@ def run_single(args, config: Config) -> int:
         }), flush=True)
 
     print()
-    print(f"Status: {'PASS' if job.status == 'completed' else 'FAIL'}")
+    print(f"Status: {'PASS' if job.status == 'completed' else ('QUARANTINED' if job.status == 'quarantined' else 'FAIL')}")
     print(f"Duration: {duration:.1f}s")
     print(f"LLM Cost: ${job.cost_usd:.4f}")
 
@@ -193,6 +200,11 @@ def run_single(args, config: Config) -> int:
         html_path = job.outputs.get("html", "")
         print(f"Output: {html_path}")
         return 0
+    elif job.status == "quarantined":
+        print(f"Quarantined at stage: {job.error_stage}")
+        print(f"Action required: SUPER_ADMIN_INTERVENTION")
+        print(f"Details: {job.error_message}")
+        return 1
     else:
         print(f"Failed at stage: {job.error_stage}")
         print(f"Error: {job.error_message}")
@@ -202,7 +214,7 @@ def run_single(args, config: Config) -> int:
 
 
 def run_batch(args, config: Config) -> int:
-    """Run batch mode over a directory of PDFs."""
+    """Run batch mode over a directory of PDFs with optional concurrency."""
     batch_dir = Path(args.batch)
     if not batch_dir.is_dir():
         print(f"Error: Directory not found: {batch_dir}")
@@ -213,16 +225,15 @@ def run_batch(args, config: Config) -> int:
         print(f"No PDFs found in {batch_dir}")
         return 1
 
-    print(f"Processing {len(pdfs)} PDFs...")
+    workers = getattr(args, "parallel", 1) or 1
+    print(f"Processing {len(pdfs)} PDFs (concurrency={workers})...")
     print()
 
     results = []
     total_cost = 0.0
     total_time = 0.0
 
-    for i, pdf_path in enumerate(pdfs, 1):
-        print(f"[{i}/{len(pdfs)}] {pdf_path.name}...", end=" ", flush=True)
-
+    def process_one(pdf_path: Path):
         orch = Orchestrator(config)
         effective_mode = args.mode or "v5-engine"
         job_id = orch.create_job(
@@ -232,29 +243,54 @@ def run_batch(args, config: Config) -> int:
             provider=args.provider,
             mode=effective_mode,
         )
-
         start = time.time()
         job = orch.run_pipeline(job_id, max_cost=args.max_cost)
         dur = time.time() - start
+        return job, dur, pdf_path.name
 
-        total_time += dur
-        total_cost += job.cost_usd
+    if workers > 1:
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+            future_to_pdf = {pool.submit(process_one, p): p for p in pdfs}
+            for i, future in enumerate(concurrent.futures.as_completed(future_to_pdf), 1):
+                job, dur, name = future.result()
+                total_cost += job.cost_usd
+                total_time += dur
+                if job.status == "completed":
+                    print(f"[{i}/{len(pdfs)}] {name}: PASS ({dur:.0f}s, ${job.cost_usd:.2f})")
+                    results.append(("pass", name, dur, job.cost_usd))
+                elif job.status == "quarantined":
+                    print(f"[{i}/{len(pdfs)}] {name}: QUARANTINED ({job.error_stage})")
+                    results.append(("quarantined", name, dur, job.cost_usd))
+                else:
+                    print(f"[{i}/{len(pdfs)}] {name}: FAIL ({job.error_stage})")
+                    results.append(("fail", name, dur, job.cost_usd))
+    else:
+        for i, pdf_path in enumerate(pdfs, 1):
+            print(f"[{i}/{len(pdfs)}] {pdf_path.name}...", end=" ", flush=True)
+            job, dur, name = process_one(pdf_path)
+            total_time += dur
+            total_cost += job.cost_usd
 
-        if job.status == "completed":
-            print(f"PASS ({dur:.0f}s, ${job.cost_usd:.2f})")
-            results.append(("pass", pdf_path.name, dur, job.cost_usd))
-        else:
-            print(f"FAIL ({job.error_stage})")
-            results.append(("fail", pdf_path.name, dur, job.cost_usd))
+            if job.status == "completed":
+                print(f"PASS ({dur:.0f}s, ${job.cost_usd:.2f})")
+                results.append(("pass", name, dur, job.cost_usd))
+            elif job.status == "quarantined":
+                print(f"QUARANTINED ({job.error_stage})")
+                results.append(("quarantined", name, dur, job.cost_usd))
+            else:
+                print(f"FAIL ({job.error_stage})")
+                results.append(("fail", name, dur, job.cost_usd))
 
     passed = sum(1 for r in results if r[0] == "pass")
-    failed = len(results) - passed
+    quarantined = sum(1 for r in results if r[0] == "quarantined")
+    failed = len(results) - passed - quarantined
 
     print()
-    print(f"Summary: {passed} built, {failed} failed. "
+    print(f"Summary: {passed} built, {quarantined} quarantined, {failed} failed. "
           f"Cost: ${total_cost:.2f}. Time: {total_time:.0f}s.")
 
-    return 0 if failed == 0 else 1
+    return 0 if (failed == 0 and quarantined == 0) else 1
 
 
 def run_web(args, config: Config) -> int:
@@ -287,7 +323,8 @@ Examples:
     )
     parser.add_argument("--pdf", help="Path to a single PDF file")
     parser.add_argument("--job-id", dest="job_id", help="Resume or execute an existing job by ID from work/ directory")
-    parser.add_argument("--batch", help="Directory of PDFs for batch processing")
+    parser.add_argument("--batch", "--batch-dir", dest="batch", help="Directory of PDFs for batch processing")
+    parser.add_argument("--parallel", "--workers", type=int, default=1, help="Number of parallel workers for batch processing (default: 1)")
     parser.add_argument("--subject", default="math", help="Subject (math, science, english, evs)")
     parser.add_argument("--grade", type=int, default=4, help="Grade level (3-8)")
     try:

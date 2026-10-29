@@ -25,6 +25,8 @@ VENV_PY = PIPELINE_DIR / ".venv" / "Scripts" / "python.exe"
 
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
+if str(PIPELINE_DIR) not in sys.path:
+    sys.path.insert(0, str(PIPELINE_DIR))
 
 from aasha.agents.deep_vectorizer import DeepOfflineVectorizer
 from aasha.synthesis.offline_synthesizer import (
