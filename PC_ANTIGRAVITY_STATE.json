@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-30T17:28:11.4438275Z",
+    "timestamp_utc":  "2026-10-30T17:41:18.0835837Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -13,15 +13,18 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "a1679413df07c91de3f299081a588d1cdf20628d",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "head_commit":  "9d8ffa4545e175c0952d23a09ad74033a9e989f3",
+                                                 "dirty_file_count":  4,
+                                                 "dirty_files_sample":  [
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
+                                                                            " M scripts/aasha_continuous_loop.mjs",
+                                                                            "?? notebooks/",
+                                                                            "?? scripts/aasha_colab_bridge.py"
+                                                                        ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "d05911601011ec156aa611122990e558d62b2541",
+                                                   "head_commit":  "4ba740753d0872f7d3307e8c3446cf936c12a38b",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  {
 
