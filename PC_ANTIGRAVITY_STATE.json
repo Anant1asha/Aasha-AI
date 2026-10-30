@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-30T19:14:14.4566385Z",
+    "timestamp_utc":  "2026-10-30T19:31:46.6581248Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,7 +14,7 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "77dd47956db1ff6ab1c4aad676fd53d5397d82c2",
+                                                 "head_commit":  "fa36aa2c639ff1f7d56fc286513dda44548997b1",
                                                  "dirty_file_count":  0,
                                                  "dirty_files_sample":  {
 
@@ -22,11 +22,13 @@
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "a738c8cbdce8b25dc9165117b56ef7b4ec1f0476",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "8f044a8bbca6aba8d1a7b3806298a3bcbe88ae59",
+                                                   "dirty_file_count":  3,
+                                                   "dirty_files_sample":  [
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/plugins/base.py",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/plugins/harvest/__init__.py",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/plugins/harvest/plugin.py"
+                                                                          ]
                                                }
                      }
 }
