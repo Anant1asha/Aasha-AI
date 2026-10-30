@@ -125,10 +125,26 @@ class AVRPlugin(InteractionPlugin):
         )
 
     def can_handle(self, request: InteractionRequest) -> bool:
-        """Check if concept or suggested model matches any harvested manipulative."""
+        """Check if concept or suggested model matches any harvested manipulative.
+
+        Matches if requested interaction_type explicitly asks for avr/manipulative,
+        or if suggested_model/concept matches specific AVR keywords.
+        """
+        if request.interaction_type in ("avr", "avr_sim", "harvest_manipulative"):
+            return True
+
+        # If a more specialized interaction type was requested (like geometry, timeline, labeling),
+        # allow the domain-specific plugins (JSXGraph, Timeline, Fabric) to take priority unless AVR is explicitly hinted.
+        if request.interaction_type in ("geometry", "timeline", "branching", "image_hotspot", "labeling", "anatomy"):
+            return False
+
         concept_lower = (request.concept or "").lower().strip()
         model_lower = (request.suggested_model or "").lower().strip()
         context_lower = (request.context or "").lower().strip()
+
+        # If PhET or other specific simulation model is requested, defer unless avr keyword is present
+        if request.interaction_type == "simulation" and request.subject == "science" and not ("avr" in model_lower or "avr" in concept_lower):
+            return False
 
         for key in AVR_RESOURCE_MAP:
             if key in concept_lower or key in model_lower or key in context_lower:
