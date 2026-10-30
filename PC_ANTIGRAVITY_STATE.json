@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-30T19:05:16.5715106Z",
+    "timestamp_utc":  "2026-10-30T19:10:26.1119103Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,19 +14,17 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "324fbada093bc6991c40d0de6ed1a25fe3b08310",
-                                                 "dirty_file_count":  3,
-                                                 "dirty_files_sample":  [
-                                                                            "M  .github/workflows/aasha_cloud_worker.yml",
-                                                                            " M PC_ANTIGRAVITY_STATE.json",
-                                                                            " M aasha_pc_antigravity_daemon.ps1"
-                                                                        ]
+                                                 "head_commit":  "240713c4f161e1d1af016c0a1c04d9daf7d2f079",
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M scripts/ensure_9router.js"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "918954ffbe39dfe075424d46788b082f29c97f61",
-                                                   "dirty_file_count":  1,
-                                                   "dirty_files_sample":  "?? aasha-pipeline-with-master-json/src/aasha/plugins/harvest/"
+                                                   "head_commit":  "4b0c722a05da6a3fb6c4add4f2c02915bb02b0a7",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
