@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-30T18:49:45.0579646Z",
+    "timestamp_utc":  "2026-10-30T19:03:04.0787460Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,21 +14,17 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "2d60c18f46cb825ee9cb068324883f5f3b871624",
-                                                 "dirty_file_count":  3,
-                                                 "dirty_files_sample":  [
-                                                                            " M PC_ANTIGRAVITY_STATE.json",
-                                                                            " M scripts/aasha_continuous_loop.mjs",
-                                                                            " M scripts/ensure_9router.js"
-                                                                        ]
+                                                 "head_commit":  "324fbada093bc6991c40d0de6ed1a25fe3b08310",
+                                                 "dirty_file_count":  0,
+                                                 "dirty_files_sample":  {
+
+                                                                        }
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "f14cecf2db4cdad3ae9d8e8d4016c1a80dbd9d43",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "73e56c32d3ede81b175d88744b6b9cf6f1005ad4",
+                                                   "dirty_file_count":  1,
+                                                   "dirty_files_sample":  "?? aasha-pipeline-with-master-json/src/aasha/plugins/harvest/"
                                                }
                      }
 }
