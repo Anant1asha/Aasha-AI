@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-30T21:13:05.0489300Z",
+    "timestamp_utc":  "2026-10-30T21:31:46.3706127Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,7 +14,7 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "517049544540c8e98d401d957b8b117f3e39d1b9",
+                                                 "head_commit":  "c20bdadfbdfe57dad7121b27ed420b63b9ce6951",
                                                  "dirty_file_count":  0,
                                                  "dirty_files_sample":  {
 
@@ -22,11 +22,13 @@
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "18f08e20b5aaa809ddf571234640024ac18e91d4",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "b1f2dc768909d0b6845cdb235cfbaa7d8404168e",
+                                                   "dirty_file_count":  3,
+                                                   "dirty_files_sample":  [
+                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/plugins/harvest/plugin.py",
+                                                                              " M aasha-pipeline-with-master-json/tests/test_plugins.py"
+                                                                          ]
                                                }
                      }
 }
