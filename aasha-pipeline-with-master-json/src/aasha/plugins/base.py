@@ -192,8 +192,9 @@ def create_default_registry() -> PluginRegistry:
     """
     registry = PluginRegistry()
 
-    # Register all 12 plugins (lazy imports to avoid hard dependencies)
+    # Register all plugins (lazy imports to avoid hard dependencies)
     plugin_specs = [
+        ("harvest.plugin", "AVRPlugin"),
         ("jsxgraph.plugin", "JSXGraphPlugin"),
         ("phet.plugin", "PhETPlugin"),
         ("geogebra.plugin", "GeoGebraPlugin"),
