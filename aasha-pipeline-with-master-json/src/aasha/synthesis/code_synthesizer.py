@@ -680,6 +680,22 @@ shuffleOptions();
             if plugin == "phet":
                 inner_sim = f'<div class="interaction-container phet-container" id="interaction-{i}">' + \
                     f'<iframe src="about:blank" id="phet-frame-{i}" style="width:100%;height:300px;border:none" sandbox="allow-scripts allow-same-origin"></iframe></div>'
+            elif plugin in ("avr-harvest", "avr_sim"):
+                # Cleanroom AVR Harvest manipulative (AVR-P301 to P321) loaded via local resource
+                from ..plugins.harvest.plugin import AVRPlugin, AVR_RESOURCE_MAP
+                avr_instance = AVRPlugin()
+                # Find matching resource file based on concept name or key ideas
+                matched_file = "AVR-P301-number-line-marker.html"
+                text_to_search = f"{name} {summary} {' '.join(key_ideas)}".lower()
+                for key, fname in AVR_RESOURCE_MAP.items():
+                    if key in text_to_search:
+                        matched_file = fname
+                        break
+                raw_html = avr_instance.get_resource_html(matched_file)
+                import html as html_lib
+                escaped_srcdoc = html_lib.escape(raw_html, quote=True)
+                inner_sim = f'<div class="interaction-container avr-container" id="interaction-{i}" style="width:100%;min-height:360px">' + \
+                    f'<iframe srcdoc="{escaped_srcdoc}" id="avr-frame-{i}" style="width:100%;height:360px;border:none;border-radius:10px" sandbox="allow-scripts allow-same-origin"></iframe></div>'
             elif plugin == "jsxgraph":
                 inner_sim = f'<div class="interaction-container" id="interaction-{i}">' + \
                     f'<div id="jxg-board-{i}" class="jsxg-box"></div></div>'
