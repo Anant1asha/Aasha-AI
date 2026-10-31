@@ -459,6 +459,7 @@ function answerQuestion(btn, qId, nodeId, isCorrect, feedback, xp) {{
   var feedbackEl = card.querySelector('.quiz-feedback');
   if (isCorrect) {{
     btn.classList.add('correct');
+    playProceduralSound('correct');
     state.xp += xp;
     state.streak++;
     state.correct++;
@@ -466,6 +467,7 @@ function answerQuestion(btn, qId, nodeId, isCorrect, feedback, xp) {{
     feedbackEl.textContent = '✓ Correct! +' + xp + ' XP';
   }} else {{
     btn.classList.add('wrong');
+    playProceduralSound('wrong');
     state.streak = 0;
     feedbackEl.className = 'quiz-feedback show no';
     feedbackEl.textContent = feedback || 'Check the conceptual rule and try again.';
@@ -682,7 +684,7 @@ shuffleOptions();
                     f'<iframe src="about:blank" id="phet-frame-{i}" style="width:100%;height:300px;border:none" sandbox="allow-scripts allow-same-origin"></iframe></div>'
             elif plugin in ("avr-harvest", "avr_sim"):
                 # Cleanroom AVR Harvest manipulative (AVR-P301 to P321) loaded via local resource
-                from ..plugins.harvest.plugin import AVRPlugin, AVR_RESOURCE_MAP
+                from aasha.plugins.harvest.plugin import AVRPlugin, AVR_RESOURCE_MAP
                 avr_instance = AVRPlugin()
                 # Find matching resource file based on concept name or key ideas
                 matched_file = "AVR-P301-number-line-marker.html"
