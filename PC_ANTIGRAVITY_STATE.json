@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-10-31T02:29:33.2056500Z",
+    "timestamp_utc":  "2026-10-31T02:43:41.0414819Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,7 +14,7 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "3bdd39da34649e3d6700d3866b299eed09eeac73",
+                                                 "head_commit":  "16be18d71e695ce1c4602a51d956eab81a48288a",
                                                  "dirty_file_count":  0,
                                                  "dirty_files_sample":  {
 
@@ -22,12 +22,11 @@
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "e8c8806e1e7c27aedc88bb46f2ae9d1203da45e1",
-                                                   "dirty_file_count":  2,
-                                                   "dirty_files_sample":  [
-                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/synthesis/code_synthesizer.py"
-                                                                          ]
+                                                   "head_commit":  "199a70060de331a755912c0adfa04a6398de7996",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
