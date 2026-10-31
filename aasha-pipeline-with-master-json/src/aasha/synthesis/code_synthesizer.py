@@ -425,6 +425,48 @@ function updateStats() {{
   }}
 }}
 
+// ════════ Khan Kids Zero-Download Procedural Web Audio Engine (0 KB Bloat) ════════
+var _audioCtx = null;
+function playProceduralSound(type) {{
+  try {{
+    var AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtxClass) return;
+    if (!_audioCtx) _audioCtx = new AudioCtxClass();
+    if (_audioCtx.state === 'suspended') _audioCtx.resume();
+    var now = _audioCtx.currentTime;
+
+    if (type === 'correct') {{
+      // Ascending arpeggio chord (C5 -> E5 -> G5 -> C6)
+      var notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach(function(freq, idx) {{
+        var osc = _audioCtx.createOscillator();
+        var gain = _audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+        gain.gain.setValueAtTime(0.08, now + idx * 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.14);
+        osc.connect(gain);
+        gain.connect(_audioCtx.destination);
+        osc.start(now + idx * 0.06);
+        osc.stop(now + idx * 0.06 + 0.15);
+      }});
+    }} else if (type === 'wrong') {{
+      // Descending dissonance buzz
+      var osc = _audioCtx.createOscillator();
+      var gain = _audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.linearRampToValueAtTime(90, now + 0.22);
+      gain.gain.setValueAtTime(0.09, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc.connect(gain);
+      gain.connect(_audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.23);
+    }}
+  }} catch(e) {{}}
+}}
+
 // ════════ Assessment Handler (Universal Question Contract) ════════
 var _questionLoadTimes = {{}};
 
@@ -684,16 +726,16 @@ shuffleOptions();
                     f'<iframe src="about:blank" id="phet-frame-{i}" style="width:100%;height:300px;border:none" sandbox="allow-scripts allow-same-origin"></iframe></div>'
             elif plugin in ("avr-harvest", "avr_sim"):
                 # Cleanroom AVR Harvest manipulative (AVR-P301 to P321) loaded via local resource
-                from aasha.plugins.harvest.plugin import AVRPlugin, AVR_RESOURCE_MAP
-                avr_instance = AVRPlugin()
-                # Find matching resource file based on concept name or key ideas
-                matched_file = "AVR-P301-number-line-marker.html"
-                text_to_search = f"{name} {summary} {' '.join(key_ideas)}".lower()
-                for key, fname in AVR_RESOURCE_MAP.items():
-                    if key in text_to_search:
-                        matched_file = fname
-                        break
-                raw_html = avr_instance.get_resource_html(matched_file)
+                from ..plugins import create_default_registry, InteractionRequest
+                registry = create_default_registry()
+                avr_plugin = registry.get("avr-harvest")
+                raw_html = ""
+                if avr_plugin and hasattr(avr_plugin, "render_step"):
+                    req = InteractionRequest(concept=name, subject=concept.get("subject", "math"), grade=4, context=f"{summary} {' '.join(key_ideas)}")
+                    rendered = avr_plugin.render_step(req)
+                    raw_html = rendered.get("raw_html", "")
+                if not raw_html:
+                    raw_html = f"<!doctype html><html><body><h3>Interactive Ready</h3><p>{name}</p></body></html>"
                 import html as html_lib
                 escaped_srcdoc = html_lib.escape(raw_html, quote=True)
                 inner_sim = f'<div class="interaction-container avr-container" id="interaction-{i}" style="width:100%;min-height:360px">' + \
