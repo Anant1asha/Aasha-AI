@@ -122,6 +122,9 @@ async function runVersionManagerTests() {
   if (!sizeGateCaught) {
     throw new Error('Test 4 Failed: VersionManager allowed registering an artifact exceeding 40 MiB!');
   }
+  try {
+    fs.rmSync(oversizedPath, { force: true });
+  } catch {}
   console.log('✔ Test 4 Passed: Artifact exceeding 40 MiB was strictly rejected.\n');
 
   // ─── Test 5: Integrity Check & Tamper Detection ───
