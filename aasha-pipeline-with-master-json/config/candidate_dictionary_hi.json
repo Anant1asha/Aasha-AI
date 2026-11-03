@@ -343,14 +343,14 @@
   },
   "identify": {
     "translation": "पहचानना (आइडेंटिफाइ)",
-    "frequency": 16,
+    "frequency": 17,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Rational Numbers and Fractions",
       "Page 1"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "identifying": {
     "translation": "पहचानते हुए (आइडेंटिफाइइंग)",
@@ -481,13 +481,13 @@
   },
   "outcome": {
     "translation": "परिणाम (आउटकम)",
-    "frequency": 10,
+    "frequency": 11,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Page 1"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "pan": {
     "translation": "पैन (पैन)",
@@ -663,13 +663,13 @@
   },
   "understanding": {
     "translation": "समझ (अंडरस्टैंडिंग)",
-    "frequency": 122,
+    "frequency": 123,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Page 1"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "unique": {
     "translation": "अद्वितीय (यूनिक)",
@@ -763,13 +763,13 @@
   },
   "balance": {
     "translation": "संतुलन (बैलन्स)",
-    "frequency": 14,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions",
       "Page 1"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "bars": {
     "translation": "बार (बार्ज)",
@@ -890,13 +890,13 @@
   },
   "evaluating": {
     "translation": "मूल्यांकन कर रहा है (इ-वैल्यू-एटिंग)",
-    "frequency": 14,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions",
       "Page 1"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "examine": {
     "translation": "जांच करना (एक-सैम-इन)",
@@ -1251,57 +1251,57 @@
   },
   "apply": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "balanced": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "core": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "correctly": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "describes": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "discovery": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "down": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1314,48 +1314,48 @@
   },
   "governing": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "hands": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "interactive": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "introduction": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "key": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "mathematical": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1368,57 +1368,57 @@
   },
   "observe": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "operations": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "page": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "primary": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "principles": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "properties": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "relating": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1431,137 +1431,137 @@
   },
   "remain": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "representations": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "solving": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "statement": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "transformation": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "verify": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 120,
+    "frequency": 121,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "algebraic": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 8,
+    "frequency": 9,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "conceptual": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 8,
+    "frequency": 9,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "conditions": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 8,
+    "frequency": 9,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "confirm": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 8,
+    "frequency": 9,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "coordinate": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 8,
+    "frequency": 9,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "elements": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 8,
+    "frequency": 9,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "geometry": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 8,
+    "frequency": 9,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "principle": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 8,
+    "frequency": 9,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   },
   "relationship": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 8,
+    "frequency": 9,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-03 20:14:26 UTC"
+    "last_seen": "2026-11-03 20:30:30 UTC"
   }
 }
