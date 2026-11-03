@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-03T22:53:15.4899732Z",
+    "timestamp_utc":  "2026-11-03T22:56:07.4812417Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,14 +15,12 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "dbdf8955857780fa172dad4e7cb293486a222d1c",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M PC_ANTIGRAVITY_STATE.json"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "cb4b2207420f5d7919796ee7bb8fead6650f8b34",
+                                                   "head_commit":  "6a97b9b918ed5d93b8ba7f89100a633f56c0c489",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  {
 
