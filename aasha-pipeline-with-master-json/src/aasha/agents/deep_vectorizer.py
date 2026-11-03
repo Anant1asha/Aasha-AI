@@ -851,69 +851,71 @@ class DeepOfflineVectorizer:
         caption = f"Vectorized Technical Drawing (Page {page_num})"
         metadata: dict[str, Any] = {"diagram_category": "vector_drawing"}
 
-        # Coordinate graph test: intersecting horizontal & vertical axes
-        intersecting_axes = False
-        origin_pt = (width / 2.0, height / 2.0)
-        if h_lines and v_lines:
-            for ((hx1, hy), (hx2, _)) in h_lines:
-                for ((vx, vy1), (_, vy2)) in v_lines:
-                    if hx1 <= vx <= hx2 and vy1 <= hy <= vy2:
-                        intersecting_axes = True
-                        origin_pt = (vx, hy)
-                        break
-                if intersecting_axes:
-                    break
-
-        if intersecting_axes:
-            diag_type = "coordinate_graph"
-            caption = f"Cartesian Coordinate System with Data Axes (Page {page_num})"
-            quadrants = 1 if (origin_pt[0] <= 0.35 * width and origin_pt[1] >= 0.65 * height) else 4
-            metadata = {
-                "diagram_category": "coordinate_graph",
-                "origin": {"x": origin_pt[0], "y": origin_pt[1]},
-                "quadrants": quadrants,
-                "ticks_detected": len(tick_lines),
-                "has_grid": len(h_lines) >= 3 and len(v_lines) >= 3,
-            }
-        elif h_lines:
-            # Check for balance scale: upper horizontal beam + central support + lower shapes
-            upper_h_lines = [l for l in h_lines if l[0][1] <= 0.55 * height]
-            if upper_h_lines:
-                beam = upper_h_lines[0]
-                beam_x1, beam_y = beam[0]
-                beam_x2, _ = beam[1]
-                beam_cx = (beam_x1 + beam_x2) / 2.0
-                center_support = any(
-                    abs(l[0][0] - beam_cx) <= 0.15 * width and l[0][1] >= beam_y for l in lines if abs(l[1][0] - l[0][0]) <= 8.0
-                ) or any(
-                    rx0 <= beam_cx <= rx1 and ry0 >= beam_y for (rx0, ry0, rx1, ry1) in rects
-                )
-                left_shapes = any(l[0][0] <= beam_x1 + 0.15 * width and l[0][1] >= beam_y for l in lines) or any(
-                    rx0 <= beam_x1 + 0.15 * width and ry0 >= beam_y for (rx0, ry0, rx1, ry1) in rects
-                )
-                right_shapes = any(l[1][0] >= beam_x2 - 0.15 * width and l[0][1] >= beam_y for l in lines) or any(
-                    rx1 >= beam_x2 - 0.15 * width and ry0 >= beam_y for (rx0, ry0, rx1, ry1) in rects
-                )
-                if center_support and (left_shapes or right_shapes):
-                    diag_type = "balance_scale"
-                    caption = f"Equation Balance Scale with Symmetric Weights (Page {page_num})"
-                    metadata = {
-                        "diagram_category": "balance_scale",
-                        "equilibrium": "balanced",
-                        "beam": {"x1": beam_x1, "x2": beam_x2, "y": beam_y},
-                        "fulcrum": {"x": beam_cx, "y": beam_y},
-                    }
-            if diag_type == "vector_drawing" and len(tick_lines) >= 3 and not v_lines:
-                diag_type = "number_line"
-                caption = f"Linear Number Line with Coordinate Intervals (Page {page_num})"
+        # Check for balance scale: upper horizontal beam + central support + lower shapes
+        upper_h_lines = [l for l in h_lines if l[0][1] <= 0.55 * height]
+        if upper_h_lines:
+            beam = upper_h_lines[0]
+            beam_x1, beam_y = beam[0]
+            beam_x2, _ = beam[1]
+            beam_cx = (beam_x1 + beam_x2) / 2.0
+            center_support = any(
+                abs(l[0][0] - beam_cx) <= 0.15 * width and l[0][1] >= beam_y for l in lines if abs(l[1][0] - l[0][0]) <= 8.0
+            ) or any(
+                rx0 <= beam_cx <= rx1 and ry0 >= beam_y for (rx0, ry0, rx1, ry1) in rects
+            )
+            left_shapes = any(l[0][0] <= beam_x1 + 0.15 * width and l[0][1] > beam_y for l in lines) or any(
+                rx0 <= beam_x1 + 0.15 * width and ry0 >= beam_y for (rx0, ry0, rx1, ry1) in rects
+            )
+            right_shapes = any(l[1][0] >= beam_x2 - 0.15 * width and l[0][1] > beam_y for l in lines) or any(
+                rx1 >= beam_x2 - 0.15 * width and ry0 >= beam_y for (rx0, ry0, rx1, ry1) in rects
+            )
+            if center_support and (left_shapes or right_shapes):
+                diag_type = "balance_scale"
+                caption = f"Equation Balance Scale with Symmetric Weights (Page {page_num})"
                 metadata = {
-                    "diagram_category": "number_line",
-                    "tick_count": len(tick_lines),
+                    "diagram_category": "balance_scale",
+                    "equilibrium": "balanced",
+                    "beam": {"x1": beam_x1, "x2": beam_x2, "y": beam_y},
+                    "fulcrum": {"x": beam_cx, "y": beam_y},
                 }
-        elif curves_count >= 2:
-            diag_type = "geometric_circle"
-            caption = f"Geometric Circle with Radial Proportions (Page {page_num})"
-            metadata = {"diagram_category": "geometric_circle"}
+
+        if diag_type == "vector_drawing":
+            # Coordinate graph test: intersecting horizontal & vertical axes
+            intersecting_axes = False
+            origin_pt = (width / 2.0, height / 2.0)
+            if h_lines and v_lines:
+                for ((hx1, hy), (hx2, _)) in h_lines:
+                    for ((vx, vy1), (_, vy2)) in v_lines:
+                        if hx1 <= vx <= hx2 and vy1 <= hy <= vy2:
+                            intersecting_axes = True
+                            origin_pt = (vx, hy)
+                            break
+                    if intersecting_axes:
+                        break
+
+            if intersecting_axes:
+                diag_type = "coordinate_graph"
+                caption = f"Cartesian Coordinate System with Data Axes (Page {page_num})"
+                quadrants = 1 if (origin_pt[0] <= 0.35 * width and origin_pt[1] >= 0.65 * height) else 4
+                metadata = {
+                    "diagram_category": "coordinate_graph",
+                    "origin": {"x": origin_pt[0], "y": origin_pt[1]},
+                    "quadrants": quadrants,
+                    "ticks_detected": len(tick_lines),
+                    "has_grid": len(h_lines) >= 3 and len(v_lines) >= 3,
+                }
+            elif h_lines:
+                if len(tick_lines) >= 3 and not v_lines:
+                    diag_type = "number_line"
+                    caption = f"Linear Number Line with Coordinate Intervals (Page {page_num})"
+                    metadata = {
+                        "diagram_category": "number_line",
+                        "tick_count": len(tick_lines),
+                    }
+            elif curves_count >= 2:
+                diag_type = "geometric_circle"
+                caption = f"Geometric Circle with Radial Proportions (Page {page_num})"
+                metadata = {"diagram_category": "geometric_circle"}
 
         svg_geometry = cls._drawings_to_svg(drawings, width, height, diag_type)
 

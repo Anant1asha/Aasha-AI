@@ -81,8 +81,7 @@ class IngestAgent(BaseAgent):
         figures: list[dict[str, Any]] = []
 
         if use_fitz:
-            try:
-                page_count = len(doc)
+            page_count = len(doc)
             all_sizes = []
             for page in doc:
                 blocks = page.get_text("dict")["blocks"]
