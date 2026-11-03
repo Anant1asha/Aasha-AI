@@ -311,6 +311,8 @@ export interface PipelineOptions {
   modelOverride?: string;
   llmCompleter?: (req: any) => Promise<{ content: string; [key: string]: any }>;
   maxRepairAttempts?: number;
+  useIEC?: boolean;
+  iecOptions?: any;
   taskCapabilityProfile?: TaskCapabilityProfile;
 }
 
