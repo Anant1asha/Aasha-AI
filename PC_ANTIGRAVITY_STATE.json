@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-03T19:15:06.0062854Z",
+    "timestamp_utc":  "2026-11-03T19:30:43.0833557Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -26,11 +26,12 @@
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "5745263b4f67f9b3b978bdbd079ef3e37243d33d",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "ba0df44a64c9c8fba9fe77a3a42371ef7eaaf541",
+                                                   "dirty_file_count":  2,
+                                                   "dirty_files_sample":  [
+                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/agents/ingest_agent.py"
+                                                                          ]
                                                }
                      }
 }
