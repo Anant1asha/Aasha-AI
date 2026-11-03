@@ -5,6 +5,8 @@
  * Zero external dependencies, 100% offline, mobile same-frame viewport compliant.
  */
 
+import { generateFractionSliceSimScript } from './fraction_slice_sim.ts';
+
 export interface SimGeneratorConfig {
   subject: string;
   topic: string;
@@ -768,201 +770,17 @@ export class DomainSimGenerators {
   }
 
   /**
-   * King's Math F24: Dynamic Fraction & Decimal Slices (큰수차례킹)
-   * Visual circle and bar fraction slice manipulative with synchronous decimal readouts.
+   * King's Math F24: Dynamic Fraction & Decimal Slices (Foundation F24)
+   * High-fidelity Web Component (<aasha-sim-fraction-slice> / <aasha-sim>)
+   * with circular pie & rectangular strip modes, synchronous decimal readout,
+   * 44x44px touch targets, and 60 FPS Canvas rendering.
    */
   static generateFractionPizzaSim(config: SimGeneratorConfig): string {
-    return `
-      class AashaFractionPizzaSim extends HTMLElement {
-        constructor() {
-          super();
-          this.attachShadow({ mode: 'open' });
-          this.state = { numerator: 3, denominator: 4, lang: window.__AASHA_LANG__ || 'en' };
-          this._animFrame = null;
-        }
-
-        connectedCallback() {
-          this.render();
-          this.setupEvents();
-          window.addEventListener('aasha:language_change', (e) => this.setLanguage(e.detail?.lang || 'en'));
-        }
-
-        disconnectedCallback() { this.destroy(); }
-        pause() { if (this._animFrame) cancelAnimationFrame(this._animFrame); }
-        resume() { this.draw(); }
-        destroy() { this.pause(); }
-
-        setLanguage(lang) {
-          this.state.lang = lang;
-          this.updateLabels();
-        }
-
-        getState() { return { ...this.state }; }
-        setState(s) { Object.assign(this.state, s); this.updateLabels(); this.draw(); }
-
-        reset() {
-          this.state.numerator = 1;
-          this.state.denominator = 4;
-          this.emitTelemetry('reset', { numerator: 1, denominator: 4 });
-          this.updateLabels();
-          this.draw();
-        }
-
-        emitTelemetry(event, data) {
-          this.dispatchEvent(new CustomEvent('aasha:telemetry', {
-            bubbles: true,
-            composed: true,
-            detail: { simType: 'fraction-pizza', event, ...data, timestamp: Date.now() }
-          }));
-        }
-
-        render() {
-          this.shadowRoot.innerHTML = \`
-            <style>
-              :host { display: block; width: 100%; height: 100%; font-family: system-ui, sans-serif; }
-              .sim-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; width: 100%; height: 100%; padding: 6px; box-sizing: border-box; background: #0F172A; color: #F8FAFC; border-radius: 12px; }
-              .readout { font-size: 13px; font-weight: 700; color: #38BDF8; text-align: center; }
-              .decimal-badge { font-size: 11px; font-weight: 700; color: #F59E0B; background: #1E3A5F; padding: 2px 8px; border-radius: 6px; }
-              .canvas-box { width: 100%; max-width: 200px; height: 96px; display: flex; align-items: center; justify-content: center; position: relative; }
-              canvas { width: 100%; height: 100%; border-radius: 8px; }
-              .controls { display: flex; gap: 6px; width: 100%; justify-content: center; flex-wrap: nowrap; overflow-x: auto; touch-action: pan-x; }
-              .btn { min-height: 44px; min-width: 44px; padding: 6px 10px; background: #2563EB; color: #FFF; border: none; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
-              .btn:active { transform: scale(0.96); }
-              .btn-stepper { background: #334155; color: #E2E8F0; }
-              .btn-reset { background: #475569; }
-            </style>
-            <div class="sim-container">
-              <div class="readout" id="lblFraction">Fraction: 3 / 4</div>
-              <div class="decimal-badge" id="lblDecimal">Decimal: 0.75 | 75%</div>
-              <div class="canvas-box">
-                <canvas id="pizzaCanvas" width="200" height="96"></canvas>
-              </div>
-              <div class="controls">
-                <button class="btn btn-stepper" id="btnSliceSub" aria-label="Subtract Shade">- Slice</button>
-                <button class="btn btn-stepper" id="btnSliceAdd" aria-label="Add Shade">+ Slice</button>
-                <button class="btn btn-stepper" id="btnDenomAdd" aria-label="Divide More">Parts +</button>
-                <button class="btn btn-reset" id="btnReset">Reset</button>
-              </div>
-            </div>
-          \`;
-          this.draw();
-          this.updateLabels();
-        }
-
-        draw() {
-          const canvas = this.shadowRoot.getElementById('pizzaCanvas');
-          if (!canvas) return;
-          const ctx = canvas.getContext('2d');
-          const cx = canvas.width / 2;
-          const cy = canvas.height / 2;
-          const radius = Math.min(cx, cy) - 6;
-
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          const total = this.state.denominator;
-          const shaded = this.state.numerator;
-          const sliceAngle = (Math.PI * 2) / total;
-
-          for (let i = 0; i < total; i++) {
-            const startAngle = i * sliceAngle - Math.PI / 2;
-            const endAngle = startAngle + sliceAngle;
-            ctx.beginPath();
-            ctx.moveTo(cx, cy);
-            ctx.arc(cx, cy, radius, startAngle, endAngle);
-            ctx.closePath();
-
-            if (i < shaded) {
-              ctx.fillStyle = '#F59E0B'; // Shaded warm amber
-            } else {
-              ctx.fillStyle = '#1E293B'; // Unshaded deep slate
-            }
-            ctx.fill();
-            ctx.lineWidth = 1.5;
-            ctx.strokeStyle = '#38BDF8';
-            ctx.stroke();
-          }
-
-          // Center pin
-          ctx.beginPath();
-          ctx.arc(cx, cy, 3, 0, Math.PI * 2);
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fill();
-        }
-
-        setupEvents() {
-          const btnAdd = this.shadowRoot.getElementById('btnSliceAdd');
-          const btnSub = this.shadowRoot.getElementById('btnSliceSub');
-          const btnDenom = this.shadowRoot.getElementById('btnDenomAdd');
-          const btnReset = this.shadowRoot.getElementById('btnReset');
-          const canvas = this.shadowRoot.getElementById('pizzaCanvas');
-
-          if (btnAdd) btnAdd.addEventListener('click', () => {
-            this.state.numerator = Math.min(this.state.denominator, this.state.numerator + 1);
-            this.emitTelemetry('slice_change', { numerator: this.state.numerator, denominator: this.state.denominator });
-            this.updateLabels();
-            this.draw();
-          });
-
-          if (btnSub) btnSub.addEventListener('click', () => {
-            this.state.numerator = Math.max(0, this.state.numerator - 1);
-            this.emitTelemetry('slice_change', { numerator: this.state.numerator, denominator: this.state.denominator });
-            this.updateLabels();
-            this.draw();
-          });
-
-          if (btnDenom) btnDenom.addEventListener('click', () => {
-            const nextDenom = this.state.denominator >= 8 ? 2 : this.state.denominator + 2;
-            this.state.denominator = nextDenom;
-            this.state.numerator = Math.min(this.state.numerator, nextDenom);
-            this.emitTelemetry('denominator_change', { denominator: this.state.denominator });
-            this.updateLabels();
-            this.draw();
-          });
-
-          if (btnReset) btnReset.addEventListener('click', () => this.reset());
-
-          if (canvas) {
-            canvas.addEventListener('click', (e) => {
-              const rect = canvas.getBoundingClientRect();
-              const x = e.clientX - rect.left - (rect.width / 2);
-              const y = e.clientY - rect.top - (rect.height / 2);
-              let angle = Math.atan2(y, x) + Math.PI / 2;
-              if (angle < 0) angle += Math.PI * 2;
-              const slice = Math.floor(angle / ((Math.PI * 2) / this.state.denominator));
-              this.state.numerator = slice + 1;
-              this.emitTelemetry('direct_canvas_tap', { numerator: this.state.numerator });
-              this.updateLabels();
-              this.draw();
-            });
-          }
-        }
-
-        updateLabels() {
-          const isHi = this.state.lang === 'hi';
-          const dec = (this.state.numerator / this.state.denominator).toFixed(2);
-          const pct = Math.round((this.state.numerator / this.state.denominator) * 100);
-          const lblFrac = this.shadowRoot.getElementById('lblFraction');
-          const lblDec = this.shadowRoot.getElementById('lblDecimal');
-          const btnReset = this.shadowRoot.getElementById('btnReset');
-
-          if (lblFrac) {
-            lblFrac.innerText = isHi
-              ? \`भिन्न: \${this.state.numerator} / \${this.state.denominator}\`
-              : \`Fraction: \${this.state.numerator} / \${this.state.denominator}\`;
-          }
-          if (lblDec) {
-            lblDec.innerText = isHi
-              ? \`दशमलव: \${dec} | \${pct}%\`
-              : \`Decimal: \${dec} | \${pct}%\`;
-          }
-          if (btnReset) {
-            btnReset.innerText = isHi ? 'रीसेट' : 'Reset';
-          }
-        }
-      }
-      if (!customElements.get('aasha-sim')) {
-        customElements.define('aasha-sim', AashaFractionPizzaSim);
-      }
-    `;
+    return generateFractionSliceSimScript({
+      initialNumerator: config.initialParams?.numerator ?? 3,
+      initialDenominator: config.initialParams?.denominator ?? 4,
+      initialMode: config.initialParams?.mode === 'strip' ? 'strip' : 'pie',
+    });
   }
 
   /**
