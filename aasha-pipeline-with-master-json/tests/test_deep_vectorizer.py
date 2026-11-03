@@ -1,6 +1,7 @@
 """Tests for DeepOfflineVectorizer and IngestAgent offline vectorization of scanned PDFs."""
 
 import json
+import math
 from pathlib import Path
 from unittest.mock import MagicMock
 
@@ -118,3 +119,134 @@ def test_ingest_agent_vision_failure_fallback_to_deep_vectorizer(tmp_path: Path)
 
     # Ensure figures were extracted despite vision LLM failure
     assert len(raw_extract["figures"]) >= 1
+
+
+def create_balance_scale_image(width=400, height=240, tilt_degrees=0) -> Image.Image:
+    """Create a high-contrast binary raster drawing of a balance scale."""
+    img = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(img)
+    # Stand base
+    draw.rectangle([140, 210, 260, 225], fill="black")
+    # Central pillar
+    draw.line([(200, 210), (200, 90)], fill="black", width=5)
+    # Fulcrum triangle
+    draw.polygon([(200, 75), (188, 105), (212, 105)], outline="black", fill="black")
+    # Crossbeam (with tilt if any)
+    rad = math.radians(tilt_degrees)
+    arm = 140
+    dx = arm * math.cos(rad)
+    dy = arm * math.sin(rad)
+    x0, y0 = 200 - dx, 75 - dy
+    x1, y1 = 200 + dx, 75 + dy
+    draw.line([(x0, y0), (x1, y1)], fill="black", width=5)
+    # Left pan & strings
+    draw.line([(x0, y0), (x0 - 20, y0 + 60)], fill="black", width=2)
+    draw.line([(x0, y0), (x0 + 20, y0 + 60)], fill="black", width=2)
+    draw.line([(x0 - 25, y0 + 60), (x0 + 25, y0 + 60)], fill="black", width=4)
+    # Right pan & strings
+    draw.line([(x1, y1), (x1 - 20, y1 + 60)], fill="black", width=2)
+    draw.line([(x1, y1), (x1 + 20, y1 + 60)], fill="black", width=2)
+    draw.line([(x1 - 25, y1 + 60), (x1 + 25, y1 + 60)], fill="black", width=4)
+    return img
+
+
+def create_coordinate_graph_image(width=300, height=300, four_quadrants=True) -> Image.Image:
+    """Create a high-contrast binary raster drawing of a Cartesian coordinate graph."""
+    img = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(img)
+    ox = width // 2 if four_quadrants else 60
+    oy = height // 2 if four_quadrants else height - 60
+    # X axis
+    draw.line([(20, oy), (width - 20, oy)], fill="black", width=4)
+    # Y axis
+    draw.line([(ox, 20), (ox, height - 20)], fill="black", width=4)
+    # Ticks along X
+    for tx in range(40, width - 40, 30):
+        draw.line([(tx, oy - 6), (tx, oy + 6)], fill="black", width=2)
+    # Ticks along Y
+    for ty in range(40, height - 40, 30):
+        draw.line([(ox - 6, ty), (ox + 6, ty)], fill="black", width=2)
+    return img
+
+
+def test_classify_balance_scale_raster_and_vector():
+    """Verify DeepOfflineVectorizer classifies balance scale diagrams with equilibrium metadata."""
+    # 1. Balanced scale raster
+    img_balanced = create_balance_scale_image(400, 240, tilt_degrees=0)
+    analysis = DeepOfflineVectorizer.analyze_raster_image(img_balanced, 400, 240)
+    figures = analysis.get("figures", [])
+    assert len(figures) >= 1
+    scale_fig = figures[0]
+    assert scale_fig["type"] == "balance_scale"
+    assert "aasha-balance-scale" in scale_fig["svg"]
+    assert scale_fig.get("metadata", {}).get("diagram_category") == "balance_scale"
+    assert scale_fig.get("metadata", {}).get("equilibrium") == "balanced"
+
+    # 2. Right-heavy tilted scale raster
+    img_tilted = create_balance_scale_image(400, 240, tilt_degrees=15)
+    analysis_tilted = DeepOfflineVectorizer.analyze_raster_image(img_tilted, 400, 240)
+    figures_tilted = analysis_tilted.get("figures", [])
+    assert len(figures_tilted) >= 1
+    assert figures_tilted[0]["type"] == "balance_scale"
+    assert figures_tilted[0].get("metadata", {}).get("equilibrium") == "right_heavy"
+
+    # 3. Native vector balance scale
+    drawings = [
+        {
+            "color": (0.1, 0.1, 0.1),
+            "width": 3.0,
+            "items": [
+                ("l", (50, 100), (350, 100)),   # Upper crossbeam
+                ("l", (200, 100), (200, 250)),  # Central support pillar
+                ("re", (40, 160, 100, 190)),    # Left pan rect
+                ("re", (300, 160, 360, 190)),   # Right pan rect
+            ],
+        }
+    ]
+    vec_fig = DeepOfflineVectorizer._classify_vector_drawings(drawings, 400, 300, 1)
+    assert vec_fig["type"] == "balance_scale"
+    assert vec_fig.get("metadata", {}).get("diagram_category") == "balance_scale"
+    assert "aasha-diagram-balance_scale" in vec_fig["svg"]
+
+
+def test_classify_coordinate_graph_raster_and_vector():
+    """Verify DeepOfflineVectorizer classifies 4-quadrant and 1-quadrant coordinate graphs."""
+    # 1. 4-quadrant coordinate graph raster
+    img_4quad = create_coordinate_graph_image(300, 300, four_quadrants=True)
+    analysis_4q = DeepOfflineVectorizer.analyze_raster_image(img_4quad, 300, 300)
+    figures_4q = analysis_4q.get("figures", [])
+    assert len(figures_4q) >= 1
+    coord_fig = figures_4q[0]
+    assert coord_fig["type"] == "coordinate_graph"
+    assert "aasha-coordinate-graph" in coord_fig["svg"]
+    assert coord_fig.get("metadata", {}).get("diagram_category") == "coordinate_graph"
+    assert coord_fig.get("metadata", {}).get("quadrants") == 4
+
+    # 2. 1-quadrant coordinate graph raster (origin lower-left)
+    img_1quad = create_coordinate_graph_image(300, 300, four_quadrants=False)
+    analysis_1q = DeepOfflineVectorizer.analyze_raster_image(img_1quad, 300, 300)
+    figures_1q = analysis_1q.get("figures", [])
+    assert len(figures_1q) >= 1
+    assert figures_1q[0]["type"] == "coordinate_graph"
+    assert figures_1q[0].get("metadata", {}).get("quadrants") == 1
+
+    # 3. Native vector coordinate graph
+    drawings = [
+        {
+            "color": (0.1, 0.2, 0.8),
+            "width": 2.5,
+            "items": [
+                ("l", (30, 150), (270, 150)),  # Horizontal axis
+                ("l", (150, 30), (150, 270)),  # Vertical axis
+                ("l", (90, 145), (90, 155)),   # Tick on X
+                ("l", (210, 145), (210, 155)), # Tick on X
+                ("l", (145, 90), (155, 90)),   # Tick on Y
+                ("l", (145, 210), (155, 210)), # Tick on Y
+            ],
+        }
+    ]
+    vec_fig = DeepOfflineVectorizer._classify_vector_drawings(drawings, 300, 300, 1)
+    assert vec_fig["type"] == "coordinate_graph"
+    assert vec_fig.get("metadata", {}).get("diagram_category") == "coordinate_graph"
+    assert "coord-arrow" in vec_fig["svg"]
+    assert vec_fig.get("metadata", {}).get("quadrants") == 4

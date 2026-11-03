@@ -216,8 +216,64 @@ class AssessmentAgent(BaseAgent):
         except (KeyError, IndexError, TypeError) as e:
             logger.warning(f"Could not apply assessment at {location}: {e}")
 
-    def _generate_fallback_options(self, question: str) -> list[dict]:
+    def _generate_fallback_options(self, question: str, subject: str = "math") -> list[dict]:
         """Generate 3 schema-compliant options (1 correct, 2 distractors with misconception)."""
+        del question
+        s = subject.lower().strip()
+        if s in {"science", "physics", "chemistry", "biology"}:
+            return [
+                {
+                    "t": "Apply the verified scientific principle and observed evidence",
+                    "c": True,
+                    "m": "",
+                },
+                {
+                    "t": "Conclude without checking experimental control or conditions",
+                    "c": False,
+                    "m": "Always verify that variables and observational conditions are properly controlled.",
+                },
+                {
+                    "t": "Confuse cause with an unrelated correlation",
+                    "c": False,
+                    "m": "Remember that correlation alone does not prove a direct causal relationship.",
+                },
+            ]
+        elif s in {"social_studies", "history", "geography", "civics", "political_science"}:
+            return [
+                {
+                    "t": "Evaluate the verified evidence and historical context",
+                    "c": True,
+                    "m": "",
+                },
+                {
+                    "t": "Assume events occurred without chronological or causal factors",
+                    "c": False,
+                    "m": "Check the chronological timeline and key socio-economic factors involved.",
+                },
+                {
+                    "t": "Rely on an isolated opinion instead of corroborated records",
+                    "c": False,
+                    "m": "Analyze how multiple historical records and geographic evidence cross-verify.",
+                },
+            ]
+        elif s in {"english", "hindi", "sanskrit", "tamil", "bengali"}:
+            return [
+                {
+                    "t": "Identify the correct grammatical structure and contextual meaning",
+                    "c": True,
+                    "m": "",
+                },
+                {
+                    "t": "Apply a literal word-for-word translation ignoring sentence context",
+                    "c": False,
+                    "m": "Notice the semantic structure and tone of the full sentence.",
+                },
+                {
+                    "t": "Ignore grammatical tense or subject-verb agreement",
+                    "c": False,
+                    "m": "Ensure proper inflection and agreement matching the subject.",
+                },
+            ]
         return [
             {
                 "t": "Understand and apply the concept correctly",
@@ -238,41 +294,42 @@ class AssessmentAgent(BaseAgent):
 
     def _ensure_all_options_filled(self, spec: dict) -> dict:
         """Guarantee 100% schema compliance for all questions in NODES and WE."""
+        subj = spec.get("chapter", {}).get("subject", "math")
         # 1. Check all NODES questions
-        for n_idx, node in enumerate(spec.get("NODES", [])):
-            for s_idx, step in enumerate(node.get("steps", [])):
+        for node in spec.get("NODES", []):
+            for step in node.get("steps", []):
                 if step.get("t") in ("quiz", "vq") and step.get("q"):
                     opts = step["q"].get("opts")
                     if opts is None or len(opts) < 3:
-                        step["q"]["opts"] = self._generate_fallback_options(step["q"].get("q", ""))
+                        step["q"]["opts"] = self._generate_fallback_options(step["q"].get("q", ""), subj)
 
         # 2. Check all WE inline checks and end checks
-        for we_key, we in spec.get("WE", {}).items():
+        for we in spec.get("WE", {}).values():
             if not isinstance(we, dict):
                 continue
             has_inline = False
-            for wi, ws in enumerate(we.get("steps", [])):
+            for ws in we.get("steps", []):
                 if isinstance(ws, dict) and ws.get("check"):
                     opts = ws["check"].get("opts")
                     if opts is None or len(opts) < 3:
-                        ws["check"]["opts"] = self._generate_fallback_options(ws["check"].get("q", ""))
+                        ws["check"]["opts"] = self._generate_fallback_options(ws["check"].get("q", ""), subj)
                     has_inline = True
             # Rule 9: at least one step in WE must have an inline check
             if not has_inline and we.get("steps") and len(we["steps"]) > 1:
                 we["steps"][1]["check"] = {
                     "q": f"What key principle did we apply in this step?",
-                    "opts": self._generate_fallback_options("What key principle did we apply?"),
+                    "opts": self._generate_fallback_options("What key principle did we apply?", subj),
                 }
             # WE end check
             if not we.get("check"):
                 we["check"] = {
                     "q": f"What is the key takeaway from {we.get('title', 'this worked example')}?",
-                    "opts": self._generate_fallback_options("key takeaway"),
+                    "opts": self._generate_fallback_options("key takeaway", subj),
                 }
             else:
                 opts = we["check"].get("opts")
                 if opts is None or len(opts) < 3:
-                    we["check"]["opts"] = self._generate_fallback_options(we["check"].get("q", ""))
+                    we["check"]["opts"] = self._generate_fallback_options(we["check"].get("q", ""), subj)
 
         # 3. Synchronize WE keys and step.we references
         if spec.get("WE"):
@@ -331,14 +388,45 @@ class AssessmentAgent(BaseAgent):
 
         return leaks
 
-    def _build_gamified_assessment(self, exercises: list[dict]) -> dict:
-        """Convert extracted exercises to gamified format with 3 levels."""
+    def _build_gamified_assessment(
+        self, exercises: list[dict], grade: int = 4, subject: str = "math"
+    ) -> dict:
+        """Convert extracted exercises to gamified format with 3 levels and 7 archetypes."""
+        s = subject.lower().strip()
+        is_stem = s in {"math", "mathematics", "science", "physics", "chemistry", "biology"}
+        is_humanities = s in {"social_studies", "history", "geography", "civics"}
+        is_lang = s in {"english", "hindi", "sanskrit", "tamil", "bengali"}
+
+        # Select archetypes per level
+        if is_stem:
+            warmup_mode = "lilypad_hopper" if grade <= 6 else "speed_racer"
+            deep_dive_mode = "formula_lab_probe" if grade >= 8 else "category_sorter"
+        elif is_humanities:
+            warmup_mode = "memory_match"
+            deep_dive_mode = "timeline_spatial_sequencer"
+        elif is_lang:
+            warmup_mode = "lilypad_hopper" if grade <= 5 else "speed_racer"
+            deep_dive_mode = "timeline_spatial_sequencer"
+        else:
+            warmup_mode = "speed_racer"
+            deep_dive_mode = "category_sorter"
+
         gamified = {
+            "grade_bracket": "primary" if grade <= 5 else ("middle" if grade <= 8 else "secondary"),
             "levels": {
-                "warmup": [],
-                "deep_dive": [],
-                "boss": []
-            }
+                "warmup": {
+                    "game_mode": warmup_mode,
+                    "questions": [],
+                },
+                "deep_dive": {
+                    "game_mode": deep_dive_mode,
+                    "questions": [],
+                },
+                "boss": {
+                    "game_mode": "boss_battle_rapid_fire",
+                    "questions": [],
+                },
+            },
         }
         for ex in exercises:
             diff = ex.get("difficulty", "recall")
@@ -348,18 +436,18 @@ class AssessmentAgent(BaseAgent):
                 level = "deep_dive"
             elif diff in ["critical_thinking"]:
                 level = "boss"
-            
-            gamified["levels"][level].append({
+
+            gamified["levels"][level]["questions"].append({
                 "type": ex.get("type", "unknown"),
                 "question": ex.get("question", ""),
                 "options": ex.get("options", []),
-                "answer": ex.get("answer", "")
+                "answer": ex.get("answer", ""),
             })
         return gamified
 
     def run(self, work_dir: Path, context: dict[str, Any]) -> dict[str, Any]:
         spec = self._read_json(work_dir, "chapter_spec.json")
-        
+
         if (work_dir / "pedagogy_map.json").exists():
             content_map = self._read_json(work_dir, "pedagogy_map.json")
         else:
@@ -371,7 +459,7 @@ class AssessmentAgent(BaseAgent):
         # Handle gamified assessment generation from extracted exercises
         exercises = content_map.get("exercises", [])
         if exercises:
-            spec["GAMIFIED_ASSESSMENT"] = self._build_gamified_assessment(exercises)
+            spec["GAMIFIED_ASSESSMENT"] = self._build_gamified_assessment(exercises, grade=grade, subject=subject)
             self.log(f"Added {len(exercises)} exercises to GAMIFIED_ASSESSMENT (3 levels)")
 
         # Collect all assessment locations
@@ -388,10 +476,12 @@ class AssessmentAgent(BaseAgent):
         # Batch: split into chunks to avoid huge prompts
         batch_size = 5
         total_generated = 0
-        
+
         import concurrent.futures
 
         def process_batch(batch_idx, batch):
+            if not self.llm:
+                return batch_idx, []
             user_prompt = f"""\
 Subject: {subject}
 Grade: {grade}

@@ -302,6 +302,29 @@ def run_batch(args, config: Config) -> int:
     return 0 if (failed == 0 and quarantined == 0) else 1
 
 
+def run_curriculum(args, config: Config) -> int:
+    """Run curriculum course compilation over multiple chapter PDFs."""
+    orch = Orchestrator(config)
+    effective_mode = args.mode or "v5-engine"
+    try:
+        manifest = orch.compile_curriculum(
+            sources=args.curriculum,
+            subject=args.subject or "auto",
+            grade=args.grade if hasattr(args, "grade") else 0,
+            provider=args.provider,
+            mode=effective_mode,
+            max_cost=args.max_cost,
+        )
+        print()
+        print(f"Curriculum Course Summary: {manifest['completed_chapters']}/{manifest['total_chapters']} chapters completed.")
+        print(f"Total Concepts: {manifest['total_concepts']} | Total XP: {manifest['total_xp']} | Cost: ${manifest['total_cost_usd']:.4f}")
+        print(f"Manifest: {orch.output_dir.resolve() / 'curriculum_manifest.json'}")
+        return 0 if manifest["completed_chapters"] > 0 else 1
+    except Exception as e:
+        print(f"Curriculum compilation failed: {e}")
+        return 1
+
+
 def run_web(args, config: Config) -> int:
     """Run the Flask web UI."""
     from .web.app import create_app
@@ -333,9 +356,10 @@ Examples:
     parser.add_argument("--pdf", help="Path to a single PDF file")
     parser.add_argument("--job-id", dest="job_id", help="Resume or execute an existing job by ID from work/ directory")
     parser.add_argument("--batch", "--batch-dir", dest="batch", help="Directory of PDFs for batch processing")
+    parser.add_argument("--curriculum", dest="curriculum", help="Directory or list of PDFs to compile as a cohesive course with prerequisite DAG")
     parser.add_argument("--parallel", "--workers", type=int, default=1, help="Number of parallel workers for batch processing (default: 1)")
-    parser.add_argument("--subject", default="math", help="Subject (math, science, english, evs)")
-    parser.add_argument("--grade", type=int, default=4, help="Grade level (3-8)")
+    parser.add_argument("--subject", default="auto", help="Subject (math, science, english, evs, social_studies, economics, financial_literacy, accounting, coding, auto)")
+    parser.add_argument("--grade", type=int, default=0, help="Grade level (1-12, default 0 for auto-detection)")
     try:
         _cfg = Config.load()
         _default_provider = _cfg.llm.default_provider
@@ -366,6 +390,8 @@ Examples:
 
     if args.web:
         return run_web(args, config)
+    elif getattr(args, "curriculum", None):
+        return run_curriculum(args, config)
     elif args.batch:
         return run_batch(args, config)
     elif args.pdf or getattr(args, "job_id", None):

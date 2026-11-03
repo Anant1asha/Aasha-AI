@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 
 
 # ─── Chapter Spec Schema ────────────────────────────────────────────────
@@ -98,8 +98,14 @@ class Node(BaseModel):
 class ChapterMeta(BaseModel):
     """Chapter metadata."""
     title: str = Field(..., min_length=1)
-    subject: Literal["math", "science", "english", "evs"]
-    grade: int = Field(..., ge=3, le=8)
+    subject: Literal[
+        "math", "mathematics",
+        "science", "physics", "chemistry", "biology",
+        "english", "hindi", "sanskrit", "tamil", "bengali",
+        "evs", "social_studies", "history", "geography", "civics", "economics",
+        "financial_literacy", "accounting", "coding", "general"
+    ]
+    grade: int = Field(..., ge=1, le=12)
     storage_key: str = Field(..., pattern=r"^aasha_[a-z0-9]+_v5$")
     emoji: str | None = None
     hero_image: str | None = None
@@ -390,6 +396,121 @@ _SUPPLEMENTARY_TEMPLATES: dict[str, dict[str, list[dict[str, Any]]]] = {
                 {"t": "Only name the technique", "c": False, "m": "Explain the effect too"},
                 {"t": "Ignore the context", "c": False, "m": "Context matters for analysis"},
             ], "xp": 20, "hint": "Connect technique to meaning"},
+        ],
+    },
+    "economics": {
+        "warmup": [
+            {"question": "What is the primary economic problem facing all societies?", "opts": [
+                {"t": "Scarcity of resources relative to unlimited human wants", "c": True, "m": ""},
+                {"t": "Having unlimited goods for everyone", "c": False, "m": "Resources are limited, not unlimited"},
+                {"t": "Elimination of all trade", "c": False, "m": "Trade helps allocate scarce goods"},
+            ], "xp": 5},
+        ],
+        "deep_dive": [
+            {"question": "When market price is below equilibrium, what condition emerges?", "opts": [
+                {"t": "Excess demand causing shortage that bids prices upward", "c": True, "m": ""},
+                {"t": "Excess supply causing unsold surplus", "c": False, "m": "Low price stimulates buyers, not surplus"},
+                {"t": "Immediate permanent price drop to zero", "c": False, "m": "Shortages push prices up, not to zero"},
+            ], "xp": 10, "hint": "Think about buyer vs seller incentives"},
+        ],
+        "boss": [
+            {"question": "Evaluate why opportunity cost must be accounted for in production choices.", "opts": [
+                {"t": "Every choice requires forgoing the next best alternative use of resources", "c": True, "m": ""},
+                {"t": "Financial accounting records zero-cost items", "c": False, "m": "Economic costs include foregone opportunities"},
+                {"t": "Resources have only one possible use", "c": False, "m": "Resources have multiple competing uses"},
+            ], "xp": 20, "hint": "Consider the trade-off of the next best alternative"},
+        ],
+    },
+    "accounting": {
+        "warmup": [
+            {"question": "What fundamental relationship does the Accounting Equation state?", "opts": [
+                {"t": "Assets = Liabilities + Equity", "c": True, "m": ""},
+                {"t": "Assets = Liabilities - Equity", "c": False, "m": "Equity adds to claims, not subtracts"},
+                {"t": "Assets = Revenue + Expenses", "c": False, "m": "Revenue and expenses affect equity, not the direct equation"},
+            ], "xp": 5},
+        ],
+        "deep_dive": [
+            {"question": "Under double-entry bookkeeping, what happens when cash is received from a debtor?", "opts": [
+                {"t": "Cash asset increases and debtors asset decreases by an equal amount", "c": True, "m": ""},
+                {"t": "Total assets double instantly", "c": False, "m": "One asset increases while another decreases"},
+                {"t": "Liabilities increase immediately", "c": False, "m": "Receiving owed cash does not increase liability"},
+            ], "xp": 10, "hint": "Track both sides of the balance sheet transaction"},
+        ],
+        "boss": [
+            {"question": "Why does accrual accounting recognize revenues when earned rather than when cash arrives?", "opts": [
+                {"t": "It matches revenues to the period when performance obligations are satisfied", "c": True, "m": ""},
+                {"t": "Cash flows are unimportant in financial analysis", "c": False, "m": "Cash flows remain vital alongside accrual"},
+                {"t": "It avoids ever preparing a trial balance", "c": False, "m": "A trial balance is always prepared"},
+            ], "xp": 20, "hint": "Think about the revenue recognition and matching principle"},
+        ],
+    },
+    "financial_literacy": {
+        "warmup": [
+            {"question": "What is the primary difference between an asset and a liability?", "opts": [
+                {"t": "An asset puts value in your pocket, while a liability takes it out", "c": True, "m": ""},
+                {"t": "Both always produce identical financial returns", "c": False, "m": "Liabilities represent obligations, not returns"},
+                {"t": "Liabilities never need repayment", "c": False, "m": "Liabilities represent obligations that must be settled"},
+            ], "xp": 5},
+        ],
+        "deep_dive": [
+            {"question": "How does compound interest accelerate savings over time?", "opts": [
+                {"t": "Interest earns interest on accumulated balances over subsequent periods", "c": True, "m": ""},
+                {"t": "It calculates interest only once at the final withdrawal", "c": False, "m": "Compounding happens periodically"},
+                {"t": "It deducts a fee each month without growth", "c": False, "m": "Compounding multiplies asset growth"},
+            ], "xp": 10, "hint": "Think about interest generating additional returns"},
+        ],
+        "boss": [
+            {"question": "Evaluate why diversification mitigates portfolio investment risk.", "opts": [
+                {"t": "Uncorrelated assets reduce the impact of any single asset's decline", "c": True, "m": ""},
+                {"t": "It guarantees zero market fluctuations forever", "c": False, "m": "Risk is managed and balanced, not eliminated"},
+                {"t": "It concentrates all capital in the highest volatility stock", "c": False, "m": "Concentration increases risk, diversification spreads it"},
+            ], "xp": 20, "hint": "Consider the basket of varied assets concept"},
+        ],
+    },
+    "social_studies": {
+        "warmup": [
+            {"question": "What is the core principle of a constitutional democracy?", "opts": [
+                {"t": "Rule of law with fundamental rights protected by independent courts", "c": True, "m": ""},
+                {"t": "Unchecked executive decisions without legislative oversight", "c": False, "m": "Democracies require checks and balances"},
+                {"t": "Absence of any written rules or laws", "c": False, "m": "A constitution is the supreme law"},
+            ], "xp": 5},
+        ],
+        "deep_dive": [
+            {"question": "How do geographical landforms influence human settlement and trade?", "opts": [
+                {"t": "River valleys and coastal plains provide fertile soil, water, and transport access", "c": True, "m": ""},
+                {"t": "Settlements avoid water sources entirely", "c": False, "m": "Water sources are essential for communities"},
+                {"t": "Physical geography has no bearing on economic activity", "c": False, "m": "Geography fundamentally shapes production and trade"},
+            ], "xp": 10, "hint": "Consider resource availability and transportation corridors"},
+        ],
+        "boss": [
+            {"question": "Analyze the role of federalism in governing diverse geographical regions.", "opts": [
+                {"t": "It divides sovereignty between union and state governments to address regional and national needs", "c": True, "m": ""},
+                {"t": "It eliminates state governments entirely", "c": False, "m": "Federalism protects multi-level governance"},
+                {"t": "It prevents citizens from voting in local elections", "c": False, "m": "Decentralization strengthens democratic participation"},
+            ], "xp": 20, "hint": "Think about division of constitutional powers"},
+        ],
+    },
+    "coding": {
+        "warmup": [
+            {"question": "What is an algorithm in computer science?", "opts": [
+                {"t": "A well-defined sequence of step-by-step instructions to solve a problem", "c": True, "m": ""},
+                {"t": "A random guess made by the computer", "c": False, "m": "Algorithms are deterministic and structured"},
+                {"t": "The physical monitor display", "c": False, "m": "That is hardware, not an algorithm"},
+            ], "xp": 5},
+        ],
+        "deep_dive": [
+            {"question": "Why is a termination condition mandatory in a loop structure?", "opts": [
+                {"t": "To guarantee the loop halts once the goal is reached, preventing infinite execution", "c": True, "m": ""},
+                {"t": "To ensure the loop runs infinitely without stopping", "c": False, "m": "Infinite loops hang execution"},
+                {"t": "To delete variables from memory instantly", "c": False, "m": "Termination condition controls iteration count"},
+            ], "xp": 10, "hint": "Consider what happens if the loop test never becomes false"},
+        ],
+        "boss": [
+            {"question": "Evaluate why modular functions improve code maintainability and debugging.", "opts": [
+                {"t": "They isolate distinct responsibilities and allow isolated testing and reuse", "c": True, "m": ""},
+                {"t": "They make the program unpredictable", "c": False, "m": "Modularity increases predictability"},
+                {"t": "They require copying the same code into multiple places", "c": False, "m": "Functions prevent code duplication (DRY)"},
+            ], "xp": 20, "hint": "Think about single responsibility and reusability"},
         ],
     },
 }

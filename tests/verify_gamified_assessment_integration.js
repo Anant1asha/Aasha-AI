@@ -4,8 +4,9 @@
  * 1. Registry schema validation (F27 presence, subjects, classes, mechanics)
  * 2. Prestack manifest synchronization (foundations_count: 27, F27 entry)
  * 3. Contract lifecycle implementation (mount, getState, pause, resume, reset, destroy, emitTelemetry)
- * 4. Multi-game archetype support (speed_racer, lilypad_hopper, category_sorter, memory_match)
- * 5. Multi-subject assessment question normalization & 0-spoiler telemetry
+ * 4. Multi-game archetype support (speed_racer, lilypad_hopper, category_sorter, memory_match,
+ *    boss_battle_rapid_fire, formula_lab_probe, timeline_spatial_sequencer)
+ * 5. Multi-subject assessment question normalization & 0-spoiler telemetry across K-12
  * 6. Offline isolation (0 external CDN dependencies)
  */
 
@@ -171,6 +172,74 @@ adapter.mount(mockContainer, {
   soundEnabled: false
 });
 assert(adapter.getState().gameMode === 'memory_match', 'Mode dynamically switches to memory_match');
+
+// Test Mode 5: boss_battle_rapid_fire
+adapter.mount(mockContainer, {
+  gameMode: 'boss_battle_rapid_fire',
+  questions: sampleQuestions,
+  soundEnabled: false
+});
+assert(adapter.getState().gameMode === 'boss_battle_rapid_fire', 'Mode dynamically switches to boss_battle_rapid_fire');
+
+// Test Mode 6: formula_lab_probe
+const formulaQuestions = [
+  {
+    id: 'phys_probe_1',
+    prompt: 'How does doubling acceleration affect the net force when mass is 2 kg?',
+    options: ['Force doubles', 'Force halves', 'Force stays same', 'Force quadruples'],
+    correctAnswer: 'Force doubles',
+    category: 'Physics',
+    probe: { variable: 'Acceleration (a)', min: 1, max: 20, initial: 5, unit: 'm/s²', formula: 'F = m · a' }
+  }
+];
+adapter.mount(mockContainer, {
+  gameMode: 'formula_lab_probe',
+  questions: formulaQuestions,
+  soundEnabled: false
+});
+assert(adapter.getState().gameMode === 'formula_lab_probe', 'Mode dynamically switches to formula_lab_probe');
+
+// Test Mode 7: timeline_spatial_sequencer
+const sequenceQuestions = [
+  {
+    id: 'bio_seq_1',
+    prompt: 'Arrange the stages of plant germination in sequential order:',
+    sequence: ['Seed absorption of water', 'Radicle emerges downward', 'Plumule grows upward', 'First true leaves unfold'],
+    category: 'Biology'
+  }
+];
+adapter.mount(mockContainer, {
+  gameMode: 'timeline_spatial_sequencer',
+  questions: sequenceQuestions,
+  soundEnabled: false
+});
+assert(adapter.getState().gameMode === 'timeline_spatial_sequencer', 'Mode dynamically switches to timeline_spatial_sequencer');
+
+// Test 8: MasterJSON {t, c, m} Normalization & Grade-Bracket Theme
+const masterJsonQuestions = [
+  {
+    id: 'tln_math_1',
+    q: {
+      q: 'What is the square of 9?',
+      opts: [
+        { t: '81', c: true, m: '' },
+        { t: '18', c: false, m: '18 is 9 multiplied by 2, not 9 squared.' },
+        { t: '27', c: false, m: '27 is 9 multiplied by 3.' }
+      ]
+    },
+    category: 'Mathematics'
+  }
+];
+adapter.mount(mockContainer, {
+  gameMode: 'speed_racer',
+  theme: 'primary',
+  questions: masterJsonQuestions,
+  soundEnabled: false
+});
+const normalizedState = adapter.getState();
+assert(normalizedState.theme === 'primary', 'Grade-bracket theme initialized to primary');
+assert(adapter.questions[0].correctAnswer === '81', 'Normalized correctAnswer from MasterJSON {t, c, m} opts');
+assert(adapter.questions[0].misconceptions['18'].includes('multiplied by 2'), 'Normalized zero-spoiler misconception from m field');
 
 // Test Destroy
 adapter.destroy();

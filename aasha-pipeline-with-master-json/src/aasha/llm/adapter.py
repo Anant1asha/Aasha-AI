@@ -529,34 +529,24 @@ class LLMAdapter:
                     locs = json.loads(json_m.group(1))
                 except Exception:
                     pass
-            assessments = []
-            sample_answers = [
-                ("Multiply both numerator and denominator by the same non-zero number", [
-                    ("Add the same number to top and bottom", "Adding changes the ratio rather than creating an equivalent fraction."),
-                    ("Invert the fraction without changing the sign", "Inverting changes the reciprocal value."),
-                    ("Divide the top only by two", "Both numerator and denominator must undergo identical scaling."),
-                ]),
-                ("It represents an equal ratio of parts to the whole", [
-                    ("It only applies to positive whole integers", "Rational values can be negative or fractional."),
-                    ("It changes value when multiplied by 1", "Multiplying by 1 preserves value identically."),
-                    ("The denominator can be zero", "Dividing by zero is undefined in mathematics."),
-                ]),
-                ("The simplest reduced form", [
-                    ("The largest possible multiple", "Simplification requires finding common factors to reduce."),
-                    ("An approximation rounded to ten", "Exact fractions should be kept in lowest terms rather than rounded."),
-                    ("A reciprocal integer value", "The reciprocal inverts the fraction rather than simplifying it."),
-                ]),
-                ("Both sides remain completely balanced", [
-                    ("The left side becomes heavier", "An equality operation maintains exact equivalence across both pans."),
-                    ("The equation loses its solution", "Performing identical valid operations preserves all equation solutions."),
-                    ("The variable cancels out to zero", "Only matching opposite terms cancel out to zero."),
-                ]),
-            ]
+
+            subject = "math"
+            sub_m = re.search(r"Subject:\s*(\w+)", user, re.I)
+            if sub_m:
+                subject = sub_m.group(1).lower()
+
+            dummy_nodes = []
             for idx, loc in enumerate(locs):
-                ans, wrong = sample_answers[idx % len(sample_answers)]
-                opts = [{"t": ans, "c": True, "m": ""}]
-                for wt, wm in wrong:
-                    opts.append({"t": wt, "c": False, "m": wm})
+                dummy_nodes.append({
+                    "title": f"Assessment {idx+1}",
+                    "steps": [{"t": "quiz", "q": {"q": "Question", "opts": None}}],
+                })
+            dummy_spec = {"NODES": dummy_nodes, "WE": {}, "BADGES": [], "title": "Assessment"}
+            OfflineSynthesizer.synthesize_assessment(dummy_spec, subject=subject)
+
+            assessments = []
+            for idx, loc in enumerate(locs):
+                opts = dummy_nodes[idx]["steps"][0]["q"]["opts"]
                 assessments.append({
                     "location": loc.get("location", f"loc_{idx}"),
                     "opts": opts,

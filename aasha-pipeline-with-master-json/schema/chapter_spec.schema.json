@@ -12,8 +12,17 @@
       "required": ["title", "subject", "grade", "storage_key"],
       "properties": {
         "title": { "type": "string", "minLength": 1 },
-        "subject": { "type": "string", "enum": ["math", "science", "english", "evs"] },
-        "grade": { "type": "integer", "minimum": 3, "maximum": 8 },
+        "subject": {
+          "type": "string",
+          "enum": [
+            "math", "mathematics",
+            "science", "physics", "chemistry", "biology",
+            "english", "hindi", "sanskrit", "tamil", "bengali",
+            "evs", "social_studies", "history", "geography", "civics", "economics",
+            "financial_literacy", "accounting", "coding", "general"
+          ]
+        },
+        "grade": { "type": "integer", "minimum": 1, "maximum": 12 },
         "storage_key": { "type": "string", "pattern": "^aasha_[a-z0-9]+_v5$" },
         "emoji": { "type": "string" },
         "hero_image": { "type": "string" }

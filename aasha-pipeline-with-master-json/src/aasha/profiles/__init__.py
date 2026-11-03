@@ -7,7 +7,6 @@ Based on the paste-1.md spec:
 """
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Any
 
 
 @dataclass
@@ -114,6 +113,11 @@ def get_profile(subject: str) -> SubjectProfile:
         return PROFILES["math"]
 
 
-def classify_domain(subject: str) -> str:
+def classify_domain(subject: str, *args, **kwargs) -> str:
     """Classify a subject into its domain (STEM, Humanities, Languages, Social Sciences)."""
+    del args, kwargs
     return DOMAIN_MAP.get(subject.lower().strip(), "STEM")
+
+
+# Canonical alias for pipeline agents
+get_domain = classify_domain

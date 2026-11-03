@@ -84,8 +84,10 @@ class AashaGamifiedAssessmentAdapter extends AashaExperienceAdapter {
       experienceId: metadata.experienceId || 'universal_gamified_assessment'
     });
 
-    // Supported modes: 'speed_racer', 'lilypad_hopper', 'category_sorter', 'memory_match'
+    // Supported modes: 'speed_racer', 'lilypad_hopper', 'category_sorter', 'memory_match',
+    //                   'boss_battle_rapid_fire', 'formula_lab_probe', 'timeline_spatial_sequencer'
     this.gameMode = metadata.gameMode || 'speed_racer';
+    this.theme = metadata.theme || 'middle'; // 'primary' (Classes 1-5), 'middle' (Classes 6-8), 'secondary' (Classes 9-12)
     this.questions = [];
     this.currentIndex = 0;
     this.score = 0;
@@ -235,6 +237,7 @@ class AashaGamifiedAssessmentAdapter extends AashaExperienceAdapter {
     this.config = config;
 
     this.gameMode = config.gameMode || this.gameMode || 'speed_racer';
+    this.theme = config.theme || this.theme || 'middle';
     this.questions = this._normalizeQuestions(config.questions || []);
     this.soundEnabled = config.soundEnabled !== false;
     this.timeRemaining = config.durationSeconds || 60;
@@ -296,15 +299,49 @@ class AashaGamifiedAssessmentAdapter extends AashaExperienceAdapter {
       ];
     }
 
-    return rawList.map((q, idx) => ({
-      id: q.id || `q_${idx}`,
-      prompt: q.prompt || q.question || 'Select the correct answer:',
-      options: Array.isArray(q.options) ? [...q.options] : ['Option A', 'Option B'],
-      correctAnswer: q.correctAnswer || q.answer || (q.options ? q.options[0] : ''),
-      category: q.category || 'General',
-      hints: Array.isArray(q.hints) ? q.hints : [],
-      misconceptions: q.misconceptions || {}
-    }));
+    return rawList.map((q, idx) => {
+      let prompt = q.prompt || q.question || q.q || 'Select the correct answer:';
+      if (typeof prompt === 'object' && prompt.q) prompt = prompt.q;
+
+      let rawOpts = q.options || q.opts || [];
+      if ((!Array.isArray(rawOpts) || rawOpts.length === 0) && q.q && Array.isArray(q.q.opts)) {
+        rawOpts = q.q.opts;
+      }
+
+      let options = [];
+      let correctAnswer = q.correctAnswer || q.answer || '';
+      let misconceptions = { ...(q.misconceptions || {}) };
+
+      if (Array.isArray(rawOpts)) {
+        rawOpts.forEach(opt => {
+          if (typeof opt === 'string') {
+            options.push(opt);
+          } else if (typeof opt === 'object' && opt !== null) {
+            const optText = opt.t || opt.text || opt.label || '';
+            options.push(optText);
+            if (opt.c === true) {
+              correctAnswer = optText;
+            } else if (opt.m) {
+              misconceptions[optText] = opt.m;
+            }
+          }
+        });
+      }
+      if (options.length === 0) options = ['Option A', 'Option B'];
+      if (!correctAnswer && options.length > 0) correctAnswer = options[0];
+
+      return {
+        id: q.id || `q_${idx}`,
+        prompt,
+        options,
+        correctAnswer,
+        category: q.category || q.subject || 'General',
+        hints: Array.isArray(q.hints) ? q.hints : [],
+        misconceptions,
+        sequence: Array.isArray(q.sequence) ? q.sequence : (Array.isArray(q.steps) ? q.steps : null),
+        probe: q.probe || null
+      };
+    });
   }
 
   /**
@@ -438,6 +475,9 @@ class AashaGamifiedAssessmentAdapter extends AashaExperienceAdapter {
       case 'lilypad_hopper': return '🐸 LILYPAD HOPPER';
       case 'category_sorter': return '📦 CATEGORY CLASSIFIER';
       case 'memory_match': return '🃏 MEMORY MATCHER';
+      case 'boss_battle_rapid_fire': return '👾 BOSS BATTLE: RAPID FIRE';
+      case 'formula_lab_probe': return '🔬 FORMULA & LAB PROBE';
+      case 'timeline_spatial_sequencer': return '⏳ TIMELINE & SEQUENCE BUILDER';
       default: return '🎮 AASHA GAMIFIED ASSESSMENT';
     }
   }
@@ -463,6 +503,15 @@ class AashaGamifiedAssessmentAdapter extends AashaExperienceAdapter {
         break;
       case 'memory_match':
         this._initMemoryMatchMode();
+        break;
+      case 'boss_battle_rapid_fire':
+        this._initBossBattleMode();
+        break;
+      case 'formula_lab_probe':
+        this._initFormulaLabProbeMode();
+        break;
+      case 'timeline_spatial_sequencer':
+        this._initTimelineSpatialSequencerMode();
         break;
       default:
         this._initSpeedRacerMode();
@@ -1034,6 +1083,277 @@ class AashaGamifiedAssessmentAdapter extends AashaExperienceAdapter {
   }
 
   // ==========================================================================
+  // MODE 5: BOSS BATTLE: RAPID FIRE (End-of-Unit Streak & Boss HP Arena)
+  // ==========================================================================
+  _initBossBattleMode() {
+    const stage = this.container.querySelector('.aasha-stage');
+    const touchBar = this.container.querySelector('.aasha-touch-bar');
+    if (!stage) return;
+    if (touchBar) touchBar.innerHTML = '';
+
+    const q = this._getCurrentQuestion();
+    const maxBossHp = Math.max(500, this.questions.length * 200);
+    if (!this.modeState.bossHpInitialized) {
+      this.modeState = {
+        bossHpInitialized: true,
+        bossHp: maxBossHp,
+        maxBossHp: maxBossHp,
+        bossName: '👾 The Misconception Behemoth',
+        bossShaking: false
+      };
+    }
+
+    const hpPercent = Math.max(0, Math.round((this.modeState.bossHp / this.modeState.maxBossHp) * 100));
+
+    stage.innerHTML = `
+      <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:16px; box-sizing:border-box;">
+        <!-- Boss HP Bar -->
+        <div style="width:100%; max-width:600px; background:#1e293b; border-radius:12px; padding:8px 12px; border:2px solid #ef4444;">
+          <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; color:#fca5a5; margin-bottom:4px;">
+            <span>${this.modeState.bossName}</span>
+            <span>${this.modeState.bossHp} / ${this.modeState.maxBossHp} HP (${hpPercent}%)</span>
+          </div>
+          <div style="width:100%; height:14px; background:#334155; border-radius:7px; overflow:hidden;">
+            <div class="aasha-boss-hp-fill" style="width:${hpPercent}%; height:100%; background:linear-gradient(90deg, #ef4444, #f59e0b); transition:width 0.3s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Boss Visual Avatar -->
+        <div class="aasha-boss-avatar" style="font-size:72px; margin:10px 0; filter:drop-shadow(0 0 16px rgba(239, 68, 68, 0.4)); transition:transform 0.1s;">
+          👾
+        </div>
+
+        <!-- Rapid Fire Options Grid -->
+        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; width:100%; max-width:650px;">
+          ${q.options.map(opt => `
+            <button class="aasha-boss-opt-btn" data-opt="${encodeURIComponent(opt)}" style="
+              min-height:52px; padding:10px 14px; border-radius:10px; background:#1e293b; border:2px solid #38bdf8;
+              color:#ffffff; font-size:15px; font-weight:600; cursor:pointer; text-align:left; transition:all 0.15s;
+            ">
+              ${opt}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    const optBtns = stage.querySelectorAll ? stage.querySelectorAll('.aasha-boss-opt-btn') : [];
+    optBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selected = decodeURIComponent(btn.getAttribute('data-opt'));
+        const isCorrect = selected === q.correctAnswer;
+        if (isCorrect) {
+          btn.style.borderColor = '#4ade80';
+          btn.style.background = 'rgba(74, 222, 128, 0.25)';
+          const dmg = Math.round(this.modeState.maxBossHp / this.questions.length);
+          this.modeState.bossHp = Math.max(0, this.modeState.bossHp - dmg);
+        } else {
+          btn.style.borderColor = '#ef4444';
+          btn.style.background = 'rgba(239, 68, 68, 0.25)';
+        }
+
+        setTimeout(() => {
+          this._evaluateAnswer(isCorrect, selected);
+          if (this.modeState.bossHp <= 0) {
+            this._handleGameOver(true, 'Boss Defeated! Legendary Concept Mastery Unlocked! 🏆');
+          } else if (this.currentIndex < this.questions.length && !this.isGameOver) {
+            this._initBossBattleMode();
+          }
+        }, 350);
+      });
+    });
+  }
+
+  // ==========================================================================
+  // MODE 6: FORMULA & LAB PROBE (Dynamic Variable Experimentation & Verification)
+  // ==========================================================================
+  _initFormulaLabProbeMode() {
+    const stage = this.container.querySelector('.aasha-stage');
+    const touchBar = this.container.querySelector('.aasha-touch-bar');
+    if (!stage) return;
+    if (touchBar) touchBar.innerHTML = '';
+
+    const q = this._getCurrentQuestion();
+    const probe = q.probe || {
+      variable: 'Parameter Value',
+      min: 1,
+      max: 10,
+      initial: 5,
+      unit: 'units',
+      formula: 'Result = 2 × Value'
+    };
+
+    this.modeState = {
+      currentValue: probe.initial || 5,
+      probe
+    };
+
+    stage.innerHTML = `
+      <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:16px; box-sizing:border-box;">
+        <!-- Interactive Probe Display Card -->
+        <div style="width:100%; max-width:650px; background:#1e293b; border-radius:12px; padding:16px; border:2px solid #38bdf8; text-align:center;">
+          <div style="font-size:13px; color:#94a3b8; text-transform:uppercase; margin-bottom:4px;">
+            Experimental Probe (${probe.formula || 'Interactive Parameter Engine'})
+          </div>
+          <div class="aasha-probe-readout" style="font-size:28px; font-weight:800; color:#38bdf8; margin:8px 0;">
+            ${probe.variable}: <span class="aasha-probe-val">${this.modeState.currentValue}</span> ${probe.unit}
+          </div>
+          <!-- Dynamic Slider -->
+          <input type="range" class="aasha-probe-slider" min="${probe.min}" max="${probe.max}" value="${this.modeState.currentValue}" style="
+            width:80%; max-width:400px; cursor:pointer; accent-color:#38bdf8;
+          ">
+        </div>
+
+        <!-- Hypotheses / Options -->
+        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; width:100%; max-width:650px;">
+          ${q.options.map(opt => `
+            <button class="aasha-probe-opt-btn" data-opt="${encodeURIComponent(opt)}" style="
+              min-height:50px; padding:10px 14px; border-radius:10px; background:#1e293b; border:2px solid #475569;
+              color:#ffffff; font-size:15px; font-weight:600; cursor:pointer; text-align:left; transition:all 0.15s;
+            ">
+              ${opt}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    const slider = stage.querySelector ? stage.querySelector('.aasha-probe-slider') : null;
+    if (slider) {
+      slider.addEventListener('input', (e) => {
+        this.modeState.currentValue = Number(e.target.value);
+        const valEl = stage.querySelector('.aasha-probe-val');
+        if (valEl) valEl.textContent = this.modeState.currentValue;
+        this.playSound('move');
+      });
+    }
+
+    const optBtns = stage.querySelectorAll ? stage.querySelectorAll('.aasha-probe-opt-btn') : [];
+    optBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selected = decodeURIComponent(btn.getAttribute('data-opt'));
+        const isCorrect = selected === q.correctAnswer;
+        if (isCorrect) {
+          btn.style.borderColor = '#4ade80';
+          btn.style.background = 'rgba(74, 222, 128, 0.25)';
+        } else {
+          btn.style.borderColor = '#ef4444';
+          btn.style.background = 'rgba(239, 68, 68, 0.25)';
+        }
+
+        setTimeout(() => {
+          this._evaluateAnswer(isCorrect, selected);
+          if (this.currentIndex < this.questions.length && !this.isGameOver) {
+            this._initFormulaLabProbeMode();
+          }
+        }, 350);
+      });
+    });
+  }
+
+  // ==========================================================================
+  // MODE 7: TIMELINE & SPATIAL SEQUENCER (Chronology, Life Cycles & Algorithms)
+  // ==========================================================================
+  _initTimelineSpatialSequencerMode() {
+    const stage = this.container.querySelector('.aasha-stage');
+    const touchBar = this.container.querySelector('.aasha-touch-bar');
+    if (!stage) return;
+    if (touchBar) touchBar.innerHTML = '';
+
+    const q = this._getCurrentQuestion();
+    const targetSequence = q.sequence || q.options.slice(0, 4);
+    const shuffledItems = [...targetSequence].sort(() => Math.random() - 0.5);
+
+    this.modeState = {
+      targetSequence,
+      currentSequence: [...shuffledItems],
+      selectedIndex: null
+    };
+
+    const renderSequenceItems = () => {
+      stage.innerHTML = `
+        <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:16px; box-sizing:border-box;">
+          <div style="font-size:14px; color:#94a3b8; margin-bottom:8px; text-align:center;">
+            Tap two steps to swap their positions into correct sequential order:
+          </div>
+
+          <!-- Sequence Slots -->
+          <div class="aasha-seq-container" style="display:flex; flex-direction:column; gap:8px; width:100%; max-width:600px;">
+            ${this.modeState.currentSequence.map((step, idx) => `
+              <div class="aasha-seq-item" data-idx="${idx}" style="
+                display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:10px;
+                background:${this.modeState.selectedIndex === idx ? '#334155' : '#1e293b'};
+                border:2px solid ${this.modeState.selectedIndex === idx ? '#facc15' : '#38bdf8'};
+                color:#ffffff; font-size:15px; font-weight:600; cursor:pointer; transition:all 0.15s;
+              ">
+                <span style="display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#0284c7; color:#fff; font-size:13px; font-weight:700;">
+                  ${idx + 1}
+                </span>
+                <span style="flex:1;">${step}</span>
+                <span style="color:#94a3b8; font-size:13px;">↕ Tap to Swap</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Verify Sequence Button -->
+          <button class="aasha-btn-verify-seq" style="
+            margin-top:12px; padding:12px 32px; border-radius:10px; background:#4ade80;
+            color:#0f172a; font-size:16px; font-weight:700; border:none; cursor:pointer;
+            box-shadow:0 4px 14px rgba(74, 222, 128, 0.4);
+          ">VERIFY SEQUENCE ✔</button>
+        </div>
+      `;
+
+      const items = stage.querySelectorAll ? stage.querySelectorAll('.aasha-seq-item') : [];
+      items.forEach(el => {
+        el.addEventListener('click', () => {
+          const clickedIdx = Number(el.getAttribute('data-idx'));
+          if (this.modeState.selectedIndex === null) {
+            this.modeState.selectedIndex = clickedIdx;
+            this.playSound('select');
+            renderSequenceItems();
+          } else if (this.modeState.selectedIndex === clickedIdx) {
+            this.modeState.selectedIndex = null;
+            renderSequenceItems();
+          } else {
+            const s1 = this.modeState.selectedIndex;
+            const s2 = clickedIdx;
+            const temp = this.modeState.currentSequence[s1];
+            this.modeState.currentSequence[s1] = this.modeState.currentSequence[s2];
+            this.modeState.currentSequence[s2] = temp;
+            this.modeState.selectedIndex = null;
+            this.playSound('move');
+            renderSequenceItems();
+          }
+        });
+      });
+
+      const verifyBtn = stage.querySelector ? stage.querySelector('.aasha-btn-verify-seq') : null;
+      if (verifyBtn) {
+        verifyBtn.addEventListener('click', () => {
+          const isCorrect = this.modeState.currentSequence.every((val, i) => val === this.modeState.targetSequence[i]);
+          if (isCorrect) {
+            verifyBtn.style.background = '#22c55e';
+            verifyBtn.textContent = 'PERFECT ORDER! ✔';
+          } else {
+            verifyBtn.style.background = '#ef4444';
+            verifyBtn.textContent = 'INCORRECT ORDER ✖';
+          }
+
+          setTimeout(() => {
+            this._evaluateAnswer(isCorrect, this.modeState.currentSequence.join(' -> '));
+            if (this.currentIndex < this.questions.length && !this.isGameOver) {
+              this._initTimelineSpatialSequencerMode();
+            }
+          }, 400);
+        });
+      }
+    };
+
+    renderSequenceItems();
+  }
+
+  // ==========================================================================
   // SHARED EVALUATION & TELEMETRY DISPATCH
   // ==========================================================================
   _evaluateAnswer(isCorrect, selectedOption) {
@@ -1177,6 +1497,7 @@ class AashaGamifiedAssessmentAdapter extends AashaExperienceAdapter {
       foundationId: this.foundationId,
       experienceId: this.experienceId,
       gameMode: this.gameMode,
+      theme: this.theme,
       score: this.score,
       streak: this.streak,
       maxStreak: this.maxStreak,
