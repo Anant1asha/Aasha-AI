@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-03T18:13:36.5230103Z",
+    "timestamp_utc":  "2026-11-03T18:28:59.7950335Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,43 +14,17 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "96e76aee1f5d268bfbfe7ca31578f4551cacb80a",
-                                                 "dirty_file_count":  6,
-                                                 "dirty_files_sample":  [
-                                                                            " M PC_ANTIGRAVITY_STATE.json",
-                                                                            " M assets/prestack_manifest.json",
-                                                                            " M package.json",
-                                                                            " M scripts/aasha_root_orchestrator.js",
-                                                                            " M scripts/harvest_engine.mjs",
-                                                                            "?? scripts/aasha_build_runner.mjs"
-                                                                        ]
+                                                 "head_commit":  "70b03d17a47029b028738bff530bc39f637bde94",
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  "?? startup.md"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "b69fef68d8db3c2807b82ad09326164874bfef75",
-                                                   "dirty_file_count":  20,
-                                                   "dirty_files_sample":  [
-                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
-                                                                              " M aasha-pipeline-with-master-json/schema/chapter_spec.schema.json",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/agents/assessment_agent.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/agents/deep_vectorizer.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/agents/ingest_agent.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/cli.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/llm/adapter.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/pipeline/orchestrator.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/profiles/__init__.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/schemas/__init__.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/synthesis/offline_synthesizer.py",
-                                                                              " M aasha-pipeline-with-master-json/tests/test_deep_vectorizer.py",
-                                                                              " M experience_registry/adapters/aasha_gamified_assessment_adapter.js",
-                                                                              " M experience_registry/registry.json",
-                                                                              " M tests/verify_gamified_assessment_integration.js",
-                                                                              "?? aasha-pipeline-with-master-json/src/aasha/schemas/taxonomy.py",
-                                                                              "?? chapters/CBSE_Grade10_physics_Light_and_Optics.html",
-                                                                              "?? chapters/ICSE_Grade6_history_Indus_Valley_Civilization.html",
-                                                                              "?? chapters/NCERT_Grade3_english_Phonics_and_Sentence_Building.html",
-                                                                              "?? chapters/NCERT_Grade8_math_Square_and_Cube_Roots.html"
-                                                                          ]
+                                                   "head_commit":  "8416903af870a921c65eae0fa412e9f282cb8a38",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
