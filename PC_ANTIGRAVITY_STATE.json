@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-03T14:56:12.5790628Z",
+    "timestamp_utc":  "2026-11-03T15:12:46.9564534Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,24 +15,34 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "96e76aee1f5d268bfbfe7ca31578f4551cacb80a",
-                                                 "dirty_file_count":  1,
-                                                 "dirty_files_sample":  " M PC_ANTIGRAVITY_STATE.json"
+                                                 "dirty_file_count":  3,
+                                                 "dirty_files_sample":  [
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
+                                                                            " M assets/prestack_manifest.json",
+                                                                            " M scripts/harvest_engine.mjs"
+                                                                        ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "721a90b3cbcd461d96cf4ed55d7b390965543009",
-                                                   "dirty_file_count":  10,
+                                                   "head_commit":  "d2e0e35be8c206cdf1c4690965dcc1862d2f323b",
+                                                   "dirty_file_count":  16,
                                                    "dirty_files_sample":  [
                                                                               " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
+                                                                              " M aasha-pipeline-with-master-json/schema/chapter_spec.schema.json",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/agents/assessment_agent.py",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/agents/deep_vectorizer.py",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/agents/ingest_agent.py",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/cli.py",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/llm/adapter.py",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/pipeline/orchestrator.py",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/profiles/__init__.py",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/schemas/__init__.py",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/synthesis/offline_synthesizer.py",
                                                                               " M aasha-pipeline-with-master-json/tests/test_deep_vectorizer.py",
-                                                                              " M experience_registry/adapters/aasha_gamified_assessment_adapter.js"
+                                                                              " M experience_registry/adapters/aasha_gamified_assessment_adapter.js",
+                                                                              " M experience_registry/registry.json",
+                                                                              " M tests/verify_gamified_assessment_integration.js",
+                                                                              "?? aasha-pipeline-with-master-json/src/aasha/schemas/taxonomy.py"
                                                                           ]
                                                }
                      }
