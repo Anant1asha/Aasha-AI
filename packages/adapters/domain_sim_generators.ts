@@ -6,6 +6,8 @@
  */
 
 import { generateFractionSliceSimScript } from './fraction_slice_sim.ts';
+import { generateNumberLineHunterSimScript } from './number_line_hunter_sim.ts';
+import { generateBalanceEquationSimScript } from './balance_equation_sim.ts';
 
 export interface SimGeneratorConfig {
   subject: string;
@@ -68,7 +70,9 @@ export class DomainSimGenerators {
       return this.generateTenFrameSim(config);
     } else if (topic.includes('fraction') || topic.includes('pizza') || topic.includes('slice') || topic.includes('decimal')) {
       return this.generateFractionPizzaSim(config);
-    } else if (topic.includes('number-line') || topic.includes('hunter') || topic.includes('jump') || topic.includes('factor') || topic.includes('multiple')) {
+    } else if (topic.includes('balance') || topic.includes('equation') || topic.includes('linear-equation') || topic.includes('scale')) {
+      return this.generateBalanceEquationSim(config);
+    } else if (topic.includes('number-line') || topic.includes('hunter') || topic.includes('jump') || topic.includes('integer') || topic.includes('factor') || topic.includes('multiple')) {
       return this.generateNumberHunterSim(config);
     } else if (topic.includes('symmetry') || topic.includes('reflection') || topic.includes('fold') || topic.includes('mirror')) {
       return this.generateSymmetryFoldSim(config);
@@ -784,10 +788,32 @@ export class DomainSimGenerators {
   }
 
   /**
-   * King's Math F25: Number-Line Hunter & Factor Finder (넘버 헌터킹)
-   * High-tempo 60s fluency loop with zoomable number line and target hunting.
+   * King's Math F25: Number-Line Hunter (Tactile Negative & Positive Integers)
+   * High-fidelity Web Component (<aasha-sim-number-line> / <aasha-sim>)
+   * with integer number line (-10 to +10), vector jump arcs, opposite mirroring,
+   * 44x44px touch targets, and 60 FPS Canvas rendering.
    */
   static generateNumberHunterSim(config: SimGeneratorConfig): string {
+    return generateNumberLineHunterSimScript({
+      initialPos: config.initialParams?.currentPos ?? 0,
+      minBound: config.initialParams?.minBound ?? -10,
+      maxBound: config.initialParams?.maxBound ?? 10,
+    });
+  }
+
+  /**
+   * Foundation F26: Balance Scale Linear Equation Solver
+   * High-fidelity Web Component (<aasha-sim-balance-equation> / <aasha-sim>)
+   * with physics spring tilt animation, two-pan balance scale, operations toolbar,
+   * 44x44px touch targets, and 60 FPS Canvas rendering.
+   */
+  static generateBalanceEquationSim(config: SimGeneratorConfig): string {
+    return generateBalanceEquationSimScript({
+      presetId: config.initialParams?.presetId ?? 0,
+    });
+  }
+
+  private static _legacyGenerateNumberHunterSim(config: SimGeneratorConfig): string {
     return `
       class AashaNumberHunterSim extends HTMLElement {
         constructor() {

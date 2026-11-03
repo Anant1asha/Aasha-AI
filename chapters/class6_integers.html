@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>AASHA AIOS — Class 6 Mathematics: Integers (अध्याय: पूर्णांक)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0f4ff;--surface:#ffffff;--text:#1e293b;--muted:#64748b;
+  --blue:#3b82f6;--blue-dk:#2563eb;--blue-lt:#dbeafe;
+  --green:#22c55e;--green-dk:#16a34a;--green-lt:#dcfce7;
+  --red:#ef4444;--red-lt:#fee2e2;
+  --amber:#f59e0b;--amber-lt:#fef3c7;
+  --purple:#8b5cf6;--purple-lt:#ede9fe;
+  --pink:#ec4899;--teal:#14b8a6;
+  --border:#e2e8f0;
+  --shadow:0 2px 8px rgba(0,0,0,.06);--shadow-lg:0 8px 24px rgba(0,0,0,.15);
+  --radius:16px;--radius-sm:12px;--radius-xs:8px;
+  --brand:#1e3a5f;--brand-lt:#2d5a8e;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative}
+
+/* Brand Header */
+.brand-header{background:linear-gradient(135deg,var(--brand),var(--brand-lt));padding:10px 16px;display:flex;align-items:center;gap:10px;color:#fff}
+.brand-info{flex:1;min-width:0}
+.brand-name{font-size:.85rem;font-weight:800;letter-spacing:.02em;line-height:1.2}
+.brand-name-hi{font-size:.75rem;opacity:.9;line-height:1.2}
+.brand-tagline{font-size:.65rem;opacity:.75;margin-top:2px}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.06);position:sticky;top:0;z-index:50}
+.exit-btn{background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;padding:6px;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.progress-track{flex:1;height:10px;background:var(--border);border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0}
+.stat{display:inline-flex;align-items:center;gap:3px;font-size:.75rem;font-weight:700;padding:4px 8px;border-radius:16px;white-space:nowrap;min-height:32px}
+.stat.coins{color:var(--amber);background:var(--amber-lt)}
+.stat.xp{color:var(--purple);background:var(--purple-lt)}
+.stat.lvl{color:var(--blue);background:var(--blue-lt)}
+.stat.streak{color:var(--red);background:var(--red-lt)}
+
+/* Screen Viewport */
+.screen{flex:1;display:flex;flex-direction:column;align-items:center;padding:16px 14px 90px;min-height:calc(100vh - 120px)}
+
+/* Card Components */
+.card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:16px;max-width:420px;width:100%;margin:0 auto 12px;box-shadow:var(--shadow)}
+.card-title{font-size:1.05rem;font-weight:800;color:var(--brand);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+
+/* LLE Text & Grammar Preservation */
+.lle-text{font-size:1.02rem;line-height:2.2;color:var(--text);margin:8px 0;text-align:left}
+.lle-text-sm{font-size:.9rem;line-height:1.8;color:var(--text);margin:6px 0}
+.word{cursor:pointer;border-radius:4px;padding:0 2px;transition:background .15s;border-bottom:1.5px dotted rgba(59,130,246,0.5);font-weight:500;color:var(--text);min-height:28px;display:inline-block}
+.word:hover{background:var(--blue-lt);color:var(--blue-dk)}
+.math-var{font-family:'Times New Roman',serif;font-style:italic;font-weight:700;color:#0f172a;padding:0 2px}
+
+/* Interactive Canvas & Manipulatives */
+.canvas-visual{display:block;margin:0 auto;border-radius:var(--radius-xs);touch-action:none;background:#fafafa;border:1px solid var(--border)}
+.sim-controls{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.sim-btn{min-width:44px;min-height:44px;padding:8px 14px;background:var(--blue-lt);border:1.5px solid var(--blue);border-radius:8px;font-size:.85rem;font-weight:700;color:var(--blue-dk);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;touch-action:manipulation}
+.sim-btn:active{background:var(--blue);color:#fff}
+.sim-btn.secondary{background:#f1f5f9;border-color:var(--muted);color:var(--muted)}
+.sim-readout{text-align:center;font-size:1.2rem;font-weight:800;margin:10px 0;color:var(--blue-dk);padding:8px;background:var(--blue-lt);border-radius:8px}
+
+/* Worked Examples & Step Reveals */
+.we-card{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:14px;max-width:420px;width:100%;margin:0 auto 12px;box-shadow:var(--shadow)}
+.we-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--blue);margin-bottom:6px}
+.we-step{padding:10px 12px;background:var(--blue-lt);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;margin-bottom:8px;line-height:1.4;font-size:.9rem}
+.we-step.green{background:var(--green-lt);border-left-color:var(--green)}
+.we-step.amber{background:var(--amber-lt);border-left-color:var(--amber)}
+
+/* Gamified Assessment & Hints */
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;padding:12px;margin-bottom:8px;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;background:var(--surface);font-size:.95rem;min-height:48px}
+.quiz-opt:hover{border-color:var(--blue);background:#f8fafc}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-lt);color:var(--green-dk);font-weight:700}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-lt);color:#991b1b}
+.hint-btn{font-size:.8rem;background:var(--amber-lt);color:#92400e;border:1.5px solid var(--amber);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px;min-height:44px}
+.hints-container{margin-top:10px;padding:10px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;display:none}
+.skip-btn{display:inline-block;margin-top:8px;font-size:.8rem;color:var(--muted);text-decoration:underline;cursor:pointer;padding:6px;min-height:44px}
+
+/* Bottom Navigation Bar */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:var(--surface);padding:10px 16px;box-shadow:0 -2px 10px rgba(0,0,0,.08);z-index:50;display:flex;gap:10px}
+.btn{padding:12px;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .15s;flex:1;text-align:center;min-height:48px;display:flex;align-items:center;justify-content:center}
+.btn-back{background:var(--surface);color:var(--muted);border:1.5px solid var(--border);flex:0 0 88px}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-dk)}
+
+/* Dialog Modals */
+dialog{border:none;border-radius:18px;padding:24px;max-width:320px;width:90%;text-align:center;box-shadow:var(--shadow-lg);color:var(--text);margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(4px)}
+.dlg-word{font-size:1.6rem;font-weight:800;color:var(--blue-dk)}
+.dlg-hindi{font-size:1.3rem;color:var(--purple);font-weight:700;margin-top:4px}
+.dlg-phonics{font-size:.9rem;font-style:italic;color:var(--muted);margin-top:2px}
+.dlg-desc{font-size:.85rem;color:var(--text);margin-top:10px;line-height:1.4}
+.dlg-btn{margin-top:16px;padding:12px 24px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:.9rem;width:100%;min-height:44px}
+
+#confettiCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Brand Header -->
+  <div class="brand-header">
+    <div class="brand-info">
+      <div class="brand-name">AASHA AIOS — CLASS 6 MATHEMATICS</div>
+      <div class="brand-name-hi">अध्याय १०: शून्य के उस पार — पूर्णांक (Integers)</div>
+      <div class="brand-tagline">Visual Number Line • Directed Steps • Zero-Spoiler Assessment</div>
+    </div>
+  </div>
+
+  <!-- Gamified Topbar -->
+  <div class="topbar">
+    <button class="exit-btn" onclick="App.exit()" title="Reset to start">✕</button>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="stat coins">🪙 <span id="coinCount">100</span></div>
+    <div class="stat xp">⚡ <span id="xpCount">250</span> XP</div>
+    <div class="stat lvl">⭐ <span id="lvlCount">Lv 1</span></div>
+    <div class="stat streak" id="streakWrap" style="display:none">🔥 <span id="streakCount">0</span></div>
+  </div>
+
+  <!-- Dynamic Screen Content -->
+  <div class="screen" id="screen"></div>
+
+  <!-- Navigation Bar -->
+  <div class="bottom-bar" id="bottomBar">
+    <button class="btn btn-back" id="backBtn" onclick="App.back()">← Back</button>
+    <button class="btn btn-primary" id="continueBtn" onclick="App.next()">Continue →</button>
+  </div>
+</div>
+
+<!-- LLE Word Tap Modal -->
+<dialog id="wordDialog">
+  <div class="dlg-word" id="dlgWord">Integer</div>
+  <div class="dlg-hindi" id="dlgHindi">पूर्णांक</div>
+  <div class="dlg-phonics" id="dlgPhonics">Phonics: Poor-naank</div>
+  <div class="dlg-desc" id="dlgDesc">A complete whole number that can be positive, negative, or zero.</div>
+  <button class="dlg-btn" onclick="speakWord()">🔊 Listen Pronunciation</button>
+  <button class="dlg-btn" onclick="document.getElementById('wordDialog').close()" style="background:var(--muted);margin-top:8px;">Close</button>
+</dialog>
+
+<canvas id="confettiCanvas"></canvas>
+
+<script>
+// ═══ AASHA LLE DICTIONARY & CONNECTIVES ═══
+var WM = {
+  "integer": { hi: "पूर्णांक", ph: "Poor-naank", desc: "A complete whole number that can be positive, negative, or zero." },
+  "integers": { hi: "पूर्णांक", ph: "Poor-naank", desc: "Numbers that extend in positive and negative directions including zero." },
+  "positive": { hi: "धनात्मक", ph: "Dha-naat-mak", desc: "A number greater than zero located to the right on the number line." },
+  "negative": { hi: "ऋणात्मक", ph: "Rin-aat-mak", desc: "A number less than zero carrying a minus sign (-)." },
+  "zero": { hi: "शून्य", ph: "Shoon-ya", desc: "The neutral origin on the number line; neither positive nor negative." },
+  "opposite": { hi: "विपरीत", ph: "Vi-pa-reet", desc: "A number at the exact same distance from zero on the opposite side." },
+  "number line": { hi: "संख्या रेखा", ph: "Sankhya Rekha", desc: "A straight continuous line marked with numbers at equal intervals." },
+  "predecessor": { hi: "पूर्ववर्ती", ph: "Poorv-var-tee", desc: "The number immediately to the left on the number line (one unit less)." },
+  "successor": { hi: "परवर्ती", ph: "Par-var-tee", desc: "The number immediately to the right on the number line (one unit more)." },
+  "direction": { hi: "दिशा", ph: "Di-sha", desc: "The course along which something moves (rightwards or leftwards)." },
+  "distance": { hi: "दूरी", ph: "Doo-ree", desc: "The amount of space between two points on the line." }
+};
+
+var STORAGE_KEY = "aasha_math6_integers_v6";
+
+function rt(text, sm) {
+  var cls = sm ? 'lle-text-sm' : 'lle-text';
+  var html = text;
+  var words = html.split(' ');
+  var result = words.map(function(w) {
+    if (w.indexOf('<') !== -1) return w;
+    var clean = w.toLowerCase().replace(/[^a-z]/g, '');
+    if (WM[clean]) {
+      return '<span class="word" onclick="openWord(\'' + clean + '\')">' + w + '</span>';
+    }
+    return w;
+  }).join(' ');
+  return '<div class="' + cls + '">' + result + '</div>';
+}
+
+function openWord(key) {
+  var data = WM[key];
+  if (!data) return;
+  document.getElementById('dlgWord').textContent = key.toUpperCase();
+  document.getElementById('dlgHindi').textContent = data.hi;
+  document.getElementById('dlgPhonics').textContent = 'Phonics: ' + data.ph;
+  document.getElementById('dlgDesc').textContent = data.desc;
+  document.getElementById('wordDialog').showModal();
+}
+
+function speakWord() {
+  var word = document.getElementById('dlgWord').textContent;
+  if ('speechSynthesis' in window) {
+    var u = new SpeechSynthesisUtterance(word);
+    u.lang = 'en-IN';
+    window.speechSynthesis.speak(u);
+  } else {
+    playTone('tap');
+  }
+}
+
+// ═══ WEB AUDIO SYNTHESIZER ═══
+var _actx = null;
+function getAudio() {
+  if (!_actx) {
+    try { _actx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return _actx;
+}
+
+function playTone(type) {
+  var ctx = getAudio();
+  if (!ctx) return;
+  var osc = ctx.createOscillator(), gain = ctx.createGain();
+  var now = ctx.currentTime;
+  if (type === 'tap') {
+    osc.frequency.setValueAtTime(440, now);
+    gain.gain.setValueAtTime(0.1, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(now); osc.stop(now + 0.1);
+  } else if (type === 'correct') {
+    osc.frequency.setValueAtTime(523.25, now);
+    osc.frequency.setValueAtTime(659.25, now + 0.1);
+    gain.gain.setValueAtTime(0.15, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(now); osc.stop(now + 0.3);
+  } else if (type === 'wrong') {
+    osc.frequency.setValueAtTime(220, now);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(now); osc.stop(now + 0.25);
+  }
+}
+
+// ═══ CONFETTI ENGINE ═══
+var _confetti = [], _confettiRAF = null;
+function fireConfetti(count) {
+  var canvas = document.getElementById('confettiCanvas');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  var ctx = canvas.getContext('2d');
+  var colors = ['#3b82f6', '#22c55e', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6'];
+  count = count || 40;
+  for (var i = 0; i < count; i++) {
+    _confetti.push({
+      x: canvas.width / 2 + (Math.random() - 0.5) * 80,
+      y: canvas.height / 3,
+      vx: (Math.random() - 0.5) * 8, vy: -Math.random() * 8 - 4,
+      g: 0.3, size: Math.random() * 6 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * 360, vrot: (Math.random() - 0.5) * 10, life: 1
+    });
+  }
+  if (!_confettiRAF) _confettiRAF = requestAnimationFrame(updateConfetti);
+}
+
+function updateConfetti() {
+  var canvas = document.getElementById('confettiCanvas'); var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (var i = _confetti.length - 1; i >= 0; i--) {
+    var p = _confetti[i];
+    p.x += p.vx; p.y += p.vy; p.vy += p.g; p.rot += p.vrot; p.life -= 0.01;
+    if (p.y > canvas.height + 20 || p.life <= 0) { _confetti.splice(i, 1); continue; }
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180);
+    ctx.globalAlpha = Math.max(p.life, 0); ctx.fillStyle = p.color;
+    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+    ctx.restore();
+  }
+  if (_confetti.length > 0) { _confettiRAF = requestAnimationFrame(updateConfetti); }
+  else { _confettiRAF = null; ctx.clearRect(0, 0, canvas.width, canvas.height); }
+}
+
+// ═══ WORKED EXAMPLE DEFINITIONS ═══
+var WE = {
+  "we_int_add": {
+    "title": "Adding Directed Integers: (-4) + (+7)",
+    "problem": "Evaluate (-4) + (+7) on the number line.",
+    "steps": [
+      { "desc": "Step 1: Start at the first number: locate -4 on the left side of zero." },
+      { "desc": "Step 2: Note the operation and sign: adding (+7) means taking 7 steps to the right." },
+      { "desc": "Step 3: Moving 4 steps right brings you to 0; taking 3 more steps right brings you to +3." }
+    ],
+    "check": {
+      "q": "What is the final position when starting at -4 and adding +7?",
+      "opts": [
+        { "t": "+3", "c": true, "m": "" },
+        { "t": "-11", "c": false, "m": "Moved leftward instead of rightward for adding a positive integer." },
+        { "t": "-3", "c": false, "m": "Inverted the sign of the net positive balance." },
+        { "t": "+11", "c": false, "m": "Added magnitudes without accounting for the starting negative position." }
+      ]
+    }
+  }
+};
+
+// ═══ PEDAGOGICAL CONCEPT NODES (Know-Stage Hierarchy) ═══
+var NODES = [
+  {
+    "id": "node_g6_int_c1",
+    "title": "Need for Negative Numbers (ऋणात्मक संख्याओं की आवश्यकता)",
+    "steps": [
+      {
+        "t": "intro",
+        "text": "In our daily lives, many quantities have exact opposites: profit and loss, elevation above and depth below sea level, temperature above and below zero degrees Celsius."
+      },
+      {
+        "t": "text",
+        "title": "The Meaning of Minus Sign",
+        "content": "To represent quantities below zero or opposite to positive values, we use negative numbers (ऋणात्मक संख्याएँ) marked with a minus sign (-). Zero (शून्य) acts as the neutral dividing origin."
+      },
+      {
+        "t": "interactive",
+        "role": "number_line",
+        "title": "Interactive Number Line Hunter"
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "Which of the following situations is best represented by the negative integer -5?",
+          "hints": {
+            "H1": "Look at each situation to see which one represents a loss, decrease, or position below zero.",
+            "H2": "Profit and height above ground represent positive quantities (+).",
+            "H3": "Debt, temperature below zero, or descending below ground represent negative quantities (-).",
+            "H4": "A submarine diving 5 meters below water level is situated below the zero boundary."
+          },
+          "opts": [
+            {
+              "c": true,
+              "t": "A submarine cruising 5 meters below sea level",
+              "m": ""
+            },
+            {
+              "c": false,
+              "t": "A bird flying 5 meters above a tree",
+              "m": "Elevation above ground is an upward positive quantity, not a negative depth."
+            },
+            {
+              "c": false,
+              "t": "Earning a profit of 5 rupees in a shop",
+              "m": "Financial profit increases wealth and is represented by positive integers."
+            },
+            {
+              "c": false,
+              "t": "Walking 5 steps forward in a race",
+              "m": "Forward motion along the positive direction corresponds to positive numbers."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "node_g6_int_c2",
+    "title": "The Number Line & Ordering (संख्या रेखा और तुलना)",
+    "steps": [
+      {
+        "t": "intro",
+        "text": "Every integer has an exact position on an infinite horizontal line with zero placed in the center."
+      },
+      {
+        "t": "text",
+        "title": "Rightward is Strictly Greater",
+        "content": "On a horizontal number line, numbers increase as you move to the right and decrease as you move to the left. Therefore, any number lying to the right of another is strictly greater."
+      },
+      {
+        "t": "interactive",
+        "role": "number_line",
+        "title": "Explore Order on the Number Line"
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "Which of the following statements correctly compares the integers -7 and -2?",
+          "hints": {
+            "H1": "Locate zero first, then look at where -2 and -7 sit on the left side.",
+            "H2": "Remember: as you move rightward along the number line, numbers always increase.",
+            "H3": "Which integer sits closer to zero and further right?",
+            "H4": "Notice that -2 is 5 steps to the right of -7 on the horizontal axis."
+          },
+          "opts": [
+            {
+              "c": true,
+              "t": "-2 is greater than -7 because -2 lies further to the right",
+              "m": ""
+            },
+            {
+              "c": false,
+              "t": "-7 is greater than -2 because 7 is larger than 2",
+              "m": "Compared absolute numeral sizes without accounting for the negative sign and position relative to zero."
+            },
+            {
+              "c": false,
+              "t": "-7 and -2 have the exact same value because both are negative",
+              "m": "Assumed all negative numbers share identical value regardless of distance from zero."
+            },
+            {
+              "c": false,
+              "t": "Neither number can be compared because negative numbers have no order",
+              "m": "Assumed negative integers cannot be systematically ordered on the number line."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "node_g6_int_c3",
+    "title": "Opposite Numbers & Additive Inverse (विपरीत संख्याएँ और योज्य प्रतिलोम)",
+    "steps": [
+      {
+        "t": "intro",
+        "text": "Every non-zero number has a mirror reflection on the opposite side of zero."
+      },
+      {
+        "t": "text",
+        "title": "Additive Inverses Sum to Zero",
+        "content": "Two numbers that lie at the exact same distance from zero in opposite directions are called opposite numbers or additive inverses (योज्य प्रतिलोम). When added together, they cancel out to 0: (+a) + (-a) = 0."
+      },
+      {
+        "t": "interactive",
+        "role": "number_line",
+        "title": "Mirror Reflection Around Zero"
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "What is the additive inverse of -9?",
+          "hints": {
+            "H1": "The additive inverse is the number that sums to zero when added to -9.",
+            "H2": "Find the mirror reflection of -9 on the positive side of zero.",
+            "H3": "Change the sign from negative to positive while keeping the same distance.",
+            "H4": "The number 9 units to the right of zero is +9."
+          },
+          "opts": [
+            {
+              "c": true,
+              "t": "+9",
+              "m": ""
+            },
+            {
+              "c": false,
+              "t": "-9",
+              "m": "Kept the same negative sign instead of finding the opposite reflection."
+            },
+            {
+              "c": false,
+              "t": "0",
+              "m": "Chose the zero sum itself rather than the partner number that cancels -9."
+            },
+            {
+              "c": false,
+              "t": "-1/9",
+              "m": "Confused the additive inverse (opposite sign) with the multiplicative reciprocal."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "node_g6_int_c4",
+    "title": "Addition & Subtraction of Integers (पूर्णांकों का जोड़ और घटाव)",
+    "steps": [
+      {
+        "t": "intro",
+        "text": "Operations with integers can be visualized as directed walking steps along the number line."
+      },
+      {
+        "t": "text",
+        "title": "Walking Rules for Directed Steps",
+        "content": "To add a positive number, step to the right. To subtract a positive number or add a negative number, step to the left. Subtracting a negative number turns around and steps to the right!"
+      },
+      {
+        "t": "worked",
+        "we": "we_int_add",
+        "title": "Worked Example: Directed Addition"
+      },
+      {
+        "t": "quiz",
+        "q": {
+          "q": "What is the result of evaluating (-5) + (+8)?",
+          "hints": {
+            "H1": "Start at the initial number -5 on the horizontal line.",
+            "H2": "Adding a positive quantity (+8) means moving 8 units to the right.",
+            "H3": "Moving 5 steps right reaches 0; how many steps right remain?",
+            "H4": "Moving 3 more steps past 0 lands on the positive side: 8 - 5 = 3."
+          },
+          "opts": [
+            {
+              "c": true,
+              "t": "+3",
+              "m": ""
+            },
+            {
+              "c": false,
+              "t": "-13",
+              "m": "Moved leftward as if subtracting 8 instead of adding positive 8 to the right."
+            },
+            {
+              "c": false,
+              "t": "-3",
+              "m": "Assigned a negative sign to the result despite moving further into the positive region."
+            },
+            {
+              "c": false,
+              "t": "+13",
+              "m": "Added both absolute quantities without accounting for the starting negative position."
+            }
+          ]
+        }
+      }
+    ]
+  }
+];
+
+// ═══ INTERACTIVE SIMULATION ENGINE (F25 Number-Line Hunter) ═══
+var Sim = {
+  currentPos: 0,
+  canvas: null,
+  ctx: null,
+
+  init: function(container) {
+    container.innerHTML = `
+      <div style="text-align:center;margin-bottom:8px;">
+        <span style="font-weight:700;color:var(--brand);font-size:.9rem;">🎯 Foundation F25: Number-Line Hunter</span>
+      </div>
+      <canvas id="numLineCanvas" class="canvas-visual" width="380" height="130"></canvas>
+      <div class="sim-readout" id="simReadout">Position: 0 • Zero Origin (शून्य)</div>
+      <div class="sim-controls">
+        <button class="sim-btn" onclick="Sim.step(-1)">← Step -1</button>
+        <button class="sim-btn" onclick="Sim.step(1)">Step +1 →</button>
+        <button class="sim-btn" onclick="Sim.step(-3)">← Jump -3</button>
+        <button class="sim-btn" onclick="Sim.step(3)">Jump +3 →</button>
+        <button class="sim-btn secondary" onclick="Sim.mirror()">Mirror 0 (Opposite)</button>
+        <button class="sim-btn secondary" onclick="Sim.reset()">Reset (0)</button>
+      </div>
+    `;
+    this.canvas = document.getElementById('numLineCanvas');
+    this.ctx = this.canvas.getContext('2d');
+    this.draw();
+  },
+
+  step: function(delta) {
+    this.currentPos = Math.max(-10, Math.min(10, this.currentPos + delta));
+    playTone('tap');
+    this.update();
+  },
+
+  mirror: function() {
+    this.currentPos = -this.currentPos;
+    playTone('correct');
+    this.update();
+  },
+
+  reset: function() {
+    this.currentPos = 0;
+    playTone('tap');
+    this.update();
+  },
+
+  update: function() {
+    this.draw();
+    var txt = 'Position: ' + (this.currentPos > 0 ? '+' + this.currentPos : this.currentPos);
+    if (this.currentPos === 0) txt += ' • Origin (शून्य)';
+    else if (this.currentPos > 0) txt += ' • Positive (धनात्मक) [' + this.currentPos + ' units right]';
+    else txt += ' • Negative (ऋणात्मक) [' + Math.abs(this.currentPos) + ' units left]';
+    document.getElementById('simReadout').textContent = txt;
+  },
+
+  draw: function() {
+    if (!this.ctx) return;
+    var ctx = this.ctx, w = this.canvas.width, h = this.canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    var y = 65;
+    var startX = 25, endX = w - 25;
+    var stepW = (endX - startX) / 20;
+
+    // Base horizontal axis
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(startX - 10, y);
+    ctx.lineTo(endX + 10, y);
+    ctx.stroke();
+
+    // Arrows on ends
+    ctx.fillStyle = '#1e293b';
+    ctx.beginPath();
+    ctx.moveTo(startX - 12, y); ctx.lineTo(startX - 4, y - 6); ctx.lineTo(startX - 4, y + 6); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(endX + 12, y); ctx.lineTo(endX + 4, y - 6); ctx.lineTo(endX + 4, y + 6); ctx.fill();
+
+    // Tick marks and numbers
+    for (var i = -10; i <= 10; i++) {
+      var x = startX + (i + 10) * stepW;
+      var isZero = (i === 0);
+      ctx.strokeStyle = isZero ? '#ef4444' : (i % 5 === 0 ? '#1e3a5f' : '#94a3b8');
+      ctx.lineWidth = isZero ? 3.5 : (i % 5 === 0 ? 2 : 1.5);
+      var tickH = isZero ? 18 : (i % 5 === 0 ? 12 : 8);
+
+      ctx.beginPath();
+      ctx.moveTo(x, y - tickH);
+      ctx.lineTo(x, y + tickH);
+      ctx.stroke();
+
+      if (i % 2 === 0 || isZero) {
+        ctx.fillStyle = isZero ? '#ef4444' : '#475569';
+        ctx.font = isZero ? 'bold 12px sans-serif' : '10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(i.toString(), x, y + 24);
+      }
+    }
+
+    // Hunter/Frog Marker
+    var markerX = startX + (this.currentPos + 10) * stepW;
+    ctx.fillStyle = this.currentPos < 0 ? '#ef4444' : (this.currentPos > 0 ? '#22c55e' : '#3b82f6');
+    ctx.beginPath();
+    ctx.arc(markerX, y - 20, 11, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // Eye / Pupil
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath(); ctx.arc(markerX - 3, y - 22, 3, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(markerX + 3, y - 22, 3, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#0f172a';
+    ctx.beginPath(); ctx.arc(markerX - 2, y - 22, 1.5, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(markerX + 4, y - 22, 1.5, 0, Math.PI * 2); ctx.fill();
+
+    // Connecting drop line
+    ctx.strokeStyle = ctx.fillStyle;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(markerX, y - 8);
+    ctx.lineTo(markerX, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+};
+
+// ═══ MAIN APPLICATION CONTROLLER ═══
+var App = {
+  nIdx: 0,
+  sIdx: 0,
+  coins: 100,
+  xp: 250,
+  level: 1,
+  streak: 0,
+  answered: false,
+  hintStep: 0,
+  _qOpts: null,
+
+  init: function() {
+    try {
+      var s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      if (s.nIdx !== undefined && s.nIdx >= 0 && s.nIdx < NODES.length) {
+        this.nIdx = s.nIdx;
+        this.sIdx = s.sIdx || 0;
+        this.coins = s.coins || 100;
+        this.xp = s.xp || 250;
+        this.level = s.level || 1;
+        this.streak = s.streak || 0;
+      }
+    } catch(e) {}
+    this.render();
+  },
+
+  save: function() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        nIdx: this.nIdx,
+        sIdx: this.sIdx,
+        coins: this.coins,
+        xp: this.xp,
+        level: this.level,
+        streak: this.streak
+      }));
+    } catch(e) {}
+  },
+
+  exit: function() {
+    this.save();
+    this.nIdx = 0;
+    this.sIdx = 0;
+    this.answered = false;
+    this.hintStep = 0;
+    this._qOpts = null;
+    this.render();
+  },
+
+  next: function() {
+    var node = NODES[this.nIdx];
+    if (this.sIdx < node.steps.length - 1) {
+      this.sIdx++;
+    } else if (this.nIdx < NODES.length - 1) {
+      this.nIdx++;
+      this.sIdx = 0;
+      this.coins += 20;
+      this.xp += 50;
+      fireConfetti(30);
+      playTone('correct');
+    } else {
+      this.renderSummary();
+      return;
+    }
+    this.answered = false;
+    this.hintStep = 0;
+    this._qOpts = null;
+    this.save();
+    this.render();
+  },
+
+  back: function() {
+    if (this.sIdx > 0) {
+      this.sIdx--;
+    } else if (this.nIdx > 0) {
+      this.nIdx--;
+      this.sIdx = NODES[this.nIdx].steps.length - 1;
+    }
+    this.answered = false;
+    this.hintStep = 0;
+    this._qOpts = null;
+    this.save();
+    this.render();
+  },
+
+  updateStats: function() {
+    document.getElementById('coinCount').textContent = this.coins;
+    document.getElementById('xpCount').textContent = this.xp;
+    document.getElementById('lvlCount').textContent = 'Lv ' + this.level;
+    var totalSteps = 0, currentStep = 0;
+    for (var i = 0; i < NODES.length; i++) {
+      totalSteps += NODES[i].steps.length;
+      if (i < this.nIdx) currentStep += NODES[i].steps.length;
+      else if (i === this.nIdx) currentStep += this.sIdx;
+    }
+    var pct = Math.round((currentStep / totalSteps) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+  },
+
+  render: function() {
+    this.updateStats();
+    var node = NODES[this.nIdx];
+    var step = node.steps[this.sIdx];
+    var container = document.getElementById('screen');
+    container.innerHTML = '';
+
+    document.getElementById('backBtn').style.visibility = (this.nIdx === 0 && this.sIdx === 0) ? 'hidden' : 'visible';
+    document.getElementById('continueBtn').textContent = (this.nIdx === NODES.length - 1 && this.sIdx === node.steps.length - 1) ? 'Complete Chapter 🏆' : 'Continue →';
+
+    var card = document.createElement('div');
+    card.className = 'card';
+
+    var title = document.createElement('div');
+    title.className = 'card-title';
+    title.innerHTML = '<span>📘 ' + node.title + '</span>';
+    card.appendChild(title);
+
+    if (step.t === 'intro') {
+      var intro = document.createElement('div');
+      intro.innerHTML = rt(step.text);
+      card.appendChild(intro);
+    } else if (step.t === 'text') {
+      var h4 = document.createElement('h4');
+      h4.style.margin = '8px 0 4px';
+      h4.textContent = step.title;
+      card.appendChild(h4);
+      var content = document.createElement('div');
+      content.innerHTML = rt(step.content);
+      card.appendChild(content);
+    } else if (step.t === 'interactive') {
+      var simWrap = document.createElement('div');
+      card.appendChild(simWrap);
+      setTimeout(function() { Sim.init(simWrap); }, 10);
+    } else if (step.t === 'worked') {
+      var we = WE[step.we];
+      if (we) {
+        var weCard = document.createElement('div');
+        weCard.className = 'we-card';
+        weCard.innerHTML = '<div class="we-tag">Worked Example / हल सहित उदाहरण</div><h4 style="margin-bottom:8px">' + we.title + '</h4><div style="font-weight:700;margin-bottom:8px;color:var(--brand)">' + we.problem + '</div>';
+        we.steps.forEach(function(s, idx) {
+          var stepDiv = document.createElement('div');
+          stepDiv.className = 'we-step' + (idx === we.steps.length - 1 ? ' green' : '');
+          stepDiv.textContent = s.desc;
+          weCard.appendChild(stepDiv);
+        });
+        card.appendChild(weCard);
+      }
+    } else if (step.t === 'quiz') {
+      var q = step.q;
+      var qWrap = document.createElement('div');
+      qWrap.innerHTML = '<div style="font-weight:700;font-size:1rem;margin-bottom:12px;color:var(--brand)">' + q.q + '</div>';
+
+      if (!this._qOpts) {
+        this._qOpts = q.opts.slice().sort(function() { return Math.random() - 0.5; });
+      }
+
+      var optsDiv = document.createElement('div');
+      var self = this;
+      this._qOpts.forEach(function(opt) {
+        var optBtn = document.createElement('div');
+        optBtn.className = 'quiz-opt';
+        optBtn.textContent = opt.t;
+        optBtn.onclick = function() {
+          if (self.answered) return;
+          self.answered = true;
+          var fb = document.getElementById('quizFeedback');
+          if (opt.c) {
+            optBtn.className = 'quiz-opt correct';
+            playTone('correct');
+            fireConfetti(25);
+            self.coins += 10;
+            self.xp += 20;
+            self.updateStats();
+            if (fb) {
+              fb.textContent = '✓ Shabaash! Sahi Uttar! (+20 XP, +10 Coins)';
+              fb.style.color = 'var(--green-dk)';
+            }
+          } else {
+            optBtn.className = 'quiz-opt wrong';
+            playTone('wrong');
+            var siblings = optsDiv.getElementsByClassName('quiz-opt');
+            for (var k = 0; k < siblings.length; k++) {
+              if (self._qOpts[k] && self._qOpts[k].c) {
+                siblings[k].className = 'quiz-opt correct';
+              }
+            }
+            if (fb && opt.m) {
+              fb.textContent = '💡 ' + opt.m;
+              fb.style.color = '#991b1b';
+            }
+          }
+          self.save();
+        };
+        optsDiv.appendChild(optBtn);
+      });
+      qWrap.appendChild(optsDiv);
+
+      var fbDiv = document.createElement('div');
+      fbDiv.id = 'quizFeedback';
+      fbDiv.style.cssText = 'margin-top:10px;text-align:center;font-weight:700;min-height:24px;';
+      qWrap.appendChild(fbDiv);
+
+      if (q.hints) {
+        var hintBtn = document.createElement('button');
+        hintBtn.className = 'hint-btn';
+        hintBtn.textContent = '💡 Need a Hint?';
+        var hintBox = document.createElement('div');
+        hintBox.className = 'hints-container';
+        hintBox.innerHTML = '<strong>Progressive Hint (H1):</strong> ' + q.hints.H1 + '<br><br><strong>Key Concept (H2):</strong> ' + q.hints.H2;
+        hintBtn.onclick = function() {
+          hintBox.style.display = hintBox.style.display === 'block' ? 'none' : 'block';
+        };
+        qWrap.appendChild(hintBtn);
+        qWrap.appendChild(hintBox);
+      }
+      card.appendChild(qWrap);
+    }
+
+    container.appendChild(card);
+  },
+
+  renderSummary: function() {
+    this.coins += 50;
+    this.xp += 100;
+    this.level += 1;
+    this.updateStats();
+    fireConfetti(80);
+    playTone('correct');
+
+    var container = document.getElementById('screen');
+    container.innerHTML = `
+      <div class="card" style="text-align:center;padding:24px 16px;">
+        <div style="font-size:3rem;margin-bottom:8px">🎉</div>
+        <h2 style="color:var(--brand);margin-bottom:6px">Shabash! Chapter Mastered!</h2>
+        <div style="color:var(--purple);font-weight:700;font-size:1.1rem;margin-bottom:12px">अध्याय १०: पूर्णांक (Integers) पूर्ण हुआ!</div>
+        <div class="lle-text-sm" style="text-align:center;margin-bottom:16px">
+          You have mastered directed numbers, horizontal number line comparisons, additive inverses, and vector additions!
+        </div>
+        <div style="display:flex;gap:12px;justify-content:center;margin-bottom:20px">
+          <div class="stat coins" style="font-size:.9rem;padding:8px 14px">🪙 +50 Coins</div>
+          <div class="stat xp" style="font-size:.9rem;padding:8px 14px">⚡ +100 XP</div>
+        </div>
+        <button class="dlg-btn" onclick="App.exit()">Restart Chapter 🔄</button>
+      </div>
+    `;
+    document.getElementById('bottomBar').style.display = 'none';
+  }
+};
+
+window.onload = function() { App.init(); };
+</script>
+</body>
+</html>
