@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-03T21:17:32.5527410Z",
+    "timestamp_utc":  "2026-11-03T21:21:32.4624635Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,28 +14,17 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "f56bccecbec29e0831409c1cff820a18e2853206",
-                                                 "dirty_file_count":  6,
-                                                 "dirty_files_sample":  [
-                                                                            " M .agents/agents/debug-test-engineer.md",
-                                                                            " M .agents/agents/delivery-coordinator.md",
-                                                                            " M .agents/agents/full-stack-developer.md",
-                                                                            " M AGENTS.md",
-                                                                            " M PC_ANTIGRAVITY_STATE.json",
-                                                                            " M scripts/aasha_continuous_loop.mjs"
-                                                                        ]
+                                                 "head_commit":  "dec6427f291abd77068c4b1cb71e392ff51e2ebf",
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M ARCHITECTURE_GRAPH.md"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "768e3a9edad45514d48ba49535b96f4e9ec32e55",
-                                                   "dirty_file_count":  5,
-                                                   "dirty_files_sample":  [
-                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
-                                                                              " M packages/adapters/domain_sim_generators.ts",
-                                                                              "?? chapters/class6_fractions.html",
-                                                                              "?? packages/adapters/fraction_slice_sim.ts",
-                                                                              "?? tests/test_fraction_slice_sim.ts"
-                                                                          ]
+                                                   "head_commit":  "5249e37b7cf79a9f92baa1b81a8d574fdfee63fa",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
