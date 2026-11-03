@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-03T14:36:40.5731980Z",
+    "timestamp_utc":  "2026-11-03T14:56:12.5790628Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -20,8 +20,8 @@
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "0817666735880d67ed8345673bf99ecaa1b55700",
-                                                   "dirty_file_count":  9,
+                                                   "head_commit":  "721a90b3cbcd461d96cf4ed55d7b390965543009",
+                                                   "dirty_file_count":  10,
                                                    "dirty_files_sample":  [
                                                                               " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/agents/deep_vectorizer.py",
@@ -31,7 +31,8 @@
                                                                               " M aasha-pipeline-with-master-json/src/aasha/pipeline/orchestrator.py",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/schemas/__init__.py",
                                                                               " M aasha-pipeline-with-master-json/src/aasha/synthesis/offline_synthesizer.py",
-                                                                              " M aasha-pipeline-with-master-json/tests/test_deep_vectorizer.py"
+                                                                              " M aasha-pipeline-with-master-json/tests/test_deep_vectorizer.py",
+                                                                              " M experience_registry/adapters/aasha_gamified_assessment_adapter.js"
                                                                           ]
                                                }
                      }
