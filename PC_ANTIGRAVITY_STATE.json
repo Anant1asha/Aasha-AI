@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-03T21:30:25.0222276Z",
+    "timestamp_utc":  "2026-11-03T21:37:02.5054143Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,31 +14,15 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "dec6427f291abd77068c4b1cb71e392ff51e2ebf",
-                                                 "dirty_file_count":  4,
-                                                 "dirty_files_sample":  [
-                                                                            " M ARCHITECTURE_GRAPH.md",
-                                                                            " M PC_ANTIGRAVITY_STATE.json",
-                                                                            " M scripts/aasha_continuous_loop.mjs",
-                                                                            "?? docs/teacher-resources/"
-                                                                        ]
+                                                 "head_commit":  "d34078f23f74eeaf77d95f68047b9b932747210e",
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M ARCHITECTURE_GRAPH.md"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "1a60591ddf16b005dddbcce3379866a162bb235e",
-                                                   "dirty_file_count":  10,
-                                                   "dirty_files_sample":  [
-                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
-                                                                              " M benchmarks/ltruth_benchmark_report.json",
-                                                                              " M packages/adapters/domain_sim_generators.ts",
-                                                                              "?? chapters/class6_integers.html",
-                                                                              "?? chapters/class8_linear_equations.html",
-                                                                              "?? content/contracts/math6_integers_contract.yaml",
-                                                                              "?? content/contracts/math8_linear_equations_contract.yaml",
-                                                                              "?? packages/adapters/balance_equation_sim.ts",
-                                                                              "?? packages/adapters/number_line_hunter_sim.ts",
-                                                                              "?? tests/test_f25_f26_adapters.ts"
-                                                                          ]
+                                                   "head_commit":  "c520df92d9aca5d328356b956be97935b681a99a",
+                                                   "dirty_file_count":  1,
+                                                   "dirty_files_sample":  " M benchmarks/ltruth_benchmark_report.json"
                                                }
                      }
 }
