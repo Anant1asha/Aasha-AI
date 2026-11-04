@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-04T04:35:36.0991168Z",
+    "timestamp_utc":  "2026-11-04T04:38:50.8636143Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,32 +14,17 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "d120e1e0bee8ad438d727246d70db834ca66ce8a",
-                                                 "dirty_file_count":  5,
-                                                 "dirty_files_sample":  [
-                                                                            " M PC_ANTIGRAVITY_STATE.json",
-                                                                            " M scripts/aasha_continuous_loop.mjs",
-                                                                            "?? scripts/export_teas_content_pack.py",
-                                                                            "?? scripts/serve_for_browser_test.mjs",
-                                                                            "?? scripts/verify_mendelian_chapter_browser.mjs"
-                                                                        ]
+                                                 "head_commit":  "3cf69819235b586e736210ac6e4eae4b080ab1a3",
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M scripts/build_classroom_pilot_pack.mjs"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "a8e4e80e387fd107bc5992468df1e2f551f195ec",
-                                                   "dirty_file_count":  10,
-                                                   "dirty_files_sample":  [
-                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
-                                                                              " M aasha-pipeline-with-master-json/config/defaults.json",
-                                                                              " M aasha-student-pwa/src/content/chapter.js",
-                                                                              " M aasha-student-pwa/src/core/visuals.js",
-                                                                              " M aasha-student-pwa/sw.js",
-                                                                              " M experience_registry/aasha_dictionary_db.json",
-                                                                              " M experience_registry/registry.json",
-                                                                              " M tests/verify_gamified_assessment_integration.js",
-                                                                              "?? chapters/Heredity_Mendelian_Genetics_Punnett_Square_Class10_Gamified_v5.html",
-                                                                              "?? content/teas_content.db.gz"
-                                                                          ]
+                                                   "head_commit":  "ba24510fcf75ba407d16bff3cfde7358f7583f1e",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
