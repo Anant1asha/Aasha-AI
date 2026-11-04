@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-04T04:15:06.6401205Z",
+    "timestamp_utc":  "2026-11-04T04:23:04.3533257Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,17 +14,25 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "6e2f0bcd94d4b91d9e1aafd7ce069c39451079d6",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "head_commit":  "3ee66c838ebe1eb92c57f8463ee02b326fee57cd",
+                                                 "dirty_file_count":  2,
+                                                 "dirty_files_sample":  [
+                                                                            " M assets/prestack_manifest.json",
+                                                                            "?? assets/cdn/interactives/AVR-P321-bio-mendelian-punnett-square-sim.html"
+                                                                        ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "21eda72de02329ab8fe29526c89acfd9ff1413d2",
-                                                   "dirty_file_count":  1,
-                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
+                                                   "head_commit":  "f176569fabfe0f2dc93b482f2de1c709ed285b9c",
+                                                   "dirty_file_count":  6,
+                                                   "dirty_files_sample":  [
+                                                                              " M aasha-pipeline-with-master-json/config/defaults.json",
+                                                                              " M aasha-student-pwa/src/content/chapter.js",
+                                                                              " M aasha-student-pwa/src/core/visuals.js",
+                                                                              " M benchmarks/ltruth_benchmark_report.json",
+                                                                              " M experience_registry/aasha_dictionary_db.json",
+                                                                              " M experience_registry/registry.json"
+                                                                          ]
                                                }
                      }
 }
