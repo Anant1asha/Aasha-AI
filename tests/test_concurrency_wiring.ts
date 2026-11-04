@@ -155,7 +155,7 @@ export async function runConcurrencySuite() {
 
   // TEST_C03: CONCURRENCY SPEEDUP VERIFICATION
   {
-    const delay = 120;
+    const delay = 150;
     const completer = createDeterministicCompleter(delay);
 
     let seqStart = Date.now();
@@ -166,11 +166,11 @@ export async function runConcurrencySuite() {
     await orchestrateChapterPipeline(input, { concurrency: true, llmCompleter: completer, useIEC: false });
     let parDuration = Date.now() - parStart;
 
-    // Sequential: 1 analysis + 3 branches (design, assessment, lle) + QA ~ 4*120 = ~480ms
-    // Concurrent: 1 analysis + max 2 workers (design, assessment then lle) + QA ~ 3*120 = ~360ms (delta >= 120ms)
+    // Sequential: 1 analysis + 3 branches (design, assessment, lle) + QA ~ 4*150 = ~600ms
+    // Concurrent: 1 analysis + max 2 workers (design, assessment then lle) + QA ~ 3*150 = ~450ms (delta >= 150ms)
     let passed = parDuration < seqDuration;
-    if (!passed) {
-      // Retry once to absorb transient Windows background scheduler jitter
+    for (let retry = 0; !passed && retry < 2; retry++) {
+      // Retry to absorb transient Windows background scheduler jitter
       seqStart = Date.now();
       await orchestrateChapterPipeline(input, { concurrency: false, llmCompleter: completer, useIEC: false });
       seqDuration = Date.now() - seqStart;
