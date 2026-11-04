@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Aasha — Heredity & Mendelian Genetics: Punnett Square (Class 10 Science)</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --surface: #131c2e;
+      --surface-card: #1a263d;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --green: #22c55e;
+      --green-glow: rgba(34, 197, 94, 0.25);
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.25);
+      --purple: #a855f7;
+      --border: #2d3b55;
+      --touch-min: 44px;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+      user-select: none;
+      overflow-x: hidden;
+    }
+    .app-shell {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Brand Header */
+    header.brand-banner {
+      background: linear-gradient(135deg, #1e3a5f, #0f172a);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    }
+    .brand-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .brand-title {
+      font-size: 19px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+    .brand-sub {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .score-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--amber);
+    }
+
+    /* Tabs Bar (>=44px touch targets) */
+    .tab-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    .tab-btn {
+      min-height: var(--touch-min);
+      padding: 10px 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      touch-action: manipulation;
+    }
+    .tab-btn.active {
+      background: var(--surface-card);
+      border-color: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    /* Content Card */
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    /* Kid-Friendly High Impact Typography */
+    .concept-headline {
+      font-size: 17px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .concept-body {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.7;
+      color: #cbd5e1;
+    }
+    .concept-body b {
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    /* LLE Interactive Tooltip Words */
+    .lle-word {
+      display: inline-block;
+      padding: 2px 6px;
+      margin: 0 2px;
+      background: rgba(56, 189, 248, 0.15);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 4px;
+      color: var(--accent);
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .lle-word:hover, .lle-word:active {
+      background: rgba(56, 189, 248, 0.3);
+    }
+
+    /* LLE Modal / Floating Dialog */
+    .lle-dialog {
+      background: var(--surface-card);
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      display: none;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      animation: popIn 0.2s ease;
+    }
+    .lle-dialog-term {
+      font-size: 15px;
+      color: var(--accent);
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    /* Simulation Module Styles */
+    .parents-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .parent-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+    .parent-tag {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .allele-controls {
+      display: flex;
+      gap: 8px;
+    }
+    .allele-toggle {
+      min-width: var(--touch-min);
+      min-height: var(--touch-min);
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+    .allele-toggle.is-dominant {
+      background: var(--green-glow);
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .allele-toggle.is-recessive {
+      background: var(--amber-glow);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+    .parent-desc {
+      font-size: 12px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    /* Preset Selection Bar */
+    .preset-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .preset-pill {
+      min-height: var(--touch-min);
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-card);
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .preset-pill:hover, .preset-pill:active {
+      border-color: var(--accent);
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.15);
+    }
+
+    /* Punnett Square Stage */
+    .punnett-wrapper {
+      background: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .punnett-table {
+      display: grid;
+      grid-template-columns: 46px 1fr 1fr;
+      grid-template-rows: 46px 1fr 1fr;
+      gap: 8px;
+      width: 100%;
+      max-width: 360px;
+    }
+    .grid-box {
+      min-height: var(--touch-min);
+      min-width: var(--touch-min);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      font-weight: 900;
+      text-align: center;
+    }
+    .gamete-cell {
+      background: var(--surface-card);
+      color: var(--accent);
+      font-size: 18px;
+      border: 1px dashed rgba(56, 189, 248, 0.4);
+    }
+    .progeny-cell {
+      padding: 10px 4px;
+      border: 2px solid var(--border);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .progeny-cell.tall-look {
+      background: var(--green-glow);
+      border-color: var(--green);
+      color: #ffffff;
+    }
+    .progeny-cell.dwarf-look {
+      background: var(--amber-glow);
+      border-color: var(--amber);
+      color: #ffffff;
+    }
+    .cell-geno {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+    .cell-pheno {
+      font-size: 11px;
+      font-weight: 800;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Ratio Displays */
+    .ratio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .ratio-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: center;
+    }
+    .ratio-card h4 {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .ratio-card .big-ratio {
+      font-size: 18px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+    .ratio-card .sub-percent {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Quiz Module Styles */
+    .quiz-progress-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      padding: 4px 2px;
+    }
+    .quiz-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .quiz-prompt {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.5;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .option-btn {
+      min-height: var(--touch-min);
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-card);
+      color: #e2e8f0;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+    .option-btn:hover, .option-btn:active {
+      border-color: var(--accent);
+      background: rgba(56, 189, 248, 0.12);
+    }
+    .option-btn.selected-correct {
+      background: rgba(34, 197, 94, 0.25);
+      border-color: var(--green);
+      color: #ffffff;
+    }
+    .option-btn.selected-wrong {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+      color: #ffffff;
+    }
+
+    /* Scaffolding Hints Panel */
+    .hint-container {
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .hint-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--purple);
+    }
+    .hint-btn {
+      min-height: 36px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--purple);
+      background: rgba(168, 85, 247, 0.2);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .hint-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    /* Feedback Banner */
+    .feedback-box {
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5;
+      display: none;
+    }
+    .feedback-box.correct {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid var(--green);
+      color: #86efac;
+      display: block;
+    }
+    .feedback-box.misconception {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid var(--amber);
+      color: #fde68a;
+      display: block;
+    }
+
+    /* Navigation Buttons */
+    .quiz-nav-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .next-btn {
+      min-height: var(--touch-min);
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #0f172a;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      touch-action: manipulation;
+    }
+    .next-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Telemetry Handshake Footer */
+    footer.telemetry-footer {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: center;
+      padding: 8px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <!-- Brand Banner -->
+  <header class="brand-banner">
+    <div class="brand-left">
+      <div class="brand-title">AASHA AIOS · Class 10 Science</div>
+      <div class="brand-sub">Heredity & Evolution · Mendelian Genetics</div>
+    </div>
+    <div class="score-badge" id="score_display">
+      <span>🪙</span> <span id="coins_count">0</span> TEAS Coins
+    </div>
+  </header>
+
+  <!-- Section Tab Navigation -->
+  <nav class="tab-bar">
+    <button class="tab-btn active" id="tab_sim" onclick="switchSection('sim')">🧪 Simulation</button>
+    <button class="tab-btn" id="tab_theory" onclick="switchSection('theory')">📖 Key Concepts</button>
+    <button class="tab-btn" id="tab_quiz" onclick="switchSection('quiz')">🎯 TEAS Quiz</button>
+  </nav>
+
+  <!-- LLE Bilingual Definition Bubble -->
+  <div class="lle-dialog" id="lle_popup">
+    <div class="lle-dialog-term" id="lle_term"></div>
+    <div id="lle_desc"></div>
+  </div>
+
+  <!-- SECTION 1: Interactive Simulation (AVR-P321) -->
+  <section class="section-card" id="sec_sim">
+    <div class="concept-headline">
+      <span>🌱</span>
+      <span>Mendel's Monohybrid Cross Simulator</span>
+    </div>
+
+    <!-- Parent Allele Selectors -->
+    <div class="parents-panel">
+      <div class="parent-card">
+        <span class="parent-tag">Female Parent (♀)</span>
+        <div class="allele-controls">
+          <button id="p1_0" class="allele-toggle is-dominant" onclick="toggleParentAllele('p1', 0)">T</button>
+          <button id="p1_1" class="allele-toggle is-recessive" onclick="toggleParentAllele('p1', 1)">t</button>
+        </div>
+        <div class="parent-desc" id="p1_desc">Tt (Heterozygous Tall)</div>
+      </div>
+      <div class="parent-card">
+        <span class="parent-tag">Male Parent (♂)</span>
+        <div class="allele-controls">
+          <button id="p2_0" class="allele-toggle is-dominant" onclick="toggleParentAllele('p2', 0)">T</button>
+          <button id="p2_1" class="allele-toggle is-recessive" onclick="toggleParentAllele('p2', 1)">t</button>
+        </div>
+        <div class="parent-desc" id="p2_desc">Tt (Heterozygous Tall)</div>
+      </div>
+    </div>
+
+    <!-- Quick Presets -->
+    <div class="preset-row">
+      <button class="preset-pill" onclick="applyPreset('TT', 'tt')">P1 Cross: TT × tt (F1)</button>
+      <button class="preset-pill" onclick="applyPreset('Tt', 'Tt')">F1 Self Cross: Tt × Tt (F2)</button>
+      <button class="preset-pill" onclick="applyPreset('Tt', 'tt')">Test Cross: Tt × tt</button>
+    </div>
+
+    <!-- Punnett Square Grid -->
+    <div class="punnett-wrapper">
+      <div class="punnett-table">
+        <div class="grid-box" style="font-size:11px;color:var(--muted);background:transparent;">♀ \ ♂</div>
+        <div class="grid-box gamete-cell" id="gam_top_0">T</div>
+        <div class="grid-box gamete-cell" id="gam_top_1">t</div>
+
+        <div class="grid-box gamete-cell" id="gam_left_0">T</div>
+        <div class="grid-box progeny-cell tall-look" id="cell_0_0">
+          <span class="cell-geno">TT</span>
+          <span class="cell-pheno">Tall (प्रभावी)</span>
+        </div>
+        <div class="grid-box progeny-cell tall-look" id="cell_0_1">
+          <span class="cell-geno">Tt</span>
+          <span class="cell-pheno">Tall (प्रभावी)</span>
+        </div>
+
+        <div class="grid-box gamete-cell" id="gam_left_1">t</div>
+        <div class="grid-box progeny-cell tall-look" id="cell_1_0">
+          <span class="cell-geno">Tt</span>
+          <span class="cell-pheno">Tall (प्रभावी)</span>
+        </div>
+        <div class="grid-box progeny-cell dwarf-look" id="cell_1_1">
+          <span class="cell-geno">tt</span>
+          <span class="cell-pheno">Dwarf (अप्रभावी)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ratios & Analytical Breakdown -->
+    <div class="ratio-grid">
+      <div class="ratio-card">
+        <h4>Phenotypic Ratio (लक्षणप्ररूप)</h4>
+        <div class="big-ratio" id="lbl_pheno">3 Tall : 1 Dwarf</div>
+        <div class="sub-percent" id="lbl_pheno_pct">75% Tall · 25% Dwarf</div>
+      </div>
+      <div class="ratio-card">
+        <h4>Genotypic Ratio (जीनप्ररूप)</h4>
+        <div class="big-ratio" id="lbl_geno">1 TT : 2 Tt : 1 tt</div>
+        <div class="sub-percent" id="lbl_geno_pct">25% TT · 50% Tt · 25% tt</div>
+      </div>
+    </div>
+
+    <!-- Pedagogical Anchor -->
+    <div class="concept-body" style="background:var(--surface-card);border:1px solid var(--border);border-radius:12px;padding:12px;" id="sim_pedagogy">
+      <b>Law of Dominance:</b> In the <span class="lle-word" onclick="showLLE('monohybrid')">monohybrid</span> cross of pea plants for height, the <span class="lle-word" onclick="showLLE('dominant')">dominant</span> allele <b>T</b> completely masks the <span class="lle-word" onclick="showLLE('recessive')">recessive</span> <span class="lle-word" onclick="showLLE('allele')">allele</span> <b>t</b> in heterozygous (<b>Tt</b>) progeny.
+    </div>
+  </section>
+
+  <!-- SECTION 2: Key Concepts & Theory -->
+  <section class="section-card" id="sec_theory" style="display:none;">
+    <div class="concept-headline">
+      <span>🧬</span>
+      <span>Foundations of Mendelian Inheritance</span>
+    </div>
+
+    <div class="concept-body">
+      <p style="margin-bottom:10px;">
+        1. <b><span class="lle-word" onclick="showLLE('heredity')">Heredity</span> (आनुवंशिकता):</b> The transmission of genetically determined characters and traits from parents to offspring across successive generations.
+      </p>
+      <p style="margin-bottom:10px;">
+        2. <b><span class="lle-word" onclick="showLLE('allele')">Allele</span> (युग्मविकल्पी):</b> One of two or more alternative versions of a gene that arise by mutation and are located at the same relative place on a chromosome.
+      </p>
+      <p style="margin-bottom:10px;">
+        3. <b><span class="lle-word" onclick="showLLE('genotype')">Genotype</span> vs. <span class="lle-word" onclick="showLLE('phenotype')">Phenotype</span>:</b> The genotype is the internal genetic constitution (e.g. <b>TT</b>, <b>Tt</b>, <b>tt</b>), whereas the phenotype is the observable physical appearance (e.g. Tall plant vs. Dwarf plant).
+      </p>
+      <p style="margin-bottom:10px;">
+        4. <b><span class="lle-word" onclick="showLLE('monohybrid')">Monohybrid</span> Cross:</b> A breeding experiment between two individuals focusing on the inheritance of a single pair of contrasting characteristics (such as plant height).
+      </p>
+      <p>
+        5. <b>Law of Segregation:</b> The two alleles of each gene separate during gamete formation so that each egg or sperm cell carries only one allele for each inherited trait.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 3: 5 Progressive TEAS Mastery Questions -->
+  <section class="section-card" id="sec_quiz" style="display:none;">
+    <div class="quiz-progress-bar">
+      <span id="quiz_tier_badge" style="color:var(--accent);">Tier 1: Warm-up</span>
+      <span id="quiz_step_label">Question 1 of 5</span>
+    </div>
+
+    <div class="quiz-card">
+      <div class="quiz-prompt" id="q_prompt"></div>
+      <div class="options-group" id="q_options"></div>
+
+      <!-- Scaffolding 4-Tier Progressive Hints -->
+      <div class="hint-container">
+        <div class="hint-header">
+          <span id="hint_level_tag">Scaffolding Scaffolding Hint (Tier 0/4)</span>
+          <button class="hint-btn" id="btn_hint" onclick="requestNextHint()">Need a Hint? (H1)</button>
+        </div>
+        <div class="hint-text" id="hint_display">Stuck? Tap the hint button to uncover progressive pedagogical scaffolding without spoiling the answer.</div>
+      </div>
+
+      <!-- Misconception Feedback -->
+      <div class="feedback-box" id="feedback_box"></div>
+
+      <!-- Next Button -->
+      <div class="quiz-nav-row">
+        <button class="next-btn" id="btn_next" onclick="nextQuestion()" disabled>Next Question →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Telemetry Footer -->
+  <footer class="telemetry-footer">
+    <span>AASHA Offline Engine v5 · Class 10 Science</span>
+    <span id="telemetry_status">AASHA_TELEMETRY_V1 Ready</span>
+  </footer>
+</div>
+
+<script>
+/**
+ * Single-file Standalone Educational Engine
+ * Conforms strictly to 20 MiB ceiling, offline-first, AASHA_TELEMETRY_V1 postMessage bridge.
+ */
+let coins = 0;
+let currentTab = 'sim';
+
+// Simulation State
+const simState = {
+  p1: ['T', 't'],
+  p2: ['T', 't'],
+  crossCount: 0
+};
+
+// 32-bit FNV-1a Checksum
+function fnv1a(str) {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++) {
+    hash ^= str.charCodeAt(i);
+    hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+  }
+  return (hash >>> 0).toString(16).padStart(8, '0');
+}
+
+// LLE Dictionary Data
+const LLE_DICT = {
+  heredity: { hi: 'आनुवंशिकता', def: 'माता-पिता से संतानों में शारीरिक और आनुवंशिक लक्षणों का संचरण (Transmission of traits from parents to offspring).' },
+  allele: { hi: 'युग्मविकल्पी / एलील', def: 'किसी विशिष्ट जीन के दो या अधिक वैकल्पिक रूप (Alternative forms of a gene controlling the same trait).' },
+  dominant: { hi: 'प्रभावी', def: 'वह लक्षण या एलील जो विषमयुग्मजी (Tt) अवस्था में भी पूर्णतः व्यक्त होता है (An allele that expresses itself in both homozygous and heterozygous conditions).' },
+  recessive: { hi: 'अप्रभावी', def: 'वह लक्षण या एलील जो केवल समयुग्मजी (tt) अवस्था में ही व्यक्त होता है (An allele that expresses itself only in homozygous condition).' },
+  genotype: { hi: 'जीनप्ररूप / जीनोटाइप', def: 'किसी जीव की संपूर्ण आनुवंशिक या जीन संरचना (The underlying genetic constitution of an organism, e.g., TT, Tt, tt).' },
+  phenotype: { hi: 'लक्षणप्ररूप / फीनोटाइप', def: 'किसी जीव के बाह्य रूप से प्रत्यक्ष दिखाई देने वाले भौतिक लक्षण (The observable physical characteristics, e.g., Tall vs Dwarf).' },
+  monohybrid: { hi: 'एकसंकर / मोनोहाइब्रिड', def: 'एक ही विपरीत लक्षण के युग्मविकल्पियों के अध्ययन हेतु संकरण (A cross involving a single pair of contrasting characteristics).' }
+};
+
+function showLLE(termKey) {
+  const item = LLE_DICT[termKey];
+  if (!item) return;
+  const pop = document.getElementById('lle_popup');
+  document.getElementById('lle_term').textContent = `${termKey.toUpperCase()} — ${item.hi}`;
+  document.getElementById('lle_desc').textContent = item.def;
+  pop.style.display = 'block';
+  setTimeout(() => {
+    document.addEventListener('click', function closePop(e) {
+      if (!e.target.classList.contains('lle-word') && !pop.contains(e.target)) {
+        pop.style.display = 'none';
+        document.removeEventListener('click', closePop);
+      }
+    });
+  }, 50);
+}
+
+function switchSection(secId) {
+  currentTab = secId;
+  document.getElementById('sec_sim').style.display = secId === 'sim' ? 'flex' : 'none';
+  document.getElementById('sec_theory').style.display = secId === 'theory' ? 'flex' : 'none';
+  document.getElementById('sec_quiz').style.display = secId === 'quiz' ? 'flex' : 'none';
+
+  document.getElementById('tab_sim').className = `tab-btn ${secId === 'sim' ? 'active' : ''}`;
+  document.getElementById('tab_theory').className = `tab-btn ${secId === 'theory' ? 'active' : ''}`;
+  document.getElementById('tab_quiz').className = `tab-btn ${secId === 'quiz' ? 'active' : ''}`;
+}
+
+// ---------------------------------------------------------------------------
+// SIMULATION ENGINE (AVR-P321)
+// ---------------------------------------------------------------------------
+function getParentDescription(a1, a2) {
+  const p = [a1, a2].sort().join('');
+  if (p === 'TT') return 'TT (Homozygous Tall / समयुग्मजी लंबा)';
+  if (p === 'Tt') return 'Tt (Heterozygous Tall / विषमयुग्मजी लंबा)';
+  return 'tt (Homozygous Dwarf / समयुग्मजी बौना)';
+}
+
+function combine(a, b) {
+  if (a === 'T' || b === 'T') {
+    return (a === 't' || b === 't') ? 'Tt' : 'TT';
+  }
+  return 'tt';
+}
+
+function toggleParentAllele(parent, idx) {
+  simState[parent][idx] = simState[parent][idx] === 'T' ? 't' : 'T';
+  refreshSimulation();
+}
+
+function applyPreset(p1Str, p2Str) {
+  simState.p1 = p1Str.split('');
+  simState.p2 = p2Str.split('');
+  refreshSimulation();
+}
+
+function refreshSimulation() {
+  // Update Parent Descriptions
+  document.getElementById('p1_desc').textContent = getParentDescription(simState.p1[0], simState.p1[1]);
+  document.getElementById('p2_desc').textContent = getParentDescription(simState.p2[0], simState.p2[1]);
+
+  // Update Toggle Buttons
+  updateToggleBtn('p1_0', simState.p1[0]);
+  updateToggleBtn('p1_1', simState.p1[1]);
+  updateToggleBtn('p2_0', simState.p2[0]);
+  updateToggleBtn('p2_1', simState.p2[1]);
+
+  // Update Gamete Headers
+  document.getElementById('gam_left_0').textContent = simState.p1[0];
+  document.getElementById('gam_left_1').textContent = simState.p1[1];
+  document.getElementById('gam_top_0').textContent = simState.p2[0];
+  document.getElementById('gam_top_1').textContent = simState.p2[1];
+
+  // Progeny Matrix
+  const matrix = [
+    [combine(simState.p1[0], simState.p2[0]), combine(simState.p1[0], simState.p2[1])],
+    [combine(simState.p1[1], simState.p2[0]), combine(simState.p1[1], simState.p2[1])]
+  ];
+
+  let counts = { TT: 0, Tt: 0, tt: 0, tall: 0, dwarf: 0 };
+
+  for (let r = 0; r < 2; r++) {
+    for (let c = 0; c < 2; c++) {
+      const g = matrix[r][c];
+      const isTall = g.includes('T');
+      counts[g]++;
+      if (isTall) counts.tall++; else counts.dwarf++;
+
+      const cell = document.getElementById(`cell_${r}_${c}`);
+      cell.className = `grid-box progeny-cell ${isTall ? 'tall-look' : 'dwarf-look'}`;
+      cell.innerHTML = `
+        <span class="cell-geno">${g}</span>
+        <span class="cell-pheno">${isTall ? 'Tall (प्रभावी)' : 'Dwarf (अप्रभावी)'}</span>
+      `;
+    }
+  }
+
+  // Ratios
+  const phenoRatio = counts.dwarf === 0 ? '4 Tall : 0 Dwarf (100% Tall)' :
+    counts.tall === 0 ? '0 Tall : 4 Dwarf (100% Dwarf)' :
+    `${counts.tall} Tall : ${counts.dwarf} Dwarf`;
+  document.getElementById('lbl_pheno').textContent = phenoRatio;
+  document.getElementById('lbl_pheno_pct').textContent = `${counts.tall * 25}% Tall · ${counts.dwarf * 25}% Dwarf`;
+
+  const genoParts = [];
+  if (counts.TT > 0) genoParts.push(`${counts.TT} TT`);
+  if (counts.Tt > 0) genoParts.push(`${counts.Tt} Tt`);
+  if (counts.tt > 0) genoParts.push(`${counts.tt} tt`);
+  document.getElementById('lbl_geno').textContent = genoParts.join(' : ');
+  document.getElementById('lbl_geno_pct').textContent = `${counts.TT * 25}% TT · ${counts.Tt * 25}% Tt · ${counts.tt * 25}% tt`;
+
+  // Telemetry Emission
+  simState.crossCount++;
+  sendTelemetryEvent('punnett_cross_calculated', 50, counts);
+}
+
+function updateToggleBtn(id, val) {
+  const btn = document.getElementById(id);
+  btn.textContent = val;
+  btn.className = `allele-toggle ${val === 'T' ? 'is-dominant' : 'is-recessive'}`;
+}
+
+function sendTelemetryEvent(eventType, coinIncrement, data) {
+  coins += coinIncrement;
+  document.getElementById('coins_count').textContent = coins;
+
+  const eventPayload = {
+    protocol: 'AASHA_TELEMETRY_V1',
+    timestamp: Date.now(),
+    chapter_id: 'Heredity_Mendelian_Genetics_Punnett_Square_Class10_Gamified_v5',
+    resource_id: 'AVR-P321-bio-mendelian-punnett-square-sim',
+    event: eventType,
+    cross_number: simState.crossCount,
+    parent1: simState.p1.join(''),
+    parent2: simState.p2.join(''),
+    coins_awarded: coinIncrement,
+    total_coins: coins,
+    data: data || {}
+  };
+
+  const chk = fnv1a(JSON.stringify(eventPayload));
+  eventPayload.checksum = chk;
+
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage(eventPayload, '*');
+  }
+
+  const stat = document.getElementById('telemetry_status');
+  if (stat) {
+    stat.textContent = `AASHA_TELEMETRY_V1 ✓ [${chk}] +${coinIncrement} Coins`;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 5 PROGRESSIVE TEAS MASTERY QUESTIONS
+// ---------------------------------------------------------------------------
+const QUIZ_DATA = [
+  {
+    tier: 'Tier 1: Warm-up',
+    prompt: '1. What term describes an allele that expresses its physical characteristic even when accompanied by a contrasting alternative allele in a heterozygous pair?',
+    options: [
+      { text: 'Dominant allele (प्रभावी एलील)', correct: true, m: 'Correct! Dominant alleles mask alternative recessive alleles.' },
+      { text: 'Recessive allele (अप्रभावी एलील)', correct: false, m: 'Recall that recessive alleles require two copies to be visibly expressed and remain hidden in heterozygous pairs.' },
+      { text: 'Homozygous allele (समयुग्मजी एलील)', correct: false, m: 'Homozygous describes having two identical alleles, not the expression property of an individual allele.' },
+      { text: 'Gametic allele (युग्मक एलील)', correct: false, m: 'Gametes carry single alleles of each gene, but this does not describe dominance or expressivity.' }
+    ],
+    hints: [
+      'Think about which trait showed up in 100% of Mendel\'s F1 generation.',
+      'In a pair with T and t, which letter decides the tall appearance?',
+      'Consider the difference between a trait that "dominates" and one that recedes.',
+      'Identify the term that represents the factor prevailing over the other.'
+    ]
+  },
+  {
+    tier: 'Tier 1: Warm-up',
+    prompt: '2. When a pure homozygous tall pea plant (TT) is crossed with a pure homozygous dwarf pea plant (tt), what is the phenotype of all F1 offspring?',
+    options: [
+      { text: '100% Tall pea plants (सभी लंबे पौधे)', correct: true, m: 'Correct! All F1 progeny receive one T allele and display the tall phenotype.' },
+      { text: '100% Dwarf pea plants (सभी बौने पौधे)', correct: false, m: 'Recall that dwarfism is recessive and requires the absence of the dominant T factor.' },
+      { text: '50% Tall and 50% Dwarf (50% लंबे और 50% बौने)', correct: false, m: 'A 50:50 ratio occurs in test crosses with heterozygous parents, not when crossing two pure-breeding parents.' },
+      { text: 'Medium intermediate height (मध्यम ऊंचाई के पौधे)', correct: false, m: 'Mendelian pea plant height does not show incomplete dominance or blending inheritance.' }
+    ],
+    hints: [
+      'Each F1 offspring receives one gamete from each homozygous parent.',
+      'What genotype is formed when T from the tall parent combines with t from the dwarf parent?',
+      'Since the genotype is Tt, which allele masks the other?',
+      'Because T is fully dominant over t, determine the resulting physical height.'
+    ]
+  },
+  {
+    tier: 'Tier 2: Deep Dive',
+    prompt: '3. In a monohybrid cross where heterozygous F1 tall plants (Tt) self-pollinate (Tt × Tt), what is the expected phenotypic ratio in the F2 generation?',
+    options: [
+      { text: '3 Tall : 1 Dwarf (3 लंबा : 1 बौना)', correct: true, m: 'Correct! TT, Tt, and tT appear tall (3/4), while tt appears dwarf (1/4).' },
+      { text: '1 Tall : 1 Dwarf (1 लंबा : 1 बौना)', correct: false, m: 'A 1:1 phenotypic ratio occurs in a test cross (Tt × tt), not in F1 self-pollination.' },
+      { text: '1 Tall : 2 Medium : 1 Dwarf', correct: false, m: 'Height traits in Mendel\'s peas do not exhibit incomplete dominance or medium forms.' },
+      { text: '4 Tall : 0 Dwarf (सभी लंबे)', correct: false, m: 'Remember that the recessive t alleles recombine in 25% of the offspring to reveal the dwarf phenotype.' }
+    ],
+    hints: [
+      'Look at the 4 boxes of the Punnett square when crossing Tt with Tt.',
+      'Count how many of the 4 boxes contain at least one dominant T allele.',
+      'Offspring with TT and Tt both display the tall phenotype physically.',
+      'Compare the 3 tall boxes against the single box with no T allele.'
+    ]
+  },
+  {
+    tier: 'Tier 2: Deep Dive',
+    prompt: '4. What is the precise genotypic ratio of the F2 generation produced from the self-cross Tt × Tt?',
+    options: [
+      { text: '1 TT : 2 Tt : 1 tt (25% TT, 50% Tt, 25% tt)', correct: true, m: 'Correct! The exact genetic combination yields 1 homozygous tall, 2 heterozygous tall, and 1 homozygous dwarf.' },
+      { text: '3 TT : 1 tt', correct: false, m: 'Notice that 2 of the tall plants are heterozygous (Tt) rather than homozygous (TT).' },
+      { text: '2 TT : 2 tt', correct: false, m: 'Review the Punnett square matrix: there is only 1 TT and 1 tt box out of the 4 cells.' },
+      { text: '1 TT : 1 Tt : 2 tt', correct: false, m: 'There are two ways to combine T and t (T from female + t from male, or vice versa).' }
+    ],
+    hints: [
+      'Genotype refers to the exact letter combinations, not just the physical height.',
+      'How many boxes in the 2x2 Punnett square are pure TT?',
+      'How many boxes contain one T and one t?',
+      'Count TT, Tt, and tt individually to establish the 3-part genotypic ratio.'
+    ]
+  },
+  {
+    tier: 'Tier 3: Boss Challenge',
+    prompt: '5. A tall pea plant of unknown genotype is crossed with a homozygous dwarf plant (tt). The resulting offspring are 50% tall and 50% dwarf. What is the exact genotype of the parent tall plant?',
+    options: [
+      { text: 'Tt (Heterozygous Tall)', correct: true, m: 'Correct! Dwarf offspring (tt) must receive one t allele from each parent, proving the tall parent carries t.' },
+      { text: 'TT (Homozygous Tall)', correct: false, m: 'If the tall parent were TT, all offspring would receive a T and 100% would be tall.' },
+      { text: 'tt (Homozygous Dwarf)', correct: false, m: 'The parent in question is described as physically tall, so it cannot be homozygous dwarf.' },
+      { text: 'Cannot be determined experimentally', correct: false, m: 'Mendel\'s test cross reliably reveals parental heterozygosity through offspring proportions.' }
+    ],
+    hints: [
+      'Examine the dwarf offspring: their genotype must be tt.',
+      'One "t" allele in the dwarf offspring must come from the dwarf parent (tt).',
+      'Where must the second "t" allele come from in the offspring?',
+      'Since the tall parent provided that second "t" allele while appearing tall, determine its paired alleles.'
+    ]
+  }
+];
+
+let quizIdx = 0;
+let hintStage = 0;
+let quizAnswered = false;
+
+function loadQuizQuestion() {
+  const q = QUIZ_DATA[quizIdx];
+  quizAnswered = false;
+  hintStage = 0;
+
+  document.getElementById('quiz_tier_badge').textContent = q.tier;
+  document.getElementById('quiz_step_label').textContent = `Question ${quizIdx + 1} of ${QUIZ_DATA.length}`;
+  document.getElementById('q_prompt').textContent = q.prompt;
+
+  // Options
+  const optContainer = document.getElementById('q_options');
+  optContainer.innerHTML = '';
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span>${opt.text}</span><span>○</span>`;
+    btn.onclick = () => selectQuizOption(idx);
+    optContainer.appendChild(btn);
+  });
+
+  // Reset Hints & Feedback
+  document.getElementById('hint_level_tag').textContent = 'Scaffolding Hint (Tier 0/4)';
+  document.getElementById('btn_hint').textContent = 'Need a Hint? (H1)';
+  document.getElementById('btn_hint').disabled = false;
+  document.getElementById('hint_display').textContent = 'Stuck? Tap the hint button to uncover progressive pedagogical scaffolding without spoiling the answer.';
+
+  const fb = document.getElementById('feedback_box');
+  fb.className = 'feedback-box';
+  fb.style.display = 'none';
+
+  document.getElementById('btn_next').disabled = true;
+}
+
+function requestNextHint() {
+  const q = QUIZ_DATA[quizIdx];
+  if (hintStage < q.hints.length) {
+    document.getElementById('hint_display').textContent = `Hint ${hintStage + 1}: ${q.hints[hintStage]}`;
+    hintStage++;
+    document.getElementById('hint_level_tag').textContent = `Scaffolding Hint (Tier ${hintStage}/4)`;
+    if (hintStage < q.hints.length) {
+      document.getElementById('btn_hint').textContent = `Next Hint (H${hintStage + 1})`;
+    } else {
+      document.getElementById('btn_hint').textContent = 'Max Hints Reached';
+      document.getElementById('btn_hint').disabled = true;
+    }
+  }
+}
+
+function selectQuizOption(choiceIdx) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+
+  const q = QUIZ_DATA[quizIdx];
+  const chosen = q.options[choiceIdx];
+  const optBtns = document.getElementById('q_options').children;
+
+  const fb = document.getElementById('feedback_box');
+
+  if (chosen.correct) {
+    optBtns[choiceIdx].className = 'option-btn selected-correct';
+    optBtns[choiceIdx].querySelector('span:last-child').textContent = '✓';
+    fb.className = 'feedback-box correct';
+    fb.innerHTML = `<b>Exemplary Mastery!</b> ${chosen.m}`;
+    fb.style.display = 'block';
+    sendTelemetryEvent('teas_question_mastered', 20, { question_index: quizIdx, choice: choiceIdx });
+  } else {
+    optBtns[choiceIdx].className = 'option-btn selected-wrong';
+    optBtns[choiceIdx].querySelector('span:last-child').textContent = '✗';
+    fb.className = 'feedback-box misconception';
+    fb.innerHTML = `<b>Reasoning Check:</b> ${chosen.m}`;
+    fb.style.display = 'block';
+    // Highlight correct without breaking flow
+    q.options.forEach((opt, i) => {
+      if (opt.correct) {
+        optBtns[i].className = 'option-btn selected-correct';
+        optBtns[i].querySelector('span:last-child').textContent = '✓';
+      }
+    });
+  }
+
+  document.getElementById('btn_next').disabled = false;
+}
+
+function nextQuestion() {
+  if (quizIdx < QUIZ_DATA.length - 1) {
+    quizIdx++;
+    loadQuizQuestion();
+  } else {
+    // Mastery Completion
+    sendTelemetryEvent('chapter_mastery_completed', 100, { total_questions: QUIZ_DATA.length });
+    const sec = document.getElementById('sec_quiz');
+    sec.innerHTML = `
+      <div style="text-align:center;padding:24px;display:flex;flex-direction:column;gap:12px;align-items:center;">
+        <div style="font-size:48px;">🏆</div>
+        <div style="font-size:20px;font-weight:900;color:#ffffff;">Mendelian Genetics Certified!</div>
+        <div style="font-size:14px;color:var(--accent);font-weight:700;">All 5 TEAS Mastery Questions Completed Successfully</div>
+        <div style="font-size:16px;font-weight:800;color:var(--amber);margin-top:6px;">Total Coins Earned: ${coins} 🪙</div>
+        <button class="next-btn" onclick="location.reload()" style="margin-top:10px;">Review Chapter Again 🔄</button>
+      </div>
+    `;
+  }
+}
+
+// Initialize on DOM Load
+refreshSimulation();
+loadQuizQuestion();
+</script>
+</body>
+</html>

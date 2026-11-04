@@ -3385,6 +3385,94 @@
         "offline_cdp_verified": true
       },
       "artifact_hash": "993f011a62733aef55af8aa4747e72e815c3a914d36964804aeb9c30e706b420"
+    },
+    {
+      "component_id": "AVR-P321-bio-mendelian-punnett-square-sim",
+      "version": "1.0.0",
+      "status": "APPROVED",
+      "title": "Mendelian Genetics: Punnett Square Monohybrid Cross Simulator",
+      "capability_contract": {
+        "capability_id": "cap:AVR-P321-bio-mendelian-punnett-square-sim",
+        "mechanics": [
+          "punnett_square",
+          "monohybrid_cross",
+          "genetic_ratio"
+        ],
+        "inputs": [
+          "allele_toggle",
+          "preset_select"
+        ],
+        "outputs": [
+          "phenotype_ratio",
+          "genotype_ratio",
+          "telemetry"
+        ],
+        "state": [
+          "parent1_alleles",
+          "parent2_alleles",
+          "offspring_matrix"
+        ],
+        "interaction_model": "direct_manipulative"
+      },
+      "mechanic_tags": [
+        "genetics",
+        "punnett_square",
+        "monohybrid_cross"
+      ],
+      "applicability": {
+        "subjects": [
+          "Science",
+          "Biology"
+        ],
+        "classes": [
+          10
+        ],
+        "boards": [
+          "NCERT",
+          "CBSE",
+          "ICSE",
+          "State Boards"
+        ]
+      },
+      "adapter": {
+        "class_name": "MendelianPunnettSquareAdapter",
+        "web_component_tag": "aasha-sim",
+        "source_path": "assets/cdn/interactives/AVR-P321-bio-mendelian-punnett-square-sim.html",
+        "telemetry_events": [
+          "PUNNETT_CROSS_CALCULATED"
+        ]
+      },
+      "dependencies": [],
+      "runtime": {
+        "offline": true,
+        "external_urls": []
+      },
+      "provenance": {
+        "source_type": "HARVESTED_OPEN_SOURCE",
+        "origin_file": "assets/cdn/interactives/AVR-P321-bio-mendelian-punnett-square-sim.html",
+        "source_hash": "8e8bca0c23cfcbd130a8b2bc4075a5cdbc6bb04475363f72ab06c14231bac7a3"
+      },
+      "license": {
+        "spdx_identifier": "MIT",
+        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
+        "license_status": "APPROVED"
+      },
+      "verification": {
+        "gates_passed": [
+          "FUNCTIONAL",
+          "CAPABILITY_CONTRACT",
+          "BROWSER_RUNTIME",
+          "OFFLINE",
+          "PROVENANCE",
+          "LICENSE",
+          "ACCESSIBILITY",
+          "PERFORMANCE",
+          "SECURITY_CHILD_SAFETY",
+          "MAINTAINABILITY",
+          "AASHA_INTEGRATION"
+        ],
+        "verified_at": "2026-11-04T04:20:31.485Z"
+      }
     }
   ]
 }

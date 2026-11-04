@@ -509,6 +509,159 @@ export const CHAPTERS_CATALOG = [
         misconception: 'Picking factors of 12 that do not sum to the combined middle coefficient of 7.'
       }
     ]
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CHAPTER 5 (35th System-Wide Certified): Class 10 Science — Heredity & Mendelian Genetics
+  // Foundation: AVR-P321 Mendelian Punnett Square Visual Simulator
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    id: 'ncert_science_class10_ch9_heredity',
+    title: 'Heredity — Mendelian Genetics & Punnett Square',
+    grade: 10,
+    subject: 'Science',
+    foundation: 'AVR-P321',
+    language_defaults: ['en', 'hi'],
+    schema_version: 1,
+    nodes: [
+      {
+        id: 'mendel_monohybrid_cross',
+        title: 'Mendel\'s Monohybrid Cross (Inheritance of Traits)',
+        objective: 'Understand how contrasting physical traits are inherited through paired genetic factors across generations.',
+        dependencies: [],
+        steps: [
+          {
+            type: 'explain',
+            text: 'Gregor Mendel crossed pure-breeding tall pea plants (TT) with pure-breeding dwarf pea plants (tt). In the F1 generation, 100% of the progeny were tall, establishing that Tall (T) is dominant and Dwarf (t) is recessive.'
+          },
+          {
+            type: 'visual',
+            visual: 'punnett_square',
+            data: { p1: ['T', 'T'], p2: ['t', 't'] }
+          },
+          {
+            type: 'explain',
+            text: 'Although the F1 plants looked identical to the tall parent physically, they carried the hidden recessive dwarf factor (Tt), which reappears in the next generation.'
+          }
+        ],
+        words: {
+          heredity: 'आनुवंशिकता',
+          allele: 'युग्मविकल्पी',
+          dominant: 'प्रभावी',
+          recessive: 'अप्रभावी'
+        }
+      },
+      {
+        id: 'punnett_square_mechanics',
+        title: 'Punnett Square & Gamete Segregation',
+        objective: 'Construct and interpret a Punnett square matrix to predict offspring genotypes from parental gametes.',
+        dependencies: ['mendel_monohybrid_cross'],
+        steps: [
+          {
+            type: 'explain',
+            text: 'A Punnett square is a visual grid used to calculate mathematical probabilities of all possible genotypes resulting from the random combination of parental gametes.'
+          },
+          {
+            type: 'visual',
+            visual: 'punnett_square',
+            data: { p1: ['T', 't'], p2: ['T', 't'] }
+          },
+          {
+            type: 'explain',
+            text: 'When heterozygous F1 plants (Tt) produce gametes, the alleles T and t segregate equally into separate pollen grains and ovules.'
+          }
+        ],
+        words: {
+          genotype: 'जीनप्ररूप',
+          phenotype: 'लक्षणप्ररूप',
+          monohybrid: 'एकसंकर'
+        }
+      },
+      {
+        id: 'mendelian_ratios_analysis',
+        title: 'Phenotypic (3:1) and Genotypic (1:2:1) Ratios',
+        objective: 'Differentiate between physical appearance (phenotype) and genetic constitution (genotype) in the F2 generation.',
+        dependencies: ['punnett_square_mechanics'],
+        steps: [
+          {
+            type: 'explain',
+            text: 'Self-pollination of F1 plants (Tt × Tt) yields 3 tall plants (1 TT + 2 Tt) and 1 dwarf plant (1 tt). The phenotypic ratio is 3:1, while the underlying genotypic ratio is 1:2:1.'
+          },
+          {
+            type: 'visual',
+            visual: 'punnett_square',
+            data: { p1: ['T', 't'], p2: ['T', 't'] }
+          }
+        ],
+        words: {
+          ratio: 'अनुपात',
+          segregation: 'विपृथक्करण',
+          probability: 'प्रायिकता'
+        }
+      }
+    ],
+    questions: [
+      // Tier 1: Warm-up (Question 1)
+      {
+        id: 'HG_W1',
+        node_id: 'mendel_monohybrid_cross',
+        tier: 1,
+        tier_name: 'Warm-up',
+        prompt: 'Which term describes an allele that expresses its trait even when paired with a contrasting alternative allele?',
+        options: ['Dominant allele', 'Recessive allele', 'Homozygous allele', 'Gametic allele'],
+        correct_index: 0,
+        explanation: 'Dominant alleles mask the expression of recessive alleles in heterozygous (Tt) individuals.',
+        misconception: 'Assuming both contrasting alleles blend together into an intermediate height rather than one dominating.'
+      },
+      // Tier 1: Warm-up (Question 2)
+      {
+        id: 'HG_W2',
+        node_id: 'mendel_monohybrid_cross',
+        tier: 1,
+        tier_name: 'Warm-up',
+        prompt: 'When a pure tall pea plant (TT) is crossed with a pure dwarf pea plant (tt), what is the phenotype of all F1 offspring?',
+        options: ['All Tall plants', 'All Dwarf plants', '50% Tall and 50% Dwarf', 'Medium height plants'],
+        correct_index: 0,
+        explanation: 'All F1 plants receive one T and one t allele (Tt). Because T is dominant over t, 100% exhibit the tall phenotype.',
+        misconception: 'Believing offspring take an average medium height instead of expressing the dominant tall trait.'
+      },
+      // Tier 2: Deep Dive (Question 3)
+      {
+        id: 'HG_D1',
+        node_id: 'punnett_square_mechanics',
+        tier: 2,
+        tier_name: 'Deep Dive',
+        prompt: 'In a monohybrid cross of heterozygous tall plants (Tt × Tt), what is the expected phenotypic ratio in the F2 generation?',
+        options: ['3 Tall : 1 Dwarf', '1 Tall : 1 Dwarf', '1 Tall : 2 Medium : 1 Dwarf', '4 Tall : 0 Dwarf'],
+        correct_index: 0,
+        explanation: 'Offspring with TT (1/4), Tt (1/4), and tT (1/4) appear tall (total 3/4), while tt (1/4) appears dwarf, producing a 3:1 ratio.',
+        misconception: 'Confusing the 3:1 physical appearance ratio with the 1:2:1 underlying genetic constitution.'
+      },
+      // Tier 2: Deep Dive (Question 4)
+      {
+        id: 'HG_D2',
+        node_id: 'mendelian_ratios_analysis',
+        tier: 2,
+        tier_name: 'Deep Dive',
+        prompt: 'What is the precise genotypic ratio of the F2 generation resulting from the cross Tt × Tt?',
+        options: ['1 TT : 2 Tt : 1 tt', '3 TT : 1 tt', '2 TT : 2 tt', '1 TT : 1 Tt : 2 tt'],
+        correct_index: 0,
+        explanation: 'The genotypic breakdown consists of 1 homozygous tall (TT), 2 heterozygous tall (Tt), and 1 homozygous dwarf (tt).',
+        misconception: 'Grouping heterozygous Tt together with TT and confusing genotypic proportion with phenotypic visual count.'
+      },
+      // Tier 3: Boss Challenge (Question 5)
+      {
+        id: 'HG_B1',
+        node_id: 'mendelian_ratios_analysis',
+        tier: 3,
+        tier_name: 'Boss Challenge',
+        prompt: 'A tall pea plant of unknown genotype is crossed with a dwarf pea plant (tt). The resulting offspring consist of 50% tall and 50% dwarf plants. What is the genotype of the parent tall plant?',
+        options: ['Tt (Heterozygous Tall)', 'TT (Homozygous Tall)', 'tt (Homozygous Dwarf)', 'Cannot be determined'],
+        correct_index: 0,
+        explanation: 'Because dwarf offspring (tt) receive one t from the dwarf parent, they must receive the second t from the tall parent, proving the tall parent has genotype Tt.',
+        misconception: 'Assuming that since the parent is tall, it must be pure homozygous TT without considering the inheritance of the recessive allele in 50% of the progeny.'
+      }
+    ]
   }
 ];
 

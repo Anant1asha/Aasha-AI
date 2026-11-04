@@ -1,4 +1,4 @@
-const CACHE = 'aasha-beta-v0.2.0';
+const CACHE = 'aasha-beta-v0.2.1';
 const CORE = [
   './','./index.html','./styles.css','./manifest.webmanifest','./src/app.js',
   './src/core/storage.js','./src/core/events.js','./src/core/teas.js','./src/core/rewards.js',

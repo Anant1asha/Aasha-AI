@@ -425,6 +425,174 @@ export class ElectricCircuitVisual {
   destroy() { if (this.container) this.container.innerHTML = ''; }
 }
 
+export class MendelianPunnettSquareVisual {
+  constructor(config = {}) {
+    this.p1 = config.p1 || ['T', 't'];
+    this.p2 = config.p2 || ['T', 't'];
+    this.onInteraction = config.onInteraction || null;
+    this.container = null;
+    this.isPaused = false;
+  }
+
+  mount(container) {
+    this.container = container;
+    this.render();
+  }
+
+  render() {
+    if (!this.container) return;
+    this.container.innerHTML = '';
+
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:380px;margin:0 auto;padding:8px 0;user-select:none;font-family:system-ui,sans-serif;';
+
+    // Header Controls for Parents
+    const ctrlRow = document.createElement('div');
+    ctrlRow.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;';
+
+    const p1Box = document.createElement('div');
+    p1Box.style.cssText = 'background:#1e293b;border:1px solid #334155;border-radius:10px;padding:8px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;gap:6px;';
+    p1Box.innerHTML = '<span style="font-size:11px;font-weight:800;color:#94a3b8;text-transform:uppercase;">Parent 1 (♀)</span>';
+    const p1Btns = document.createElement('div');
+    p1Btns.style.cssText = 'display:flex;gap:6px;';
+    this.p1Btn1 = this.createAlleleBtn(this.p1[0], () => this.toggleAllele('p1', 0));
+    this.p1Btn2 = this.createAlleleBtn(this.p1[1], () => this.toggleAllele('p1', 1));
+    p1Btns.appendChild(this.p1Btn1);
+    p1Btns.appendChild(this.p1Btn2);
+    p1Box.appendChild(p1Btns);
+
+    const p2Box = document.createElement('div');
+    p2Box.style.cssText = 'background:#1e293b;border:1px solid #334155;border-radius:10px;padding:8px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;gap:6px;';
+    p2Box.innerHTML = '<span style="font-size:11px;font-weight:800;color:#94a3b8;text-transform:uppercase;">Parent 2 (♂)</span>';
+    const p2Btns = document.createElement('div');
+    p2Btns.style.cssText = 'display:flex;gap:6px;';
+    this.p2Btn1 = this.createAlleleBtn(this.p2[0], () => this.toggleAllele('p2', 0));
+    this.p2Btn2 = this.createAlleleBtn(this.p2[1], () => this.toggleAllele('p2', 1));
+    p2Btns.appendChild(this.p2Btn1);
+    p2Btns.appendChild(this.p2Btn2);
+    p2Box.appendChild(p2Btns);
+
+    ctrlRow.appendChild(p1Box);
+    ctrlRow.appendChild(p2Box);
+    wrap.appendChild(ctrlRow);
+
+    // SVG Punnett Square Matrix
+    this.gridContainer = document.createElement('div');
+    this.gridContainer.style.cssText = 'width:100%;background:#0f172a;border:1px solid #334155;border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:center;';
+    wrap.appendChild(this.gridContainer);
+
+    // Readout Box
+    this.readoutBox = document.createElement('div');
+    this.readoutBox.style.cssText = 'width:100%;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:800;color:#f8fafc;';
+    wrap.appendChild(this.readoutBox);
+
+    this.container.appendChild(wrap);
+    this.updateGrid();
+  }
+
+  createAlleleBtn(val, onClick) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = val;
+    btn.style.cssText = 'min-width:44px;min-height:44px;width:44px;height:44px;border-radius:8px;border:2px solid ' + (val === 'T' ? '#22c55e' : '#f59e0b') + ';background:' + (val === 'T' ? 'rgba(34,197,94,0.18)' : 'rgba(245,158,11,0.18)') + ';color:' + (val === 'T' ? '#22c55e' : '#f59e0b') + ';font-size:18px;font-weight:900;cursor:pointer;touch-action:manipulation;';
+    btn.onclick = onClick;
+    return btn;
+  }
+
+  toggleAllele(parent, idx) {
+    this[parent][idx] = this[parent][idx] === 'T' ? 't' : 'T';
+    const val = this[parent][idx];
+    const btn = parent === 'p1' ? (idx === 0 ? this.p1Btn1 : this.p1Btn2) : (idx === 0 ? this.p2Btn1 : this.p2Btn2);
+    btn.textContent = val;
+    btn.style.borderColor = val === 'T' ? '#22c55e' : '#f59e0b';
+    btn.style.color = val === 'T' ? '#22c55e' : '#f59e0b';
+    btn.style.background = val === 'T' ? 'rgba(34,197,94,0.18)' : 'rgba(245,158,11,0.18)';
+    this.updateGrid();
+  }
+
+  updateGrid() {
+    const combine = (a, b) => (a === 'T' || b === 'T') ? ((a === 't' || b === 't') ? 'Tt' : 'TT') : 'tt';
+    const matrix = [
+      [combine(this.p1[0], this.p2[0]), combine(this.p1[0], this.p2[1])],
+      [combine(this.p1[1], this.p2[0]), combine(this.p1[1], this.p2[1])]
+    ];
+
+    let counts = { TT: 0, Tt: 0, tt: 0, tall: 0, dwarf: 0 };
+    matrix.flat().forEach(g => {
+      counts[g]++;
+      if (g.includes('T')) counts.tall++; else counts.dwarf++;
+    });
+
+    this.gridContainer.innerHTML = `
+      <div style="display:grid;grid-template-columns:44px 1fr 1fr;grid-template-rows:44px 1fr 1fr;gap:6px;width:100%;max-width:320px;">
+        <div style="display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#94a3b8;">♀ \\ ♂</div>
+        <div style="display:flex;align-items:center;justify-content:center;background:#1e293b;color:#38bdf8;font-size:16px;font-weight:900;border-radius:6px;">${this.p2[0]}</div>
+        <div style="display:flex;align-items:center;justify-content:center;background:#1e293b;color:#38bdf8;font-size:16px;font-weight:900;border-radius:6px;">${this.p2[1]}</div>
+
+        <div style="display:flex;align-items:center;justify-content:center;background:#1e293b;color:#38bdf8;font-size:16px;font-weight:900;border-radius:6px;">${this.p1[0]}</div>
+        ${this.renderCell(matrix[0][0])}
+        ${this.renderCell(matrix[0][1])}
+
+        <div style="display:flex;align-items:center;justify-content:center;background:#1e293b;color:#38bdf8;font-size:16px;font-weight:900;border-radius:6px;">${this.p1[1]}</div>
+        ${this.renderCell(matrix[1][0])}
+        ${this.renderCell(matrix[1][1])}
+      </div>
+    `;
+
+    this.readoutBox.innerHTML = `
+      <span>Ratio: <b style="color:#22c55e;">${counts.tall} Tall</b> : <b style="color:#f59e0b;">${counts.dwarf} Dwarf</b></span>
+      <span style="font-size:11px;color:#94a3b8;">${counts.tall * 25}% Tall · ${counts.dwarf * 25}% Dwarf</span>
+    `;
+
+    const state = this.getState(counts);
+    this.dispatchTelemetry('punnett_cross_calculated', state);
+    if (this.onInteraction) this.onInteraction(state);
+  }
+
+  renderCell(genotype) {
+    const isTall = genotype.includes('T');
+    return `
+      <div style="min-height:50px;border-radius:8px;padding:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:${isTall ? 'rgba(34,197,94,0.18)' : 'rgba(245,158,11,0.18)'};border:2px solid ${isTall ? '#22c55e' : '#f59e0b'};">
+        <span style="font-size:18px;font-weight:900;color:#fff;">${genotype}</span>
+        <span style="font-size:10px;font-weight:700;color:${isTall ? '#22c55e' : '#f59e0b'};text-transform:uppercase;">${isTall ? 'Tall (प्रभावी)' : 'Dwarf (अप्रभावी)'}</span>
+      </div>
+    `;
+  }
+
+  getState(counts = null) {
+    return {
+      type: 'punnett_square',
+      p1: this.p1.join(''),
+      p2: this.p2.join(''),
+      counts: counts || {}
+    };
+  }
+
+  dispatchTelemetry(eventType, payload) {
+    if (this.container && typeof this.container.dispatchEvent === 'function') {
+      this.container.dispatchEvent(new CustomEvent('aasha:telemetry', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          timestamp: Date.now(),
+          foundationId: 'AVR-P321',
+          eventType,
+          payload
+        }
+      }));
+    }
+  }
+
+  pause() { this.isPaused = true; }
+  resume() { this.isPaused = false; }
+  reset() {
+    this.p1 = ['T', 't'];
+    this.p2 = ['T', 't'];
+    this.render();
+  }
+  destroy() { if (this.container) this.container.innerHTML = ''; }
+}
+
 export function fractionVisual(total = 5, active = 3) {
   return `<div class="fraction" role="img" aria-label="${active} of ${total} equal parts selected">${Array.from({ length: total }, (_, i) => `<button class="part ${i < active ? 'on' : ''}" data-index="${i}" aria-label="Part ${i + 1}"></button>`).join('')}</div>`;
 }
@@ -447,6 +615,11 @@ export function renderVisual(type, data = {}, container = null, onInteraction = 
     }
     if (type === 'circuit') {
       const vis = new ElectricCircuitVisual({ ...data, onInteraction });
+      vis.mount(container);
+      return vis;
+    }
+    if (type === 'punnett_square' || type === 'mendelian_punnett') {
+      const vis = new MendelianPunnettSquareVisual({ ...data, onInteraction });
       vis.mount(container);
       return vis;
     }

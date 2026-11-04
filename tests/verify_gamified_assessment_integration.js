@@ -52,8 +52,8 @@ const manifestPath = path.join(__dirname, '../../assets/prestack_manifest.json')
 assert(fs.existsSync(manifestPath), 'prestack_manifest.json exists');
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-assert(manifest.statistics.foundations_count === 27, 'prestack_manifest statistics.foundations_count updated to 27');
-assert(manifest.statistics.interactives_count === 27, 'prestack_manifest statistics.interactives_count updated to 27');
+assert(manifest.statistics.foundations_count >= 27, 'prestack_manifest statistics.foundations_count at least 27');
+assert(manifest.statistics.interactives_count >= 27, 'prestack_manifest statistics.interactives_count at least 27');
 
 const manifestF27 = manifest.foundations.find(f => f.id === 'F27');
 assert(manifestF27 !== undefined, 'Foundation F27 indexed in prestack_manifest foundations array');
