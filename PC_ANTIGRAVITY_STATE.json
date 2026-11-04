@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-04T04:23:04.3533257Z",
+    "timestamp_utc":  "2026-11-04T04:34:13.7682533Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,24 +14,30 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "3ee66c838ebe1eb92c57f8463ee02b326fee57cd",
-                                                 "dirty_file_count":  2,
+                                                 "head_commit":  "d120e1e0bee8ad438d727246d70db834ca66ce8a",
+                                                 "dirty_file_count":  4,
                                                  "dirty_files_sample":  [
-                                                                            " M assets/prestack_manifest.json",
-                                                                            "?? assets/cdn/interactives/AVR-P321-bio-mendelian-punnett-square-sim.html"
+                                                                            " M scripts/aasha_continuous_loop.mjs",
+                                                                            "?? scripts/export_teas_content_pack.py",
+                                                                            "?? scripts/serve_for_browser_test.mjs",
+                                                                            "?? scripts/verify_mendelian_chapter_browser.mjs"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "f176569fabfe0f2dc93b482f2de1c709ed285b9c",
-                                                   "dirty_file_count":  6,
+                                                   "head_commit":  "ece72709cd9e5a87f8a0ef365036cd8384766cd6",
+                                                   "dirty_file_count":  10,
                                                    "dirty_files_sample":  [
+                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
                                                                               " M aasha-pipeline-with-master-json/config/defaults.json",
                                                                               " M aasha-student-pwa/src/content/chapter.js",
                                                                               " M aasha-student-pwa/src/core/visuals.js",
-                                                                              " M benchmarks/ltruth_benchmark_report.json",
+                                                                              " M aasha-student-pwa/sw.js",
                                                                               " M experience_registry/aasha_dictionary_db.json",
-                                                                              " M experience_registry/registry.json"
+                                                                              " M experience_registry/registry.json",
+                                                                              " M tests/verify_gamified_assessment_integration.js",
+                                                                              "?? chapters/Heredity_Mendelian_Genetics_Punnett_Square_Class10_Gamified_v5.html",
+                                                                              "?? content/teas_content.db.gz"
                                                                           ]
                                                }
                      }
