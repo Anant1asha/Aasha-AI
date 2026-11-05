@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-05T20:47:39.3426428Z",
+    "timestamp_utc":  "2026-11-05T20:58:03.1360459Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,20 +14,23 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "007350b90b636c0aadac27ab5eb862616c8c4fc3",
-                                                 "dirty_file_count":  4,
+                                                 "head_commit":  "3699882da8e3edb4c4ca67944b0d5a96d539f8a0",
+                                                 "dirty_file_count":  5,
                                                  "dirty_files_sample":  [
-                                                                            " M PC_ANTIGRAVITY_STATE.json",
-                                                                            " M scripts/aasha_continuous_loop.mjs",
-                                                                            "?? AASHA_TASK2_COMPLETE_SCOPE_REASSESSMENT_REPORT.md",
-                                                                            "?? AASHA_TASK2_INDEPENDENT_AUDIT_REPORT.md"
+                                                                            "?? AASHA_TASK2_CROSS_CODEBASE_ARCHITECTURE_VERIFICATION.md",
+                                                                            "?? AASHA_TASK2_CROSS_CODEBASE_DEPENDENCY_MAP.md",
+                                                                            "?? AASHA_TASK2_SIMULATION_ENGINE_OWNERSHIP_MATRIX.md",
+                                                                            "?? AASHA_TASK2_WORKSPACE_INVENTORY_REPORT.md",
+                                                                            "?? AASHA_TASK2_WORKSPACE_WIDE_REMEDIATION_PLAN.md"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "128d80fa7a9b5cf874cf2cd5acab5cec66ac49d0",
-                                                   "dirty_file_count":  1,
-                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
+                                                   "head_commit":  "5de5aa3e931b7a6087a347a30f623386d4879cd5",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
