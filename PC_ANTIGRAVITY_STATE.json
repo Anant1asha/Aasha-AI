@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-05T21:20:44.2096725Z",
+    "timestamp_utc":  "2026-11-05T21:27:20.8125186Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,22 +14,16 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "b7333fbdb5e8e5b81944a77928ff836e3ea23a74",
-                                                 "dirty_file_count":  8,
+                                                 "head_commit":  "5b30b6a07cf6ce1e6f6e385423678dc065e113cf",
+                                                 "dirty_file_count":  2,
                                                  "dirty_files_sample":  [
-                                                                            " M scripts/aasha_continuous_loop.mjs",
-                                                                            "?? TASK2_COMPETITOR_BENCHMARK.md",
-                                                                            "?? TASK2_DELIVERY_CAPABILITY_SCORECARD.md",
-                                                                            "?? TASK2_FINAL_SCOPE_AND_GAP_REPORT.md",
-                                                                            "?? TASK2_ROLLBACK_AND_BASELINE_RECONCILIATION.md",
-                                                                            "?? TASK2_STANDARDIZED_COMPETITOR_BENCHMARK_FRAMEWORK.md",
-                                                                            "?? TASK2_STANDARD_SIMULATION_TEST_SUITE.md",
-                                                                            "?? TASK2_UNIFIED_ENGINE_CAPABILITY_MATRIX.md"
+                                                                            " M packages/aasha-agent-builder/src/simulation_subagent.mjs",
+                                                                            " M packages/aasha-agent-builder/test/simulation_subagent.test.mjs"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "58a4584e5fc2bc2ffb94b4d5cce16e174fb0e7a3",
+                                                   "head_commit":  "e593c8cfce5263a66c5f85c70d20ac63373b2c29",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  {
 
