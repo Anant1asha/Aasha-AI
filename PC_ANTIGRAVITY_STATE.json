@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-04T08:26:20.9134561Z",
+    "timestamp_utc":  "2026-11-05T20:34:29.0371215Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,19 +15,18 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "f414ef9177f35944cbc23fef97a2a387f2cd0398",
-                                                 "dirty_file_count":  2,
+                                                 "dirty_file_count":  3,
                                                  "dirty_files_sample":  [
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
                                                                             "?? AASHA_TASK2_COMPLETE_SCOPE_REASSESSMENT_REPORT.md",
                                                                             "?? AASHA_TASK2_INDEPENDENT_AUDIT_REPORT.md"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "0540627ef928b97a70ebccefbf4b5f5e8ec2a706",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "58cf02ddb09d71e37a443236f38a6fff87a1b5ec",
+                                                   "dirty_file_count":  1,
+                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
                                                }
                      }
 }
