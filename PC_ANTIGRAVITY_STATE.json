@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-05T21:03:11.4747014Z",
+    "timestamp_utc":  "2026-11-05T21:17:05.0090568Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,20 +15,31 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "035b3b57117870cf63fa88783114f6b8cecfd0f3",
-                                                 "dirty_file_count":  3,
+                                                 "dirty_file_count":  16,
                                                  "dirty_files_sample":  [
-                                                                            "?? AASHA_TASK2_CROSS_CODEBASE_ARCHITECTURE_VERIFICATION.md",
-                                                                            "?? AASHA_TASK2_SIMULATION_ENGINE_OWNERSHIP_MATRIX.md",
-                                                                            "?? AASHA_TASK2_UNIFIED_SIMULATION_ARCHITECTURE.md"
+                                                                            "A  AASHA_TASK2_CANONICAL_SIMULATION_CONTRACT_PROPOSAL.md",
+                                                                            "A  AASHA_TASK2_CROSS_CODEBASE_ARCHITECTURE_VERIFICATION.md",
+                                                                            "A  AASHA_TASK2_HALLUCINATION_RESISTANCE_AND_EVIDENCE_POLICY.md",
+                                                                            "A  AASHA_TASK2_LEGACY_ENGINE_MIGRATION_MATRIX.md",
+                                                                            "A  AASHA_TASK2_R2F_UNIFIED_ARCHITECTURE_EVIDENCE_VERIFICATION.md",
+                                                                            "A  AASHA_TASK2_SIMULATION_ENGINE_OWNERSHIP_MATRIX.md",
+                                                                            "A  AASHA_TASK2_UNIFIED_SIMULATION_ARCHITECTURE.md",
+                                                                            "M  AASHA_TASK2_WORKSPACE_WIDE_REMEDIATION_PLAN.md",
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
+                                                                            " M scripts/aasha_continuous_loop.mjs",
+                                                                            "?? TASK2_COMPETITOR_BENCHMARK.md",
+                                                                            "?? TASK2_DELIVERY_CAPABILITY_SCORECARD.md",
+                                                                            "?? TASK2_FINAL_SCOPE_AND_GAP_REPORT.md",
+                                                                            "?? TASK2_ROLLBACK_AND_BASELINE_RECONCILIATION.md",
+                                                                            "?? TASK2_STANDARD_SIMULATION_TEST_SUITE.md",
+                                                                            "?? TASK2_UNIFIED_ENGINE_CAPABILITY_MATRIX.md"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "72f86ca28076628d92914956f149861d2b900855",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "efd8f27d973be4c0c8e977444a3570053b8faf58",
+                                                   "dirty_file_count":  1,
+                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
                                                }
                      }
 }
