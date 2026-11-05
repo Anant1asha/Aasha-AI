@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-05T21:27:20.8125186Z",
+    "timestamp_utc":  "2026-11-05T21:34:09.1987193Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,16 +14,15 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "5b30b6a07cf6ce1e6f6e385423678dc065e113cf",
-                                                 "dirty_file_count":  2,
-                                                 "dirty_files_sample":  [
-                                                                            " M packages/aasha-agent-builder/src/simulation_subagent.mjs",
-                                                                            " M packages/aasha-agent-builder/test/simulation_subagent.test.mjs"
-                                                                        ]
+                                                 "head_commit":  "4ec543e78d731f4b1d0f4e0f5afea72e3c2d3d48",
+                                                 "dirty_file_count":  0,
+                                                 "dirty_files_sample":  {
+
+                                                                        }
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "e593c8cfce5263a66c5f85c70d20ac63373b2c29",
+                                                   "head_commit":  "ab81a7dfa8391fd856118dbbae1cd13c0f822c7d",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  {
 
