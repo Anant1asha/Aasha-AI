@@ -746,6 +746,21 @@ shuffleOptions();
             elif plugin == "mermaid":
                 inner_sim = f'<div class="interaction-container" id="interaction-{i}">' + \
                     f'<div id="mm-chart-{i}" class="mermaid-container">graph TD\n  A[{name}] --> B[Explore]</div></div>'
+            elif plugin == "openmaic":
+                from ..plugins import create_default_registry, InteractionRequest
+                registry = create_default_registry()
+                openmaic_plugin = registry.get("openmaic")
+                raw_html = ""
+                if openmaic_plugin and hasattr(openmaic_plugin, "render_step"):
+                    req = InteractionRequest(concept=name, subject=concept.get("subject", "science"), grade=concept.get("grade", 6), context=f"{summary} {' '.join(key_ideas)}")
+                    rendered = openmaic_plugin.render_step(req)
+                    raw_html = rendered.get("compiled_source", "")
+                if not raw_html:
+                    raw_html = f"<!doctype html><html><body><h3>Interactive Ready</h3><p>{name}</p></body></html>"
+                import html as html_lib
+                escaped_srcdoc = html_lib.escape(raw_html, quote=True)
+                inner_sim = f'<div class="interaction-container openmaic-container" id="interaction-{i}" style="width:100%;min-height:380px">' + \
+                    f'<iframe srcdoc="{escaped_srcdoc}" id="openmaic-frame-{i}" style="width:100%;height:380px;border:none;border-radius:10px" sandbox="allow-scripts"></iframe></div>'
             elif plugin:
                 inner_sim = f'<div class="interaction-container" id="interaction-{i}">' + \
                     f'<div style="color:var(--muted);text-align:center">Interactive {plugin} Container Ready</div></div>'
