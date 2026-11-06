@@ -1,10 +1,10 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-06T21:03:11.3942516Z",
+    "timestamp_utc":  "2026-11-06T21:19:09.0215082Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
-                           "antigravity_running":  false,
+                           "antigravity_running":  true,
                            "docker_running":  false,
                            "gemini_proxy_running":  false,
                            "ninerouter_running":  true,
@@ -15,7 +15,7 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "c8859fd697fddfabb365f5ca3115345c53149d3d",
-                                                 "dirty_file_count":  10,
+                                                 "dirty_file_count":  11,
                                                  "dirty_files_sample":  [
                                                                             " M .agents/hooks.json",
                                                                             " M .agents/skills/api-routing/SKILL.md",
@@ -24,6 +24,7 @@
                                                                             " M graphify-out/GRAPH_REPORT.md",
                                                                             " M graphify-out/graph.json",
                                                                             " M package.json",
+                                                                            " M scripts/n8n_headless_client.mjs",
                                                                             " M scripts/n8n_mcp_server.mjs",
                                                                             "?? .agents/skills/graphify/references/",
                                                                             "?? scripts/graphify_build.mjs"
@@ -31,7 +32,7 @@
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "e8af676675690c77187047f417902004163e7643",
+                                                   "head_commit":  "0d2d0fe9924df163aa78c31735c3d0c1083a976f",
                                                    "dirty_file_count":  2,
                                                    "dirty_files_sample":  [
                                                                               " M .mcp.json",
