@@ -718,6 +718,37 @@
       ],
       "reuse_strategy": "EXTRACT",
       "adapter": "Aasha-AI/experience_registry/adapters/aasha_gamified_assessment_adapter.js#AashaGamifiedAssessmentAdapter"
+    },
+    {
+      "id": "F28",
+      "name": "OpenMAIC Governed Interactive Simulation Primitives",
+      "repo": "https://github.com/THU-MAIC/OpenMAIC",
+      "license": "MIT",
+      "subjects": [
+        "Physics",
+        "Science",
+        "Mathematics",
+        "Kinematics"
+      ],
+      "classes": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "mechanics": [
+        "multi_parameter_sliders",
+        "interactive_simulation_primitives",
+        "trajectory_kinematics_canvas",
+        "velocity_vector_decomposition",
+        "gravity_vacuum_drag_sandbox",
+        "offline_canvas_animation_loop"
+      ],
+      "reuse_strategy": "EXTRACT",
+      "adapter": "Aasha-AI/packages/iec/providers/openmaic/openmaic_adapter_provider.ts#OpenMAICAdapterProvider"
     }
   ],
   "secondary_libraries": {
