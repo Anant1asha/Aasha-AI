@@ -31,8 +31,9 @@ export type ModelTier = 1 | 2 | 3;
 export interface LLMRequest {
   prompt: string;
   systemPrompt?: string;
-  taskType?: string;   // e.g. 'chat', 'code_edit', 'pdf_ingestion'
+  taskType?: string;   // e.g. 'chat', 'code_edit', 'pdf_ingestion', 'vision'
   maxTokens?: number;
+  images?: string[];   // Base64 data URIs or image URLs for multimodal tasks
 }
 
 export interface LLMResponse {
@@ -127,6 +128,40 @@ const TIER2_9ROUTER_POOL: string[] = [
   'ag/gemini-3.8-flash',
 ];
 
+const TIER_MULTIMODAL_9ROUTER_POOL: string[] = [
+  'ag/gemini-3.8-flash',
+  'ag/gemini-3.8-flash-high',
+  process.env.NINEROUTER_DEFAULT_MODEL ?? 'claude-combo',
+];
+
+const TIER_MULTIMODAL_FREE_POOL: string[] = [
+  'google/gemini-2.0-flash-exp:free',
+  'nvidia/nemotron-3.5-super-vl:free',
+  'meta-llama/llama-3.2-11b-vision-instruct:free',
+  'meta-llama/llama-3.1-8b-instruct:free',
+];
+
+function buildMessages(req: LLMRequest): { role: string; content: string | any[] }[] {
+  const messages: { role: string; content: string | any[] }[] = [];
+  if (req.systemPrompt) messages.push({ role: 'system', content: req.systemPrompt });
+
+  if (req.images && req.images.length > 0) {
+    const parts: any[] = [{ type: 'text', text: req.prompt }];
+    for (const img of req.images) {
+      parts.push({
+        type: 'image_url',
+        image_url: {
+          url: img.startsWith('data:') || img.startsWith('http') ? img : `data:image/jpeg;base64,${img}`
+        }
+      });
+    }
+    messages.push({ role: 'user', content: parts });
+  } else {
+    messages.push({ role: 'user', content: req.prompt });
+  }
+  return messages;
+}
+
 async function execute9Router(
   pool: string[],
   req: LLMRequest,
@@ -134,9 +169,7 @@ async function execute9Router(
   attempt = 0
 ): Promise<LLMResponse> {
   const model = pool[attempt % pool.length];
-  const messages: { role: string; content: string }[] = [];
-  if (req.systemPrompt) messages.push({ role: 'system', content: req.systemPrompt });
-  messages.push({ role: 'user', content: req.prompt });
+  const messages = buildMessages(req);
 
   try {
     const res = await fetch(`${NINEROUTER_BASE_URL}/chat/completions`, {
@@ -205,10 +238,7 @@ async function executeOpenRouter(
   const keys = getOpenRouterKeys();
   const apiKey = keys[attempt % keys.length];
   const model = pool[attempt % pool.length];
-
-  const messages: { role: string; content: string }[] = [];
-  if (req.systemPrompt) messages.push({ role: 'system', content: req.systemPrompt });
-  messages.push({ role: 'user', content: req.prompt });
+  const messages = buildMessages(req);
 
   try {
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
