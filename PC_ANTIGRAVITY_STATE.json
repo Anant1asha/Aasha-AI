@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-06T20:47:38.7106684Z",
+    "timestamp_utc":  "2026-11-06T21:03:11.3942516Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,17 +15,28 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "c8859fd697fddfabb365f5ca3115345c53149d3d",
-                                                 "dirty_file_count":  2,
+                                                 "dirty_file_count":  10,
                                                  "dirty_files_sample":  [
                                                                             " M .agents/hooks.json",
-                                                                            " M ARCHITECTURE_GRAPH.md"
+                                                                            " M .agents/skills/api-routing/SKILL.md",
+                                                                            " M ARCHITECTURE_GRAPH.md",
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
+                                                                            " M graphify-out/GRAPH_REPORT.md",
+                                                                            " M graphify-out/graph.json",
+                                                                            " M package.json",
+                                                                            " M scripts/n8n_mcp_server.mjs",
+                                                                            "?? .agents/skills/graphify/references/",
+                                                                            "?? scripts/graphify_build.mjs"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "a3500ee52b0844245eb12621b45764d49b0f3a45",
-                                                   "dirty_file_count":  1,
-                                                   "dirty_files_sample":  " M agents.json"
+                                                   "head_commit":  "e8af676675690c77187047f417902004163e7643",
+                                                   "dirty_file_count":  2,
+                                                   "dirty_files_sample":  [
+                                                                              " M .mcp.json",
+                                                                              " M agents.json"
+                                                                          ]
                                                }
                      }
 }
