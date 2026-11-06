@@ -388,8 +388,28 @@ export async function callTier3(req: LLMRequest & { taskType: string }): Promise
 }
 
 // ---------------------------------------------------------------------------
+// Multimodal Auto-Switch: 9Router (Default) / OpenRouter Free Vision Pool (Fallback)
+// ---------------------------------------------------------------------------
+
+export async function callMultimodal(req: LLMRequest): Promise<LLMResponse> {
+  if (DEFAULT_LLM_PROVIDER === '9router') {
+    try {
+      return await execute9Router(TIER_MULTIMODAL_9ROUTER_POOL, req, 1);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`[ROUTER] 9Router Multimodal failed (${msg}). Cascading to OpenRouter free vision pool.`);
+    }
+  }
+  return executeOpenRouter(TIER_MULTIMODAL_FREE_POOL, req, 1);
+}
+
+// ---------------------------------------------------------------------------
 // Main Router — Apply Decision Tree
 // ---------------------------------------------------------------------------
+
+const VISION_TASK_TYPES = new Set([
+  'vision', 'pdf_vision', 'diagram_extraction', 'multimodal',
+]);
 
 const CODE_TASK_TYPES = new Set([
   'code_edit', 'code_synthesis', 'file_creation', 'chapter_html',
@@ -402,6 +422,12 @@ const TIER3_TASK_TYPES = new Set([
 
 export async function route(req: LLMRequest): Promise<LLMResponse> {
   const taskType = req.taskType ?? 'chat';
+
+  // 0. Auto-switch: Multimodal vision tasks or requests with image attachments
+  if ((req.images && req.images.length > 0) || VISION_TASK_TYPES.has(taskType)) {
+    console.log(`[ROUTER] → MULTIMODAL AUTO-SWITCH (${DEFAULT_LLM_PROVIDER}) for task: ${taskType}`);
+    return callMultimodal(req);
+  }
 
   // 1. Tier 3 guard
   if (TIER3_TASK_TYPES.has(taskType)) {
@@ -506,6 +532,7 @@ export interface LLMCompletionRequest {
   taskType?: TaskType;
   model?: string;
   maxTokens?: number;
+  images?: string[];
 }
 
 const TIER2_TASK_TYPES = new Set<TaskType>(['coding']);
@@ -543,18 +570,14 @@ export async function getLLMCompletion(req: LLMCompletionRequest): Promise<strin
     systemPrompt: systemMsg || undefined,
     taskType,
     maxTokens: req.maxTokens,
+    images: req.images,
   };
 
   let response: LLMResponse;
 
-  if (TIER3_TASK_TYPES_EXT.has(taskType)) {
-    // Vision tasks — attempt Tier 3 if authorized, else fall to Tier 1
-    try {
-      response = await callTier3({ ...llmReq, taskType: taskType as string });
-    } catch {
-      console.warn(`[getLLMCompletion] Vision task Tier 3 blocked. Falling to Tier 1.`);
-      response = await callTier1(llmReq);
-    }
+  if (TIER3_TASK_TYPES_EXT.has(taskType) || (req.images && req.images.length > 0)) {
+    // Multimodal vision tasks — route via unified multimodal auto-switch pool
+    response = await callMultimodal(llmReq);
   } else if (TIER2_TASK_TYPES.has(taskType)) {
     response = await callTier2(llmReq);
   } else {

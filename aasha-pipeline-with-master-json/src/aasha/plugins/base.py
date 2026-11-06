@@ -207,6 +207,7 @@ def create_default_registry() -> PluginRegistry:
         ("hotpotatoes.plugin", "HotPotatoesPlugin"),
         ("phonics.plugin", "PhonicsPlugin"),
         ("timeline.plugin", "TimelinePlugin"),
+        ("openmaic.plugin", "OpenMAICPlugin"),
     ]
 
     for mod_path, cls_name in plugin_specs:

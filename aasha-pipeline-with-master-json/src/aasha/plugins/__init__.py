@@ -14,6 +14,7 @@ Available plugins:
   - HotPotatoes(GNU GPL)      - JQuiz, JMatch, JCloze, JCross, JMix
   - Phonics    (MIT, ~30KB)   - early primary K-3 language cards
   - Timeline   (MIT, ~40KB)   - social studies interactive timelines
+  - OpenMAIC   (MIT, ~25KB)   - governed interactive simulation primitives & labs
 """
 from .base import (
     InteractionPlugin,
