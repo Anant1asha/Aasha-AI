@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-06T21:34:44.9954074Z",
+    "timestamp_utc":  "2026-11-06T21:46:21.1907917Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,19 +14,20 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "fa9a44912c724692b007bed716b326325b804a82",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "head_commit":  "8c1a9e701448c5eb6a175e959e05c5ab97415afd",
+                                                 "dirty_file_count":  4,
+                                                 "dirty_files_sample":  [
+                                                                            " M .serena/project.yml",
+                                                                            " M scripts/aasha_continuous_loop.mjs",
+                                                                            " M scripts/n8n_headless_client.mjs",
+                                                                            " M scripts/n8n_mcp_server.mjs"
+                                                                        ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "8b3c7af704b4e440e17540eaf8b50e682ae99d2a",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "841419fae9bb43d2d7b4cde4a44284d05977d474",
+                                                   "dirty_file_count":  1,
+                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
                                                }
                      }
 }
