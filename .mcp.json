@@ -3,7 +3,7 @@
     "graphify": {
       "httpUrl": "https://api.graphify.net/mcp",
       "headers": {
-        "Authorization": "Bearer pc_key_df279cd7_YPFt5pazaDlYSclBsGRa646khPMWkm6zrhzDpF-PT8I"
+        "Authorization": "Bearer ${GRAPHIFY_API_KEY}"
       }
     },
     "a11y-debugging": {
