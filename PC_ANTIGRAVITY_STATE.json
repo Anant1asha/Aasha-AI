@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-06T23:58:47.9865700Z",
+    "timestamp_utc":  "2026-11-07T00:04:30.7356133Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,22 +14,17 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "c0bd18b2dca214bc658c5a05a2d1fa15f1ea04b6",
+                                                 "head_commit":  "489935f6ae7d04a10f7623782126dc0be644b082",
                                                  "dirty_file_count":  1,
-                                                 "dirty_files_sample":  " M scripts/aasha_continuous_loop.mjs"
+                                                 "dirty_files_sample":  "M  scripts/aasha_continuous_loop.mjs"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "6b7463ba11cd3d8e82047522012180210f48ed38",
-                                                   "dirty_file_count":  6,
-                                                   "dirty_files_sample":  [
-                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/agents/ingest_agent.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/agents/qa_agent.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/pipeline/orchestrator.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/schemas/__init__.py",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/schemas/validator.py"
-                                                                          ]
+                                                   "head_commit":  "aa8d7db45db96923ceea9abe4dfb8b4895d82f0d",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
