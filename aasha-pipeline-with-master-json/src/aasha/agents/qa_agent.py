@@ -35,6 +35,7 @@ class QAAgent(BaseAgent):
 
     def _run_node_qa(self, html_path: Path, mode: str = "v5-engine") -> dict[str, Any]:
         """Run the Node.js QA harness."""
+        html_path = Path(html_path).resolve()
         cmd_parts = self.qa_runner.split()
         if len(cmd_parts) >= 2 and cmd_parts[0] == "node":
             script_rel = Path(cmd_parts[1])

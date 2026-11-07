@@ -1200,7 +1200,7 @@ class Orchestrator:
                             if repaired:
                                 log(f"  [Validator] Auto-repaired {repaired} distractor spoiler leaks before assembly.")
                                 spec_path.write_text(json.dumps(spec_data, ensure_ascii=False, indent=2), encoding="utf-8")
-                            val_result = validate_chapter_spec(spec_data)
+                            val_result = validate_chapter_spec(spec_data, require_opts=True)
                             if not val_result.valid:
                                 error_msgs = "; ".join(val_result.errors)
                                 raise ValueError(f"Strict JSON schema validation failed: {error_msgs}")

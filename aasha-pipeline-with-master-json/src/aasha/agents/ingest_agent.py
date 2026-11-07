@@ -66,7 +66,10 @@ class IngestAgent(BaseAgent):
 
         use_fitz = False
         try:
-            import fitz  # PyMuPDF
+            try:
+                import pymupdf as fitz
+            except ImportError:
+                import fitz
             doc = fitz.open(str(pdf_path))
             use_fitz = True
         except Exception as e:

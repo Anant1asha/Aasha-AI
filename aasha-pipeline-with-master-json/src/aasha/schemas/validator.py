@@ -56,9 +56,13 @@ def _check_misconceptions(opts: list[Option], context: str, result: ValidationRe
                 )
 
 
-def _check_option_set(os: OptionSet | None, context: str, result: ValidationResult) -> None:
+def _check_option_set(os: OptionSet | None, context: str, result: ValidationResult, require_opts: bool = False) -> None:
     """Check a full option set: one correct, misconceptions present."""
     if os is None:
+        return
+    if os.opts is None:
+        if require_opts:
+            result.add_error(f"{context}: options are required but not populated")
         return
     if len(os.opts) < 3 or len(os.opts) > 4:
         result.add_error(f"{context}: expected 3-4 options, found {len(os.opts)}")
@@ -66,7 +70,7 @@ def _check_option_set(os: OptionSet | None, context: str, result: ValidationResu
     _check_misconceptions(os.opts, context, result)
 
 
-def validate_chapter_spec(spec_data: dict[str, Any]) -> ValidationResult:
+def validate_chapter_spec(spec_data: dict[str, Any], require_opts: bool = False) -> ValidationResult:
     """Run all 12 validation rules on a chapter spec dict.
 
     Returns a ValidationResult with errors (blocking) and warnings (non-blocking).
@@ -100,7 +104,7 @@ def validate_chapter_spec(spec_data: dict[str, Any]) -> ValidationResult:
             ctx_step = f"{ctx_node} step[{s_idx}] ({step.t})"
 
             if step.t == "quiz" or step.t == "vq":
-                _check_option_set(step.q, ctx_step, result)
+                _check_option_set(step.q, ctx_step, result, require_opts=require_opts)
 
             if step.t == "worked" and step.we:
                 we_key = step.we.replace("WE.", "")
@@ -119,9 +123,9 @@ def validate_chapter_spec(spec_data: dict[str, Any]) -> ValidationResult:
                     # Check each inline check
                     for wi, ws in enumerate(we.steps):
                         if ws.check:
-                            _check_option_set(ws.check, f"{we_ctx} step[{wi}] inline check", result)
+                            _check_option_set(ws.check, f"{we_ctx} step[{wi}] inline check", result, require_opts=require_opts)
                     # Check end-of-WE check
-                    _check_option_set(we.check, f"{we_ctx} end check", result)
+                    _check_option_set(we.check, f"{we_ctx} end check", result, require_opts=require_opts)
 
             if step.t == "solve" and step.sl:
                 sl_key = step.sl.replace("SOLVE.", "")

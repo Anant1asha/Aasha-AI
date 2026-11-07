@@ -22,7 +22,7 @@ class OptionSet(BaseModel):
     visual: str | None = Field(None, description="Visual type for VQ")
     parts: int | None = None
     shaded: int | None = None
-    opts: list[Option] = Field(..., min_length=3, max_length=4)
+    opts: list[Option] | None = Field(None, min_length=3, max_length=4, description="Options (populated by AssessmentAgent)")
 
 
 class WEStep(BaseModel):
