@@ -53,6 +53,16 @@ If a capability exists in these libraries, do not rewrite it from scratch.
 ### Node.js QA Harness (`qa/package.json`)
 - **`jsdom`**: Headless browser rendering to evaluate DOM structure, bounds checking, and event listeners in the generated `v5-engine-template.html` outputs.
 
+## 5. Execution Topology & Cloud Scaling
+To ensure maximum developer freedom without local toolchain lock-in:
+1. **Daily Workstation Mode (Mode D - Local Authority)**:
+   - Uses native Node.js and Python (`scripts/verify_prestack_assets_browser.mjs`, `aasha_root_orchestrator.js`).
+   - Browser testing leverages system Chrome/Edge via CDP on port 9222 (0 MB Rust overhead).
+2. **High-Throughput Cloud Scaling (Hydro Infinity)**:
+   - Orchestrated via Hydro Infinity in GitHub Codespaces (`https://codespaces.new/hydro-project/infinity`).
+   - Acts as a zero-local-footprint cloud agent farm (pure-data hibernation, ~75k concurrent agents, RAP protocol) for multi-book batch ingestions.
+   - Managed autonomously via `node scripts/infinity_cloud_hub.mjs` with seamless local fallback.
+
 ## Principles for AI Agents
 1. **Never Overbuild**: If a pedagogical need arises, check if one of the 12 interaction plugins handles it.
 2. **Offline Strictness**: All dependencies must be base64-embedded inline. No CDNs.

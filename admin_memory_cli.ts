@@ -35,6 +35,9 @@ async function main() {
       const graphData = await bus.getGraph().exportGraph();
       console.log(`Graph Nodes:   ${graphData.nodes.length}`);
       console.log(`Graph Edges:   ${graphData.edges.length}`);
+      console.log('--- Autonomous Execution Topology ---');
+      console.log('Daily Local:   Native Node.js (Chrome CDP 9222 / 0-MB Rust footprint)');
+      console.log(`Cloud Scale:   Hydro Infinity (${process.env.INFINITY_REMOTE_URL ? 'Connected: ' + process.env.INFINITY_REMOTE_URL : 'Standby / 1-Click Codespaces'})`);
       break;
     }
 
