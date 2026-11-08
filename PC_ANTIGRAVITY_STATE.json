@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-08T18:13:19.2595871Z",
+    "timestamp_utc":  "2026-11-08T18:27:24.8063915Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,15 +14,13 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "d95820e8fa217a81a64b2021bb8ae7ed3ffb0923",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "head_commit":  "fbc52e96a772f858c325220791c333875287f0be",
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M test_kingsmath_chapter.html"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "756cef93acbeb6908b3129b17b277fa6f8a0904b",
+                                                   "head_commit":  "45cef7f76d2c6d41f52723281baaace0f5a9b5a3",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  {
 
