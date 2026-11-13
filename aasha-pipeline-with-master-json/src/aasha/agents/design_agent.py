@@ -113,6 +113,50 @@ class DesignAgent(BaseAgent):
         b64 = base64.b64encode(svg.encode("utf-8")).decode("ascii")
         return f"data:image/svg+xml;base64,{b64}"
 
+    def _resolve_interactive_asset(self, text: str, subject: str, grade: int) -> dict | None:
+        """Resolves concept text to certified local interactive asset (M1 URIRA)."""
+        t = (text or "").lower()
+        mappings = [
+            (["number line", "integers", "rational number"], "AVR-P301", "Number Line Marker", "number-line"),
+            (["fraction", "parts of whole", "equivalent fraction"], "AVR-P302", "Fraction Strip Visualizer", "fraction-manipulative"),
+            (["shape", "polygon", "symmetry", "transformation"], "AVR-P303", "Shape Transformer", "geometry-transform"),
+            (["timeline", "history", "chronology"], "AVR-P304", "Timeline Scrubber", "chronology-sequence"),
+            (["decision", "taxonomy", "flowchart"], "AVR-P305", "Process Branch Decision Tree", "decision-tree"),
+            (["hotspot", "anatomy", "apparatus", "microscope"], "AVR-P306", "Hotspot Reveal Explorer", "diagram-exploration"),
+            (["earth layer", "crust", "mantle", "atmosphere"], "AVR-P307", "Layer Reveal Explorer", "spatial-layers"),
+            (["circulatory", "nervous", "food web"], "AVR-P308", "Biological Node Connector", "network-connector"),
+            (["coordinate", "cartesian", "grid", "graph"], "AVR-P309", "Grid Coordinate Picker", "coordinate-geometry"),
+            (["distance", "ruler", "measurement", "metric"], "AVR-P310", "Distance Ruler & Measurement", "measurement"),
+            (["temperature", "kinetic", "states of matter", "particle heat"], "AVR-P311", "Particle Temperature Lab", "thermal-physics"),
+            (["diffusion", "brownian", "concentration", "osmosis"], "AVR-P312", "Particle Diffusion Simulator", "physical-chemistry"),
+            (["atom", "proton", "neutron", "electron", "atomic mass"], "AVR-P313", "Interactive Atom Builder", "atomic-structure"),
+            (["circuit", "switch", "series", "parallel", "electricity"], "AVR-P314", "Electric Switch Circuit Lab", "circuits"),
+            (["logic gate", "boolean", "and gate", "or gate"], "AVR-P315", "Digital Logic Gates Explorer", "logic-electronics"),
+            (["hydraulic", "flow", "conservation of energy"], "AVR-P316", "Hydraulic & Energy Flow System", "system-dynamics"),
+            (["spring", "hooke", "oscillation", "elasticity"], "AVR-P317", "Parameterized Spring & Hooke's Law", "mechanics-oscillations"),
+            (["population", "ecology", "carrying capacity"], "AVR-P318", "Ecology Population Growth Simulator", "ecological-modeling"),
+            (["projectile", "trajectory", "parabola", "launch"], "AVR-P319", "2D Projectile Explorer", "kinematics"),
+            (["bar graph", "histogram", "data handling"], "AVR-P320", "Bar Data Manipulator & Histogram", "statistics-data"),
+            (["chain reaction", "cause and effect"], "AVR-P321", "Cause and Effect Chain Reaction", "causal-systems"),
+            (["punnett", "genetics", "mendelian", "allele", "heredity"], "AVR-P321-bio", "Mendelian Genetics: Punnett Square Interactive Sim", "genetics"),
+            (["vernier", "caliper", "least count"], "AVR-P401", "Vernier Caliper Virtual Lab", "measurement-lab"),
+            (["lorentz", "cyclotron", "magnetic field"], "AVR-P402", "Magnetic Lorentz Force Simulator", "electrodynamics"),
+            (["error analysis", "percentage error"], "AVR-P403", "Error Analysis Virtual Lab", "error-analysis"),
+            (["dimensional analysis", "unit conversion"], "AVR-P404", "Dimensional Analysis Virtual Lab", "dimensional-analysis"),
+            (["ten frame", "place value", "base 10"], "AVR-P405", "Ten-Frame Place Value Mastery", "place-value"),
+            (["gamified assessment", "streak shield", "mastery quiz"], "AVR-P406", "KingsMath Universal Gamified Assessment Engine", "gamified-assessment"),
+        ]
+        for keywords, res_id, name, family in mappings:
+            if any(kw in t for kw in keywords):
+                return {
+                    "resource_id": res_id,
+                    "name": name,
+                    "family": family,
+                    "tier": "TIER_1_CERTIFIED_LOCAL",
+                    "local_path": f"assets/cdn/interactives/{res_id}-*.html"
+                }
+        return None
+
     def _post_process(self, spec: dict, content_map: dict, subject: str, grade: int) -> dict:
         """Post-process the LLM output to fix common issues."""
         # Ensure chapter metadata
@@ -217,6 +261,15 @@ class DesignAgent(BaseAgent):
             for step in node.get("steps", []):
                 if step.get("t") == "progress" and i < len(spec["NODES"]) - 1:
                     step["next"] = True
+
+        # M1 URIRA: Resolve and bind certified local interactive assets to interactive steps
+        for node in spec.get("NODES", []):
+            node_title = node.get("title", "")
+            matched_res = self._resolve_interactive_asset(node_title, subject, grade)
+            if matched_res:
+                for step in node.get("steps", []):
+                    if step.get("t") in ("phet", "ix_bar", "ix_area", "ix_pizza", "ix_slider", "dd_build", "dd_match"):
+                        step["resolved_interactive"] = matched_res
 
         return spec
 
