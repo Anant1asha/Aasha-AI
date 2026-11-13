@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-13T19:19:18.1900391Z",
+    "timestamp_utc":  "2026-11-13T19:48:41.0584742Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,21 +14,26 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "6fe2d90f6bd9c49d3683a108d554ad2844ecc3da",
-                                                 "dirty_file_count":  3,
+                                                 "head_commit":  "f3c4f56cc852417b42599c8ff9f815508be73bf6",
+                                                 "dirty_file_count":  7,
                                                  "dirty_files_sample":  [
                                                                             " M PC_ANTIGRAVITY_STATE.json",
-                                                                            "?? scripts/verify-gate.mjs",
+                                                                            " M SPRINT_VERIFICATION_REPORT.md",
+                                                                            " M scripts/aasha_continuous_loop.mjs",
+                                                                            "?? AASHA_DEFECT_AND_REGRESSION_REGISTER.json",
+                                                                            "?? AASHA_LIVE_SYSTEM_MAP.md",
+                                                                            "?? AASHA_PRIORITIZED_ENGINEERING_ROADMAP.json",
                                                                             "?? state/"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "27ff8d9eeb51203ec35a0c62c2d02babc9f25bad",
-                                                   "dirty_file_count":  0,
-                                                   "dirty_files_sample":  {
-
-                                                                          }
+                                                   "head_commit":  "bb96f0853dd28e2585e2167a62966432da1519e7",
+                                                   "dirty_file_count":  2,
+                                                   "dirty_files_sample":  [
+                                                                              "M  PC_ANTIGRAVITY_STATE.json",
+                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
+                                                                          ]
                                                }
                      }
 }
