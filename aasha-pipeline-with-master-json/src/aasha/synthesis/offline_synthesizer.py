@@ -88,7 +88,7 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
         predicate_rx = "|".join(re.escape(p).replace(r"\ ", r"\s+") for p in predicates)
         # Allow up to 4 qualifier words between the predicate and the leaked value, as the validator does.
         leak_rx = re.compile(
-            r"\b(?:" + predicate_rx + r")\b\s*(?:[a-z]+\s*){0,4}[:=]?\s*\b(-?\d+(?:\.\d+)?)\b",
+            r"\b(?:" + predicate_rx + r")\b\s*(?:[a-z]+\s*){0,4}[:=]?\s*\b(?P<value>-?\d+(?:\.\d+)?)\b",
             re.IGNORECASE,
         )
 
@@ -105,10 +105,11 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
             has_leak = bool(leak_pattern.search(m.lower())) or explicit_spoiler
             # Predicate-relative leakage ("yields 49", "to get 49") that the verbatim match misses.
             if not has_leak and nums:
-                for n in nums:
-                    if any(p == n for _s, p in leak_rx.findall(m)):
-                        has_leak = True
-                        break
+                leaked_values = {
+                    mo.group("value") for mo in leak_rx.finditer(m) if mo.group("value")
+                }
+                if leaked_values.intersection(nums):
+                    has_leak = True
             if not has_leak and nums:
                 for n in nums:
                     rx = re.compile(r"(?:is|=|giving|becomes|, not \+?)\s*" + re.escape(n) + r"\b", re.IGNORECASE)
@@ -122,7 +123,7 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
                     rx = re.compile(r"(?:is|=|giving|becomes|, not \+?)\s*" + re.escape(n) + r"\b", re.IGNORECASE)
                     repaired_m = rx.sub("an incorrect step calculation", repaired_m)
                 # Scrub any remaining predicate-relative leak, preserving the predicate for readability.
-                repaired_m = leak_rx.sub(lambda mo: mo.group(0)[: -len(mo.group(1))] + "an incorrect value", repaired_m)
+                repaired_m = leak_rx.sub(lambda mo: mo.group(0)[: -len(mo.group("value"))] + "an incorrect value", repaired_m)
 
                 if explicit_spoiler or re.search(r"\b(?:correct\s+answer|answer\s+is)\b", repaired_m, re.IGNORECASE):
                     repaired_m = "Check the mathematical or conceptual operation carefully rather than assuming this value."

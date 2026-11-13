@@ -343,7 +343,7 @@
   },
   "identify": {
     "translation": "पहचानना (आइडेंटिफाइ)",
-    "frequency": 235,
+    "frequency": 243,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Rational Numbers and Fractions",
@@ -351,7 +351,7 @@
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "identifying": {
     "translation": "पहचानते हुए (आइडेंटिफाइइंग)",
@@ -436,13 +436,13 @@
   },
   "like": {
     "translation": "जैसे (लाइक)",
-    "frequency": 8,
+    "frequency": 11,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "lucknow": {
     "translation": "लखनऊ (लकनाउ)",
@@ -464,13 +464,13 @@
   },
   "numbers": {
     "translation": "संख्याएँ (नंबर्स)",
-    "frequency": 14,
+    "frequency": 17,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "order": {
     "translation": "आदेश (ऑर्डर)",
@@ -483,14 +483,14 @@
   },
   "outcome": {
     "translation": "परिणाम (आउटकम)",
-    "frequency": 229,
+    "frequency": 237,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "pan": {
     "translation": "पैन (पैन)",
@@ -548,13 +548,13 @@
   },
   "represent": {
     "translation": "दर्शाना (रेप्रज़ेंट)",
-    "frequency": 14,
+    "frequency": 17,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "reviews": {
     "translation": "समीक्षा (रीव्यूज़)",
@@ -666,14 +666,14 @@
   },
   "understanding": {
     "translation": "समझ (अंडरस्टैंडिंग)",
-    "frequency": 341,
+    "frequency": 349,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "unique": {
     "translation": "अद्वितीय (यूनिक)",
@@ -767,14 +767,14 @@
   },
   "balance": {
     "translation": "संतुलन (बैलन्स)",
-    "frequency": 233,
+    "frequency": 241,
     "chapters": [
       "Rational Numbers and Fractions",
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "bars": {
     "translation": "बार (बार्ज)",
@@ -787,12 +787,12 @@
   },
   "between": {
     "translation": "बीच में (बिटवीन)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "cannot": {
     "translation": "नहीं कर सकता (कैनॉट)",
@@ -841,21 +841,21 @@
   },
   "denominators": {
     "translation": "हर (डिनॉमिनेटर्स)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "determine": {
     "translation": "निर्धारित करना (डिटरमाइन)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "digits": {
     "translation": "अंकों (डिजिट्स)",
@@ -868,12 +868,12 @@
   },
   "directly": {
     "translation": "सीधे (डायरेक्टली)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "discover": {
     "translation": "खोज करना (डिस्कवर)",
@@ -895,14 +895,14 @@
   },
   "evaluating": {
     "translation": "मूल्यांकन कर रहा है (इ-वैल्यू-एटिंग)",
-    "frequency": 233,
+    "frequency": 241,
     "chapters": [
       "Rational Numbers and Fractions",
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "examine": {
     "translation": "जांच करना (एक-सैम-इन)",
@@ -951,12 +951,12 @@
   },
   "helps": {
     "translation": "मदद करता है (हेल्प्स)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "locate": {
     "translation": "ढूँढना/स्थित करना (लो-केट)",
@@ -978,12 +978,12 @@
   },
   "look": {
     "translation": "देखना (लुक)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "mark": {
     "translation": "निशान (मार्क)",
@@ -1041,12 +1041,12 @@
   },
   "numerators": {
     "translation": "अंश (न्यू-मेर-एटर्स)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "occupy": {
     "translation": "स्थान घेरना (ऑक्यूपाइ)",
@@ -1113,12 +1113,12 @@
   },
   "products": {
     "translation": "गुणनफल / उत्पाद (प्रोडक्ट्स)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "quickly": {
     "translation": "तेज़ी से (क्विकली)",
@@ -1167,12 +1167,12 @@
   },
   "segments": {
     "translation": "रेखाखंड / भाग (सेगमेंट्स)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "selected": {
     "translation": "चुना हुआ (सिलेक्टेड)",
@@ -1239,12 +1239,12 @@
   },
   "using": {
     "translation": "उपयोग करते हुए (यूज़िंग)",
-    "frequency": 12,
+    "frequency": 15,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "weights": {
     "translation": "भार (वेट्स)",
@@ -1257,64 +1257,64 @@
   },
   "apply": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "balanced": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "core": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "correctly": {
     "translation": "सही तरीके से (करैक्टली)",
-    "frequency": 345,
+    "frequency": 356,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "describes": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "discovery": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "down": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1327,53 +1327,53 @@
   },
   "governing": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "hands": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "interactive": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "introduction": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "key": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "mathematical": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1386,63 +1386,63 @@
   },
   "observe": {
     "translation": "ध्यान से देखना / अवलोकन करना (ऑब्ज़र्व)",
-    "frequency": 345,
+    "frequency": 356,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "operations": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "page": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 336,
+    "frequency": 344,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "primary": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "principles": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "properties": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "relating": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1455,153 +1455,153 @@
   },
   "remain": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "representations": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "solving": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "statement": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "transformation": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "verify": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 339,
+    "frequency": 347,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "algebraic": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 227,
+    "frequency": 235,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "conceptual": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 227,
+    "frequency": 235,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "conditions": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 227,
+    "frequency": 235,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "confirm": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 227,
+    "frequency": 235,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "coordinate": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 227,
+    "frequency": 235,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "elements": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 227,
+    "frequency": 235,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "geometry": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 227,
+    "frequency": 235,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "principle": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 227,
+    "frequency": 235,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "relationship": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 227,
+    "frequency": 235,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-13 20:35:34 UTC"
+    "last_seen": "2026-11-13 20:45:51 UTC"
   },
   "expressions": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1614,326 +1614,326 @@
   },
   "adds": {
     "translation": "जोड़ता है (ऐड्स)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "adjusting": {
     "translation": "समायोजित करना (अजस्टिंग)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "changing": {
     "translation": "बदलना (चेंजिंग)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "choice": {
     "translation": "विकल्प (चॉइस)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "compares": {
     "translation": "तुलना करता है (कम्पेयर्स)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "converting": {
     "translation": "परिवर्तित करना (कन्वर्टिंग)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "created": {
     "translation": "बनाया गया (क्रिएटेड)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "decide": {
     "translation": "निर्णय लेना (डिसाइड)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "dividing": {
     "translation": "भाग देना (डिवाइडिंग)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "explore": {
     "translation": "खोज करना (एक्सप्लोर)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "fractional": {
     "translation": "भिन्नात्मक (फ्रैक्शनल)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "good": {
     "translation": "अच्छा (गुड)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "interval": {
     "translation": "अंतराल (इंटरवल)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "intervals": {
     "translation": "अंतराल (इंटरवल्स)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "land": {
     "translation": "भूमि / ज़मीन (लैंड)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "making": {
     "translation": "बनाना (मेकिंग)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "marks": {
     "translation": "अंक / निशान (मार्क्स)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "matching": {
     "translation": "मिलान करना (मैचिंग)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "mean": {
     "translation": "माध्य / मतलब (मीन)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "needed": {
     "translation": "ज़रूरी / आवश्यक (नीडेड)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "non": {
     "translation": "गैर / अ- (नॉन)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "now": {
     "translation": "अब (नाउ)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "other": {
     "translation": "अन्य / दूसरा (अदर)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "out": {
     "translation": "बाहर (आउट)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "placing": {
     "translation": "रखना / स्थान देना (प्लेसिंग)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "points": {
     "translation": "बिंदु (पॉइंट्स)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "positive": {
     "translation": "धनात्मक / सकारात्मक (पॉज़िटिव)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "regions": {
     "translation": "क्षेत्र (रीजन्स)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "shade": {
     "translation": "छायांकित करना (शेड)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "sized": {
     "translation": "आकार का (साइज़्ड)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "slices": {
     "translation": "टुकड़े (स्लाइसेस)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "student": {
     "translation": "विद्यार्थी (स्टूडेंट)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "thinks": {
     "translation": "सोचता है (थिंक्स)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "tick": {
     "translation": "सही का निशान लगाना (टिक)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "treating": {
     "translation": "मानना (ट्रीटिंग)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   },
   "zero": {
     "translation": "शून्य (ज़ीरो)",
-    "frequency": 6,
+    "frequency": 9,
     "chapters": [
       "Rational Numbers and Fractions"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-13 20:34:22 UTC"
+    "last_seen": "2026-11-13 20:41:57 UTC"
   }
 }
