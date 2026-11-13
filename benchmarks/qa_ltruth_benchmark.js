@@ -32,32 +32,87 @@ class ChapterAuditor {
     };
   }
 
-  extractJsonVar(varName) {
-    const regex = new RegExp(`var\\s+${varName}\\s*=\\s*([\\[\\{][\\s\\S]*?);\\s*(?:var|function|App|$)`);
-    const match = this.content.match(regex);
-    if (match) {
-      const raw = match[1].trim();
-      try {
-        return JSON.parse(raw);
-      } catch (e) {
-        try {
-          // Clean unquoted JS keys
-          const cleaned = raw
-            .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
-            .replace(/:\s*'([^']*)'/g, ':"$1"');
-          return JSON.parse(cleaned);
-        } catch (e2) {
-          // Eval in sandbox if clean JSON parsing fails
-          try {
-            const fn = new Function(`return ${raw};`);
-            return fn();
-          } catch (e3) {
-            return null;
-          }
-        }
+  // Scan from a literal's opening bracket to its matching close, tracking string
+  // state so brackets inside single/double/backtick strings and regex-safe escapes
+  // do not terminate the scan early. Returns null when the literal is unbalanced.
+  sliceBalancedLiteral(startIdx) {
+    const open = this.content[startIdx];
+    if (open !== '[' && open !== '{') return null;
+    const stack = [];
+    let quote = null;
+    let escaped = false;
+    for (let i = startIdx; i < this.content.length; i++) {
+      const ch = this.content[i];
+      if (quote) {
+        if (escaped) { escaped = false; continue; }
+        if (ch === '\\') { escaped = true; continue; }
+        if (ch === quote) quote = null;
+        continue;
+      }
+      if (ch === '"' || ch === "'" || ch === '`') { quote = ch; continue; }
+      if (ch === '[' || ch === '{') stack.push(ch);
+      else if (ch === ']' || ch === '}') {
+        stack.pop();
+        if (stack.length === 0) return this.content.slice(startIdx, i + 1);
       }
     }
     return null;
+  }
+
+  extractJsonVar(varName) {
+    const declRe = new RegExp(`var\\s+${varName}\\s*=\\s*`);
+    const decl = this.content.match(declRe);
+    if (!decl) return null;
+
+    const literalStart = decl.index + decl[0].length;
+    const balanced = this.sliceBalancedLiteral(literalStart);
+    // Prefer the balanced literal; fall back to the legacy terminator scan so
+    // previously-parsing chapters keep their exact existing behaviour.
+    let raw = null;
+    if (balanced) {
+      raw = balanced.trim();
+    } else {
+      const regex = new RegExp(`var\\s+${varName}\\s*=\\s*([\\[\\{][\\s\\S]*?);\\s*(?:var|function|App|$)`);
+      const match = this.content.match(regex);
+      if (!match) return null;
+      raw = match[1].trim();
+    }
+
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      try {
+        // Clean unquoted JS keys
+        const cleaned = raw
+          .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
+          .replace(/:\s*'([^']*)'/g, ':"$1"');
+        return JSON.parse(cleaned);
+      } catch (e2) {
+        // Eval as JS. NODES literals may cross-reference sibling globals such as
+        // WE, so resolve those from the same document before evaluating.
+        try {
+          const fn = new Function(`${this.buildSiblingScope(varName)}return ${raw};`);
+          return fn();
+        } catch (e3) {
+          return null;
+        }
+      }
+    }
+  }
+
+  // Declare sibling `var` literals (WE, WM, ...) that a target literal may
+  // reference, so the eval path does not fail with "<NAME> is not defined".
+  buildSiblingScope(varName) {
+    const siblings = ['WE', 'WM'].filter((n) => n !== varName);
+    let scope = '';
+    for (const name of siblings) {
+      const declRe = new RegExp(`var\\s+${name}\\s*=\\s*`);
+      const decl = this.content.match(declRe);
+      if (!decl) continue;
+      const lit = this.sliceBalancedLiteral(decl.index + decl[0].length);
+      if (lit) scope += `var ${name} = ${lit};\n`;
+    }
+    return scope;
   }
 
   auditRule1Spoilers() {

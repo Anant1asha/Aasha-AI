@@ -20,6 +20,11 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+# Safe 0-spoiler replacement used when a misconception can only be detected, not surgically scrubbed.
+GENERIC_MISCONCEPTION_DIAGNOSTIC = (
+    "Check the mathematical or conceptual operation carefully rather than assuming this value."
+)
+
 # Fallback SVG Hero for concept introduction
 DEFAULT_SVG_HERO = (
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 240'%3E"
@@ -127,11 +132,14 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
                     repaired_m = rx.sub("an incorrect step calculation", repaired_m)
                 # Scrub any remaining predicate-relative leak, preserving the predicate for readability.
                 repaired_m = leak_rx.sub(lambda mo: mo.group(0)[: -len(mo.group("value"))] + "an incorrect value", repaired_m)
+                # detect-only leaks (e.g. a formula restated in LaTeX) fall back to a safe generic diagnostic.
+                if normalize_math_text(repaired_m).lower() == norm_m:
+                    repaired_m = GENERIC_MISCONCEPTION_DIAGNOSTIC
 
                 if explicit_spoiler or re.search(r"\b(?:correct\s+answer|answer\s+is)\b", repaired_m, re.IGNORECASE):
-                    repaired_m = "Check the mathematical or conceptual operation carefully rather than assuming this value."
-                elif leak_pattern.search(repaired_m.lower()):
-                    repaired_m = "Check the mathematical or conceptual operation carefully rather than assuming this value."
+                    repaired_m = GENERIC_MISCONCEPTION_DIAGNOSTIC
+                elif leak_pattern.search(normalize_math_text(repaired_m).lower()):
+                    repaired_m = GENERIC_MISCONCEPTION_DIAGNOSTIC
 
                 o["m"] = repaired_m
                 repaired_count += 1

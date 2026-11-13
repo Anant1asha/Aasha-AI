@@ -244,8 +244,17 @@ class DeepOfflineVectorizer:
 
             col_segments = cls._find_active_segments(band_col_proj, min_gap=6, min_length=8)
 
-            # If the band is very tall (> 90px on rendered canvas), it likely contains a diagram or drawing
-            if band_h > 90 and len(col_segments) <= 4:
+            # Check if this band contains a diagram or drawing:
+            # 1. Very tall band (> 85px) with few segments
+            # 2. Wide graphic band (e.g. number line with box_w >= 100 and box_w / band_h >= 2.0)
+            is_diagram_band = False
+            if len(col_segments) <= 4:
+                if band_h > 85:
+                    is_diagram_band = True
+                elif col_segments and any((x1 - x0) >= 100 and (x1 - x0) / max(1, band_h) >= 2.0 for x0, x1 in col_segments):
+                    is_diagram_band = True
+
+            if is_diagram_band:
                 for x0, x1 in col_segments:
                     box_w = x1 - x0
                     if box_w > 60:
@@ -650,14 +659,18 @@ class DeepOfflineVectorizer:
                     else:
                         equilibrium = "left_heavy"
 
-        # Coordinate graph candidate test: strong horizontal line AND strong vertical line
-        h_axis_candidates = [y for y in range(h) if row_spans[y] >= 0.52 * w]
-        v_axis_candidates = [x for x in range(w) if col_spans[x] >= 0.52 * h]
+        # Coordinate graph candidate test: strong continuous horizontal line AND strong continuous vertical line
+        # Check actual pixel counts along row/column, not just span (span can be hollow circle or box)
+        h_line_densities = [sum(1 for x in range(w) if data[y * w + x]) for y in range(h)]
+        v_line_densities = [sum(1 for y in range(h) if data[y * w + x]) for x in range(w)]
+
+        h_axis_candidates = [y for y in range(h) if row_spans[y] >= 0.52 * w and h_line_densities[y] >= 0.35 * w]
+        v_axis_candidates = [x for x in range(w) if col_spans[x] >= 0.52 * h and v_line_densities[x] >= 0.35 * h]
 
         is_coord_graph = False
         coord_origin_x = w / 2.0
         coord_origin_y = h / 2.0
-        if not is_balance_scale and h_axis_candidates and v_axis_candidates:
+        if not is_balance_scale and (0.45 <= aspect <= 2.5) and h_axis_candidates and v_axis_candidates:
             coord_origin_y = float(h_axis_candidates[len(h_axis_candidates) // 2])
             coord_origin_x = float(v_axis_candidates[len(v_axis_candidates) // 2])
             is_coord_graph = True
