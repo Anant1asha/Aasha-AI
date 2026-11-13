@@ -250,3 +250,126 @@ def test_classify_coordinate_graph_raster_and_vector():
     assert vec_fig.get("metadata", {}).get("diagram_category") == "coordinate_graph"
     assert "coord-arrow" in vec_fig["svg"]
     assert vec_fig.get("metadata", {}).get("quadrants") == 4
+
+
+def create_number_line_image(width=400, height=80) -> Image.Image:
+    """Create a high-contrast binary raster drawing of a linear number line."""
+    img = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(img)
+    y_mid = height // 2
+    # Main horizontal axis (wide aspect ratio > 2.5)
+    draw.line([(20, y_mid), (width - 20, y_mid)], fill="black", width=4)
+    # Arrow heads
+    draw.line([(20, y_mid), (30, y_mid - 6)], fill="black", width=3)
+    draw.line([(20, y_mid), (30, y_mid + 6)], fill="black", width=3)
+    draw.line([(width - 20, y_mid), (width - 30, y_mid - 6)], fill="black", width=3)
+    draw.line([(width - 20, y_mid), (width - 30, y_mid + 6)], fill="black", width=3)
+    # Ticks along axis
+    for tx in range(50, width - 50, 35):
+        draw.line([(tx, y_mid - 8), (tx, y_mid + 8)], fill="black", width=2)
+    return img
+
+
+def create_circle_image(width=200, height=200) -> Image.Image:
+    """Create a high-contrast binary raster drawing of a geometric circle."""
+    img = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(img)
+    cx, cy, r = width // 2, height // 2, 60
+    draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline="black", width=4)
+    draw.ellipse([cx - 3, cy - 3, cx + 3, cy + 3], fill="black")
+    return img
+
+
+def test_classify_number_line_raster_and_vector():
+    """Verify DeepOfflineVectorizer classifies number lines and renders scalable SVGs."""
+    # 1. Raster number line
+    img = create_number_line_image(400, 80)
+    analysis = DeepOfflineVectorizer.analyze_raster_image(img, 400, 80)
+    figures = analysis.get("figures", [])
+    assert len(figures) >= 1
+    num_fig = figures[0]
+    assert num_fig["type"] == "number_line"
+    assert "aasha-number-line" in num_fig["svg"]
+    assert num_fig.get("metadata", {}).get("diagram_category") == "number_line"
+
+    # 2. Native vector number line
+    drawings = [
+        {
+            "color": (0.1, 0.1, 0.1),
+            "width": 2.5,
+            "items": [
+                ("l", (20, 50), (280, 50)),   # Horizontal axis line
+                ("l", (50, 42), (50, 58)),    # Tick 1
+                ("l", (100, 42), (100, 58)),  # Tick 2
+                ("l", (150, 42), (150, 58)),  # Tick 3
+                ("l", (200, 42), (200, 58)),  # Tick 4
+                ("l", (250, 42), (250, 58)),  # Tick 5
+            ],
+        }
+    ]
+    vec_fig = DeepOfflineVectorizer._classify_vector_drawings(drawings, 300, 100, 1)
+    assert vec_fig["type"] == "number_line"
+    assert vec_fig.get("metadata", {}).get("diagram_category") == "number_line"
+    assert "numline-arrow" in vec_fig["svg"]
+
+
+def test_classify_geometric_circle_raster_and_vector():
+    """Verify DeepOfflineVectorizer classifies geometric circles with radial metadata."""
+    # 1. Raster circle
+    img = create_circle_image(200, 200)
+    analysis = DeepOfflineVectorizer.analyze_raster_image(img, 200, 200)
+    figures = analysis.get("figures", [])
+    assert len(figures) >= 1
+    circle_fig = figures[0]
+    assert circle_fig["type"] == "geometric_circle"
+    assert "aasha-geometric-circle" in circle_fig["svg"]
+    assert circle_fig.get("metadata", {}).get("diagram_category") == "geometric_circle"
+    assert "radius" in circle_fig.get("metadata", {})
+
+    # 2. Native vector circle (using bezier curves)
+    drawings = [
+        {
+            "color": (0.2, 0.5, 0.9),
+            "width": 2.0,
+            "items": [
+                ("c", (50, 100), (50, 50), (100, 50), (100, 100)),
+                ("c", (100, 100), (100, 150), (50, 150), (50, 100)),
+            ],
+        }
+    ]
+    vec_fig = DeepOfflineVectorizer._classify_vector_drawings(drawings, 200, 200, 1)
+    assert vec_fig["type"] == "geometric_circle"
+    assert vec_fig.get("metadata", {}).get("diagram_category") == "geometric_circle"
+    assert "circle-arrow" in vec_fig["svg"]
+
+
+def test_latex_katex_formula_preservation_and_extraction():
+    """Verify LaTeX/KaTeX formula preservation, operator normalization, and delimiter wrapping."""
+    # 1. Formula syntax cleaning
+    clean_frac = DeepOfflineVectorizer._clean_formula_syntax("3 / 4")
+    assert "\\frac{3}{4}" in clean_frac
+
+    clean_pow = DeepOfflineVectorizer._clean_formula_syntax("x ^ 2 + y ^ 2 = r ^ 2")
+    assert "x^{2}" in clean_pow and "y^{2}" in clean_pow and "r^{2}" in clean_pow
+
+    clean_root = DeepOfflineVectorizer._clean_formula_syntax("sqrt(16) = 4")
+    assert "\\sqrt{16}" in clean_root
+
+    clean_ineq = DeepOfflineVectorizer._clean_formula_syntax("x <= 10")
+    assert "\\le" in clean_ineq
+
+    clean_mult = DeepOfflineVectorizer._clean_formula_syntax("2 * 5 = 10")
+    assert "\\times" in clean_mult
+
+    # 2. Delimiter formatting
+    inline_f = DeepOfflineVectorizer.format_katex_formula("a + b = c", display=False)
+    assert inline_f == "$a + b = c$"
+    disp_f = DeepOfflineVectorizer.format_katex_formula("a + b = c", display=True)
+    assert disp_f == "$$a + b = c$$"
+
+    # 3. Extraction
+    sample_text = "Here is inline $x + y = 10$ and display $$\\frac{1}{2} + \\frac{1}{2} = 1$$."
+    extracted = DeepOfflineVectorizer.extract_katex_formulas(sample_text)
+    assert len(extracted) == 2
+    assert "x + y = 10" in extracted
+    assert "\\frac{1}{2} + \\frac{1}{2} = 1" in extracted

@@ -102,18 +102,21 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
                 continue
 
             explicit_spoiler = bool(re.search(r"\b(?:correct\s+answer\s+is|answer\s+is|the\s+answer\s+is)\b", m, re.IGNORECASE))
-            has_leak = bool(leak_pattern.search(m.lower())) or explicit_spoiler
+            # Match on the normalised form: the raw answer and the misconception may spell the
+            # same formula differently (\frac{2}{3} vs 2/3), which the L-Truth gate normalises too.
+            norm_m = normalize_math_text(m).lower()
+            has_leak = bool(leak_pattern.search(norm_m)) or explicit_spoiler
             # Predicate-relative leakage ("yields 49", "to get 49") that the verbatim match misses.
             if not has_leak and nums:
                 leaked_values = {
-                    mo.group("value") for mo in leak_rx.finditer(m) if mo.group("value")
+                    mo.group("value") for mo in leak_rx.finditer(norm_m) if mo.group("value")
                 }
                 if leaked_values.intersection(nums):
                     has_leak = True
             if not has_leak and nums:
                 for n in nums:
                     rx = re.compile(r"(?:is|=|giving|becomes|, not \+?)\s*" + re.escape(n) + r"\b", re.IGNORECASE)
-                    if rx.search(m):
+                    if rx.search(norm_m):
                         has_leak = True
                         break
 
@@ -144,6 +147,20 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
                 clean_opts(ws["check"]["opts"], f"WE.{we_key} step check")
         if we.get("check") and we["check"].get("opts"):
             clean_opts(we["check"]["opts"], f"WE.{we_key} end check")
+
+    # SOLVE steps and checks
+    for s_key, s_item in spec.get("SOLVE", {}).items():
+        if isinstance(s_item, dict):
+            if s_item.get("check") and s_item["check"].get("opts"):
+                clean_opts(s_item["check"]["opts"], f"SOLVE.{s_key} check")
+            for ws in s_item.get("steps", []):
+                if ws.get("check") and ws["check"].get("opts"):
+                    clean_opts(ws["check"]["opts"], f"SOLVE.{s_key} step check")
+
+    # Practice exercises if present in spec
+    for ex in spec.get("practice_exercises", []):
+        if isinstance(ex, dict) and ex.get("opts"):
+            clean_opts(ex["opts"], "practice_exercises")
 
     # V6 Canonical IR (chapters/*_canonical_ir.json), audited by qa_ltruth_benchmark.js.
     for item in spec.get("assessment_items", []):
@@ -394,6 +411,7 @@ class OfflineSynthesizer:
             ],
             "vocabulary": vocab,
             "exercises": [],
+            "figures": figures,
         }
 
     @classmethod

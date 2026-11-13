@@ -467,6 +467,124 @@ class DeepOfflineVectorizer:
         )
 
     @classmethod
+    def _generate_number_line_svg(
+        cls,
+        w: int,
+        h: int,
+        min_val: int = -5,
+        max_val: int = 5,
+        step: int = 1,
+        traced_path: str = "",
+    ) -> str:
+        """Render high-fidelity, scalable SVG markup for a linear mathematical number line."""
+        uid = f"numline_{w}_{h}"
+        y_center = h / 2.0
+        x_start = max(16.0, float(w) * 0.08)
+        x_end = min(float(w - 16), float(w) * 0.92)
+        total_ticks = max(2, (max_val - min_val) // max(1, step))
+        dx = (x_end - x_start) / float(total_ticks)
+
+        elements = [
+            '<defs>',
+            f'<marker id="numline-arrow-{uid}" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">',
+            '<path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b"/>',
+            '</marker>',
+            '</defs>',
+            # Main axis line with arrows at both ends
+            f'<line x1="{x_start:.1f}" y1="{y_center:.1f}" x2="{x_end:.1f}" y2="{y_center:.1f}" '
+            f'stroke="#1e293b" stroke-width="2.5" marker-start="url(#numline-arrow-{uid})" marker-end="url(#numline-arrow-{uid})"/>',
+        ]
+
+        # Tick marks and labels
+        tick_elements = []
+        label_elements = []
+        for i in range(total_ticks + 1):
+            val = min_val + i * step
+            tx = x_start + i * dx
+            is_zero = (val == 0)
+            tick_h = 10.0 if is_zero else 6.0
+            tick_stroke = "#0f172a" if is_zero else "#475569"
+            tick_width = 2.0 if is_zero else 1.5
+
+            tick_elements.append(
+                f'<line x1="{tx:.1f}" y1="{y_center - tick_h:.1f}" x2="{tx:.1f}" y2="{y_center + tick_h:.1f}" '
+                f'stroke="{tick_stroke}" stroke-width="{tick_width}"/>'
+            )
+            # Label
+            font_weight = "bold" if is_zero else "normal"
+            fill_color = "#1e293b" if is_zero else "#475569"
+            label_elements.append(
+                f'<text x="{tx:.1f}" y="{y_center + tick_h + 14:.1f}" font-family="system-ui, sans-serif" '
+                f'font-size="11" font-weight="{font_weight}" fill="{fill_color}" text-anchor="middle">{val}</text>'
+            )
+
+        elements.append(f'<g class="numline-ticks">{"".join(tick_elements)}</g>')
+        elements.append(f'<g class="numline-labels">{"".join(label_elements)}</g>')
+
+        # Highlight origin point (0)
+        if min_val <= 0 <= max_val:
+            zero_x = x_start + (0 - min_val) * dx / float(max(1, step))
+            elements.append(
+                f'<circle cx="{zero_x:.1f}" cy="{y_center:.1f}" r="3.5" fill="#2563eb" stroke="#1d4ed8" stroke-width="1.5"/>'
+            )
+
+        if traced_path:
+            elements.append(f'<path d="{traced_path}" stroke="#2563eb" stroke-width="2" fill="none" opacity="0.3"/>')
+
+        return (
+            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" '
+            f'class="aasha-vector-drawing aasha-number-line" data-diagram-type="number_line" '
+            f'data-min="{min_val}" data-max="{max_val}" style="max-width:100%;height:auto;display:block;margin:12px auto;">'
+            f'{"".join(elements)}'
+            f'</svg>'
+        )
+
+    @classmethod
+    def _generate_geometric_circle_svg(
+        cls,
+        w: int,
+        h: int,
+        cx: float,
+        cy: float,
+        radius: float,
+        traced_path: str = "",
+    ) -> str:
+        """Render high-fidelity, scalable SVG markup for a geometric circle with center, radius, and diameter."""
+        r = max(15.0, min(float(min(w, h)) * 0.42, radius))
+        uid = f"circle_{int(cx)}_{int(cy)}"
+        rad_end_x = cx + r * 0.7071
+        rad_end_y = cy - r * 0.7071
+
+        elements = [
+            '<defs>',
+            f'<marker id="circle-arrow-{uid}" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">',
+            '<path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>',
+            '</marker>',
+            '</defs>',
+            # Main circle outline & soft translucent fill
+            f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r:.1f}" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5" fill-opacity="0.35"/>',
+            # Center point
+            f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="3.5" fill="#1e293b"/>',
+            # Center label O
+            f'<text x="{cx - 12:.1f}" y="{cy + 14:.1f}" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#334155">O</text>',
+            # Radius line from center to circle perimeter (at 45 degrees)
+            f'<line x1="{cx:.1f}" y1="{cy:.1f}" x2="{rad_end_x:.1f}" y2="{rad_end_y:.1f}" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="4,2" marker-end="url(#circle-arrow-{uid})"/>',
+            # Radius label 'r'
+            f'<text x="{(cx + rad_end_x)/2.0 - 10:.1f}" y="{(cy + rad_end_y)/2.0 - 6:.1f}" font-family="system-ui, sans-serif" font-size="12" font-style="italic" font-weight="bold" fill="#1d4ed8">r</text>',
+        ]
+
+        if traced_path:
+            elements.append(f'<path d="{traced_path}" stroke="#2563eb" stroke-width="2" fill="none" opacity="0.3"/>')
+
+        return (
+            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" '
+            f'class="aasha-vector-drawing aasha-geometric-circle" data-diagram-type="geometric_circle" '
+            f'data-radius="{r:.1f}" style="max-width:100%;height:auto;display:block;margin:12px auto;">'
+            f'{"".join(elements)}'
+            f'</svg>'
+        )
+
+    @classmethod
     def _vectorize_drawing_crop(cls, mask_crop: Image.Image, w: int, h: int) -> dict[str, Any]:
         """Convert a raster drawing bounding crop into an SVG vector element with geometric classification."""
         data = cls._get_pixel_data(mask_crop)
@@ -618,7 +736,15 @@ class DeepOfflineVectorizer:
         elif aspect > 2.5:
             diag_type = "number_line"
             caption = "Linear Number Line with Coordinate Intervals"
-            metadata = {"diagram_category": "number_line"}
+            metadata = {"diagram_category": "number_line", "aspect_ratio": aspect}
+            svg_markup = cls._generate_number_line_svg(
+                w=w,
+                h=h,
+                min_val=-5,
+                max_val=5,
+                step=1,
+                traced_path=traced_path,
+            )
         elif 0.8 <= aspect <= 1.25 and len(stroke_coords) > 50:
             cx, cy = w / 2.0, h / 2.0
             dists = [math.hypot(x - cx, y - cy) for x, y in stroke_coords]
@@ -628,6 +754,14 @@ class DeepOfflineVectorizer:
                 diag_type = "geometric_circle"
                 caption = "Geometric Circle with Radial Proportions"
                 metadata = {"diagram_category": "geometric_circle", "radius": mean_dist}
+                svg_markup = cls._generate_geometric_circle_svg(
+                    w=w,
+                    h=h,
+                    cx=cx,
+                    cy=cy,
+                    radius=mean_dist,
+                    traced_path=traced_path,
+                )
             else:
                 diag_type = "geometric_figure"
                 caption = "Geometric Polygon & Angular Relationships"
@@ -794,12 +928,54 @@ class DeepOfflineVectorizer:
 
     @staticmethod
     def _clean_formula_syntax(raw_formula: str) -> str:
-        """Clean tokenized formula string into valid KaTeX syntax."""
+        """Clean and normalize tokenized formula string into valid KaTeX syntax."""
         cleaned = raw_formula.strip()
-        # Fix spacing around operators
+        # Remove redundant quotes
+        cleaned = re.sub(r"^[\"']|[\"']$", "", cleaned).strip()
+
+        # 1. Inequalities
+        cleaned = re.sub(r"<=", r" \\le ", cleaned)
+        cleaned = re.sub(r">=", r" \\ge ", cleaned)
+        cleaned = re.sub(r"!=", r" \\neq ", cleaned)
+
+        # 2. Square roots: sqrt(x) or sqrt{x}
+        cleaned = re.sub(r"sqrt\s*\(([^)]+)\)", r"\\sqrt{\1}", cleaned)
+        cleaned = re.sub(r"sqrt\s*\{([^}]+)\}", r"\\sqrt{\1}", cleaned)
+
+        # 3. Powers: x^2 or x ^ 2 -> x^{2}
+        cleaned = re.sub(r"([a-zA-Z0-9])\s*\^\s*([a-zA-Z0-9]+)", r"\1^{\2}", cleaned)
+
+        # 4. Fractions: e.g. a / b -> \frac{a}{b} when isolated simple tokens
+        if "\\" not in cleaned:
+            cleaned = re.sub(r"\b([a-zA-Z0-9]+)\s*/\s*([a-zA-Z0-9]+)\b", r"\\frac{\1}{\2}", cleaned)
+
+        # 5. Multiplication symbol
+        cleaned = re.sub(r"(?<=[a-zA-Z0-9\)\}])\s*\*\s*(?=[a-zA-Z0-9\(\{])", r" \\times ", cleaned)
+
+        # 6. Spacing around standard operators
         cleaned = re.sub(r"\s*([=+\-])\s*", r" \1 ", cleaned)
         cleaned = re.sub(r"\s+", " ", cleaned).strip()
         return cleaned
+
+    @classmethod
+    def format_katex_formula(cls, formula: str, display: bool = False) -> str:
+        """Wrap cleaned formula in KaTeX delimiters ($...$ or $$...$$)."""
+        clean = cls._clean_formula_syntax(formula)
+        if clean.startswith("$$") and clean.endswith("$$"):
+            return clean if display else clean[1:-1]
+        if clean.startswith("$") and clean.endswith("$"):
+            return f"${clean}$" if display else clean
+        return f"$${clean}$$" if display else f"${clean}$"
+
+    @staticmethod
+    def extract_katex_formulas(text: str) -> list[str]:
+        """Extract all inline and display KaTeX formula strings from text."""
+        formulas = []
+        for m in re.finditer(r"\$\$(.+?)\$\$", text, re.DOTALL):
+            formulas.append(m.group(1).strip())
+        for m in re.finditer(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)", text):
+            formulas.append(m.group(1).strip())
+        return [f for f in formulas if f]
 
     @classmethod
     def _classify_vector_drawings(
@@ -943,6 +1119,22 @@ class DeepOfflineVectorizer:
             svg_elements.append(
                 '<defs>'
                 '<marker id="coord-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">'
+                '<path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>'
+                '</marker>'
+                '</defs>'
+            )
+        elif diag_type == "number_line":
+            svg_elements.append(
+                '<defs>'
+                '<marker id="numline-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">'
+                '<path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b"/>'
+                '</marker>'
+                '</defs>'
+            )
+        elif diag_type == "geometric_circle":
+            svg_elements.append(
+                '<defs>'
+                '<marker id="circle-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">'
                 '<path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>'
                 '</marker>'
                 '</defs>'
