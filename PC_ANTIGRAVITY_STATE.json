@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-13T23:36:24.9364111Z",
+    "timestamp_utc":  "2026-11-13T23:40:21.0481075Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,19 +14,18 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "689d3e35f6df3c201b33c68bebe4f0ffdc81c4d3",
-                                                 "dirty_file_count":  2,
-                                                 "dirty_files_sample":  [
-                                                                            " M scripts/aasha_continuous_loop.mjs",
-                                                                            "?? packages/aasha-agent-builder/test/asset_resolver.test.mjs"
-                                                                        ]
+                                                 "head_commit":  "d2308f49f278d96a117c61f382ab82be60de2621",
+                                                 "dirty_file_count":  0,
+                                                 "dirty_files_sample":  {
+
+                                                                        }
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "37263bf17f108d4cc7a4dc2b1d63c3a6b05e570f",
-                                                   "dirty_file_count":  1,
+                                                   "head_commit":  "4e329b6019c9a9c849449140a9304caaae53d21d",
+                                                   "dirty_file_count":  0,
                                                    "dirty_files_sample":  [
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/agents/design_agent.py"
+
                                                                           ]
                                                }
                      }
