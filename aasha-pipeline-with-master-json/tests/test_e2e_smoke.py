@@ -378,5 +378,6 @@ class TestFullE2EPipeline:
             "External URLs found — chapter must be fully offline"
         assert re.search(r'var\s+NODES\s*=', html), "NODES not in output"
         assert re.search(r'var\s+WM\s*=', html), "WM (word map) not in output"
-        assert len(re.findall(r"[\u0900-\u097F]", html)) >= 50, \
-            "Insufficient Devanagari — LLE bilingual content may be missing"
+        devanagari = re.findall(r"[\u0900-\u097F]", html)
+        assert len(devanagari) >= 50, \
+            f"Insufficient Devanagari ({len(devanagari)} chars) — LLE bilingual content may be missing"
