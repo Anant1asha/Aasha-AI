@@ -54,17 +54,43 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
     """Scrub and repair any misconception that leaks the correct answer across the entire spec."""
     repaired_count = 0
 
+    def normalize_math_text(text: str) -> str:
+        """Mirror of QuestionSchemaValidator.normalizeMathText so detection matches the L-Truth gate."""
+        s = str(text or "")
+        s = re.sub(r"[\u2212\u2013\u2014]", "-", s)
+        s = re.sub(r"\\(?:d?frac)\{([^}]+)\}\{([^}]+)\}", r"\1/\2", s)
+        s = re.sub(r"\^\{?([^{}\s]+)\}?", r"^\1", s)
+        s = re.sub(r"\\(?:times|cdot)", "*", s)
+        s = re.sub(r"\\(?:text|mathrm|mathbf)\{([^}]+)\}", r"\1", s)
+        s = re.sub(r"[\$\(\)\\]", " ", s)
+        return re.sub(r"\s+", " ", s).strip()
+
     def clean_opts(opts: list[dict[str, Any]], _context: str = "") -> None:
         nonlocal repaired_count
         correct_opts = [o.get("t", "") for o in opts if isinstance(o, dict) and o.get("c")]
         if not correct_opts:
             return
-        correct_text = str(correct_opts[0]).strip().lower()
+        correct_text = normalize_math_text(str(correct_opts[0])).lower()
         if not correct_text:
             return
 
         leak_pattern = re.compile(r"(?<!\w)" + re.escape(correct_text) + r"(?!\w)", re.IGNORECASE)
         nums = re.findall(r"-?\d+(?:\.\d+)?", correct_text)
+        # L-Truth leak predicates, ported verbatim from benchmarks/question_schema_validator.js
+        predicates = [
+            "is", "was", "=", "giving", "gives", "give", "becomes", "became",
+            r", not \+?", "not", "equals", "equal to", "equals to", "result is", "results in",
+            "yielding", "yields", "produces", "produced", "produces a value of",
+            "leaving", "leaves", "leads to", "should be", "must be", "to get",
+            "target is", "target value is", "correct value is", "correct answer is",
+            "answer is", "answer was", "answer:", "instead of",
+        ]
+        predicate_rx = "|".join(re.escape(p).replace(r"\ ", r"\s+") for p in predicates)
+        # Allow up to 4 qualifier words between the predicate and the leaked value, as the validator does.
+        leak_rx = re.compile(
+            r"\b(?:" + predicate_rx + r")\b\s*(?:[a-z]+\s*){0,4}[:=]?\s*\b(-?\d+(?:\.\d+)?)\b",
+            re.IGNORECASE,
+        )
 
         for o in opts:
             if not isinstance(o, dict) or o.get("c"):
@@ -77,6 +103,12 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
 
             explicit_spoiler = bool(re.search(r"\b(?:correct\s+answer\s+is|answer\s+is|the\s+answer\s+is)\b", m, re.IGNORECASE))
             has_leak = bool(leak_pattern.search(m.lower())) or explicit_spoiler
+            # Predicate-relative leakage ("yields 49", "to get 49") that the verbatim match misses.
+            if not has_leak and nums:
+                for n in nums:
+                    if any(p == n for _s, p in leak_rx.findall(m)):
+                        has_leak = True
+                        break
             if not has_leak and nums:
                 for n in nums:
                     rx = re.compile(r"(?:is|=|giving|becomes|, not \+?)\s*" + re.escape(n) + r"\b", re.IGNORECASE)
@@ -89,6 +121,8 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
                 for n in nums:
                     rx = re.compile(r"(?:is|=|giving|becomes|, not \+?)\s*" + re.escape(n) + r"\b", re.IGNORECASE)
                     repaired_m = rx.sub("an incorrect step calculation", repaired_m)
+                # Scrub any remaining predicate-relative leak, preserving the predicate for readability.
+                repaired_m = leak_rx.sub(lambda mo: mo.group(0)[: -len(mo.group(1))] + "an incorrect value", repaired_m)
 
                 if explicit_spoiler or re.search(r"\b(?:correct\s+answer|answer\s+is)\b", repaired_m, re.IGNORECASE):
                     repaired_m = "Check the mathematical or conceptual operation carefully rather than assuming this value."
@@ -109,6 +143,20 @@ def sanitize_spec_misconceptions(spec: dict[str, Any]) -> int:
                 clean_opts(ws["check"]["opts"], f"WE.{we_key} step check")
         if we.get("check") and we["check"].get("opts"):
             clean_opts(we["check"]["opts"], f"WE.{we_key} end check")
+
+    # V6 Canonical IR (chapters/*_canonical_ir.json), audited by qa_ltruth_benchmark.js.
+    for item in spec.get("assessment_items", []):
+        if not isinstance(item, dict):
+            continue
+        ir_opts = [
+            {"t": o.get("text", ""), "c": o.get("is_correct"), "m": o.get("distractor_explanation", "")}
+            for o in item.get("options", [])
+            if isinstance(o, dict)
+        ]
+        if ir_opts:
+            clean_opts(ir_opts, f"assessment_items {item.get('id', '')}")
+            for src, dst in zip(item.get("options", []), ir_opts):
+                src["distractor_explanation"] = dst["m"]
 
     return repaired_count
 

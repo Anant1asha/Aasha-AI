@@ -719,7 +719,7 @@
     "mastery_threshold_measurable": true
   },
   "compilation_manifest": {
-    "compiled_at": "2026-10-29T12:38:12.912Z",
+    "compiled_at": "2026-11-13T19:54:03.331Z",
     "compiler_version": "v6-canonical-1.1.0",
     "source_artifacts": [
       "ingest_output.json",
@@ -727,6 +727,6 @@
       "assessment_output.json",
       "lle_output.json"
     ],
-    "ir_hash": "sha256_1793277492913"
+    "ir_hash": "sha256_1794599643336"
   }
 }
