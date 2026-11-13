@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-13T18:36:04.0256388Z",
+    "timestamp_utc":  "2026-11-13T18:52:35.9534453Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,18 +14,19 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "9f55623f05b90beb832e8ea150a9d6b7f9d03b00",
-                                                 "dirty_file_count":  2,
-                                                 "dirty_files_sample":  [
-                                                                            " M scripts/aasha_continuous_loop.mjs",
-                                                                            "?? LOCAL_AIOS_MASTER_PROMPT_PHASE_H016.json"
-                                                                        ]
+                                                 "head_commit":  "6fe2d90f6bd9c49d3683a108d554ad2844ecc3da",
+                                                 "dirty_file_count":  0,
+                                                 "dirty_files_sample":  {
+
+                                                                        }
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "729b65a49e5309ec87851ced24028bad18fa5957",
-                                                   "dirty_file_count":  1,
-                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
+                                                   "head_commit":  "6dfcffd7a63f632a7f5eb63e3bab82ceeb602861",
+                                                   "dirty_file_count":  0,
+                                                   "dirty_files_sample":  {
+
+                                                                          }
                                                }
                      }
 }
