@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-13T21:43:09.6993904Z",
+    "timestamp_utc":  "2026-11-13T21:44:09.9477270Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,18 +14,16 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "650bf06671af7ad624e591d64f9251685614f3d5",
-                                                 "dirty_file_count":  4,
+                                                 "head_commit":  "51f606bf38674be581ad5cedc5530fc24cca7d11",
+                                                 "dirty_file_count":  2,
                                                  "dirty_files_sample":  [
-                                                                            " M AASHA_DEFECT_AND_REGRESSION_REGISTER.json",
-                                                                            " M AASHA_PRIORITIZED_ENGINEERING_ROADMAP.json",
-                                                                            " M CHANGELOG.md",
-                                                                            " M PC_ANTIGRAVITY_STATE.json"
+                                                                            "?? AASHA_EVIDENCE_AND_COMPLETION_MATRIX.json",
+                                                                            "?? AASHA_TASK_HISTORY_LEDGER.json"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "8bff9e2f88f9aa628f0dbe5ef01cfa060602f116",
+                                                   "head_commit":  "1bf8e35ea8c6e108b70399af5df5d55c2796ff8a",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  [
 
