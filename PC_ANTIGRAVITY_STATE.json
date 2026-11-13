@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-13T23:43:30.7581336Z",
+    "timestamp_utc":  "2026-11-13T23:51:32.8689534Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,16 +14,20 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "d2308f49f278d96a117c61f382ab82be60de2621",
-                                                 "dirty_file_count":  1,
-                                                 "dirty_files_sample":  " M PC_ANTIGRAVITY_STATE.json"
+                                                 "head_commit":  "06ca9a67339c444b6f7c2c860ec2bcc14c7a0d9a",
+                                                 "dirty_file_count":  3,
+                                                 "dirty_files_sample":  [
+                                                                            " M .agents/rules/local_stack_offline_first.md",
+                                                                            " M .agents/skills/aasha-ecosystem-orchestrator/SKILL.md",
+                                                                            " M .superbrain/rules/local-stack-offline-first.md"
+                                                                        ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "a17d0c501362e2e2a9d466e101c7a8720126d135",
-                                                   "dirty_file_count":  1,
+                                                   "head_commit":  "59667caf0834fd28604841071275fe9dce0c725e",
+                                                   "dirty_file_count":  0,
                                                    "dirty_files_sample":  [
-                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
+
                                                                           ]
                                                }
                      }
