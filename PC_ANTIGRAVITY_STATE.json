@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-13T21:09:56.5632116Z",
+    "timestamp_utc":  "2026-11-13T21:17:40.4772417Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,16 +15,20 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "199a3cb29e3a10abe80b44dede87ba7085509092",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M PC_ANTIGRAVITY_STATE.json"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "c5a5e8d79b7b398cfe98bb5bd073c392e743b4e9",
-                                                   "dirty_file_count":  1,
-                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/src/aasha/agents/deep_vectorizer.py"
+                                                   "head_commit":  "ec831137d004996f46fe6db613afb9502590147c",
+                                                   "dirty_file_count":  5,
+                                                   "dirty_files_sample":  [
+                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/agents/deep_vectorizer.py",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/synthesis/offline_synthesizer.py",
+                                                                              " M benchmarks/ltruth_benchmark_report.json",
+                                                                              " M benchmarks/qa_ltruth_benchmark.js"
+                                                                          ]
                                                }
                      }
 }
