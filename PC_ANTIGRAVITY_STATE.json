@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-13T20:53:57.2126120Z",
+    "timestamp_utc":  "2026-11-13T20:58:59.4333867Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,16 +15,17 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "c384296f4c79f52de90ecd4b55131720c796c559",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M PC_ANTIGRAVITY_STATE.json"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "60ac7575d5d5d3f3365ce20cd274c4317925a751",
-                                                   "dirty_file_count":  1,
-                                                   "dirty_files_sample":  " M aasha-pipeline-with-master-json/src/aasha/synthesis/offline_synthesizer.py"
+                                                   "head_commit":  "fc648f188bb8b3cd668e65689b938812727037e0",
+                                                   "dirty_file_count":  2,
+                                                   "dirty_files_sample":  [
+                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/synthesis/offline_synthesizer.py"
+                                                                          ]
                                                }
                      }
 }
