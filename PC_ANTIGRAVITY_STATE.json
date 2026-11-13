@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-13T21:44:09.9477270Z",
+    "timestamp_utc":  "2026-11-13T21:51:21.5508247Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,19 +14,18 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "51f606bf38674be581ad5cedc5530fc24cca7d11",
-                                                 "dirty_file_count":  2,
-                                                 "dirty_files_sample":  [
-                                                                            "?? AASHA_EVIDENCE_AND_COMPLETION_MATRIX.json",
-                                                                            "?? AASHA_TASK_HISTORY_LEDGER.json"
-                                                                        ]
+                                                 "head_commit":  "445c123ccc647caef2eb7244adf8b3a53d508f04",
+                                                 "dirty_file_count":  0,
+                                                 "dirty_files_sample":  {
+
+                                                                        }
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "1bf8e35ea8c6e108b70399af5df5d55c2796ff8a",
-                                                   "dirty_file_count":  0,
+                                                   "head_commit":  "af6c98c5210f408db38d356a31553f6a6b0688e9",
+                                                   "dirty_file_count":  1,
                                                    "dirty_files_sample":  [
-
+                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
                                                                           ]
                                                }
                      }
