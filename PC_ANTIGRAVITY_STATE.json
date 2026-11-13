@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-13T20:32:28.1246081Z",
+    "timestamp_utc":  "2026-11-13T20:38:20.9578333Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,21 +14,19 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "131d8431fcf17df53e32e2250103581cfdfedaa9",
-                                                 "dirty_file_count":  1,
-                                                 "dirty_files_sample":  " M PC_ANTIGRAVITY_STATE.json"
+                                                 "head_commit":  "90ac7df02b487f185eef7255a84d6305cc47fbc8",
+                                                 "dirty_file_count":  0,
+                                                 "dirty_files_sample":  {
+
+                                                                        }
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "37e503feca0ccfd8a63d6c204330ba7481adb4b6",
-                                                   "dirty_file_count":  6,
+                                                   "head_commit":  "dfdddfca3b3bac951992d4bfa27fd7e20348113b",
+                                                   "dirty_file_count":  2,
                                                    "dirty_files_sample":  [
                                                                               " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
-                                                                              " M aasha-pipeline-with-master-json/src/aasha/synthesis/offline_synthesizer.py",
-                                                                              " M benchmarks/ltruth_benchmark_report.json",
-                                                                              " M chapters/AlgebraicExpressions_Class7_BETA_assessment.html",
-                                                                              " M chapters/AlgebraicExpressions_Class7_BETA_canonical_ir.json",
-                                                                              " M chapters/AlgebraicExpressions_Class7_BETA_learning.html"
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/synthesis/offline_synthesizer.py"
                                                                           ]
                                                }
                      }
