@@ -97,6 +97,20 @@ class HTMLAssembler:
         # NODES from spec
         nodes = spec.get("NODES", [])
 
+        # Collect and inline URIRA interactive simulations (M1 URIRA Bridge)
+        inlined_sims: dict[str, str] = {}
+        for node in nodes:
+            for step in node.get("steps", []):
+                res = step.get("resolved_interactive")
+                sim_id = step.get("sim_id") or (res.get("resource_id") if isinstance(res, dict) else None)
+                if sim_id and sim_id not in inlined_sims:
+                    asset_file = self._find_interactive_asset_file(sim_id)
+                    if asset_file and asset_file.is_file():
+                        try:
+                            inlined_sims[sim_id] = asset_file.read_text(encoding="utf-8")
+                        except Exception as e:
+                            logger.warning(f"Could not inline asset {sim_id}: {e}")
+
         # Build the replacement map
         replacements = {
             "{{CHAPTER_TITLE}}": chapter_title,
@@ -117,12 +131,43 @@ class HTMLAssembler:
             else:
                 logger.warning(f"Placeholder {placeholder} not found in template")
 
+        # Inject inlined simulation bundles if present
+        if inlined_sims:
+            sims_json = (
+                json.dumps(inlined_sims, ensure_ascii=False)
+                .replace("<", "\\u003c")
+                .replace(">", "\\u003e")
+            )
+            injection = f"\n<script>window.__INLINED_SIMS__ = {sims_json};</script>\n"
+            if "</head>" in html:
+                html = html.replace("</head>", f"{injection}</head>", 1)
+            elif "</body>" in html:
+                html = html.replace("</body>", f"{injection}</body>", 1)
+
         # Verify no unresolved placeholders remain
         for ph in PLACEHOLDERS:
             if ph in html:
                 logger.warning(f"Unresolved placeholder {ph} remains in output")
 
         return html
+
+    @classmethod
+    def _find_interactive_asset_file(cls, resource_id: str) -> Path | None:
+        """Locates the interactive HTML asset file across repository paths."""
+        candidate_roots = [
+            Path.cwd(),
+            Path.cwd() / "Aasha-AI",
+            Path(__file__).resolve().parents[5],
+            Path(__file__).resolve().parents[4],
+            Path(__file__).resolve().parents[3],
+        ]
+        for r in candidate_roots:
+            asset_dir = r / "assets" / "cdn" / "interactives"
+            if asset_dir.is_dir():
+                matches = list(asset_dir.glob(f"{resource_id}*.html"))
+                if matches:
+                    return matches[0]
+        return None
 
     def assemble_to_file(
         self,

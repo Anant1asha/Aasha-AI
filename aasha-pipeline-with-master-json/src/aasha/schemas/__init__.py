@@ -63,7 +63,7 @@ class Step(BaseModel):
         "intro", "text", "quiz", "vq", "worked", "solve",
         "dd_build", "dd_match",
         "ix_pizza", "ix_bar", "ix_area", "ix_slider",
-        "video", "progress", "phet",
+        "video", "progress", "phet", "sim",
     ]
     hero: str | None = None
     title: str | None = None
@@ -86,6 +86,9 @@ class Step(BaseModel):
     srcdoc_b64: str | None = None
     xp: int | None = None
     next: bool | None = None
+    sim_id: str | None = None
+    resolved_interactive: dict[str, Any] | None = None
+    inlined_html: str | None = None
 
 
 class Node(BaseModel):

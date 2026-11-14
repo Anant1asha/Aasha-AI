@@ -107,6 +107,13 @@ class TestOfflineSynthesizerUnit:
         assert len(spec["WE"]) == 3
         assert "BADGES" in spec
 
+        # M1 URIRA: Verify that interactive steps bind certified local interactive assets
+        sim_steps = [s for n in spec["NODES"] for s in n["steps"] if s.get("t") == "sim"]
+        assert len(sim_steps) >= 2, "Expected URIRA to resolve and bind interactive sim steps"
+        for s in sim_steps:
+            assert s.get("resolved_interactive"), "Sim step must contain resolved_interactive metadata"
+            assert s["resolved_interactive"].get("resource_id").startswith("AVR-P"), "Invalid resource ID prefix"
+
         # Verify all assessment options populated with zero spoiler leaks
         for node in spec["NODES"]:
             for step in node["steps"]:
@@ -117,6 +124,29 @@ class TestOfflineSynthesizerUnit:
                     for o in opts:
                         if not o.get("c"):
                             assert o.get("m"), "Wrong option must have misconception explanation"
+
+    def test_urira_asset_resolution_and_binding(self):
+        """Verify URIRA resolution hierarchy and asset binding in OfflineSynthesizer."""
+        # 1. Number line resolution
+        res_nl = OfflineSynthesizer.resolve_interactive_asset("Integers on a Number Line", subject="math", grade=6)
+        assert res_nl is not None
+        assert res_nl["resource_id"] == "AVR-P301"
+        assert res_nl["tier"] == "TIER_1_CERTIFIED_LOCAL"
+
+        # 2. Genetics punnett square resolution
+        res_bio = OfflineSynthesizer.resolve_interactive_asset("Mendelian Genetics and Allele inheritance", subject="science", grade=10)
+        assert res_bio is not None
+        assert res_bio["resource_id"] == "AVR-P321-bio"
+
+        # 3. Virtual Lab resolution
+        res_caliper = OfflineSynthesizer.resolve_interactive_asset("Vernier Caliper measurement precision", subject="science", grade=9)
+        assert res_caliper is not None
+        assert res_caliper["resource_id"] == "AVR-P401"
+
+        # 4. Diagram hint resolution from DeepOfflineVectorizer
+        res_hint = OfflineSynthesizer.resolve_interactive_asset("Intervals", diagram_hint="number_line")
+        assert res_hint is not None
+        assert res_hint["resource_id"] == "AVR-P301"
 
     def test_anti_spoiler_sanitization(self):
         spec = {
@@ -210,3 +240,8 @@ class TestOfflinePipelineEndToEnd:
         assert not re.findall(r"\{\{[A-Z_]+\}\}", html_text), "Unresolved template placeholders detected"
         assert not re.findall(r'(?:src|href)\s*=\s*["\']https?://', html_text), "External URLs found"
         assert len(re.findall(r"[\u0900-\u097F]", html_text)) >= 50, "Bilingual Hindi content missing"
+
+        # Check simulation support and physical touch target invariants (URIRA & Method B)
+        assert "<aasha-sim" in html_text or "AashaExperienceContract" in html_text, "Aasha simulation contract missing from output bundle"
+        assert "44px" in html_text, "44px physical touch target requirement missing"
+        assert "min-height:0" in html_text.replace(" ", ""), "Same-frame mobile viewport containment missing"
