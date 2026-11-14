@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T19:42:48.9790162Z",
+    "timestamp_utc":  "2026-11-14T19:43:35.3178672Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -26,7 +26,7 @@
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "0d7e225c415a8148b61370a83b032d7bdd9f6619",
+                                                   "head_commit":  "4d62d3a76a90e85aa411c1e1c76a757b2cf47d69",
                                                    "dirty_file_count":  6,
                                                    "dirty_files_sample":  [
                                                                               " M chapters/class6_fractions_verified_cdp.png",
