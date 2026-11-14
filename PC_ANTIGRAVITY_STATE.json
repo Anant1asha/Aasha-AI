@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T18:45:16.7925076Z",
+    "timestamp_utc":  "2026-11-14T18:51:39.4818386Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,18 +14,15 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "2973aa7d7e91d4543aca732dfba3306aac020f91",
-                                                 "dirty_file_count":  4,
-                                                 "dirty_files_sample":  [
-                                                                            " M .gitignore",
-                                                                            "M  Aasha-AI",
-                                                                            " M PC_ANTIGRAVITY_STATE.json",
-                                                                            " M scripts/batch_compile_phase2_chapters.py"
-                                                                        ]
+                                                 "head_commit":  "fee8942f6a5de0723fb5864f7928d2f04d557ea2",
+                                                 "dirty_file_count":  0,
+                                                 "dirty_files_sample":  {
+
+                                                                        }
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "e54415419e66d141d88bf9eb4a472eae170c681a",
+                                                   "head_commit":  "9fbb3959145a0a21e366dd32c7e78375b6daccc8",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  [
 
