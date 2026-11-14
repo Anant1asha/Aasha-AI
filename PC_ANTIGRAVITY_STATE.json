@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T18:35:28.0130218Z",
+    "timestamp_utc":  "2026-11-14T18:45:16.7925076Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,21 +15,20 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "2973aa7d7e91d4543aca732dfba3306aac020f91",
-                                                 "dirty_file_count":  1,
-                                                 "dirty_files_sample":  " M scripts/batch_compile_phase2_chapters.py"
+                                                 "dirty_file_count":  4,
+                                                 "dirty_files_sample":  [
+                                                                            " M .gitignore",
+                                                                            "M  Aasha-AI",
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
+                                                                            " M scripts/batch_compile_phase2_chapters.py"
+                                                                        ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "9a8748aa9def5a7d8446b1e0ca68ff3cdbd1c999",
-                                                   "dirty_file_count":  7,
+                                                   "head_commit":  "e54415419e66d141d88bf9eb4a472eae170c681a",
+                                                   "dirty_file_count":  0,
                                                    "dirty_files_sample":  [
-                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
-                                                                              "?? aasha-pipeline-with-master-json/staging_pdfs/",
-                                                                              "?? chapters/class6_math_ch07_fractions.html",
-                                                                              "?? chapters/class6_math_ch10_integers.html",
-                                                                              "?? chapters/class6_science_ch02_components_of_food.html",
-                                                                              "?? chapters/class8_math_ch02_linear_equations.html",
-                                                                              "?? chapters/class8_math_ch09_algebraic_expressions.html"
+
                                                                           ]
                                                }
                      }
