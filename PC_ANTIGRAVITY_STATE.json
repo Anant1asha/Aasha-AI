@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T19:22:18.4274716Z",
+    "timestamp_utc":  "2026-11-14T19:29:35.8406423Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,20 +15,26 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "77efc2cf361279e1240e2debb1c49dbc5842816b",
-                                                 "dirty_file_count":  4,
+                                                 "dirty_file_count":  8,
                                                  "dirty_files_sample":  [
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
+                                                                            "?? scripts/build_all_gold_chapters.py",
                                                                             "?? scripts/build_fraction_chapter.py",
                                                                             "?? scripts/build_gold_standard_chapters.py",
+                                                                            "?? scripts/chapter_gen_integers.py",
                                                                             "?? scripts/lle_runtime.js",
-                                                                            "?? scripts/test_chapter_cdp_gold.js"
+                                                                            "?? scripts/test_chapter_cdp_gold.js",
+                                                                            "?? scripts/verify_gold_standard_cdp.mjs"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "026d98d8b703ca830a9b3ee54674fed10766512d",
-                                                   "dirty_file_count":  1,
+                                                   "head_commit":  "9c685e362ec7e87d7f2d913d54d414f6d124f2d0",
+                                                   "dirty_file_count":  3,
                                                    "dirty_files_sample":  [
-                                                                              " M chapters/class6_math_ch07_fractions.html"
+                                                                              " M chapters/class6_math_ch07_fractions.html",
+                                                                              " M chapters/class6_math_ch10_integers.html",
+                                                                              "?? chapters/class6_fractions_verified_cdp.png"
                                                                           ]
                                                }
                      }
