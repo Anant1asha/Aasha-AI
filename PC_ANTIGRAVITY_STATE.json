@@ -1,10 +1,10 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T00:12:49.1441360Z",
+    "timestamp_utc":  "2026-11-14T02:16:25.4922412Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
-                           "antigravity_running":  true,
+                           "antigravity_running":  false,
                            "docker_running":  false,
                            "gemini_proxy_running":  false,
                            "ninerouter_running":  true,
@@ -14,13 +14,16 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "b488ae5297630b28bcb5ae3dce527779dd730ea1",
-                                                 "dirty_file_count":  1,
-                                                 "dirty_files_sample":  " M PC_ANTIGRAVITY_STATE.json"
+                                                 "head_commit":  "2b1989d993479879501f12244e948b656b4983a6",
+                                                 "dirty_file_count":  2,
+                                                 "dirty_files_sample":  [
+                                                                            " M CHANGELOG.md",
+                                                                            " M VERIFICATION_REPORT.md"
+                                                                        ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "81e789ea4b16b49e7e12e9da30732efb9fe2314f",
+                                                   "head_commit":  "d8e28173a18afe0745c04235eac0adc33b5862ce",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  [
 
