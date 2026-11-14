@@ -14,7 +14,7 @@ const linearEquationsProposal: AgentProposalsInput = {
   grade: 8,
   subject: 'Mathematics',
   board: 'NCERT',
-  source_pdf_hash: 'sha256_ncert_math_class8_ch02_linear_equations',
+  source_pdf_hash: 'sha256:d04ef69d830a97243be9bd1cab0aa82399056f0f4a621bb71bbe97ecd1dfa147',
   raw_objectives: [
     {
       description: 'Identify linear equations in one variable and understand the algebraic concept of equality between LHS and RHS.',
