@@ -344,7 +344,7 @@
   },
   "identify": {
     "translation": "पहचानना (आइडेंटिफाइ)",
-    "frequency": 328,
+    "frequency": 330,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Rational Numbers and Fractions",
@@ -354,7 +354,7 @@
       "Module"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "identifying": {
     "translation": "पहचानते हुए (आइडेंटिफाइइंग)",
@@ -488,7 +488,7 @@
   },
   "outcome": {
     "translation": "परिणाम (आउटकम)",
-    "frequency": 322,
+    "frequency": 324,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Page 1",
@@ -497,7 +497,7 @@
       "Module"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "pan": {
     "translation": "पैन (पैन)",
@@ -673,7 +673,7 @@
   },
   "understanding": {
     "translation": "समझ (अंडरस्टैंडिंग)",
-    "frequency": 434,
+    "frequency": 436,
     "chapters": [
       "Understanding Tax Identification Numbers",
       "Page 1",
@@ -682,7 +682,7 @@
       "Module"
     ],
     "first_seen": "2026-10-14 18:40:07 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "unique": {
     "translation": "अद्वितीय (यूनिक)",
@@ -776,14 +776,14 @@
   },
   "balance": {
     "translation": "संतुलन (बैलन्स)",
-    "frequency": 318,
+    "frequency": 320,
     "chapters": [
       "Rational Numbers and Fractions",
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "bars": {
     "translation": "बार (बार्ज)",
@@ -904,7 +904,7 @@
   },
   "evaluating": {
     "translation": "मूल्यांकन कर रहा है (इ-वैल्यू-एटिंग)",
-    "frequency": 326,
+    "frequency": 328,
     "chapters": [
       "Rational Numbers and Fractions",
       "Page 1",
@@ -913,7 +913,7 @@
       "Module"
     ],
     "first_seen": "2026-10-26 07:45:07 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "examine": {
     "translation": "जांच करना (एक-सैम-इन)",
@@ -1270,7 +1270,7 @@
   },
   "apply": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1278,11 +1278,11 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "balanced": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1290,11 +1290,11 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "core": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1302,11 +1302,11 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "correctly": {
     "translation": "सही तरीके से (करैक्टली)",
-    "frequency": 446,
+    "frequency": 448,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1315,11 +1315,11 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "describes": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1327,11 +1327,11 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "discovery": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1339,7 +1339,7 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "down": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1352,7 +1352,7 @@
   },
   "governing": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1360,11 +1360,11 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "hands": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1372,11 +1372,11 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "interactive": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1384,21 +1384,21 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "introduction": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 424,
+    "frequency": 426,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "key": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1406,7 +1406,7 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "mathematical": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1419,7 +1419,7 @@
   },
   "observe": {
     "translation": "ध्यान से देखना / अवलोकन करना (ऑब्ज़र्व)",
-    "frequency": 443,
+    "frequency": 445,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1428,31 +1428,31 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "operations": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 425,
+    "frequency": 427,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
       "EXPLORING ESSENTIAL IDEAS"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "page": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 419,
+    "frequency": 421,
     "chapters": [
       "Page 1"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "primary": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1460,27 +1460,27 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "principles": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 424,
+    "frequency": 426,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "properties": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 424,
+    "frequency": 426,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "relating": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1493,7 +1493,7 @@
   },
   "remain": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1501,31 +1501,31 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "representations": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 424,
+    "frequency": 426,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "solving": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 424,
+    "frequency": 426,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "statement": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1533,11 +1533,11 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "transformation": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1545,11 +1545,11 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "verify": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 432,
+    "frequency": 434,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1557,22 +1557,22 @@
       "Module"
     ],
     "first_seen": "2026-10-27 05:43:22 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "algebraic": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 313,
+    "frequency": 315,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
       "Module"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "conceptual": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 320,
+    "frequency": 322,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1580,11 +1580,11 @@
       "Module"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "conditions": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 320,
+    "frequency": 322,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1592,11 +1592,11 @@
       "Module"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "confirm": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 320,
+    "frequency": 322,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1604,21 +1604,21 @@
       "Module"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "coordinate": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 312,
+    "frequency": 314,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "elements": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 320,
+    "frequency": 322,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1626,21 +1626,21 @@
       "Module"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "geometry": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 312,
+    "frequency": 314,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "principle": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 320,
+    "frequency": 322,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1648,11 +1648,11 @@
       "Module"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "relationship": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 320,
+    "frequency": 322,
     "chapters": [
       "Page 1",
       "Algebraic Expressions",
@@ -1660,7 +1660,7 @@
       "Module"
     ],
     "first_seen": "2026-11-03 19:28:54 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "expressions": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
@@ -1755,7 +1755,7 @@
   },
   "explore": {
     "translation": "खोज करना (एक्सप्लोर)",
-    "frequency": 42,
+    "frequency": 44,
     "chapters": [
       "Rational Numbers and Fractions",
       "Page 1",
@@ -1764,7 +1764,7 @@
       "Module"
     ],
     "first_seen": "2026-11-06 23:08:41 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "fractional": {
     "translation": "भिन्नात्मक (फ्रैक्शनल)",
@@ -2004,7 +2004,7 @@
   },
   "interact": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 26,
+    "frequency": 28,
     "chapters": [
       "Page 1",
       "EXPLORING ESSENTIAL IDEAS",
@@ -2012,21 +2012,21 @@
       "Module"
     ],
     "first_seen": "2026-11-14 17:26:56 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "picker": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 22,
+    "frequency": 24,
     "chapters": [
       "Page 1",
       "Algebraic Expressions"
     ],
     "first_seen": "2026-11-14 17:26:56 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "sim": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
-    "frequency": 26,
+    "frequency": 28,
     "chapters": [
       "Page 1",
       "EXPLORING ESSENTIAL IDEAS",
@@ -2034,7 +2034,7 @@
       "Module"
     ],
     "first_seen": "2026-11-14 17:26:56 UTC",
-    "last_seen": "2026-11-14 20:31:20 UTC"
+    "last_seen": "2026-11-14 20:45:56 UTC"
   },
   "essential": {
     "translation": "इस शब्द का अर्थ अभी उपलब्ध नहीं है",
