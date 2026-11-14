@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T17:14:38.2687432Z",
+    "timestamp_utc":  "2026-11-14T17:26:30.6410470Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,7 +14,7 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "32bee166b7f05b0a54418c342aa8efaac4cb8171",
+                                                 "head_commit":  "845ffed7d8c3f4de28d8ce5524a11d9e28182ef5",
                                                  "dirty_file_count":  0,
                                                  "dirty_files_sample":  {
 
@@ -22,10 +22,13 @@
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "f1c4cd91652a906aa4e9745fa3b5e6713f4444bf",
-                                                   "dirty_file_count":  0,
+                                                   "head_commit":  "82e3f591448a8a1f803edb44036ca4d2012ae375",
+                                                   "dirty_file_count":  4,
                                                    "dirty_files_sample":  [
-
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/assemble/html_assembler.py",
+                                                                              " M aasha-pipeline-with-master-json/src/aasha/synthesis/offline_synthesizer.py",
+                                                                              " M aasha-pipeline-with-master-json/template/v5-engine-template.html",
+                                                                              " M aasha-pipeline-with-master-json/tests/test_offline_chapter_compilation.py"
                                                                           ]
                                                }
                      }
