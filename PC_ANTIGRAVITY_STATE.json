@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T19:37:48.9607120Z",
+    "timestamp_utc":  "2026-11-14T19:42:48.9790162Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,21 +15,26 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "c081d6075306d8beda452b490da6048551cf3c1f",
-                                                 "dirty_file_count":  3,
+                                                 "dirty_file_count":  5,
                                                  "dirty_files_sample":  [
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
                                                                             " M scripts/verify_gold_standard_cdp.mjs",
                                                                             "?? scripts/chapter_gen_algebra.py",
+                                                                            "?? scripts/chapter_gen_combustion.py",
                                                                             "?? scripts/chapter_gen_food.py"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "52cc1018968ac8630d50f6eb172b772256241e26",
-                                                   "dirty_file_count":  3,
+                                                   "head_commit":  "0d7e225c415a8148b61370a83b032d7bdd9f6619",
+                                                   "dirty_file_count":  6,
                                                    "dirty_files_sample":  [
                                                                               " M chapters/class6_fractions_verified_cdp.png",
                                                                               " M chapters/class6_science_ch02_components_of_food.html",
-                                                                              " M chapters/class8_math_ch09_algebraic_expressions.html"
+                                                                              " M chapters/class8_math_ch09_algebraic_expressions.html",
+                                                                              " M chapters/class8_science_ch04_combustion_and_flame.html",
+                                                                              "?? chapters/class6_science_ch02_components_of_food_verified_cdp.png",
+                                                                              "?? chapters/class8_science_ch04_combustion_and_flame_verified_cdp.png"
                                                                           ]
                                                }
                      }
