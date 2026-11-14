@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T18:30:15.6565391Z",
+    "timestamp_utc":  "2026-11-14T18:35:28.0130218Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,19 +14,22 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "93c2a0d7facbb590ebcf788234d01355ece430b9",
-                                                 "dirty_file_count":  0,
-                                                 "dirty_files_sample":  {
-
-                                                                        }
+                                                 "head_commit":  "2973aa7d7e91d4543aca732dfba3306aac020f91",
+                                                 "dirty_file_count":  1,
+                                                 "dirty_files_sample":  " M scripts/batch_compile_phase2_chapters.py"
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "3c084aa1c54ebb02175ab280b199da8d6168e034",
-                                                   "dirty_file_count":  2,
+                                                   "head_commit":  "9a8748aa9def5a7d8446b1e0ca68ff3cdbd1c999",
+                                                   "dirty_file_count":  7,
                                                    "dirty_files_sample":  [
                                                                               " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json",
-                                                                              " M packages/v6-engine/compile_linear_equations_class8.ts"
+                                                                              "?? aasha-pipeline-with-master-json/staging_pdfs/",
+                                                                              "?? chapters/class6_math_ch07_fractions.html",
+                                                                              "?? chapters/class6_math_ch10_integers.html",
+                                                                              "?? chapters/class6_science_ch02_components_of_food.html",
+                                                                              "?? chapters/class8_math_ch02_linear_equations.html",
+                                                                              "?? chapters/class8_math_ch09_algebraic_expressions.html"
                                                                           ]
                                                }
                      }
