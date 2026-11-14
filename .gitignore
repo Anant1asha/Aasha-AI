@@ -64,6 +64,8 @@ chapters/test_*.html
 # Ephemeral Runtime Cache & Local Databases
 packages/memory-engine/storage/*.json
 *.db
+staging_pdfs/
+**/staging_pdfs/
 
 
 
