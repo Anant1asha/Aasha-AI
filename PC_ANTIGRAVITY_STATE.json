@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T20:08:16.7674820Z",
+    "timestamp_utc":  "2026-11-14T20:15:14.2011635Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -14,19 +14,16 @@
     "repositories":  {
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
-                                                 "head_commit":  "45c94107e1776928d42d6cf86a5791d9ac5987ea",
-                                                 "dirty_file_count":  5,
+                                                 "head_commit":  "b56dce5c4250e79175a2f079ebb944b435554cb1",
+                                                 "dirty_file_count":  2,
                                                  "dirty_files_sample":  [
-                                                                            " M SPRINT_VERIFICATION_REPORT.md",
-                                                                            "?? assets/cdn/interactives/AVR-P407-candle-flame-thermal-convection.html",
-                                                                            "?? assets/cdn/interactives/AVR-P408-biochemical-dropper-assay-lab.html",
-                                                                            "?? assets/cdn/interactives/AVR-P409-balance-scale-linear-equations.html",
-                                                                            "?? assets/cdn/interactives/AVR-P410-mendelian-genetics-punnett-matrix.html"
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
+                                                                            " M SPRINT_VERIFICATION_REPORT.md"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "4e697b6fbfb6ecf3c6cd1891d66c5bf569c07765",
+                                                   "head_commit":  "eebf9c168b002c0e3300fc1fb55d4db433dbdaf1",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  [
 
