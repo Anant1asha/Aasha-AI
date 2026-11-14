@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T22:00:15.8280743Z",
+    "timestamp_utc":  "2026-11-14T22:17:36.0442553Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,15 +15,33 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "21fffb55a59d8c7557206b2acfefca183068d7ba",
-                                                 "dirty_file_count":  2,
+                                                 "dirty_file_count":  34,
                                                  "dirty_files_sample":  [
+                                                                            "?? .agents/rap_servers.json",
+                                                                            "?? .serena/memories/active_chunk_context.md",
+                                                                            "?? AASHA_16_STAGE_LAST_EXECUTION_REPORT.json",
+                                                                            "?? AASHA_AGENT_CAPABILITY_AND_ROLE_REGISTRY.json",
                                                                             "?? AASHA_AIOS_16_STAGE_CONTINUOUS_ENGINEERING_LOOP_v2.json",
-                                                                            "?? Apply-Cloud-Bundle.ps1"
+                                                                            "?? AASHA_ARGON_SWARM_TOPOLOGY_AND_CONCURRENCY_AUDIT.md",
+                                                                            "?? AASHA_ASSESSMENT_PLANE_QUALITY_AUDIT.md",
+                                                                            "?? AASHA_AUTOMATION_COVERAGE_AUDIT.json",
+                                                                            "?? AASHA_AUTOMATION_RELIABILITY_AUDIT.json",
+                                                                            "?? AASHA_BEFORE_AFTER_BENCHMARK_REPORT.md",
+                                                                            "?? AASHA_CODE_BUILD_TEST_DEBUG_PIPELINE_AUDIT.md",
+                                                                            "?? AASHA_COMPLETION_AND_EVIDENCE_MATRIX.json",
+                                                                            "?? AASHA_ENGINEERING_EXECUTION_CAPABILITY_AUDIT.md",
+                                                                            "?? AASHA_ENGINEERING_LOOP_REFERENCE_RUN.json",
+                                                                            "?? AASHA_HISTORICAL_TASK_LEDGER.json",
+                                                                            "?? AASHA_HYDROGEN_ORCHESTRATION_AUDIT.md",
+                                                                            "?? AASHA_IMPLEMENTATION_VS_REPORTING_GAP_REGISTER.json",
+                                                                            "?? AASHA_LEARNING_PLANE_QUALITY_AUDIT.md",
+                                                                            "?? AASHA_LIVE_ACCESS_AND_INFRASTRUCTURE_MATRIX.json",
+                                                                            "?? AASHA_LOCAL_MACHINE_IDE_UNIFIED_3PLANE_BRIDGE_PROMPT_v7.json"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "5c4488f780f6d37797f21f6ac0a8d7cd53c5b0af",
+                                                   "head_commit":  "21fffb55a59d8c7557206b2acfefca183068d7ba",
                                                    "dirty_file_count":  0,
                                                    "dirty_files_sample":  [
 
