@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "timestamp_utc":  "2026-11-14T22:17:36.0442553Z",
+    "timestamp_utc":  "2026-11-14T22:27:12.3436184Z",
     "pc_hostname":  "DESKTOP-7RHB41C",
     "workspace_root":  "C:\\Users\\admin\\Downloads\\NGO AI LLM",
     "infrastructure":  {
@@ -15,8 +15,9 @@
                          "ngo_ai_llm_root":  {
                                                  "branch":  "aios/v2-bootstrap",
                                                  "head_commit":  "21fffb55a59d8c7557206b2acfefca183068d7ba",
-                                                 "dirty_file_count":  34,
+                                                 "dirty_file_count":  35,
                                                  "dirty_files_sample":  [
+                                                                            " M PC_ANTIGRAVITY_STATE.json",
                                                                             "?? .agents/rap_servers.json",
                                                                             "?? .serena/memories/active_chunk_context.md",
                                                                             "?? AASHA_16_STAGE_LAST_EXECUTION_REPORT.json",
@@ -35,16 +36,15 @@
                                                                             "?? AASHA_HYDROGEN_ORCHESTRATION_AUDIT.md",
                                                                             "?? AASHA_IMPLEMENTATION_VS_REPORTING_GAP_REGISTER.json",
                                                                             "?? AASHA_LEARNING_PLANE_QUALITY_AUDIT.md",
-                                                                            "?? AASHA_LIVE_ACCESS_AND_INFRASTRUCTURE_MATRIX.json",
-                                                                            "?? AASHA_LOCAL_MACHINE_IDE_UNIFIED_3PLANE_BRIDGE_PROMPT_v7.json"
+                                                                            "?? AASHA_LIVE_ACCESS_AND_INFRASTRUCTURE_MATRIX.json"
                                                                         ]
                                              },
                          "aasha_ai_monorepo":  {
                                                    "branch":  "aios/v2-bootstrap",
-                                                   "head_commit":  "21fffb55a59d8c7557206b2acfefca183068d7ba",
-                                                   "dirty_file_count":  0,
+                                                   "head_commit":  "d2dbfb35bf7c9850611513da08b0e58742e96cb4",
+                                                   "dirty_file_count":  1,
                                                    "dirty_files_sample":  [
-
+                                                                              " M aasha-pipeline-with-master-json/config/candidate_dictionary_hi.json"
                                                                           ]
                                                }
                      }
