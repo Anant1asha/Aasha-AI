@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_econ_class9_ch1_village_palampur">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 9 Economics Ch 1: <span class="lle-word" data-hi="यह/वह (द)">The</span> Story <span class="lle-word" data-hi="का (ऑफ)">of</span> Village Palampur (पालमपुर गाँव की कहानी — उत्पादन के कारक)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #16a34a; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #15803d, #0f766e);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .econ-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #palampur-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>🌾 The Story of Village Palampur / पालमपुर गाँव की कहानी</h1>
+    <p>NCERT Class 9 Economics Ch 1 • 8-Layer Bilingual LLE • Interactive Factors of Production & Multiple Cropping Lab (AVR-P318)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Four Factors of Production (उत्पादन के चार कारक)</h2>
+      <p>
+        Every production activity in Village Palampur combines four essential factors:
+        1) Land (measured in hectare units) and natural water for irrigation,
+        2) Labour (skilled and manual workers),
+        3) Physical Capital — <span class="lle-word" data-hi="बाँटा (डिवाइडेड)">divided</span> <span class="lle-word" data-hi="में (इनटू)">into</span> fixed capital (tractors, turbines, buildings used for many years) and working capital (HYV seeds, fertilisers, and cash in hand used up during production), and
+        4) Human Capital (knowledge and enterprise).
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Multiple Cropping & Yield Simulator (AVR-P318)</h2>
+      <div class="econ-stage" data-visual-component="ProductionFactorsAllocationVisual" data-avr-id="AVR-P318" data-tap-select="true">
+        <svg width="340" height="165" viewBox="0 0 340 165" role="img" aria-label="Palampur Multiple Cropping and Yield Explorer">
+          <rect id="plot-kharif" x="25" y="25" width="90" height="85" rx="10" fill="#15803d" stroke="#86efac" stroke-width="2" />
+          <rect id="plot-potato" x="125" y="25" width="90" height="85" rx="10" fill="#ca8a04" stroke="#fde047" stroke-width="2" />
+          <rect id="plot-rabi" x="225" y="25" width="90" height="85" rx="10" fill="#0f766e" stroke="#5eead4" stroke-width="2" />
+          <text x="70" y="68" fill="#ffffff" text-anchor="middle" font-size="11" font-weight="bold">Kharif: Jowar</text>
+          <text x="170" y="68" fill="#ffffff" text-anchor="middle" font-size="11" font-weight="bold">Oct–Dec: Potato</text>
+          <text x="270" y="68" fill="#ffffff" text-anchor="middle" font-size="11" font-weight="bold">Rabi: HYV Wheat</text>
+          <text x="170" y="146" fill="#f8fafc" text-anchor="middle" font-size="12" id="palampur-readout">HYV + Tube-Well Irrigation → Wheat Yield = 3200 kg/hectare (Market Surplus = +1900 kg)</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectFarmMode('traditional')">🌱 Traditional Seeds (1300 kg/hectare)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectFarmMode('hyv')">🚜 HYV + Electric Irrigation (3200 kg/hectare)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectFarmMode('capital')">🏭 Fixed vs Working Capital (स्थायी व कार्यशील पूँजी)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Multiple Cropping and Farm Surplus (बहुविध फसल प्रणाली और अधिशेष)</h2>
+      <p>
+        <span class="lle-word" data-hi="को (टू)">To</span> grow more than one crop <span class="lle-word" data-hi="पर (ऑन)">on</span> <span class="lle-word" data-hi="एक (ए)">a</span> <span class="lle-word" data-hi="टुकड़ा (पीस)">piece</span> of land during the year <span class="lle-word" data-hi="है (इज़)">is</span> known as multiple cropping.
+        With electric tube-well irrigation and HYV seeds, wheat yield per hectare rose from 1300 kg to 3200 kg, allowing medium and large farmers to sell their surplus wheat in the Raiganj market and accumulate working capital for the next season.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> Which of the following is classified as <strong>Working Capital (कार्यशील पूँजी)</strong> rather than Fixed Capital in Village Palampur farming?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitPalampurMastery('working')">A) Raw materials, HYV seeds, and cash in hand (कच्चा माल, बीज और नकद मुद्रा)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitPalampurMastery('tractor')">B) Tractors, threshers, and generators (ट्रैक्टर और थ्रेशर — Fixed Capital)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitPalampurMastery('land')">C) Agricultural land measured in hectares (कृषि भूमि — Natural Resource)</button>
+      </div>
+      <div id="palampur-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "yield": "उपज (यील्ड)",
+      "hectare": "हेक्टेयर (हेक्टेयर)",
+      "irrigation": "सिंचाई (इरिगेशन)",
+      "surplus": "अधिशेष (सरप्लस)",
+      "working": "कार्यशील (वर्किंग)",
+      "fixed": "स्थायी (फिक्स्ड)",
+      "cropping": "फसल-चक्र (क्रॉपिंग)"
+    };
+    const CONN = {
+      "during": "के दौरान (ड्यूरिंग)",
+      "therefore": "इसलिए (देयरफोर)"
+    };
+    let palampurWrong = 0;
+
+    function selectFarmMode(mode) {
+      const readout = document.getElementById("palampur-readout");
+      if (mode === "traditional") {
+        readout.textContent = "Traditional Seeds + Persian Wheel → Wheat Yield = 1300 kg/hectare (Minimal Surplus)";
+      } else if (mode === "hyv") {
+        readout.textContent = "HYV + Tube-Well Irrigation → Wheat Yield = 3200 kg/hectare (Market Surplus = +1900 kg)";
+      } else {
+        readout.textContent = "Fixed Capital (स्थायी पूँजी): Tractors & Tube-wells | Working Capital (कार्यशील पूँजी): Seeds, Fertiliser & Cash";
+      }
+    }
+
+    function submitPalampurMastery(choice) {
+      const toast = document.getElementById("palampur-toast");
+      toast.style.display = "block";
+      if (choice === "working") {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_econ_class9_ch1_village_palampur",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Raw materials (seeds, fertilisers) and money in hand <span class="lle-word" data-hi="हैं (आर)">are</span> Working Capital (कार्यशील पूँजी) because <span class="lle-word" data-hi="वे (दे)">they</span> are used up during the production cycle. <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        palampurWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = palampurWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Distinguish between multi-year machines (Fixed Capital) and inputs used up in a single season (Working Capital)."
+          : "💡 Tier-2 Worked Hint (संकेत 2): Working Capital (कार्यशील पूँजी) = Raw materials (HYV seeds, fertilisers) + Money in hand.";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

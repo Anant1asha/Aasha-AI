@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_science_class7_ch14_electric_circuits">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 7 Science Ch 14: Electric Current and Its Effects (विद्युत धारा और इसके प्रभाव)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --accent: #14b8a6;
+      --amber: #f59e0b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-bottom: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #0f766e, #1e3a8a);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-top: 8px;
+    }
+    .circuit-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #inline-status-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>⚡ Electric Current and Its Effects / विद्युत धारा और इसके प्रभाव</h1>
+    <p>NCERT Class 7 Science • Bilingual LLE (60% English / 40% हिन्दी) • TEAS Gamified Mastery</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Symbols of Electric Components (विद्युत अवयवों के प्रतीक)</h2>
+      <p>
+        An <span class="lle-word" data-hi="विद्युत परिपथ (इलेक्ट्रिक सर्किट)">electric circuit</span> connects a
+        <span class="lle-word" data-hi="विद्युत सेल (इलेक्ट्रिक सेल)">cell</span>, a
+        <span class="lle-word" data-hi="बल्ब (बल्ब)">bulb</span>, and a
+        <span class="lle-word" data-hi="स्विच / कुंजी (स्विच)">switch</span> using conducting wires.
+        When the switch is in the <strong>ON (चालू)</strong> position, the circuit is
+        <span class="lle-word" data-hi="बंद (क्लोज़्ड)">closed</span> and current flows from the positive terminal to the negative terminal.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive ElectricCircuitVisual Simulator (संवादात्मक विद्युत परिपथ)</h2>
+      <div class="circuit-stage" data-visual-component="ElectricCircuitVisual" data-avr-id="AVR-P314">
+        <svg width="320" height="160" viewBox="0 0 320 160" role="img" aria-label="Interactive Series Circuit">
+          <rect x="20" y="20" width="280" height="120" fill="none" stroke="#38bdf8" stroke-width="4" rx="8" />
+          <circle id="bulb-indicator" cx="160" cy="20" r="16" fill="#facc15" stroke="#ffffff" stroke-width="2" />
+          <text x="160" y="85" fill="#f8fafc" text-anchor="middle" id="circuit-readout">V = 6.0V | R = 3.0Ω | I = 2.00A (Closed / बंद परिपथ)</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" data-action="toggle-switch" onclick="toggleCircuitSwitch()">
+            🔀 Toggle Switch (ON/OFF / कुंजी बदलें)
+          </button>
+          <button type="button" class="tap-btn" data-tap-select="true" data-action="add-resistor" onclick="adjustResistance(3)">
+            ➕ Add 3Ω Bulb in Series (श्रेणीक्रम में जोड़ें)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Heating & Magnetic Effects of Electric Current (तापीय और चुंबकीय प्रभाव)</h2>
+      <p>
+        When electric current passes through a high-resistance nichrome wire, it produces
+        <span class="lle-word" data-hi="ऊष्मा (हीट)">heat</span> (Joule heating: <em>H = I²Rt</em>).
+        An <span class="lle-word" data-hi="विद्युत फ्यूज (इलेक्ट्रिक फ्यूज)">electric fuse</span> is a safety device that melts and breaks the circuit if current exceeds a safe limit.
+        Hans Christian Oersted discovered that a current-carrying wire also deflects a magnetic compass needle, forming an
+        <span class="lle-word" data-hi="विद्युत चुंबक (इलेक्ट्रोमैग्नेट)">electromagnet</span>.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (दक्षता मूल्यांकन — +100 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> If a 6V battery is connected across a closed circuit with total resistance 3Ω, what is the electric current (I = V / R)?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitMasteryAnswer(2.0)">A) 2.0 Amperes (2.0 ऐम्पियर)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitMasteryAnswer(0.5)">B) 0.5 Amperes (0.5 ऐम्पियर)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitMasteryAnswer(18.0)">C) 18.0 Amperes (18.0 ऐम्पियर)</button>
+      </div>
+      <div id="inline-status-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    window._weCheckRendered = true;
+    const WM = {
+      "circuit": "परिपथ (सर्किट)",
+      "closed": "बंद (क्लोज़्ड)",
+      "open": "खुला (ओपन)",
+      "current": "विद्युत धारा (करंट)",
+      "voltage": "वोल्टेज / विभवांतर (वोल्टेज)",
+      "resistance": "प्रतिरोध (रेज़िस्टेंस)",
+      "battery": "बैटरी (बैटरी)",
+      "switch": "कुंजी / स्विच (स्विच)",
+      "fuse": "सुरक्षा फ्यूज (फ्यूज)",
+      "electromagnet": "विद्युत चुंबक (इलेक्ट्रोमैग्नेट)",
+      "verify": "सत्यापित करना (वेरिफाई)",
+      "equal": "बराबर (इक्वल)",
+      "find": "खोजना (फाइंड)",
+      "formula": "सूत्र (फॉर्मूला)"
+    };
+    const CONN = {
+      "because": "क्योंकि (बिकॉज़)",
+      "therefore": "इसलिए (देयरफोर)",
+      "when": "जब (वेन)",
+      "if": "यदि (इफ)"
+    };
+    let circuitClosed = true;
+    let voltage = 6.0;
+    let resistance = 3.0;
+
+    function updateReadout() {
+      const el = document.getElementById("circuit-readout");
+      const bulb = document.getElementById("bulb-indicator");
+      if (!circuitClosed) {
+        el.textContent = "Switch OFF (खुला परिपथ) | I = 0.00A";
+        bulb.setAttribute("fill", "#475569");
+      } else {
+        const current = (voltage / resistance).toFixed(2);
+        el.textContent = `V = ${voltage.toFixed(1)}V | R = ${resistance.toFixed(1)}Ω | I = ${current}A (Closed / बंद परिपथ)`;
+        bulb.setAttribute("fill", "#facc15");
+      }
+    }
+
+    function toggleCircuitSwitch() {
+      circuitClosed = !circuitClosed;
+      updateReadout();
+    }
+
+    function adjustResistance(delta) {
+      resistance = resistance >= 9 ? 3.0 : resistance + delta;
+      updateReadout();
+    }
+
+    function submitMasteryAnswer(ans) {
+      const toast = document.getElementById("inline-status-toast");
+      toast.style.display = "block";
+      if (Number(ans) === 2.0) {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_science_class7_ch14_electric_circuits",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) { window.parent.postMessage(eventPayload, "*"); }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! I = 6V / 3Ω = 2.0A. You earned +100 Aasha Coins (🪙)!";
+      } else {
+        toast.style.background = "#7f1d1d";
+        toast.textContent = "💡 पुनः प्रयास करें (Hint: Ohm's Law I = V / R = 6 / 3 = 2.0A).";
+      }
+    }
+  </script>
+</body>
+</html>

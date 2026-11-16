@@ -7,10 +7,8 @@ and supports resume from any stage via --from-stage.
 from __future__ import annotations
 
 import json
-import hashlib
 import logging
 import shutil
-import subprocess
 import time
 import uuid
 from datetime import datetime, timezone
@@ -26,52 +24,17 @@ from ..agents import (
     QAAgent,
 )
 from ..assemble import HTMLAssembler
+from ..assemble.learn_arena_assembler import LearnArenaAssembler
+from .offline_synthesizer import build_offline_chapter_spec, build_offline_content_map, build_offline_lle
 from ..config import Config
 from ..llm import LLMAdapter, LLMGenerationError
-from ..schemas import (
-    STAGE_ORDER,
-    STAGE_ORDER_V5,
-    STAGE_ORDER_FS,
-    Job,
-    JobInput,
-    StageResult,
-    QuarantinePacket,
-    QuarantineError,
-    generate_supplementary_assessments,
-    enrich_content_map,
-)
+from ..schemas import FULL_SYNTHESIS_STAGE_ORDER, LEARN_ARENA_STAGE_ORDER, STAGE_ORDER, Job, StageResult
+from ..exercise import ExerciseExtractor
+from ..plugins import InteractionRequest, create_default_registry
+from ..synthesis import FrontendCodeSynthesizer
 from ..schemas.validator import validate_chapter_spec
-from .agent_bus import AgentBus
 
 logger = logging.getLogger(__name__)
-MAX_CHILD_HTML5_BUNDLE_BYTES = 20_971_520
-
-
-def _sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as source:
-        for chunk in iter(lambda: source.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def validate_child_bundle_size(size_bytes: int) -> int:
-    if size_bytes < 0:
-        raise ValueError("INVALID_BUNDLE_SIZE")
-    if size_bytes > MAX_CHILD_HTML5_BUNDLE_BYTES:
-        raise ValueError(
-            f"BUNDLE_SIZE_EXCEEDED: {size_bytes} > {MAX_CHILD_HTML5_BUNDLE_BYTES} bytes"
-        )
-    return size_bytes
-
-
-STAGE_ALIASES = {
-    "extract": "ingest",
-    "structure": "analyze",
-    "pedagogy": "design",
-    "assessment": "assess",
-    "synthesis": "synthesize",
-}
 
 
 class Orchestrator:
@@ -101,17 +64,9 @@ class Orchestrator:
         self.jobs_dir.mkdir(parents=True, exist_ok=True)
 
     def _create_llm(self, provider: str, temperature: float = 0.0) -> LLMAdapter:
-        """Create an LLM adapter for the given provider.
-
-        For OpenRouter, passes fallback_models from config to enable the
-        Tier-1 anti-bleed free-model cascade (3s backoff on 429/404).
-        """
+        """Create an LLM adapter for the given provider."""
         provider_config = self.config.llm.providers.get(provider, None)
         model = provider_config.model if provider_config else ""
-        # Extract fallback cascade list (OpenRouter only)
-        fallback_models: list[str] = []
-        if provider == "openrouter" and provider_config:
-            fallback_models = getattr(provider_config, "fallback_models", []) or []
         return LLMAdapter(
             provider=provider,
             model=model,
@@ -120,47 +75,10 @@ class Orchestrator:
             max_retries=self.config.llm.max_retries,
             backoff_base=self.config.llm.backoff_base,
             backoff_max=self.config.llm.backoff_max,
-            rate_limit_delay=getattr(self.config.llm, "rate_limit_delay", 3.0),
-            fallback_models=fallback_models,
         )
 
     def _now_iso(self) -> str:
         return datetime.now(timezone.utc).isoformat()
-
-    @classmethod
-    def infer_curriculum_metadata(
-        cls,
-        pdf_path: str | Path,
-        text_sample: str = "",
-    ) -> tuple[str, int]:
-        """Infer subject and grade from PDF filename and text context."""
-        import re
-        from ..synthesis.offline_synthesizer import OfflineSynthesizer
-
-        p_name = Path(pdf_path).name.lower()
-        combined = f"{p_name} {text_sample.lower()}"
-
-        # Infer grade (1 to 12)
-        grade = 4  # default
-        grade_patterns = [
-            r"(?:class|grade|grd)\s*[-_]?\s*(\d{1,2})",
-            r"(\d{1,2})(?:th|rd|nd|st)\b",
-            r"class-(\d{1,2})",
-        ]
-        for pat in grade_patterns:
-            m = re.search(pat, combined)
-            if m:
-                try:
-                    g_val = int(m.group(1))
-                    if 1 <= g_val <= 12:
-                        grade = g_val
-                        break
-                except Exception:
-                    pass
-
-        # Infer subject using OfflineSynthesizer normalization
-        subject = OfflineSynthesizer.normalize_subject("", combined)
-        return subject, grade
 
     def create_job(
         self,
@@ -171,82 +89,35 @@ class Orchestrator:
         mode: str = "v5-engine",
     ) -> str:
         """Create a new job and return the job ID."""
-        from ..schemas import STAGE_ORDER_V5, STAGE_ORDER_FS
-        
-        pdf_path = Path(pdf_path)
-        if not pdf_path.is_file():
-            raise FileNotFoundError(f"SOURCE_FILE_MISSING: {pdf_path}")
-        with pdf_path.open("rb") as source:
-            if source.read(5) != b"%PDF-":
-                raise ValueError(f"INVALID_PDF_HEADER: {pdf_path.name}")
-
-        # Auto-infer subject or grade if requested or unpopulated
-        if subject in ("auto", "", None) or grade in (0, None):
-            inf_sub, inf_grd = self.infer_curriculum_metadata(pdf_path)
-            if subject in ("auto", "", None):
-                subject = inf_sub
-            if grade in (0, None):
-                grade = inf_grd
-
-        source_sha256 = _sha256_file(pdf_path)
-        source_pdf_bytes = pdf_path.stat().st_size
         job_id = str(uuid.uuid4())
         work_dir = self.work_root / job_id
-        work_dir.mkdir(parents=True, exist_ok=False)
+        work_dir.mkdir(parents=True, exist_ok=True)
 
-        # Hash the copied input too, so a change during copy cannot be hidden.
-        copied_pdf = work_dir / "source.pdf"
-        shutil.copyfile(str(pdf_path), str(copied_pdf))
-        copied_sha256 = _sha256_file(copied_pdf)
-        if copied_sha256 != source_sha256:
-            raise ValueError("SOURCE_HASH_MISMATCH: PDF changed while creating the job copy")
-
-        source_manifest = {
-            "manifest_version": "1.0.0",
-            "source_artifact_id": f"sha256:{source_sha256}",
-            "source_sha256": source_sha256,
-            "source_file": pdf_path.name,
-            "byte_size": source_pdf_bytes,
-            "page_count": None,
-            "created_at": self._now_iso(),
-            "lineage_status": "SOURCE_HASHED_PAGE_EXTRACTION_PENDING",
-        }
-        (work_dir / "source_manifest.json").write_text(
-            json.dumps(source_manifest, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-
-        stage_order = STAGE_ORDER_FS if mode == "full-synthesis" else STAGE_ORDER_V5
+        # Copy PDF to work dir
+        pdf_path = Path(pdf_path)
+        if pdf_path.exists():
+            shutil.copy(str(pdf_path), str(work_dir / "source.pdf"))
 
         job = Job(
             id=job_id,
             status="queued",
             created_at=self._now_iso(),
             updated_at=self._now_iso(),
-            input=JobInput(
-                source_pdf=pdf_path.name,
-                source_pdf_sha256=source_sha256,
-                source_pdf_bytes=source_pdf_bytes,
-                subject=subject,
-                grade=grade,
-                provider=provider,
-                model="",
-                mode=mode,
-            ),
+            input={
+                "source_pdf": pdf_path.name,
+                "subject": subject,
+                "grade": grade,
+                "provider": provider,
+                "model": "",
+                "mode": mode,
+            },
             stages=[
                 StageResult(name=stage, status="pending")
-                for stage in stage_order
+                for stage in (LEARN_ARENA_STAGE_ORDER if mode == "learn-arena" else (FULL_SYNTHESIS_STAGE_ORDER if mode == "full-synthesis" else STAGE_ORDER))
             ],
         )
 
         self._save_job(job, work_dir)
-        bus = AgentBus(work_dir)
-        bus.publish("job.created", {
-            "job_id": job_id,
-            "subject": subject,
-            "grade": grade,
-            "provider": provider,
-            "mode": mode
-        })
         return job_id
 
     def _save_job(self, job: Job, work_dir: Path) -> None:
@@ -275,123 +146,6 @@ class Orchestrator:
     def _get_job_work_dir(self, job_id: str) -> Path:
         return self.work_root / job_id
 
-    def _find_source_pdf(self, source_pdf_name: str, source_sha256: str = "", exclude_dir: Path | None = None) -> Path | None:
-        """Find a source PDF across content/pdfs, samples, sister work dirs, and common disk paths."""
-        candidates = []
-        if source_pdf_name:
-            candidates.extend([
-                Path(source_pdf_name),
-                Path("content/pdfs") / source_pdf_name,
-                Path("content/pdfs") / Path(source_pdf_name).name,
-                Path("../content/pdfs") / Path(source_pdf_name).name,
-                Path("../../content/pdfs") / Path(source_pdf_name).name,
-                self.work_root.parent / "content" / "pdfs" / Path(source_pdf_name).name,
-                self.work_root.parent.parent / "content" / "pdfs" / Path(source_pdf_name).name,
-                Path("c:/Users/admin/Downloads/NGO AI LLM/Aasha-AI/content/pdfs") / Path(source_pdf_name).name,
-                Path("samples") / source_pdf_name,
-                Path("samples") / Path(source_pdf_name).name,
-                Path("../samples") / Path(source_pdf_name).name,
-                self.work_root.parent / "samples" / Path(source_pdf_name).name,
-            ])
-
-        # Scan all PDFs in content/pdfs directories
-        content_dirs = [
-            Path("content/pdfs"),
-            Path("../content/pdfs"),
-            Path("../../content/pdfs"),
-            self.work_root.parent / "content" / "pdfs",
-            self.work_root.parent.parent / "content" / "pdfs",
-            Path("c:/Users/admin/Downloads/NGO AI LLM/Aasha-AI/content/pdfs"),
-            Path("samples"),
-            Path("../samples"),
-            self.work_root.parent / "samples",
-        ]
-        for cdir in content_dirs:
-            if cdir.is_dir():
-                for p in cdir.glob("*.pdf"):
-                    candidates.append(p)
-
-        # Scan sister work directories
-        if self.work_root.exists():
-            for other_dir in self.work_root.iterdir():
-                if other_dir.is_dir() and (exclude_dir is None or other_dir != exclude_dir) and (other_dir / "source.pdf").is_file():
-                    candidates.append(other_dir / "source.pdf")
-
-        # First priority: match exact SHA-256
-        if source_sha256:
-            for cand in candidates:
-                try:
-                    if cand.is_file() and _sha256_file(cand) == source_sha256:
-                        return cand
-                except Exception:
-                    continue
-
-        # Second priority: match filename (case-insensitive)
-        if source_pdf_name:
-            target_name = Path(source_pdf_name).name.lower()
-            for cand in candidates:
-                try:
-                    if cand.is_file() and cand.name.lower() == target_name:
-                        return cand
-                except Exception:
-                    continue
-
-        return None
-
-    def _recover_work_dir_if_needed(self, job: Job, job_id: str) -> Path:
-        """Attempt to restore a deleted or missing work directory from available sources."""
-        work_dir = self.work_root / job_id
-        if work_dir.exists():
-            return work_dir
-
-        source_pdf_name = ""
-        source_sha256 = ""
-        if hasattr(job, "input") and job.input:
-            source_pdf_name = getattr(job.input, "source_pdf", "") or ""
-            source_sha256 = getattr(job.input, "source_pdf_sha256", "") or ""
-
-        found_pdf = self._find_source_pdf(source_pdf_name, source_sha256)
-        if not found_pdf:
-            raise FileNotFoundError(
-                f"WORK_DIR_DELETED_UNRECOVERABLE: Work directory for job '{job_id}' was deleted and source PDF "
-                f"'{source_pdf_name}' could not be located in content/pdfs, samples, or disk to reconstruct it."
-            )
-
-        work_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(str(found_pdf), str(work_dir / "source.pdf"))
-        manifest = {
-            "manifest_version": "1.0.0",
-            "source_artifact_id": f"sha256:{source_sha256 or _sha256_file(found_pdf)}",
-            "source_sha256": source_sha256 or _sha256_file(found_pdf),
-            "source_file": Path(source_pdf_name).name if source_pdf_name else found_pdf.name,
-            "byte_size": found_pdf.stat().st_size,
-            "page_count": None,
-            "created_at": self._now_iso(),
-            "lineage_status": "SOURCE_HASHED_RESTORED_FROM_BACKUP",
-        }
-        (work_dir / "source_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-        self._save_job(job, work_dir)
-        logger.info(f"Auto-recovery: Restored missing work directory for job '{job_id}' from '{found_pdf}'.")
-        return work_dir
-
-    def _recover_source_pdf_if_needed(self, job: Job, work_dir: Path) -> bool:
-        """Attempt to recover missing source.pdf in an existing work directory."""
-        target = work_dir / "source.pdf"
-        if target.is_file():
-            return True
-        source_pdf_name = ""
-        source_sha256 = ""
-        if hasattr(job, "input") and job.input:
-            source_pdf_name = getattr(job.input, "source_pdf", "") or ""
-            source_sha256 = getattr(job.input, "source_pdf_sha256", "") or ""
-
-        found_pdf = self._find_source_pdf(source_pdf_name, source_sha256, exclude_dir=work_dir)
-        if found_pdf:
-            shutil.copyfile(str(found_pdf), str(target))
-            logger.info(f"Auto-recovery: Restored missing source.pdf from '{found_pdf}'.")
-            return True
-        return False
-
     def _load_job(self, job_id: str) -> Job:
         job_file = self.jobs_dir / f"{job_id}.json"
         if not job_file.exists():
@@ -401,386 +155,11 @@ class Orchestrator:
         with open(job_file, "r", encoding="utf-8") as f:
             return Job.model_validate(json.load(f))
 
-    def _validate_stage_prerequisites(self, stage: str, mode: str, work_dir: Path) -> list:
-        """Validate that all prerequisite artifacts exist before starting a stage.
-        If cross-mode artifacts exist (e.g. content_map.json for a pedagogy_map.json requirement),
-        it attempts automatic non-destructive synthesis/adaptation first.
-        Returns a list of missing required artifact filenames.
-        """
-        # Cross-mode adapter 1: If pedagogy_map.json is needed, but content_map.json exists
-        if stage in ("design", "assess", "synthesize") and not (work_dir / "pedagogy_map.json").exists() and (work_dir / "content_map.json").exists():
-            try:
-                from ..exercise import ExerciseExtractor
-                extractor = ExerciseExtractor()
-                raw_path = work_dir / "raw_extract.json"
-                if raw_path.exists():
-                    raw_data = json.loads(raw_path.read_text(encoding="utf-8"))
-                    ex_dicts = [ex.to_dict() for ex in extractor.extract(raw_data)]
-                else:
-                    ex_dicts = []
-                content_map = json.loads((work_dir / "content_map.json").read_text(encoding="utf-8"))
-                pedagogy_map = enrich_content_map(content_map, ex_dicts)
-                (work_dir / "pedagogy_map.json").write_text(json.dumps(pedagogy_map, indent=2), encoding="utf-8")
-                logger.info("Cross-mode adapter: Synthesized pedagogy_map.json from content_map.json")
-            except Exception as e:
-                logger.warning(f"Could not adapt content_map.json to pedagogy_map.json: {e}")
-
-        # Cross-mode adapter 2: If content_map.json is needed, but pedagogy_map.json exists
-        if stage in ("design", "assess") and not (work_dir / "content_map.json").exists() and (work_dir / "pedagogy_map.json").exists():
-            try:
-                pedagogy_map = json.loads((work_dir / "pedagogy_map.json").read_text(encoding="utf-8"))
-                (work_dir / "content_map.json").write_text(json.dumps(pedagogy_map, indent=2), encoding="utf-8")
-                logger.info("Cross-mode adapter: Synthesized content_map.json from pedagogy_map.json")
-            except Exception as e:
-                logger.warning(f"Could not adapt pedagogy_map.json to content_map.json: {e}")
-
-        # Cross-mode adapter 3: If assessment_suite.json is needed, but assessment_bank.json exists
-        if stage == "synthesize" and not (work_dir / "assessment_suite.json").exists() and (work_dir / "assessment_bank.json").exists():
-            try:
-                bank = json.loads((work_dir / "assessment_bank.json").read_text(encoding="utf-8"))
-                suite = {"warmup": bank.get("warmup", []), "deep_dive": bank.get("deep_dive", []), "boss": bank.get("boss", [])}
-                (work_dir / "assessment_suite.json").write_text(json.dumps(suite, indent=2), encoding="utf-8")
-                logger.info("Cross-mode adapter: Adapted assessment_bank.json to assessment_suite.json")
-            except Exception:
-                pass
-
-        if mode == "full-synthesis":
-            prereq_map = {
-                "ingest": ["source.pdf"],
-                "analyze": ["source.pdf", "raw_extract.json"],
-                "design": ["pedagogy_map.json"],
-                "assess": ["pedagogy_map.json", "experience_plan.json"],
-                "synthesize": ["pedagogy_map.json", "experience_plan.json", "assessment_suite.json"],
-                "qa": ["chapter.html"],
-                "output": ["chapter.html"],
-            }
-        else:
-            prereq_map = {
-                "ingest": ["source.pdf"],
-                "analyze": ["source.pdf", "raw_extract.json"],
-                "design": ["content_map.json"],
-                "assess": ["content_map.json"],
-                "lle": ["chapter_spec.json"],
-                "assemble": ["chapter_spec.json", "lle.json"],
-                "qa": ["chapter.html"],
-                "output": ["chapter.html"],
-            }
-        required_files = prereq_map.get(stage, [])
-        return [f for f in required_files if not (work_dir / f).exists()]
-
-    def _check_control_signals(
-        self,
-        work_dir: Path,
-        bus: AgentBus,
-        job: Job,
-        log: Any,
-    ) -> str:
-        """Check work_dir/control.json for cooperative pause, resume, intervention, or abort signals."""
-        control_path = work_dir / "control.json"
-        if not control_path.exists():
-            return "ok"
-
-        try:
-            data = json.loads(control_path.read_text(encoding="utf-8"))
-        except Exception:
-            return "ok"
-
-        action = str(data.get("action", "")).lower()
-
-        if action == "abort":
-            data["status"] = "acknowledged"
-            control_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
-            job.status = "aborted"
-            job.error_message = data.get("reason", "Pipeline aborted by control plane.")
-            self._save_job(job, work_dir)
-            log(f"  [ControlPlane] Pipeline ABORT requested by {data.get('issuer', 'admin')}.")
-            return "abort"
-
-        if action == "approve_intervention":
-            approval_record = {
-                "approved": True,
-                "approved_by": data.get("issuer", "super_admin"),
-                "reason": data.get("reason", "Human intervention approved override"),
-                "timestamp": self._now_iso(),
-            }
-            (work_dir / "intervention_approval.json").write_text(
-                json.dumps(approval_record, indent=2), encoding="utf-8"
-            )
-            job.quarantined = False
-            job.quarantine_packet = None
-            job.error_stage = ""
-            job.error_message = ""
-            if job.status == "quarantined":
-                job.status = "running"
-            self._save_job(job, work_dir)
-            data["status"] = "acknowledged"
-            control_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
-            bus.publish("intervention.approved", approval_record)
-            log(f"  [ControlPlane] Human Intervention APPROVED by {approval_record['approved_by']}. Quarantine cleared.")
-            return "intervention_approved"
-
-        if action == "pause":
-            if job.status != "paused":
-                job.status = "paused"
-                self._save_job(job, work_dir)
-                bus.publish("job.paused", {"issuer": data.get("issuer", "user"), "timestamp": self._now_iso()})
-                data["status"] = "acknowledged"
-                control_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
-                log(f"  [ControlPlane] Pipeline PAUSED by {data.get('issuer', 'user')}. Awaiting resume signal...")
-
-            # Cooperative wait loop
-            while True:
-                time.sleep(0.5)
-                if not control_path.exists():
-                    break
-                try:
-                    cdata = json.loads(control_path.read_text(encoding="utf-8"))
-                    caction = str(cdata.get("action", "")).lower()
-                    if caction == "resume":
-                        job.status = "running"
-                        self._save_job(job, work_dir)
-                        bus.publish("job.resumed", {"issuer": cdata.get("issuer", "user"), "timestamp": self._now_iso()})
-                        cdata["status"] = "acknowledged"
-                        control_path.write_text(json.dumps(cdata, indent=2), encoding="utf-8")
-                        log(f"  [ControlPlane] Pipeline RESUMED by {cdata.get('issuer', 'user')}.")
-                        return "resumed"
-                    elif caction == "abort":
-                        job.status = "aborted"
-                        self._save_job(job, work_dir)
-                        cdata["status"] = "acknowledged"
-                        control_path.write_text(json.dumps(cdata, indent=2), encoding="utf-8")
-                        log(f"  [ControlPlane] Pipeline ABORTED while paused.")
-                        return "abort"
-                except Exception:
-                    pass
-
-        return "ok"
-
-    def _execute_qa_stage(
-        self,
-        work_dir: Path,
-        context: dict[str, Any],
-        bus: AgentBus,
-        log: Any,
-        job: Job,
-        total_cost: float,
-        stage_start: float,
-    ) -> dict[str, Any] | None:
-        """Execute Stage 8 (QA) with Bounded 2-Tier Autonomous Self-Repair Loop."""
-        html_path = work_dir / "chapter.html"
-        if not html_path.is_file():
-            raise FileNotFoundError("CHILD_BUNDLE_MISSING: chapter.html")
-        bundle_size_bytes = validate_child_bundle_size(html_path.stat().st_size)
-        qa_runner = self.config.pipeline.qa_runner
-        agent = QAAgent(qa_runner)
-        stage_result = agent.run(work_dir, context)
-        stage_result["bundle_size_bytes"] = bundle_size_bytes
-        for entry in agent.logs:
-            log(f"  {entry}")
-
-        # ─── Bounded 2-Tier Autonomous Self-Repair Loop ───────────
-        # GEMINI.md: 1 initial invocation + at most 2 autonomous targeted repairs (ceiling: 3 total)
-        repair_attempts = 0
-        max_repair_attempts = 2
-        while not stage_result.get("passed", False) and repair_attempts < max_repair_attempts:
-            repair_attempts += 1
-            failures = stage_result.get("failures", [])
-            failure_names = [f.get("check") or str(f) for f in failures] if isinstance(failures, list) else []
-            log(f"  [Auto-Repair] QA flagged failures: {failure_names} (Repair Attempt {repair_attempts}/{max_repair_attempts})")
-
-            # Targeted Diagnostic Repair
-            spec_path = work_dir / "chapter_spec.json"
-            lle_path = work_dir / "lle.json"
-
-            # 1. Sanitize distractor misconceptions and spoiler leaks
-            if spec_path.exists():
-                from ..synthesis.offline_synthesizer import sanitize_spec_misconceptions
-                try:
-                    spec_data = json.loads(spec_path.read_text(encoding="utf-8"))
-                    spoilers_fixed = sanitize_spec_misconceptions(spec_data)
-                    if spoilers_fixed:
-                        log(f"  [Auto-Repair] Sanitized {spoilers_fixed} misconception spoilers in chapter spec.")
-                        spec_path.write_text(json.dumps(spec_data, ensure_ascii=False, indent=2), encoding="utf-8")
-                except Exception as err:
-                    logger.warning(f"Spec sanitization note: {err}")
-
-            # 2. Devanagari character / Indic dictionary substrate repair
-            if any("Devanagari" in str(fn) or "lle" in str(fn).lower() for fn in failure_names):
-                try:
-                    if self.defaults_path.exists():
-                        defaults_data = json.loads(self.defaults_path.read_text(encoding="utf-8"))
-                        default_lle = defaults_data.get("lle_dictionary", {})
-                        if default_lle and lle_path.exists():
-                            existing_lle = json.loads(lle_path.read_text(encoding="utf-8"))
-                            if isinstance(existing_lle, dict):
-                                for k, v in default_lle.items():
-                                    if k not in existing_lle:
-                                        existing_lle[k] = v
-                                lle_path.write_text(json.dumps(existing_lle, ensure_ascii=False, indent=2), encoding="utf-8")
-                                log(f"  [Auto-Repair] Restored Indic bilingual dictionary terms from defaults.")
-                except Exception as err:
-                    logger.warning(f"LLE repair note: {err}")
-
-            # 3. Math-rt isolation repair
-            if any("math_rt_isolation" in str(fn) for fn in failure_names):
-                try:
-                    if lle_path.exists():
-                        existing_lle = json.loads(lle_path.read_text(encoding="utf-8"))
-                        modified = False
-                        if isinstance(existing_lle, dict):
-                            if "WM" in existing_lle and isinstance(existing_lle["WM"], dict) and "a" in existing_lle["WM"]:
-                                del existing_lle["WM"]["a"]
-                                modified = True
-                            if "a" in existing_lle:
-                                del existing_lle["a"]
-                                modified = True
-                        if modified:
-                            lle_path.write_text(json.dumps(existing_lle, ensure_ascii=False, indent=2), encoding="utf-8")
-                            log("  [Auto-Repair] Removed ambiguous 'a' key from bilingual dictionary to resolve math_rt_isolation.")
-                except Exception as err:
-                    logger.warning(f"Math isolation repair note: {err}")
-
-            # 4. Re-assemble chapter.html with repaired spec and LLE
-            if spec_path.exists():
-                try:
-                    assembler = HTMLAssembler(str(self.template_path))
-                    assembler.assemble_to_file(
-                        spec_path, lle_path, html_path, str(self.defaults_path)
-                    )
-                    log(f"  [Auto-Repair] Re-assembled chapter.html ({html_path.stat().st_size / 1024:.0f} KB)")
-                except Exception as err:
-                    logger.warning(f"Assembly repair note: {err}")
-
-            # Re-run QA agent on the repaired bundle
-            stage_result = agent.run(work_dir, context)
-            stage_result["bundle_size_bytes"] = html_path.stat().st_size
-            for entry in agent.logs:
-                log(f"  [Auto-Repair] {entry}")
-
-            if stage_result.get("passed", False):
-                log(f"  [Auto-Repair] Autonomous self-repair SUCCEEDED on attempt {repair_attempts}/{max_repair_attempts}! All checks passed.")
-                job.quarantined = False
-                job.quarantine_packet = None
-                job.error_stage = ""
-                job.error_message = ""
-                bus.publish("qa.repaired", {"attempts": repair_attempts, "passed": True})
-                break
-
-        bus.publish("qa.result", {"passed": stage_result.get("passed", False)})
-
-        if stage_result.get("passed", False):
-            job.quarantined = False
-            job.quarantine_packet = None
-            job.error_stage = ""
-            job.error_message = ""
-
-        # Check if Human Intervention was already approved (Educator sign-off)
-        if not stage_result.get("passed", False):
-            if (work_dir / "intervention_approval.json").exists():
-                log("  [HIL] Human Intervention Approval verified! Bypassing quarantine block under Educator Authorization.")
-                job.quarantined = False
-                job.quarantine_packet = None
-                job.error_stage = ""
-                job.error_message = ""
-                stage_result["passed"] = True
-                stage_result["human_intervention_override"] = True
-                return stage_result
-
-            ctrl_status = self._check_control_signals(work_dir, bus, job, log)
-            if ctrl_status == "intervention_approved" or (work_dir / "intervention_approval.json").exists():
-                log("  [HIL] Human Intervention Approval received! Bypassing quarantine block under Educator Authorization.")
-                job.quarantined = False
-                job.quarantine_packet = None
-                job.error_stage = ""
-                job.error_message = ""
-                stage_result["passed"] = True
-                stage_result["human_intervention_override"] = True
-                return stage_result
-
-        # If QA still failed after exhausting 2 repairs -> QUARANTINE ACTIVATION
-        if not stage_result.get("passed", False):
-            q_packet_obj = QuarantinePacket(
-                quarantined=True,
-                role="QAAgent",
-                stage="qa",
-                repair_attempts=repair_attempts,
-                exhausted=True,
-                violations=stage_result.get("failures", []),
-                quarantine_timestamp=self._now_iso(),
-                action_required="SUPER_ADMIN_INTERVENTION",
-                message=f"QA failed validation after {repair_attempts} autonomous repair attempts ({stage_result.get('failure_count', 0)} failures). Downstream delivery quarantined."
-            )
-            q_packet = q_packet_obj.model_dump()
-            (work_dir / "quarantine_packet.json").write_text(
-                json.dumps(q_packet, indent=2), encoding="utf-8"
-            )
-            job.status = "quarantined"
-            job.quarantined = True
-            job.quarantine_packet = q_packet
-            job.error_stage = "qa"
-            job.error_message = q_packet["message"]
-            self._update_stage(
-                job, "qa", "quarantined",
-                duration=time.time() - stage_start,
-                output=stage_result.get("output_file", ""),
-                error=q_packet["message"]
-            )
-            job.cost_usd = total_cost
-            self._save_job(job, work_dir)
-            bus.publish("quarantine.activated", q_packet)
-
-            # Purge any previously delivered output bundle to prevent quarantine bypass
-            chapter_name = job.input.source_pdf.replace(".pdf", "").replace(" ", "_")
-            html_out = (self.output_dir / f"{chapter_name}_chapter.html").resolve()
-            if html_out.exists():
-                try:
-                    html_out.unlink()
-                except Exception:
-                    pass
-            spec_out = (self.output_dir / f"{chapter_name}_spec.json").resolve()
-            if spec_out.exists():
-                try:
-                    spec_out.unlink()
-                except Exception:
-                    pass
-
-            log(f"  [Quarantine] Repair attempts exhausted ({repair_attempts}/{max_repair_attempts}). Output QUARANTINED. Downstream delivery BLOCKED.")
-            return None
-
-        # Trigger AGT-007 BrowserTesterAgent (CDP verification) if script is available
-        try:
-            browser_script = Path(__file__).resolve().parent.parent.parent.parent / "scripts" / "automated_browser_verification.js"
-            if not browser_script.exists():
-                browser_script = Path(__file__).resolve().parent.parent.parent.parent.parent / "scripts" / "automated_browser_verification.js"
-            if browser_script.exists():
-                log(f"  [BrowserTesterAgent] Running Headless Chrome CDP Verification...")
-                b_res = subprocess.run(
-                    ["node", str(browser_script), "--file", str(html_path)],
-                    capture_output=True,
-                    text=True,
-                    timeout=60,
-                    cwd=str(work_dir)
-                )
-                if b_res.returncode == 0:
-                    log(f"  [BrowserTesterAgent] CDP Verification Passed (0 console errors, touch targets OK)")
-                    bus.publish("browser_test.result", {"passed": True})
-                else:
-                    warn_msg = (b_res.stderr.strip() or b_res.stdout.strip())[:200]
-                    log(f"  [BrowserTesterAgent] CDP Advisory/Warning: {warn_msg}")
-                    bus.publish("browser_test.result", {"passed": False, "warning": warn_msg})
-        except Exception as e:
-            log(f"  [BrowserTesterAgent] CDP verification bypassed: {e}")
-
-        return stage_result
-
     def run_pipeline(
         self,
         job_id: str,
         from_stage: str | None = None,
         log_callback=None,
-        max_cost: float = 0.50,
-        mode: str | None = None,
-        auto_rewind: bool = True,
     ) -> Job:
         """Run the full pipeline for a job.
 
@@ -788,424 +167,152 @@ class Orchestrator:
             job_id: The job ID to run
             from_stage: Resume from this stage (skip earlier stages)
             log_callback: Optional callback for log messages
-            max_cost: Maximum allowed cost in USD
-            mode: Optional pipeline execution mode override
-            auto_rewind: Automatically rewind to earliest runnable stage if prerequisites are missing
 
         Returns:
             Updated Job object
         """
-        if from_stage:
-            from_stage = STAGE_ALIASES.get(from_stage, from_stage)
-
         job = self._load_job(job_id)
-        work_dir = self._recover_work_dir_if_needed(job, job_id)
-        self._recover_source_pdf_if_needed(job, work_dir)
+        work_dir = self._get_job_work_dir(job_id)
 
-        json_log_path = work_dir / "pipeline.log"
-        
-        def log(msg: str, **kwargs):
-            logger.info(msg)
-            if log_callback:
-                log_callback(msg)
-            
-            log_entry = {
-                "timestamp": self._now_iso(),
-                "message": msg,
-                **kwargs
-            }
-            with open(json_log_path, "a", encoding="utf-8") as f:
-                f.write(json.dumps(log_entry) + "\n")
-
-        from ..schemas import STAGE_ORDER_V5, STAGE_ORDER_FS
-
-        # Mode handling & auto-detection
-        if mode:
-            job.input.mode = mode
-        elif from_stage:
-            if from_stage == "synthesize" and job.input.mode != "full-synthesis":
-                log(f"Stage 'synthesize' belongs to full-synthesis mode; auto-switching job mode to full-synthesis")
-                job.input.mode = "full-synthesis"
-            elif from_stage in ("assemble", "lle") and job.input.mode != "v5-engine":
-                log(f"Stage '{from_stage}' belongs to v5-engine mode; auto-switching job mode to v5-engine")
-                job.input.mode = "v5-engine"
+        if not work_dir.exists():
+            raise FileNotFoundError(f"Work directory not found for job {job_id}")
 
         context = {
             "pdf_path": str(work_dir / "source.pdf"),
-            "source_pdf_sha256": job.input.source_pdf_sha256,
             "subject": job.input.subject,
             "grade": job.input.grade,
             "provider": job.input.provider,
         }
 
-        stage_order = STAGE_ORDER_FS if job.input.mode == "full-synthesis" else STAGE_ORDER_V5
+        def log(msg: str):
+            logger.info(msg)
+            if log_callback:
+                log_callback(msg)
+
+        mode = getattr(job.input, "mode", "v5-engine") or "v5-engine"
+        active_stages = LEARN_ARENA_STAGE_ORDER if mode == "learn-arena" else (FULL_SYNTHESIS_STAGE_ORDER if mode == "full-synthesis" else STAGE_ORDER)
 
         # Determine starting stage
         start_idx = 0
         if from_stage:
-            if from_stage in stage_order:
-                start_idx = stage_order.index(from_stage)
-                log(f"Resuming from stage: {from_stage} (mode: {job.input.mode})")
+            if from_stage in active_stages:
+                start_idx = active_stages.index(from_stage)
+                log(f"Resuming from stage: {from_stage}")
             else:
-                other_mode = "full-synthesis" if job.input.mode == "v5-engine" else "v5-engine"
-                other_order = STAGE_ORDER_FS if other_mode == "full-synthesis" else STAGE_ORDER_V5
-                if from_stage in other_order:
-                    error_msg = (
-                        f"MODE_MISMATCH: Stage '{from_stage}' belongs to '{other_mode}' mode, but job '{job_id}' is in '{job.input.mode}' mode. "
-                        f"To resume with this stage, pass '--mode {other_mode}'."
-                    )
-                else:
-                    error_msg = (
-                        f"INVALID_STAGE: Unknown stage '{from_stage}'. "
-                        f"Valid stages for mode '{job.input.mode}' are: {', '.join(stage_order)}."
-                    )
-                log(f"  ERROR: {error_msg}")
-                self._update_stage(job, from_stage, "failed", error=error_msg)
-                job.status = "failed"
-                job.error_stage = from_stage
-                job.error_message = error_msg
-                self._save_job(job, work_dir)
-                bus = AgentBus(work_dir)
-                bus.publish("stage.failed", {"stage": from_stage, "error": error_msg})
-                return job
-
-        # Validate prerequisite artifacts before resuming from a later stage
-        if from_stage and start_idx > 0:
-            stage_to_resume = stage_order[start_idx]
-            missing_prereqs = self._validate_stage_prerequisites(stage_to_resume, job.input.mode, work_dir)
-            if missing_prereqs:
-                if auto_rewind:
-                    log(f"  NOTICE: Missing required prerequisite artifact(s) for stage '{stage_to_resume}': {', '.join(missing_prereqs)}")
-                    # Find earliest preceding stage that needs to run
-                    rewind_idx = start_idx
-                    while rewind_idx > 0:
-                        rewind_idx -= 1
-                        earlier_stage = stage_order[rewind_idx]
-                        earlier_missing = self._validate_stage_prerequisites(earlier_stage, job.input.mode, work_dir)
-                        if not earlier_missing:
-                            break
-
-                    earliest_stage = stage_order[rewind_idx]
-                    earliest_missing = self._validate_stage_prerequisites(earliest_stage, job.input.mode, work_dir)
-                    if earliest_missing and "source.pdf" in earliest_missing:
-                        if self._recover_source_pdf_if_needed(job, work_dir):
-                            earliest_missing = self._validate_stage_prerequisites(earliest_stage, job.input.mode, work_dir)
-
-                    if earliest_missing:
-                        error_msg = (
-                            f"RESUME_PREREQUISITES_MISSING: Cannot resume from stage '{stage_to_resume}'. "
-                            f"Missing required artifact(s): {', '.join(missing_prereqs)}, and auto-rewind to '{earliest_stage}' "
-                            f"failed due to missing {', '.join(earliest_missing)}. "
-                            f"Earlier stages in job '{job_id}' must complete before resuming from '{stage_to_resume}'."
-                        )
-                        log(f"  ERROR: {error_msg}")
-                        self._update_stage(job, stage_to_resume, "failed", error=error_msg)
-                        job.status = "failed"
-                        job.error_stage = stage_to_resume
-                        job.error_message = error_msg
-                        self._save_job(job, work_dir)
-                        bus = AgentBus(work_dir)
-                        bus.publish("stage.failed", {"stage": stage_to_resume, "error": error_msg})
-                        return job
-
-                    rewound_stage = stage_order[rewind_idx]
-                    log(f"  AUTO-REWIND: Automatically rewinding execution from '{stage_to_resume}' to '{rewound_stage}' to backfill missing prerequisites seamlessly.")
-                    start_idx = rewind_idx
-                else:
-                    error_msg = (
-                        f"RESUME_PREREQUISITES_MISSING: Cannot resume from stage '{stage_to_resume}'. "
-                        f"Missing required artifact(s): {', '.join(missing_prereqs)}. "
-                        f"Earlier stages in job '{job_id}' must complete before resuming from '{stage_to_resume}'."
-                    )
-                    log(f"  ERROR: {error_msg}")
-                    self._update_stage(job, stage_to_resume, "failed", error=error_msg)
-                    job.status = "failed"
-                    job.error_stage = stage_to_resume
-                    job.error_message = error_msg
-                    self._save_job(job, work_dir)
-                    bus = AgentBus(work_dir)
-                    bus.publish("stage.failed", {"stage": stage_to_resume, "error": error_msg})
-                    return job
+                log(f"Unknown stage '{from_stage}', starting from beginning")
 
         job.status = "running"
         self._save_job(job, work_dir)
-        bus = AgentBus(work_dir)
 
         total_cost = 0.0
 
         try:
-            for i in range(start_idx, len(stage_order)):
-                stage = stage_order[i]
-
-                # Cooperative control signal check (pause, resume, abort)
-                ctrl_signal = self._check_control_signals(work_dir, bus, job, log)
-                if ctrl_signal == "abort":
-                    return job
-
-                log(f"[{i+1}/{len(stage_order)}] {stage}...")
-                
-                if total_cost > max_cost:
-                    error_msg = f"Max cost exceeded: ${total_cost:.4f} > ${max_cost:.4f}"
-                    log(f"  ERROR: {error_msg}")
-                    self._update_stage(job, stage, "failed", error=error_msg)
-                    job.status = "failed"
-                    job.error_stage = stage
-                    job.error_message = error_msg
-                    job.cost_usd = total_cost
-                    self._save_job(job, work_dir)
-                    bus.publish("stage.failed", {"stage": stage, "error": error_msg})
-                    return job
+            for i in range(start_idx, len(active_stages)):
+                stage = active_stages[i]
+                log(f"[{i+1}/{len(active_stages)}] {stage} ({mode})...")
 
                 self._update_stage(job, stage, "running")
                 job.status = stage
                 self._save_job(job, work_dir)
-                bus.publish("stage.started", {"stage": stage})
 
                 stage_start = time.time()
                 stage_result = {}
 
                 try:
                     if stage == "ingest":
-                        llm = self._create_llm(context["provider"]) if context.get("provider") else None
-                        agent = IngestAgent(llm=llm)
+                        agent = IngestAgent()
                         stage_result = agent.run(work_dir, context)
-                        if llm and hasattr(llm, "cost_estimate"):
-                            total_cost += llm.cost_estimate
-                            job.costs["IngestAgent"] = job.costs.get("IngestAgent", 0) + llm.cost_estimate
-                        if stage_result.get("error"):
-                            raise ValueError(f"SOURCE_EXTRACTION_FAILED: {stage_result['error']}")
-                        if stage_result.get("source_sha256") != job.input.source_pdf_sha256:
-                            raise ValueError("SOURCE_HASH_MISMATCH: ingestion output is not bound to the job source")
-                        manifest_path = work_dir / "source_manifest.json"
-                        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-                        raw_extract_path = work_dir / "raw_extract.json"
-                        manifest.update({
-                            "page_count": stage_result.get("page_count"),
-                            "raw_extract_sha256": _sha256_file(raw_extract_path),
-                            "lineage_status": "SOURCE_HASHED_PAGES_REFERENCED",
-                        })
-                        manifest_path.write_text(
-                            json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
-                        )
                         for entry in agent.logs:
                             log(f"  {entry}")
 
                     elif stage == "analyze":
-                        llm = self._create_llm(context["provider"])
-                        agent = AnalysisAgent(llm)
-                        stage_result = agent.run(work_dir, context)
-                        total_cost += llm.cost_estimate
-                        job.costs["AnalysisAgent"] = job.costs.get("AnalysisAgent", 0) + llm.cost_estimate
-                        for entry in agent.logs:
-                            log(f"  {entry}")
-
-                        if job.input.mode == "full-synthesis":
-                            # Stage 2 of full-synthesis: Analyze + Extract Exercises → pedagogy_map.json
-                            # IngestAgent output (raw_extract.json) + ExerciseExtractor + AnalysisAgent output
-                            from ..exercise import ExerciseExtractor
-                            extractor = ExerciseExtractor()
+                        if context["provider"] == "offline":
                             raw_extract = json.loads((work_dir / "raw_extract.json").read_text(encoding="utf-8"))
-                            exercises = extractor.extract(raw_extract)
-                            ex_dicts = [ex.to_dict() for ex in exercises]
-
-                            content_map = json.loads((work_dir / "content_map.json").read_text(encoding="utf-8"))
-                            pedagogy_map = enrich_content_map(content_map, ex_dicts)
-
-                            with open(work_dir / "pedagogy_map.json", "w", encoding="utf-8") as f:
-                                json.dump(pedagogy_map, f, indent=2)
-                            stats = pedagogy_map.get("exercise_stats", {})
-                            stage_result = {"output_file": str(work_dir / "pedagogy_map.json")}
-                            log(f"  Created pedagogy_map.json: {stats.get('total', 0)} exercises, "
-                                f"types={stats.get('by_type', {})}")
-                            bus.publish("concept.identified", {"count": len(pedagogy_map.get("concepts", []))})
-                            bus.publish("exercise.extracted", {"count": stats.get("total", 0)})
+                            cm = build_offline_content_map(raw_extract, subject=context["subject"], grade=int(context["grade"]))
+                            cm_path = work_dir / "content_map.json"
+                            cm_path.write_text(json.dumps(cm, ensure_ascii=False, indent=2), encoding="utf-8")
+                            stage_result = {"output_file": str(cm_path), "concept_count": len(cm.get("concepts", []))}
+                            log(f"  Offline analyze: {len(cm.get('concepts', []))} concepts")
+                        else:
+                            llm = self._create_llm(context["provider"])
+                            agent = AnalysisAgent(llm)
+                            stage_result = agent.run(work_dir, context)
+                            total_cost += llm.cost_estimate
+                            for entry in agent.logs:
+                                log(f"  {entry}")
 
                     elif stage == "design":
-                        if job.input.mode == "full-synthesis":
-                            # Stage 3 of full-synthesis: Design Interactions → experience_plan.json
-                            # Query PluginRegistry.find_best() for each concept
-                            from ..plugins import create_default_registry
-                            from ..plugins.base import InteractionRequest
-                            registry = create_default_registry()
-                            pedagogy_map = json.loads((work_dir / "pedagogy_map.json").read_text(encoding="utf-8"))
-
-                            experience_plan = {"concepts": [], "plugins_used": []}
-                            plugins_used_set = set()
-                            for concept in pedagogy_map.get("concepts", []):
-                                req = InteractionRequest(
-                                    concept=concept.get("name", ""),
-                                    subject=context["subject"],
-                                    grade=context["grade"],
-                                    suggested_model=concept.get("suggested_model", ""),
-                                    context=concept.get("summary", ""),
-                                )
-                                best_plugin = registry.find_best(req)
-                                plugin_name = best_plugin.metadata.name if best_plugin else None
-                                if plugin_name:
-                                    plugins_used_set.add(plugin_name)
-                                experience_plan["concepts"].append({
-                                    "name": concept.get("name", ""),
-                                    "summary": concept.get("summary", ""),
-                                    "key_ideas": concept.get("key_ideas", []),
-                                    "difficulty": concept.get("difficulty", "medium"),
-                                    "plugin": plugin_name,
-                                })
-                            experience_plan["plugins_used"] = sorted(plugins_used_set)
-
-                            with open(work_dir / "experience_plan.json", "w", encoding="utf-8") as f:
-                                json.dump(experience_plan, f, indent=2)
-                            stage_result = {"output_file": str(work_dir / "experience_plan.json")}
-                            log(f"  Created experience_plan.json: {len(experience_plan['concepts'])} concepts, "
-                                f"plugins={experience_plan['plugins_used']}")
-                            bus.publish("interaction.assigned", {"concepts": len(experience_plan["concepts"])})
+                        if context["provider"] == "offline":
+                            raw_extract = json.loads((work_dir / "raw_extract.json").read_text(encoding="utf-8"))
+                            cm = json.loads((work_dir / "content_map.json").read_text(encoding="utf-8"))
+                            spec = build_offline_chapter_spec(cm, raw_extract)
+                            spec_path = work_dir / "chapter_spec.json"
+                            spec_path.write_text(json.dumps(spec, ensure_ascii=False, indent=2), encoding="utf-8")
+                            stage_result = {"output_file": str(spec_path), "node_count": len(spec.get("NODES", []))}
+                            log(f"  Offline design: {len(spec.get('NODES', []))} nodes")
                         else:
-                            import concurrent.futures
-                            
-                            def run_design_agent():
-                                llm = self._create_llm(context["provider"])
-                                agent = DesignAgent(llm)
-                                res = agent.run(work_dir, context)
-                                return "DesignAgent", llm.cost_estimate, agent.logs, res
-                                
-                            def run_lle_agent():
-                                llm = self._create_llm(context["provider"], temperature=0.2)
-                                agent = LLEAgent(llm, str(self.defaults_path))
-                                res = agent.run(work_dir, context)
-                                return "LLEAgent", llm.cost_estimate, agent.logs, res
-
-                            # LLEAgent reads chapter_spec.json, which DesignAgent writes.
-                            # Running them concurrently races on that file: LLE can start
-                            # before the spec exists and abort the stage. Design must finish
-                            # (and flush its output) before LLE is submitted.
-                            with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-                                future_d = executor.submit(run_design_agent)
-                                agent_name_d, cost_d, logs_d, res_d = future_d.result()
-
-                                future_l = executor.submit(run_lle_agent)
-                                agent_name_l, cost_l, logs_l, _res_l = future_l.result()
-                                
-                            total_cost += cost_d + cost_l
-                            job.costs[agent_name_d] = job.costs.get(agent_name_d, 0) + cost_d
-                            job.costs[agent_name_l] = job.costs.get(agent_name_l, 0) + cost_l
-                            
-                            for entry in logs_d:
-                                log(f"  [Design] {entry}")
-                            for entry in logs_l:
-                                log(f"  [LLE] {entry}")
-                                
-                            stage_result = res_d
+                            llm = self._create_llm(context["provider"])
+                            agent = DesignAgent(llm)
+                            stage_result = agent.run(work_dir, context)
+                            total_cost += llm.cost_estimate
+                            for entry in agent.logs:
+                                log(f"  {entry}")
 
                     elif stage == "assess":
-                        if job.input.mode == "full-synthesis":
-                            # Stage 4 of full-synthesis: Generate Assessments → assessment_suite.json
-                            # Convert all extracted exercises into 3 gamified levels + generate supplementary
-                            pedagogy_map = json.loads((work_dir / "pedagogy_map.json").read_text(encoding="utf-8"))
-                            exercises = pedagogy_map.get("extracted_exercises", [])
-                            concepts = pedagogy_map.get("concepts", [])
-
-                            from ..exercise import ExerciseExtractor
-                            extractor = ExerciseExtractor()
-
-                            assessment_suite: dict[str, Any] = {
-                                "warmup": [],
-                                "deep_dive": [],
-                                "boss": [],
-                            }
-
-                            for ex in exercises:
-                                level = extractor.to_assessment_level(ex.get("difficulty", "recall"))
-                                assessment_suite[level].append(ex)
-
-                            # Generate supplementary assessments to fill level gaps
-                            assessment_suite = generate_supplementary_assessments(
-                                assessment_suite,
-                                subject=context["subject"],
-                                concepts=concepts,
-                            )
-
-                            # Map TEAS nodes and assign node_id
-                            nodes_map = []
-                            for i, concept in enumerate(concepts):
-                                nodes_map.append({"node_id": f"node_{i+1}", "concept": concept.get("name")})
-
-                            for level in ("warmup", "deep_dive", "boss"):
-                                for i, ex in enumerate(assessment_suite[level]):
-                                    if not ex.get("node_id"):
-                                        node_idx = (i % len(concepts)) + 1 if concepts else 1
-                                        ex["node_id"] = f"node_{node_idx}"
-
-                            manifest = {
-                                "subject": context["subject"],
-                                "grade": context["grade"],
-                                "nodes": nodes_map,
-                                "dependencies": [{"from": f"node_{i}", "to": f"node_{i+1}"} for i in range(1, len(nodes_map))]
-                            }
-                            with open(work_dir / "chapter_manifest.json", "w", encoding="utf-8") as f:
-                                json.dump(manifest, f, indent=2)
-
-                            # Add summary stats
-                            assessment_suite["total_xp"] = sum(
-                                ex.get("xp", 5) for level_list in assessment_suite.values()
-                                if isinstance(level_list, list) for ex in level_list
-                            )
-                            assessment_suite["level_counts"] = {
-                                level: len(assessment_suite.get(level, []))
-                                for level in ("warmup", "deep_dive", "boss")
-                            }
-
-                            with open(work_dir / "assessment_suite.json", "w", encoding="utf-8") as f:
-                                json.dump(assessment_suite, f, indent=2)
-                            counts = assessment_suite["level_counts"]
-                            stage_result = {"output_file": str(work_dir / "assessment_suite.json")}
-                            log(f"  Created assessment_suite.json: warmup={counts['warmup']}, "
-                                f"deep_dive={counts['deep_dive']}, boss={counts['boss']}")
-                            bus.publish("assessment.generated", {"total_xp": assessment_suite.get("total_xp", 0)})
+                        if context["provider"] == "offline":
+                            spec_path = work_dir / "chapter_spec.json"
+                            stage_result = {"output_file": str(spec_path)}
+                            log("  Offline assess: verified WE/SOLVE/quiz items")
                         else:
                             llm = self._create_llm(context["provider"])
                             agent = AssessmentAgent(llm)
                             stage_result = agent.run(work_dir, context)
                             total_cost += llm.cost_estimate
-                            job.costs["AssessmentAgent"] = job.costs.get("AssessmentAgent", 0) + llm.cost_estimate
                             for entry in agent.logs:
                                 log(f"  {entry}")
 
-                    elif stage == "synthesize":
-                        from ..synthesis.code_synthesizer import FrontendCodeSynthesizer
-                        agent = FrontendCodeSynthesizer()
-                        stage_result = agent.run(work_dir, context)
-                        for entry in agent.logs:
-                            log(f"  {entry}")
-
                     elif stage == "lle":
-                        if (work_dir / "lle.json").exists():
-                            log("  LLE already generated in parallel during Design stage.")
-                            stage_result = {"output_file": str(work_dir / "lle.json")}
+                        if context["provider"] == "offline":
+                            spec = json.loads((work_dir / "chapter_spec.json").read_text(encoding="utf-8"))
+                            master_pack = self.defaults_path.parent / "lle_master_pack.json"
+                            lle = build_offline_lle(spec, self.defaults_path, master_pack)
+                            lle_path = work_dir / "lle.json"
+                            lle_path.write_text(json.dumps(lle, ensure_ascii=False, indent=2), encoding="utf-8")
+                            stage_result = {"output_file": str(lle_path), "wm_count": len(lle.get("WM", {}))}
+                            log(f"  Offline LLE: {len(lle.get('WM', {}))} WM + {len(lle.get('PH', {}))} PH entries")
                         else:
                             llm = self._create_llm(context["provider"], temperature=0.2)
                             agent = LLEAgent(llm, str(self.defaults_path))
                             stage_result = agent.run(work_dir, context)
                             total_cost += llm.cost_estimate
-                            job.costs["LLEAgent"] = job.costs.get("LLEAgent", 0) + llm.cost_estimate
                             for entry in agent.logs:
                                 log(f"  {entry}")
 
-                    elif stage == "assemble":
-                        spec_path = work_dir / "chapter_spec.json"
-                        
-                        if spec_path.exists():
-                            from ..schemas.validator import validate_chapter_spec
-                            from ..synthesis.offline_synthesizer import sanitize_spec_misconceptions
-                            spec_data = json.loads(spec_path.read_text(encoding="utf-8"))
-                            repaired = sanitize_spec_misconceptions(spec_data)
-                            if repaired:
-                                log(f"  [Validator] Auto-repaired {repaired} distractor spoiler leaks before assembly.")
-                                spec_path.write_text(json.dumps(spec_data, ensure_ascii=False, indent=2), encoding="utf-8")
-                            val_result = validate_chapter_spec(spec_data, require_opts=True)
-                            if not val_result.valid:
-                                error_msgs = "; ".join(val_result.errors)
-                                raise ValueError(f"Strict JSON schema validation failed: {error_msgs}")
+                    elif stage == "learn_arena":
+                        tpl_dir = self.template_path.parent
+                        master_pack = self.defaults_path.parent / "lle_master_pack.json"
+                        la_assembler = LearnArenaAssembler(
+                            learn_template_path=tpl_dir / "aasha-learn-template.html",
+                            arena_template_path=tpl_dir / "aasha-arena-template.html",
+                            master_pack_path=master_pack if master_pack.exists() else None,
+                            defaults_path=self.defaults_path,
+                        )
+                        learn_p, arena_p = la_assembler.assemble_to_files(
+                            work_dir / "chapter_spec.json",
+                            work_dir / "lle.json",
+                            work_dir / "chapter_learning.html",
+                            work_dir / "chapter_arena.html",
+                        )
+                        stage_result = {
+                            "output_file": str(learn_p),
+                            "learn_file": str(learn_p),
+                            "arena_file": str(arena_p),
+                        }
+                        log(f"  Assembled Learning ({learn_p.stat().st_size / 1024:.0f} KB) & Arena ({arena_p.stat().st_size / 1024:.0f} KB)")
 
+                    elif stage == "assemble":
                         assembler = HTMLAssembler(str(self.template_path))
+                        spec_path = work_dir / "chapter_spec.json"
                         lle_path = work_dir / "lle.json"
                         html_path = work_dir / "chapter.html"
                         assembler.assemble_to_file(
@@ -1214,38 +321,70 @@ class Orchestrator:
                         stage_result = {"output_file": str(html_path)}
                         log(f"  Assembled chapter.html ({html_path.stat().st_size / 1024:.0f} KB)")
 
+                    elif stage == "synthesize":
+                        self._prepare_full_synthesis_intermediates(work_dir, context)
+                        synthesizer = FrontendCodeSynthesizer()
+                        stage_result = synthesizer.run(work_dir, context)
+                        for entry in synthesizer.logs:
+                            log(f"  {entry}")
+
                     elif stage == "qa":
-                        qa_res = self._execute_qa_stage(
-                            work_dir, context, bus, log, job, total_cost, stage_start
-                        )
-                        if qa_res is None:
+                        qa_runner = self.config.pipeline.qa_runner
+                        agent = QAAgent(qa_runner)
+                        if mode == "learn-arena":
+                            stage_result = self._run_learn_arena_qa_with_repair(work_dir, qa_runner, log)
+                        else:
+                            stage_result = agent.run(work_dir, context)
+                            for entry in agent.logs:
+                                log(f"  {entry}")
+
+                        # Check if QA passed
+                        if not stage_result.get("passed", False):
+                            job.status = "qa_failed"
+                            job.error_stage = "qa"
+                            self._update_stage(
+                                job, stage, "failed",
+                                duration=time.time() - stage_start,
+                                output=stage_result.get("output_file", ""),
+                                error=f"QA failed with {stage_result.get('failure_count', 0)} failures"
+                            )
+                            job.cost_usd = total_cost
+                            self._save_job(job, work_dir)
+                            log(f"  QA FAILED — chapter not delivered")
                             return job
-                        stage_result = qa_res
 
                     elif stage == "output":
                         # Copy to output directory
                         html_src = work_dir / "chapter.html"
+                        learn_src = work_dir / "chapter_learning.html"
+                        arena_src = work_dir / "chapter_arena.html"
                         spec_src = work_dir / "chapter_spec.json"
 
                         chapter_name = job.input.source_pdf.replace(".pdf", "").replace(" ", "_")
-                        html_out = (self.output_dir / f"{chapter_name}_chapter.html").resolve()
-                        spec_out = (self.output_dir / f"{chapter_name}_spec.json").resolve()
+                        html_out = self.output_dir / f"{chapter_name}_chapter.html"
+                        learn_out = self.output_dir / f"{chapter_name}_Learning.html"
+                        arena_out = self.output_dir / f"{chapter_name}_Arena.html"
+                        spec_out = self.output_dir / f"{chapter_name}_spec.json"
 
                         if html_src.exists():
                             shutil.copy(str(html_src), str(html_out))
                             job.outputs["html"] = str(html_out)
+                        if learn_src.exists():
+                            shutil.copy(str(learn_src), str(learn_out))
+                            job.outputs["learn_html"] = str(learn_out)
+                        if arena_src.exists():
+                            shutil.copy(str(arena_src), str(arena_out))
+                            job.outputs["arena_html"] = str(arena_out)
                         if spec_src.exists():
                             shutil.copy(str(spec_src), str(spec_out))
                             job.outputs["spec"] = str(spec_out)
-
-                        # Full-synthesis mode: also copy intermediate JSONs
-                        if job.input.mode == "full-synthesis":
-                            for json_name in ("pedagogy_map.json", "experience_plan.json", "assessment_suite.json", "chapter_manifest.json"):
-                                json_src = work_dir / json_name
-                                if json_src.exists():
-                                    json_out = self.output_dir / f"{chapter_name}_{json_name}"
-                                    shutil.copy(str(json_src), str(json_out))
-                                    job.outputs[json_name] = str(json_out)
+                            try:
+                                from ..assemble.sqlite_exporter import export_chapter_specs_to_sqlite
+                                db_out = self.output_dir / "teas_content.db"
+                                export_chapter_specs_to_sqlite([spec_out], db_out, gzip_output=True)
+                                job.outputs["sqlite_gz"] = str(self.output_dir / "teas_content.db.gz")
+                            except Exception as db_exc:
+                                logger.warning(f"SQLite dual-output export skipped: {db_exc}")
 
                         stage_result = {"html": str(html_out), "spec": str(spec_out)}
                         log(f"  Output: {html_out.name}")
@@ -1258,32 +397,8 @@ class Orchestrator:
                     )
                     job.cost_usd = total_cost
                     self._save_job(job, work_dir)
-                    bus.publish("stage.completed", {
-                        "stage": stage,
-                        "duration": duration,
-                        "output": stage_result.get("output_file", "")
-                    })
 
                     log(f"  Done ({duration:.1f}s)")
-
-                except QuarantineError as qe:
-                    log(f"  QUARANTINE ACTIVATED: {qe}")
-                    self._update_stage(job, stage, "quarantined", error=str(qe))
-                    job.status = "quarantined"
-                    job.quarantined = True
-                    if isinstance(qe.packet, QuarantinePacket):
-                        q_dict = qe.packet.model_dump()
-                    elif isinstance(qe.packet, dict):
-                        q_dict = qe.packet
-                    else:
-                        q_dict = {"message": str(qe)}
-                    job.quarantine_packet = q_dict
-                    job.error_stage = stage
-                    job.error_message = str(qe)
-                    job.cost_usd = total_cost
-                    self._save_job(job, work_dir)
-                    bus.publish("quarantine.activated", job.quarantine_packet)
-                    return job
 
                 except LLMGenerationError as e:
                     log(f"  ERROR: {e}")
@@ -1293,7 +408,6 @@ class Orchestrator:
                     job.error_message = str(e)
                     job.cost_usd = total_cost
                     self._save_job(job, work_dir)
-                    bus.publish("stage.failed", {"stage": stage, "error": str(e)})
                     return job
 
                 except Exception as e:
@@ -1306,7 +420,6 @@ class Orchestrator:
                     job.error_message = str(e)
                     job.cost_usd = total_cost
                     self._save_job(job, work_dir)
-                    bus.publish("stage.failed", {"stage": stage, "error": str(e)})
                     return job
 
             # All stages complete
@@ -1355,149 +468,164 @@ class Orchestrator:
         """Get the work directory for a job."""
         return self._get_job_work_dir(job_id)
 
-    def compile_curriculum(
-        self,
-        sources: list[str | Path] | str | Path,
-        subject: str = "auto",
-        grade: int = 0,
-        provider: str = "offline",
-        mode: str = "v5-engine",
-        log_callback=None,
-        max_cost: float = 2.00,
-    ) -> dict[str, Any]:
-        """Orchestrates an entire curriculum course across multiple chapter PDFs.
 
-        Compiles each chapter with per-chapter isolation, auto-detects
-        cross-chapter prerequisite dependencies, and emits a cohesive curriculum_manifest.json.
-        """
-        pdf_list: list[Path] = []
-        if isinstance(sources, (str, Path)):
-            src_path = Path(sources)
-            if src_path.is_dir():
-                pdf_list = sorted(src_path.glob("*.pdf"))
-            elif src_path.is_file():
-                pdf_list = [src_path]
-        elif isinstance(sources, list):
-            for s in sources:
-                p = Path(s)
-                if p.is_file():
-                    pdf_list.append(p)
-                elif p.is_dir():
-                    pdf_list.extend(sorted(p.glob("*.pdf")))
+    def _prepare_full_synthesis_intermediates(self, work_dir: Path, context: dict[str, Any]) -> None:
+        """Ensure pedagogy_map.json, experience_plan.json, and assessment_suite.json exist for FrontendCodeSynthesizer."""
+        ped_path = work_dir / "pedagogy_map.json"
+        exp_path = work_dir / "experience_plan.json"
+        ass_path = work_dir / "assessment_suite.json"
+        cm_path = work_dir / "content_map.json"
+        spec_path = work_dir / "chapter_spec.json"
+        raw_path = work_dir / "raw_extract.json"
 
-        if not pdf_list:
-            raise FileNotFoundError(f"No valid PDF sources found for curriculum: {sources}")
+        registry = create_default_registry()
+        subject = context.get("subject", "math")
+        grade = int(context.get("grade", 4))
 
-        def log(msg: str):
-            logger.info(msg)
-            if log_callback:
-                log_callback(msg)
+        if not ped_path.exists():
+            exercises = []
+            if raw_path.exists():
+                try:
+                    raw_data = json.loads(raw_path.read_text(encoding="utf-8"))
+                    extractor = ExerciseExtractor()
+                    exercises = extractor.extract_from_pages(raw_data.get("pages", []), subject, grade)
+                except Exception:
+                    exercises = []
 
-        log(f"=== [CURRICULUM ORCHESTRATOR] Starting compilation of {len(pdf_list)} chapter(s) ===")
-        chapter_records = []
-        total_curriculum_cost = 0.0
-        total_curriculum_xp = 0
-        total_concepts = 0
+            concepts = []
+            chapter_title = "Interactive Chapter"
+            if cm_path.exists():
+                cm = json.loads(cm_path.read_text(encoding="utf-8"))
+                chapter_title = cm.get("chapter_title", chapter_title)
+                for c in cm.get("concepts", []):
+                    cname = c.get("name", "Concept")
+                    best = registry.find_best(InteractionRequest(concept=cname, subject=subject, grade=grade))
+                    best_plugin = best.metadata.name.lower() if best else ""
+                    best_itype = best.metadata.interaction_types[0] if (best and best.metadata.interaction_types) else ""
+                    concepts.append({
+                        "name": cname,
+                        "summary": c.get("description", ""),
+                        "key_ideas": c.get("key_terms", []),
+                        "difficulty": c.get("difficulty", "medium"),
+                        "plugin": best_plugin,
+                        "interaction_type": best_itype,
+                    })
+            ped_data = {
+                "chapter_title": chapter_title,
+                "subject": subject,
+                "grade": grade,
+                "subject_domain": "STEM" if subject in ("math", "science") else "General",
+                "concepts": concepts,
+                "exercises": exercises,
+            }
+            ped_path.write_text(json.dumps(ped_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
-        for idx, pdf in enumerate(pdf_list, 1):
-            ch_sub, ch_grd = self.infer_curriculum_metadata(pdf)
-            eff_sub = ch_sub if subject == "auto" else subject
-            eff_grd = ch_grd if (grade == 0 or grade is None) else grade
+        if not exp_path.exists():
+            ped_data = json.loads(ped_path.read_text(encoding="utf-8"))
+            exp_data = {
+                "concepts": ped_data.get("concepts", []),
+                "simulation_plan": [],
+                "visual_plan": [],
+            }
+            exp_path.write_text(json.dumps(exp_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
-            log(f"--- Chapter {idx}/{len(pdf_list)}: {pdf.name} (Subject: {eff_sub}, Grade: {eff_grd}) ---")
-            try:
-                job_id = self.create_job(
-                    pdf_path=pdf,
-                    subject=eff_sub,
-                    grade=eff_grd,
-                    provider=provider,
-                    mode=mode,
-                )
-                job = self.run_pipeline(
-                    job_id,
-                    log_callback=log_callback,
-                    max_cost=max_cost,
-                    mode=mode,
-                )
+        if not ass_path.exists():
+            warmup, deep_dive, boss = [], [], []
+            if spec_path.exists():
+                spec = json.loads(spec_path.read_text(encoding="utf-8"))
+                quiz_steps = [
+                    step.get("q", {})
+                    for node in spec.get("NODES", [])
+                    for step in node.get("steps", [])
+                    if step.get("t") == "quiz" and step.get("q")
+                ]
+                for idx, q in enumerate(quiz_steps):
+                    item = {
+                        "question": q.get("q", ""),
+                        "opts": q.get("opts", []),
+                        "xp": 5 if idx < 2 else (10 if idx < 4 else 20),
+                        "hint": q.get("hint", ""),
+                        "explanation": q.get("exp", ""),
+                    }
+                    if idx < 2:
+                        warmup.append(item)
+                    elif idx < 4:
+                        deep_dive.append(item)
+                    else:
+                        boss.append(item)
+            ass_data = {
+                "warmup": warmup,
+                "deep_dive": deep_dive,
+                "boss": boss,
+                "total_xp": sum(x["xp"] for x in warmup + deep_dive + boss),
+                "badges": [],
+            }
+            ass_path.write_text(json.dumps(ass_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
-                html_out = job.outputs.get("html", "")
-                html_bytes = Path(html_out).stat().st_size if html_out and Path(html_out).exists() else 0
-                total_curriculum_cost += job.cost_usd
 
-                # Extract concept and xp metrics from spec if available
-                work_dir = self.get_job_work_dir(job_id)
-                spec_path = work_dir / "chapter_spec.json"
-                c_count = 3
-                ch_xp = 60
-                ch_title = pdf.stem.replace("_", " ").title()
-                if spec_path.is_file():
-                    try:
-                        sdata = json.loads(spec_path.read_text(encoding="utf-8"))
-                        c_count = len(sdata.get("NODES", []))
-                        ch_title = sdata.get("title", ch_title)
-                        ch_xp = sum(
-                            step.get("xp", 20)
-                            for n in sdata.get("NODES", [])
-                            for step in n.get("steps", [])
-                            if step.get("t") == "progress"
-                        )
-                    except Exception:
-                        pass
+    @staticmethod
+    def _self_heal_html(html_path: Path) -> bool:
+        import re as _re
+        text = html_path.read_text(encoding="utf-8")
+        orig = text
+        # Strip any accidental external URLs in src/href
+        text = _re.sub(r'(src|href)\s*=\s*["\']https?://[^"\']*["\']', r'\1="#"', text)
+        # Replace any blocking alert()/confirm()
+        text = text.replace("alert(", "console.warn(").replace("confirm(", "Boolean(")
+        # Strip unresolved {{PLACEHOLDER}} tokens
+        text = _re.sub(r"\{\{[A-Z0-9_]+\}\}", "", text)
+        if text != orig:
+            html_path.write_text(text, encoding="utf-8")
+            return True
+        return False
 
-                total_concepts += c_count
-                total_curriculum_xp += ch_xp
-
-                chapter_records.append({
-                    "chapter_index": idx,
-                    "chapter_id": job_id,
-                    "title": ch_title,
-                    "subject": eff_sub,
-                    "grade": eff_grd,
-                    "source_pdf": pdf.name,
-                    "html_path": html_out,
-                    "size_bytes": html_bytes,
-                    "status": job.status,
-                    "cost_usd": job.cost_usd,
-                    "concepts_count": c_count,
-                    "total_xp": ch_xp,
-                    "dependencies": [f"chapter_{idx-1}"] if idx > 1 else [],
-                })
-                log(f"  ✓ Chapter {idx} compiled: {job.status.upper()} ({html_bytes // 1024} KB, {c_count} concepts, {ch_xp} XP)")
-
-            except Exception as ch_err:
-                logger.error(f"Chapter {idx} ({pdf.name}) failed during curriculum compilation: {ch_err}")
-                chapter_records.append({
-                    "chapter_index": idx,
-                    "title": pdf.stem,
-                    "source_pdf": pdf.name,
-                    "status": "failed",
-                    "error": str(ch_err),
-                    "dependencies": [],
-                })
-
-        # Build Prerequisite DAG
-        prereq_dag = [
-            {"from": f"chapter_{i}", "to": f"chapter_{i+1}"}
-            for i in range(1, len(chapter_records))
-            if chapter_records[i].get("status") == "completed"
+    def _run_learn_arena_qa_with_repair(self, work_dir: Path, qa_runner: str, log) -> dict[str, Any]:
+        import subprocess
+        targets = [
+            ("learn", work_dir / "chapter_learning.html"),
+            ("arena", work_dir / "chapter_arena.html"),
         ]
+        all_passed = True
+        total_checks = 0
+        total_passed = 0
+        all_failures = []
 
-        manifest = {
-            "manifest_version": "1.0.0",
-            "curriculum_title": f"AASHA Universal Curriculum: {subject.title() if subject != 'auto' else 'Multidisciplinary'} Grade {grade if grade != 0 else 'K-12'}",
-            "created_at": self._now_iso(),
-            "provider": provider,
-            "mode": mode,
-            "total_chapters": len(chapter_records),
-            "completed_chapters": sum(1 for c in chapter_records if c.get("status") == "completed"),
-            "total_concepts": total_concepts,
-            "total_xp": total_curriculum_xp,
-            "total_cost_usd": total_curriculum_cost,
-            "chapters": chapter_records,
-            "prerequisite_dag": prereq_dag,
+        clean_runner = str(qa_runner).strip()
+        if clean_runner.startswith("node "):
+            clean_runner = clean_runner[5:].strip().strip('"').strip("'")
+        for qmode, html_path in targets:
+            if not html_path.exists():
+                all_passed = False
+                all_failures.append({"check": f"{qmode}_exists", "reason": f"Missing {html_path.name}"})
+                continue
+            for attempt in range(3):
+                proc = subprocess.run(
+                    ["node", clean_runner, str(html_path), qmode],
+                    capture_output=True, text=True, timeout=60,
+                )
+                report = json.loads(proc.stdout) if proc.stdout.strip().startswith("{") else {"passed": False, "checks_total": 1, "checks_passed": 0, "failures": [{"check": "qa_exec", "reason": proc.stderr[:200]}]}
+                if report.get("passed"):
+                    total_checks += report.get("checks_total", 0)
+                    total_passed += report.get("checks_passed", 0)
+                    log(f"  QA [{qmode}] PASSED ({report.get('checks_passed')}/{report.get('checks_total')})")
+                    break
+                if attempt < 2 and self._self_heal_html(html_path):
+                    log(f"  QA [{qmode}] auto-repaired on attempt {attempt + 1}, re-running...")
+                    continue
+                all_passed = False
+                total_checks += report.get("checks_total", 0)
+                total_passed += report.get("checks_passed", 0)
+                all_failures.extend(report.get("failures", []))
+                log(f"  QA [{qmode}] FAILED: {report.get('failures', [])[:2]}")
+                break
+
+        qa_summary = {
+            "passed": all_passed,
+            "checks_total": total_checks,
+            "checks_passed": total_passed,
+            "failure_count": len(all_failures),
+            "failures": all_failures,
+            "output_file": str(work_dir / "qa_report.json"),
         }
-
-        manifest_path = self.output_dir / "curriculum_manifest.json"
-        manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-        log(f"=== [CURRICULUM ORCHESTRATOR] Successfully generated curriculum_manifest.json at {manifest_path} ===")
-        return manifest
+        (work_dir / "qa_report.json").write_text(json.dumps(qa_summary, indent=2), encoding="utf-8")
+        return qa_summary

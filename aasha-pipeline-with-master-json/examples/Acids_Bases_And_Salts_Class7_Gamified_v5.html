@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_science_class7_ch5_acids_bases_and_salts">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 7 Science Ch 5: Acids, Bases and Salts (अम्ल, क्षारक और लवण)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #ec4899; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #be185d, #1d4ed8);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .litmus-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #acids-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>🍋 Acids, Bases and Salts / अम्ल, क्षारक और लवण</h1>
+    <p>NCERT Class 7 Science Ch 5 • 8-Layer Bilingual LLE • Interactive Litmus & Neutralisation Lab (AVR-P316)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Acids and Bases in Everyday Life (दैनिक जीवन में अम्ल और क्षारक)</h2>
+      <p>
+        Curd, lemon juice, orange juice, and vinegar taste sour because <span class="lle-word" data-hi="वे (दे)">they</span> contain an acid. <span class="lle-word" data-hi="यह/वह (द)">The</span> chemical nature <span class="lle-word" data-hi="का (ऑफ)">of</span> such substances <span class="lle-word" data-hi="है (इज़)">is</span> acidic.
+        Baking soda tastes bitter and feels soapy <span class="lle-word" data-hi="को (टू)">to</span> touch because <span class="lle-word" data-hi="यह (इट)">it</span> is <span class="lle-word" data-hi="एक (ए)">a</span> base. Special substances <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> an indicator change their colour when added to an acidic or a basic solution.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Litmus & Turmeric Indicator Lab (लिटमस और हल्दी सूचक प्रयोगशाला)</h2>
+      <div class="litmus-stage" data-visual-component="PhLitmusIndicatorVisual" data-avr-id="AVR-P316" data-tap-select="true">
+        <svg width="340" height="150" viewBox="0 0 340 150" role="img" aria-label="Litmus Strip Indicator Beaker">
+          <rect id="beaker-liquid" x="95" y="45" width="150" height="85" rx="10" fill="#ef4444" stroke="#f8fafc" stroke-width="3" />
+          <rect id="litmus-strip" x="158" y="10" width="24" height="80" rx="4" fill="#ef4444" stroke="#ffffff" stroke-width="2" />
+          <text x="170" y="144" fill="#f8fafc" text-anchor="middle" id="litmus-readout">Sample: Lemon Juice (Acid / अम्ल) → Blue Litmus turns RED 🔴</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="testSample('acid')">🍋 Lemon Juice (Acid / अम्ल)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="testSample('base')">🧼 Soap Solution (Base / क्षारक)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="testSample('neutral')">💧 Sugar Water (Neutral / उदासीन)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Neutralisation Reaction (उदासीनीकरण अभिक्रिया)</h2>
+      <p>
+        The reaction between an acid and a base is known as neutralisation. Salt and water <span class="lle-word" data-hi="हैं (आर)">are</span> produced in <span class="lle-word" data-hi="यह (दिस)">this</span> process with the evolution of heat:
+        <strong>Acid + Base → Salt + Water + Heat (अम्ल + क्षारक → लवण + जल + ऊष्मा)</strong>.
+        For example, hydrochloric acid (HCl) reacts with sodium hydroxide (NaOH) to form sodium chloride (NaCl) salt and water.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> What happens when a strip of red litmus paper is dipped <span class="lle-word" data-hi="में (इनटू)">into</span> a basic solution like soap water?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitAcidsMastery('blue')">A) It turns Blue / यह नीला हो जाता है 🔵</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitAcidsMastery('red')">B) It stays Red / यह लाल ही रहता है 🔴</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitAcidsMastery('colourless')">C) It becomes colourless / रंगहीन हो जाता है</button>
+      </div>
+      <div id="acids-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "acid": "अम्ल (एसिड)",
+      "base": "क्षारक (बेस)",
+      "salt": "लवण (सॉल्ट)",
+      "indicator": "सूचक (इंडिकेटर)",
+      "litmus": "लिटमस (लिटमस)",
+      "neutralisation": "उदासीनीकरण (न्यूट्रलाइज़ेशन)",
+      "neutral": "उदासीन (न्यूट्रल)",
+      "solution": "विलयन / हल (सॉल्यूशन)"
+    };
+    const CONN = {
+      "because": "क्योंकि (बिकॉज़)",
+      "when": "जब (वेन)"
+    };
+    let wrongCount = 0;
+
+    function testSample(kind) {
+      const strip = document.getElementById("litmus-strip");
+      const liq = document.getElementById("beaker-liquid");
+      const readout = document.getElementById("litmus-readout");
+      if (kind === "acid") {
+        strip.setAttribute("fill", "#ef4444");
+        liq.setAttribute("fill", "#dc2626");
+        readout.textContent = "Sample: Lemon Juice (Acid / अम्ल) → Blue Litmus turns RED 🔴";
+      } else if (kind === "base") {
+        strip.setAttribute("fill", "#3b82f6");
+        liq.setAttribute("fill", "#2563eb");
+        readout.textContent = "Sample: Soap Solution (Base / क्षारक) → Red Litmus turns BLUE 🔵";
+      } else {
+        strip.setAttribute("fill", "#a855f7");
+        liq.setAttribute("fill", "#475569");
+        readout.textContent = "Sample: Sugar Water (Neutral / उदासीन) → No colour change 🟣";
+      }
+    }
+
+    function submitAcidsMastery(choice) {
+      const toast = document.getElementById("acids-toast");
+      toast.style.display = "block";
+      if (choice === "blue") {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_science_class7_ch5_acids_bases_and_salts",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Bases turn red litmus paper blue (क्षारक लाल लिटमस को नीला कर देते हैं). <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        wrongCount += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = wrongCount === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Remember B-R-B — Base turns Red litmus Blue!"
+          : "💡 Tier-2 Worked Hint (संकेत 2): Soap water is a base (क्षारक). Acids turn blue litmus red, while bases turn red litmus blue.";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "template_id": "aasha.teacher.authoring.v1",
+  "curriculum_alignment": [
+    "NCVET-PSSCIVE",
+    "STEM-Foundations"
+  ],
+  "offline_policy": {
+    "max_bundle_bytes": 20971520,
+    "zero_external_urls": true,
+    "staff_pin_required_for_redemption": true
+  },
+  "chapter_metadata": {
+    "chapter_id": "NCVET-PSSCIVE-TEMPLATE-01",
+    "title_en": "Chapter Title (English)",
+    "title_hi": "अध्याय शीर्षक (हिन्दी)",
+    "grade_or_nsqf_level": 8,
+    "preferred_lang": "hi"
+  },
+  "lle_vocabulary_entries": [
+    {
+      "term_en": "moisture",
+      "term_hi": "नमी",
+      "phonetic_hi": "na-mee",
+      "context_en": "Controlled airflow removes surface moisture.",
+      "context_hi": "नियंत्रित हवा का प्रवाह सतह की नमी को हटाता है।"
+    }
+  ],
+  "assessments": {
+    "warmup": [],
+    "deep_dive": [],
+    "mastery": []
+  }
+}

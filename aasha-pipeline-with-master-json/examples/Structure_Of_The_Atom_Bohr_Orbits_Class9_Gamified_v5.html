@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_sci_class9_ch4_structure_of_atom">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 9 Science Ch 4: Structure <span class="lle-word" data-hi="का (ऑफ)">of</span> <span class="lle-word" data-hi="यह/वह (द)">the</span> Atom — Bohr Shells & Valency (परमाणु की संरचना — बोर मॉडल और संयोजकता)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #7c3aed; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #6d28d9, #1d4ed8);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .atom-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #atom-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>⚛️ Structure of the Atom / परमाणु की संरचना</h1>
+    <p>NCERT Class 9 Science Ch 4 • 8-Layer Bilingual LLE • Interactive Bohr 2n² Electron Shell & Valency Lab (AVR-P317)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Subatomic Particles and the Atomic Nucleus (अवपरमाणुक कण और नाभिक)</h2>
+      <p>
+        An atom consists of <span class="lle-word" data-hi="एक (ए)">a</span> dense positively charged central nucleus containing the proton (+1 charge) and neutral neutron (0 charge), while negatively charged electrons revolve in discrete Bohr energy shells or orbital paths (K, L, M, N).
+        The maximum <span class="lle-word" data-hi="संख्या (नंबर)">number</span> of electrons in a shell of principal quantum number <em>n</em> <span class="lle-word" data-hi="है (इज़)">is</span> given by the Bohr-Bury rule <strong>2n²</strong> (K=2, L=8, M=18, N=32).
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Bohr 2n² Shell & Valency Simulator (AVR-P317)</h2>
+      <div class="atom-stage" data-visual-component="AtomicBohrShellVisual" data-avr-id="AVR-P317" data-tap-select="true">
+        <svg width="340" height="165" viewBox="0 0 340 165" role="img" aria-label="Bohr Atomic Shell K L M Explorer">
+          <circle cx="170" cy="70" r="14" fill="#ef4444" stroke="#fca5a5" stroke-width="2" />
+          <circle cx="170" cy="70" r="32" fill="none" stroke="#60a5fa" stroke-width="2" stroke-dasharray="4 3" />
+          <circle cx="170" cy="70" r="52" fill="none" stroke="#a78bfa" stroke-width="2" stroke-dasharray="4 3" />
+          <text x="170" y="74" fill="#ffffff" text-anchor="middle" font-size="10" font-weight="bold">Z=6</text>
+          <text x="170" y="148" fill="#f8fafc" text-anchor="middle" font-size="12" id="atom-readout">Carbon (Z=6): Shells [K=2, L=4] → Outer electrons = 4 → Valency (संयोजकता) = 4</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectAtom('carbon')">🖤 Carbon (Z=6 → [2, 4], Valency=4)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectAtom('sodium')">⚡ Sodium (Z=11 → [2, 8, 1], Valency=1)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectAtom('chlorine')">🧪 Chlorine (Z=17 → [2, 8, 7], Valency=1)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Valency, Isotopes, and Isobars (संयोजकता, समस्थानिक और समभारिक)</h2>
+      <p>
+        The combining capacity of an atom determined by electrons in its outermost shell (octet rule = 8) is <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> its valency.
+        Atoms of the <span class="lle-word" data-hi="समान (सेम)">same</span> element having the same atomic number (proton count) but <span class="lle-word" data-hi="अलग (डिफरेंट)">different</span> mass numbers (different neutron count, such as Carbon-12 and Carbon-14) <span class="lle-word" data-hi="हैं (आर)">are</span> each called an isotope.
+        Atoms of different elements with different atomic numbers but the same mass number (such as Calcium-40 and Argon-40) are each called an isobar.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> According <span class="lle-word" data-hi="को (टू)">to</span> the Bohr-Bury formula <strong>2n²</strong>, what is the maximum number of electrons <span class="lle-word" data-hi="वह (दैट)">that</span> can be accommodated in the <strong>L-shell (n = 2)</strong>?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitAtomMastery(8)">A) 8 electrons (2 × 2² = 8 इलेक्ट्रॉन)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitAtomMastery(4)">B) 4 electrons (Calculated n² instead of 2n²)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitAtomMastery(18)">C) 18 electrons (M-shell capacity for n = 3)</button>
+      </div>
+      <div id="atom-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "proton": "प्रोटॉन (धनावेशित कण)",
+      "neutron": "न्यूट्रॉन (उदासीन कण)",
+      "valency": "संयोजकता (वैलेंसी)",
+      "isotope": "समस्थानिक (आइसोटोप)",
+      "isobar": "समभारिक (आइसोबार)",
+      "nucleus": "नाभिक (न्यूक्लियस)",
+      "orbital": "कक्षक (ऑर्बिटल)"
+    };
+    const CONN = {
+      "while": "जबकि (व्हाइल)",
+      "such": "जैसे (सच)"
+    };
+    let atomWrong = 0;
+
+    function selectAtom(el) {
+      const readout = document.getElementById("atom-readout");
+      if (el === "carbon") {
+        readout.textContent = "Carbon (Z=6): Shells [K=2, L=4] → Outer electrons = 4 → Valency (संयोजकता) = 4";
+      } else if (el === "sodium") {
+        readout.textContent = "Sodium (Z=11): Shells [K=2, L=8, M=1] → Donates 1 electron → Valency (संयोजकता) = 1";
+      } else {
+        readout.textContent = "Chlorine (Z=17): Shells [K=2, L=8, M=7] → Valency = 8 - 7 = 1 (Isotopes: Cl-35 & Cl-37)";
+      }
+    }
+
+    function submitAtomMastery(val) {
+      const toast = document.getElementById("atom-toast");
+      toast.style.display = "block";
+      if (Number(val) === 8) {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_sci_class9_ch4_structure_of_atom",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! For the L-shell (n = 2), maximum electrons = 2n² = 2 × (2)² = 8. <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        atomWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = atomWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Substitute n = 2 <span class="lle-word" data-hi="में (इनटू)">into</span> the Bohr-Bury formula 2n² (remember to <span class="lle-word" data-hi="गुणा करना (मल्टिप्लाई)">multiply</span> n² by 2!)."
+          : "💡 Tier-2 Worked Hint (संकेत 2): For L-shell, n = 2 ⇒ 2 × (2)² = 2 × 4 = 8 electrons.";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

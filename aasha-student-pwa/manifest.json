@@ -1,0 +1,19 @@
+{
+  "name": "Aasha AI Offline Student Learning & Rewards PWA",
+  "short_name": "Aasha Learn",
+  "description": "Schoolbook-first bilingual (English + हिन्दी) offline HTML5 learning, TEAS mastery coins, and Tier-1 Centre Store.",
+  "lang": "hi-IN",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f766e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4Ij48cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgcng9IjI0IiBmaWxsPSIjMGY3NjZlIi8+PHRleHQgeD0iNjQiIHk9Ijg0IiBmb250LXNpemU9IjY0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn4yffDwvdGV4dD48L3N2Zz4=",
+      "sizes": "128x128",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

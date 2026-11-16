@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_science_class6_ch11_light_shadows_and_reflections">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 6 Science Ch 11: Light, Shadows and Reflections (प्रकाश — छायाएँ एवं परावर्तन)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #f59e0b; --teal: #14b8a6; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #b45309, #1e3a8a);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--accent);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--teal);
+      color: #0f172a;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .optics-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #optics-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>🔦 Light, Shadows and Reflections / प्रकाश — छायाएँ एवं परावर्तन</h1>
+    <p>NCERT Class 6 Science Ch 11 • 8-Layer Bilingual LLE • Interactive Ray Optics, Shadow & Pinhole Camera Lab (AVR-P320)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Transparent, Opaque and Translucent Objects (पारदर्शी, अपारदर्शी तथा पारभासी वस्तुएँ)</h2>
+      <p>
+        Objects like <span class="lle-word" data-hi="यह/वह (द)">the</span> Sun <span class="lle-word" data-hi="वह (दैट)">that</span> give out or emit light <span class="lle-word" data-hi="का (ऑफ)">of</span> their own <span class="lle-word" data-hi="हैं (आर)">are</span> <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> luminous objects.
+        If <span class="lle-word" data-hi="हम (वी)">we</span> cannot see through an object at all, <span class="lle-word" data-hi="यह (इट)">it</span> <span class="lle-word" data-hi="है (इज़)">is</span> an opaque object. If <span class="lle-word" data-hi="तुम (यू)">you</span> are able <span class="lle-word" data-hi="को (टू)">to</span> see clearly through an object, it is allowing light to pass through it and is transparent.
+        Objects through which we can see, but not very clearly, are known as translucent.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Shadow, Pinhole Camera & Mirror Reflection Lab (AVR-P320)</h2>
+      <div class="optics-stage" data-visual-component="RayOpticsPinholeVisual" data-avr-id="AVR-P320" data-tap-select="true">
+        <svg width="340" height="150" viewBox="0 0 340 150" role="img" aria-label="Ray Optics Shadow and Reflection Lab">
+          <circle cx="45" cy="75" r="18" fill="#facc15" />
+          <line x1="65" y1="75" x2="165" y2="50" stroke="#fde047" stroke-width="3" stroke-dasharray="4 2" />
+          <line x1="65" y1="75" x2="165" y2="100" stroke="#fde047" stroke-width="3" stroke-dasharray="4 2" />
+          <rect id="test-object" x="165" y="45" width="22" height="60" rx="4" fill="#334155" stroke="#f8fafc" stroke-width="2" />
+          <rect id="screen-shadow" x="285" y="35" width="14" height="80" fill="#020617" stroke="#64748b" stroke-width="2" />
+          <text x="170" y="142" fill="#f8fafc" text-anchor="middle" id="optics-readout">Object: Opaque (अपारदर्शी लकड़ी) → Dark Shadow Formed <span class="lle-word" data-hi="पर (ऑन)">on</span> Screen ⬛</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="switchObject('opaque')">🪵 Opaque Wood (अपारदर्शी)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="switchObject('translucent')">📄 Butter Paper (पारभासी)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="switchObject('transparent')">🪟 Clear Glass (पारदर्शी)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Pinhole Camera & Mirrors and Reflections (सूचीछिद्र कैमरा तथा दर्पण एवं परावर्तन)</h2>
+      <p>
+        Light travels in <span class="lle-word" data-hi="एक (ए)">a</span> straight line. Because light travels in straight lines, a pinhole camera forms an inverted (upside-down) image on its tracing paper screen.
+        When light falls on a shiny surface like a plane mirror, the mirror changes the direction of light that falls on it — <span class="lle-word" data-hi="यह (दिस)">this</span> is called reflection of light.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> Which type of object blocks light completely and forms a dark shadow on a screen?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitOpticsMastery('opaque')">A) Opaque object / अपारदर्शी वस्तु 🪵</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitOpticsMastery('transparent')">B) Transparent object / पारदर्शी वस्तु 🪟</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitOpticsMastery('luminous')">C) Clear air / स्वच्छ वायु</button>
+      </div>
+      <div id="optics-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "luminous": "दीप्त (ल्यूमिनस)",
+      "opaque": "अपारदर्शी (ओपेक)",
+      "transparent": "पारदर्शी (ट्रांसपेरेंट)",
+      "translucent": "पारभासी (ट्रांसलूसेंट)",
+      "shadow": "छाया (शैडो)",
+      "reflection": "परावर्तन (रिफ्लेक्शन)",
+      "mirror": "दर्पण (मिरर)",
+      "straight": "सीधा (स्ट्रेट)"
+    };
+    const CONN = {
+      "because": "क्योंकि (बिकॉज़)",
+      "when": "जब (वेन)"
+    };
+    let opticsWrong = 0;
+
+    function switchObject(kind) {
+      const obj = document.getElementById("test-object");
+      const shd = document.getElementById("screen-shadow");
+      const readout = document.getElementById("optics-readout");
+      if (kind === "opaque") {
+        obj.setAttribute("fill", "#334155");
+        shd.setAttribute("fill", "#020617");
+        readout.textContent = "Object: Opaque (अपारदर्शी लकड़ी) → Dark Shadow Formed on Screen ⬛";
+      } else if (kind === "translucent") {
+        obj.setAttribute("fill", "#94a3b8");
+        shd.setAttribute("fill", "#475569");
+        readout.textContent = "Object: Translucent (पारभासी बटर पेपर) → Faint Shadow Formed 🌫️";
+      } else {
+        obj.setAttribute("fill", "#bae6fd");
+        shd.setAttribute("fill", "#fde047");
+        readout.textContent = "Object: Transparent (पारदर्शी कांच) → Light Passes Through (No Shadow) ☀️";
+      }
+    }
+
+    function submitOpticsMastery(choice) {
+      const toast = document.getElementById("optics-toast");
+      toast.style.display = "block";
+      if (choice === "opaque") {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_science_class6_ch11_light_shadows_and_reflections",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Opaque objects (अपारदर्शी वस्तुएँ) do not allow light to pass through and cast a dark shadow. You earned +100 Aasha Coins (🪙)!";
+      } else {
+        opticsWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = opticsWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): A shadow forms only when light is blocked in its straight-line path."
+          : "💡 Tier-2 Worked Hint (संकेत 2): Transparent objects let light pass through; Opaque (अपारदर्शी) objects block light completely and form a dark shadow.";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

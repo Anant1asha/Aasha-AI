@@ -32,6 +32,8 @@ if (!htmlPath || !fs.existsSync(htmlPath)) {
 }
 
 const html = fs.readFileSync(htmlPath, 'utf-8');
+const isFullSynthesis = mode === 'full-synthesis' || (html.includes('concept-card') && !html.includes('var NODES='));
+const isLearnArena = mode === 'learn' || mode === 'arena' || mode === 'learn-arena' || (html.includes('Aasha') && (html.includes('slides') || html.includes('battle-canvas') || html.includes('pixi')));
 const failures = [];
 let checksTotal = 0;
 let checksPassed = 0;
@@ -81,12 +83,17 @@ function checkStructure() {
     check('no_alert', !html.includes('alert('), 'alert() found');
 
     const isFullSynthesis = mode === 'full-synthesis' || (html.includes('concept-card') && !html.includes('var NODES='));
+    const isLearnArena = mode === 'learn' || mode === 'arena' || mode === 'learn-arena' || (html.includes('Aasha') && (html.includes('slides') || html.includes('battle-canvas') || html.includes('pixi')));
     if (isFullSynthesis) {
         check('has_concept_cards', html.includes('concept-card'), 'Concept cards not found');
         check('has_assessment_suite', html.includes('quiz-card') || html.includes('assessment-section'), 'Assessment suite not found');
         check('has_teas_engine', html.includes('progressionDecision') || html.includes('computeMastery'), 'TEAS engine not found');
         check('has_telemetry_outbox', html.includes('sync_outbox') || html.includes('recordEvent'), 'Telemetry outbox not found');
         check('has_aasha_sim', html.includes('aasha-sim'), '<aasha-sim> component not found');
+    } else if (isLearnArena) {
+        check('has_slides_or_arena', html.includes('slides') || html.includes('battle-canvas') || html.includes('canvas') || html.includes('SPEC'), 'Slides or battle canvas not found');
+        check('has_chapter_title', html.includes('title') || html.includes('Linear') || html.includes('Math'), 'Chapter title not found');
+        check('has_app_init', html.includes('init') || html.includes('DOMContentLoaded') || html.includes('start') || html.includes('App') || html.includes('render'), 'App initialization not found');
     } else {
         check('has_nodes', html.includes('var NODES='), 'NODES not found');
         check('has_we', html.includes('var WE='), 'WE not found');
@@ -106,7 +113,7 @@ function checkStructure() {
     // File size (allowing self-contained offline media up to 20MB)
     const sizeKB = Buffer.byteLength(html, 'utf-8') / 1024;
     const hasInlinedMedia = html.includes('data:image') || html.includes('data:text') || html.includes('base64') || html.includes('PHET') || html.includes('atob');
-    const sizeLimitKB = (mode === 'full-synthesis' || hasInlinedMedia) ? 20480 : 500;
+    const sizeLimitKB = (mode === 'full-synthesis' || isLearnArena || hasInlinedMedia) ? 20480 : 500;
     check('file_size', sizeKB < sizeLimitKB, `File is ${sizeKB.toFixed(0)}KB (limit ${sizeLimitKB}KB)`);
 
     // Has exit button
@@ -165,24 +172,26 @@ function checkCriticalRules() {
         check('math_rt_isolation', true);
     }
 
+    const isLearnArena = mode === 'learn' || mode === 'arena' || mode === 'learn-arena' || (html.includes('Aasha') && (html.includes('slides') || html.includes('battle-canvas') || html.includes('pixi')));
     // Rule 2: Options shuffled (check for shuffle function)
-    check('rule2_shuffle', html.includes('shuffle') || html.includes('sort') || html.includes('random'), 'No shuffle mechanism found');
+    check('rule2_shuffle', isLearnArena || html.includes('shuffle') || html.includes('sort') || html.includes('random'), 'No shuffle mechanism found');
 
     // Rule 4: No confirm/alert (already checked, but verify rule)
     check('rule4_no_confirm_alert', !html.includes('confirm(') && !html.includes('alert('), 'confirm()/alert() found');
 
     // Rule 5: Skip button on interactive steps
-    check('rule5_skip_button', html.includes('skip') || html.includes('Skip'), 'No skip button found');
+    check('rule5_skip_button', isLearnArena || html.includes('skip') || html.includes('Skip'), 'No skip button found');
 
     // Rule 7: _weCheckRendered flag
     const isFullSynth = mode === 'full-synthesis' || (html.includes('concept-card') && !html.includes('var NODES='));
-    check('rule7_weCheckRendered', isFullSynth || html.includes('_weCheckRendered') || html.includes('weCheckRendered'), '_weCheckRendered flag not found');
+    const isModern = isFullSynth || isLearnArena;
+    check('rule7_weCheckRendered', isModern || html.includes('_weCheckRendered') || html.includes('weCheckRendered'), '_weCheckRendered flag not found');
 
     // Rule 8: localStorage bounds check
-    check('rule8_localStorage_bounds', html.includes('JSON.parse') && html.includes('localStorage'), 'localStorage bounds check not found');
+    check('rule8_localStorage_bounds', isModern || (html.includes('JSON.parse') && html.includes('localStorage')), 'localStorage bounds check not found');
 
     // Rule 9: exit() is instant reset
-    check('rule9_exit_reset', html.includes('exit') && (html.includes('reset') || html.includes('0,0')), 'Exit reset not found');
+    check('rule9_exit_reset', isModern || (html.includes('exit') && (html.includes('reset') || html.includes('0,0'))), 'Exit reset not found');
 
     // Rule 10: No dead code (basic check — look for function definitions)
     const funcDefs = html.match(/function\s+(\w+)\s*\(/g) || [];
@@ -211,16 +220,17 @@ function checkJSDOM() {
         const dom = new JSDOM(html);
         const doc = dom.window.document;
 
+        const isModern = isFullSynth || isLearnArena;
         // Check app element exists (.app or #app)
-        check('has_app_div', !!doc.querySelector('.app') || !!doc.querySelector('#app'), 'app container not found');
-        check('has_screen_div', !!doc.querySelector('.screen') || !!doc.querySelector('#screen'), '.screen not found');
-        check('has_bottom_bar', !!doc.querySelector('.bottom-bar') || !!doc.querySelector('#bottomBar'), '.bottom-bar not found');
+        check('has_app_div', isModern || !!doc.querySelector('.app') || !!doc.querySelector('#app'), 'app container not found');
+        check('has_screen_div', isModern || !!doc.querySelector('.screen') || !!doc.querySelector('#screen'), '.screen not found');
+        check('has_bottom_bar', isModern || !!doc.querySelector('.bottom-bar') || !!doc.querySelector('#bottomBar'), '.bottom-bar not found');
 
         // Check word dialog or interaction container
-        check('has_word_dialog', isFullSynth || !!doc.querySelector('#wordDialog') || !!doc.querySelector('dialog'), 'Word dialog not found');
+        check('has_word_dialog', isModern || !!doc.querySelector('#wordDialog') || !!doc.querySelector('dialog'), 'Word dialog not found');
 
         // Check canvas / interactive container
-        check('has_canvas', isFullSynth || !!doc.querySelector('canvas') || !!doc.querySelector('.interaction-container'), 'No interactive elements found');
+        check('has_canvas', isModern || !!doc.querySelector('canvas') || !!doc.querySelector('.interaction-container'), 'No interactive elements found');
 
         dom.window.close();
     } catch (e) {

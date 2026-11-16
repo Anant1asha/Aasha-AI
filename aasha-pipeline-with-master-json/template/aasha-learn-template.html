@@ -1,0 +1,2940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Aasha Learn — Direct and Inverse Proportion</title>
+<style>
+:root{
+  --bg0:#070c12; --bg1:#0d1620; --panel:#121c27; --panel2:#16222f;
+  --ink:#eef5fa; --ink2:#c9d9e6; --muted:#8ba2b6;
+  --teal:#31e6c4; --teal2:#19b79e; --gold:#ffc247; --red:#ff5f78; --green:#4ade80; --blue:#63a9ff;
+  --line:rgba(125,185,225,.14); --line2:rgba(125,185,225,.24);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;color:var(--ink);overflow:hidden;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;
+  background:
+    radial-gradient(1100px 620px at 78% -12%, rgba(49,230,196,.10), transparent 62%),
+    radial-gradient(900px 520px at 6% 108%, rgba(255,194,71,.08), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg0) 60%);
+  background-attachment:fixed}
+.app{max-width:1260px;margin:0 auto;padding:10px 12px 10px;display:flex;flex-direction:column;
+  gap:9px;height:100dvh}
+
+/* ---------- header ---------- */
+header{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.logo{width:26px;height:26px;border-radius:8px;flex:0 0 auto;
+  background:linear-gradient(135deg,var(--teal),var(--gold));
+  display:grid;place-items:center;color:#06231f;font-weight:900;font-size:13px}
+.brand{font-weight:800;letter-spacing:.2px;font-size:15px;line-height:1}
+.brand em{font-style:normal;color:var(--teal)}
+.brand small{display:block;font-size:10.5px;color:var(--muted);font-weight:600;letter-spacing:.06em;margin-top:2px}
+.chip{margin-left:auto;font-size:12px;color:var(--ink2);background:rgba(255,255,255,.045);
+  border:1px solid var(--line);border-radius:999px;padding:5px 11px;white-space:nowrap;font-weight:600}
+
+/* ---------- progress ---------- */
+.bar{height:5px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;flex:0 0 auto}
+.bar i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--teal),var(--gold));transition:width .3s cubic-bezier(.4,0,.2,1)}
+
+/* ---------- card ---------- */
+.card{flex:1 1 auto;min-height:0;overflow:hidden;border-radius:18px;
+  background:linear-gradient(168deg,var(--panel2),var(--panel) 55%,#101a24);
+  border:1px solid var(--line2);
+  box-shadow:0 18px 44px -20px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.045);
+  padding:15px 16px;display:grid;gap:11px;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:auto auto minmax(0,1fr) auto;
+  grid-template-areas:"head" "txt" "vis" "ctl"}
+.card .head{grid-area:head}
+.card .txt{grid-area:txt;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:9px}
+.card .visual{grid-area:vis;min-height:0;overflow:hidden;border-radius:14px;
+  background:radial-gradient(120% 100% at 50% 0%, rgba(49,230,196,.07), rgba(10,17,24,.55));
+  border:1px solid rgba(125,185,225,.10);display:grid;place-items:center;padding:4px}
+.card .visual svg{width:100%;height:100%;display:block}
+.card .ctl{grid-area:ctl}
+
+@media (min-width:940px){
+  .card.split{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);
+    grid-template-rows:auto minmax(0,1fr) auto;
+    grid-template-areas:"head head" "txt vis" "txt ctl"}
+  .card.split .txt{padding-right:4px}
+}
+
+/* ---------- type ---------- */
+.kindrow{display:flex;align-items:center;gap:9px;flex:0 0 auto;margin-bottom:5px}
+.kind{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;
+  color:var(--teal);background:rgba(49,230,196,.10);border:1px solid rgba(49,230,196,.22);
+  padding:3px 9px;border-radius:999px}
+h1{font-size:clamp(23px,3.2vw,33px);line-height:1.2;margin:0;letter-spacing:-.015em;font-weight:800}
+h2{font-size:clamp(20px,2.7vw,27px);line-height:1.24;margin:0;letter-spacing:-.01em;font-weight:800}
+p.b{font-size:clamp(17px,2.05vw,21px);line-height:1.62;margin:0;color:var(--ink2)}
+.sub{color:var(--muted);font-size:clamp(15px,1.75vw,17px);margin:0;font-weight:600}
+.em{vertical-align:-5px;margin-right:6px}
+
+/* ---------- footer ---------- */
+.tapline{display:flex;gap:8px;align-items:center;flex:0 0 auto}
+.taphint{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;display:flex;align-items:center;gap:5px}
+.taphint b{color:var(--gold);font-weight:700}
+@media (max-width:540px){.taphint{font-size:11px}}
+
+button{font:inherit;font-size:15.5px;font-weight:600;cursor:pointer;border-radius:12px;
+  border:1px solid var(--line2);background:rgba(255,255,255,.05);color:var(--ink);
+  padding:10px 18px;min-height:46px;transition:transform .08s ease, background .15s ease}
+button:active{transform:scale(.97)}
+button:disabled{opacity:.3;cursor:default}
+button.pri{background:linear-gradient(180deg,#37ebca,#16a98f);color:#052a24;border:0;font-weight:800;
+  box-shadow:0 8px 20px -8px rgba(49,230,196,.75)}
+button.gho{background:transparent}
+
+/* quiet Hindi mark instead of a word pill */
+.hiWrap{display:inline}
+.hiBox{display:block}
+.hiBox[hidden]{display:none}
+.hiBtn{display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;min-height:0;padding:0;margin-left:6px;vertical-align:3px;
+  font-size:11px;font-weight:800;line-height:1;border-radius:50%;
+  color:var(--gold);background:rgba(255,194,71,.10);
+  border:1px solid rgba(255,194,71,.30);opacity:.8}
+.hiBtn:hover{opacity:1;background:rgba(255,194,71,.2)}
+.hiBtn.on{background:rgba(255,194,71,.9);color:#2a1d00;border-color:transparent}
+.hiBox{margin-top:7px;padding:9px 12px;border-left:3px solid var(--gold);
+  background:linear-gradient(90deg,rgba(255,194,71,.11),rgba(255,194,71,.03));
+  border-radius:0 10px 10px 0;font-size:clamp(15px,1.8vw,18px);line-height:1.6;color:#ffe6a8}
+
+/* ---------- tap target ---------- */
+.tapable{cursor:pointer;border-bottom:1.5px dotted rgba(49,230,196,.55);transition:background .12s}
+.tapable:hover{background:rgba(49,230,196,.10);border-radius:3px}
+.tapable:active{background:rgba(49,230,196,.22)}
+
+/* ---------- tables ---------- */
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:clamp(15px,1.7vw,18px);
+  border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:center}
+tr:last-child td{border-bottom:0}
+th{background:rgba(49,230,196,.09);font-weight:800;color:#d9f7f1}
+td:first-child,th:first-child{text-align:left}
+tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+
+/* ---------- steps ---------- */
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.035);
+  border:1px solid var(--line);border-left:3px solid rgba(49,230,196,.55);
+  border-radius:10px;padding:10px 12px;font-size:clamp(16px,1.9vw,19px);line-height:1.5}
+.step .n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--teal);color:#06231f;
+  font-weight:900;font-size:12px;display:grid;place-items:center;margin-top:1px}
+
+/* ---------- options ---------- */
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{border:1px solid var(--line);border-radius:11px;padding:12px 14px;background:rgba(255,255,255,.035);
+  font-size:clamp(16px,1.9vw,19px);cursor:pointer;min-height:50px;display:flex;align-items:center;gap:10px;
+  transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--line2);background:rgba(255,255,255,.06)}
+.opt .k{width:24px;height:24px;border-radius:7px;background:rgba(255,255,255,.09);display:grid;
+  place-items:center;font-size:12px;font-weight:800;color:var(--ink2);flex:0 0 auto}
+.opt.ok{border-color:var(--green);background:rgba(74,222,128,.13)}
+.opt.ok .k{background:var(--green);color:#06231f}
+.opt.no{border-color:var(--red);background:rgba(255,95,120,.13)}
+.opt.no .k{background:var(--red);color:#2a0009}
+.fb{font-size:clamp(15px,1.8vw,18px);line-height:1.55;padding:11px 13px;border-radius:10px;display:none}
+.fb.show{display:block}
+.fb.ok{background:rgba(74,222,128,.10);border:1px solid rgba(74,222,128,.38)}
+.fb.no{background:rgba(255,95,120,.10);border:1px solid rgba(255,95,120,.38)}
+
+/* ---------- rows ---------- */
+.mrow{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.035);
+  border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.mrow .em{flex:0 0 auto;margin:0}
+.mrow b{display:block;font-size:clamp(16px,1.9vw,19px);margin-bottom:1px}
+.mrow span{font-size:clamp(15px,1.75vw,17.5px);color:var(--ink2);line-height:1.5}
+
+/* ---------- sim controls ---------- */
+.simctl{display:flex;flex-direction:column;gap:7px}
+.simctl input[type=range]{width:100%;accent-color:var(--teal);height:30px;margin:0;cursor:pointer}
+.readout{display:flex;gap:16px;flex-wrap:wrap;font-size:clamp(14px,1.7vw,17px);color:var(--ink2)}
+.readout b{color:var(--teal);font-size:clamp(16px,1.9vw,19px);font-weight:800}
+.hint{font-size:clamp(14px,1.7vw,17px);color:var(--gold);line-height:1.5;
+  background:rgba(255,194,71,.07);border-left:3px solid rgba(255,194,71,.5);
+  padding:8px 11px;border-radius:0 9px 9px 0}
+.switch{display:flex;gap:7px}
+.switch button{flex:1;font-size:13.5px;padding:8px;min-height:40px}
+
+/* ---------- word panel ---------- */
+#wp{position:fixed;left:0;right:0;bottom:0;transform:translateY(130%);
+  transition:transform .26s cubic-bezier(.32,.72,0,1);
+  background:linear-gradient(180deg,#182534,#0f1922);
+  border-top:1px solid var(--line2);
+  padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+  z-index:50;box-shadow:0 -18px 46px rgba(0,0,0,.7);border-radius:18px 18px 0 0}
+#wp.up{transform:translateY(0)}
+#wp .r1{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#wpWord{font-weight:800;font-size:22px;letter-spacing:-.01em}
+#wpHindi{color:var(--gold);font-size:20px;font-weight:700}
+#wpPron{color:var(--muted);font-size:15px}
+.spk{background:rgba(255,255,255,.07);border:1px solid var(--line2);border-radius:999px;
+  padding:7px 14px;min-height:0;font-size:14px;font-weight:600}
+.spk.cls{margin-left:auto;background:rgba(255,95,120,.12);border-color:rgba(255,95,120,.35);color:#ffc2cb}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo">अ</div>
+    <div class="brand">AASHA <em>LEARN</em><small>{{CHAPTER_TITLE}}</small></div>
+    <div class="chip" id="chip">1 / 40</div>
+  </header>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="card" id="card"></div>
+  <div class="tapline">
+    <button id="prev" class="gho" aria-label="Previous">◀</button>
+    <button id="next" class="pri">Next ▶</button>
+    <span class="taphint">Tap any word → <b>हिंदी</b></span>
+    <button id="hiAll" class="gho" style="margin-left:auto">हिंदी</button>
+  </div>
+</div>
+<div id="wp" role="dialog" aria-label="Word meaning">
+  <div class="r1">
+    <span id="wpWord"></span><span id="wpHindi"></span><span id="wpPron"></span>
+    <button class="spk" id="wpSpeak">🔊 Hear it</button>
+    <button class="spk cls" id="wpClose">Close ✕</button>
+  </div>
+</div>
+<script>
+/* ---- English → हिंदी अर्थ + देवनागरी ध्वनि ---- */
+const WM2 = {{WM2_JSON}};
+/* ---- English → हिंदी अर्थ (पूरक) ---- */
+Object.assign(WM2, {
+  "about":{h:"लगभग",p:"अबाउट"},
+  "above":{h:"ऊपर",p:"अबोव"},
+  "also":{h:"भी",p:"अलसो"},
+  "among":{h:"बीच में",p:"अमोंग"},
+  "another":{h:"दूसरा",p:"अनोथर"},
+  "becomes":{h:"बन जाता है",p:"बेकोमेस"},
+  "breaks":{h:"तोड़ता है",p:"बरीकस"},
+  "but":{h:"लेकिन",p:"बुट"},
+  "can":{h:"सकता है",p:"कान"},
+  "cleared":{h:"साफ़ किया",p:"कलीरेड"},
+  "clouds":{h:"बादल",p:"कलाउड्स"},
+  "did":{h:"किया",p:"डिड"},
+  "down":{h:"नीचे",p:"डोन"},
+  "ended":{h:"समाप्त हुआ",p:"एनडेड"},
+  "even":{h:"भी",p:"एवेन"},
+  "fighting":{h:"लड़ना",p:"फ़ाइटिंग"},
+  "for":{h:"के लिए",p:"फ़ोर"},
+  "forms":{h:"रूप",p:"फ़ोरमस"},
+  "had":{h:"था",p:"हाड"},
+  "has":{h:"है",p:"हास"},
+  "her":{h:"उसकी",p:"हर"},
+  "humans":{h:"इंसान",p:"हुमानस"},
+  "into":{h:"में",p:"इनटो"},
+  "leaves":{h:"पत्ते",p:"लीवेस"},
+  "lies":{h:"पड़ा है",p:"लीस"},
+  "longing":{h:"तड़प",p:"लोंगिंग"},
+  "longs":{h:"तरसता है",p:"लोंगस"},
+  "mentioned":{h:"उल्लेख किया",p:"मेंटिओनेड"},
+  "mentions":{h:"उल्लेख करता है",p:"मेंटिओनस"},
+  "must":{h:"चाहिए",p:"मुसट"},
+  "names":{h:"नाम",p:"नामेस"},
+  "objects":{h:"वस्तुएँ",p:"ओबजेकट्स"},
+  "oceans":{h:"महासागर",p:"ओकीनस"},
+  "real":{h:"असली",p:"रील"},
+  "seen":{h:"देखा",p:"सीन"},
+  "still":{h:"अभी भी",p:"सटिलल"},
+  "their":{h:"उनका",p:"थेिर"},
+  "them":{h:"उन्हें",p:"थेम"},
+  "then":{h:"तब",p:"थेन"},
+  "there":{h:"वहाँ",p:"थरए"},
+  "these":{h:"ये",p:"थेस"},
+  "they":{h:"वे",p:"थेी"},
+  "this":{h:"यह",p:"थिस"},
+  "those":{h:"वे",p:"थोस"},
+  "through":{h:"के माध्यम से",p:"थरॉ"},
+  "under":{h:"नीचे",p:"उनडर"},
+  "very":{h:"बहुत",p:"वरी"},
+  "was":{h:"था",p:"वास"},
+  "were":{h:"थे",p:"वरए"},
+  "what":{h:"क्या",p:"वाट"},
+  "when":{h:"जब",p:"वेन"},
+  "where":{h:"कहाँ",p:"वरए"},
+  "which":{h:"कौन",p:"विच"},
+  "while":{h:"जबकि",p:"विल"},
+  "who":{h:"कौन",p:"वो"},
+  "why":{h:"क्यों",p:"वय"},
+  "with":{h:"साथ",p:"विथ"},
+  "without":{h:"बिना",p:"विथाउट"},
+  "would":{h:"होगा",p:"वाउलड"},
+  "you":{h:"आप",p:"याउ"},
+  "your":{h:"तुम्हारा",p:"याउर"},
+});
+/* ---- English → हिंदी अर्थ (अंतिम पूरक) ---- */
+Object.assign(WM2, {
+  "air":{h:"हवा",p:"ेर"},
+  "bird":{h:"पक्षी",p:"बिरड"},
+  "book":{h:"किताब",p:"बूक"},
+  "child":{h:"बच्चा",p:"चिलड"},
+  "city":{h:"शहर",p:"किटी"},
+  "father":{h:"पिता",p:"फ़ाथर"},
+  "fish":{h:"मछली",p:"फ़िश"},
+  "flower":{h:"फूल",p:"फ़लोर"},
+  "food":{h:"भोजन",p:"फ़ूड"},
+  "friend":{h:"मित्र",p:"फ़रीनड"},
+  "home":{h:"घर",p:"होम"},
+  "king":{h:"राजा",p:"किंग"},
+  "land":{h:"भूमि",p:"लानड"},
+  "life":{h:"जीवन",p:"लिफ़"},
+  "man":{h:"आदमी",p:"मान"},
+  "mother":{h:"माँ",p:"मोथर"},
+  "once":{h:"एक बार",p:"ओनक"},
+  "out":{h:"बाहर",p:"ाउट"},
+  "own":{h:"अपना",p:"ोन"},
+  "poisoned":{h:"ज़हरीला",p:"पॉयसोनेड"},
+  "poisons":{h:"ज़हर",p:"पॉयसोनस"},
+  "queen":{h:"रानी",p:"क्वीन"},
+  "questions":{h:"प्रश्न",p:"क्वेसशनस"},
+  "reached":{h:"पहुँचा",p:"रीचेड"},
+  "reaching":{h:"पहुँचना",p:"रीचिंग"},
+  "says":{h:"कहता है",p:"सेस"},
+  "school":{h:"विद्यालय",p:"स्कूल"},
+  "sea":{h:"समुद्र",p:"सी"},
+  "she":{h:"वह",p:"श"},
+  "sides":{h:"किनारे",p:"सिडेस"},
+  "some":{h:"कुछ",p:"सोम"},
+  "son":{h:"बेटा",p:"सोन"},
+  "spreading":{h:"फैलाना",p:"सपरीडिंग"},
+  "star":{h:"तारा",p:"सटार"},
+  "stops":{h:"रुकता है",p:"सटोप्स"},
+  "sun":{h:"सूरज",p:"सुन"},
+  "supports":{h:"सहारा देता है",p:"सुपपोरट्स"},
+  "teacher":{h:"शिक्षक",p:"टीचर"},
+  "than":{h:"से",p:"थान"},
+  "the":{h:"वह",p:"थ"},
+  "tree":{h:"पेड़",p:"टरी"},
+  "trees":{h:"पेड़",p:"टरीस"},
+  "turning":{h:"बदलना",p:"टरनिंग"},
+  "turns":{h:"मुड़ता है",p:"टरनस"},
+  "understanding":{h:"समझ",p:"उनडरसटानडिंग"},
+  "uses":{h:"उपयोग करता है",p:"उसेस"},
+  "wanted":{h:"चाहता था",p:"वानटेड"},
+  "water":{h:"पानी",p:"वाटर"},
+  "will":{h:"होगा",p:"विलल"},
+  "woman":{h:"औरत",p:"वोमान"},
+  "working":{h:"काम करना",p:"वोरकिंग"},
+});
+/* ---- English → हिंदी (function & core words) ---- */
+Object.assign(WM2, {
+  "a":{h:"एक",p:"अ"},
+  "again":{h:"फिर",p:"अगेन"},
+  "all":{h:"सब",p:"अलल"},
+  "also":{h:"भी",p:"अलसो"},
+  "am":{h:"हूँ",p:"अम"},
+  "an":{h:"एक",p:"अन"},
+  "and":{h:"और",p:"अनड"},
+  "another":{h:"दूसरा",p:"अनोथर"},
+  "any":{h:"कोई",p:"अनय"},
+  "are":{h:"हैं",p:"ारए"},
+  "as":{h:"के रूप में",p:"अस"},
+  "at":{h:"पर",p:"अट"},
+  "bad":{h:"बुरा",p:"बाड"},
+  "be":{h:"होना",p:"ब"},
+  "been":{h:"रहा",p:"बीन"},
+  "being":{h:"होना",p:"बेिंग"},
+  "big":{h:"बड़ा",p:"बिग"},
+  "by":{h:"द्वारा",p:"बय"},
+  "came":{h:"आया",p:"काम"},
+  "can":{h:"सकता है",p:"कान"},
+  "come":{h:"आना",p:"कोम"},
+  "could":{h:"सकता था",p:"काउलड"},
+  "did":{h:"किया",p:"डिड"},
+  "do":{h:"करना",p:"डो"},
+  "does":{h:"करता है",p:"डोएस"},
+  "doing":{h:"करना",p:"डॉयंग"},
+  "down":{h:"नीचे",p:"डोन"},
+  "face":{h:"चेहरा",p:"फ़ाक"},
+  "few":{h:"कुछ",p:"फ़्यू"},
+  "find":{h:"खोजना",p:"फ़िनड"},
+  "first":{h:"पहला",p:"फ़िरसट"},
+  "found":{h:"पाया",p:"फ़ाउनड"},
+  "from":{h:"से",p:"फ़रोम"},
+  "gave":{h:"दिया",p:"गाव"},
+  "give":{h:"देना",p:"गिव"},
+  "go":{h:"जाना",p:"गो"},
+  "goes":{h:"जाता है",p:"गोएस"},
+  "good":{h:"अच्छा",p:"गूड"},
+  "had":{h:"था",p:"हाड"},
+  "has":{h:"है",p:"हास"},
+  "have":{h:"है",p:"हाव"},
+  "having":{h:"रखना",p:"हाविंग"},
+  "he":{h:"वह",p:"ह"},
+  "her":{h:"उसकी",p:"हर"},
+  "here":{h:"यहाँ",p:"हरए"},
+  "him":{h:"उसे",p:"हिम"},
+  "his":{h:"उसका",p:"हिस"},
+  "how":{h:"कैसे",p:"हो"},
+  "i":{h:"मैं",p:"इ"},
+  "if":{h:"अगर",p:"इफ़"},
+  "in":{h:"में",p:"इन"},
+  "is":{h:"है",p:"इस"},
+  "it":{h:"यह",p:"इट"},
+  "its":{h:"इसका",p:"इट्स"},
+  "just":{h:"बस",p:"जुसट"},
+  "knew":{h:"जानता था",p:"कन्यू"},
+  "know":{h:"जानना",p:"कनो"},
+  "little":{h:"थोड़ा",p:"लिटटल"},
+  "long":{h:"लंबा",p:"लोंग"},
+  "made":{h:"बनाया",p:"माड"},
+  "make":{h:"बनाना",p:"माक"},
+  "many":{h:"अनेक",p:"मानय"},
+  "may":{h:"सकता है",p:"मे"},
+  "me":{h:"मुझे",p:"म"},
+  "might":{h:"सकता है",p:"माइट"},
+  "more":{h:"अधिक",p:"मोरए"},
+  "most":{h:"सबसे",p:"मोसट"},
+  "much":{h:"बहुत",p:"मुच"},
+  "must":{h:"चाहिए",p:"मुसट"},
+  "my":{h:"मेरा",p:"मय"},
+  "need":{h:"ज़रूरत",p:"नीड"},
+  "new":{h:"नया",p:"न्यू"},
+  "no":{h:"नहीं",p:"नो"},
+  "not":{h:"नहीं",p:"नोट"},
+  "now":{h:"अभी",p:"नो"},
+  "of":{h:"का",p:"ओफ़"},
+  "off":{h:"बंद",p:"ओफ़फ़"},
+  "old":{h:"पुराना",p:"ओलड"},
+  "on":{h:"पर",p:"ओन"},
+  "once":{h:"एक बार",p:"ओनक"},
+  "one":{h:"एक",p:"ओन"},
+  "only":{h:"केवल",p:"ओनली"},
+  "option":{h:"विकल्प",p:"ओपशन"},
+  "or":{h:"या",p:"ोर"},
+  "other":{h:"दूसरा",p:"ओथर"},
+  "our":{h:"हमारा",p:"ाउर"},
+  "out":{h:"बाहर",p:"ाउट"},
+  "over":{h:"ऊपर",p:"ओवर"},
+  "own":{h:"अपना",p:"ोन"},
+  "said":{h:"कहा",p:"सेड"},
+  "same":{h:"वही",p:"साम"},
+  "saw":{h:"देखा",p:"साव"},
+  "say":{h:"कहना",p:"से"},
+  "see":{h:"देखना",p:"सी"},
+  "seeing":{h:"देखकर",p:"सीिंग"},
+  "seen":{h:"देखा",p:"सीन"},
+  "shall":{h:"होगा",p:"शालल"},
+  "she":{h:"वह",p:"श"},
+  "short":{h:"छोटा",p:"शोरट"},
+  "should":{h:"चाहिए",p:"शाउलड"},
+  "small":{h:"छोटा",p:"समालल"},
+  "so":{h:"इसलिए",p:"सो"},
+  "some":{h:"कुछ",p:"सोम"},
+  "such":{h:"ऐसा",p:"सुच"},
+  "take":{h:"लेना",p:"टाक"},
+  "tell":{h:"बताना",p:"टेलल"},
+  "than":{h:"से",p:"थान"},
+  "that":{h:"वह",p:"थाट"},
+  "the":{h:"वह",p:"थ"},
+  "their":{h:"उनका",p:"थेिर"},
+  "them":{h:"उन्हें",p:"थेम"},
+  "then":{h:"तब",p:"थेन"},
+  "there":{h:"वहाँ",p:"थरए"},
+  "these":{h:"ये",p:"थेस"},
+  "they":{h:"वे",p:"थेी"},
+  "think":{h:"सोचना",p:"थिनक"},
+  "this":{h:"यह",p:"थिस"},
+  "those":{h:"वे",p:"थोस"},
+  "thought":{h:"सोचा",p:"थॉट"},
+  "three":{h:"तीन",p:"थरी"},
+  "to":{h:"को",p:"टो"},
+  "told":{h:"बताया",p:"टोलड"},
+  "took":{h:"लिया",p:"टूक"},
+  "two":{h:"दो",p:"टवो"},
+  "under":{h:"नीचे",p:"उनडर"},
+  "up":{h:"ऊपर",p:"उप"},
+  "us":{h:"हमें",p:"उस"},
+  "very":{h:"बहुत",p:"वरी"},
+  "want":{h:"चाहना",p:"वानट"},
+  "was":{h:"था",p:"वास"},
+  "we":{h:"हम",p:"व"},
+  "went":{h:"गया",p:"वेनट"},
+  "were":{h:"थे",p:"वरए"},
+  "what":{h:"क्या",p:"वाट"},
+  "when":{h:"जब",p:"वेन"},
+  "where":{h:"कहाँ",p:"वरए"},
+  "which":{h:"कौन",p:"विच"},
+  "who":{h:"कौन",p:"वो"},
+  "whom":{h:"किसे",p:"वोम"},
+  "whose":{h:"किसका",p:"वोस"},
+  "why":{h:"क्यों",p:"वय"},
+  "will":{h:"होगा",p:"विलल"},
+  "with":{h:"साथ",p:"विथ"},
+  "without":{h:"बिना",p:"विथाउट"},
+  "would":{h:"होगा",p:"वाउलड"},
+  "yes":{h:"हाँ",p:"येस"},
+  "you":{h:"तुम",p:"याउ"},
+  "your":{h:"तुम्हारा",p:"याउर"},
+});
+/* ---- English → हिंदी (content words, final) ---- */
+Object.assign(WM2, {
+  "adventure":{h:"रोमांच",p:"अडवेनटरए"},
+  "air":{h:"हवा",p:"ेर"},
+  "angel":{h:"देवदूत",p:"अंगेल"},
+  "answer":{h:"उत्तर",p:"अनसवर"},
+  "anyone":{h:"कोई",p:"अनयोन"},
+  "awareness":{h:"जागरूकता",p:"अवारएनेस"},
+  "balance":{h:"संतुलन",p:"बालानक"},
+  "beautiful":{h:"सुंदर",p:"बीउटिफ़ुल"},
+  "because":{h:"क्योंकि",p:"बेकॉस"},
+  "before":{h:"पहले",p:"बेफ़ोरए"},
+  "between":{h:"बीच",p:"बेटवीन"},
+  "breathing":{h:"साँस लेना",p:"बरीथिंग"},
+  "carbon":{h:"कार्बन",p:"कारबोन"},
+  "chapter":{h:"अध्याय",p:"चापटर"},
+  "chapter's":{h:"अध्याय का",p:"चापटरस"},
+  "conflict":{h:"झगड़ा",p:"कोनफ़लिकट"},
+  "correct":{h:"सही",p:"कोररेकट"},
+  "damage":{h:"नुकसान",p:"डामाग"},
+  "deforestation":{h:"वनों की कटाई",p:"डेफ़ोरएसटाशन"},
+  "destroy":{h:"नष्ट करना",p:"डेसटरॉय"},
+  "destruction":{h:"विनाश",p:"डेसटरुकशन"},
+  "dioxide":{h:"डाइऑक्साइड",p:"डिओक्सिड"},
+  "disease":{h:"बीमारी",p:"डिसीस"},
+  "each":{h:"प्रत्येक",p:"ीच"},
+  "earth":{h:"पृथ्वी",p:"ीरथ"},
+  "environment":{h:"पर्यावरण",p:"एनविरओनमेंट"},
+  "environmental":{h:"पर्यावरणीय",p:"एनविरओनमेंटाल"},
+  "every":{h:"हर",p:"एवरी"},
+  "everyone":{h:"हर कोई",p:"एवरीओन"},
+  "explore":{h:"खोजना",p:"एक्सपलोरए"},
+  "forest":{h:"जंगल",p:"फ़ोरएसट"},
+  "future":{h:"भविष्य",p:"फ़ुटरए"},
+  "garbage":{h:"कचरा",p:"गारबाग"},
+  "greedy":{h:"लालची",p:"गरीडय"},
+  "heart":{h:"दिल",p:"हीरट"},
+  "human":{h:"इंसान",p:"हुमान"},
+  "humans":{h:"इंसान",p:"हुमानस"},
+  "image":{h:"छवि",p:"इमाग"},
+  "imagination":{h:"कल्पना",p:"इमागिनाशन"},
+  "imagine":{h:"कल्पना करना",p:"इमागिन"},
+  "insecticides":{h:"कीटनाशक",p:"इनसेकटिकिडेस"},
+  "isolated":{h:"अलग-थलग",p:"इसोलाटेड"},
+  "jealous":{h:"ईर्ष्यालु",p:"जीलाउस"},
+  "journey":{h:"यात्रा",p:"जाउरनेी"},
+  "king":{h:"राजा",p:"किंग"},
+  "lazy":{h:"आलसी",p:"लाज़य"},
+  "life":{h:"जीवन",p:"लिफ़"},
+  "lonely":{h:"अकेला",p:"लोनेली"},
+  "mirror":{h:"दर्पण",p:"मिररोर"},
+  "nature":{h:"प्रकृति",p:"नाटरए"},
+  "oath":{h:"शपथ",p:"ोथ"},
+  "ocean":{h:"महासागर",p:"ओकीन"},
+  "oxygen":{h:"ऑक्सीजन",p:"ओक्सयगेन"},
+  "paradise":{h:"स्वर्ग",p:"पारअडिस"},
+  "person":{h:"व्यक्ति",p:"परसोन"},
+  "picture":{h:"तस्वीर",p:"पिकटरए"},
+  "planet":{h:"ग्रह",p:"पलानेट"},
+  "plant":{h:"पौधा",p:"पलानट"},
+  "planting":{h:"रोपण",p:"पलानटिंग"},
+  "plastic":{h:"प्लास्टिक",p:"पलासटिक"},
+  "poem":{h:"कविता",p:"पोएम"},
+  "poet":{h:"कवि",p:"पोएट"},
+  "pollute":{h:"प्रदूषित करना",p:"पोललुट"},
+  "pollution":{h:"प्रदूषण",p:"पोललुशन"},
+  "priest":{h:"पुजारी",p:"परीसट"},
+  "protect":{h:"रक्षा करना",p:"परोटेकट"},
+  "queen":{h:"रानी",p:"क्वीन"},
+  "question":{h:"प्रश्न",p:"क्वेसशन"},
+  "reflection":{h:"प्रतिबिंब",p:"रेफ़लेकशन"},
+  "resources":{h:"संसाधन",p:"रेसाउरकेस"},
+  "sail":{h:"पाल",p:"सेल"},
+  "save":{h:"बचाना",p:"साव"},
+  "selfish":{h:"स्वार्थी",p:"सेलफ़िश"},
+  "soil":{h:"मिट्टी",p:"सॉयल"},
+  "space":{h:"अंतरिक्ष",p:"सपाक"},
+  "stars":{h:"तारे",p:"सटारस"},
+  "start":{h:"शुरू",p:"सटारट"},
+  "story":{h:"कहानी",p:"सटोरी"},
+  "travel":{h:"यात्रा करना",p:"टरावेल"},
+  "trees":{h:"पेड़",p:"टरीस"},
+  "true":{h:"सच",p:"टर्यू"},
+  "universe":{h:"ब्रह्मांड",p:"उनिवरस"},
+  "village":{h:"गाँव",p:"विललाग"},
+  "villager":{h:"ग्रामीण",p:"विललागर"},
+  "waste":{h:"कचरा",p:"वासट"},
+  "water":{h:"पानी",p:"वाटर"},
+  "weapons":{h:"हथियार",p:"वीपोनस"},
+  "wife":{h:"पत्नी",p:"विफ़"},
+  "wildlife":{h:"वन्यजीव",p:"विलडलिफ़"},
+  "word":{h:"शब्द",p:"वोरड"},
+  "work":{h:"काम",p:"वोरक"},
+  "yacht":{h:"नौका",p:"याचट"},
+});
+/* ---- English → हिंदी (closing set) ---- */
+Object.assign(WM2, {
+  "after":{h:"बाद",p:"अफ़टर"},
+  "behind":{h:"पीछे",p:"बेहिनड"},
+  "care":{h:"देखभाल",p:"कारए"},
+  "change":{h:"बदलाव",p:"चांग"},
+  "clean":{h:"साफ",p:"कलीन"},
+  "comes":{h:"आता है",p:"कोमेस"},
+  "cool":{h:"ठंडा",p:"कूल"},
+  "danger":{h:"खतरा",p:"डांगर"},
+  "deep":{h:"गहरा",p:"डीप"},
+  "dirty":{h:"गंदा",p:"डिरटय"},
+  "dry":{h:"सूखा",p:"डरय"},
+  "easy":{h:"आसान",p:"ीसय"},
+  "end":{h:"अंत",p:"एनड"},
+  "far":{h:"दूर",p:"फ़ार"},
+  "got":{h:"मिला",p:"गोट"},
+  "grow":{h:"बढ़ना",p:"गरो"},
+  "growing":{h:"बढ़ता",p:"गरोिंग"},
+  "happened":{h:"हुआ",p:"हापपेनेड"},
+  "hard":{h:"कठिन",p:"हारड"},
+  "help":{h:"मदद",p:"हेलप"},
+  "high":{h:"ऊँचा",p:"हाइ"},
+  "idea":{h:"विचार",p:"इडी"},
+  "keep":{h:"रखना",p:"कीप"},
+  "kept":{h:"रखा",p:"केपट"},
+  "knowledge":{h:"ज्ञान",p:"कनोलेज"},
+  "leave":{h:"छोड़ना",p:"लीव"},
+  "left":{h:"छोड़ा",p:"लेफ़ट"},
+  "like":{h:"जैसे",p:"लिक"},
+  "live":{h:"रहना",p:"लिव"},
+  "lived":{h:"रहा",p:"लिवेड"},
+  "lose":{h:"खोना",p:"लोस"},
+  "lost":{h:"खोया",p:"लोसट"},
+  "low":{h:"नीचा",p:"लो"},
+  "main":{h:"मुख्य",p:"मेन"},
+  "makes":{h:"बनाता है",p:"माकेस"},
+  "meets":{h:"मिलता है",p:"मीट्स"},
+  "mention":{h:"उल्लेख",p:"मेंटिओन"},
+  "near":{h:"पास",p:"नीर"},
+  "order":{h:"क्रम",p:"ोरडर"},
+  "problem":{h:"समस्या",p:"परोबलेम"},
+  "reality":{h:"सच्चाई",p:"रीलिटी"},
+  "reason":{h:"कारण",p:"रीसोन"},
+  "result":{h:"परिणाम",p:"रेसुलट"},
+  "safe":{h:"सुरक्षित",p:"साफ़"},
+  "seem":{h:"लगना",p:"सीम"},
+  "sky":{h:"आकाश",p:"सकय"},
+  "solution":{h:"समाधान",p:"सोलुशन"},
+  "stop":{h:"रुकना",p:"सटोप"},
+  "strong":{h:"मज़बूत",p:"सटरोंग"},
+  "tried":{h:"कोशिश की",p:"टरीड"},
+  "try":{h:"कोशिश",p:"टरय"},
+  "use":{h:"उपयोग",p:"उस"},
+  "used":{h:"उपयोग किया",p:"उसेड"},
+  "warm":{h:"गर्म",p:"वारम"},
+  "wet":{h:"गीला",p:"वेट"},
+  "wide":{h:"चौड़ा",p:"विड"},
+  "win":{h:"जीतना",p:"विन"},
+  "won":{h:"जीता",p:"वोन"},
+});
+/* ---- English → हिंदी (final) ---- */
+Object.assign(WM2, {
+  "beauty":{h:"सुंदरता",p:"बीउटय"},
+  "become":{h:"बनना",p:"बेकोम"},
+  "brave":{h:"बहादुर",p:"बराव"},
+  "careful":{h:"सावधान",p:"कारएफ़ुल"},
+  "clear":{h:"स्पष्ट",p:"कलीर"},
+  "damaged":{h:"क्षतिग्रस्त",p:"डामागेड"},
+  "day":{h:"दिन",p:"डे"},
+  "difficult":{h:"कठिन",p:"डिफ़फ़िकुलट"},
+  "family":{h:"परिवार",p:"फ़ामिली"},
+  "get":{h:"पाना",p:"गेट"},
+  "honest":{h:"ईमानदार",p:"होनेसट"},
+  "importance":{h:"महत्व",p:"इमपोरटानक"},
+  "impossible":{h:"असंभव",p:"इमपोससिबल"},
+  "kind":{h:"दयालु",p:"किनड"},
+  "love":{h:"प्यार",p:"लोव"},
+  "plan":{h:"योजना",p:"पलान"},
+  "possible":{h:"संभव",p:"पोससिबल"},
+  "praise":{h:"प्रशंसा",p:"परेस"},
+  "promise":{h:"वादा",p:"परोमिस"},
+  "reach":{h:"पहुँचना",p:"रीच"},
+  "separate":{h:"अलग",p:"सेपारअट"},
+  "served":{h:"परोसा",p:"सरवेड"},
+  "simple":{h:"सरल",p:"सिमपल"},
+  "stayed":{h:"रहा",p:"सटेएड"},
+  "stopped":{h:"रुका",p:"सटोपपेड"},
+  "subject":{h:"विषय",p:"सुबजेकट"},
+  "today":{h:"आज",p:"टोडे"},
+  "wisdom":{h:"बुद्धि",p:"विसडोम"},
+  "world":{h:"दुनिया",p:"वोरलड"},
+});
+/* ---- English → हिंदी (last) ---- */
+Object.assign(WM2, {
+  "both":{h:"दोनों",p:"बोथ"},
+  "cut":{h:"काटना",p:"कुट"},
+  "eat":{h:"खाना",p:"ीट"},
+  "factories":{h:"कारखाने",p:"फ़ाकटोरीस"},
+  "factory":{h:"कारखाना",p:"फ़ाकटोरी"},
+  "feel":{h:"महसूच होना",p:"फ़ील"},
+  "green":{h:"हरा",p:"गरीन"},
+  "hear":{h:"सुनना",p:"हीर"},
+  "listen":{h:"सुनना",p:"लिसटेन"},
+  "meet":{h:"मिलना",p:"मीट"},
+  "mind":{h:"मन",p:"मिनड"},
+  "name":{h:"नाम",p:"नाम"},
+  "name's":{h:"नाम का",p:"नामेस"},
+  "open":{h:"खुला",p:"ओपेन"},
+  "people":{h:"लोग",p:"पेओपल"},
+  "poison":{h:"ज़हर",p:"पॉयसोन"},
+  "read":{h:"पढ़ना",p:"रीड"},
+  "run":{h:"दौड़ना",p:"रुन"},
+  "second":{h:"दूसरा",p:"सेकोनड"},
+  "sit":{h:"बैठना",p:"सिट"},
+  "smell":{h:"सूंघना",p:"समेलल"},
+  "smoke":{h:"धुआँ",p:"समोक"},
+  "speak":{h:"बोलना",p:"सपीक"},
+  "spread":{h:"फैलाना",p:"सपरीड"},
+  "stand":{h:"खड़ा होना",p:"सटानड"},
+  "touch":{h:"छूना",p:"टाउच"},
+  "understand":{h:"समझना",p:"उनडरसटानड"},
+  "wait":{h:"इंतज़ार",p:"वेट"},
+  "walk":{h:"चलना",p:"वालक"},
+  "war":{h:"युद्ध",p:"वार"},
+  "watch":{h:"देखना",p:"वाच"},
+  "way":{h:"तरीका",p:"वे"},
+  "write":{h:"लिखना",p:"वरिट"},
+});
+/* ---- Social Science glossary: English → हिंदी ---- */
+Object.assign(WM2, {
+  "abiotic":{h:"अजैविक",p:"अबिओटिक"},
+  "acre":{h:"एकड़",p:"अकर"},
+  "administration":{h:"प्रशासन",p:"अडमिनिसटराशन"},
+  "afforestation":{h:"वनरोपण",p:"अफ़फ़ोरएसटाशन"},
+  "agriculture":{h:"कृषि",p:"अगरिकुलटरए"},
+  "allowance":{h:"भत्ता",p:"अललोअनक"},
+  "ancient":{h:"प्राचीन",p:"अनकीनट"},
+  "annex":{h:"कब्जा करना",p:"अननेक्स"},
+  "annexation":{h:"विलय",p:"अननेक्साशन"},
+  "archaeological":{h:"पुरातात्विक",p:"ारचाएओलोगिकाल"},
+  "archaeologist":{h:"पुरातत्वविद",p:"ारचाएओलोगिसट"},
+  "archive":{h:"अभिलेखागार",p:"ारचिव"},
+  "arrest":{h:"गिरफ्तारी",p:"ाररेसट"},
+  "authority":{h:"अधिकार",p:"ॉथोरिटी"},
+  "battle":{h:"लड़ाई",p:"बाटटल"},
+  "biotic":{h:"जैविक",p:"बिओटिक"},
+  "bonded":{h:"बंधुआ",p:"बोनडेड"},
+  "boundary":{h:"सीमा",p:"बाउनडारी"},
+  "capture":{h:"कब्जा",p:"कापटरए"},
+  "cartridge":{h:"कारतूस",p:"कारटरिज"},
+  "cash":{h:"नकद",p:"काश"},
+  "cavalry":{h:"घुड़सवार",p:"कावालरय"},
+  "century":{h:"सदी",p:"केनटरी"},
+  "charter":{h:"चार्टर",p:"चारटर"},
+  "chronicle":{h:"वृत्तांत",p:"चरोनिकल"},
+  "climate":{h:"जलवायु",p:"कलिमाट"},
+  "coastline":{h:"तटरेखा",p:"कोसटलिन"},
+  "coffee":{h:"कॉफी",p:"कोफ़फ़ी"},
+  "coin":{h:"सिक्का",p:"कॉयन"},
+  "college":{h:"कॉलेज",p:"कोललेग"},
+  "commission":{h:"आयोग",p:"कोममिसशन"},
+  "committee":{h:"समिति",p:"कोममिटटी"},
+  "company":{h:"कंपनी",p:"कोमपानय"},
+  "conquest":{h:"विजय",p:"कोनक्वेसट"},
+  "conservation":{h:"संरक्षण",p:"कोनसरवाशन"},
+  "cotton":{h:"कपास",p:"कोटटोन"},
+  "crop":{h:"फसल",p:"करोप"},
+  "cultivation":{h:"खेती",p:"कुलटिवाशन"},
+  "custom":{h:"रीति-रिवाज",p:"कुसटोम"},
+  "deforestation":{h:"वनों की कटाई",p:"डेफ़ोरएसटाशन"},
+  "despatch":{h:"डिस्पैच",p:"डेसपाच"},
+  "development":{h:"विकास",p:"डेवेलोपमेंट"},
+  "distribution":{h:"वितरण",p:"डिसटरिबुशन"},
+  "doctrine":{h:"सिद्धांत",p:"डोकटरिन"},
+  "document":{h:"दस्तावेज",p:"डोकुमेंट"},
+  "economic":{h:"आर्थिक",p:"एकोनोमिक"},
+  "education":{h:"शिक्षा",p:"एडुकाशन"},
+  "emperor":{h:"सम्राट",p:"एमपरोर"},
+  "empire":{h:"साम्राज्य",p:"एमपिरए"},
+  "erosion":{h:"अपरदन",p:"रओशन"},
+  "evidence":{h:"सबूत",p:"एविडेनक"},
+  "exhaustible":{h:"समाप्य",p:"एक्सहॉसटिबल"},
+  "exile":{h:"निर्वासन",p:"एक्सिल"},
+  "extensive":{h:"विस्तृत",p:"एक्सटेनसिव"},
+  "factory":{h:"कारखाना",p:"फ़ाकटोरी"},
+  "farming":{h:"खेती",p:"फ़ारमिंग"},
+  "fertilizer":{h:"उर्वरक",p:"फ़रटिलिज़र"},
+  "fibre":{h:"रेशा",p:"फ़िबर"},
+  "food":{h:"खाद्य",p:"फ़ूड"},
+  "forest":{h:"जंगल",p:"फ़ोरएसट"},
+  "gathering":{h:"इकट्ठा करना",p:"गाथरिंग"},
+  "general":{h:"जनरल",p:"गेनरअल"},
+  "government":{h:"सरकार",p:"गोवरनमेंट"},
+  "governor":{h:"गवर्नर",p:"गोवरनोर"},
+  "greased":{h:"चिकना",p:"गरीसेड"},
+  "groundwater":{h:"भूजल",p:"गराउनडवाटर"},
+  "harvest":{h:"कटाई",p:"हारवेसट"},
+  "harvesting":{h:"कटाई",p:"हारवेसटिंग"},
+  "historian":{h:"इतिहासकार",p:"हिसटोरइअन"},
+  "history":{h:"इतिहास",p:"हिसटोरी"},
+  "human":{h:"मानव",p:"हुमान"},
+  "hunting":{h:"शिकार",p:"हुनटिंग"},
+  "hydroelectric":{h:"जलविद्युत",p:"हयडरोएलेकटरिक"},
+  "inscription":{h:"शिलालेख",p:"इनसकरिपशन"},
+  "intensive":{h:"गहन",p:"इनटेनसिव"},
+  "interpretation":{h:"व्याख्या",p:"इनटरपरेटाशन"},
+  "irrigation":{h:"सिंचाई",p:"िररिगाशन"},
+  "jute":{h:"जूट",p:"जुट"},
+  "kharif":{h:"खरीफ",p:"कहारइफ़"},
+  "labour":{h:"मजदूरी",p:"लाबाउर"},
+  "lapse":{h:"हरण",p:"लाप्स"},
+  "literary":{h:"साहित्यिक",p:"लिटरारी"},
+  "livestock":{h:"पशुधन",p:"लिवेसटोक"},
+  "loyalty":{h:"निष्ठा",p:"लॉयअलटय"},
+  "maize":{h:"मक्का",p:"मेज़"},
+  "manuscript":{h:"पांडुलिपि",p:"मानुसकरिपट"},
+  "map":{h:"नक्शा",p:"माप"},
+  "maulvi":{h:"मौलवी",p:"मॉलवि"},
+  "mechanisation":{h:"मशीनीकरण",p:"मेचानिसाशन"},
+  "medieval":{h:"मध्यकालीन",p:"मेडीवाल"},
+  "medium":{h:"माध्यम",p:"मेडिउम"},
+  "mineral":{h:"खनिज",p:"मिनरअल"},
+  "minute":{h:"मिनट",p:"मिनुट"},
+  "missionary":{h:"मिशनरी",p:"मिसशनारी"},
+  "modern":{h:"आधुनिक",p:"मोडरन"},
+  "moneylender":{h:"साहूकार",p:"मोनेीलेनडर"},
+  "monsoon":{h:"मानसून",p:"मोनसून"},
+  "monument":{h:"स्मारक",p:"मोनुमेंट"},
+  "mutiny":{h:"विद्रोह",p:"मुटिनय"},
+  "narrator":{h:"कथाकार",p:"नारराटोर"},
+  "nationalism":{h:"राष्ट्रवाद",p:"नाशनालिसम"},
+  "natural":{h:"प्राकृतिक",p:"नाटरअल"},
+  "nawab":{h:"नवाब",p:"नावाब"},
+  "non-renewable":{h:"अनवीकरणीय",p:"नोन-रेन्यूअबल"},
+  "official":{h:"आधिकारिक",p:"ओफ़फ़िकिअल"},
+  "pension":{h:"पेंशन",p:"पेनशन"},
+  "period":{h:"काल",p:"परइओड"},
+  "pesticide":{h:"कीटनाशक",p:"पेसटिकिड"},
+  "petroleum":{h:"पेट्रोलियम",p:"पेटरोलेउम"},
+  "plantation":{h:"बागान",p:"पलानटाशन"},
+  "policy":{h:"नीति",p:"पोलिकय"},
+  "population":{h:"जनसंख्या",p:"पोपुलाशन"},
+  "power":{h:"सत्ता",p:"पोर"},
+  "pre-history":{h:"पूर्व-इतिहास",p:"परे-हिसटोरी"},
+  "privilege":{h:"विशेषाधिकार",p:"परिविलेग"},
+  "producer":{h:"उत्पादक",p:"परोडुकर"},
+  "production":{h:"उत्पादन",p:"परोडुकशन"},
+  "pundit":{h:"पंडित",p:"पुनडिट"},
+  "puppet":{h:"कठपुतली",p:"पुपपेट"},
+  "rabi":{h:"रबी",p:"राबि"},
+  "rebellion":{h:"विद्रोह",p:"रेबेललिओन"},
+  "record":{h:"रिकॉर्ड",p:"रेकोरड"},
+  "regiment":{h:"रैजिमेंट",p:"रेगिमेंट"},
+  "renewable":{h:"नवीकरणीय",p:"रेन्यूअबल"},
+  "resource":{h:"संसाधन",p:"रेसाउरक"},
+  "revenue":{h:"राजस्व",p:"रेवेन्यू"},
+  "revolt":{h:"विद्रोह",p:"रेवोलट"},
+  "rice":{h:"चावल",p:"रिक"},
+  "river":{h:"नदी",p:"रिवर"},
+  "rotation":{h:"चक्रण",p:"रोटाशन"},
+  "rubber":{h:"रबर",p:"रुबबर"},
+  "sanctuary":{h:"अभयारण्य",p:"सानकटुारी"},
+  "sanskrit":{h:"संस्कृत",p:"सानसकरिट"},
+  "sepoy":{h:"सिपाही",p:"सेपॉय"},
+  "shifting":{h:"स्थानांतरित",p:"शिफ़टिंग"},
+  "siege":{h:"घेराबंदी",p:"सीग"},
+  "society":{h:"समाज",p:"सोकीटय"},
+  "soil":{h:"मिट्टी",p:"सॉयल"},
+  "source":{h:"स्रोत",p:"साउरक"},
+  "sowing":{h:"बुवाई",p:"सोिंग"},
+  "spice":{h:"मसाला",p:"सपिक"},
+  "subsidiary":{h:"सहायक",p:"सुबसिडिारी"},
+  "sugarcane":{h:"गन्ना",p:"सुगारकान"},
+  "survey":{h:"सर्वेक्षण",p:"सरवेी"},
+  "tax":{h:"कर",p:"टाक्स"},
+  "terrace":{h:"सीढ़ीदार",p:"टरराक"},
+  "trading":{h:"व्यापारिक",p:"टराडिंग"},
+  "traditional":{h:"पारंपरिक",p:"टराडिशनाल"},
+  "transition":{h:"संक्रमण",p:"टरानसिशन"},
+  "treaty":{h:"संधि",p:"टरीटय"},
+  "tribal":{h:"आदिवासी",p:"टरिबाल"},
+  "tribe":{h:"जनजाति",p:"टरिब"},
+  "university":{h:"विश्वविद्यालय",p:"उनिवरसिटी"},
+  "uprising":{h:"विद्रोह",p:"उपरिसिंग"},
+  "wheat":{h:"गेहूँ",p:"वीट"},
+  "wildlife":{h:"वन्यजीव",p:"विलडलिफ़"},
+  "yield":{h:"उपज",p:"यीलड"},
+  "zaid":{h:"जायद",p:"ज़ेड"},
+  "zamindar":{h:"जमींदार",p:"ज़ामिनडार"},
+});
+/* ---- Social Science: English → हिंदी (extended) ---- */
+Object.assign(WM2, {
+  "british":{h:"ब्रिटिश",p:"बरिटिश"},
+  "bharat":{h:"भारत",p:"बहारअट"},
+  "shah":{h:"शाह",p:"शाह"},
+  "bahadur":{h:"बहादुर",p:"बाहाडर"},
+  "english":{h:"इंग्लिश",p:"एंगलिश"},
+  "match":{h:"मैच",p:"माच"},
+  "munda":{h:"मुंडा",p:"मुनडा"},
+  "jhoom":{h:"झूम",p:"जहूम"},
+  "year":{h:"साल",p:"यीर"},
+  "time":{h:"समय",p:"टिम"},
+  "states":{h:"राज्य",p:"सटाटेस"},
+  "rain":{h:"बारिश",p:"रेन"},
+  "rangoon":{h:"रंगून",p:"रांगून"},
+  "hunter":{h:"शिकारी",p:"हुनटर"},
+  "coal":{h:"कोयला",p:"कोल"},
+  "rule":{h:"नियम",p:"रुल"},
+  "swaminathan":{h:"स्वामीनाथन",p:"सवामिनाथान"},
+  "mill":{h:"मिल",p:"मिलल"},
+  "hydroelectricity":{h:"पनबिजली",p:"हयडरोएलेकटरिकिटी"},
+  "grown":{h:"उगा",p:"गरोन"},
+  "james":{h:"जेम्स",p:"जामेस"},
+  "explain":{h:"समझाना",p:"एक्सपलेन"},
+  "golden":{h:"सुनहरा",p:"गोलडेन"},
+  "brazil":{h:"ब्राज़ील",p:"बराज़िल"},
+  "india":{h:"भारत",p:"इनडिअ"},
+  "examples":{h:"उदाहरण",p:"एक्सामपलेस"},
+  "baigas":{h:"बैगा",p:"बेगास"},
+  "birsa":{h:"बिरसा",p:"बिरसा"},
+  "led":{h:"नेतृत्व",p:"लेड"},
+  "subedar":{h:"सूबेदार",p:"सुबेडार"},
+  "produced":{h:"उत्पादित",p:"परोडुकेड"},
+  "rock":{h:"चट्टान",p:"रोक"},
+  "money":{h:"पैसा",p:"मोनेी"},
+  "nana":{h:"नाना",p:"नाना"},
+  "saheb":{h:"साहब",p:"साहेब"},
+  "areas":{h:"क्षेत्र",p:"ारीस"},
+  "called":{h:"बुलाया",p:"काललेड"},
+  "too":{h:"भी",p:"टू"},
+  "line":{h:"रेखा",p:"लिन"},
+  "indian":{h:"भारतीय",p:"इनडिअन"},
+  "singh":{h:"सिंह",p:"सिंगह"},
+  "dukhan":{h:"दुखन",p:"डुकहान"},
+  "manaki":{h:"मनकी",p:"मानाकि"},
+  "leaders":{h:"नेता",p:"लीडरस"},
+  "rani":{h:"रानी",p:"रानि"},
+  "lakshmi":{h:"लक्ष्मी",p:"लाकशमि"},
+  "bai":{h:"बाई",p:"बे"},
+  "set":{h:"सेट",p:"सेट"},
+  "magna":{h:"मैग्ना",p:"मागना"},
+  "carta":{h:"कार्टा",p:"कारटा"},
+  "reformers":{h:"सुधारक",p:"रेफ़ोरमरस"},
+  "machines":{h:"मशीनें",p:"माचिनेस"},
+  "wind":{h:"हवा",p:"विनड"},
+  "written":{h:"लिखित",p:"वरिटटेन"},
+  "plassey":{h:"प्लासी",p:"पलाससेी"},
+  "sources":{h:"स्रोत",p:"साउरकेस"},
+  "important":{h:"महत्वपूर्ण",p:"इमपोरटानट"},
+  "control":{h:"नियंत्रण",p:"कोनटरोल"},
+  "late":{h:"देर",p:"लाट"},
+  "exiled":{h:"निर्वासित",p:"एक्सिलेड"},
+  "jhansi":{h:"झाँसी",p:"जहानसि"},
+  "act":{h:"अधिनियम",p:"अकट"},
+  "sunlight":{h:"धूप",p:"सुनलाइट"},
+  "define":{h:"परिभाषित",p:"डेफ़िन"},
+  "early":{h:"प्रारंभिक",p:"ीरली"},
+  "bharatiya":{h:"भारतीय",p:"बहारअटिीअ"},
+  "age":{h:"युग",p:"अग"},
+  "features":{h:"विशेषताएँ",p:"फ़ीटरएस"},
+  "mughal":{h:"मुगल",p:"मुगहाल"},
+  "tipu":{h:"टीपू",p:"टिपु"},
+  "sultan":{h:"सुल्तान",p:"सुलटान"},
+  "siraj-ud-daula":{h:"सिराजुद्दौला",p:"सिरअज-उड-डॉला"},
+  "trade":{h:"व्यापार",p:"टराड"},
+  "santhal":{h:"संथाल",p:"सानथाल"},
+  "santhals":{h:"संथाल",p:"सानथालस"},
+  "north-eastern":{h:"उत्तर-पूर्वी",p:"नोरथ-ीसटरन"},
+  "biggest":{h:"सबसे बड़ा",p:"बिगगेसट"},
+  "bir":{h:"बिर",p:"बिर"},
+  "cow":{h:"गाय",p:"को"},
+  "fat":{h:"चर्बी",p:"फ़ाट"},
+  "pig":{h:"सुअर",p:"पिग"},
+  "lard":{h:"चर्बी",p:"लारड"},
+  "kanpur":{h:"कानपुर",p:"कानपर"},
+  "local":{h:"स्थानीय",p:"लोकाल"},
+  "energy":{h:"ऊर्जा",p:"एनरगय"},
+  "satisfy":{h:"संतुष्ट",p:"साटिसफ़य"},
+  "large":{h:"बड़ा",p:"लारग"},
+  "sweet":{h:"मीठा",p:"सवीट"},
+  "potato":{h:"आलू",p:"पोटाटो"},
+  "term":{h:"अवधि",p:"टरम"},
+  "major":{h:"प्रमुख",p:"माजोर"},
+  "onwards":{h:"के बाद से",p:"ओनवारड्स"},
+  "scottish":{h:"स्कॉटिश",p:"सकोटटिश"},
+  "economist":{h:"अर्थशास्त्री",p:"एकोनोमिसट"},
+  "ain-e-akbari":{h:"आईन-ए-अकबरी",p:"ेन-ए-अकबारइ"},
+  "poverty":{h:"गरीबी",p:"पोवरटय"},
+  "un-british":{h:"गैर-ब्रिटिश",p:"उन-बरिटिश"},
+  "abul":{h:"अबुल",p:"अबुल"},
+  "fazl":{h:"फजल",p:"फ़ाज़ल"},
+  "dadabhai":{h:"दादाभाई",p:"डाडाबहे"},
+  "naoroji":{h:"नौरोजी",p:"नाोरओजि"},
+  "two-column":{h:"दो-कॉलम",p:"टवो-कोलुमन"},
+  "comparison":{h:"तुलना",p:"कोमपारइसोन"},
+  "carnatic":{h:"कर्नाटक",p:"कारनाटिक"},
+  "died":{h:"मृत्यु",p:"डीड"},
+  "place":{h:"स्थान",p:"पलाक"},
+  "delhi":{h:"दिल्ली",p:"डेलहि"},
+  "french":{h:"फ्रांसीसी",p:"फ़रेनच"},
+  "bengal":{h:"बंगाल",p:"बेंगाल"},
+  "east":{h:"पूर्व",p:"ीसट"},
+  "colonial":{h:"औपनिवेशिक",p:"कोलोनिअल"},
+  "leader":{h:"नेता",p:"लीडर"},
+  "four":{h:"चार",p:"फ़ाउर"},
+  "tope":{h:"टोपी",p:"टोप"},
+  "rebels":{h:"विद्रोही",p:"रेबेलस"},
+  "cartridges":{h:"कारतूस",p:"कारटरिजस"},
+  "discuss":{h:"चर्चा",p:"डिसकुसस"},
+  "away":{h:"दूर",p:"अवे"},
+  "industry":{h:"उद्योग",p:"इनडुसटरय"},
+  "cannot":{h:"नहीं कर सकता",p:"काननोट"},
+  "tiger":{h:"बाघ",p:"टिगर"},
+  "largest":{h:"सबसे बड़ा",p:"लारगेसट"},
+  "feature":{h:"विशेषता",p:"फ़ीटरए"},
+  "revolution":{h:"क्रांति",p:"रेवोलुशन"},
+  "per":{h:"प्रति",p:"पर"},
+  "past":{h:"अतीत",p:"पासट"},
+  "wrote":{h:"लिखा",p:"वरोट"},
+  "system":{h:"प्रणाली",p:"सयसटेम"},
+  "mughals":{h:"मुगल",p:"मुगहालस"},
+  "historical":{h:"ऐतिहासिक",p:"हिसटोरइकाल"},
+  "events":{h:"घटनाएँ",p:"एवेनट्स"},
+  "country":{h:"देश",p:"काउनटरय"},
+  "hindu":{h:"हिंदू",p:"हिनडु"},
+  "muslim":{h:"मुस्लिम",p:"मुसलिम"},
+  "systems":{h:"प्रणालियाँ",p:"सयसटेमस"},
+  "lord":{h:"लॉर्ड",p:"लोरड"},
+  "political":{h:"राजनीतिक",p:"पोलिटिकाल"},
+  "tantia":{h:"तात्या",p:"टानटिअ"},
+  "rulers":{h:"शासक",p:"रुलरस"},
+  "reforms":{h:"सुधार",p:"रेफ़ोरमस"},
+  "offended":{h:"आहत",p:"ओफ़फ़ेनडेड"},
+  "given":{h:"दिया गया",p:"गिवेन"},
+  "human-made":{h:"मानव निर्मित",p:"हुमान-माड"},
+  "non-living":{h:"निर्जीव",p:"नोन-लिविंग"},
+  "basis":{h:"आधार",p:"बासिस"},
+  "produces":{h:"पैदा करता है",p:"परोडुकेस"},
+  "wells":{h:"कुएं",p:"वेललस"},
+  "gives":{h:"देता है",p:"गिवेस"},
+  "sown":{h:"बोया गया",p:"सोन"},
+  "practice":{h:"अभ्यास",p:"पराकटिक"},
+  "explains":{h:"समझाता है",p:"एक्सपलेनस"},
+  "cause":{h:"कारण",p:"कॉस"},
+  "differentiate":{h:"अंतर करना",p:"डिफ़फ़रएनटिअट"},
+  "divided":{h:"विभाजित",p:"डिविडेड"},
+  "european":{h:"यूरोपीय",p:"एरओपीन"},
+  "years":{h:"वर्ष",p:"यीरस"},
+  "haider":{h:"हैदर",p:"हेडर"},
+  "ali":{h:"अली",p:"अलि"},
+  "portuguese":{h:"पुर्तगाली",p:"पोरटुग्यूस"},
+  "buxar":{h:"बक्सर",p:"बुक्सार"},
+  "force":{h:"बल",p:"फ़ोरक"},
+  "responsibility":{h:"जिम्मेदारी",p:"रेसपोनसिबिलिटी"},
+  "undermined":{h:"कमज़ोर किया",p:"उनडरमिनेड"},
+  "established":{h:"स्थापित",p:"एसटाबलिशेड"},
+  "hul":{h:"हुल",p:"हुल"},
+  "bihar":{h:"बिहार",p:"बिहार"},
+  "region":{h:"क्षेत्र",p:"रेगिओन"},
+  "follow":{h:"अनुसरण करना",p:"फ़ोललो"},
+  "social":{h:"सामाजिक",p:"सोकिअल"},
+  "rules":{h:"नियम",p:"रुलेस"},
+  "laid":{h:"रखा",p:"लेड"},
+  "tumult":{h:"कोलाहल",p:"टुमुलट"},
+  "chotanagpur":{h:"छोटानागपुर",p:"चोटानागपर"},
+  "practised":{h:"अभ्यास किया",p:"पराकटिसेड"},
+  "aside":{h:"अलग",p:"असिड"},
+  "killed":{h:"मारा",p:"किललेड"},
+  "bharatiyas":{h:"भारतीय",p:"बहारअटिीअस"},
+  "support":{h:"समर्थन",p:"सुपपोरट"},
+  "soldiers":{h:"सैनिक",p:"सोलडीरस"},
+  "religion":{h:"धर्म",p:"रेलिगिओन"},
+  "traditions":{h:"परंपराएँ",p:"टराडिशनस"},
+  "attacked":{h:"हमला किया",p:"अटटाकेड"},
+  "hanged":{h:"फांसी दी",p:"हांगेड"},
+  "calcutta":{h:"कलकत्ता",p:"कालकुटटा"},
+  "macaulay":{h:"मैकाले",p:"माकॉले"},
+  "william":{h:"विलियम",p:"विललिअम"},
+  "conditions":{h:"शर्तें",p:"कोनडिशनस"},
+  "vital":{h:"महत्वपूर्ण",p:"विटाल"},
+  "obtained":{h:"प्राप्त किया",p:"ओबटेनेड"},
+  "living":{h:"जीवित",p:"लिविंग"},
+  "replaced":{h:"प्रतिस्थापित किया",p:"रेपलाकेड"},
+  "types":{h:"प्रकार",p:"टयपेस"},
+  "rocks":{h:"चट्टानें",p:"रोकस"},
+  "origin":{h:"उत्पत्ति",p:"ोरइगिन"},
+  "processed":{h:"संसाधित",p:"परोकेससेड"},
+  "prevented":{h:"रोका",p:"परेवेनटेड"},
+  "project":{h:"परियोजना",p:"परोजेकट"},
+  "seasons":{h:"मौसम",p:"सीसोनस"},
+  "fields":{h:"खेत",p:"फ़ीलड्स"},
+  "lower":{h:"निचला",p:"लोर"},
+  "raw":{h:"कच्चा",p:"राव"},
+  "material":{h:"सामग्री",p:"माटरइअल"},
+  "winter":{h:"सर्दी",p:"विनटर"},
+  "gram":{h:"ग्राम",p:"गराम"},
+  "scholars":{h:"विद्वान",p:"स्कोलारस"},
+  "scientists":{h:"वैज्ञानिक",p:"सकीनटिसट्स"},
+  "gurus":{h:"गुरु",p:"गरउस"},
+  "study":{h:"अध्ययन",p:"सटुडय"},
+  "remains":{h:"अवशेष",p:"रेमेनस"},
+  "sultans":{h:"सुल्तान",p:"सुलटानस"},
+  "mangols":{h:"मंगोल",p:"मांगोलस"},
+  "chronicles":{h:"वृत्तांत",p:"चरोनिकलेस"},
+  "include":{h:"शामिल",p:"इनकलुड"},
+  "excavation":{h:"खुदाई",p:"एक्सकावाशन"},
+  "method":{h:"तरीका",p:"मेथोड"},
+  "considered":{h:"माना",p:"कोनसिडरएड"},
+  "post-history":{h:"उत्तर-इतिहास",p:"पोसट-हिसटोरी"},
+  "mid-history":{h:"मध्य-इतिहास",p:"मिड-हिसटोरी"},
+  "tools":{h:"उपकरण",p:"टूलस"},
+  "dates":{h:"तिथियाँ",p:"डाटेस"},
+  "accounts":{h:"खाते",p:"अककाउनट्स"},
+  "travellers":{h:"यात्री",p:"टरावेललरस"},
+  "taken":{h:"लिया",p:"टाकेन"},
+  "prepared":{h:"तैयार किया",p:"परेपारएड"},
+  "rennell":{h:"रेनेल",p:"रेननेलल"},
+  "distances":{h:"दूरियाँ",p:"डिसटानकेस"},
+  "coastlines":{h:"तटरेखाएँ",p:"कोसटलिनेस"},
+  "boundaries":{h:"सीमाएँ",p:"बाउनडारीस"},
+  "present":{h:"वर्तमान",p:"परेसेनट"},
+  "studies":{h:"अध्ययन",p:"सटुडीस"},
+  "turn":{h:"मोड़",p:"टरन"},
+  "judged":{h:"आंका",p:"जुजड"},
+  "standards":{h:"मानक",p:"सटानडारड्स"},
+  "declined":{h:"गिरावट आई",p:"डेकलिनेड"},
+  "centres":{h:"केंद्र",p:"केनटरेस"},
+  "companies":{h:"कंपनियाँ",p:"कोमपानीस"},
+  "markets":{h:"बाज़ार",p:"मारकेट्स"},
+  "offices":{h:"कार्यालय",p:"ओफ़फ़िकेस"},
+  "warehouses":{h:"गोदाम",p:"वारएहाउसेस"},
+  "sold":{h:"बेचा",p:"सोलड"},
+  "lasted":{h:"चला",p:"लासटेड"},
+  "signed":{h:"हस्ताक्षर किए",p:"सिगनेड"},
+  "nizam":{h:"निज़ाम",p:"निज़ाम"},
+  "hyderabad":{h:"हैदराबाद",p:"हयडरअबाड"},
+  "succeeded":{h:"सफल हुए",p:"सुककीडेड"},
+  "alam":{h:"आलम",p:"अलाम"},
+  "suspicious":{h:"संदिग्ध",p:"सुसपिकिाउस"},
+  "jahangir":{h:"जहांगीर",p:"जाहांगिर"},
+  "mir":{h:"मीर",p:"मिर"},
+  "sadiq":{h:"सादिक",p:"साडिक"},
+  "defeated":{h:"पराजित",p:"डेफ़ीटेड"},
+  "fought":{h:"लड़ा",p:"फ़ॉट"},
+  "seringapatam":{h:"श्रीरंगपट्टम",p:"सरिंगअपाटाम"},
+  "failed":{h:"विफल",p:"फ़ेलेड"},
+  "dual":{h:"दोहरी",p:"डुअल"},
+  "carried":{h:"ले जाया गया",p:"काररीड"},
+  "collected":{h:"एकत्र किया",p:"कोललेकटेड"},
+  "nations":{h:"राष्ट्र",p:"नाशनस"},
+  "dutch":{h:"डच",p:"डुच"},
+  "rivals":{h:"प्रतिद्वंद्वी",p:"रिवालस"},
+  "relationship":{h:"संबंध",p:"रेलाशनशिप"},
+  "misused":{h:"दुरुपयोग किया",p:"मिसुसेड"},
+  "privileges":{h:"विशेषाधिकार",p:"परिविलेगेस"},
+  "leading":{h:"नेतृत्व",p:"लीडिंग"},
+  "business":{h:"व्यापार",p:"बुसिनेस"},
+  "surat":{h:"सूरत",p:"सरअट"},
+  "products":{h:"उत्पाद",p:"परोडुकट्स"},
+  "buying":{h:"खरीदना",p:"बुीिंग"},
+  "selling":{h:"बेचना",p:"सेललिंग"},
+  "farmed":{h:"खेती की",p:"फ़ारमेड"},
+  "regions":{h:"क्षेत्र",p:"रेगिओनस"},
+  "jharkhand":{h:"झारखंड",p:"जहारकहानड"},
+  "odisha":{h:"ओडिशा",p:"ओडिशा"},
+  "west":{h:"पश्चिम",p:"वेसट"},
+  "brahmins":{h:"ब्राह्मण",p:"बराहमिनस"},
+  "kshatriyas":{h:"क्षत्रिय",p:"कशाटरिीअस"},
+  "inhabited":{h:"आबाद",p:"इनहाबिटेड"},
+  "gonds":{h:"गोंड",p:"गोनड्स"},
+  "ulugan":{h:"उलगन",p:"उलुगान"},
+  "gulal":{h:"गुलाल",p:"गुलाल"},
+  "sason":{h:"सासों",p:"सासोन"},
+  "sidhu":{h:"सिद्धू",p:"सिडहु"},
+  "kanhu":{h:"कान्हू",p:"कानहु"},
+  "brothers":{h:"भाई",p:"बरोथरस"},
+  "courts":{h:"अदालतें",p:"काउरट्स"},
+  "police":{h:"पुलिस",p:"पोलिक"},
+  "supported":{h:"समर्थित",p:"सुपपोरटेड"},
+  "outsiders":{h:"बाहरी लोग",p:"ाउट्सिडरस"},
+  "against":{h:"खिलाफ",p:"अगेनसट"},
+  "rose":{h:"उठा",p:"रोस"},
+  "affect":{h:"प्रभावित करना",p:"अफ़फ़ेकट"},
+  "forced":{h:"मजबूर",p:"फ़ोरकेड"},
+  "crushed":{h:"कुचला",p:"करुशेड"},
+  "armed":{h:"सशस्त्र",p:"ारमेड"},
+  "thousands":{h:"हज़ारों",p:"थाउसानड्स"},
+  "various":{h:"विभिन्न",p:"वारइाउस"},
+  "hunted":{h:"शिकार किया",p:"हुनटेड"},
+  "gathered":{h:"इकट्ठा किया",p:"गाथरएड"},
+  "happen":{h:"होना",p:"हापपेन"},
+  "mightiest":{h:"सबसे शक्तिशाली",p:"माइटीसट"},
+});
+/* ---- Social Science: English → हिंदी (final) ---- */
+Object.assign(WM2, {
+  "adopted":{h:"अपनाया गया",p:"अडोपटेड"},
+  "peshwa":{h:"पेशवा",p:"पेशवा"},
+  "baji":{h:"बाजी",p:"बाजि"},
+  "rao":{h:"राव",p:"राओ"},
+  "humiliated":{h:"अपमानित",p:"हुमिलिअटेड"},
+  "position":{h:"पद",p:"पोसिशन"},
+  "grievances":{h:"शिकायतें",p:"गरीवानकेस"},
+  "factors":{h:"कारक",p:"फ़ाकटोरस"},
+  "heavy":{h:"भारी",p:"हीवय"},
+  "ruin":{h:"बर्बादी",p:"रुिन"},
+  "long-held":{h:"लंबे समय से",p:"लोंग-हेलड"},
+  "feared":{h:"डरा हुआ",p:"फ़ीरेड"},
+  "pay":{h:"भुगतान",p:"पे"},
+  "promotion":{h:"पदोन्नति",p:"परोमोशन"},
+  "loss":{h:"नुकसान",p:"लोसस"},
+  "immediate":{h:"तत्काल",p:"इममेडिअट"},
+  "rifle":{h:"राइफल",p:"रिफ़ल"},
+  "mangal":{h:"मंगल",p:"मांगाल"},
+  "pandey":{h:"पांडे",p:"पानडेी"},
+  "barrackpore":{h:"बैरकपुर",p:"बारराकपोरए"},
+  "officers":{h:"अधिकारी",p:"ओफ़फ़िकरस"},
+  "begum":{h:"बेगम",p:"बेगुम"},
+  "hazrat":{h:"हज़रत",p:"हाज़राट"},
+  "mahal":{h:"महल",p:"माहाल"},
+  "kunwar":{h:"कुंवर",p:"कुनवार"},
+  "single":{h:"एकल",p:"सिंगल"},
+  "arms":{h:"हथियार",p:"ारमस"},
+  "loyal":{h:"वफादार",p:"लॉयअल"},
+  "changes":{h:"बदलाव",p:"चांगेस"},
+  "abolished":{h:"समाप्त",p:"अबोलिशेड"},
+  "crown":{h:"मुकुट",p:"करोन"},
+  "army":{h:"सेना",p:"ारमय"},
+  "reorganised":{h:"पुनर्गठित",p:"रेोरगानिसेड"},
+  "law":{h:"कानून",p:"लाव"},
+  "member":{h:"सदस्य",p:"मेमबर"},
+  "charles":{h:"चार्ल्स",p:"चारलेस"},
+  "universities":{h:"विश्वविद्यालय",p:"उनिवरसिटीस"},
+  "cities":{h:"शहर",p:"किटीस"},
+  "progress":{h:"प्रगति",p:"परोगरेसस"},
+  "improvements":{h:"सुधार",p:"इमपरोवेमेंटस"},
+  "powerful":{h:"शक्तिशाली",p:"पोरफ़ुल"},
+  "shapes":{h:"आकार",p:"शापेस"},
+  "opportunity":{h:"अवसर",p:"ओपपोरटुनिटी"},
+  "higher":{h:"उच्च",p:"हाइर"},
+  "promoted":{h:"पदोन्नत",p:"परोमोटेड"},
+  "western":{h:"पश्चिमी",p:"वेसटरन"},
+  "learning":{h:"शिक्षा",p:"लीरनिंग"},
+  "taught":{h:"सिखाया",p:"टॉट"},
+  "language":{h:"भाषा",p:"लांगुअग"},
+  "depended":{h:"निर्भर",p:"डेपेनडेड"},
+  "categories":{h:"श्रेणियाँ",p:"काटेगोरीस"},
+  "anything":{h:"कुछ भी",p:"अनयथिंग"},
+  "difference":{h:"अंतर",p:"डिफ़फ़रएनक"},
+  "compare":{h:"तुलना",p:"कोमपारए"},
+  "skills":{h:"कौशल",p:"सकिललस"},
+  "forestation":{h:"वनीकरण",p:"फ़ोरएसटाशन"},
+  "done":{h:"किया गया",p:"डोन"},
+  "hilly":{h:"पहाड़ी",p:"हिलली"},
+  "coastal":{h:"तटीय",p:"कोसटाल"},
+  "flat":{h:"सपाट",p:"फ़लाट"},
+  "consumed":{h:"उपभोग किया गया",p:"कोनसुमेड"},
+  "directly":{h:"सीधे",p:"डिरएकटली"},
+  "indirectly":{h:"परोक्ष रूप से",p:"इनडिरएकटली"},
+  "exist":{h:"मौजूद",p:"एक्सिसट"},
+  "below":{h:"नीचे",p:"बेलो"},
+  "surface":{h:"सतह",p:"सरफ़ाक"},
+  "drawn":{h:"खींचा गया",p:"डरावन"},
+  "tube":{h:"ट्यूब",p:"टुब"},
+  "overgrazing":{h:"अत्यधिक चराई",p:"ओवरगराज़िंग"},
+  "steep":{h:"खड़ी",p:"सटीप"},
+  "slopes":{h:"ढलान",p:"सलोपेस"},
+  "top":{h:"शीर्ष",p:"टोप"},
+  "layer":{h:"परत",p:"लेर"},
+  "terracing":{h:"सीढ़ीदार खेती",p:"टरराकिंग"},
+  "contour":{h:"समोच्च",p:"कोनटाउर"},
+  "ploughing":{h:"जुताई",p:"पलॉिंग"},
+  "topsoil":{h:"उपजाऊ मिट्टी",p:"टोप्सॉयल"},
+  "lifts":{h:"लिफ्ट",p:"लिफ़ट्स"},
+  "loose":{h:"ढीला",p:"लूस"},
+  "tourism":{h:"पर्यटन",p:"टाउरिसम"},
+  "medicines":{h:"दवाएं",p:"मेडिकिनेस"},
+  "generations":{h:"पीढ़ियाँ",p:"गेनरअशनस"},
+  "reserves":{h:"भंडार",p:"रेसरवेस"},
+  "banned":{h:"प्रतिबंधित",p:"बाननेड"},
+  "bitter":{h:"करेला",p:"बिटटर"},
+  "gourd":{h:"कड़वा",p:"गाउरड"},
+  "musk":{h:"कस्तूरी",p:"मुसक"},
+  "melon":{h:"खरबूजा",p:"मेलोन"},
+  "summer":{h:"गर्मी",p:"सुममर"},
+  "producing":{h:"उत्पादन",p:"परोडुकिंग"},
+  "usa":{h:"संयुक्त राज्य अमेरिका",p:"उसा"},
+  "china":{h:"चीन",p:"चिना"},
+  "indonesia":{h:"इंडोनेशिया",p:"इनडोनेसिअ"},
+  "less":{h:"कम",p:"लेसस"},
+  "excessive":{h:"अत्यधिक",p:"एक्सकेससिव"},
+  "egypt":{h:"मिस्र",p:"एगयपट"},
+  "pakistan":{h:"पाकिस्तान",p:"पाकिसटान"},
+  "vietnam":{h:"वियतनाम",p:"वीटनाम"},
+  "oldest":{h:"सबसे पुराना",p:"ओलडेसट"},
+  "mankind":{h:"मानव जाति",p:"मानकिनड"},
+  "distinguish":{h:"अलग करना",p:"डिसटिंगुिश"},
+  "output":{h:"उत्पादन",p:"ाउटपुट"},
+  "rearing":{h:"पालन",p:"रीरिंग"},
+  "farmer":{h:"किसान",p:"फ़ारमर"},
+  "patch":{h:"टुकड़ा",p:"पाच"},
+  "sunshine":{h:"धूप",p:"सुनशिन"},
+  "moderate":{h:"मध्यम",p:"मोडरअट"},
+  "rainfall":{h:"वर्षा",p:"रेनफ़ालल"},
+  "spring":{h:"वसंत",p:"सपरिंग"},
+  "mustard":{h:"सरसों",p:"मुसटारड"},
+  "rise":{h:"वृद्धि",p:"रिस"},
+  "high-yielding":{h:"उच्च पैदावार वाली",p:"हाइ-ीीलडिंग"},
+  "seeds":{h:"बीज",p:"सीड्स"},
+  "feeds":{h:"चारा",p:"फ़ीड्स"},
+  "employs":{h:"रोजगार देता है",p:"एमपलॉयस"},
+  "supplies":{h:"आपूर्ति",p:"सुपपलीस"},
+  "hot":{h:"गर्म",p:"होट"},
+  "tapped":{h:"टैप किया गया",p:"टापपेड"},
+  "latex":{h:"लेटेक्स",p:"लाटेक्स"},
+  "dig":{h:"खोदना",p:"डिग"},
+  "published":{h:"प्रकाशित",p:"पुबलिशेड"},
+  "court":{h:"अदालत",p:"काउरट"},
+  "systematic":{h:"व्यवस्थित",p:"सयसटेमाटिक"},
+  "archives":{h:"अभिलेखागार",p:"ारचिवेस"},
+  "full":{h:"पूरा",p:"फ़ुलल"},
+  "connected":{h:"जुड़ा हुआ",p:"कोननेकटेड"},
+  "writing":{h:"लेखन",p:"वरिटिंग"},
+  "etc":{h:"आदि",p:"एटक"},
+  "digging":{h:"खुदाई",p:"डिगगिंग"},
+  "occurring":{h:"हो रहा है",p:"ओककररिंग"},
+  "recent":{h:"हालिया",p:"रेकेनट"},
+  "monumental":{h:"स्मारकीय",p:"मोनुमेंटाल"},
+  "conducting":{h:"आयोजित करना",p:"कोनडुकटिंग"},
+  "linked":{h:"जुड़ा हुआ",p:"लिनकेड"},
+  "narration":{h:"वर्णन",p:"नारराशन"},
+  "span":{h:"अवधि",p:"सपान"},
+  "specific":{h:"विशिष्ट",p:"सपेकिफ़िक"},
+  "differ":{h:"अलग",p:"डिफ़फ़र"},
+  "depending":{h:"निर्भर",p:"डेपेनडिंग"},
+  "constructed":{h:"निर्मित",p:"कोनसटरुकटेड"},
+  "surveyors":{h:"सर्वेक्षक",p:"सरवेीोरस"},
+  "travelled":{h:"यात्रा की",p:"टरावेललेड"},
+  "measured":{h:"मापा",p:"मीसरएड"},
+  "measuring":{h:"मापना",p:"मीसरिंग"},
+  "learn":{h:"सीखना",p:"लीरन"},
+  "mistakes":{h:"गलतियाँ",p:"मिसटाकेस"},
+  "based":{h:"आधारित",p:"बासेड"},
+  "effect":{h:"प्रभाव",p:"एफ़फ़ेकट"},
+  "rests":{h:"शेष",p:"रेसट्स"},
+  "effects":{h:"प्रभाव",p:"एफ़फ़ेकट्स"},
+  "physical":{h:"भौतिक",p:"फ़यसिकाल"},
+  "papers":{h:"कागजात",p:"पापरस"},
+  "account":{h:"खाता",p:"अककाउनट"},
+  "one-sided":{h:"एकतरफा",p:"ओने-सिडेड"},
+  "breaking":{h:"तोड़ना",p:"बरीकिंग"},
+  "rising":{h:"उठना",p:"रिसिंग"},
+  "record-keeping":{h:"रिकॉर्ड रखना",p:"रेकोरड-कीपिंग"},
+  "administrative":{h:"प्रशासनिक",p:"अडमिनिसटराटिव"},
+  "store":{h:"स्टोर",p:"सटोरए"},
+  "designs":{h:"डिज़ाइन",p:"डेसिगनस"},
+  "dealt":{h:"निपटा",p:"डीलट"},
+  "traitor":{h:"गद्दार",p:"टरेटोर"},
+  "clashed":{h:"टकराया",p:"कलाशेड"},
+  "serinagapatnam":{h:"श्रीरंगपट्टनम",p:"सरइनागापाटनाम"},
+  "elsewhere":{h:"अन्यत्र",p:"एलस्यूहरए"},
+  "concerns":{h:"चिंताएँ",p:"कोनकरनस"},
+  "dalhousie":{h:"डलहौज़ी",p:"डालहाउसी"},
+  "anglo-mysore":{h:"एंग्लो-मैसूर",p:"अंगलो-मयसोरए"},
+  "formed":{h:"गठित",p:"फ़ोरमेड"},
+  "common":{h:"आम",p:"कोममोन"},
+  "front":{h:"मोर्चा",p:"फ़रोनट"},
+  "captured":{h:"कब्जा कर लिया",p:"कापटरएड"},
+  "arcot":{h:"आर्कोट",p:"ारकोट"},
+  "maharaja":{h:"महाराजा",p:"माहारअजा"},
+  "ranjit":{h:"रणजीत",p:"रानजिट"},
+  "continued":{h:"जारी रहा",p:"कोनटिन्यूड"},
+  "players":{h:"खिलाड़ी",p:"पलेरस"},
+  "dominating":{h:"हावी होना",p:"डोमिनाटिंग"},
+  "europe":{h:"यूरोप",p:"एरओप"},
+  "consequences":{h:"परिणाम",p:"कोनसेक्वेनकेस"},
+  "controlled":{h:"नियंत्रित",p:"कोनटरोललेड"},
+  "levels":{h:"स्तर",p:"लेवेलस"},
+  "burden":{h:"बोझ",p:"बरडेन"},
+  "countries":{h:"देश",p:"काउनटरीस"},
+  "competing":{h:"प्रतिस्पर्धा",p:"कोमपेटिंग"},
+  "strongest":{h:"सबसे मजबूत",p:"सटरोंगेसट"},
+  "competed":{h:"प्रतिस्पर्धा की",p:"कोमपेटेड"},
+  "emerging":{h:"उभरता",p:"एमरगिंग"},
+  "deterioration":{h:"गिरावट",p:"डेटरइोरअशन"},
+  "paying":{h:"भुगतान",p:"पेिंग"},
+  "finally":{h:"अंततः",p:"फ़िनालली"},
+  "dodged":{h:"बचा",p:"डोजड"},
+  "interfered":{h:"हस्तक्षेप किया",p:"इनटरफ़रएड"},
+  "establish":{h:"स्थापित",p:"एसटाबलिश"},
+  "granted":{h:"प्रदान किया गया",p:"गरानटेड"},
+  "livelihood":{h:"आजीविका",p:"लिवेलिहूड"},
+  "occurred":{h:"हुआ",p:"ओककररेड"},
+  "across":{h:"पार",p:"अकरोसस"},
+  "rituals":{h:"अनुष्ठान",p:"रिटुअलस"},
+  "warriors":{h:"योद्धा",p:"वाररिोरस"},
+});
+/* ---- Class 2 Computer: English → हिंदी ---- */
+Object.assign(WM2, {
+  "adds":{h:"जोड़ता है",p:"अडड्स"},
+  "airbrush":{h:"एयरब्रश",p:"ेरबरुश"},
+  "alphabet":{h:"वर्णमाला",p:"अलफ़ाबेट"},
+  "appears":{h:"दिखाई देता है",p:"अपपीरस"},
+  "area":{h:"क्षेत्र",p:"ारी"},
+  "arrow":{h:"तीर",p:"ाररो"},
+  "arrow'":{h:"तीर'",p:"ाररो"},
+  "asks":{h:"पूछता है",p:"असकस"},
+  "attached":{h:"संलग्न",p:"अटटाचेड"},
+  "backspace":{h:"बैकस्पेस",p:"बाकसपाक"},
+  "ball":{h:"गेंद",p:"बालल"},
+  "ball-mouse":{h:"बॉल-माउस",p:"बालल-माउस"},
+  "bar":{h:"पट्टी",p:"बार"},
+  "bat":{h:"चमगादड़",p:"बाट"},
+  "bigger":{h:"बड़ा",p:"बिगगर"},
+  "blinking":{h:"झपकता हुआ",p:"बलिनकिंग"},
+  "bottom":{h:"नीचे",p:"बोटटोम"},
+  "box":{h:"बॉक्स",p:"बोक्स"},
+  "brush":{h:"ब्रश",p:"बरुश"},
+  "button":{h:"बटन",p:"बुटटोन"},
+  "buttons":{h:"बटन",p:"बुटटोनस"},
+  "capital":{h:"कैपिटल",p:"कापिटाल"},
+  "caps":{h:"कैप्स",p:"काप्स"},
+  "character":{h:"अक्षर",p:"चारअकटर"},
+  "choosing":{h:"चुनना",p:"चूसिंग"},
+  "cinema":{h:"सिनेमा",p:"किनेमा"},
+  "cinema'":{h:"सिनेमा'",p:"किनेमा"},
+  "circle":{h:"वृत्त",p:"किरकल"},
+  "click":{h:"क्लिक",p:"कलिक"},
+  "clicking":{h:"क्लिक करना",p:"कलिकिंग"},
+  "colour":{h:"रंग",p:"कोलाउर"},
+  "command":{h:"कमांड",p:"कोममानड"},
+  "complete":{h:"पूरा",p:"कोमपलेट"},
+  "computer":{h:"कंप्यूटर",p:"कोमपुटर"},
+  "confirm":{h:"पुष्टि करना",p:"कोनफ़िरम"},
+  "confirms":{h:"पुष्ट करता है",p:"कोनफ़िरमस"},
+  "count":{h:"गिनती",p:"काउनट"},
+  "cursor":{h:"कर्सर",p:"करसोर"},
+  "curve":{h:"वक्र",p:"करव"},
+  "curved":{h:"घुमावदार",p:"करवेड"},
+  "dark":{h:"गहरा",p:"डारक"},
+  "delete":{h:"हटाना",p:"डेलेट"},
+  "deletes":{h:"हटाता है",p:"डेलेटेस"},
+  "desktop":{h:"डेस्कटॉप",p:"डेसकटोप"},
+  "device":{h:"डिवाइस",p:"डेविक"},
+  "double-click":{h:"डबल-क्लिक",p:"डाउबले-कलिक"},
+  "drag":{h:"खींचना",p:"डराग"},
+  "dragging":{h:"खींचना",p:"डरागगिंग"},
+  "draw":{h:"खींचना",p:"डराव"},
+  "draws":{h:"खींचता है",p:"डरावस"},
+  "drop":{h:"ड्रॉप",p:"डरोप"},
+  "eight":{h:"आठ",p:"एाइट"},
+  "ellipse":{h:"अंडाकार",p:"एललिप्स"},
+  "enter":{h:"दर्ज करना",p:"एनटर"},
+  "erase":{h:"मिटाना",p:"रअस"},
+  "eraser":{h:"इरेज़र",p:"रअसर"},
+  "exact":{h:"सटीक",p:"एक्साकट"},
+  "eysk":{h:"eysk",p:"एीसक"},
+  "fiction":{h:"कथा",p:"फ़िकशन"},
+  "fiction'":{h:"कथा'",p:"फ़िकशन"},
+  "files":{h:"फ़ाइलें",p:"फ़िलेस"},
+  "finish":{h:"समाप्त करना",p:"फ़िनिश"},
+  "floods":{h:"बाढ़",p:"फ़लूड्स"},
+  "freehand":{h:"फ्रीहैंड",p:"फ़रीहानड"},
+  "function":{h:"फ़ंक्शन",p:"फ़ुनकशन"},
+  "glass":{h:"कांच",p:"गलासस"},
+  "glowing":{h:"चमकता हुआ",p:"गलोिंग"},
+  "glows":{h:"चमकता है",p:"गलोस"},
+  "gradually":{h:"धीरे-धीरे",p:"गराडुअलली"},
+  "hall":{h:"हॉल",p:"हालल"},
+  "hand":{h:"हाथ",p:"हानड"},
+  "happens":{h:"होता है",p:"हापपेनस"},
+  "head":{h:"सिर",p:"हीड"},
+  "helps":{h:"मदद करता है",p:"हेलप्स"},
+  "hold":{h:"पकड़ना",p:"होलड"},
+  "holding":{h:"पकड़ना",p:"होलडिंग"},
+  "holds":{h:"पकड़ता है",p:"होलड्स"},
+  "icon":{h:"आइकन",p:"इकोन"},
+  "imenucr":{h:"imenucr",p:"इमेनुकर"},
+  "job":{h:"काम",p:"जोब"},
+  "jumbled":{h:"उलझा हुआ",p:"जुमबलेड"},
+  "keyboard":{h:"कीबोर्ड",p:"केीबोरड"},
+  "keys":{h:"कुंजियाँ",p:"केीस"},
+  "left-click":{h:"लेफ्ट-क्लिक",p:"लेफ़ट-कलिक"},
+  "letter":{h:"अक्षर",p:"लेटटर"},
+  "letters":{h:"अक्षर",p:"लेटटरस"},
+  "letting":{h:"छोड़ना",p:"लेटटिंग"},
+  "lines":{h:"रेखाएँ",p:"लिनेस"},
+  "links":{h:"लिंक",p:"लिनकस"},
+  "lock":{h:"लॉक",p:"लोक"},
+  "looks":{h:"दिखता है",p:"लूकस"},
+  "magnifier":{h:"मैग्निफायर",p:"मागनिफ़ीर"},
+  "magnify":{h:"बड़ा करना",p:"मागनिफ़य"},
+  "magnifying":{h:"बड़ा करना",p:"मागनिफ़यिंग"},
+  "maths":{h:"गणित",p:"माथस"},
+  "meaningful":{h:"सार्थक",p:"मीनिंगफ़ुल"},
+  "meant":{h:"मतलब",p:"मीनट"},
+  "mechanical":{h:"यांत्रिक",p:"मेचानिकाल"},
+  "menu":{h:"मेनू",p:"मेनु"},
+  "mercury":{h:"पारा",p:"मरकरी"},
+  "mercury'":{h:"पारा'",p:"मरकरी"},
+  "middle":{h:"मध्य",p:"मिडडल"},
+  "monitor":{h:"मॉनिटर",p:"मोनिटोर"},
+  "mouse":{h:"माउस",p:"माउस"},
+  "move":{h:"चलना",p:"मोव"},
+  "moves":{h:"चलता है",p:"मोवेस"},
+  "moving":{h:"चल रहा",p:"मोविंग"},
+  "next":{h:"अगला",p:"नेक्सट"},
+  "nice":{h:"अच्छा",p:"निक"},
+  "num":{h:"नंबर",p:"नुम"},
+  "number":{h:"संख्या",p:"नुमबर"},
+  "numeric":{h:"संख्यात्मक",p:"नुमरइक"},
+  "object":{h:"वस्तु",p:"ओबजेकट"},
+  "ones":{h:"एक",p:"ओनेस"},
+  "optical":{h:"ऑप्टिकल",p:"ओपटिकाल"},
+  "oval":{h:"अंडाकार",p:"ओवाल"},
+  "pad":{h:"पैड",p:"पाड"},
+  "page":{h:"पेज",p:"पाग"},
+  "pahtabale":{h:"पाथेबल",p:"पाहटाबाल"},
+  "paint":{h:"पेंट",p:"पेनट"},
+  "paper":{h:"कागज",p:"पापर"},
+  "particular":{h:"विशेष",p:"पारटिकुलार"},
+  "pc":{h:"पीसी",p:"पक"},
+  "pencil":{h:"पेंसिल",p:"पेनकिल"},
+  "picking":{h:"चुनना",p:"पिकिंग"},
+  "placed":{h:"रखा गया",p:"पलाकेड"},
+  "plate":{h:"प्लेट",p:"पलाट"},
+  "pointer":{h:"पॉइंटर",p:"पॉयनटर"},
+  "pointing":{h:"इशारा",p:"पॉयनटिंग"},
+  "polygon":{h:"बहुभुज",p:"पोलीगोन"},
+  "pop-up":{h:"पॉप-अप",p:"पोप-उप"},
+  "pops":{h:"पॉप",p:"पोप्स"},
+  "press":{h:"दबाना",p:"परेसस"},
+  "presses":{h:"दबाता है",p:"परेससेस"},
+  "pressing":{h:"दबाना",p:"परेससिंग"},
+  "printer":{h:"प्रिंटर",p:"परिनटर"},
+  "printing":{h:"छपाई",p:"परिनटिंग"},
+  "prints":{h:"प्रिंट",p:"परिनट्स"},
+  "property":{h:"गुण",p:"परोपरटय"},
+  "quick":{h:"तेज़",p:"क्विक"},
+  "quickly":{h:"तेज़ी से",p:"क्विकली"},
+  "ready":{h:"तैयार",p:"रीडय"},
+  "rearranges":{h:"पुनर्व्यवस्थित करता है",p:"रीररांगेस"},
+  "rectangle":{h:"आयत",p:"रेकटांगल"},
+  "removes":{h:"हटाता है",p:"रेमोवेस"},
+  "rewrite":{h:"फिर से लिखना",p:"र्यूरिट"},
+  "right-click":{h:"राइट-क्लिक",p:"राइट-कलिक"},
+  "rolling":{h:"लुढ़कना",p:"रोललिंग"},
+  "rub":{h:"रगड़ना",p:"रुब"},
+  "rubs":{h:"रगड़ता है",p:"रुबस"},
+  "screen":{h:"स्क्रीन",p:"सकरीन"},
+  "scroll":{h:"स्क्रॉल",p:"सकरोलल"},
+  "select":{h:"चुनना",p:"सेलेकट"},
+  "selection":{h:"चयन",p:"सेलेकशन"},
+  "selects":{h:"चुनता है",p:"सेलेकट्स"},
+  "seyk":{h:"सेयक",p:"सेीक"},
+  "shape":{h:"आकार",p:"शाप"},
+  "shift":{h:"शिफ्ट",p:"शिफ़ट"},
+  "side":{h:"पक्ष",p:"सिड"},
+  "sideways":{h:"तिरछा",p:"सिड्यूेस"},
+  "single-click":{h:"सिंगल-क्लिक",p:"सिंगले-कलिक"},
+  "sits":{h:"बैठता है",p:"सिट्स"},
+  "six":{h:"छह",p:"सिक्स"},
+  "smooth":{h:"चिकना",p:"समूथ"},
+  "solve":{h:"हल करना",p:"सोलव"},
+  "sound":{h:"ध्वनि",p:"साउनड"},
+  "spaces":{h:"स्थान",p:"सपाकेस"},
+  "speakers":{h:"स्पीकर",p:"सपीकरस"},
+  "special":{h:"विशेष",p:"सपेकिअल"},
+  "spray":{h:"स्प्रे",p:"सपरे"},
+  "sprays":{h:"स्प्रे करता है",p:"सपरेस"},
+  "stays":{h:"रहता है",p:"सटेस"},
+  "storage":{h:"स्टोरेज",p:"सटोरअग"},
+  "straight":{h:"सीधा",p:"सटरेगहट"},
+  "succession":{h:"क्रम",p:"सुककेसशन"},
+  "switch":{h:"स्विच",p:"सविच"},
+  "symbols":{h:"प्रतीक",p:"सयमबोलस"},
+  "tab":{h:"टैब",p:"टाब"},
+  "table":{h:"टेबल",p:"टाबल"},
+  "takes":{h:"लेता है",p:"टाकेस"},
+  "tells":{h:"बताता है",p:"टेललस"},
+  "third":{h:"तीसरा",p:"थिरड"},
+  "times":{h:"बार",p:"टिमेस"},
+  "tioc":{h:"टीओसी",p:"टिओक"},
+  "tool":{h:"टूल",p:"टूल"},
+  "tunnel":{h:"सुरंग",p:"टुननेल"},
+  "twice":{h:"दो बार",p:"टविक"},
+  "type":{h:"टाइप",p:"टयप"},
+  "unnf":{h:"अनफ",p:"उननफ़"},
+  "usually":{h:"आमतौर पर",p:"उसुअलली"},
+  "ways":{h:"तरीके",p:"वेस"},
+  "wheel":{h:"पहिया",p:"वील"},
+  "wire":{h:"तार",p:"विरए"},
+  "wireless":{h:"वायरलेस",p:"विरएलेसस"},
+  "words":{h:"शब्द",p:"वोरड्स"},
+  "works":{h:"काम करता है",p:"वोरकस"},
+  "yek":{h:"येक",p:"येक"},
+  "zooms":{h:"ज़ूम",p:"ज़ूमस"},
+});
+/* ---- single letters used in the paper ---- */
+Object.assign(WM2, {
+  "z":{h:"Z (अक्षर)",p:"ज़"},
+  "f":{h:"F (अक्षर)",p:"फ़"},
+});
+/* ---- GK Hub-2 Class 2: English → हिंदी ---- */
+Object.assign(WM2, {
+  "adult":{h:"वयस्क",p:"अडुलट"},
+  "advice":{h:"सलाह",p:"अडविक"},
+  "aeroplane":{h:"हवाई जहाज",p:"अरओपलान"},
+  "afraid":{h:"डरा हुआ",p:"अफ़रेड"},
+  "aladdin":{h:"अलादीन",p:"अलाडडिन"},
+  "alcohol":{h:"शराब",p:"अलकोहोल"},
+  "alert":{h:"सतर्क",p:"अलरट"},
+  "alice":{h:"ऐलिस",p:"अलिक"},
+  "almost":{h:"लगभग",p:"अलमोसट"},
+  "alone":{h:"अकेला",p:"अलोन"},
+  "alva":{h:"अलवा",p:"अलवा"},
+  "always":{h:"हमेशा",p:"अलवेस"},
+  "ambulance":{h:"एंबुलेंस",p:"अमबुलानक"},
+  "animal":{h:"जानवर",p:"अनिमाल"},
+  "anyones":{h:"किसी का",p:"अनयोनेस"},
+  "arabia":{h:"अरब",p:"ारअबिअ"},
+  "arabian":{h:"अरब का",p:"ारअबिअन"},
+  "asking":{h:"पूछना",p:"असकिंग"},
+  "auto":{h:"ऑटो",p:"ॉटो"},
+  "baba":{h:"बाबा",p:"बाबा"},
+  "bag":{h:"बैग",p:"बाग"},
+  "bagheera":{h:"बघीरा",p:"बागहीरा"},
+  "baird":{h:"बेयर्ड",p:"बेरड"},
+  "baloo":{h:"बालू",p:"बालू"},
+  "beanstalk":{h:"बीनस्टॉक",p:"बीनसटालक"},
+  "bear":{h:"भालू",p:"बीर"},
+  "bears":{h:"भालू",p:"बीरस"},
+  "bears":{h:"भालुओं का",p:"बीरस"},
+  "bell":{h:"घंटी",p:"बेलल"},
+  "belongs":{h:"संबंधित है",p:"बेलोंगस"},
+  "bicycle":{h:"साइकिल",p:"बिकयकल"},
+  "bike":{h:"बाइक",p:"बिक"},
+  "blood":{h:"खून",p:"बलूड"},
+  "blow":{h:"फूँकना",p:"बलो"},
+  "body":{h:"शरीर",p:"बोडय"},
+  "bone":{h:"हड्डी",p:"बोन"},
+  "bones":{h:"हड्डियाँ",p:"बोनेस"},
+  "books":{h:"किताबें",p:"बूकस"},
+  "boy":{h:"लड़का",p:"बॉय"},
+  "brain":{h:"दिमाग",p:"बरेन"},
+  "brick":{h:"ईंट",p:"बरिक"},
+  "bricks":{h:"ईंटें",p:"बरिकस"},
+  "build":{h:"बनाना",p:"बुिलड"},
+  "bulb":{h:"बल्ब",p:"बुलब"},
+  "bus":{h:"बस",p:"बुस"},
+  "cabinet":{h:"कैबिनेट",p:"काबिनेट"},
+  "calculations":{h:"गणनाएँ",p:"कालकुलाशनस"},
+  "calling":{h:"कॉल करना",p:"काललिंग"},
+  "carefully":{h:"सावधानी से",p:"कारएफ़ुलली"},
+  "caring":{h:"देखभाल",p:"कारिंग"},
+  "carrier":{h:"वाहक",p:"काररीर"},
+  "carries":{h:"ले जाता है",p:"काररीस"},
+  "cat":{h:"बिल्ली",p:"काट"},
+  "cave":{h:"गुफा",p:"काव"},
+  "chest":{h:"छाती",p:"चेसट"},
+  "chilly":{h:"ठंडी",p:"चिलली"},
+  "choice":{h:"विकल्प",p:"चॉयक"},
+  "cinderella":{h:"सिंड्रेला",p:"किनडरएलला"},
+  "clever":{h:"चतुर",p:"कलेवर"},
+  "cold":{h:"ठंडा",p:"कोलड"},
+  "cold":{h:"ठंडा",p:"कोलड"},
+  "comic":{h:"कॉमिक",p:"कोमिक"},
+  "comics":{h:"कॉमिक्स",p:"कोमिकस"},
+  "compact":{h:"कॉम्पैक्ट",p:"कोमपाकट"},
+  "conditioner":{h:"कंडीशनर",p:"कोनडिशनर"},
+  "contact":{h:"संपर्क",p:"कोनटाकट"},
+  "contaminated":{h:"दूषित",p:"कोनटामिनाटेड"},
+  "copernicus":{h:"कोपरनिकस",p:"कोपरनिकुस"},
+  "copies":{h:"प्रतियाँ",p:"कोपीस"},
+  "cornea":{h:"कॉर्निया",p:"कोरनी"},
+  "coronavirus":{h:"कोरोनावायरस",p:"कोरओनाविरउस"},
+  "covid":{h:"कोविड",p:"कोविड"},
+  "covid-":{h:"कोविड-",p:"कोविड-"},
+  "cpu":{h:"सीपीयू",p:"कपु"},
+  "crab":{h:"केकड़ा",p:"कराब"},
+  "cross":{h:"क्रॉस",p:"करोसस"},
+  "crossing":{h:"पार करना",p:"करोससिंग"},
+  "crowded":{h:"भीड़भाड़ वाला",p:"करोडेड"},
+  "crowds":{h:"भीड़",p:"करोड्स"},
+  "cube":{h:"घन",p:"कुब"},
+  "cycle":{h:"चक्र",p:"कयकल"},
+  "daily":{h:"दैनिक",p:"डेली"},
+  "dangerous":{h:"खतरनाक",p:"डांगराउस"},
+  "data":{h:"डेटा",p:"डाटा"},
+  "den":{h:"गुफा",p:"डेन"},
+  "different":{h:"अलग",p:"डिफ़फ़रएनट"},
+  "disc":{h:"डिस्क",p:"डिसक"},
+  "dog":{h:"कुत्ता",p:"डोग"},
+  "dog":{h:"कुत्ते का",p:"डोग"},
+  "dorothy":{h:"डोरोथी",p:"डोरओथय"},
+  "drive":{h:"ड्राइव",p:"डरिव"},
+  "during":{h:"के दौरान",p:"डरिंग"},
+  "e-mails":{h:"ई-मेल",p:"ए-मेलस"},
+  "ear":{h:"कान",p:"ीर"},
+  "ears":{h:"कान",p:"ीरस"},
+  "easily":{h:"आसानी से",p:"ीसिली"},
+  "edison":{h:"एडिसन",p:"एडिसोन"},
+  "electric":{h:"इलेक्ट्रिक",p:"एलेकटरिक"},
+  "electrical":{h:"इलेक्ट्रिकल",p:"एलेकटरिकाल"},
+  "electronic":{h:"इलेक्ट्रॉनिक",p:"एलेकटरोनिक"},
+  "emergencies":{h:"आपात स्थिति",p:"एमरगेनकीस"},
+  "emergency":{h:"आपातकाल",p:"एमरगेनकय"},
+  "engine":{h:"इंजन",p:"एंगिन"},
+  "enough":{h:"पर्याप्त",p:"एनॉ"},
+  "example":{h:"उदाहरण",p:"एक्सामपल"},
+  "eye":{h:"आँख",p:"एीए"},
+  "eyes":{h:"आँखें",p:"एीएस"},
+  "fact":{h:"तथ्य",p:"फ़ाकट"},
+  "fahrenheit":{h:"फारेनहाइट",p:"फ़ाहरेनहेइट"},
+  "fairy":{h:"परी",p:"फ़ेरय"},
+  "farm":{h:"खेत",p:"फ़ारम"},
+  "fast":{h:"तेज़",p:"फ़ासट"},
+  "fast":{h:"तेज़",p:"फ़ासट"},
+  "femur":{h:"फीमर",p:"फ़ेमर"},
+  "fifty":{h:"पचास",p:"फ़िफ़टय"},
+  "fight":{h:"लड़ाई",p:"फ़ाइट"},
+  "fire":{h:"आग",p:"फ़िरए"},
+  "firefighter":{h:"फायरफाइटर",p:"फ़िरएफ़ाइटर"},
+  "five":{h:"पाँच",p:"फ़िव"},
+  "fix":{h:"ठीक करना",p:"फ़िक्स"},
+  "follows":{h:"अनुसरण करता है",p:"फ़ोललोस"},
+  "fox":{h:"लोमड़ी",p:"फ़ोक्स"},
+  "friends":{h:"दोस्त",p:"फ़रीनड्स"},
+  "games":{h:"खेल",p:"गामेस"},
+  "gandhi":{h:"गांधी",p:"गानडहि"},
+  "germs":{h:"कीटाणु",p:"गरमस"},
+  "getting":{h:"मिलना",p:"गेटटिंग"},
+  "gingerbread":{h:"जिंजरब्रेड",p:"गिंगरबरीड"},
+  "girl":{h:"लड़की",p:"गिरल"},
+  "gohas":{h:"गोहा का",p:"गोहास"},
+  "goldilocks":{h:"गोल्डिलॉक्स",p:"गोलडिलोकस"},
+  "graham":{h:"ग्राहम",p:"गराहाम"},
+  "grapes":{h:"अंगूर",p:"गरापेस"},
+  "guests":{h:"मेहमान",p:"ग्यूसट्स"},
+  "guide":{h:"मार्गदर्शक",p:"गुिड"},
+  "guitar":{h:"गिटार",p:"गुिटार"},
+  "hands":{h:"हाथ",p:"हानड्स"},
+  "harrison":{h:"हैरिसन",p:"हाररिसोन"},
+  "health":{h:"स्वास्थ्य",p:"हीलथ"},
+  "hire":{h:"काम पर रखना",p:"हिरए"},
+  "hired":{h:"काम पर रखा गया",p:"हिरएड"},
+  "hospital":{h:"अस्पताल",p:"होसपिटाल"},
+  "house":{h:"घर",p:"हाउस"},
+  "hug":{h:"गले लगाना",p:"हुग"},
+  "hugging":{h:"गले लगाना",p:"हुगगिंग"},
+  "hurts":{h:"चोट",p:"हरट्स"},
+  "ice":{h:"बर्फ",p:"इक"},
+  "ill":{h:"बीमार",p:"इलल"},
+  "illness":{h:"बीमारी",p:"इललनेस"},
+  "infectious":{h:"संक्रामक",p:"इनफ़ेकटिाउस"},
+  "information":{h:"जानकारी",p:"इनफ़ोरमाशन"},
+  "inside":{h:"अंदर",p:"इनसिड"},
+  "jack":{h:"जैक",p:"जाक"},
+  "journeys":{h:"यात्राएँ",p:"जाउरनेीस"},
+  "jungle":{h:"जंगल",p:"जुंगल"},
+  "kill":{h:"मारना",p:"किलल"},
+  "kills":{h:"मारता है",p:"किललस"},
+  "kumar":{h:"कुमार",p:"कुमार"},
+  "lamp":{h:"लैंप",p:"लामप"},
+  "least":{h:"कम से कम",p:"लीसट"},
+  "lemon":{h:"नींबू",p:"लेमोन"},
+  "lives":{h:"जीवन",p:"लिवेस"},
+  "loud":{h:"तेज़",p:"लाउड"},
+  "loud":{h:"तेज़",p:"लाउड"},
+  "mad":{h:"पागल",p:"माड"},
+  "made-up":{h:"मनगढ़ंत",p:"माडे-उप"},
+  "magic":{h:"जादू",p:"मागिक"},
+  "mammals":{h:"स्तनधारी",p:"माममालस"},
+  "mask":{h:"मास्क",p:"मासक"},
+  "masks":{h:"मास्क",p:"मासकस"},
+  "meaning":{h:"का अर्थ",p:"मीनिंग"},
+  "mermaid":{h:"जलपरी",p:"मरमेड"},
+  "mermaid":{h:"जलपरी'",p:"मरमेड"},
+  "metro":{h:"मेट्रो",p:"मेटरो"},
+  "moon":{h:"चाँद",p:"मून"},
+  "mountains":{h:"पहाड़",p:"माउनटेनस"},
+  "mouth":{h:"मुँह",p:"माउथ"},
+  "mowgli":{h:"मोगली",p:"मोगलि"},
+  "mr":{h:"मिस्टर",p:"मर"},
+  "mud":{h:"कीचड़",p:"मुड"},
+  "muscle":{h:"मांसपेशी",p:"मुसकल"},
+  "muscles":{h:"मांसपेशियाँ",p:"मुसकलेस"},
+  "needed":{h:"ज़रूरत",p:"नीडेड"},
+  "night":{h:"रात",p:"नाइट"},
+  "nights":{h:"रातें",p:"नाइटस"},
+  "noisy":{h:"शोरगुल वाला",p:"नॉयसय"},
+  "noisy":{h:"शोरगुल वाला'",p:"नॉयसय"},
+  "non-fiction":{h:"गैर-गल्प",p:"नोन-फ़िकशन"},
+  "nose":{h:"नाक",p:"नोस"},
+  "numbers":{h:"संख्याएँ",p:"नुमबरस"},
+  "office":{h:"कार्यालय",p:"ओफ़फ़िक"},
+  "opened":{h:"खुला",p:"ओपेनेड"},
+  "organisation":{h:"संगठन",p:"ोरगानिसाशन"},
+  "others":{h:"अन्य",p:"ओथरस"},
+  "outside":{h:"बाहर",p:"ाउट्सिड"},
+  "oz":{h:"ओज़",p:"ओज़"},
+  "pandemic":{h:"महामारी",p:"पानडेमिक"},
+  "panther":{h:"तेंदुआ",p:"पानथर"},
+  "passengers":{h:"यात्री",p:"पाससेंगरस"},
+  "path":{h:"रास्ता",p:"पाथ"},
+  "patient":{h:"रोगी",p:"पाटीनट"},
+  "pawar":{h:"पवार",p:"पावार"},
+  "pen":{h:"पेन",p:"पेन"},
+  "perfume":{h:"इत्र",p:"परफ़ुम"},
+  "pet":{h:"पालतू जानवर",p:"पेट"},
+  "pictures":{h:"चित्र",p:"पिकटरएस"},
+  "pigs":{h:"सूअरों'",p:"पिगस"},
+  "pizza":{h:"पिज़्ज़ा",p:"पिज़ज़ा"},
+  "places":{h:"जगहें",p:"पलाकेस"},
+  "play":{h:"खेल",p:"पले"},
+  "playing":{h:"खेलना",p:"पलेिंग"},
+  "poems":{h:"कविताएँ",p:"पोएमस"},
+  "processes":{h:"प्रक्रियाएँ",p:"परोकेससेस"},
+  "push":{h:"धक्का",p:"पुश"},
+  "quiet":{h:"शांत",p:"क्वीट"},
+  "quiet":{h:"शांत'",p:"क्वीट"},
+  "rabbit":{h:"खरगोश",p:"राबबिट"},
+  "rahul":{h:"राहुल",p:"राहुल"},
+  "rainbow":{h:"इंद्रधनुष",p:"रेनबो"},
+  "raised":{h:"उठाया",p:"रेसेड"},
+  "recipe":{h:"नुस्खा",p:"रेकिप"},
+  "recipes":{h:"नुस्खे",p:"रेकिपेस"},
+  "refrigerator":{h:"रेफ्रिजरेटर",p:"रेफ़रिगरअटोर"},
+  "remember":{h:"याद रखना",p:"रेमेमबर"},
+  "repair":{h:"मरम्मत",p:"रेपेर"},
+  "rescue":{h:"बचाव",p:"रेसक्यू"},
+  "retrieves":{h:"प्राप्त करता है",p:"रेटरीवेस"},
+  "rib":{h:"पसली",p:"रिब"},
+  "ribs":{h:"पसलियाँ",p:"रिबस"},
+  "rip":{h:"फाड़ना",p:"रिप"},
+  "road":{h:"सड़क",p:"रोड"},
+  "roentgen":{h:"रोंटजन",p:"रोएनटगेन"},
+  "runs":{h:"दौड़ता है",p:"रुनस"},
+  "safety":{h:"सुरक्षा",p:"साफ़ेटय"},
+  "sanitizer":{h:"सैनिटाइज़र",p:"सानिटिज़र"},
+  "scanner":{h:"स्कैनर",p:"सकाननर"},
+  "scary":{h:"डरावना",p:"सकारी"},
+  "scary":{h:"डरावना'",p:"सकारी"},
+  "science":{h:"विज्ञान",p:"सकीनक"},
+  "sebastian":{h:"सेबेस्टियन",p:"सेबासटिअन"},
+  "seconds":{h:"सेकंड",p:"सेकोनड्स"},
+  "send":{h:"भेजना",p:"सेनड"},
+  "sense":{h:"एहसास",p:"सेनस"},
+  "senses":{h:"इंद्रियाँ",p:"सेनसेस"},
+  "sesame":{h:"तिल'",p:"सेसामे"},
+  "shaily":{h:"शैली",p:"शेली"},
+  "shake":{h:"हिलाना",p:"शाक"},
+  "shaking":{h:"हिलना",p:"शाकिंग"},
+  "shown":{h:"दिखाया गया",p:"शोन"},
+  "sick":{h:"बीमार",p:"सिक"},
+  "sick":{h:"बीमार'",p:"सिक"},
+  "silent":{h:"मौन'",p:"सिलेनट"},
+  "site":{h:"साइट",p:"सिट"},
+  "skill":{h:"कौशल",p:"सकिलल"},
+  "skin":{h:"त्वचा",p:"सकिन"},
+  "skull":{h:"खोपड़ी",p:"सकुलल"},
+  "sleep":{h:"नींद",p:"सलीप"},
+  "sleeping":{h:"सो रहा है",p:"सलीपिंग"},
+  "sleepy":{h:"नींद'",p:"सलीपय"},
+  "slow":{h:"धीमा",p:"सलो"},
+  "smallest":{h:"सबसे छोटा",p:"समाललेसट"},
+  "smart":{h:"स्मार्ट",p:"समारट"},
+  "smart":{h:"स्मार्ट'",p:"समारट"},
+  "smells":{h:"गंध",p:"समेललस"},
+  "soap":{h:"साबुन",p:"सोप"},
+  "songs":{h:"गीत",p:"सोंगस"},
+  "sour":{h:"खट्टा",p:"साउर"},
+  "sour-grapes":{h:"खट्टा-अंगूर",p:"साउर-गरापेस"},
+  "spooky":{h:"डरावना'",p:"सपूकय"},
+  "spreads":{h:"फैलता है",p:"सपरीड्स"},
+  "stack":{h:"ढेर",p:"सटाक"},
+  "staircase":{h:"सीढ़ियाँ",p:"सटेरकास"},
+  "stapes":{h:"स्टेप्स",p:"सटापेस"},
+  "station":{h:"स्टेशन",p:"सटाशन"},
+  "stay":{h:"रुकना",p:"सटे"},
+  "staying":{h:"रहना",p:"सटेिंग"},
+  "stealing":{h:"चोरी करना",p:"सटीलिंग"},
+  "steam":{h:"भाप",p:"सटीम"},
+  "stores":{h:"स्टोर",p:"सटोरएस"},
+  "stories":{h:"कहानियाँ",p:"सटोरीस"},
+  "straw":{h:"तिनका",p:"सटराव"},
+  "sunflower":{h:"सूरजमुखी",p:"सुनफ़लोर"},
+  "switches":{h:"स्विच",p:"सविचेस"},
+  "synonym":{h:"पर्यायवाची",p:"सयनोनयम"},
+  "tale":{h:"कहानी",p:"टाल"},
+  "tales":{h:"कहानियाँ",p:"टालेस"},
+  "taste":{h:"स्वाद",p:"टासट"},
+  "taxi":{h:"टैक्सी",p:"टाक्सि"},
+  "teaches":{h:"पढ़ाता है",p:"टीचेस"},
+  "telephone":{h:"टेलीफोन",p:"टेलेफ़ोन"},
+  "television":{h:"टेलीविजन",p:"टेलेविशन"},
+  "ten":{h:"दस",p:"टेन"},
+  "thermometer":{h:"थर्मामीटर",p:"थरमोमेटर"},
+  "thieves":{h:"चोरों'",p:"थीवेस"},
+  "thigh":{h:"जांघ",p:"थाइ"},
+  "thinking":{h:"सोचना",p:"थिनकिंग"},
+  "thirty":{h:"तीस",p:"थिरटय"},
+  "thomas":{h:"थॉमस",p:"थोमास"},
+  "tiny":{h:"छोटा",p:"टिनय"},
+  "tiny":{h:"छोटा'",p:"टिनय"},
+  "tired":{h:"थका हुआ",p:"टिरएड"},
+  "tired":{h:"थका हुआ'",p:"टिरएड"},
+  "tissue":{h:"ऊतक",p:"टिसस्यू"},
+  "tongue":{h:"जीभ",p:"टोंग्यू"},
+  "toto":{h:"टोटो",p:"टोटो"},
+  "touching":{h:"छूना",p:"टाउचिंग"},
+  "train":{h:"ट्रेन",p:"टरेन"},
+  "truck":{h:"ट्रक",p:"टरुक"},
+  "trying":{h:"कोशिश करना",p:"टरयिंग"},
+  "twenty":{h:"बीस",p:"टवेनटय"},
+  "unclean":{h:"अशुद्ध",p:"उनकलीन"},
+  "unsafe":{h:"असुरक्षित",p:"उनसाफ़"},
+  "useful":{h:"उपयोगी",p:"उसेफ़ुल"},
+  "van":{h:"वैन",p:"वान"},
+  "vehicle":{h:"वाहन",p:"वेहिकल"},
+  "vessels":{h:"बर्तन",p:"वेससेलस"},
+  "virus":{h:"वायरस",p:"विरउस"},
+  "wash":{h:"धोना",p:"वाश"},
+  "washing":{h:"धोना",p:"वाशिंग"},
+  "watt":{h:"वाट",p:"वाटट"},
+  "wear":{h:"पहनना",p:"वीर"},
+  "wearing":{h:"पहनना",p:"वीरिंग"},
+  "weird":{h:"अजीब",p:"वेिरड"},
+  "weird":{h:"अजीब'",p:"वेिरड"},
+  "willis":{h:"विलिस",p:"विललिस"},
+  "winkle":{h:"विंकल",p:"विनकल"},
+  "wizard":{h:"जादूगर",p:"विज़ारड"},
+  "wolf":{h:"भेड़िया",p:"वोलफ़"},
+  "wonderland":{h:"वंडरलैंड",p:"वोनडरलानड"},
+  "woodcutter":{h:"लकड़हारा",p:"वूडकुटटर"},
+  "wright":{h:"राइट",p:"वराइट"},
+  "wrong":{h:"गलत",p:"वरोंग"},
+  "x-ray":{h:"एक्स-रे",p:"क्स-रे"},
+  "young":{h:"युवा",p:"याउंग"},
+  "zebra":{h:"ज़ेबरा",p:"ज़ेबरा"},
+});
+/* ---- last few words ---- */
+Object.assign(WM2, {
+  "thieves":{h:"चोर",p:"थीवेस"},
+  "sesame":{h:"तिल",p:"सेसाम"},
+  "clever":{h:"चतुर",p:"कलेवर"},
+  "sleepy":{h:"नींद से भरा",p:"सलीपय"},
+  "mad":{h:"गुस्से में",p:"माड"},
+  "chilly":{h:"ठंडी",p:"चिलली"},
+  "silent":{h:"शांत",p:"सिलेनट"},
+  "afraid":{h:"डरा हुआ",p:"अफ़रेड"},
+  "ill":{h:"बीमार",p:"इलल"},
+  "spooky":{h:"डरावना",p:"सपूकय"},
+  "goha":{h:"गोहा",p:"गोहा"},
+  "anyone":{h:"कोई भी",p:"अनयोन"},
+  "j":{h:"J (अक्षर)",p:"ज"},
+  "l":{h:"L (अक्षर)",p:"ल"},
+});
+/* ---- EVS-4: English → हिंदी ---- */
+Object.assign(WM2, {
+  "acid":{h:"एसिड",p:"अकिड"},
+  "acids":{h:"एसिड्स",p:"अकिड्स"},
+  "add":{h:"जोड़ना",p:"अडड"},
+  "adding":{h:"जोड़ते",p:"अडडिंग"},
+  "already":{h:"पहले से",p:"अलरीडय"},
+  "amount":{h:"मात्रा",p:"अमाउनट"},
+  "amounts":{h:"मात्राएं",p:"अमाउनट्स"},
+  "asthma":{h:"अस्थमा",p:"असथमा"},
+  "atmosphere":{h:"वायुमंडल",p:"अटमोसफ़रए"},
+  "average":{h:"औसत",p:"अवरअग"},
+  "axis":{h:"अक्ष",p:"अक्सिस"},
+  "balloon":{h:"गुब्बारा",p:"बाललून"},
+  "balloons":{h:"गुब्बारे",p:"बाललूनस"},
+  "beings":{h:"प्राणी",p:"बेिंगस"},
+  "blanket":{h:"कंबल",p:"बलानकेट"},
+  "blows":{h:"फूंकना",p:"बलोस"},
+  "boil":{h:"उबालना",p:"बॉयल"},
+  "boiling":{h:"उबलना",p:"बॉयलिंग"},
+  "breeze":{h:"हवा",p:"बरीज़"},
+  "breeze":{h:"हवा'",p:"बरीज़"},
+  "breezes":{h:"हवाएं",p:"बरीज़ेस"},
+  "bronchitis":{h:"ब्रोंकाइटिस",p:"बरोनचिटिस"},
+  "brushing":{h:"ब्रश करना",p:"बरुशिंग"},
+  "burst":{h:"फटना",p:"बरसट"},
+  "carry":{h:"ले जाना",p:"काररय"},
+  "changing":{h:"बदलना",p:"चांगिंग"},
+  "chlorine":{h:"क्लोरीन",p:"चलोरइन"},
+  "clothes":{h:"कपड़े",p:"कलोथेस"},
+  "cloud":{h:"बादल",p:"कलाउड"},
+  "coloured":{h:"रंगीन",p:"कोलाउरेड"},
+  "colourless":{h:"रंगहीन",p:"कोलाउरलेसस"},
+  "component":{h:"घटक",p:"कोमपोनेनट"},
+  "composition":{h:"संरचना",p:"कोमपोसिशन"},
+  "condensation":{h:"संघनन",p:"कोनडेनसाशन"},
+  "condensation":{h:"संघनन'",p:"कोनडेनसाशन"},
+  "condense":{h:"संघनित करना",p:"कोनडेनस"},
+  "condenses":{h:"संघनित होता है",p:"कोनडेनसेस"},
+  "condition":{h:"स्थिति",p:"कोनडिशन"},
+  "container":{h:"कंटेनर",p:"कोनटेनर"},
+  "continuous":{h:"निरंतर",p:"कोनटिनुाउस"},
+  "continuously":{h:"लगातार",p:"कोनटिनुाउसली"},
+  "cooler":{h:"कूलर",p:"कूलर"},
+  "cooling":{h:"ठंडा करना",p:"कूलिंग"},
+  "cools":{h:"ठंडा करता है",p:"कूलस"},
+  "covered":{h:"ढका हुआ",p:"कोवरएड"},
+  "day-to-day":{h:"रोज़मर्रा",p:"डे-टो-डे"},
+  "days":{h:"दिन",p:"डेस"},
+  "decantation":{h:"डिकेंटेशन",p:"डेकानटाशन"},
+  "differently":{h:"अलग-अलग तरीके से",p:"डिफ़फ़रएनटली"},
+  "dips":{h:"डुबकी",p:"डिप्स"},
+  "direction":{h:"दिशा",p:"डिरएकशन"},
+  "dirt":{h:"गंदगी",p:"डिरट"},
+  "disorders":{h:"विकार",p:"डिसोरडरस"},
+  "dissolved":{h:"घुला हुआ",p:"डिससोलवेड"},
+  "dissolves":{h:"घुलता है",p:"डिससोलवेस"},
+  "dissolving":{h:"घोलना",p:"डिससोलविंग"},
+  "dont":{h:"मत",p:"डोनट"},
+  "dries":{h:"सूखता है",p:"डरीस"},
+  "drinking":{h:"पीना",p:"डरिनकिंग"},
+  "droplets":{h:"बूंदें",p:"डरोपलेट्स"},
+  "earths":{h:"पृथ्वी का",p:"ीरथस"},
+  "envelope":{h:"आवरण",p:"एनवेलोप"},
+  "evaporates":{h:"वाष्पीकृत होता है",p:"एवापोरअटेस"},
+  "evaporation":{h:"वाष्पीकरण",p:"एवापोरअशन"},
+  "everyday":{h:"हर दिन",p:"एवरीडे"},
+  "expands":{h:"फैलता है",p:"एक्सपानड्स"},
+  "experiment":{h:"प्रयोग",p:"एक्सपरइमेंट"},
+  "facing":{h:"सामना करना",p:"फ़ाकिंग"},
+  "falls":{h:"गिरता है",p:"फ़ाललस"},
+  "filter":{h:"फिल्टर",p:"फ़िलटर"},
+  "filtering":{h:"फिल्टर करना",p:"फ़िलटरिंग"},
+  "filtration":{h:"निस्पंदन",p:"फ़िलटराशन"},
+  "floor":{h:"फर्श",p:"फ़लूर"},
+  "fog":{h:"कोहरा",p:"फ़ोग"},
+  "fog":{h:"कोहरा'",p:"फ़ोग"},
+  "form":{h:"रूप",p:"फ़ोरम"},
+  "frozen":{h:"जमे हुए",p:"फ़रोज़ेन"},
+  "gas":{h:"गैस",p:"गास"},
+  "gently":{h:"धीरे से",p:"गेनटली"},
+  "half":{h:"आधा",p:"हालफ़"},
+  "harms":{h:"नुकसान पहुंचाता है",p:"हारमस"},
+  "heated":{h:"गर्म किया हुआ",p:"हीटेड"},
+  "heating":{h:"गर्म करना",p:"हीटिंग"},
+  "heats":{h:"गर्म करता है",p:"हीट्स"},
+  "humid":{h:"नम",p:"हुमिड"},
+  "humidity":{h:"नमी",p:"हुमिडिटी"},
+  "impurities":{h:"अशुद्धियां",p:"इमपरइटीस"},
+  "increases":{h:"बढ़ता है",p:"इनकरीसेस"},
+  "insoluble":{h:"अघुलनशील",p:"इनसोलुबल"},
+  "invisible":{h:"अदृश्य",p:"इनविसिबल"},
+  "irritates":{h:"परेशान करता है",p:"िररिटाटेस"},
+  "lakes":{h:"झीलें",p:"लाकेस"},
+  "leaking":{h:"रिसना",p:"लीकिंग"},
+  "lets":{h:"देता है",p:"लेट्स"},
+  "lighter":{h:"हल्का",p:"लाइटर"},
+  "lighter":{h:"हल्का'",p:"लाइटर"},
+  "link":{h:"लिंक",p:"लिनक"},
+  "liquid":{h:"तरल",p:"लिक्विड"},
+  "lot":{h:"बहुत सारा",p:"लोट"},
+  "matters":{h:"मामले",p:"माटटरस"},
+  "microphone":{h:"माइक्रोफोन",p:"मिकरोफ़ोन"},
+  "mix":{h:"मिलाना",p:"मिक्स"},
+  "mixed":{h:"मिला हुआ",p:"मिक्सेड"},
+  "mixes":{h:"मिलाता है",p:"मिक्सेस"},
+  "mixing":{h:"मिलाना",p:"मिक्सिंग"},
+  "mixture":{h:"मिश्रण",p:"मिक्सटरए"},
+  "mixture":{h:"मिश्रण'",p:"मिक्सटरए"},
+  "moisture":{h:"नमी",p:"मॉयसटरए"},
+  "monsoons":{h:"मानसून",p:"मोनसूनस"},
+  "monsoons":{h:"मानसून'",p:"मोनसूनस"},
+  "movement":{h:"गति",p:"मोवेमेंट"},
+  "nearly":{h:"लगभग",p:"नीरली"},
+  "necessary":{h:"आवश्यक",p:"नेकेससारी"},
+  "needs":{h:"ज़रूरतें",p:"नीड्स"},
+  "nitrogen":{h:"नाइट्रोजन",p:"निटरोगेन"},
+  "north":{h:"उत्तर",p:"नोरथ"},
+  "odourless":{h:"गंधहीन",p:"ओडाउरलेसस"},
+  "percentage":{h:"प्रतिशत",p:"परकेनटाग"},
+  "picks":{h:"चुनता है",p:"पिकस"},
+  "ponds":{h:"तालाब",p:"पोनड्स"},
+  "pouring":{h:"डालना",p:"पाउरिंग"},
+  "precious":{h:"कीमती",p:"परेकिाउस"},
+  "precious":{h:"कीमती'",p:"परेकिाउस"},
+  "process":{h:"प्रक्रिया",p:"परोकेसस"},
+  "properties":{h:"गुण",p:"परोपरटीस"},
+  "quarters":{h:"तिमाही",p:"क्वारटरस"},
+  "rains":{h:"बारिश",p:"रेनस"},
+  "rainwater":{h:"बारिश का पानी",p:"रेनवाटर"},
+  "rainy":{h:"बारिश का",p:"रेनय"},
+  "react":{h:"प्रतिक्रिया",p:"रीकट"},
+  "removing":{h:"हटाना",p:"रेमोविंग"},
+  "respiratory":{h:"श्वसन",p:"रेसपिरअटोरी"},
+  "rest":{h:"आराम",p:"रेसट"},
+  "reuse":{h:"पुन: उपयोग",p:"रेउस"},
+  "revolves":{h:"घूमता है",p:"रेवोलवेस"},
+  "rinsing":{h:"धोना",p:"रिनसिंग"},
+  "rises":{h:"उठता है",p:"रिसेस"},
+  "rivers":{h:"नदियां",p:"रिवरस"},
+  "rotates":{h:"घूमता है",p:"रोटाटेस"},
+  "rushes":{h:"दौड़ना",p:"रुशेस"},
+  "salt":{h:"नमक",p:"सालट"},
+  "salty":{h:"नमकीन",p:"सालटय"},
+  "seas":{h:"समुद्र",p:"सीस"},
+  "season":{h:"मौसम",p:"सीसोन"},
+  "share":{h:"साझा करना",p:"शारए"},
+  "snow":{h:"बर्फ",p:"सनो"},
+  "soluble":{h:"घुलनशील",p:"सोलुबल"},
+  "solvent":{h:"विलायक",p:"सोलवेनट"},
+  "south":{h:"दक्षिण",p:"साउथ"},
+  "speaker":{h:"स्पीकर",p:"सपीकर"},
+  "spinning":{h:"घूमना",p:"सपिननिंग"},
+  "stationary":{h:"स्थिर",p:"सटाशनारी"},
+  "stick":{h:"छड़ी",p:"सटिक"},
+  "sticky":{h:"चिपचिपा",p:"सटिकय"},
+  "stored":{h:"संग्रहीत",p:"सटोरएड"},
+  "substances":{h:"पदार्थ",p:"सुबसटानकेस"},
+  "surrounding":{h:"आसपास",p:"सरराउनडिंग"},
+  "surrounds":{h:"घेरता है",p:"सरराउनड्स"},
+  "sweat":{h:"पसीना",p:"सवीट"},
+  "tablets":{h:"गोलियां",p:"टाबलेट्स"},
+  "tap":{h:"नल",p:"टाप"},
+  "taps":{h:"नल",p:"टाप्स"},
+  "tasteless":{h:"बेस्वाद",p:"टासटेलेसस"},
+  "tie":{h:"बांधना",p:"टी"},
+  "timely":{h:"समय पर",p:"टिमेली"},
+  "tubewells":{h:"ट्यूबवेल",p:"टुब्यूएललस"},
+  "uncomfortable":{h:"असहज",p:"उनकोमफ़ोरटाबल"},
+  "underground":{h:"भूमिगत",p:"उनडरगराउनड"},
+  "unevenly":{h:"असमान रूप से",p:"उनेवेनली"},
+  "universal":{h:"सार्वभौमिक",p:"उनिवरसाल"},
+  "universal":{h:"सार्वभौमिक'",p:"उनिवरसाल"},
+  "vacuum":{h:"निर्वात",p:"वाकुउम"},
+  "vapours":{h:"वाष्प",p:"वापाउरस"},
+  "vegetables":{h:"सब्जियां",p:"वेगेटाबलेस"},
+  "vibration":{h:"कंपन",p:"विबराशन"},
+  "wastage":{h:"बर्बादी",p:"वासटाग"},
+  "wasting":{h:"बर्बाद करना",p:"वासटिंग"},
+  "weather":{h:"मौसम",p:"वीथर"},
+  "weight":{h:"वजन",p:"वेाइट"},
+  "weightless":{h:"भारहीन",p:"वेाइटलेसस"},
+  "winds":{h:"हवाएं",p:"विनड्स"},
+  "windy":{h:"हवादार",p:"विनडय"},
+});
+/* ---- OpenMoji colour SVGs (CC BY-SA 4.0, openmoji.org) ---- */
+const EMO = {{EMO_JSON}};
+function emo(name, size, cls){ const p=EMO[name]; if(!p) return "";
+  return '<svg class="em '+(cls||"")+'" width="'+(size||40)+'" height="'+(size||40)+'" viewBox="0 0 72 72" aria-hidden="true">'+p+'</svg>'; }
+/* ---- Maths-8 Ch11: English → हिंदी ---- */
+Object.assign(WM2, {
+  "actual":{h:"वास्तविक",p:"अकटुअल"},
+  "apart":{h:"अलग",p:"अपारट"},
+  "arena":{h:"एरीना",p:"ारएना"},
+  "asked":{h:"पूछा",p:"असकेड"},
+  "assessment":{h:"मूल्यांकन",p:"अससेससमेंट"},
+  "assume":{h:"मान लेना",p:"अससुम"},
+  "bars":{h:"बार",p:"बारस"},
+  "base":{h:"आधार",p:"बास"},
+  "batch":{h:"बैच",p:"बाच"},
+  "bought":{h:"खरीदा",p:"बॉट"},
+  "boxes":{h:"बक्से",p:"बोक्सेस"},
+  "budget":{h:"बजट",p:"बुजट"},
+  "buy":{h:"खरीदना",p:"बुी"},
+  "calculation":{h:"गणना",p:"कालकुलाशन"},
+  "campers":{h:"कैंपर",p:"कामपरस"},
+  "cans":{h:"डिब्बे",p:"कानस"},
+  "card":{h:"कार्ड",p:"कारड"},
+  "casts":{h:"कास्ट",p:"कासट्स"},
+  "charges":{h:"शुल्क",p:"चारगेस"},
+  "check":{h:"चेक",p:"चेक"},
+  "class":{h:"क्लास",p:"कलासस"},
+  "cloth":{h:"कपड़ा",p:"कलोथ"},
+  "cm":{h:"सेमी",p:"कम"},
+  "column":{h:"कॉलम",p:"कोलुमन"},
+  "compares":{h:"तुलना करता है",p:"कोमपारएस"},
+  "comparing":{h:"तुलना",p:"कोमपारिंग"},
+  "completes":{h:"पूरा करता है",p:"कोमपलेटेस"},
+  "compressed":{h:"संकुचित",p:"कोमपरेससेड"},
+  "constant":{h:"स्थिर",p:"कोनसटानट"},
+  "contains":{h:"शामिल है",p:"कोनटेनस"},
+  "contractor":{h:"ठेकेदार",p:"कोनटराकटोर"},
+  "convert":{h:"परिवर्तित",p:"कोनवरट"},
+  "cost":{h:"लागत",p:"कोसट"},
+  "costs":{h:"लागत",p:"कोसट्स"},
+  "cover":{h:"कवर",p:"कोवर"},
+  "covers":{h:"कवर करता है",p:"कोवरस"},
+  "crate":{h:"क्रेट",p:"कराट"},
+  "crates":{h:"क्रेट",p:"कराटेस"},
+  "cross-multiply":{h:"क्रॉस-गुणा",p:"करोसस-मुलटिपली"},
+  "crystals":{h:"क्रिस्टल",p:"करयसटालस"},
+  "cups":{h:"कप",p:"कुप्स"},
+  "curves":{h:"वक्र",p:"करवेस"},
+  "decrease":{h:"कमी",p:"डेकरीस"},
+  "decreases":{h:"कमी",p:"डेकरीसेस"},
+  "destination":{h:"गंतव्य",p:"डेसटिनाशन"},
+  "direct":{h:"सीधा",p:"डिरएकट"},
+  "distance":{h:"दूरी",p:"डिसटानक"},
+  "divide":{h:"विभाजित",p:"डिविड"},
+  "division":{h:"भाग",p:"डिविशन"},
+  "double":{h:"दोगुना",p:"डाउबल"},
+  "doubles":{h:"दोगुना",p:"डाउबलेस"},
+  "driven":{h:"संचालित",p:"डरिवेन"},
+  "else":{h:"अन्यथा",p:"एलस"},
+  "equal":{h:"बराबर",p:"एक्वाल"},
+  "equality":{h:"समानता",p:"एक्वालिटी"},
+  "equals":{h:"बराबर है",p:"एक्वालस"},
+  "estimates":{h:"अनुमान",p:"एसटिमाटेस"},
+  "fall":{h:"गिरावट",p:"फ़ालल"},
+  "fence":{h:"बाड़",p:"फ़ेनक"},
+  "fewer":{h:"कम",p:"फ़्यूर"},
+  "file":{h:"फ़ाइल",p:"फ़िल"},
+  "fixed":{h:"निश्चित",p:"फ़िक्सेड"},
+  "flip":{h:"फ्लिप",p:"फ़लिप"},
+  "flour":{h:"आटा",p:"फ़लाउर"},
+  "forgetting":{h:"भूलना",p:"फ़ोरगेटटिंग"},
+  "fruit":{h:"फल",p:"फ़रुिट"},
+  "fuel":{h:"ईंधन",p:"फ़्यूल"},
+  "garden":{h:"बगीचा",p:"गारडेन"},
+  "gardener":{h:"माली",p:"गारडेनर"},
+  "graph":{h:"ग्राफ",p:"गराफ़"},
+  "grows":{h:"बढ़ता है",p:"गरोस"},
+  "guessing":{h:"अनुमान",p:"ग्यूससिंग"},
+  "halve":{h:"आधा",p:"हालव"},
+  "halves":{h:"आधा",p:"हालवेस"},
+  "heavier":{h:"भारी",p:"हीवीर"},
+  "height":{h:"ऊंचाई",p:"हेाइट"},
+  "hoses":{h:"पाइप",p:"होसेस"},
+  "hour":{h:"घंटा",p:"हाउर"},
+  "hours":{h:"घंटे",p:"हाउरस"},
+  "identify":{h:"पहचान",p:"इडेनटिफ़य"},
+  "increase":{h:"वृद्धि",p:"इनकरीस"},
+  "inverse":{h:"व्युत्क्रम",p:"इनवरस"},
+  "items":{h:"आइटम",p:"इटेमस"},
+  "keeps":{h:"रखता है",p:"कीप्स"},
+  "kg":{h:"किलो",p:"कग"},
+  "kilometres":{h:"किलोमीटर",p:"किलोमेटरेस"},
+  "kinds":{h:"प्रकार",p:"किनड्स"},
+  "kitchen":{h:"रसोई",p:"किचेन"},
+  "km":{h:"किमी",p:"कम"},
+  "kx":{h:"kx",p:"कक्स"},
+  "last":{h:"आखिरी",p:"लासट"},
+  "lasts":{h:"रहता है",p:"लासट्स"},
+  "length":{h:"लंबाई",p:"लेंगथ"},
+  "lie":{h:"झूठ",p:"ली"},
+  "litres":{h:"लीटर",p:"लिटरेस"},
+  "litres":{h:"लीटर",p:"लिटरेस"},
+  "load":{h:"भार",p:"लोड"},
+  "machine":{h:"मशीन",p:"माचिन"},
+  "magnified":{h:"बड़ा किया गया",p:"मागनिफ़ीड"},
+  "mathematics":{h:"गणित",p:"माथेमाटिकस"},
+  "metre":{h:"मीटर",p:"मेटर"},
+  "metres":{h:"मीटर",p:"मेटरेस"},
+  "milk":{h:"दूध",p:"मिलक"},
+  "minutes":{h:"मिनट",p:"मिनुटेस"},
+  "ml":{h:"मिली",p:"मल"},
+  "multiplied":{h:"गुणा किया गया",p:"मुलटिपलीड"},
+  "multiply":{h:"गुणा",p:"मुलटिपली"},
+  "original":{h:"मूल",p:"ोरइगिनाल"},
+  "pack":{h:"पैक",p:"पाक"},
+  "packed":{h:"पैक किया गया",p:"पाकेड"},
+  "packs":{h:"पैक",p:"पाकस"},
+  "painters":{h:"चित्रकार",p:"पेनटरस"},
+  "pair":{h:"जोड़ा",p:"पेर"},
+  "pens":{h:"पेन",p:"पेनस"},
+  "pigment":{h:"वर्णक",p:"पिगमेंट"},
+  "plot":{h:"प्लॉट",p:"पलोट"},
+  "points":{h:"अंक",p:"पॉयनट्स"},
+  "pole":{h:"पोल",p:"पोल"},
+  "pool":{h:"पूल",p:"पूल"},
+  "prescribed":{h:"निर्धारित",p:"परेसकरिबेड"},
+  "price":{h:"कीमत",p:"परिक"},
+  "print":{h:"प्रिंट",p:"परिनट"},
+  "printers":{h:"प्रिंटर",p:"परिनटरस"},
+  "produce":{h:"उत्पादन",p:"परोडुक"},
+  "product":{h:"उत्पाद",p:"परोडुकट"},
+  "proportion":{h:"अनुपात",p:"परोपोरशन"},
+  "proportions":{h:"अनुपात",p:"परोपोरशनस"},
+  "publisher":{h:"प्रकाशक",p:"पुबलिशर"},
+  "quantities":{h:"मात्रा",p:"क्वानटिटीस"},
+  "quantity":{h:"मात्रा",p:"क्वानटिटी"},
+  "quarter":{h:"तिमाही",p:"क्वारटर"},
+  "quotient":{h:"भागफल",p:"क्वोटीनट"},
+  "rashmis":{h:"रश्मी",p:"राशमिस"},
+  "rate":{h:"दर",p:"राट"},
+  "ratio":{h:"अनुपात",p:"राटिओ"},
+  "ratios":{h:"अनुपात",p:"राटिओस"},
+  "reaches":{h:"पहुंचता है",p:"रीचेस"},
+  "represent":{h:"प्रतिनिधित्व",p:"रेपरेसेनट"},
+  "required":{h:"आवश्यक",p:"रेक्विरएड"},
+  "rounds":{h:"राउंड",p:"राउनड्स"},
+  "scale":{h:"पैमाना",p:"सकाल"},
+  "scales":{h:"पैमाना",p:"सकालेस"},
+  "sells":{h:"बेचता है",p:"सेललस"},
+  "servings":{h:"सर्विंग",p:"सरविंगस"},
+  "shadow":{h:"छाया",p:"शाडो"},
+  "shop":{h:"दुकान",p:"शोप"},
+  "shrinks":{h:"सिकुड़ता है",p:"शरिनकस"},
+  "signature":{h:"हस्ताक्षर",p:"सिगनाटरए"},
+  "simplify":{h:"सरल",p:"सिमपलिफ़य"},
+  "slider":{h:"स्लाइडर",p:"सलिडर"},
+  "smaller":{h:"छोटा",p:"समाललर"},
+  "sometimes":{h:"कभी-कभी",p:"सोमेटिमेस"},
+  "speed":{h:"गति",p:"सपीड"},
+  "square":{h:"वर्ग",p:"सक्वारए"},
+  "step":{h:"कदम",p:"सटेप"},
+  "students":{h:"छात्र",p:"सटुडेनट्स"},
+  "sugar":{h:"चीनी",p:"सुगार"},
+  "sum":{h:"योग",p:"सुम"},
+  "syrup":{h:"सिरप",p:"सयरुप"},
+  "tall":{h:"लंबा",p:"टालल"},
+  "task":{h:"काम",p:"टासक"},
+  "team":{h:"टीम",p:"टीम"},
+  "telling":{h:"बताना",p:"टेललिंग"},
+  "test":{h:"परीक्षण",p:"टेसट"},
+  "tests":{h:"परीक्षण",p:"टेसट्स"},
+  "thousand":{h:"हजार",p:"थाउसानड"},
+  "total":{h:"कुल",p:"टोटाल"},
+  "trip":{h:"यात्रा",p:"टरिप"},
+  "trips":{h:"यात्रा",p:"टरिप्स"},
+  "units":{h:"इकाई",p:"उनिट्स"},
+  "using":{h:"उपयोग",p:"उसिंग"},
+  "value":{h:"मूल्य",p:"वाल्यू"},
+  "values":{h:"मूल्य",p:"वाल्यूस"},
+  "variation":{h:"भिन्नता",p:"वारइअशन"},
+  "varies":{h:"भिन्न होता है",p:"वारीस"},
+  "warehouse":{h:"गोदाम",p:"वारएहाउस"},
+  "waters":{h:"पानी",p:"वाटरस"},
+  "worked":{h:"काम किया",p:"वोरकेड"},
+  "workers":{h:"कार्यकर्ता",p:"वोरकरस"},
+  "worth":{h:"मूल्य",p:"वोरथ"},
+  "xy":{h:"xy",p:"क्सय"},
+  "yourself":{h:"खुद",p:"याउरसेलफ़"},
+});
+/* ---- single-letter variables ---- */
+Object.assign(WM2, {
+  "x":{h:"x (चर)",p:"क्स"},
+  "y":{h:"y (चर)",p:"य"},
+  "k":{h:"k (स्थिरांक)",p:"क"},
+  "a":{h:"a (पहला पद)",p:"अ"},
+  "b":{h:"b (दूसरा पद)",p:"ब"},
+  "c":{h:"c (तीसरा पद)",p:"क"},
+  "d":{h:"d (चौथा पद)",p:"ड"},
+  "m":{h:"m (मीटर)",p:"म"},
+  "h":{h:"h (ऊँचाई)",p:"ह"},
+});
+Object.assign(WM2, {
+  "diagonals":{h:"विकर्ण",p:"डिअगोनालस"},
+  "slide":{h:"खिसकाएँ",p:"सलिड"},
+});
+const PH = {{PH_JSON}};
+Object.assign(PH, {
+"Cross-multiply it yourself":"खुद क्रॉस-मल्टीप्लाई करें",
+"A proportion a : b = c : d holds exactly when a × d equals b × c. Move the slider and watch the two cross products.":"एक अनुपात a : b = c : d ठीक तभी सही होता है जब a × d, b × c के बराबर हो। स्लाइडर को खिसकाएं और दोनों क्रॉस प्रोडक्ट को देखें।",
+"The two diagonals must give the same number. If they do not, it is not a proportion.":"दोनों विकर्णों से एक ही नंबर आना चाहिए। अगर ऐसा नहीं होता, तो यह अनुपात नहीं है।",
+"Map scale, live":"मैप स्केल, लाइव",
+"Rashmi's map uses 1 cm for 18 km. Slide to any distance on the map and read the real distance at once.":"रश्मि के मैप में 18 किमी के लिए 1 सेमी का इस्तेमाल किया गया है। मैप पर किसी भी दूरी तक स्लाइड करें और तुरंत असली दूरी पढ़ें।",
+"Map distance and real distance are in direct proportion, so the ratio never changes.":"मैप की दूरी और असली दूरी सीधे अनुपात में होते हैं, इसलिए उनका अनुपात कभी नहीं बदलता।",
+"Which type is it?":"यह कौन सा प्रकार है?",
+"Five everyday pairs. Tap the button, read the pair, decide in your head, then tap again to check yourself.":"रोजमर्रा के पांच जोड़े। बटन पर टैप करें, जोड़ा पढ़ें, अपने दिमाग में तय करें, और फिर खुद को चेक करने के लिए फिर से टैप करें।",
+"Ask: if one doubles, does the other double (direct) or halve (inverse)?":"पूछें: अगर एक दोगुना हो जाता है, तो क्या दूसरा भी दोगुना (सीधा) हो जाता है या आधा (उल्टा) हो जाता है?",
+});
+
+/* =============================================================================
+   LLE — Language Learning Extension (English → Hindi)
+   tap any English word → Hindi meaning + Devanagari sound + audio
+   per block          → full-sentence Hindi translation toggle
+   ============================================================================= */
+const CONN = {{CONN_JSON}};
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function escA(s){ return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function normalizeWord(w){
+  return String(w).toLowerCase().replace(/[’']s$/,"").replace(/[^a-z\-]/g,"");
+}
+function lookupWord(raw){
+  const n = normalizeWord(raw);
+  if (WM2[n]) return {known:true, h:WM2[n].h, p:WM2[n].p||""};
+  const base = n.replace(/(ing|ed|es|s|ly)$/,"");
+  if (WM2[base]) return {known:true, h:WM2[base].h, p:WM2[base].p||""};
+  return {known:false, h:"(हिंदी अर्थ उपलब्ध नहीं)", p:""};
+}
+function rtText(text){
+  const shielded = [];
+  text = text.replace(/\{\{([\s\S]*?)\}\}/g, (m,g)=>{ shielded.push(g); return "\u0001"+(shielded.length-1)+"\u0001"; });
+  const parts = text.split(/(<[^>]+>|\u0001\d+\u0001)/g);
+  let connCount = 0;
+  return parts.map(seg=>{
+    if (/^<[^>]+>$/.test(seg)) return seg;
+    const sm = seg.match(/^\u0001(\d+)\u0001$/);
+    if (sm) return esc(shielded[+sm[1]]);
+    return seg.replace(/([A-Za-z][A-Za-z'\-]*)|([.!?]+\s*)/g, (m, word, punc)=>{
+      if (punc){ connCount = 0; return punc; }
+      if (!word) return m;
+      if (/^\d/.test(word)) return word;
+      const low = word.toLowerCase();
+      if (CONN[low] && connCount < 4){
+        connCount++;
+        return '<span class="conn" title="connector">'+word+' ('+CONN[low]+')</span>';
+      }
+      return '<span class="tapable" data-w="'+escA(normalizeWord(word))+'" tabindex="0" role="button">'+word+'</span>';
+    });
+  }).join("");
+}
+function attachHi(el, hi){
+  if(el && (el.textContent||'').replace(/\s+/g,' ').trim().length < 14) return;
+  if (!hi) return;
+  if (el.dataset.hiDone) return; el.dataset.hiDone = "1";
+  const wrap = document.createElement("div"); wrap.className = "hiWrap";
+  const btn = document.createElement("button"); btn.type="button"; btn.className="hiBtn";
+  btn.setAttribute("aria-expanded","false"); btn.setAttribute("aria-label","Show Hindi translation");
+  btn.textContent = "अ";
+  const box = document.createElement("div"); box.className="hiBox"; box.hidden=true; box.setAttribute("lang","hi");
+  box.textContent = hi;
+  btn.addEventListener("click", e=>{ e.stopPropagation();
+    const open = box.hidden; box.hidden = !open; wrap.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", String(open));
+    btn.classList.toggle("on", open); btn.textContent = "अ";
+  });
+  wrap.appendChild(btn); wrap.appendChild(box); el.appendChild(wrap);
+}
+function applyLang(root){
+  (root||document).querySelectorAll("[data-lang]").forEach(el=>{
+    if (el.dataset.langDone) return;
+    const en = (el.dataset.hi ? "" : el.textContent).replace(/\s+/g," ").trim();
+    el.innerHTML = rtText(el.innerHTML);
+    el.dataset.langDone = "1";
+    attachHi(el, el.dataset.hi || PH[en]);
+  });
+  bindTaps(root||document);
+}
+function lang(root){
+  if (!root) return;
+  const els = root.querySelectorAll("[data-lang]");
+  for (let i=0;i<els.length;i++){ delete els[i].dataset.langDone; delete els[i].dataset.hiDone; }
+  applyLang(root);
+}
+function bindTaps(root){
+  (root||document).querySelectorAll(".tapable").forEach(el=>{
+    if (el.dataset.bound) return; el.dataset.bound = "1";
+    const open = ()=>showWord(el.dataset.w);
+    el.addEventListener("click", open);
+    el.addEventListener("keydown", e=>{ if (e.key==="Enter"||e.key===" "){ e.preventDefault(); open(); } });
+  });
+}
+function showWord(w){
+  const r = lookupWord(w);
+  const eW=document.getElementById("wpWord"), eH=document.getElementById("wpHindi"), eP=document.getElementById("wpPron");
+  if(eW) eW.textContent = w;
+  if(eH) eH.textContent = r.h;
+  if(eP) eP.textContent = (r.known && r.p) ? "उच्चारण · "+r.p : "";
+  const panel = document.getElementById("wordpanel") || document.getElementById("wp");
+  if(!panel) return;
+  panel.classList.add("up"); panel.dataset.cur = w;
+  speak(w);
+}
+function closeWord(){
+  const p = document.getElementById("wordpanel") || document.getElementById("wp");
+  if(p) p.classList.remove("up");
+}
+let lastUtter = null;
+function speak(text){
+  try{
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    lastUtter = new SpeechSynthesisUtterance(text);
+    lastUtter.rate = 0.85; lastUtter.lang = "en-IN";
+    window.speechSynthesis.speak(lastUtter);
+  }catch(e){/* audio is a bonus, never a dependency */}
+}
+
+
+/* ---- panel wiring: Close, speaker, Escape, tap-outside ---- */
+(function bindWordPanel(){
+  const P = ()=> document.getElementById("wordpanel") || document.getElementById("wp");
+  const closeBtn = document.getElementById("wpClose");
+  if(closeBtn) closeBtn.addEventListener("click", function(e){
+    e.preventDefault(); e.stopPropagation(); closeWord(); });
+  const spk = document.getElementById("wpSpeak");
+  if(spk) spk.addEventListener("click", function(e){
+    e.preventDefault(); e.stopPropagation();
+    const p = P(); if(p && p.dataset.cur) speak(p.dataset.cur); });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" || e.key === "Esc") closeWord(); });
+  document.addEventListener("click", function(e){
+    const p = P(); if(!p || !p.classList.contains("up")) return;
+    if(p.contains(e.target)) return;
+    if(e.target && e.target.classList && e.target.classList.contains("tapable")) return;
+    closeWord();
+  }, true);
+})();
+
+</script>
+<script>
+const SLIDES = {{SLIDES_JSON}};
+/* =========================================================================
+   AASHA LEARN engine v2 — every slide carries a visual that fills the card.
+   Visuals are inline SVG so they scale to whatever height is left over.
+   ========================================================================= */
+const card = document.getElementById("card");
+const prog = document.getElementById("prog");
+const prevB = document.getElementById("prev");
+const nextB = document.getElementById("next");
+const hiAll = document.getElementById("hiAll");
+let i = 0, allHi = false;
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+const T = (s)=>'<span data-lang>'+esc(s)+'</span>';
+
+/* ============================ SVG VISUALS ============================ */
+const VB = 'viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet"';
+
+function svgOpen(extra){ return '<svg '+VB+' font-family="system-ui,sans-serif" '+(extra||"")+'>'; }
+function grid(){
+  let g='';
+  for(let x=40;x<=360;x+=40) g+='<line x1="'+x+'" y1="30" x2="'+x+'" y2="260" stroke="rgba(120,180,220,.10)"/>';
+  for(let y=60;y<=260;y+=40) g+='<line x1="40" y1="'+y+'" x2="360" y2="'+y+'" stroke="rgba(120,180,220,.10)"/>';
+  return g;
+}
+function axes(labX, labY){
+  return '<line x1="40" y1="260" x2="365" y2="260" stroke="#5c7386" stroke-width="2"/>'+
+         '<line x1="40" y1="260" x2="40" y2="25" stroke="#5c7386" stroke-width="2"/>'+
+         '<text x="356" y="280" fill="#8ba2b6" font-size="13">'+(labX||"x")+'</text>'+
+         '<text x="14" y="34" fill="#8ba2b6" font-size="13">'+(labY||"y")+'</text>';
+}
+
+/* direct: straight line through origin, point at (x, kx) */
+function vizLine(xv, k, showPoint){
+  const x=xv||5, y=k*x;
+  const px = 40 + (x/12)*310, py = 260 - (y/(k*12))*225;
+  let s = svgOpen() + grid() + axes("x","y");
+  s += '<line x1="40" y1="260" x2="360" y2="'+(260-225)+'" stroke="#2ee6c5" stroke-width="3"/>';
+  s += '<circle cx="40" cy="260" r="4" fill="#2ee6c5"/>';
+  if(showPoint!==false){
+    s += '<line x1="'+px+'" y1="260" x2="'+px+'" y2="'+py+'" stroke="rgba(255,194,71,.55)" stroke-dasharray="4 4"/>';
+    s += '<line x1="40" y1="'+py+'" x2="'+px+'" y2="'+py+'" stroke="rgba(255,194,71,.55)" stroke-dasharray="4 4"/>';
+    s += '<circle cx="'+px+'" cy="'+py+'" r="7" fill="#ffc247" stroke="#0b1016" stroke-width="2"/>';
+    s += '<text x="'+(px+11)+'" y="'+(py-9)+'" fill="#ffc247" font-size="13" font-weight="700">('+x+', '+y+')</text>';
+  }
+  s += '<text x="150" y="120" fill="#2ee6c5" font-size="13" font-weight="700">straight line</text>';
+  s += '<text x="150" y="138" fill="#8ba2b6" font-size="12">through the origin</text>';
+  return s + '</svg>';
+}
+
+/* inverse: hyperbola y = k/x */
+function vizCurve(xv, k, showPoint){
+  const x=xv||4, y=k/x;
+  let s = svgOpen() + grid() + axes("x","y");
+  let d='';
+  for(let t=1;t<=12;t+=0.25){
+    const px = 40 + (t/12)*310;
+    const yy = k/t;
+    const py = 260 - Math.min(225, (yy/12)*225);
+    d += (d?'L':'M') + px.toFixed(1)+' '+py.toFixed(1)+' ';
+  }
+  s += '<path d="'+d+'" fill="none" stroke="#ffc247" stroke-width="3"/>';
+  if(showPoint!==false){
+    const px = 40 + (x/12)*310, py = 260 - Math.min(225,(y/12)*225);
+    s += '<circle cx="'+px+'" cy="'+py+'" r="7" fill="#2ee6c5" stroke="#0b1016" stroke-width="2"/>';
+    s += '<text x="'+(px+11)+'" y="'+(py-9)+'" fill="#2ee6c5" font-size="13" font-weight="700">('+x+', '+y.toFixed(1)+')</text>';
+  }
+  s += '<text x="215" y="80" fill="#ffc247" font-size="13" font-weight="700">a curve</text>';
+  s += '<text x="215" y="98" fill="#8ba2b6" font-size="12">x × y stays the same</text>';
+  return s + '</svg>';
+}
+
+/* two bars compared */
+function vizBars(a, b, la, lb, cap){
+  const mx = Math.max(a,b,1);
+  const w1 = (a/mx)*260, w2 = (b/mx)*260;
+  let s = svgOpen();
+  s += '<text x="20" y="52" fill="#8ba2b6" font-size="13">'+(la||"x")+'</text>';
+  s += '<rect x="90" y="36" width="'+w1+'" height="26" rx="6" fill="#2ee6c5"/>';
+  s += '<text x="'+(98+w1)+'" y="55" fill="#2ee6c5" font-size="14" font-weight="700">'+a+'</text>';
+  s += '<text x="20" y="122" fill="#8ba2b6" font-size="13">'+(lb||"y")+'</text>';
+  s += '<rect x="90" y="106" width="'+w2+'" height="26" rx="6" fill="#ffc247"/>';
+  s += '<text x="'+(98+w2)+'" y="125" fill="#ffc247" font-size="14" font-weight="700">'+b+'</text>';
+  if(cap) s += '<text x="20" y="185" fill="#d7e4ee" font-size="13">'+esc(cap)+'</text>';
+  return s + '</svg>';
+}
+
+/* cross multiplication visual: a:b = c:d */
+function vizCross(a,b,c,d, ok){
+  let s = svgOpen();
+  const col = ok===false ? '#ff5a72' : '#4ade80';
+  s += '<text x="70" y="95" fill="#e9f2f8" font-size="30" font-weight="800">'+a+'</text>';
+  s += '<text x="70" y="135" fill="#e9f2f8" font-size="30" font-weight="800">'+b+'</text>';
+  s += '<text x="120" y="120" fill="#8ba2b6" font-size="30">:</text>';
+  s += '<text x="200" y="95" fill="#e9f2f8" font-size="30" font-weight="800">'+c+'</text>';
+  s += '<text x="200" y="135" fill="#e9f2f8" font-size="30" font-weight="800">'+d+'</text>';
+  s += '<text x="250" y="120" fill="#8ba2b6" font-size="30">:</text>';
+  s += '<line x1="85" y1="85" x2="215" y2="145" stroke="'+col+'" stroke-width="2.5" stroke-dasharray="6 4"/>';
+  s += '<line x1="85" y1="145" x2="215" y2="85" stroke="'+col+'" stroke-width="2.5" stroke-dasharray="6 4"/>';
+  s += '<text x="30" y="215" fill="'+col+'" font-size="15" font-weight="700">'+a+' × '+d+' = '+(a*d)+'</text>';
+  s += '<text x="205" y="215" fill="'+col+'" font-size="15" font-weight="700">'+b+' × '+c+' = '+(b*c)+'</text>';
+  s += '<text x="30" y="245" fill="#8ba2b6" font-size="13">'+(ok===false?'not equal — not a proportion':'equal — it is a proportion')+'</text>';
+  return s + '</svg>';
+}
+
+/* balance / scale */
+function vizBalance(){
+  let s = svgOpen();
+  s += '<line x1="200" y1="80" x2="200" y2="220" stroke="#5c7386" stroke-width="4"/>';
+  s += '<line x1="110" y1="80" x2="290" y2="80" stroke="#2ee6c5" stroke-width="4"/>';
+  s += '<path d="M110 80 L80 140 L140 140 Z" fill="none" stroke="#2ee6c5" stroke-width="3"/>';
+  s += '<path d="M290 80 L260 140 L320 140 Z" fill="none" stroke="#2ee6c5" stroke-width="3"/>';
+  s += '<text x="92" y="172" fill="#2ee6c5" font-size="15" font-weight="700">a : b</text>';
+  s += '<text x="272" y="172" fill="#2ee6c5" font-size="15" font-weight="700">c : d</text>';
+  s += '<rect x="160" y="220" width="80" height="10" rx="4" fill="#5c7386"/>';
+  s += '<text x="140" y="262" fill="#8ba2b6" font-size="13">two equal ratios</text>';
+  return s + '</svg>';
+}
+
+/* decision flow */
+function vizFlow(){
+  let s = svgOpen();
+  const box=(x,y,w,h,t,c)=>
+    '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="10" fill="'+c+'" fill-opacity=".14" stroke="'+c+'" stroke-width="2"/>'+
+    '<text x="'+(x+w/2)+'" y="'+(y+h/2+5)+'" fill="'+c+'" font-size="12.5" font-weight="700" text-anchor="middle">'+t+'</text>';
+  s += box(140,14,120,44,"Make a table","#5aa9ff");
+  s += '<line x1="200" y1="58" x2="200" y2="86" stroke="#5c7386" stroke-width="2"/>';
+  s += '<polygon points="200,86 194,76 206,76" fill="#5c7386"/>';
+  s += box(125,86,150,44,"Divide  y ÷ x","#ffc247");
+  s += '<line x1="200" y1="130" x2="200" y2="152" stroke="#5c7386" stroke-width="2"/>';
+  s += '<line x1="90" y1="152" x2="310" y2="152" stroke="#5c7386" stroke-width="2"/>';
+  s += box(20,168,150,44,"Constant → DIRECT","#2ee6c5");
+  s += box(230,168,150,44,"Not → check x × y","#ff5a72");
+  s += '<line x1="90" y1="152" x2="90" y2="168" stroke="#5c7386" stroke-width="2"/>';
+  s += '<line x1="310" y1="152" x2="310" y2="168" stroke="#5c7386" stroke-width="2"/>';
+  s += box(230,228,150,40,"Constant → INVERSE","#ffc247");
+  s += '<line x1="305" y1="212" x2="305" y2="228" stroke="#5c7386" stroke-width="2"/>';
+  return s + '</svg>';
+}
+
+/* ratio as a part-whole bar */
+function vizParts(a,b){
+  const tot=a+b, wa=(a/tot)*300, wb=(b/tot)*300;
+  let s = svgOpen();
+  s += '<rect x="50" y="105" width="'+wa+'" height="52" rx="8" fill="#2ee6c5"/>';
+  s += '<rect x="'+(50+wa)+'" y="105" width="'+wb+'" height="52" rx="8" fill="#ffc247"/>';
+  s += '<text x="'+(50+wa/2)+'" y="138" fill="#06231f" font-size="16" font-weight="800" text-anchor="middle">'+a+'</text>';
+  s += '<text x="'+(50+wa+wb/2)+'" y="138" fill="#3a2a00" font-size="16" font-weight="800" text-anchor="middle">'+b+'</text>';
+  s += '<text x="50" y="90" fill="#8ba2b6" font-size="13">'+a+' parts</text>';
+  s += '<text x="250" y="90" fill="#8ba2b6" font-size="13">'+b+' parts</text>';
+  s += '<text x="50" y="200" fill="#d7e4ee" font-size="15" font-weight="700">ratio = '+a+' : '+b+'</text>';
+  return s + '</svg>';
+}
+
+/* generic illustration for text slides */
+function vizCard(pic, caption){
+  let s = svgOpen();
+  s += '<rect x="30" y="30" width="340" height="240" rx="18" fill="rgba(46,230,197,.05)" stroke="rgba(46,230,197,.25)"/>';
+  s += '<circle cx="200" cy="140" r="62" fill="rgba(46,230,197,.10)"/>';
+  s += '<text x="200" y="160" font-size="62" text-anchor="middle">'+EMO_GLYPH(pic)+'</text>';
+  if(caption) s += '<text x="200" y="248" fill="#8ba2b6" font-size="13" text-anchor="middle">'+esc(caption)+'</text>';
+  return s + '</svg>';
+}
+function EMO_GLYPH(name){
+  const g={balance:"⚖️",ratio:"📊","arrow-up":"⬆️","arrow-down":"⬇️",divide:"➗",multiply:"✖️",
+    graph:"📈",flow:"🔀",warning:"⚠️",water:"💧",car:"🚗",cart:"🛒",tree:"🌳",train:"🚆",
+    map:"🗺️",rupee:"💰",magnify:"🔍",factory:"🏭",users:"👥",food:"🍚",paint:"🎨",pen:"🖊️"};
+  return g[name]||"📐";
+}
+
+
+/* lookup table for text slides that name a visual */
+const VIZ = {
+  parts: ()=>vizParts(2,5),
+  line:  ()=>vizLine(5,3),
+  curve: ()=>vizCurve(4,12),
+  flow:  ()=>vizFlow(),
+  bars:  ()=>vizBars(4,10,"x","y","both rise together"),
+  cross: ()=>vizCross(2,5,4,10,true),
+  balance: ()=>vizBalance()
+};
+
+/* ============================ SIMS ============================ */
+function simShell(id, inner){ return '<div class="simctl" id="'+id+'">'+inner+'</div>'; }
+
+const SIM = {
+  ratio: ()=>'<input type="range" id="sR" min="1" max="10" value="2" aria-label="multiplier">'+
+    '<div class="readout"><span>A = <b id="oA">2</b></span><span>B = <b id="oB">5</b></span>'+
+    '<span>ratio <b id="oR">2 : 5</b></span></div>',
+  proportion: ()=>'<input type="range" id="sP" min="1" max="10" value="3" aria-label="c value">'+
+    '<div class="readout"><span>a : b = <b>2 : 5</b></span><span>c : d = <b id="oC">3 : 5</b></span></div>',
+  direct: ()=>'<input type="range" id="sD" min="1" max="12" value="4" aria-label="x value">'+
+    '<div class="readout"><span>x = <b id="oX">4</b></span><span>y = <b id="oY">12</b></span>'+
+    '<span>y ÷ x = <b id="oK">3</b></span></div>',
+  inverse: ()=>'<input type="range" id="sI" min="1" max="12" value="4" aria-label="x value">'+
+    '<div class="readout"><span>x = <b id="oX">4</b></span><span>y = <b id="oY">3</b></span>'+
+    '<span>x × y = <b id="oK">12</b></span></div>',
+  compare: ()=>'<div class="switch"><button id="cD" class="on">Direct</button><button id="cI">Inverse</button></div>'+
+    '<input type="range" id="sC" min="1" max="12" value="4" aria-label="x value">'+
+    '<div class="readout"><span>x = <b id="oX">4</b></span><span>y = <b id="oY">12</b></span>'+
+    '<span id="oK">y ÷ x = <b>3</b></span></div>',
+  cross: ()=>'<input type="range" id="sX" min="1" max="10" value="2" aria-label="multiplier">'+
+    '<div class="readout"><span>2 : 5 = <b id="oC">4</b> : 10</span><span id="oK"><b>proportion ✓</b></span></div>',
+  identify: ()=>'<div class="switch"><button id="kD">More pens → more cost</button></div>'+
+    '<div class="readout"><span id="oK">Tap to test a pair</span></div>',
+  scale: ()=>'<input type="range" id="sS" min="1" max="20" value="5" aria-label="map cm">'+
+    '<div class="readout"><span>map = <b id="oX">5</b> cm</span><span>real = <b id="oY">90</b> km</span></div>'
+};
+
+function simViz(name, v){
+  if(name==="generic_scale" || (typeof v==="object" && v && v.generic)){ const mult=(v&&v.mult)||4; const val=(v&&v.val)||3; return vizBars(val, val*mult, (v&&v.labelA)||"Input", (v&&v.labelB)||"Output", (v&&v.caption)||""); }
+  if(name==="ratio")      return vizParts(2*v, 5*v);
+  if(name==="proportion") return vizCross(2,5,v,5, 2*5===5*v);
+  if(name==="direct")     return vizLine(v, 3);
+  if(name==="inverse")    return vizCurve(v, 12);
+  if(name==="compare")    return v.mode==="d" ? vizLine(v.x,3) : vizCurve(v.x,12);
+  if(name==="cross")      return vizCross(2,5,2*v,10, true);
+  if(name==="scale")      return vizBars(v, v*18, "map cm", "real km", "1 cm on the map = 18 km");
+  if(name==="identify")   return vizFlow();
+  return vizCard("balance");
+}
+
+
+/* === AASHA GENERIC CHAPTER SIM SUPPORT === */
+if (typeof SIM !== 'undefined') {
+  SIM.generic_scale = function(cfg) {
+    const c = cfg || { labelA:'Input (x)', labelB:'Output (y)', min:1, max:10, val:3, mult:4, unitA:'', unitB:'' };
+    return '<input type="range" id="sGen" min="'+(c.min||1)+'" max="'+(c.max||10)+'" value="'+(c.val||3)+'" aria-label="value">' +
+      '<div class="readout"><span>'+(c.labelA||'x')+' = <b id="oGA">'+(c.val||3)+'</b> '+(c.unitA||'')+'</span>' +
+      '<span>'+(c.labelB||'y')+' = <b id="oGB">'+((c.val||3)*(c.mult||4))+'</b> '+(c.unitB||'')+'</span></div>';
+  };
+}
+const CUSTOM_SIMS = {{CUSTOM_SIMS_JSON}};
+
+/* ============================ RENDER ============================ */
+function render(){
+  const s = SLIDES[i];
+  const hasSim = s.kind === "sim";
+  card.className = "card" + (s.kind === "end" ? "" : " split");
+  let title="", txt="", vis="", ctl="";
+
+  switch(s.kind){
+    case "title":
+      title = '<div class="kindrow"><span class="kind">{{CHAPTER_BADGE}}</span></div><h1 data-lang>'+esc(s.t)+'</h1>';
+      txt = '<p class="sub" data-lang>'+esc(s.s||"")+'</p><p class="b" data-lang>'+esc(s.b||"")+'</p>';
+      vis = vizLine(6,3);
+      break;
+    case "text":
+      title = '<div class="kindrow"><span class="kind">Idea</span></div><h2 data-lang>'+esc(s.t)+'</h2>';
+      txt = '<p class="b" data-lang>'+esc(s.b)+'</p>';
+      vis = s.viz ? VIZ[s.viz]() : vizCard(s.pic||"balance");
+      break;
+    case "sim":
+      title = '<div class="kindrow"><span class="kind">Try it</span></div><h2 data-lang>'+esc(s.t)+'</h2>';
+      txt = '<p class="b" data-lang>'+esc(s.b)+'</p>'+(s.hint?'<div class="hint" data-lang>'+esc(s.hint)+'</div>':'');
+      const simFn = SIM[s.sim] || SIM.generic_scale; ctl = '<div class="simctl">'+simFn(s.simCfg || CUSTOM_SIMS[s.sim])+'</div>';
+      break;
+    case "table":
+      title = '<div class="kindrow"><span class="kind">Table</span></div><h2 data-lang>'+esc(s.t)+'</h2>';
+      txt = '<p class="b" data-lang>'+esc(s.b)+'</p>'+
+        '<table><thead><tr>'+(s.head||[]).map(h=>'<th data-lang>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+
+        (s.rows||[]).map(r=>'<tr>'+r.map(c=>'<td data-lang>'+esc(c)+'</td>').join("")+'</tr>').join("")+'</tbody></table>'+
+        (s.note?'<div class="hint" data-lang>'+esc(s.note)+'</div>':'');
+      vis = s.viz==="curve" ? vizCurve(4,12) : vizLine(4,3);
+      break;
+    case "steps":
+      title = '<div class="kindrow"><span class="kind">Worked example</span></div><h2 data-lang>'+esc(s.t)+'</h2>';
+      txt = '<p class="b" data-lang>'+esc(s.b)+'</p>'+
+        '<div class="steps">'+(s.steps||[]).map((x,n)=>'<div class="step"><span class="n">'+(n+1)+
+        '</span><span data-lang>'+esc(x)+'</span></div>').join("")+'</div>';
+      { const inv = /inverse|workers|hose|campers|painters|halve|less time|fewer hours/i.test(s.t+" "+s.b);
+        vis = inv ? vizCurve(4,12) : vizLine(5,3); }
+      break;
+    case "check":
+      title = '<div class="kindrow"><span class="kind">Your turn</span></div><h2 data-lang>'+esc(s.q)+'</h2>';
+      txt = '<div class="opts">'+(s.opts||[]).map((o,n)=>'<div class="opt" data-k="'+n+'">'+
+        '<span class="k">'+String.fromCharCode(65+n)+'</span><span data-lang>'+esc(o)+'</span></div>').join("")+
+        '</div><div class="fb" id="fb"></div>';
+      vis = vizFlow();
+      break;
+    case "compare":
+      title = '<div class="kindrow"><span class="kind">Compare</span></div><h2 data-lang>'+esc(s.t)+'</h2>';
+      txt = '<p class="b" data-lang>'+esc(s.b)+'</p>'+
+        '<table><thead><tr>'+(s.rows[0]).map(h=>'<th data-lang>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+
+        s.rows.slice(1).map(r=>'<tr>'+r.map(c=>'<td data-lang>'+esc(c)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';
+      vis = vizFlow();
+      break;
+    case "mistake":
+      title = '<div class="kindrow"><span class="kind">Watch out</span></div><h2 data-lang>'+esc(s.t)+'</h2>';
+      txt = '<p class="b" data-lang>'+esc(s.b)+'</p>'+
+        (s.items||[]).map(it=>'<div class="mrow">'+emo("warning",26)+'<div><b data-lang>'+esc(it[0])+
+        '</b><span data-lang>'+esc(it[1])+'</span></div></div>').join("");
+      vis = vizCross(3,4,9,12,false);
+      break;
+    case "summary":
+      title = '<div class="kindrow"><span class="kind">Summary</span></div><h2 data-lang>'+esc(s.t)+'</h2>';
+      txt = (s.items||[]).map(it=>'<div class="mrow">'+emo("check",24)+'<div><b data-lang>'+esc(it[0])+
+        '</b><span data-lang>'+esc(it[1])+'</span></div></div>').join("");
+      vis = vizBalance();
+      break;
+    case "end":
+      title = '<div class="kindrow"><span class="kind">Done</span></div><h1 data-lang>'+esc(s.t)+'</h1>';
+      txt = '<p class="sub" data-lang>'+esc(s.s||"")+'</p><p class="b" data-lang>'+esc(s.b||"")+'</p>';
+      vis = vizCard("star","open the arena next");
+      break;
+    default:
+      title = '<h2 data-lang>'+esc(s.t||"")+'</h2>'; txt = '<p class="b" data-lang>'+esc(s.b||"")+'</p>';
+      vis = vizCard("balance");
+  }
+
+  card.innerHTML =
+    '<div class="head">'+title+'</div>' +
+    '<div class="txt">'+txt+'</div>' +
+    '<div class="visual" id="vis">'+(hasSim ? simViz(s.sim, initSim(s.sim)) : vis)+'</div>' +
+    '<div class="ctl">'+(hasSim ? ctl : '')+'</div>';
+
+  lang(card);
+  if(s.kind === "check") wireCheck(s);
+  if(hasSim) wireSim(s.sim);
+  prog.style.width = Math.round(((i+1)/SLIDES.length)*100)+"%";
+  const chip = document.getElementById("chip");
+  if(chip) chip.textContent = (i+1) + " / " + SLIDES.length;
+  prevB.disabled = i === 0;
+  nextB.textContent = (i === SLIDES.length-1) ? "Finish ✓" : "Next ▶";
+}
+
+/* initial state for a sim */
+function initSim(name){
+  if(name==="ratio") return 2;
+  if(name==="proportion") return 3;
+  if(name==="direct") return 4;
+  if(name==="inverse") return 4;
+  if(name==="compare") return {x:4, mode:"d"};
+  if(name==="cross") return 2;
+  if(name==="scale") return 5;
+  return 0;
+}
+
+/* ============================ INTERACTION ============================ */
+function wireCheck(s){
+  card.querySelectorAll(".opt").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const k = +el.dataset.k;
+      const fb = document.getElementById("fb");
+      card.querySelectorAll(".opt").forEach(o=>o.classList.remove("ok","no"));
+      const right = (k === s.ans);
+      if(right){ el.classList.add("ok"); fb.className="fb show ok"; }
+      else { el.classList.add("no"); card.querySelectorAll(".opt")[s.ans].classList.add("ok");
+             fb.className="fb show no"; }
+      fb.innerHTML = T(s.why||(right?"Correct.":"Not quite."));
+      lang(fb);
+    });
+  });
+}
+
+function setVis(html){ const v=document.getElementById("vis"); if(v) v.innerHTML = html; }
+
+function wireSim(name){
+  const on = (id, fn)=>{ const e=document.getElementById(id); if(e) e.addEventListener("input", fn); return e; };
+  const gen = document.getElementById("sGen");
+  if(gen){
+    const sObj = SLIDES[i] || {};
+    const cfg = sObj.simCfg || CUSTOM_SIMS[name] || {labelA:"Input",labelB:"Output",mult:4,val:3,caption:""};
+    const upd=()=>{ const v=+gen.value; const m=cfg.mult||4;
+      const ea=document.getElementById("oGA"), eb=document.getElementById("oGB");
+      if(ea) ea.textContent=v;
+      if(eb) eb.textContent=(v*m);
+      setVis(simViz("generic_scale", {generic:true, val:v, mult:m, labelA:cfg.labelA||"Input", labelB:cfg.labelB||"Output", caption:cfg.caption||""}));
+    };
+    gen.addEventListener("input", upd); upd();
+    return;
+  }
+
+  if(name==="ratio"){
+    const s=document.getElementById("sR");
+    const upd=()=>{ const m=+s.value;
+      document.getElementById("oA").textContent=2*m;
+      document.getElementById("oB").textContent=5*m;
+      document.getElementById("oR").textContent=(2*m)+" : "+(5*m);
+      setVis(vizParts(2*m,5*m)); };
+    s.addEventListener("input",upd); upd();
+  }
+  if(name==="proportion"){
+    const s=document.getElementById("sP");
+    const upd=()=>{ const c=+s.value;
+      document.getElementById("oC").textContent=c+" : 5";
+      setVis(vizCross(2,5,c,5, 2*5===5*c)); };
+    s.addEventListener("input",upd); upd();
+  }
+  if(name==="direct"){
+    const s=document.getElementById("sD");
+    const upd=()=>{ const x=+s.value, y=3*x;
+      document.getElementById("oX").textContent=x;
+      document.getElementById("oY").textContent=y;
+      document.getElementById("oK").textContent=(y/x).toFixed(0);
+      setVis(vizLine(x,3)); };
+    s.addEventListener("input",upd); upd();
+  }
+  if(name==="inverse"){
+    const s=document.getElementById("sI");
+    const upd=()=>{ const x=+s.value, y=12/x;
+      document.getElementById("oX").textContent=x;
+      document.getElementById("oY").textContent=y.toFixed(2).replace(/\.00$/,"");
+      document.getElementById("oK").textContent=(x*y).toFixed(0);
+      setVis(vizCurve(x,12)); };
+    s.addEventListener("input",upd); upd();
+  }
+  if(name==="compare"){
+    const s=document.getElementById("sC");
+    const bD=document.getElementById("cD"), bI=document.getElementById("cI");
+    let mode="d";
+    const upd=()=>{ const x=+s.value;
+      const y = mode==="d" ? 3*x : 12/x;
+      document.getElementById("oX").textContent=x;
+      document.getElementById("oY").textContent=y.toFixed(2).replace(/\.00$/,"");
+      document.getElementById("oK").innerHTML = mode==="d"
+        ? 'y ÷ x = <b>'+(y/x).toFixed(0)+'</b> constant'
+        : 'x × y = <b>'+(x*y).toFixed(0)+'</b> constant';
+      setVis(mode==="d" ? vizLine(x,3) : vizCurve(x,12)); };
+    bD.addEventListener("click",()=>{ mode="d"; bD.classList.add("on"); bI.classList.remove("on"); upd(); });
+    bI.addEventListener("click",()=>{ mode="i"; bI.classList.add("on"); bD.classList.remove("on"); upd(); });
+    s.addEventListener("input",upd); upd();
+  }
+  if(name==="cross"){
+    const s=document.getElementById("sX");
+    const upd=()=>{ const m=+s.value;
+      document.getElementById("oC").textContent=(2*m);
+      setVis(vizCross(2,5,2*m,10,true)); };
+    s.addEventListener("input",upd); upd();
+  }
+  if(name==="scale"){
+    const s=document.getElementById("sS");
+    const upd=()=>{ const c=+s.value;
+      document.getElementById("oX").textContent=c;
+      document.getElementById("oY").textContent=c*18;
+      setVis(vizBars(c, c*18, "map cm", "real km", "1 cm on the map = 18 km")); };
+    s.addEventListener("input",upd); upd();
+  }
+  if(name==="identify"){
+    const b=document.getElementById("kD");
+    const out=document.getElementById("oK");
+    let n=0;
+    const pairs=[["More pens → more cost","DIRECT"],["More workers → less time","INVERSE"],
+                 ["More speed → less time","INVERSE"],["More items → more cost","DIRECT"],
+                 ["Higher price → fewer books","INVERSE"]];
+    b.textContent = pairs[0][0];
+    out.innerHTML = "Tap the button to reveal the type";
+    b.addEventListener("click",()=>{
+      out.innerHTML = "This is <b>"+pairs[n][1]+"</b>";
+      n=(n+1)%pairs.length; b.textContent = pairs[n][0];
+    });
+    setVis(vizFlow());
+  }
+}
+
+/* ============================ NAV ============================ */
+prevB.addEventListener("click", ()=>{ if(i>0){ i--; render(); } });
+nextB.addEventListener("click", ()=>{ if(i<SLIDES.length-1){ i++; render(); } });
+document.addEventListener("keydown", e=>{
+  if(e.key==="ArrowRight") nextB.click();
+  if(e.key==="ArrowLeft") prevB.click();
+});
+hiAll.addEventListener("click", ()=>{
+  allHi = !allHi;
+  hiAll.style.background = allHi ? "rgba(255,194,71,.18)" : "transparent";
+  hiAll.style.color = allHi ? "var(--gold)" : "";
+  document.querySelectorAll(".hiBtn").forEach(b=>{
+    const on = b.classList.contains("on");
+    if(allHi && !on) b.click();
+    if(!allHi && on) b.click();
+  });
+});
+window.addEventListener("resize", ()=>{ /* svg scales by itself */ });
+
+render();
+</script>
+</body>
+</html>

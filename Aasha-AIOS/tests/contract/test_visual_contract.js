@@ -3,7 +3,11 @@ let jsdom;
 try {
   jsdom = require('jsdom');
 } catch (e) {
-  jsdom = require(path.resolve(__dirname, '../../benchmarks/ltruth/node_modules/jsdom'));
+  try {
+    jsdom = require(path.resolve(__dirname, '../../benchmarks/ltruth/node_modules/jsdom'));
+  } catch (e2) {
+    jsdom = require(path.resolve(__dirname, '../../../aasha-pipeline-with-master-json/node_modules/jsdom'));
+  }
 }
 const { JSDOM } = jsdom;
 const { VisualComponent, FractionBarVisual, AlgebraTileVisual, GeometricPerimeterVisual, ElectricCircuitVisual } = require('../../layer-2-education/visual_contract/visual_contract.js');

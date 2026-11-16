@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at_utc": "2026-11-14T03:32:02.479552+00:00",
+  "total_worksheets": 3,
+  "zero_external_urls": true,
+  "worksheets": [
+    {
+      "worksheet_id": "REM-WS-G06-FRACTIONS-01",
+      "chapter_id": "NCERT-G06-MATH-CH07-FRACTIONS",
+      "target_concept_node": "G6_CH07_N4_LIKE_UNLIKE_ADD",
+      "misconception_addressed": "Adding denominators directly (e.g., 1/2 + 1/3 = 2/5) instead of finding equivalent common partitions.",
+      "bilingual_explanation_en": "Before adding two unlike fractions, convert them into equivalent fractions with the same denominator (equal unit partitions).",
+      "bilingual_explanation_hi": "असमान हर वाले भिन्नों को जोड़ने से पहले, उन्हें समान हर (बराबर भागों) वाले समतुल्य भिन्नों में बदलें।",
+      "guided_practice_items": [
+        {
+          "prompt_en": "Convert 1/2 and 1/3 to sixths, then add.",
+          "prompt_hi": "1/2 और 1/3 को छठे भाग (sixths) में बदलें और जोड़ें।",
+          "answer": "3/6 + 2/6 = 5/6"
+        },
+        {
+          "prompt_en": "Find 2/3 + 1/6 using fraction strips.",
+          "prompt_hi": "भिन्न पट्टियों (fraction strips) का उपयोग करके 2/3 + 1/6 ज्ञात करें।",
+          "answer": "4/6 + 1/6 = 5/6"
+        }
+      ]
+    },
+    {
+      "worksheet_id": "REM-WS-LPG-SAFETY-02",
+      "chapter_id": "Chapter3_LPG_Learning",
+      "target_concept_node": "node_lpg_safety",
+      "misconception_addressed": "Operating electrical switches when an LPG leak is suspected.",
+      "bilingual_explanation_en": "Never flip electrical switches during a suspected gas leak; even a tiny spark can ignite accumulated vapor. Open doors/windows and shut the regulator valve first.",
+      "bilingual_explanation_hi": "गैस रिसाव का संदेह होने पर कभी भी बिजली के स्विच न छुएँ; एक छोटी सी चिंगारी भी आग लगा सकती है। पहले दरवाज़े-खिड़कियाँ खोलें और रेगुलेटर बंद करें।",
+      "guided_practice_items": [
+        {
+          "prompt_en": "What is the first action when smelling LPG?",
+          "prompt_hi": "एलपीजी की गंध आने पर सबसे पहला कदम क्या होना चाहिए?",
+          "answer": "Turn off regulator & open windows without touching switches."
+        }
+      ]
+    },
+    {
+      "worksheet_id": "REM-WS-NCVET-DEHYDRATOR-03",
+      "chapter_id": "NCVET_PSSCIVE_L4_Food_SolarDehydrator",
+      "target_concept_node": "TLN-02",
+      "misconception_addressed": "Setting excessive drying temperature (>80 C) causing outer case hardening.",
+      "bilingual_explanation_en": "Maintain 50-60 C with steady airflow so inner moisture diffuses outward without sealing the surface skin.",
+      "bilingual_explanation_hi": "नियंत्रित हवा के प्रवाह के साथ 50-60 डिग्री सेल्सियस तापमान बनाए रखें ताकि बाहरी परत सख्त हुए बिना अंदर की नमी बाहर निकल सके।",
+      "guided_practice_items": [
+        {
+          "prompt_en": "Why does 85 C cause spoilage inside thick fruit slices?",
+          "prompt_hi": "85 डिग्री सेल्सियस पर फलों के मोटे टुकड़े अंदर से खराब क्यों हो जाते हैं?",
+          "answer": "Case hardening seals moisture inside."
+        }
+      ]
+    }
+  ]
+}

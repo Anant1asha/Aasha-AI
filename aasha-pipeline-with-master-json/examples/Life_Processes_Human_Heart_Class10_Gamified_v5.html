@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_sci_class10_ch5_life_processes_heart">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 10 Science Ch 5: Life Processes — Human Heart & Double Circulation (जैव प्रक्रम — मानव हृदय और दोहरा परिसंचरण)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #e11d48; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #be123c, #1d4ed8);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .bio-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #heart-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>🫀 Life Processes: Human Heart & Double Circulation / जैव प्रक्रम: मानव हृदय और दोहरा परिसंचरण</h1>
+    <p>NCERT Class 10 Science Ch 5 • 8-Layer Bilingual LLE • Interactive 4-Chamber Double Circulation Lab (AVR-P319)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: <span class="lle-word" data-hi="यह/वह (द)">The</span> Four-Chambered Human Heart (मानव हृदय के चार कोष्ठ)</h2>
+      <p>
+        The human heart has four chambers <span class="lle-word" data-hi="को (टू)">to</span> prevent the mixing <span class="lle-word" data-hi="का (ऑफ)">of</span> oxygenated blood and deoxygenated blood:
+        the upper thin-walled chambers <span class="lle-word" data-hi="हैं (आर)">are</span> the left atrium and right atrium, while the lower thick-walled muscular chambers <span class="lle-word" data-hi="वह (दैट)">that</span> pump blood out of the heart are the left ventricle and right ventricle.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Double Circulation Simulator (AVR-P319)</h2>
+      <div class="bio-stage" data-visual-component="BioProcessFlowVisual" data-avr-id="AVR-P319" data-tap-select="true">
+        <svg width="340" height="165" viewBox="0 0 340 165" role="img" aria-label="4 Chamber Human Heart Double Circulation Explorer">
+          <rect id="right-chambers" x="55" y="25" width="105" height="90" rx="12" fill="#1d4ed8" stroke="#93c5fd" stroke-width="3" />
+          <rect id="left-chambers" x="180" y="25" width="105" height="90" rx="12" fill="#be123c" stroke="#fda4af" stroke-width="3" />
+          <text x="107" y="65" fill="#ffffff" text-anchor="middle" font-size="12" font-weight="bold">RA → RV (Blue)</text>
+          <text x="107" y="85" fill="#dbeafe" text-anchor="middle" font-size="11">Deoxygenated</text>
+          <text x="232" y="65" fill="#ffffff" text-anchor="middle" font-size="12" font-weight="bold">LA → LV (Red)</text>
+          <text x="232" y="85" fill="#ffe4e6" text-anchor="middle" font-size="11">Oxygenated</text>
+          <text x="170" y="146" fill="#f8fafc" text-anchor="middle" font-size="12" id="heart-readout">Pulmonary Loop: RV → Pulmonary Artery → Lungs → Pulmonary Vein → LA</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectCircuit('pulmonary')">🫁 Pulmonary Circulation (फुफ्फुसीय परिसंचरण)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectCircuit('systemic')">🏃 Systemic Circulation (दैहिक परिसंचरण)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectCircuit('vessels')">🩸 Artery vs Vein vs Capillary (रक्त वाहिकाएँ)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Arteries, Veins, and Capillaries (धमनी, शिरा और केशिका)</h2>
+      <p>
+        An artery carries blood away from the heart under high pressure and therefore has thick, elastic walls.
+        <span class="lle-word" data-hi="एक (ए)">A</span> vein collects blood from <span class="lle-word" data-hi="अलग (डिफरेंट)">different</span> organs and brings <span class="lle-word" data-hi="यह (इट)">it</span> back to the heart with one-way valves to prevent backflow.
+        A capillary has a single-cell thick wall allowing exchange of oxygen, nutrients, and carbon dioxide with body tissues during double circulation.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> Which chamber of the human heart receives oxygenated blood directly from the lungs via the pulmonary vein?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitHeartMastery('LA')">A) Left Atrium (बायाँ आलिंद)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitHeartMastery('RA')">B) Right Atrium (दायाँ आलिंद — receives vena cava)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitHeartMastery('RV')">C) Right Ventricle (दायाँ निलय — pumps to lungs)</button>
+      </div>
+      <div id="heart-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "artery": "धमनी (आर्टरी)",
+      "vein": "शिरा (वेन)",
+      "ventricle": "निलय (वेंट्रिकल)",
+      "atrium": "आलिंद (एट्रियम)",
+      "capillary": "केशिका (कैपिलरी)",
+      "oxygenated": "ऑक्सीजनयुक्त (ऑक्सीजनेटेड)",
+      "circulation": "परिसंचरण (सर्कुलेशन)"
+    };
+    const CONN = {
+      "while": "जबकि (व्हाइल)",
+      "therefore": "इसलिए (देयरफोर)"
+    };
+    let heartWrong = 0;
+
+    function selectCircuit(mode) {
+      const readout = document.getElementById("heart-readout");
+      if (mode === "pulmonary") {
+        readout.textContent = "Pulmonary Loop: Right Ventricle → Pulmonary Artery → Lungs (O₂ pickup) → Pulmonary Vein → Left Atrium";
+      } else if (mode === "systemic") {
+        readout.textContent = "Systemic Loop: Left Ventricle → Aorta (Main Artery) → Body Capillaries → Vena Cava (Vein) → Right Atrium";
+      } else {
+        readout.textContent = "Artery (धमनी: thick elastic wall) | Vein (शिरा: has valves) | Capillary (केशिका: 1-cell thick exchange wall)";
+      }
+    }
+
+    function submitHeartMastery(choice) {
+      const toast = document.getElementById("heart-toast");
+      toast.style.display = "block";
+      if (choice === "LA") {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_sci_class10_ch5_life_processes_heart",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Oxygenated blood from the lungs enters the Left Atrium (बायाँ आलिंद) via the pulmonary vein and then moves to the Left Ventricle. <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        heartWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = heartWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Remember that the LEFT side of the heart handles oxygenated (red) blood returning from the lungs."
+          : "💡 Tier-2 Worked Hint (संकेत 2): Upper chambers are Atria (receiving chambers). The Left Atrium (बायाँ आलिंद) receives oxygenated blood from the lungs via the pulmonary vein.";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

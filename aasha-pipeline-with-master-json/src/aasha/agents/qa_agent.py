@@ -36,16 +36,18 @@ class QAAgent(BaseAgent):
     def _run_node_qa(self, html_path: Path, mode: str = "v5-engine") -> dict[str, Any]:
         """Run the Node.js QA harness."""
         html_path = Path(html_path).resolve()
-        cmd_parts = self.qa_runner.split()
-        if len(cmd_parts) >= 2 and cmd_parts[0] == "node":
-            script_rel = Path(cmd_parts[1])
-            pkg_script = (Path(__file__).resolve().parent.parent.parent.parent / script_rel).resolve()
+        runner_str = str(self.qa_runner).strip()
+        if runner_str.startswith("node "):
+            script_candidate = Path(runner_str[5:].strip().strip('"').strip("'"))
+            cmd = ["node", str(script_candidate), str(html_path), mode]
+        elif Path(runner_str).exists():
+            cmd = ["node", str(Path(runner_str)), str(html_path), mode]
+        else:
+            pkg_script = (Path(__file__).resolve().parent.parent.parent.parent / "qa" / "run_qa.js").resolve()
             if pkg_script.exists():
                 cmd = ["node", str(pkg_script), str(html_path), mode]
             else:
-                cmd = cmd_parts + [str(html_path), mode]
-        else:
-            cmd = cmd_parts + [str(html_path), mode]
+                cmd = ["node", runner_str, str(html_path), mode]
 
         try:
             result = subprocess.run(

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_science_class8_ch14_chemical_effects_of_current">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 8 Science Ch 14: Chemical Effects <span class="lle-word" data-hi="का (ऑफ)">of</span> Electric Current (विद्युत धारा के रासायनिक प्रभाव)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #14b8a6; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #0f766e, #0369a1);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .electro-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #chem-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>🧪 Chemical Effects of Electric Current / विद्युत धारा के रासायनिक प्रभाव</h1>
+    <p>NCERT Class 8 Science Ch 14 • 8-Layer Bilingual LLE • Interactive Electroplating & Liquid Conductivity Lab</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Do Liquids Conduct Electricity? (क्या द्रव विद्युत का चालन करते हैं?)</h2>
+      <p>
+        Materials <span class="lle-word" data-hi="वह (दैट)">that</span> allow electric current <span class="lle-word" data-hi="को (टू)">to</span> pass through them easily <span class="lle-word" data-hi="हैं (आर)">are</span> good conductors of electricity, whereas materials that do not allow current to pass easily are insulators.
+        Acidic, basic, and salt solutions act as an electrolyte and conduct electric current. Distilled water <span class="lle-word" data-hi="है (इज़)">is</span> free of salts and is <span class="lle-word" data-hi="एक (ए)">a</span> poor conductor unless salt or acid is dissolved in <span class="lle-word" data-hi="यह (इट)">it</span>.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Electroplating & Electrolyte Lab (संवादात्मक विद्युत लेपन प्रयोगशाला)</h2>
+      <div class="electro-stage" data-visual-component="ElectricCircuitVisual" data-avr-id="AVR-P314" data-tap-select="true">
+        <svg width="340" height="160" viewBox="0 0 340 160" role="img" aria-label="Electroplating Copper Sulphate Cell">
+          <rect x="70" y="30" width="200" height="110" rx="10" fill="#0c4a6e" stroke="#38bdf8" stroke-width="3" />
+          <rect x="105" y="20" width="18" height="95" fill="#d97706" />
+          <rect id="cathode-plate" x="215" y="20" width="18" height="95" fill="#94a3b8" stroke="#f59e0b" stroke-width="2" />
+          <text x="170" y="150" fill="#f8fafc" text-anchor="middle" id="electro-readout">Electrolyte: CuSO₄ Solution (चालक) | LED: GLOWING 🌟</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectLiquid('cuso4')">🧪 CuSO₄ + Copper Electrodes (चालक)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectLiquid('distilled')">💧 Distilled Water / आसुत जल (हीन चालक)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Electroplating in Daily Life (विद्युत लेपन के उपयोग)</h2>
+      <p>
+        <span class="lle-word" data-hi="यह/वह (द)">The</span> process of depositing a layer of any desired metal <span class="lle-word" data-hi="पर (ऑन)">on</span> another material by means of electricity is <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> electroplating.
+        When electric current is passed through a copper sulphate solution, copper dissociates <span class="lle-word" data-hi="में (इनटू)">into</span> free copper and gets deposited on the electrode connected to the negative terminal of the battery.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> During electroplating with copper sulphate (CuSO₄), on which electrode does the pure copper layer get deposited?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitChemMastery('negative')">A) Negative terminal electrode / ऋण टर्मिनल से जुड़ा इलेक्ट्रोड</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitChemMastery('positive')">B) Positive terminal electrode / धन टर्मिनल</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitChemMastery('glass')">C) On the glass beaker / कांच के बीकर पर</button>
+      </div>
+      <div id="chem-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "electrode": "इलेक्ट्रोड (इलेक्ट्रोड)",
+      "electrolyte": "विद्युत अपघट्य (इलेक्ट्रोलाइट)",
+      "electroplating": "विद्युत लेपन (इलेक्ट्रोप्लेटिंग)",
+      "conductor": "चालक (कंडक्टर)",
+      "insulator": "रोधक / कुचालक (इंसुलेटर)",
+      "chemical": "रासायनिक (केमिकल)",
+      "current": "विद्युत धारा (करंट)",
+      "battery": "बैटरी (बैटरी)"
+    };
+    const CONN = {
+      "whereas": "जबकि (वेयरैज़)",
+      "unless": "जब तक (अनलेस)",
+      "when": "जब (वेन)"
+    };
+    let wrongAttempts = 0;
+
+    function selectLiquid(kind) {
+      const readout = document.getElementById("electro-readout");
+      const plate = document.getElementById("cathode-plate");
+      if (kind === "distilled") {
+        readout.textContent = "Liquid: Distilled Water (आसुत जल — No free ions) | LED: OFF 📴";
+        plate.setAttribute("stroke-width", "1");
+      } else {
+        readout.textContent = "Electrolyte: CuSO₄ Solution (चालक — Cu²⁺ deposited) | LED: GLOWING 🌟";
+        plate.setAttribute("stroke-width", "5");
+      }
+    }
+
+    function submitChemMastery(choice) {
+      const toast = document.getElementById("chem-toast");
+      toast.style.display = "block";
+      if (choice === "negative") {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_science_class8_ch14_chemical_effects_of_current",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Positively charged Cu²⁺ ions are attracted to the negative terminal electrode. <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        wrongAttempts += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = wrongAttempts === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Copper ions (Cu²⁺) carry a positive charge. Which terminal attracts positive ions?"
+          : "💡 Tier-2 Worked Hint (संकेत 2): Opposite charges attract — positive Cu²⁺ ions move to the negative terminal electrode and deposit a copper layer.";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

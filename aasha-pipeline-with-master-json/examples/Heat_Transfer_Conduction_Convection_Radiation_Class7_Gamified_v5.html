@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_sci_class7_ch3_heat_transfer">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 7 Science Ch 3: Heat — Conduction, Convection & Radiation (ऊष्मा — चालन, संवहन और विकिरण)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #ea580c; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #c2410c, #b91c1c);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .heat-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #heat-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>🔥 Heat: Conduction, Convection & Radiation / ऊष्मा: चालन, संवहन और विकिरण</h1>
+    <p>NCERT Class 7 Science Ch 3 • 8-Layer Bilingual LLE • Interactive Thermal Transfer & Thermometer Lab (AVR-P316)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Measuring Temperature — Clinical & Laboratory Thermometers (तापमान मापन — डॉक्टरी और प्रयोगशाला तापमापी)</h2>
+      <p>
+        Temperature <span class="lle-word" data-hi="है (इज़)">is</span> <span class="lle-word" data-hi="एक (ए)">a</span> reliable measure <span class="lle-word" data-hi="का (ऑफ)">of</span> <span class="lle-word" data-hi="यह/वह (द)">the</span> hotness of an object, measured using a thermometer <span class="lle-word" data-hi="पर (ऑन)">on</span> the celsius scale (°C).
+        A clinical thermometer reads human body temperature from 35°C <span class="lle-word" data-hi="को (टू)">to</span> 42°C (normal human body temperature is 37°C), whereas a laboratory thermometer ranges from -10°C to 110°C.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Heat Transfer Modes Explorer (AVR-P316)</h2>
+      <div class="heat-stage" data-visual-component="ThermalHeatTransferVisual" data-avr-id="AVR-P316" data-tap-select="true">
+        <svg width="340" height="165" viewBox="0 0 340 165" role="img" aria-label="Interactive Conduction Convection Radiation Simulator">
+          <rect x="25" y="25" width="90" height="85" rx="10" fill="#c2410c" stroke="#fdba74" stroke-width="2" />
+          <rect x="125" y="25" width="90" height="85" rx="10" fill="#0284c7" stroke="#7dd3fc" stroke-width="2" />
+          <rect x="225" y="25" width="90" height="85" rx="10" fill="#7c3aed" stroke="#c4b5fd" stroke-width="2" />
+          <text x="70" y="65" fill="#ffffff" text-anchor="middle" font-size="11" font-weight="bold">Conduction</text>
+          <text x="70" y="83" fill="#ffedd5" text-anchor="middle" font-size="10">Solids (चालन)</text>
+          <text x="170" y="65" fill="#ffffff" text-anchor="middle" font-size="11" font-weight="bold">Convection</text>
+          <text x="170" y="83" fill="#e0f2fe" text-anchor="middle" font-size="10">Fluids (संवहन)</text>
+          <text x="270" y="65" fill="#ffffff" text-anchor="middle" font-size="11" font-weight="bold">Radiation</text>
+          <text x="270" y="83" fill="#ede9fe" text-anchor="middle" font-size="10">No Medium (विकिरण)</text>
+          <text x="170" y="146" fill="#f8fafc" text-anchor="middle" font-size="12" id="heat-readout">Conduction (चालन): Heat flows from hotter end to colder end in metal solids</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectHeatMode('conduction')">🥄 Conduction in Solids (चालन)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectHeatMode('convection')">🌊 Convection & Sea Breeze (संवहन व समुद्री समीर)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectHeatMode('radiation')">☀️ Radiation across Vacuum (विकिरण)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Conduction, Convection, Sea Breeze, and Radiation (चालन, संवहन, समुद्री समीर और विकिरण)</h2>
+      <p>
+        In solids, heat is transferred from the hotter end to the colder end by conduction.
+        In liquids and gases, heated fluid rises and cooler fluid moves in by convection, creating daytime sea breeze and nighttime land breeze in coastal areas.
+        Heat from the Sun reaches the Earth without requiring any medium by radiation.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> By which mode of heat transfer does heat from the Sun travel through the vacuum of space to reach the Earth without any medium?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitHeatMastery('radiation')">A) Radiation (विकिरण — requires no medium)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitHeatMastery('conduction')">B) Conduction (चालन — requires direct solid contact)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitHeatMastery('convection')">C) Convection (संवहन — requires liquid or gas fluid movement)</button>
+      </div>
+      <div id="heat-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "conduction": "चालन (कंडक्शन)",
+      "convection": "संवहन (कन्वेक्शन)",
+      "radiation": "विकिरण (रेडिएशन)",
+      "thermometer": "तापमापी (थर्मामीटर)",
+      "celsius": "सेल्सियस (तापमान इकाई)",
+      "breeze": "समीर (ब्रीज़ — समुद्री/थल समीर)",
+      "clinical": "डॉक्टरी (क्लिनिकल)"
+    };
+    const CONN = {
+      "whereas": "जबकि (व्हेयरएज़)",
+      "without": "के बिना (विदाउट)"
+    };
+    let heatWrong = 0;
+
+    function selectHeatMode(mode) {
+      const readout = document.getElementById("heat-readout");
+      if (mode === "conduction") {
+        readout.textContent = "Conduction (चालन): Heat flows through metal rods; wood/plastic handles act as insulators";
+      } else if (mode === "convection") {
+        readout.textContent = "Convection (संवहन): Warm air over land rises during day, drawing cool Sea Breeze (समुद्री समीर)";
+      } else {
+        readout.textContent = "Radiation (विकिरण): Transfers thermal energy through vacuum without any material medium";
+      }
+    }
+
+    function submitHeatMastery(choice) {
+      const toast = document.getElementById("heat-toast");
+      toast.style.display = "block";
+      if (choice === "radiation") {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_sci_class7_ch3_heat_transfer",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Radiation (विकिरण) transfers heat without needing any medium, bringing solar energy across space. <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        heatWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = heatWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Outer space is a vacuum with no solid or fluid medium."
+          : "💡 Tier-2 Worked Hint (संकेत 2): Radiation (विकिरण) is the only heat transfer process <span class="lle-word" data-hi="वह (दैट)">that</span> does not require any medium.";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

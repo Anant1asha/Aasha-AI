@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_science_class9_ch9_force_and_motion">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- [SELF-HEALED: stripped external link] -->
+  <title>NCERT Class 9 Science Ch 9: Force and Laws <span class="lle-word" data-hi="का (ऑफ)">of</span> Motion (बल तथा गति के नियम)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #1d4ed8, #0f766e);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .sim-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #motion-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>🚀 Force and Laws of Motion / बल तथा गति के नियम</h1>
+    <p>NCERT Class 9 Science Ch 9 • 8-Layer Bilingual LLE • Open-Source SCR (AVR-P318 NewtonForceMotionVisual)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: First Law of Motion & Inertia (गति का प्रथम नियम और जड़त्व)</h2>
+      <p>
+        An object remains in <span class="lle-word" data-hi="एक (ए)">a</span> state of rest or of uniform motion in a straight line unless compelled <span class="lle-word" data-hi="को (टू)">to</span> change <span class="lle-word" data-hi="वह (दैट)">that</span> state by an applied unbalanced force.
+        <span class="lle-word" data-hi="यह/वह (द)">The</span> natural tendency of objects to resist a change in their state of rest or motion <span class="lle-word" data-hi="है (इज़)">is</span> <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> inertia.
+        The mass of an object is a measure of its inertia.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Newton's Second Law Simulator (F = m × a / द्वितीय नियम सिम्युलेटर)</h2>
+      <div class="sim-stage" data-visual-component="NewtonForceMotionVisual" data-avr-id="AVR-P318" data-tap-select="true">
+        <svg width="340" height="150" viewBox="0 0 340 150" role="img" aria-label="Newton Second Law Force Mass Acceleration Cart">
+          <line x1="20" y1="115" x2="320" y2="115" stroke="#64748b" stroke-width="4" />
+          <rect id="cart-box" x="70" y="65" width="90" height="45" rx="8" fill="#38bdf8" stroke="#ffffff" stroke-width="2" />
+          <circle cx="90" cy="115" r="10" fill="#f59e0b" />
+          <circle cx="140" cy="115" r="10" fill="#f59e0b" />
+          <path d="M 165 88 L 235 88" stroke="#22c55e" stroke-width="5" />
+          <polygon points="235,80 250,88 235,96" fill="#22c55e" />
+          <text x="170" y="38" fill="#f8fafc" text-anchor="middle" id="fma-readout">F = 20 N | m = 5 kg | a = F / m = 4.00 m/s²</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="stepForce(10)">➕ Increase Force (+10 N / बल बढ़ाएँ)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="stepMass(5)">⚖️ Increase Mass (+5 kg / द्रव्यमान बढ़ाएँ)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Momentum & Third Law of Motion (संवेग तथा गति का तृतीय नियम)</h2>
+      <p>
+        The momentum (p) of an object is defined as the product of its mass (m) and velocity (v): <strong>p = m × v</strong>.
+        According to the Third Law of Motion, to every action there is an <span class="lle-word" data-hi="बराबर (इक्वल)">equal</span> and opposite reaction, acting <span class="lle-word" data-hi="पर (ऑन)">on</span> two <span class="lle-word" data-hi="अलग (डिफरेंट)">different</span> bodies.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> A constant force of 20 N acts on an object of mass 5 kg. What is the acceleration (a = F / m) produced?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitMotionMastery(4.0)">A) 4.0 m/s² (4.0 मीटर/सेकंड²)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitMotionMastery(100.0)">B) 100.0 m/s² (100.0 मीटर/सेकंड²)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitMotionMastery(0.25)">C) 0.25 m/s² (0.25 मीटर/सेकंड²)</button>
+      </div>
+      <div id="motion-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "force": "बल (फोर्स)",
+      "motion": "गति (मोशन)",
+      "inertia": "जड़त्व (इनर्शिया)",
+      "momentum": "संवेग (मोमेंटम)",
+      "acceleration": "त्वरण (ऐक्सेलरेशन)",
+      "mass": "द्रव्यमान (मास)",
+      "velocity": "वेग (वेलॉसिटी)",
+      "equal": "बराबर (इक्वल)",
+      "opposite": "विपरीत (ऑपोज़िट)",
+      "product": "गुणनफल (प्रॉडक्ट)"
+    };
+    const CONN = {
+      "unless": "जब तक (अनलेस)",
+      "therefore": "इसलिए (देयरफोर)",
+      "because": "क्योंकि (बिकॉज़)"
+    };
+    let forceN = 20;
+    let massKg = 5;
+
+    function refreshFma() {
+      const acc = (forceN / massKg).toFixed(2);
+      document.getElementById("fma-readout").textContent =
+        `F = ${forceN} N | m = ${massKg} kg | a = F / m = ${acc} m/s²`;
+    }
+
+    function stepForce(delta) {
+      forceN = forceN >= 60 ? 10 : forceN + delta;
+      refreshFma();
+    }
+
+    function stepMass(delta) {
+      massKg = massKg >= 20 ? 5 : massKg + delta;
+      refreshFma();
+    }
+
+    function submitMotionMastery(val) {
+      const toast = document.getElementById("motion-toast");
+      toast.style.display = "block";
+      if (<span class="lle-word" data-hi="संख्या (नंबर)">Number</span>(val) === 4.0) {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_science_class9_ch9_force_and_motion",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! a = 20 N / 5 kg = 4.0 m/s². <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        toast.style.background = "#7f1d1d";
+        toast.textContent = "💡 पुनः प्रयास करें (Hint: a = F / m = 20 / 5 = 4.0 m/s²).";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

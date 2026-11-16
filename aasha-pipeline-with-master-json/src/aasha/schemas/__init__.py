@@ -4,7 +4,22 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+import pydantic
+if not hasattr(pydantic, "field_validator"):
+    def _field_validator(*fields, **kwargs):
+        kwargs.pop("mode", None)
+        return pydantic.validator(*fields, allow_reuse=True, **kwargs)
+    pydantic.field_validator = _field_validator
+    _orig_field = pydantic.Field
+    def _v1_compat_field(*args, **kwargs):
+        kwargs.pop("min_length", None)
+        kwargs.pop("max_length", None)
+        return _orig_field(*args, **kwargs)
+    pydantic.Field = _v1_compat_field
+    pydantic.BaseModel.model_dump = lambda self, **kw: self.dict(**kw)
+    pydantic.BaseModel.model_validate = classmethod(lambda cls, obj: cls.parse_obj(obj))
+    pydantic.BaseModel.model_validate_json = classmethod(lambda cls, s: cls.parse_raw(s))
+from pydantic import BaseModel, Field, field_validator
 
 
 # ─── Chapter Spec Schema ────────────────────────────────────────────────
@@ -22,7 +37,7 @@ class OptionSet(BaseModel):
     visual: str | None = Field(None, description="Visual type for VQ")
     parts: int | None = None
     shaded: int | None = None
-    opts: list[Option] | None = Field(None, min_length=3, max_length=4, description="Options (populated by AssessmentAgent)")
+    opts: list[Option] = Field(..., min_length=3, max_length=4)
 
 
 class WEStep(BaseModel):
@@ -63,7 +78,7 @@ class Step(BaseModel):
         "intro", "text", "quiz", "vq", "worked", "solve",
         "dd_build", "dd_match",
         "ix_pizza", "ix_bar", "ix_area", "ix_slider",
-        "video", "progress", "phet", "sim",
+        "video", "progress", "phet",
     ]
     hero: str | None = None
     title: str | None = None
@@ -86,9 +101,6 @@ class Step(BaseModel):
     srcdoc_b64: str | None = None
     xp: int | None = None
     next: bool | None = None
-    sim_id: str | None = None
-    resolved_interactive: dict[str, Any] | None = None
-    inlined_html: str | None = None
 
 
 class Node(BaseModel):
@@ -101,14 +113,8 @@ class Node(BaseModel):
 class ChapterMeta(BaseModel):
     """Chapter metadata."""
     title: str = Field(..., min_length=1)
-    subject: Literal[
-        "math", "mathematics",
-        "science", "physics", "chemistry", "biology",
-        "english", "hindi", "sanskrit", "tamil", "bengali",
-        "evs", "social_studies", "history", "geography", "civics", "economics",
-        "financial_literacy", "accounting", "coding", "general"
-    ]
-    grade: int = Field(..., ge=1, le=12)
+    subject: Literal["math", "science", "english", "evs"]
+    grade: int = Field(..., ge=3, le=8)
     storage_key: str = Field(..., pattern=r"^aasha_[a-z0-9]+_v5$")
     emoji: str | None = None
     hero_image: str | None = None
@@ -132,7 +138,7 @@ class ChapterSpec(BaseModel):
     and the HTML assembler."""
     chapter: ChapterMeta
     LEVELS: list[LevelEntry] | None = None
-    BADGES: list[Badge] | None = Field(None, min_length=3, max_length=5)
+    BADGES: list[Badge] = Field(None, min_length=3, max_length=5)
     WE: dict[str, WorkedExample] | None = None
     SOLVE: dict[str, SolveDefinition] | None = None
     NODES: list[Node] = Field(..., min_length=3, max_length=5)
@@ -256,33 +262,11 @@ class StageResult(BaseModel):
 
 class JobInput(BaseModel):
     source_pdf: str
-    source_pdf_sha256: str = ""
-    source_pdf_bytes: int = 0
     subject: str = "math"
     grade: int = 4
     provider: str = "openai"
     model: str = ""
     mode: str = "v5-engine"
-
-
-class QuarantinePacket(BaseModel):
-    """Structured quarantine packet emitted upon bounded repair exhaustion."""
-    quarantined: bool = True
-    role: str
-    stage: str
-    repair_attempts: int
-    exhausted: bool = True
-    violations: list[Any] = Field(default_factory=list)
-    quarantine_timestamp: str = ""
-    action_required: Literal["SUPER_ADMIN_INTERVENTION"] = "SUPER_ADMIN_INTERVENTION"
-    message: str = ""
-
-
-class QuarantineError(Exception):
-    """Raised when an agent or stage exhausts its bounded repair budget."""
-    def __init__(self, message: str, packet: QuarantinePacket | dict[str, Any] | None = None):
-        super().__init__(message)
-        self.packet = packet
 
 
 class Job(BaseModel):
@@ -294,360 +278,27 @@ class Job(BaseModel):
     input: JobInput
     stages: list[StageResult] = Field(default_factory=list)
     cost_usd: float = 0.0
-    costs: dict[str, float] = Field(default_factory=dict)
     qa: dict[str, Any] = Field(default_factory=dict)
     outputs: dict[str, str] = Field(default_factory=dict)
     error_stage: str = ""
     error_message: str = ""
-    quarantined: bool = False
-    quarantine_packet: dict[str, Any] | None = None
 
 
 # Stage names in order
-STAGE_ORDER_V5 = [
+STAGE_ORDER = [
     "ingest", "analyze", "design", "assess", "lle",
     "assemble", "qa", "output",
 ]
 
-STAGE_ORDER_FS = [
+FULL_SYNTHESIS_STAGE_ORDER = [
     "ingest", "analyze", "design", "assess",
     "synthesize", "qa", "output",
 ]
 
-# Provide a combined list for validation if needed, or default to V5
-STAGE_ORDER = STAGE_ORDER_V5
+LEARN_ARENA_STAGE_ORDER = [
+    "ingest", "analyze", "design", "assess", "lle",
+    "learn_arena", "qa", "output",
+]
 
 # Mapping from stage name to stage index (1-indexed for display)
 STAGE_NUMBERS = {name: i + 1 for i, name in enumerate(STAGE_ORDER)}
-
-
-# ─── Full-Synthesis Supplementary Assessment Generator ─────────────────
-
-# Template-based supplementary questions keyed by (subject, difficulty).
-# Used in Stage 4 of the full-synthesis pipeline to fill gaps when extracted
-# exercises don't cover all three gamification levels.
-_SUPPLEMENTARY_TEMPLATES: dict[str, dict[str, list[dict[str, Any]]]] = {
-    "math": {
-        "warmup": [
-            {"question": "Which number comes next in the pattern?", "opts": [
-                {"t": "The next number follows the rule", "c": True, "m": ""},
-                {"t": "Any random number", "c": False, "m": "Patterns follow specific rules"},
-                {"t": "The previous number", "c": False, "m": "Not always"},
-            ], "xp": 5},
-            {"question": "What does this symbol represent?", "opts": [
-                {"t": "The correct mathematical meaning", "c": True, "m": ""},
-                {"t": "Something unrelated", "c": False, "m": "Check the definition"},
-                {"t": "None of the above", "c": False, "m": "Review the concept"},
-            ], "xp": 5},
-        ],
-        "deep_dive": [
-            {"question": "Apply the concept to solve this real-world problem.", "opts": [
-                {"t": "Use the correct method step by step", "c": True, "m": ""},
-                {"t": "Guess the answer", "c": False, "m": "Always show your working"},
-                {"t": "Skip the steps", "c": False, "m": "Steps help verify correctness"},
-            ], "xp": 10, "hint": "Think about what the concept means in context"},
-        ],
-        "boss": [
-            {"question": "Explain and justify your reasoning for this multi-step problem.", "opts": [
-                {"t": "Provide a clear, logical explanation with evidence", "c": True, "m": ""},
-                {"t": "State only the final answer", "c": False, "m": "Explanation shows understanding"},
-                {"t": "Copy from a similar problem", "c": False, "m": "Original thinking is required"},
-            ], "xp": 20, "hint": "Connect the concept to a broader principle"},
-        ],
-    },
-    "science": {
-        "warmup": [
-            {"question": "Which of these is a property of the concept we studied?", "opts": [
-                {"t": "The correct defining property", "c": True, "m": ""},
-                {"t": "An unrelated property", "c": False, "m": "Review the key features"},
-                {"t": "The opposite of the property", "c": False, "m": "Think carefully about definitions"},
-            ], "xp": 5},
-        ],
-        "deep_dive": [
-            {"question": "Predict what would happen if we changed a key variable.", "opts": [
-                {"t": "The scientifically correct outcome", "c": True, "m": ""},
-                {"t": "An impossible outcome", "c": False, "m": "Consider natural laws"},
-                {"t": "Nothing would change", "c": False, "m": "Variables always have effects"},
-            ], "xp": 10, "hint": "Use cause-and-effect reasoning"},
-        ],
-        "boss": [
-            {"question": "Design an experiment to test this concept. What is the key principle?", "opts": [
-                {"t": "Control variables and test the hypothesis", "c": True, "m": ""},
-                {"t": "Change everything at once", "c": False, "m": "Only change one variable"},
-                {"t": "Skip the hypothesis", "c": False, "m": "Hypothesis guides the experiment"},
-            ], "xp": 20, "hint": "Think about fair testing"},
-        ],
-    },
-    "english": {
-        "warmup": [
-            {"question": "Identify the correct usage of the concept.", "opts": [
-                {"t": "The grammatically correct option", "c": True, "m": ""},
-                {"t": "The common mistake", "c": False, "m": "Check the rules"},
-                {"t": "An informal variant", "c": False, "m": "Standard form is preferred"},
-            ], "xp": 5},
-        ],
-        "deep_dive": [
-            {"question": "Choose the best way to express this idea in writing.", "opts": [
-                {"t": "Clear and precise expression", "c": True, "m": ""},
-                {"t": "Vague and ambiguous wording", "c": False, "m": "Be specific"},
-                {"t": "Overly complex sentence", "c": False, "m": "Simplicity aids clarity"},
-            ], "xp": 10, "hint": "Focus on clarity"},
-        ],
-        "boss": [
-            {"question": "Analyze the author's technique and its effect on the reader.", "opts": [
-                {"t": "Identify technique and explain its purpose", "c": True, "m": ""},
-                {"t": "Only name the technique", "c": False, "m": "Explain the effect too"},
-                {"t": "Ignore the context", "c": False, "m": "Context matters for analysis"},
-            ], "xp": 20, "hint": "Connect technique to meaning"},
-        ],
-    },
-    "economics": {
-        "warmup": [
-            {"question": "What is the primary economic problem facing all societies?", "opts": [
-                {"t": "Scarcity of resources relative to unlimited human wants", "c": True, "m": ""},
-                {"t": "Having unlimited goods for everyone", "c": False, "m": "Resources are limited, not unlimited"},
-                {"t": "Elimination of all trade", "c": False, "m": "Trade helps allocate scarce goods"},
-            ], "xp": 5},
-        ],
-        "deep_dive": [
-            {"question": "When market price is below equilibrium, what condition emerges?", "opts": [
-                {"t": "Excess demand causing shortage that bids prices upward", "c": True, "m": ""},
-                {"t": "Excess supply causing unsold surplus", "c": False, "m": "Low price stimulates buyers, not surplus"},
-                {"t": "Immediate permanent price drop to zero", "c": False, "m": "Shortages push prices up, not to zero"},
-            ], "xp": 10, "hint": "Think about buyer vs seller incentives"},
-        ],
-        "boss": [
-            {"question": "Evaluate why opportunity cost must be accounted for in production choices.", "opts": [
-                {"t": "Every choice requires forgoing the next best alternative use of resources", "c": True, "m": ""},
-                {"t": "Financial accounting records zero-cost items", "c": False, "m": "Economic costs include foregone opportunities"},
-                {"t": "Resources have only one possible use", "c": False, "m": "Resources have multiple competing uses"},
-            ], "xp": 20, "hint": "Consider the trade-off of the next best alternative"},
-        ],
-    },
-    "accounting": {
-        "warmup": [
-            {"question": "What fundamental relationship does the Accounting Equation state?", "opts": [
-                {"t": "Assets = Liabilities + Equity", "c": True, "m": ""},
-                {"t": "Assets = Liabilities - Equity", "c": False, "m": "Equity adds to claims, not subtracts"},
-                {"t": "Assets = Revenue + Expenses", "c": False, "m": "Revenue and expenses affect equity, not the direct equation"},
-            ], "xp": 5},
-        ],
-        "deep_dive": [
-            {"question": "Under double-entry bookkeeping, what happens when cash is received from a debtor?", "opts": [
-                {"t": "Cash asset increases and debtors asset decreases by an equal amount", "c": True, "m": ""},
-                {"t": "Total assets double instantly", "c": False, "m": "One asset increases while another decreases"},
-                {"t": "Liabilities increase immediately", "c": False, "m": "Receiving owed cash does not increase liability"},
-            ], "xp": 10, "hint": "Track both sides of the balance sheet transaction"},
-        ],
-        "boss": [
-            {"question": "Why does accrual accounting recognize revenues when earned rather than when cash arrives?", "opts": [
-                {"t": "It matches revenues to the period when performance obligations are satisfied", "c": True, "m": ""},
-                {"t": "Cash flows are unimportant in financial analysis", "c": False, "m": "Cash flows remain vital alongside accrual"},
-                {"t": "It avoids ever preparing a trial balance", "c": False, "m": "A trial balance is always prepared"},
-            ], "xp": 20, "hint": "Think about the revenue recognition and matching principle"},
-        ],
-    },
-    "financial_literacy": {
-        "warmup": [
-            {"question": "What is the primary difference between an asset and a liability?", "opts": [
-                {"t": "An asset puts value in your pocket, while a liability takes it out", "c": True, "m": ""},
-                {"t": "Both always produce identical financial returns", "c": False, "m": "Liabilities represent obligations, not returns"},
-                {"t": "Liabilities never need repayment", "c": False, "m": "Liabilities represent obligations that must be settled"},
-            ], "xp": 5},
-        ],
-        "deep_dive": [
-            {"question": "How does compound interest accelerate savings over time?", "opts": [
-                {"t": "Interest earns interest on accumulated balances over subsequent periods", "c": True, "m": ""},
-                {"t": "It calculates interest only once at the final withdrawal", "c": False, "m": "Compounding happens periodically"},
-                {"t": "It deducts a fee each month without growth", "c": False, "m": "Compounding multiplies asset growth"},
-            ], "xp": 10, "hint": "Think about interest generating additional returns"},
-        ],
-        "boss": [
-            {"question": "Evaluate why diversification mitigates portfolio investment risk.", "opts": [
-                {"t": "Uncorrelated assets reduce the impact of any single asset's decline", "c": True, "m": ""},
-                {"t": "It guarantees zero market fluctuations forever", "c": False, "m": "Risk is managed and balanced, not eliminated"},
-                {"t": "It concentrates all capital in the highest volatility stock", "c": False, "m": "Concentration increases risk, diversification spreads it"},
-            ], "xp": 20, "hint": "Consider the basket of varied assets concept"},
-        ],
-    },
-    "social_studies": {
-        "warmup": [
-            {"question": "What is the core principle of a constitutional democracy?", "opts": [
-                {"t": "Rule of law with fundamental rights protected by independent courts", "c": True, "m": ""},
-                {"t": "Unchecked executive decisions without legislative oversight", "c": False, "m": "Democracies require checks and balances"},
-                {"t": "Absence of any written rules or laws", "c": False, "m": "A constitution is the supreme law"},
-            ], "xp": 5},
-        ],
-        "deep_dive": [
-            {"question": "How do geographical landforms influence human settlement and trade?", "opts": [
-                {"t": "River valleys and coastal plains provide fertile soil, water, and transport access", "c": True, "m": ""},
-                {"t": "Settlements avoid water sources entirely", "c": False, "m": "Water sources are essential for communities"},
-                {"t": "Physical geography has no bearing on economic activity", "c": False, "m": "Geography fundamentally shapes production and trade"},
-            ], "xp": 10, "hint": "Consider resource availability and transportation corridors"},
-        ],
-        "boss": [
-            {"question": "Analyze the role of federalism in governing diverse geographical regions.", "opts": [
-                {"t": "It divides sovereignty between union and state governments to address regional and national needs", "c": True, "m": ""},
-                {"t": "It eliminates state governments entirely", "c": False, "m": "Federalism protects multi-level governance"},
-                {"t": "It prevents citizens from voting in local elections", "c": False, "m": "Decentralization strengthens democratic participation"},
-            ], "xp": 20, "hint": "Think about division of constitutional powers"},
-        ],
-    },
-    "coding": {
-        "warmup": [
-            {"question": "What is an algorithm in computer science?", "opts": [
-                {"t": "A well-defined sequence of step-by-step instructions to solve a problem", "c": True, "m": ""},
-                {"t": "A random guess made by the computer", "c": False, "m": "Algorithms are deterministic and structured"},
-                {"t": "The physical monitor display", "c": False, "m": "That is hardware, not an algorithm"},
-            ], "xp": 5},
-        ],
-        "deep_dive": [
-            {"question": "Why is a termination condition mandatory in a loop structure?", "opts": [
-                {"t": "To guarantee the loop halts once the goal is reached, preventing infinite execution", "c": True, "m": ""},
-                {"t": "To ensure the loop runs infinitely without stopping", "c": False, "m": "Infinite loops hang execution"},
-                {"t": "To delete variables from memory instantly", "c": False, "m": "Termination condition controls iteration count"},
-            ], "xp": 10, "hint": "Consider what happens if the loop test never becomes false"},
-        ],
-        "boss": [
-            {"question": "Evaluate why modular functions improve code maintainability and debugging.", "opts": [
-                {"t": "They isolate distinct responsibilities and allow isolated testing and reuse", "c": True, "m": ""},
-                {"t": "They make the program unpredictable", "c": False, "m": "Modularity increases predictability"},
-                {"t": "They require copying the same code into multiple places", "c": False, "m": "Functions prevent code duplication (DRY)"},
-            ], "xp": 20, "hint": "Think about single responsibility and reusability"},
-        ],
-    },
-}
-
-# Fallback for subjects not in the map
-_DEFAULT_SUPPLEMENTARY = {
-    "warmup": [
-        {"question": "Recall the key fact from the chapter.", "opts": [
-            {"t": "The correct fact", "c": True, "m": ""},
-            {"t": "A related but incorrect fact", "c": False, "m": "Check the chapter again"},
-            {"t": "An unrelated fact", "c": False, "m": "Focus on the topic"},
-        ], "xp": 5},
-    ],
-    "deep_dive": [
-        {"question": "Apply what you learned to a new situation.", "opts": [
-            {"t": "Correct application", "c": True, "m": ""},
-            {"t": "Incorrect application", "c": False, "m": "Think about the principle"},
-            {"t": "Skip the application", "c": False, "m": "Practice makes perfect"},
-        ], "xp": 10, "hint": "Connect to the core concept"},
-    ],
-    "boss": [
-        {"question": "Evaluate and justify your understanding of this topic.", "opts": [
-            {"t": "Well-reasoned evaluation with evidence", "c": True, "m": ""},
-            {"t": "Opinion without evidence", "c": False, "m": "Back up your claims"},
-            {"t": "Copy the textbook definition", "c": False, "m": "Show original thinking"},
-        ], "xp": 20, "hint": "Think critically"},
-    ],
-}
-
-
-MIN_QUESTIONS_PER_LEVEL = 2  # Minimum exercises per gamification level
-
-def _get_supplementary_templates(subject: str) -> dict[str, list[dict[str, Any]]]:
-    """Return supplementary templates for a subject, falling back to defaults."""
-    return _SUPPLEMENTARY_TEMPLATES.get(subject, _DEFAULT_SUPPLEMENTARY)
-
-
-def generate_supplementary_assessments(
-    assessment_suite: dict[str, list[dict[str, Any]]],
-    subject: str = "math",
-    concepts: list[dict[str, Any]] | None = None,
-) -> dict[str, list[dict[str, Any]]]:
-    """Fill gaps in the assessment suite with supplementary questions.
-
-    Ensures each level (warmup, deep_dive, boss) has at least
-    MIN_QUESTIONS_PER_LEVEL entries. If extracted exercises already
-    cover a level, no supplementary questions are added.
-
-    Args:
-        assessment_suite: The current suite with 'warmup', 'deep_dive', 'boss' keys.
-        subject: The chapter subject, used to select templates.
-        concepts: Optional list of concept dicts for context-aware generation.
-
-    Returns:
-        Updated assessment_suite with supplementary questions added.
-    """
-    templates = _get_supplementary_templates(subject)
-    result = dict(assessment_suite)
-
-    for level in ("warmup", "deep_dive", "boss"):
-        current_count = len(result.get(level, []))
-        if current_count >= MIN_QUESTIONS_PER_LEVEL:
-            continue
-
-        # Need more questions for this level
-        needed = MIN_QUESTIONS_PER_LEVEL - current_count
-        pool = templates.get(level, _DEFAULT_SUPPLEMENTARY.get(level, []))
-
-        added = 0
-        for template in pool:
-            if added >= needed:
-                break
-            # Deep-copy the template to avoid mutation
-            q = dict(template)
-            q_opts = [dict(o) for o in template.get("opts", [])]
-            q["opts"] = q_opts
-            q["supplementary"] = True  # Mark as generated, not extracted
-            result.setdefault(level, []).append(q)
-            added += 1
-
-        # If pool was too small, duplicate with concept context
-        if added < needed and concepts:
-            for concept in concepts:
-                if added >= needed:
-                    break
-                concept_name = concept.get("name", "this topic")
-                q = {
-                    "question": f"Demonstrate your understanding of {concept_name}.",
-                    "opts": [
-                        {"t": f"Correct understanding of {concept_name}", "c": True, "m": ""},
-                        {"t": f"Common misconception about {concept_name}", "c": False, "m": "Review the concept carefully"},
-                        {"t": "Unrelated answer", "c": False, "m": "Stay focused on the topic"},
-                    ],
-                    "xp": {"warmup": 5, "deep_dive": 10, "boss": 20}.get(level, 5),
-                    "supplementary": True,
-                }
-                result.setdefault(level, []).append(q)
-                added += 1
-
-    return result
-
-
-def enrich_content_map(
-    content_map: dict[str, Any],
-    exercises: list[dict[str, Any]],
-) -> dict[str, Any]:
-    """Merge extracted exercises into content_map to produce pedagogy_map.
-
-    Adds exercise statistics and concept-exercise linkage for downstream
-    stages (design, assess, synthesize).
-
-    Args:
-        content_map: Output from AnalysisAgent.
-        exercises: List of exercise dicts from ExerciseExtractor.
-
-    Returns:
-        Enriched pedagogy_map dict.
-    """
-    pedagogy_map = dict(content_map)
-    pedagogy_map["extracted_exercises"] = exercises
-
-    # Compute exercise statistics
-    type_counts: dict[str, int] = {}
-    difficulty_counts: dict[str, int] = {}
-    for ex in exercises:
-        ex_type = ex.get("type", "unknown")
-        diff = ex.get("difficulty", "recall")
-        type_counts[ex_type] = type_counts.get(ex_type, 0) + 1
-        difficulty_counts[diff] = difficulty_counts.get(diff, 0) + 1
-
-    pedagogy_map["exercise_stats"] = {
-        "total": len(exercises),
-        "by_type": type_counts,
-        "by_difficulty": difficulty_counts,
-    }
-
-    return pedagogy_map

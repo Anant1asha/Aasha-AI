@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_math_class8_ch8_algebraic_identities_factorisation">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 8 Math Ch 8 & 12: Algebraic Identities & Factorisation (बीजीय सर्वसमिकाएँ और गुणनखंडन)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #0d9488; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #0f766e, #4338ca);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .alg-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #alg-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>🧩 Algebraic Identities & Factorisation / बीजीय सर्वसमिकाएँ और गुणनखंडन</h1>
+    <p>NCERT Class 8 Mathematics Ch 8 & 12 • 8-Layer Bilingual LLE • Interactive Geometric (<span class="lle-word" data-hi="एक (ए)">a</span> + b)² Algebra Tile Lab (AVR-P313)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Monomial, Binomial, Trinomial & Polynomial Expressions (एकपदी, द्विपदी, त्रिपदी और बहुपद)</h2>
+      <p>
+        An algebraic expression containing one term <span class="lle-word" data-hi="है (इज़)">is</span> a monomial (like 5x), two terms is a binomial (like a + b), and three terms is a trinomial (like a² + 2ab + b²).
+        In general, an expression with one or more terms with non-negative integral exponents is <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> a polynomial.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Geometric (a + b)² Algebra Tile Explorer (AVR-P313)</h2>
+      <div class="alg-stage" data-visual-component="AlgebraTileAreaModelVisual" data-avr-id="AVR-P313" data-tap-select="true">
+        <svg width="340" height="165" viewBox="0 0 340 165" role="img" aria-label="Geometric Algebra Tile Area Model">
+          <rect x="75" y="18" width="65" height="65" fill="#4f46e5" stroke="#ffffff" stroke-width="2" />
+          <rect x="140" y="18" width="35" height="65" fill="#0d9488" stroke="#ffffff" stroke-width="2" />
+          <rect x="75" y="83" width="65" height="35" fill="#0d9488" stroke="#ffffff" stroke-width="2" />
+          <rect x="140" y="83" width="35" height="35" fill="#f59e0b" stroke="#ffffff" stroke-width="2" />
+          <text x="107" y="55" fill="#ffffff" text-anchor="middle" font-size="13" font-weight="bold">a²</text>
+          <text x="157" y="55" fill="#ffffff" text-anchor="middle" font-size="12" font-weight="bold">ab</text>
+          <text x="107" y="105" fill="#ffffff" text-anchor="middle" font-size="12" font-weight="bold">ab</text>
+          <text x="157" y="105" fill="#0f172a" text-anchor="middle" font-size="12" font-weight="bold">b²</text>
+          <text x="170" y="148" fill="#f8fafc" text-anchor="middle" font-size="12" id="alg-readout">Identity I: (a + b)² = a² + 2ab + b² (<span class="lle-word" data-hi="कुल (टोटल)">Total</span> Area = a² + ab + ab + b²)</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectIdentity('id1')">➕ Identity I: (a + b)² = a² + 2ab + b²</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectIdentity('id2')">➖ Identity II: (a - b)² = a² - 2ab + b²</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectIdentity('id3')">✖️ Identity III: a² - b² = (a + b)(a - b)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Standard Identities and Factorisation (मानक सर्वसमिकाएँ और गुणनखंडन)</h2>
+      <p>
+        An equality true for every <span class="lle-word" data-hi="मान (वैल्यू)">value</span> <span class="lle-word" data-hi="का (ऑफ)">of</span> its variables is called a standard algebraic identity:
+        <strong>(a + b)² = a² + 2ab + b²</strong>, <strong>(a - b)² = a² - 2ab + b²</strong>, and <strong>a² - b² = (a + b)(a - b)</strong>.
+        Writing a polynomial as <span class="lle-word" data-hi="यह/वह (द)">the</span> product of irreducible factors is called factorisation.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> Using the difference of squares identity <strong>a² - b² = (a + b)(a - b)</strong>, what is the complete factorisation of <strong>x² - 9</strong>?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitAlgMastery('correct')">A) (x + 3)(x - 3)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitAlgMastery('minus_sq')">B) (x - 3)² = x² - 6x + 9</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitAlgMastery('nine')">C) (x + 9)(x - 9)</button>
+      </div>
+      <div id="alg-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "monomial": "एकपदी (मोनोमियल)",
+      "binomial": "द्विपदी (बाइनोमियल)",
+      "trinomial": "त्रिपदी (ट्राइनोमियल)",
+      "polynomial": "बहुपद (पॉलीनोमियल)",
+      "identity": "सर्वसमिका (आइडेंटिटी)",
+      "factorisation": "गुणनखंडन (फ़ैक्टराइज़ेशन)",
+      "algebraic": "बीजीय (अलजेब्रिक)"
+    };
+    const CONN = {
+      "where": "जहाँ (वेयर)",
+      "therefore": "इसलिए (देयरफोर)"
+    };
+    let algWrong = 0;
+
+    function selectIdentity(idCode) {
+      const readout = document.getElementById("alg-readout");
+      if (idCode === "id1") {
+        readout.textContent = "Identity I: (a + b)² = a² + 2ab + b² (Square of a binomial sum)";
+      } else if (idCode === "id2") {
+        readout.textContent = "Identity II: (a - b)² = a² - 2ab + b² (Middle term is -2ab)";
+      } else {
+        readout.textContent = "Identity III: a² - b² = (a + b)(a - b) → Example: x² - 9 = x² - 3² = (x + 3)(x - 3)";
+      }
+    }
+
+    function submitAlgMastery(choice) {
+      const toast = document.getElementById("alg-toast");
+      toast.style.display = "block";
+      if (choice === "correct") {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_math_class8_ch8_algebraic_identities_factorisation",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! x² - 9 = x² - 3² = (x + 3)(x - 3). <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        algWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = algWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Express 9 as 3² so the expression becomes x² - 3² (a difference of two squares)."
+          : "💡 Tier-2 Worked Hint (संकेत 2): Using a² - b² = (a + b)(a - b) with a = x and b = 3 gives (x + 3)(x - 3).";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

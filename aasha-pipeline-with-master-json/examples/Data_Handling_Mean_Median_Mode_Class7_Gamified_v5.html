@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_math_class7_ch3_data_handling">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 7 Math Ch 3: Data Handling — Mean, Median, Mode & Bar Graphs (आँकड़ों का प्रबंधन — माध्य, माध्यिका और बहुलक)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #0284c7; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #0369a1, #4f46e5);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .stats-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #stats-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>📊 Data Handling: Mean, Median & Mode / आँकड़ों का प्रबंधन: माध्य, माध्यिका और बहुलक</h1>
+    <p>NCERT Class 7 Mathematics Ch 3 • 8-Layer Bilingual LLE • Interactive Bar Graph & Central Tendency Lab (AVR-P312)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Collecting Observations, Tally Marks, and Frequency (प्रेक्षण, मिलान-चिह्न और बारंबारता)</h2>
+      <p>
+        Each numerical <span class="lle-word" data-hi="मान (वैल्यू)">value</span> recorded in <span class="lle-word" data-hi="एक (ए)">a</span> survey <span class="lle-word" data-hi="है (इज़)">is</span> <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> an observation.
+        <span class="lle-word" data-hi="हम (वी)">We</span> organize raw data <span class="lle-word" data-hi="में (इनटू)">into</span> a frequency distribution table using tally marks (in bundles <span class="lle-word" data-hi="का (ऑफ)">of</span> 5) and visualize them using a bar graph or histogram.
+        <span class="lle-word" data-hi="यह/वह (द)">The</span> Arithmetic mean is the sum of all observations <span class="lle-word" data-hi="बाँटा (डिवाइडेड)">divided</span> by the <span class="lle-word" data-hi="कुल (टोटल)">total</span> <span class="lle-word" data-hi="संख्या (नंबर)">number</span> of observations.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Bar Chart & Central Tendency Explorer (AVR-P312)</h2>
+      <div class="stats-stage" data-visual-component="DataHistogramBarChartVisual" data-avr-id="AVR-P312" data-tap-select="true">
+        <svg width="340" height="165" viewBox="0 0 340 165" role="img" aria-label="Interactive Data Handling Bar Chart">
+          <rect x="35" y="75" width="38" height="50" rx="4" fill="#38bdf8" />
+          <rect x="85" y="45" width="38" height="80" rx="4" fill="#f59e0b" />
+          <rect x="135" y="45" width="38" height="80" rx="4" fill="#f59e0b" />
+          <rect x="185" y="60" width="38" height="65" rx="4" fill="#38bdf8" />
+          <rect x="235" y="25" width="38" height="100" rx="4" fill="#818cf8" />
+          <text x="54" y="138" fill="#cbd5e1" text-anchor="middle" font-size="11">10</text>
+          <text x="104" y="138" fill="#fde047" text-anchor="middle" font-size="11" font-weight="bold">16</text>
+          <text x="154" y="138" fill="#fde047" text-anchor="middle" font-size="11" font-weight="bold">16</text>
+          <text x="204" y="138" fill="#cbd5e1" text-anchor="middle" font-size="11">13</text>
+          <text x="254" y="138" fill="#cbd5e1" text-anchor="middle" font-size="11">20</text>
+          <text x="170" y="156" fill="#f8fafc" text-anchor="middle" font-size="12" id="stats-readout">Dataset [10, 13, 16, 16, 20] → Mean = 15 | Median = 16 | Mode = 16</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectStatMetric('mean')">➗ Arithmetic Mean (माध्य = 15)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectStatMetric('median')">🎯 Median (माध्यिका = 16)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectStatMetric('mode')">🔁 Mode (बहुलक = 16, max frequency)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Mode and Median (बहुलक और माध्यिका)</h2>
+      <p>
+        The mode of a set of observations is the observation <span class="lle-word" data-hi="वह (दैट)">that</span> occurs with the highest frequency.
+        When data <span class="lle-word" data-hi="हैं (आर)">are</span> arranged in ascending or descending order, the middle observation is called the median, which splits the sorted dataset into two <span class="lle-word" data-hi="बराबर (इक्वल)">equal</span> halves.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> For the cricket run scores <strong>[10, 13, 16, 16, 20]</strong>, what are the <strong>Arithmetic Mean (माध्य)</strong> and <strong>Mode (बहुलक)</strong>?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitStatsMastery('correct')">A) Mean = 15, Mode = 16 (माध्य = 15, बहुलक = 16)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitStatsMastery('swapped')">B) Mean = 16, Mode = 15 (Swapped Mean and Mode)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitStatsMastery('range')">C) Mean = 10, Mode = 20 (Min and Max values)</button>
+      </div>
+      <div id="stats-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "mean": "माध्य (मीन)",
+      "median": "माध्यिका (मीडियन)",
+      "mode": "बहुलक (मोड)",
+      "frequency": "बारंबारता (फ्रीक्वेंसी)",
+      "tally": "मिलान-चिह्न (टैली)",
+      "observation": "प्रेक्षण (ऑब्ज़र्वेशन)",
+      "histogram": "आयतचित्र (हिस्टोग्राम)"
+    };
+    const CONN = {
+      "when": "जब (व्हेन)",
+      "which": "जो (व्हिच)"
+    };
+    let statsWrong = 0;
+
+    function selectStatMetric(metric) {
+      const readout = document.getElementById("stats-readout");
+      if (metric === "mean") {
+        readout.textContent = "Mean (माध्य) = (10 + 13 + 16 + 16 + 20) ÷ 5 = 75 ÷ 5 = 15";
+      } else if (metric === "median") {
+        readout.textContent = "Sorted [10, 13, 16, 16, 20] → Middle (3rd) observation = Median (माध्यिका) = 16";
+      } else {
+        readout.textContent = "16 appears twice (highest frequency = 2) → Mode (बहुलक) = 16";
+      }
+    }
+
+    function submitStatsMastery(choice) {
+      const toast = document.getElementById("stats-toast");
+      toast.style.display = "block";
+      if (choice === "correct") {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_math_class7_ch3_data_handling",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Mean = 75 ÷ 5 = 15 and Mode = 16 (appears twice). <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        statsWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = statsWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Mean = Sum of observations ÷ Count (75 ÷ 5), while Mode is the most frequent value."
+          : "💡 Tier-2 Worked Hint (संकेत 2): Mean = (10+13+16+16+20)/5 = 15; Mode = 16 (frequency = 2).";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

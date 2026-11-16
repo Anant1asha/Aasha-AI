@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_math_class9_ch4_linear_equations_two_variables">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 9 Math Ch 4: Linear Equations in Two Variables (दो चरों वाले रैखिक समीकरण)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #1e3a8a, #0f766e);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .graph-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #linear-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>📈 Linear Equations in Two Variables / दो चरों वाले रैखिक समीकरण</h1>
+    <p>NCERT Class 9 Mathematics Ch 4 • 8-Layer Bilingual LLE • Interactive Coordinate Graph Plotter (AVR-P307)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Standard Form ax + by + c = 0 (मानक रूप)</h2>
+      <p>
+        An equation <span class="lle-word" data-hi="का (ऑफ)">of</span> <span class="lle-word" data-hi="यह/वह (द)">the</span> form <strong>ax + by + c = 0</strong>, where <span class="lle-word" data-hi="एक (ए)">a</span>, b, and c <span class="lle-word" data-hi="हैं (आर)">are</span> real numbers such <span class="lle-word" data-hi="वह (दैट)">that</span> a and b are not both zero, <span class="lle-word" data-hi="है (इज़)">is</span> <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> a linear equation in two variables (x and y).
+        Unlike a linear equation in one variable which has a unique solution, a linear equation in two variables has infinitely many solutions.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Coordinate Graph Plotter (x + y = 6 / आलेख सिम्युलेटर AVR-P307)</h2>
+      <div class="graph-stage" data-visual-component="CoordinateGraphPlotterVisual" data-avr-id="AVR-P307" data-tap-select="true">
+        <svg width="340" height="170" viewBox="0 0 340 170" role="img" aria-label="Cartesian Plane Graph for x + y = 6">
+          <line x1="40" y1="135" x2="310" y2="135" stroke="#64748b" stroke-width="2" />
+          <line x1="70" y1="15" x2="70" y2="155" stroke="#64748b" stroke-width="2" />
+          <line x1="70" y1="35" x2="250" y2="135" stroke="#22c55e" stroke-width="3" />
+          <circle id="plot-point" cx="130" cy="68" r="7" fill="#f59e0b" stroke="#ffffff" stroke-width="2" />
+          <text x="175" y="160" fill="#f8fafc" text-anchor="middle" id="graph-readout">Equation: x + y = 6 | Solution Point (निर्देशांक): (2, 4) → 2 + 4 = 6 ✅</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectPoint(0, 6, 70, 35)">📍 Point (0, 6) [y-axis]</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectPoint(2, 4, 130, 68)">📍 Point (2, 4)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectPoint(6, 0, 250, 135)">📍 Point (6, 0) [x-axis]</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Geometric Representation <span class="lle-word" data-hi="पर (ऑन)">on</span> Coordinate Axes (निर्देशांक अक्षों पर ज्यामितीय निरूपण)</h2>
+      <p>
+        The graph of every linear equation in two variables is a straight line. Every point (x, y) on the line satisfies the equation, and every solution of the equation is a point on the line.
+        The equation of the x-axis is <strong>y = 0</strong>, and the equation of the y-axis is <strong>x = 0</strong>. Any line of the form <strong>y = kx</strong> always passes through the origin (0, 0).
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> Which ordered pair (x, y) is a valid solution of the linear equation <strong>2x + y = 7</strong>?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitLinearMastery('2_3')">A) (2, 3) because 2(2) + 3 = 7</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitLinearMastery('3_2')">B) (3, 2) because 2(3) + 2 = 8</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitLinearMastery('0_0')">C) (0, 0) origin</button>
+      </div>
+      <div id="linear-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "linear": "रैखिक (लिनियर)",
+      "variable": "चर (वेरिएबल)",
+      "variables": "चरों (वेरिएबल्स)",
+      "coordinate": "निर्देशांक (कोऑर्डिनेट)",
+      "axis": "अक्ष (ऐक्सिस)",
+      "origin": "मूलबिंदु (ओरिजिन)",
+      "graph": "आलेख / ग्राफ (ग्राफ)",
+      "solution": "हल (सॉल्यूशन)"
+    };
+    const CONN = {
+      "because": "क्योंकि (बिकॉज़)",
+      "such that": "जैसे कि (सच दैट)"
+    };
+    let linearWrong = 0;
+
+    function selectPoint(x, y, cx, cy) {
+      const pt = document.getElementById("plot-point");
+      pt.setAttribute("cx", String(cx));
+      pt.setAttribute("cy", String(cy));
+      document.getElementById("graph-readout").textContent =
+        `Equation: x + y = 6 | Solution Point (निर्देशांक): (${x}, ${y}) → ${x} + ${y} = 6 ✅`;
+    }
+
+    function submitLinearMastery(choice) {
+      const toast = document.getElementById("linear-toast");
+      toast.style.display = "block";
+      if (choice === "2_3") {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_math_class9_ch4_linear_equations_two_variables",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Substituting x = 2, y = 3 gives 2(2) + 3 = 7. <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        linearWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = linearWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Substitute x (first coordinate) and y (second coordinate) <span class="lle-word" data-hi="में (इनटू)">into</span> 2x + y = 7."
+          : "💡 Tier-2 Worked Hint (संकेत 2): For (2, 3), x = 2 and y = 3 → 2×2 + 3 = 4 + 3 = 7 (सत्यापित हल).";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

@@ -3,11 +3,42 @@ import hashlib
 import os
 import urllib.request
 import logging
+from pathlib import Path
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
 CACHE_DIR = ".plugin_cache"
 MAX_EMBED_BUDGET_KB = 20480  # 20 MB max budget for offline self-contained chapters
+
+
+class OfflineAssetBundler:
+    """Offline Base64 Asset Bundler for AASHA AIOS Plugins & Phase-3 Visual Mechanics."""
+
+    def __init__(self, cache_dir: Optional[str] = None, phase3_dir: Optional[str] = None):
+        self.cache_dir = Path(cache_dir or ".plugin_cache")
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self.phase3_dir = Path(phase3_dir) if phase3_dir else None
+
+    def encode_js_to_data_uri(self, js_code: str, cache_key: Optional[str] = None) -> str:
+        b64 = base64.b64encode(js_code.encode("utf-8")).decode("ascii")
+        if cache_key and self.cache_dir:
+            cache_file = self.cache_dir / f"{cache_key}.b64"
+            cache_file.write_text(b64, encoding="utf-8")
+        return f'<script src="data:text/javascript;base64,{b64}"></script>'
+
+    def load_avr_mechanic(self, resource_id: str) -> Optional[str]:
+        if not self.phase3_dir or not self.phase3_dir.is_dir():
+            return None
+        candidate_paths = [
+            self.phase3_dir / "resources" / f"{resource_id}.js",
+            self.phase3_dir / "tests" / f"{resource_id}.js",
+            self.phase3_dir / f"{resource_id}.js",
+        ]
+        for p in candidate_paths:
+            if p.is_file():
+                return p.read_text(encoding="utf-8")
+        return None
 
 
 def compute_sha256(data: bytes | str) -> str:

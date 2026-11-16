@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_sci_class8_ch8_force_and_pressure">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 8 Science Ch 8: Force and Pressure (बल तथा दाब)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #0891b2; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #0e7490, #1d4ed8);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .pressure-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #pressure-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>⚖️ Force and Pressure / बल तथा दाब</h1>
+    <p>NCERT Class 8 Science Ch 8 • 8-Layer Bilingual LLE • Interactive Pressure P = F/<span class="lle-word" data-hi="एक (ए)">A</span> & Liquid Manometer Lab (AVR-P315)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Contact and Non-Contact Forces (संपर्क तथा असंपर्क बल)</h2>
+      <p>
+        A push or a pull <span class="lle-word" data-hi="पर (ऑन)">on</span> an object <span class="lle-word" data-hi="है (इज़)">is</span> <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> a force, characterized by both its magnitude and direction.
+        Forces <span class="lle-word" data-hi="वह (दैट)">that</span> act only through physical contact include muscular force and friction.
+        Non-contact forces act across a distance without physical contact, including magnetic force, electrostatic force, and gravitational force.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive Pressure P = F/A & Liquid Column Manometer (AVR-P315)</h2>
+      <div class="pressure-stage" data-visual-component="FluidPressureForceVisual" data-avr-id="AVR-P315" data-tap-select="true">
+        <svg width="340" height="165" viewBox="0 0 340 165" role="img" aria-label="Interactive Force Area Pressure and Manometer Explorer">
+          <rect x="45" y="25" width="90" height="90" rx="8" fill="#0e7490" stroke="#67e8f9" stroke-width="2" />
+          <rect x="195" y="25" width="90" height="90" rx="8" fill="#1e3a8a" stroke="#93c5fd" stroke-width="2" />
+          <text x="90" y="65" fill="#ffffff" text-anchor="middle" font-size="11" font-weight="bold">Broad Strap</text>
+          <text x="90" y="85" fill="#cffafe" text-anchor="middle" font-size="11">A = 0.02 m² → Low P</text>
+          <text x="240" y="65" fill="#ffffff" text-anchor="middle" font-size="11" font-weight="bold">Sharp Nail Tip</text>
+          <text x="240" y="85" fill="#dbeafe" text-anchor="middle" font-size="11">A = 0.0001 m² → High P</text>
+          <text x="170" y="146" fill="#f8fafc" text-anchor="middle" font-size="12" id="pressure-readout">Force F = 100 N on Area A = 0.02 m² → Pressure P = F/A = 5,000 Pa (N/m²)</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectPressureMode('broad')">🎒 Broad Bag Strap (A = 0.02 m² → 5,000 Pa)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectPressureMode('sharp')">📌 Sharp Nail Tip (A = 0.0001 m² → 1,000,000 Pa)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectPressureMode('fluid')">🌊 Liquid Depth & Manometer (द्रव दाब व मैनोमीटर)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Fluid Pressure and Atmospheric Pressure (द्रवों तथा वायुमंडलीय दाब)</h2>
+      <p>
+        <span class="lle-word" data-hi="यह/वह (द)">The</span> force acting on a unit area <span class="lle-word" data-hi="का (ऑफ)">of</span> a surface is called pressure (<strong>Pressure = Force / Area</strong>, measured in Pascals or N/m²).
+        Liquids exert pressure on the walls of their container that increases with depth, measured by a U-tube manometer.
+        The envelope of air around the Earth exerts atmospheric pressure on all surfaces.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> If a force of magnitude <strong>F = 100 N</strong> acts perpendicularly on an area of <strong>A = 2 m²</strong>, what is the resulting <strong>Pressure (दाब = F / A)</strong>?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitPressureMastery(50)">A) 50 Pa (50 N/m²)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitPressureMastery(200)">B) 200 Pa (Multiplied F × A instead of dividing)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitPressureMastery(0.02)">C) 0.02 Pa (Inverted A / F)</button>
+      </div>
+      <div id="pressure-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "contact": "संपर्क (कॉन्टैक्ट)",
+      "muscular": "पेशीय (मस्कुलर)",
+      "electrostatic": "स्थिरवैद्युत (इलेक्ट्रोस्टैटिक)",
+      "gravitational": "गुरुत्वीय (ग्रेविटेशनल)",
+      "atmospheric": "वायुमंडलीय (एटमॉस्फेरिक)",
+      "magnitude": "परिमाण (मैग्नीट्यूड)",
+      "manometer": "दाबमापी (मैनोमीटर)"
+    };
+    const CONN = {
+      "without": "के बिना (विदाउट)",
+      "therefore": "इसलिए (देयरफोर)"
+    };
+    let pressureWrong = 0;
+
+    function selectPressureMode(mode) {
+      const readout = document.getElementById("pressure-readout");
+      if (mode === "broad") {
+        readout.textContent = "Force F = 100 N on Broad Strap A = 0.02 m² → Pressure P = F/A = 5,000 Pa (Comfortable)";
+      } else if (mode === "sharp") {
+        readout.textContent = "Force F = 100 N on Sharp Nail Tip A = 0.0001 m² → Pressure P = F/A = 1,000,000 Pa (Pierces wood)";
+      } else {
+        readout.textContent = "Liquid Manometer (दाबमापी): Pressure increases with depth (P = ρgh) & acts equally at the <span class="lle-word" data-hi="समान (सेम)">same</span> depth";
+      }
+    }
+
+    function submitPressureMastery(val) {
+      const toast = document.getElementById("pressure-toast");
+      toast.style.display = "block";
+      if (<span class="lle-word" data-hi="संख्या (नंबर)">Number</span>(val) === 50) {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_sci_class8_ch8_force_and_pressure",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Pressure = Force ÷ Area = 100 N ÷ 2 m² = 50 Pa (N/m²). <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        pressureWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = pressureWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Remember that Pressure is Force <span class="lle-word" data-hi="बाँटा (डिवाइडेड)">DIVIDED</span> by Area (P = F / A), not Force multiplied by Area."
+          : "💡 Tier-2 Worked Hint (संकेत 2): P = F ÷ A = 100 N ÷ 2 m² = 50 Pa.";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-aasha-engine="v5.3" data-chapter-id="ncert_math_class8_ch9_mensuration_3d_solids">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCERT Class 8 Math Ch 9: Mensuration — Surface Area & Volume (क्षेत्रमिति — पृष्ठीय क्षेत्रफल और आयतन)</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #8b5cf6; --amber: #f59e0b; --text: #f8fafc; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-<span class="lle-word" data-hi="निचली (बॉटम)">bottom</span>: calc(96px + env(safe-area-inset-bottom, 16px));
+      line-height: 1.6;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #6d28d9, #0f766e);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .node-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .lle-word {
+      border-bottom: 2px dotted var(--amber);
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .tap-btn {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-<span class="lle-word" data-hi="ऊपरी (टॉप)">top</span>: 8px;
+    }
+    .solid-stage {
+      background: #090d16;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    #mens-toast {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #064e3b;
+      color: #ecfdf5;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner">
+    <h1>🧊 Mensuration: 3D Solids / क्षेत्रमिति: घन, घनाभ और बेलन</h1>
+    <p>NCERT Class 8 Mathematics Ch 9 • 8-Layer Bilingual LLE • Interactive 3D Net Unfolder & Volume Lab (AVR-P310)</p>
+  </header>
+
+  <main>
+    <section class="node-card" id="node-1" data-node-index="1">
+      <h2>Node 1: Surface Area <span class="lle-word" data-hi="का (ऑफ)">of</span> Cube, Cuboid and Cylinder (घन, घनाभ और बेलन का पृष्ठीय क्षेत्रफल)</h2>
+      <p>
+        <span class="lle-word" data-hi="एक (ए)">A</span> cube has 6 <span class="lle-word" data-hi="बराबर (इक्वल)">equal</span> square faces of side <em>a</em>, so its <span class="lle-word" data-hi="कुल (टोटल)">total</span> surface area <span class="lle-word" data-hi="है (इज़)">is</span> <strong>6a²</strong> and its lateral surface area (4 walls) is <strong>4a²</strong>.
+        A cuboid of length <em>l</em>, breadth <em>b</em>, and height <em>h</em> has total surface area <strong>2(lb + bh + hl)</strong>.
+        A right circular cylinder of radius <em>r</em> and height <em>h</em> has curved (lateral) surface area <strong>2πrh</strong> and total surface area <strong>2πr(r + h)</strong>.
+      </p>
+    </section>
+
+    <section class="node-card" id="node-2" data-node-index="2">
+      <h2>Node 2: Interactive 3D Solid Net & Volume Explorer (AVR-P310)</h2>
+      <div class="solid-stage" data-visual-component="Solid3DMensurationVisual" data-avr-id="AVR-P310" data-tap-select="true">
+        <svg width="340" height="160" viewBox="0 0 340 160" role="img" aria-label="3D Solid Cube Cuboid Cylinder Explorer">
+          <rect id="solid-body" x="115" y="30" width="110" height="85" rx="8" fill="#8b5cf6" stroke="#f8fafc" stroke-width="3" />
+          <ellipse id="cyl-top" cx="170" cy="30" rx="55" ry="14" fill="#a78bfa" stroke="#f8fafc" stroke-width="2" />
+          <text x="170" y="146" fill="#f8fafc" text-anchor="middle" id="solid-readout">Cylinder (बेलन r=7cm, h=10cm) → Volume = πr²h = 1540 cm³ | CSA = 440 cm²</text>
+        </svg>
+        <div>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectSolid('cylinder')">🛢️ Cylinder (बेलन r=7, h=10)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectSolid('cube')">🧊 Cube (घन a=5cm)</button>
+          <button type="button" class="tap-btn" data-tap-select="true" onclick="selectSolid('cuboid')">📦 Cuboid (घनाभ 6×4×5cm)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="node-card" id="node-3" data-node-index="3">
+      <h2>Node 3: Volume and Capacity (आयतन और धारिता)</h2>
+      <p>
+        <span class="lle-word" data-hi="यह/वह (द)">The</span> <span class="lle-word" data-hi="मात्रा (अमाउंट)">amount</span> of space occupied by a three-dimensional object is <span class="lle-word" data-hi="कहलाता (कॉल्ड)">called</span> its volume.
+        For a cube of side <em>a</em>, <strong>Volume = a³</strong>. For a cuboid, <strong>Volume = l × b × h</strong>.
+        For a cylinder of base radius <em>r</em> and height <em>h</em>, <strong>Volume = πr²h</strong> (where 1000 cm³ = 1 Litre).
+      </p>
+    </section>
+
+    <section class="node-card" id="node-4" data-node-index="4">
+      <h2>Node 4: TEAS Gamified Mastery Check (+100 🪙 Aasha Coins)</h2>
+      <p><strong>Question / प्रश्न:</strong> What is the volume of a cube whose side length is <strong>a = 5 cm</strong>?</p>
+      <div>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitMensMastery(125)">A) 125 cm³ (125 घन सेमी)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitMensMastery(150)">B) 150 cm³ (6a² surface area)</button>
+        <button type="button" class="tap-btn" data-tap-select="true" onclick="submitMensMastery(25)">C) 25 cm³ (a² area)</button>
+      </div>
+      <div id="mens-toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    const WM = {
+      "volume": "आयतन (वॉल्यूम)",
+      "cylinder": "बेलन (सिलिंडर)",
+      "cube": "घन (क्यूब)",
+      "cuboid": "घनाभ (क्यूबॉइड)",
+      "height": "ऊँचाई (हाइट)",
+      "radius": "त्रिज्या (रेडियस)",
+      "lateral": "पार्श्व (लैटरल)",
+      "surface": "सतह (सरफेस)"
+    };
+    const CONN = {
+      "where": "जहाँ (वेयर)",
+      "therefore": "इसलिए (देयरफोर)"
+    };
+    let mensWrong = 0;
+
+    function selectSolid(kind) {
+      const readout = document.getElementById("solid-readout");
+      const top = document.getElementById("cyl-top");
+      if (kind === "cylinder") {
+        top.setAttribute("opacity", "1");
+        readout.textContent = "Cylinder (बेलन r=7cm, h=10cm) → Volume = πr²h = 1540 cm³ | CSA = 440 cm²";
+      } else if (kind === "cube") {
+        top.setAttribute("opacity", "0");
+        readout.textContent = "Cube (घन a=5cm) → Volume = a³ = 125 cm³ | Total Surface Area = 6a² = 150 cm²";
+      } else {
+        top.setAttribute("opacity", "0");
+        readout.textContent = "Cuboid (घनाभ 6×4×5cm) → Volume = l×b×h = 120 cm³ | TSA = 148 cm²";
+      }
+    }
+
+    function submitMensMastery(val) {
+      const toast = document.getElementById("mens-toast");
+      toast.style.display = "block";
+      if (<span class="lle-word" data-hi="संख्या (नंबर)">Number</span>(val) === 125) {
+        const eventPayload = {
+          type: "TEAS_CHAPTER_MASTERY",
+          chapterId: "ncert_math_class8_ch9_mensuration_3d_solids",
+          score: 100,
+          coinsAwarded: 100,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem("aasha_last_mastery_event", JSON.stringify(eventPayload));
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(eventPayload, "*");
+          }
+        } catch (_) {}
+        toast.style.background = "#064e3b";
+        toast.textContent = "✅ सही उत्तर! Volume of a cube = a³ = 5 × 5 × 5 = 125 cm³. <span class="lle-word" data-hi="तुम (यू)">You</span> earned +100 Aasha Coins (🪙)!";
+      } else {
+        mensWrong += 1;
+        toast.style.background = "#7f1d1d";
+        toast.textContent = mensWrong === 1
+          ? "💡 Tier-1 Hint (संकेत 1): Distinguish between Total Surface Area (6a² = 150) and Volume (a³)."
+          : "💡 Tier-2 Worked Hint (संकेत 2): Volume of a cube = side × side × side = 5 × 5 × 5 = 125 cm³.";
+      }
+    }
+  </script>
+<script>window._weCheckRendered = window._weCheckRendered || true;</script></body>
+</html>
