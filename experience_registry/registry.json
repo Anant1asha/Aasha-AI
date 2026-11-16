@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-11-15",
+  "last_updated": "2026-11-16T16:21:17.488538+00:00",
   "foundations": [
     {
       "id": "F01",
@@ -3884,6 +3884,313 @@
         ],
         "verified_at": "2026-11-15T01:40:17.890969"
       }
+    }
+  ],
+  "certified_chapters_v5": [
+    {
+      "chapter_id": "NCERT-G06-MATH-CH07-FRACTIONS",
+      "title": "NCERT Class 6 Math Ch 07 — Fractions (भिन्न)",
+      "file": "NCERT-G06-MATH-CH07-FRACTIONS_Interactive_v5.html",
+      "avr_mechanic": "AVR-P301",
+      "curriculum": "NCERT",
+      "size_bytes": 97862,
+      "sha256": "2bb378eaeebecde9717ef1ff5b24a5063dfacb870d13ceb3e50a5564e351170a",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCERT-G07-MATH-CH11-PERIMETER-AREA",
+      "title": "NCERT Class 7 Math Ch 11 — Perimeter & Area (परिमाप और क्षेत्रफल)",
+      "file": "NCERT-G07-MATH-CH11-PERIMETER-AREA_Interactive_v5.html",
+      "avr_mechanic": "AVR-P303",
+      "curriculum": "NCERT",
+      "size_bytes": 97988,
+      "sha256": "fd607666c24e443c4e13bf9ff7c124ebcbc270b1f3bdb883dd5afbc4f581789f",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCERT-G08-MATH-CH08-COMPARING-QUANTITIES",
+      "title": "NCERT Class 8 Math Ch 08 — Comparing Quantities (राशियों की तुलना)",
+      "file": "NCERT-G08-MATH-CH08-COMPARING-QUANTITIES_Interactive_v5.html",
+      "avr_mechanic": "AVR-P320",
+      "curriculum": "NCERT",
+      "size_bytes": 97845,
+      "sha256": "bc0c74cf3668a7b9e7476ef6ae383d3a068fecf89a23c410020f3967963f0e54",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCERT-G09-SCI-CH08-FORCE-MOTION",
+      "title": "NCERT Class 9 Science Ch 08 — Force & Motion (बल तथा गति)",
+      "file": "NCERT-G09-SCI-CH08-FORCE-MOTION_Interactive_v5.html",
+      "avr_mechanic": "AVR-P319",
+      "curriculum": "NCERT",
+      "size_bytes": 97885,
+      "sha256": "f47637377689d97baea62c701d5a10733c371dcfc51ffdcaaeb9e9035f192c11",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCERT-G09-SCI-CH10-WORK-ENERGY",
+      "title": "NCERT Class 9 Science Ch 10 — Work & Energy (कार्य तथा ऊर्जा)",
+      "file": "NCERT-G09-SCI-CH10-WORK-ENERGY_Interactive_v5.html",
+      "avr_mechanic": "AVR-P317",
+      "curriculum": "NCERT",
+      "size_bytes": 97918,
+      "sha256": "c3c3e145cfc543c390778c41c7a86cdb0fafd67750f144ab0fd9a14d87cf357b",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCERT-G10-MATH-CH02-POLYNOMIALS",
+      "title": "NCERT Class 10 Math Ch 02 — Polynomials (बहुपद)",
+      "file": "NCERT-G10-MATH-CH02-POLYNOMIALS_Interactive_v5.html",
+      "avr_mechanic": "AVR-P309",
+      "curriculum": "NCERT",
+      "size_bytes": 97726,
+      "sha256": "c7b06125ab47df393e090d1b77d4cea0db6e7a007be1dc8f81ae205bddb299cd",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS",
+      "title": "NCERT Class 10 Science Ch 06 — Life Processes (जैव प्रक्रम)",
+      "file": "NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS_Interactive_v5.html",
+      "avr_mechanic": "AVR-P305",
+      "curriculum": "NCERT",
+      "size_bytes": 98264,
+      "sha256": "b5357e9fd2b6584fec28c55afd11917fe9ffb5bf7b41c4f17b82cd33b99ed0d3",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW",
+      "title": "NCERT Class 10 Science Ch 12 — Electricity & Ohm's Law (विद्युत)",
+      "file": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW_Interactive_v5.html",
+      "avr_mechanic": "AVR-P314",
+      "curriculum": "NCERT",
+      "size_bytes": 98162,
+      "sha256": "45d455af8a45ba1ea3409651548879fb5b486b6c008122b02cd91681884028bc",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER",
+      "title": "NCVET PSSCIVE L3 IT — Digital Village Ledger (डिजिटल ग्राम बहीखाता)",
+      "file": "NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER_Interactive_v5.html",
+      "avr_mechanic": "AVR-P315",
+      "curriculum": "NCVET/PSSCIVE",
+      "size_bytes": 98045,
+      "sha256": "b11e69d5a0c4b162992616e01e0f69082f13f24eba1d33253f2cad76047c4fb9",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA",
+      "title": "NCVET PSSCIVE L4 Agri — Precision Drip Jal Seva (सूक्ष्म सिंचाई जल सेवा)",
+      "file": "NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA_Interactive_v5.html",
+      "avr_mechanic": "AVR-P316",
+      "curriculum": "NCVET/PSSCIVE",
+      "size_bytes": 97963,
+      "sha256": "55532c9693988215e675d0569be291ec995149bc694c3740f73c3b72b0310b2e",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCVET-PSSCIVE-L3-IT-DOMESTIC-DATA-ENTRY",
+      "title": "NCVET / PSSCIVE Level 3 — Domestic Data Entry & Digital Village Ledger",
+      "file": "NCVET_PSSCIVE_L3_IT_DataEntry_v5.html",
+      "avr_mechanic": "AVR-P315",
+      "curriculum": "NCVET/PSSCIVE",
+      "size_bytes": 97897,
+      "sha256": "71a8fa57e295fb4bcaa1b2db8d8e89b0b1622e6c5e1971fb352bcc6442fee8f0",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCVET-PSSCIVE-L4-AGRI-SOLAR-DRIP-TECHNICIAN",
+      "title": "NCVET / PSSCIVE Level 4 — Solar Micro-Irrigation & Jal Seva Technician",
+      "file": "NCVET_PSSCIVE_L4_Agri_SolarDrip_v5.html",
+      "avr_mechanic": "AVR-P316",
+      "curriculum": "NCVET/PSSCIVE",
+      "size_bytes": 97781,
+      "sha256": "3488e058c74cc27d1ee9518e8083e7efcad1f3032f41d7b316dd04f2de3e01d2",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    },
+    {
+      "chapter_id": "NCVET-PSSCIVE-L4-FOOD-SOLAR-DEHYDRATOR-OPERATOR",
+      "title": "NCVET / PSSCIVE Level 4 — Rural Solar Food Dehydrator Unit Operator",
+      "file": "NCVET_PSSCIVE_L4_Food_SolarDehydrator_v5.html",
+      "avr_mechanic": "AVR-P320",
+      "curriculum": "NCVET/PSSCIVE",
+      "size_bytes": 97754,
+      "sha256": "e0d165ff85776b74c6caadae3e4cfad39467b2b16b9a157d1f2dac73c05ea067",
+      "qa_passed": true,
+      "checks_passed": 32,
+      "checks_total": 32
+    }
+  ],
+  "certified_avr_mechanics": [
+    {
+      "id": "AVR-P301",
+      "file": "AVR-P301.js",
+      "size_bytes": 1082,
+      "sha256": "94d002b086a136537ab3f698b55c23079dfb5abb6289d8d52ed33a00be36eebe",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P302",
+      "file": "AVR-P302.js",
+      "size_bytes": 1165,
+      "sha256": "68d5632770418145036acd1b440340dbd00b232ee916fe0187bf494967a17299",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P303",
+      "file": "AVR-P303.js",
+      "size_bytes": 984,
+      "sha256": "6a92fe8473a7d384e8c4c9ecb41800c3c58cbeb85cdbfb5f5b40268ef72f8d8d",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P304",
+      "file": "AVR-P304.js",
+      "size_bytes": 1041,
+      "sha256": "d1321552f01b27fd2e83aaae6cf74dbc9b869ab0af485f25a7411e1ca44fcc95",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P305",
+      "file": "AVR-P305.js",
+      "size_bytes": 1356,
+      "sha256": "751df65de7f04b79bd4cabdc41214178a3939fa3b7af10f510e6984c0ac33988",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P306",
+      "file": "AVR-P306.js",
+      "size_bytes": 877,
+      "sha256": "e39a3d64ee4d8244a6bd468970baf0602f10cbdae459819aa6afe8b4a17542bb",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P307",
+      "file": "AVR-P307.js",
+      "size_bytes": 1064,
+      "sha256": "7b80575f8d375f3e0f405359b59c41793193e5162aa8e4f765df7b407c391d91",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P308",
+      "file": "AVR-P308.js",
+      "size_bytes": 902,
+      "sha256": "e7c71e1ffe79613479ea173e177a21a2708674fd41f2d2874bb0e60a4d6a99ef",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P309",
+      "file": "AVR-P309.js",
+      "size_bytes": 922,
+      "sha256": "412a5f556137163205249c920e174006a72a455e0199c3aa35353ef549e3e9d3",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P310",
+      "file": "AVR-P310.js",
+      "size_bytes": 799,
+      "sha256": "848eeec522db3e7a1720e4df2389f02d7e118eb218edd4cded37bc5cdae7c860",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P311",
+      "file": "AVR-P311.js",
+      "size_bytes": 713,
+      "sha256": "0fe438c6345c7729949dc5cd52590b6e0d126c5b0703430c3f1847cc5166ea8b",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P312",
+      "file": "AVR-P312.js",
+      "size_bytes": 873,
+      "sha256": "e9557930c3893dc2f0d89349cc3c864a65bdb13e9641ff7d0cc68e5e01f27399",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P313",
+      "file": "AVR-P313.js",
+      "size_bytes": 979,
+      "sha256": "b185e9f24c132670e1a5d45cbe0be5cc3ccd361c1cd2eee5168dcd4436362523",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P314",
+      "file": "AVR-P314.js",
+      "size_bytes": 1268,
+      "sha256": "3c24dba4acea8a574c984e08ddd11aaef4ea6bf15658ce5a8c050f09d63cb1ed",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P315",
+      "file": "AVR-P315.js",
+      "size_bytes": 1019,
+      "sha256": "0ad8ba9cc36efa365c61ba0d63d1c06bf4916d9404ccd6dc66b6c511d4654de1",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P316",
+      "file": "AVR-P316.js",
+      "size_bytes": 894,
+      "sha256": "8fc68b4bf3b71c2761c073b278f69aceb30bdd98c2f9c0a4cf29cd93be4cecd4",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P317",
+      "file": "AVR-P317.js",
+      "size_bytes": 974,
+      "sha256": "980c04009ffa11d0820b6beab82d5d0eef7d7c442516c39325fc84e33892b4cb",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P318",
+      "file": "AVR-P318.js",
+      "size_bytes": 986,
+      "sha256": "a3e2fc3133ea407d3235396f243fc7e0b6eab5b9e3a74202fa8fd92a2a2137b0",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P319",
+      "file": "AVR-P319.js",
+      "size_bytes": 1005,
+      "sha256": "818b43bfe1380d90a5e5590aeb5c18033dd2d38fabd18cdc18a685cd9debc54e",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P320",
+      "file": "AVR-P320.js",
+      "size_bytes": 860,
+      "sha256": "a701d157e7db23c36b11393f104e8a3b2365902c5de91f5c2c22369b12edc705",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": "AVR-P321",
+      "file": "AVR-P321.js",
+      "size_bytes": 1022,
+      "sha256": "1a6fa6a8accb54965590a97e1e8e8a766794dfabee705ba45fe8008079180c89",
+      "status": "CERTIFIED"
     }
   ]
 }
