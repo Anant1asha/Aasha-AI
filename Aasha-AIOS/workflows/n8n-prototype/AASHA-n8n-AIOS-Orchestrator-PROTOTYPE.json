@@ -1,0 +1,24 @@
+{
+  "name": "AASHA — n8n AIOS Orchestrator PROTOTYPE",
+  "nodes": [
+    {"parameters": {}, "id": "manual", "name": "Prototype Trigger", "type": "n8n-nodes-base.manualTrigger", "typeVersion": 1, "position": [0,0]},
+    {"parameters": {"jsCode": "const input = { task_id: 'TASK_PROTO_001', task_type: 'TLN_DRAFT_VALIDATE', source_ref: 'fixture://chapter/representative', skill_ref: 'Aasha-AIOS/skills/tln-generation', requires_hil: true, payload_ref: 'fixture://payload/tln-candidate' };\nconst forbidden = ['student_name','student_phone','student_email','phone','email','name'];\nconst found = forbidden.filter(k => Object.prototype.hasOwnProperty.call(input,k));\nreturn [{json:{...input, normalized:true, pii_violation:found.length>0, forbidden_fields:found}}];"}, "id": "normalize", "name": "Normalize + Privacy Gate", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [220,0]},
+    {"parameters": {"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict","version":2},"conditions":[{"leftValue":"={{$json.pii_violation}}","rightValue":false,"operator":{"type":"boolean","operation":"equals"}},{"leftValue":"={{$json.task_type}}","rightValue":"TLN_DRAFT_VALIDATE","operator":{"type":"string","operation":"equals"}}],"combinator":"and"}}, "id":"route", "name":"Route Approved Task", "type":"n8n-nodes-base.if", "typeVersion":2, "position":[440,0]},
+    {"parameters":{"jsCode":"const task = $json;\nreturn [{json:{...task, adapter:'antigravity-aios', execution_mode:'MOCK_LOCAL', aios_state:'EXECUTED', output_ref:'fixture://aios-output/TASK_PROTO_001'}}];"},"id":"aios","name":"Antigravity AIOS Adapter (Mock)","type":"n8n-nodes-base.code","typeVersion":2,"position":[660,-80]},
+    {"parameters":{"jsCode":"const j=$json;\nconst errors=[];\nif(j.aios_state!=='EXECUTED') errors.push('AIOS_NOT_EXECUTED');\nif(!j.output_ref) errors.push('MISSING_OUTPUT_REF');\nconst validation_status=errors.length?'FAIL':'PASS';\nreturn [{json:{...j,validation_status,validation_errors:errors}}];"},"id":"validate","name":"Deterministic Validator","type":"n8n-nodes-base.code","typeVersion":2,"position":[880,-80]},
+    {"parameters":{"jsCode":"const j=$json;\nconst status=j.validation_status==='FAIL'?'FAIL':(j.requires_hil?'HIL_REQUIRED':'PASS');\nreturn [{json:{task_id:j.task_id,status,validation_status:j.validation_status,aios_state:j.aios_state,adapter:j.adapter,validation_errors:j.validation_errors||[]}}];"},"id":"state","name":"HIL / Final State Gate","type":"n8n-nodes-base.code","typeVersion":2,"position":[1100,-80]},
+    {"parameters":{"jsCode":"return [{json:{task_id:$json.task_id,status:'REJECTED',reason:'ROUTING_OR_PRIVACY_GATE'}}];"},"id":"reject","name":"Rejected / Stop", "type":"n8n-nodes-base.code","typeVersion":2,"position":[660,120]}
+  ],
+  "connections": {
+    "Prototype Trigger":{"main":[[{"node":"Normalize + Privacy Gate","type":"main","index":0}]]},
+    "Normalize + Privacy Gate":{"main":[[{"node":"Route Approved Task","type":"main","index":0}]]},
+    "Route Approved Task":{"main":[[{"node":"Antigravity AIOS Adapter (Mock)","type":"main","index":0}],[{"node":"Rejected / Stop","type":"main","index":0}]]},
+    "Antigravity AIOS Adapter (Mock)":{"main":[[{"node":"Deterministic Validator","type":"main","index":0}]]},
+    "Deterministic Validator":{"main":[[{"node":"HIL / Final State Gate","type":"main","index":0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder":"v1"},
+  "versionId": "prototype-v1",
+  "meta": {"templateCredsSetupCompleted":true},
+  "tags": []
+}
