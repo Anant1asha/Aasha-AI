@@ -162,6 +162,23 @@ def export_chapter_to_teas_sqlite(chapter_spec: Dict[str, Any], db_path: str, co
                     60,
                 ),
             )
+        wm_items = chapter_spec.get("WM", chapter_spec.get("vocabulary", []))
+        if isinstance(wm_items, dict):
+            for word_key, val in wm_items.items():
+                hi_val = val if isinstance(val, str) else (val.get("hi", "") if isinstance(val, dict) else str(val))
+                conn.execute(
+                    "INSERT OR REPLACE INTO vocabulary (chapter_id, word, word_hi, definition, definition_hi, part_of_speech, difficulty, context_meaning, synonyms, antonyms, example_sentence) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (ch_id, str(word_key), hi_val, "", "", "noun", 1, "", "", "", ""),
+                )
+        elif isinstance(wm_items, list):
+            for v_item in wm_items:
+                if isinstance(v_item, dict):
+                    w = v_item.get("word") or v_item.get("term") or ""
+                    w_hi = v_item.get("word_hi") or v_item.get("hi") or ""
+                    conn.execute(
+                        "INSERT OR REPLACE INTO vocabulary (chapter_id, word, word_hi, definition, definition_hi, part_of_speech, difficulty, context_meaning, synonyms, antonyms, example_sentence) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        (ch_id, str(w), str(w_hi), "", "", "noun", 1, "", "", "", ""),
+                    )
         conn.commit()
     finally:
         conn.close()
