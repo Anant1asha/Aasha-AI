@@ -122,8 +122,6 @@ CREATE INDEX IF NOT EXISTS idx_quizresults_sync ON quiz_results(student_id, sync
 def export_chapter_to_teas_sqlite(chapter_spec: Dict[str, Any], db_path: str, compress_gz: bool = True) -> str:
     p = Path(db_path)
     p.parent.mkdir(parents=True, exist_ok=True)
-    if p.exists():
-        p.unlink()
     conn = sqlite3.connect(str(p))
     try:
         conn.executescript(SCHEMA_SQL)
@@ -196,6 +194,8 @@ def export_chapter_to_teas_sqlite(chapter_spec: Dict[str, Any], db_path: str, co
 def export_chapter_specs_to_sqlite(spec_paths, output_db_path, gzip_output=True, version="2026.10.28"):
     out_db = Path(output_db_path)
     out_db.parent.mkdir(parents=True, exist_ok=True)
+    if out_db.exists():
+        out_db.unlink()
     total_nodes = 0
     gz_path = str(out_db)
     for sp in spec_paths:
