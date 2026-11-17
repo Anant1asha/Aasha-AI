@@ -55,7 +55,7 @@ function checkSyntax() {
     }
 
     const scriptContent = scriptMatch[1];
-    const tmpFile = path.join(path.dirname(htmlPath), '.qa_syntax_check.js');
+    const tmpFile = path.join(path.dirname(htmlPath), `.qa_syntax_check_${process.pid}_${Date.now()}_${Math.random().toString(36).slice(2)}.js`);
     fs.writeFileSync(tmpFile, scriptContent);
 
     try {

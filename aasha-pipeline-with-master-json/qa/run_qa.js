@@ -60,7 +60,7 @@ function checkSyntax() {
 
     // Join with semicolons so all inline and embedded libraries are syntax-checked together
     const scriptContent = scripts.join('\n;\n');
-    const tmpFile = path.join(path.dirname(htmlPath), '.qa_syntax_check.js');
+    const tmpFile = path.join(path.dirname(htmlPath), `.qa_syntax_check_${process.pid}_${Date.now()}_${Math.random().toString(36).slice(2)}.js`);
     fs.writeFileSync(tmpFile, scriptContent);
 
     try {
