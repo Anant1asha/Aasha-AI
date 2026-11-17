@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-11-16T12:10:41.799107+00:00",
+  "last_updated": "2026-11-17T15:12:57.099911+00:00",
   "foundations": [
     {
       "id": "F01",
@@ -3399,11 +3399,11 @@
       "file": "NCERT-G06-MATH-CH07-FRACTIONS_Interactive_v5.html",
       "avr_mechanic": "AVR-P301",
       "curriculum": "NCERT",
-      "size_bytes": 97783,
-      "sha256": "ff6340bd8f2101a986d9d5fa62933ad737db4efa38bcc83fd630c0732963721b",
+      "size_bytes": 97862,
+      "sha256": "2bb378eaeebecde9717ef1ff5b24a5063dfacb870d13ceb3e50a5564e351170a",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G07-MATH-CH11-PERIMETER-AREA",
@@ -3411,11 +3411,11 @@
       "file": "NCERT-G07-MATH-CH11-PERIMETER-AREA_Interactive_v5.html",
       "avr_mechanic": "AVR-P303",
       "curriculum": "NCERT",
-      "size_bytes": 97909,
-      "sha256": "a4b0bd62ea3df115fbaeaa7890f53d87c32fc427f6b3866942f16c1502fb0a10",
+      "size_bytes": 97988,
+      "sha256": "fd607666c24e443c4e13bf9ff7c124ebcbc270b1f3bdb883dd5afbc4f581789f",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G08-MATH-CH08-COMPARING-QUANTITIES",
@@ -3423,11 +3423,11 @@
       "file": "NCERT-G08-MATH-CH08-COMPARING-QUANTITIES_Interactive_v5.html",
       "avr_mechanic": "AVR-P320",
       "curriculum": "NCERT",
-      "size_bytes": 97766,
-      "sha256": "38f7e6586385882fb12b713fb4b3a7959a7ccd9296a0e81fc9b8476ff6329521",
+      "size_bytes": 97845,
+      "sha256": "bc0c74cf3668a7b9e7476ef6ae383d3a068fecf89a23c410020f3967963f0e54",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G09-SCI-CH08-FORCE-MOTION",
@@ -3435,11 +3435,11 @@
       "file": "NCERT-G09-SCI-CH08-FORCE-MOTION_Interactive_v5.html",
       "avr_mechanic": "AVR-P319",
       "curriculum": "NCERT",
-      "size_bytes": 97806,
-      "sha256": "62a196a4f45cf9e95926b866671d46c2bb42443dac69757bd10af570bb4a44af",
+      "size_bytes": 97885,
+      "sha256": "f47637377689d97baea62c701d5a10733c371dcfc51ffdcaaeb9e9035f192c11",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G09-SCI-CH10-WORK-ENERGY",
@@ -3447,11 +3447,11 @@
       "file": "NCERT-G09-SCI-CH10-WORK-ENERGY_Interactive_v5.html",
       "avr_mechanic": "AVR-P317",
       "curriculum": "NCERT",
-      "size_bytes": 97839,
-      "sha256": "4a5c6254bfa2b1ea94828016ed5722fb73d4b0533533da880581562250bfe772",
+      "size_bytes": 97918,
+      "sha256": "c3c3e145cfc543c390778c41c7a86cdb0fafd67750f144ab0fd9a14d87cf357b",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G10-MATH-CH02-POLYNOMIALS",
@@ -3459,11 +3459,11 @@
       "file": "NCERT-G10-MATH-CH02-POLYNOMIALS_Interactive_v5.html",
       "avr_mechanic": "AVR-P309",
       "curriculum": "NCERT",
-      "size_bytes": 97647,
-      "sha256": "45a1d948776d879afe73a2cfded33f530267a013cda0673756c5aae0b25f5196",
+      "size_bytes": 97726,
+      "sha256": "c7b06125ab47df393e090d1b77d4cea0db6e7a007be1dc8f81ae205bddb299cd",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS",
@@ -3471,11 +3471,11 @@
       "file": "NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS_Interactive_v5.html",
       "avr_mechanic": "AVR-P305",
       "curriculum": "NCERT",
-      "size_bytes": 98185,
-      "sha256": "28a1b0948571952a04825833c3b6e324c9bb967adde91296006dea51bda082c2",
+      "size_bytes": 98264,
+      "sha256": "b5357e9fd2b6584fec28c55afd11917fe9ffb5bf7b41c4f17b82cd33b99ed0d3",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW",
@@ -3483,11 +3483,11 @@
       "file": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW_Interactive_v5.html",
       "avr_mechanic": "AVR-P314",
       "curriculum": "NCERT",
-      "size_bytes": 98083,
-      "sha256": "71b3eae5453a9b0230d26ff9cfc445c5804fa29d1c2058774bbced258419c45f",
+      "size_bytes": 98162,
+      "sha256": "45d455af8a45ba1ea3409651548879fb5b486b6c008122b02cd91681884028bc",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER",
@@ -3495,11 +3495,11 @@
       "file": "NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER_Interactive_v5.html",
       "avr_mechanic": "AVR-P315",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97966,
-      "sha256": "efcb32cc78eedb8386db0cd23bf7d36b972824e0e4ea99a23597da5008ac2fbb",
+      "size_bytes": 98045,
+      "sha256": "b11e69d5a0c4b162992616e01e0f69082f13f24eba1d33253f2cad76047c4fb9",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA",
@@ -3507,11 +3507,11 @@
       "file": "NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA_Interactive_v5.html",
       "avr_mechanic": "AVR-P316",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97884,
-      "sha256": "fbab0c6daa4bfcf7379087b2e70768b6b6649fd343605a8440657686b65c21c9",
+      "size_bytes": 97963,
+      "sha256": "55532c9693988215e675d0569be291ec995149bc694c3740f73c3b72b0310b2e",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L3-IT-DOMESTIC-DATA-ENTRY",
@@ -3519,11 +3519,11 @@
       "file": "NCVET_PSSCIVE_L3_IT_DataEntry_v5.html",
       "avr_mechanic": "AVR-P315",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97818,
-      "sha256": "a4c04a6dbcf8e9863d0a11dcdc96e16680d37556a0babb981aa8a07d7f5d9aba",
+      "size_bytes": 97897,
+      "sha256": "71a8fa57e295fb4bcaa1b2db8d8e89b0b1622e6c5e1971fb352bcc6442fee8f0",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L4-AGRI-SOLAR-DRIP-TECHNICIAN",
@@ -3531,11 +3531,11 @@
       "file": "NCVET_PSSCIVE_L4_Agri_SolarDrip_v5.html",
       "avr_mechanic": "AVR-P316",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97702,
-      "sha256": "0c86e4edbf76e99ba6db44d5814fff4217e67db8504879bad13975f94c558595",
+      "size_bytes": 97781,
+      "sha256": "3488e058c74cc27d1ee9518e8083e7efcad1f3032f41d7b316dd04f2de3e01d2",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L4-FOOD-SOLAR-DEHYDRATOR-OPERATOR",
@@ -3543,11 +3543,11 @@
       "file": "NCVET_PSSCIVE_L4_Food_SolarDehydrator_v5.html",
       "avr_mechanic": "AVR-P320",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97675,
-      "sha256": "faaf3c9351053d81bf2fbca6e25f2bfceae68ff11e4d7cb42195b20f0f4e1951",
+      "size_bytes": 97754,
+      "sha256": "e0d165ff85776b74c6caadae3e4cfad39467b2b16b9a157d1f2dac73c05ea067",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     }
   ],
   "certified_avr_mechanics": [

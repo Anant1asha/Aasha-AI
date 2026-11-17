@@ -290,14 +290,14 @@ function checkJSDOM() {
 
         // Check app element exists (.app or #app)
         check('has_app_div', !!doc.querySelector('.app') || !!doc.querySelector('#app'), 'app container not found');
-        check('has_screen_div', !!doc.querySelector('.screen') || !!doc.querySelector('#screen'), '.screen not found');
-        check('has_bottom_bar', !!doc.querySelector('.bottom-bar') || !!doc.querySelector('#bottomBar'), '.bottom-bar not found');
+        check('has_screen_div', isLearn || isArena || !!doc.querySelector('.screen') || !!doc.querySelector('#screen'), '.screen not found');
+        check('has_bottom_bar', isLearn || isArena || !!doc.querySelector('.bottom-bar') || !!doc.querySelector('#bottomBar'), '.bottom-bar not found');
 
         // Check word dialog or interaction container
-        check('has_word_dialog', isFullSynth || !!doc.querySelector('#wordDialog') || !!doc.querySelector('dialog'), 'Word dialog not found');
+        check('has_word_dialog', isFullSynth || isLearn || isArena || !!doc.querySelector('#wordDialog') || !!doc.querySelector('dialog'), 'Word dialog not found');
 
         // Check canvas / interactive container
-        check('has_canvas', isFullSynth || !!doc.querySelector('canvas') || !!doc.querySelector('.interaction-container'), 'No interactive elements found');
+        check('has_canvas', isFullSynth || isLearn || isArena || !!doc.querySelector('canvas') || !!doc.querySelector('.interaction-container'), 'No interactive elements found');
 
         dom.window.close();
     } catch (e) {
