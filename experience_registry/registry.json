@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-11-17T15:12:57.099911+00:00",
+  "last_updated": "2026-11-17T17:45:30.392507+00:00",
   "foundations": [
     {
       "id": "F01",
@@ -3483,8 +3483,8 @@
       "file": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW_Interactive_v5.html",
       "avr_mechanic": "AVR-P314",
       "curriculum": "NCERT",
-      "size_bytes": 98162,
-      "sha256": "45d455af8a45ba1ea3409651548879fb5b486b6c008122b02cd91681884028bc",
+      "size_bytes": 35398,
+      "sha256": "301ade6ae493b405bcbcca56fa2e60099cded36cc4f688359e031fca17690001",
       "qa_passed": true,
       "checks_passed": 32,
       "checks_total": 32
