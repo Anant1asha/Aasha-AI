@@ -46,9 +46,6 @@ class VirtualLabPlugin(InteractionPlugin):
         }
 
     def embed_assets(self) -> dict[str, str]:
-        from ..bundler import get_bundled_script
-        lib_js = get_bundled_script("vlab", "https://cdn.jsdelivr.net/npm/vlab-mock/dist/vlab.min.js")
-        
         css = ".vlab-canvas{width:400px;height:350px;border-radius:8px;background:#1e293b;margin:0 auto;display:block}"
         js = (
             "var renderVLab=function(c,config){\n"
@@ -56,4 +53,4 @@ class VirtualLabPlugin(InteractionPlugin):
             "  el.innerHTML='<canvas class=vlab-canvas></canvas>';\n"
             "};"
         )
-        return {"vlab_lib": lib_js, "vlab_css": css, "vlab_js": js}
+        return {"vlab_css": css, "vlab_js": js}

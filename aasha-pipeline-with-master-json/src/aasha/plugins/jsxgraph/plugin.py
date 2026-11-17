@@ -59,23 +59,13 @@ class JSXGraphPlugin(InteractionPlugin):
         }
 
     def embed_assets(self) -> dict[str, str]:
-        from ..bundler import get_bundled_script
-        lib_js = get_bundled_script("jsxgraph", "https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.min.js")
-        
-        css = ".jsxg-box{width:100%;max-width:400px;height:320px;border:2px solid #cbd5e1;border-radius:12px;margin:0 auto;background:#fff}"
+        css = ".jsxg-box{width:400px;height:350px;border:1px solid #e2e8f0;border-radius:8px;margin:0 auto}"
         js = (
-            "// JSXGraph interactive renderer\n"
-            "var renderJSX = function(c, config) {\n"
-            "  var el = document.getElementById(c); if (!el) return;\n"
-            "  var boxId = c + '_jxg';\n"
-            "  el.innerHTML = '<div id=\"' + boxId + '\" class=\"jsxg-box\"></div>';\n"
-            "  try {\n"
-            "    if (window.JXG && window.JXG.JSXGraph) {\n"
-            "      var b = JXG.JSXGraph.initBoard(boxId, config || { boundingbox: [-5, 5, 5, -5], axis: true, grid: true });\n"
-            "      b.create('point', [1, 2], { name: 'P(1,2)', size: 3, color: '#3b82f6' });\n"
-            "      b.create('point', [-2, -1], { name: 'Q(-2,-1)', size: 3, color: '#22c55e' });\n"
-            "    }\n"
-            "  } catch(e) { console.warn('JSXGraph init:', e); }\n"
+            "// JSXGraph renderer\n"
+            "var renderJSX=function(c,config){\n"
+            "  var el=document.getElementById(c);if(!el)return;\n"
+            "  el.innerHTML='<div class=jsxg-box></div>';\n"
+            "  // In production: call JXG.JSXGraph.initBoard() with config\n"
             "};"
         )
-        return {"jsxgraph_lib": lib_js, "jsxgraph_css": css, "jsxgraph_js": js}
+        return {"jsxgraph_css": css, "jsxgraph_js": js}

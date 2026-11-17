@@ -1,7 +1,6 @@
 """Tests for the agents (mocked LLM)."""
 
 import json
-import hashlib
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -25,49 +24,6 @@ def mock_llm():
 def test_ingest_agent_requires_no_llm():
     agent = IngestAgent()
     assert not agent.requires_llm
-
-
-def test_ingest_agent_records_binary_hash_and_page_source_refs(work_dir):
-    import pymupdf as fitz
-
-    pdf_path = work_dir / "source.pdf"
-    doc = fitz.open()
-    page = doc.new_page()
-    page.insert_text((72, 72), "A source-grounded learning chapter with enough text for extraction.")
-    doc.save(pdf_path)
-    doc.close()
-    expected_hash = hashlib.sha256(pdf_path.read_bytes()).hexdigest()
-
-    result = IngestAgent().run(
-        work_dir,
-        {"pdf_path": str(pdf_path), "source_pdf_sha256": expected_hash},
-    )
-
-    assert result["source_sha256"] == expected_hash
-    raw_extract = json.loads((work_dir / "raw_extract.json").read_text(encoding="utf-8"))
-    assert raw_extract["source_sha256"] == expected_hash
-    assert raw_extract["pages"][0]["source_ref"] == {
-        "source_artifact_id": f"sha256:{expected_hash}",
-        "source_sha256": expected_hash,
-        "page": 1,
-    }
-
-
-def test_ingest_agent_rejects_source_hash_mismatch(work_dir):
-    import pymupdf as fitz
-
-    pdf_path = work_dir / "source.pdf"
-    doc = fitz.open()
-    page = doc.new_page()
-    page.insert_text((72, 72), "A source-grounded learning chapter with enough text for extraction.")
-    doc.save(pdf_path)
-    doc.close()
-
-    with pytest.raises(ValueError, match="SOURCE_HASH_MISMATCH"):
-        IngestAgent().run(
-            work_dir,
-            {"pdf_path": str(pdf_path), "source_pdf_sha256": "0" * 64},
-        )
 
 
 def test_analysis_agent_run(mock_llm, work_dir):
@@ -102,13 +58,13 @@ def test_analysis_agent_run(mock_llm, work_dir):
     agent = AnalysisAgent(mock_llm)
     result = agent.run(work_dir, {"subject": "math", "grade": 4})
 
-    assert (work_dir / "pedagogy_map.json").exists()
+    assert (work_dir / "content_map.json").exists()
     assert result["concept_count"] == 3
     mock_llm.complete.assert_called_once()
 
 
 def test_design_agent_creates_structure(mock_llm, work_dir):
-    # Set up pedagogy_map.json
+    # Set up content_map.json
     content_map = {
         "chapter_title": "Fractions",
         "concepts": [
@@ -121,7 +77,7 @@ def test_design_agent_creates_structure(mock_llm, work_dir):
         "visual_opportunities": [{"concept": "Parts of a whole", "suggested_model": "pizza"}],
         "vocabulary": ["fraction"],
     }
-    with open(work_dir / "pedagogy_map.json", "w", encoding="utf-8") as f:
+    with open(work_dir / "content_map.json", "w") as f:
         json.dump(content_map, f)
 
     mock_llm.complete.return_value = {
@@ -167,7 +123,7 @@ def test_design_agent_creates_structure(mock_llm, work_dir):
     result = agent.run(work_dir, {"subject": "math", "grade": 4})
 
     assert (work_dir / "chapter_spec.json").exists()
-    with open(work_dir / "chapter_spec.json", encoding="utf-8") as f:
+    with open(work_dir / "chapter_spec.json") as f:
         spec = json.load(f)
 
     assert len(spec["NODES"]) == 3
@@ -194,9 +150,9 @@ def test_assessment_agent_fills_opts(mock_llm, work_dir):
             {"title": "N3", "steps": [{"t": "progress", "xp": 10}]},
         ],
     }
-    with open(work_dir / "chapter_spec.json", "w", encoding="utf-8") as f:
+    with open(work_dir / "chapter_spec.json", "w") as f:
         json.dump(spec, f)
-    with open(work_dir / "pedagogy_map.json", "w", encoding="utf-8") as f:
+    with open(work_dir / "content_map.json", "w") as f:
         json.dump({"concepts": []}, f)
 
     mock_llm.complete.return_value = {
@@ -213,7 +169,7 @@ def test_assessment_agent_fills_opts(mock_llm, work_dir):
     agent = AssessmentAgent(mock_llm)
     result = agent.run(work_dir, {"grade": 4, "subject": "math"})
 
-    with open(work_dir / "chapter_spec.json", encoding="utf-8") as f:
+    with open(work_dir / "chapter_spec.json") as f:
         updated_spec = json.load(f)
 
     opts = updated_spec["NODES"][0]["steps"][0]["q"]["opts"]

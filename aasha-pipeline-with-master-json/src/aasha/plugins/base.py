@@ -192,9 +192,8 @@ def create_default_registry() -> PluginRegistry:
     """
     registry = PluginRegistry()
 
-    # Register all plugins (lazy imports to avoid hard dependencies)
+    # Register all 12 plugins (lazy imports to avoid hard dependencies)
     plugin_specs = [
-        ("harvest.plugin", "AVRPlugin"),
         ("jsxgraph.plugin", "JSXGraphPlugin"),
         ("phet.plugin", "PhETPlugin"),
         ("geogebra.plugin", "GeoGebraPlugin"),
@@ -207,7 +206,6 @@ def create_default_registry() -> PluginRegistry:
         ("hotpotatoes.plugin", "HotPotatoesPlugin"),
         ("phonics.plugin", "PhonicsPlugin"),
         ("timeline.plugin", "TimelinePlugin"),
-        ("openmaic.plugin", "OpenMAICPlugin"),
     ]
 
     for mod_path, cls_name in plugin_specs:

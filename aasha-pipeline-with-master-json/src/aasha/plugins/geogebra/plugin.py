@@ -181,12 +181,14 @@ class GeoGebraPlugin(InteractionPlugin):
         }
 
     def embed_assets(self) -> dict[str, str]:
-        """Return the GeoGebra injection script and CSS."""
-        from ..bundler import get_bundled_script
-        lib_js = get_bundled_script("geogebra", "https://cdn.geogebra.org/apps/deployggb.js")
+        """Return the GeoGebra injection script and CSS.
 
+        This JavaScript is injected into the HTML <head> and provides
+        the renderGeoGebra() function that the engine calls to render
+        GeoGebra applets. In production, the GeoGebra Math API JS bundle
+        should be downloaded and base64-embedded.
+        """
         return {
-            "geogebra_lib": lib_js,
             "geogebra_css": """
 /* GeoGebra container */
 .geogebra-container{width:100%;max-width:400px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
@@ -194,15 +196,19 @@ class GeoGebraPlugin(InteractionPlugin):
 """,
             "geogebra_js": """
 // GeoGebra Applet Renderer (injected by the GeoGebra plugin)
+// In production: embed the GeoGebra Math API JS bundle as base64.
 var renderGeoGebra = function(container, config) {
   try {
     var el = document.getElementById(container);
     if (!el) return;
     el.innerHTML = '<div class="geogebra-loading">Loading GeoGebra...</div>';
+    // The GeoGebra Math API would be loaded here from the bundled JS.
+    // For now, we show a placeholder with the configuration.
     var configStr = JSON.stringify(config, null, 2);
     el.innerHTML = '<div style="padding:16px;text-align:center;background:var(--blue-lt);border-radius:8px">' +
       '<div style="font-size:1.2rem;margin-bottom:8px">📐 GeoGebra: ' + (config.preset || 'Interactive') + '</div>' +
       '<div style="font-size:.8rem;color:var(--muted)">Tools: ' + (config.tools || []).join(', ') + '</div>' +
+      '<div style="font-size:.75rem;color:var(--muted);margin-top:8px">The GeoGebra Math API bundle should be embedded for full functionality.</div>' +
       '</div>';
   } catch(e) {
     if (window.console) console.warn('GeoGebra render error:', e);

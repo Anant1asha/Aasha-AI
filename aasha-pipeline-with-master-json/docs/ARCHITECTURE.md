@@ -3,60 +3,129 @@
 ## Overview
 
 The Aasha Pipeline is a multi-agent AI system that converts NCERT textbook
-PDFs into self-contained, gamified HTML learning chapters. 
-It now supports a **Dual-Mode Architecture**:
-1. **Mode 1 (v5 Engine)**: Injects into a frozen template (used for grades 3-8 math). Uses a 6-agent sequential flow.
-2. **Mode 2 (Full Synthesis)**: Generates complete HTML5/Tailwind/JS modules from scratch with embedded plugin libraries for any subject and grade. Powered by a modernized **4-Agent Flow** and an extensible **Plugin System**.
+PDFs into self-contained, gamified HTML learning chapters. It uses **six
+specialized AI agents**, each responsible for one stage of the transformation,
+coordinated by a central orchestrator.
 
-## Mode 2: 4-Agent Flow
+## System Architecture
 
 ```
                     ┌─────────────────────────────────────────────────────┐
   CLI / Web UI ────▶│              ORCHESTRATOR                            │
                     │  job lifecycle · state tracking · cost estimate     │
-                    └──────┬──────┬──────┬──────┬─────────────────────────┘
-                           │      │      │      │      
-                    ┌──────▼┐ ┌──▼──┐ ┌─▼──┐ ┌▼────┐
-                    │ Agt 1 │ │Agt 2│ │Agt 3│ │Agt 4│
-                    │Analyze│ │Dsgn │ │Asess│ │Synth│
-                    └───────┘ └─────┘ └────┘ └─────┘
-                         │       │       │       │
-                      extract  concept  gamify  final
-                       .json    map      spec   html
+                    └──────┬──────┬──────┬──────┬──────┬──────┬──────────┘
+                           │      │      │      │      │      │
+                    ┌──────▼┐ ┌──▼──┐ ┌─▼──┐ ┌▼────┐ ┌▼──┐ ┌─▼──┐
+                    │Ingest │ │Anlyz│ │Dsgn│ │Asess│ │LLE│ │ QA │
+                    │Agent  │ │Agent│ │Agt │ │Agent│ │Agt│ │Agt │
+                    └───────┘ └─────┘ └────┘ └─────┘ └────┘ └────┘
+                         │       │       │       │       │       │
+                    raw_extract  content  chapter  spec+   lle   qa_report
+                     .json      _map     _spec   assess  .json   .json
 ```
 
-### Agent 1: Pedagogical Analyzer & Assessment Extractor
-- Analyzes text, extracts key learning milestones, classifies subject domain.
-- Extracts 100% of end-of-chapter questions and in-text activities.
+## The Six Agents
 
-### Agent 2: Interactive Experience Designer
-- Selects the optimal plugins for interactivity (e.g., JSXGraph for Math, PhET for Science, Timeline for History).
-- Maps concepts to interaction models dynamically via the Plugin Registry.
+### 1. IngestAgent (Stage 1: Ingest)
+- **Input**: PDF file
+- **Output**: `raw_extract.json`
+- **Technology**: PyMuPDF (fitz)
+- **LLM**: No
+- **Responsibility**: Extract text in reading order, detect headings, exercises,
+  figure captions, and images. Handle multi-column layouts. Downsample images
+  to ≤800px width and base64-encode them.
 
-### Agent 3: Gamified Assessment Architect
-- Restructures extracted questions into a 3-tier gamified assessment (Warm-up, Deep Dive, Boss Challenge).
-- Attributes XP, streaks, and hints based on the difficulty tier.
+### 2. AnalysisAgent (Stage 2: Analyze)
+- **Input**: `raw_extract.json`
+- **Output**: `content_map.json`
+- **Technology**: LLM (GPT-4o-mini default)
+- **Responsibility**: Identify 3-5 core concepts, candidate worked examples,
+  quiz opportunities, interactive visual opportunities, and key vocabulary.
+  Calibrate language difficulty for the target grade.
 
-### Agent 4: Frontend Code Synthesizer
-- Generates the final self-contained HTML/CSS/JS file.
-- Collects required plugin assets and embeds them directly (base64) into the final artifact.
+### 3. DesignAgent (Stage 3: Design)
+- **Input**: `content_map.json`
+- **Output**: `chapter_spec.json` (structure only)
+- **Technology**: LLM
+- **Responsibility**: Map concepts to the v5 NODES/steps structure. Create 3-5
+  nodes, sequence steps per the proven flow (Intro → Text → Interactive Visual →
+  Worked Example → Quiz → Progress), assign step types, and produce WE definitions.
+  Post-processes to fix storage_key, add hero SVGs, and ensure the final node's
+  last step has no `next: true`.
 
-## Plugin System
+### 4. AssessmentAgent (Stage 4: Assess)
+- **Input**: `chapter_spec.json` + `content_map.json`
+- **Output**: updated `chapter_spec.json` (assessments filled in)
+- **Technology**: LLM (batched)
+- **Responsibility**: Generate question text, 3-4 options, exactly one correct
+  option (`c:true`), and a misconception explanation (`m`) for every wrong option.
+  Enforces: no answer leakage (substring scan), WE checks are specific to their
+  step's concept.
 
-The pipeline features a robust plugin system allowing up to 12 open-source interactive tools (like JSXGraph, PhET, GeoGebra, Mermaid) to be embedded directly into generated modules. The Experience Designer (Agent 2) queries the Plugin Registry to find the best matching interaction tool based on subject, grade, and required concept. The synthesizer then embeds these tools' logic offline.
+### 5. LLEAgent (Stage 5: LLE)
+- **Input**: `chapter_spec.json`
+- **Output**: `lle.json`
+- **Technology**: LLM (temperature 0.2 for natural phrasing)
+- **Responsibility**: Extract all distinct words from body text, reuse baseline
+  296 WM + 46 CONN dictionary entries, generate Hindi translations + phonics
+  for net-new words only. Falls back to "इस शब्द का हिंदी अर्थ अभी उपलब्ध नहीं है"
+  for words that fail generation.
 
-## Data Flow & File-Backed Bus
+### 6. QAAgent (Stage 8: QA)
+- **Input**: `chapter.html`
+- **Output**: `qa_report.json`
+- **Technology**: Node.js + jsdom (Python fallback)
+- **Responsibility**: Run the 200+ check QA suite — syntax check, render-every-step,
+  flow simulation per step type, 10 critical rules, dead-code scan. If Node.js
+  is unavailable, runs a Python-based structural QA with ~13 checks.
 
-Each agent operates via a file-backed event bus. Every intermediate step is a real file written to the job's work directory. This means:
-- Any stage can be stopped, inspected, edited, and resumed.
-- Free iterative fixes without LLM costs.
-- Transparent debugging.
+## The Two Deterministic Stages
+
+### Stage 7: HTML Assembly
+- **Input**: `chapter_spec.json` + `lle.json` + v5 template
+- **Output**: `chapter.html`
+- **No LLM** — pure placeholder injection
+- Serializes NODES, WE, SOLVE, WM, CONN, LEVELS, BADGES to JSON with
+  `ensure_ascii=False` (preserves Devanagari) and string-replaces the 8
+  placeholders in the template.
+
+### Stage 9: Output
+- Copies `chapter.html` and `chapter_spec.json` to the output directory.
+
+## Data Flow
+
+```
+source.pdf
+  → raw_extract.json        (IngestAgent)
+  → content_map.json        (AnalysisAgent)
+  → chapter_spec.json       (DesignAgent + AssessmentAgent)
+  → lle.json                (LLEAgent)
+  → chapter.html            (HTMLAssembler)
+  → qa_report.json          (QAAgent)
+  → output/                 (copy to output dir)
+```
+
+Every intermediate is a real file on disk. A human can inspect or edit any
+stage and resume from that point (`--from-stage`). This makes iterative fixes
+free (no LLM cost) after the first full run.
+
+## The v5 Engine Contract
+
+The generated HTML must conform to the v5 specification:
+- Single file, zero dependencies, offline
+- Mobile-first (480px max-width, touch-optimized)
+- Bilingual (English + Hindi LLE)
+- Gamified (XP, badges, streaks, confetti)
+- 13 step types
+- 10 critical rules enforced by QA
+
+See `ENGINE_REFERENCE.md` and `CHAPTER_SPEC_SCHEMA.md` for details.
 
 ## The LLM Adapter Layer
 
 A thin abstraction supporting multiple providers:
-- OpenAI (GPT-4o/GPT-4o-mini default)
-- Google Gemini (free-tier fallback / Gemini 1.5 Pro)
+- OpenAI (GPT-4o-mini default)
+- Google Gemini (free-tier fallback)
 - Anthropic Claude (optional)
 
 Features:
@@ -65,4 +134,18 @@ Features:
 - File cache keyed by SHA-256(system + user + model) — re-runs are free
 - Retry with exponential backoff + jitter (tenacity)
 - Malformed JSON repair retry
+- Temperature control (0 for structural, 0.2 for LLE)
 - Cost estimation per call
+
+## Job Lifecycle
+
+```
+queued → ingesting → ingested → analyzing → analyzed → designing → designed →
+assessing → assessed → lle → lle_done → assembling → assembled →
+qa_running → qa_passed → completed
+                         ↘ qa_failed
+any stage → failed (on unrecoverable error)
+qa_failed/failed → (operator edits spec) → assembling (resume)
+```
+
+State is tracked in `job.json` in both the work directory and the jobs directory.

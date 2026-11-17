@@ -14,9 +14,9 @@ def registry():
     return create_default_registry()
 
 
-def test_registry_has_13_plugins(registry):
+def test_registry_has_12_plugins(registry):
     plugins = registry.list_plugins()
-    assert len(plugins) in (13, 14)
+    assert len(plugins) == 12
 
 
 def test_registry_has_fallback(registry):

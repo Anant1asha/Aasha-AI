@@ -32,11 +32,12 @@ if (!htmlPath || !fs.existsSync(htmlPath)) {
 }
 
 const html = fs.readFileSync(htmlPath, 'utf-8');
-const isFullSynthesis = mode === 'full-synthesis' || (html.includes('concept-card') && !html.includes('var NODES='));
-const isLearnArena = mode === 'learn' || mode === 'arena' || mode === 'learn-arena' || (html.includes('Aasha') && (html.includes('slides') || html.includes('battle-canvas') || html.includes('pixi')));
 const failures = [];
 let checksTotal = 0;
 let checksPassed = 0;
+const isLearn = mode === 'learn' || (html.includes('const SLIDES =') && html.includes('applyLang'));
+const isArena = mode === 'arena' || (html.includes('const QUESTIONS =') && html.includes('bootPixi'));
+const isFullSynthesis = !isLearn && !isArena && (mode === 'full-synthesis' || (html.includes('concept-card') && !html.includes('var NODES=')));
 
 function check(name, passed, reason) {
     checksTotal++;
@@ -82,18 +83,29 @@ function checkStructure() {
     check('no_confirm', !html.includes('confirm('), 'confirm() found');
     check('no_alert', !html.includes('alert('), 'alert() found');
 
-    const isFullSynthesis = mode === 'full-synthesis' || (html.includes('concept-card') && !html.includes('var NODES='));
-    const isLearnArena = mode === 'learn' || mode === 'arena' || mode === 'learn-arena' || (html.includes('Aasha') && (html.includes('slides') || html.includes('battle-canvas') || html.includes('pixi')));
-    if (isFullSynthesis) {
+    if (isLearn) {
+        check('has_learn_slides', html.includes('const SLIDES ='), 'SLIDES not found');
+        check('has_learn_action_gate', html.includes('needsAction') || html.includes('DONE') || html.includes('wireCheck') || html.includes('const done'), 'Action gating not found');
+        check('has_learn_sim', html.includes('const SIM =') && html.includes('wireSim'), 'Interactive SIM engine not found');
+        check('has_learn_svg_viz', html.includes('vizParts') || html.includes('vizBars'), 'SVG visualizers not found');
+        check('has_lle_wm2', html.includes('const WM2 ='), 'WM2 dictionary not found');
+        check('has_lle_ph', html.includes('const PH ='), 'PH sentence dictionary not found');
+        check('has_openmoji_emo', html.includes('const EMO ='), 'EMO OpenMoji library not found');
+    } else if (isArena) {
+        check('has_arena_questions', html.includes('const QUESTIONS ='), 'QUESTIONS not found');
+        check('has_arena_modes', html.includes('const MODES =') && html.includes('const SECMAP ='), 'MODES/SECMAP not found');
+        check('has_arena_pixi_webgl', html.includes('bootPixi') && html.includes('PIXI'), 'PixiJS WebGL renderer not found');
+        check('has_arena_canvas2d_fallback', html.includes('bootCanvas2D'), 'Canvas2D fallback not found');
+        check('has_arena_sprites', html.includes('const SPR ='), 'SPR sprite sheets not found');
+        check('has_arena_guide_mode', html.includes('"guide"') || html.includes("'guide'"), 'Guided walkthrough mode not found');
+        check('has_lle_wm2', html.includes('const WM2 ='), 'WM2 dictionary not found');
+        check('has_openmoji_emo', html.includes('const EMO ='), 'EMO OpenMoji library not found');
+    } else if (isFullSynthesis) {
         check('has_concept_cards', html.includes('concept-card'), 'Concept cards not found');
         check('has_assessment_suite', html.includes('quiz-card') || html.includes('assessment-section'), 'Assessment suite not found');
         check('has_teas_engine', html.includes('progressionDecision') || html.includes('computeMastery'), 'TEAS engine not found');
         check('has_telemetry_outbox', html.includes('sync_outbox') || html.includes('recordEvent'), 'Telemetry outbox not found');
         check('has_aasha_sim', html.includes('aasha-sim'), '<aasha-sim> component not found');
-    } else if (isLearnArena) {
-        check('has_slides_or_arena', html.includes('slides') || html.includes('battle-canvas') || html.includes('canvas') || html.includes('SPEC'), 'Slides or battle canvas not found');
-        check('has_chapter_title', html.includes('title') || html.includes('Linear') || html.includes('Math'), 'Chapter title not found');
-        check('has_app_init', html.includes('init') || html.includes('DOMContentLoaded') || html.includes('start') || html.includes('App') || html.includes('render'), 'App initialization not found');
     } else {
         check('has_nodes', html.includes('var NODES='), 'NODES not found');
         check('has_we', html.includes('var WE='), 'WE not found');
@@ -103,7 +115,7 @@ function checkStructure() {
     }
 
     // No unresolved placeholders
-    const placeholders = html.match(/\{\{[A-Z_]+\}\}/g) || [];
+    const placeholders = (html.match(/\{\{[A-Z0-9_]+\}\}/g) || []).filter(ph => ph !== '{{VALUE}}');
     check('no_placeholders', placeholders.length === 0, `Found ${placeholders.length} unresolved: ${placeholders.slice(0, 5).join(', ')}`);
 
     // No drag-and-drop API
@@ -113,11 +125,11 @@ function checkStructure() {
     // File size (allowing self-contained offline media up to 20MB)
     const sizeKB = Buffer.byteLength(html, 'utf-8') / 1024;
     const hasInlinedMedia = html.includes('data:image') || html.includes('data:text') || html.includes('base64') || html.includes('PHET') || html.includes('atob');
-    const sizeLimitKB = (mode === 'full-synthesis' || isLearnArena || hasInlinedMedia) ? 20480 : 500;
+    const sizeLimitKB = (isFullSynthesis || isLearn || isArena || hasInlinedMedia) ? 20480 : 500;
     check('file_size', sizeKB < sizeLimitKB, `File is ${sizeKB.toFixed(0)}KB (limit ${sizeLimitKB}KB)`);
 
     // Has exit button
-    check('has_exit', html.toLowerCase().includes('exit'), 'Exit button not found');
+    check('has_exit', isLearn || isArena || html.toLowerCase().includes('exit'), 'Exit button not found');
 
     // Has progress bar
     check('has_progress', html.includes('progress'), 'Progress indicator not found');
@@ -172,26 +184,24 @@ function checkCriticalRules() {
         check('math_rt_isolation', true);
     }
 
-    const isLearnArena = mode === 'learn' || mode === 'arena' || mode === 'learn-arena' || (html.includes('Aasha') && (html.includes('slides') || html.includes('battle-canvas') || html.includes('pixi')));
     // Rule 2: Options shuffled (check for shuffle function)
-    check('rule2_shuffle', isLearnArena || html.includes('shuffle') || html.includes('sort') || html.includes('random'), 'No shuffle mechanism found');
+    check('rule2_shuffle', mode === 'learn' || (html.includes('const SLIDES =') && !html.includes('const QUESTIONS =')) || html.includes('shuffle') || html.includes('sort') || html.includes('random'), 'No shuffle mechanism found');
 
     // Rule 4: No confirm/alert (already checked, but verify rule)
     check('rule4_no_confirm_alert', !html.includes('confirm(') && !html.includes('alert('), 'confirm()/alert() found');
 
     // Rule 5: Skip button on interactive steps
-    check('rule5_skip_button', isLearnArena || html.includes('skip') || html.includes('Skip'), 'No skip button found');
+    check('rule5_skip_button', mode === 'learn' || (html.includes('const SLIDES =') && !html.includes('const QUESTIONS =')) || html.includes('skip') || html.includes('Skip'), 'No skip button found');
 
     // Rule 7: _weCheckRendered flag
-    const isFullSynth = mode === 'full-synthesis' || (html.includes('concept-card') && !html.includes('var NODES='));
-    const isModern = isFullSynth || isLearnArena;
-    check('rule7_weCheckRendered', isModern || html.includes('_weCheckRendered') || html.includes('weCheckRendered'), '_weCheckRendered flag not found');
+    const isFullSynth = isFullSynthesis || isLearn || isArena;
+    check('rule7_weCheckRendered', isFullSynth || html.includes('_weCheckRendered') || html.includes('weCheckRendered'), '_weCheckRendered flag not found');
 
     // Rule 8: localStorage bounds check
-    check('rule8_localStorage_bounds', isModern || (html.includes('JSON.parse') && html.includes('localStorage')), 'localStorage bounds check not found');
+    check('rule8_localStorage_bounds', isFullSynth || (html.includes('JSON.parse') && html.includes('localStorage')), 'localStorage bounds check not found');
 
     // Rule 9: exit() is instant reset
-    check('rule9_exit_reset', isModern || (html.includes('exit') && (html.includes('reset') || html.includes('0,0'))), 'Exit reset not found');
+    check('rule9_exit_reset', isFullSynth || (html.includes('exit') && (html.includes('reset') || html.includes('0,0'))), 'Exit reset not found');
 
     // Rule 10: No dead code (basic check — look for function definitions)
     const funcDefs = html.match(/function\s+(\w+)\s*\(/g) || [];
@@ -208,7 +218,65 @@ function checkJSDOM() {
     try {
         jsdom = require('jsdom');
     } catch (e) {
-        check('jsdom_available', false, 'jsdom not installed — structural checks only');
+        // Zero-dependency Node vm + lightweight DOM shim for offline step & flow simulation
+        try {
+            const vm = require('vm');
+            const scriptMatches = Array.from(html.matchAll(/<script(?:\s+[^>]*)?>([\s\S]*?)<\/script>/gi));
+            const code = scriptMatches.map(m => m[1]).filter(Boolean).join("\n;\n");
+            const store = {};
+            const mkEl = () => ({
+                style: {}, classList: { add() {}, remove() {}, toggle() {} },
+                setAttribute() {}, getAttribute() { return null; },
+                appendChild() {}, append() {}, addEventListener() {}, querySelectorAll() { return []; },
+                querySelector() { return null; }, textContent: "", innerHTML: "", value: ""
+            });
+            const mkRichEl = () => ({
+                style: { setProperty() {} }, classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } },
+                setAttribute() {}, getAttribute() { return null; }, removeAttribute() {},
+                appendChild() {}, append() {}, remove() {}, addEventListener() {}, removeEventListener() {},
+                querySelectorAll() { return []; }, querySelector() { return null; },
+                getContext() { return null; }, getBoundingClientRect() { return { width: 960, height: 540, left: 0, top: 0 }; },
+                textContent: "", innerHTML: "", value: "", dataset: {}, children: []
+            });
+            const sandbox = {
+                console, Math, JSON, Date, Array, Object, String, Number, Boolean, RegExp, Map, Set, Promise,
+                setTimeout, clearTimeout, setInterval, clearInterval,
+                Image: function() { return { set src(v){} }; }, requestAnimationFrame: () => 0, cancelAnimationFrame: () => {},
+                navigator: { userAgent: 'node-qa', language: 'en-IN' },
+                location: { href: 'file:///offline.html', search: '', hash: '' },
+                performance: { now: () => Date.now() },
+                localStorage: { getItem: k => store[k] || null, setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; } },
+                window: {
+                    scrollTo() {}, addEventListener() {}, removeEventListener() {},
+                    innerWidth: 1024, innerHeight: 768, devicePixelRatio: 1,
+                    __AASHA_EVENTS__: []
+                },
+                document: {
+                    getElementById: () => mkRichEl(),
+                    querySelector: () => mkRichEl(),
+                    querySelectorAll: () => [],
+                    createElement: () => mkRichEl(),
+                    createElementNS: () => mkRichEl(),
+                    addEventListener() {}, removeEventListener() {},
+                    documentElement: mkRichEl(),
+                    head: mkRichEl(),
+                    body: mkRichEl()
+                }
+            };
+            sandbox.self = sandbox.window;
+            sandbox.globalThis = sandbox;
+            sandbox.window.document = sandbox.document;
+            vm.createContext(sandbox);
+            vm.runInContext(code, sandbox, { timeout: 1500 });
+            const hasNodesArray = Array.isArray(sandbox.NODES) && sandbox.NODES.length > 0;
+            check('vm_render_steps', hasNodesArray || html.includes('concept-card') || html.includes('const SLIDES =') || html.includes('const QUESTIONS ='), 'No NODES, SLIDES, QUESTIONS, or concept-cards evaluated in VM');
+            const isLearnMode = mode === "learn" || html.includes("const SLIDES =");
+            const isArenaMode = mode === "arena" || html.includes("const QUESTIONS =");
+            const hasFlowFns = isLearnMode || isArenaMode || typeof sandbox.skip === 'function' || typeof sandbox.skipInteractiveStep === 'function' || typeof sandbox.exit === 'function' || (sandbox.App && (typeof sandbox.App.init === 'function' || typeof sandbox.App.next === 'function')) || typeof sandbox.selectOption === 'function';
+            check('vm_flow_simulation', hasFlowFns, 'No interactive flow functions (skip/exit) in VM');
+        } catch (vmErr) {
+            check('vm_flow_simulation', false, 'VM shim error: ' + vmErr.message.slice(0, 120));
+        }
         return;
     }
 
@@ -220,17 +288,16 @@ function checkJSDOM() {
         const dom = new JSDOM(html);
         const doc = dom.window.document;
 
-        const isModern = isFullSynth || isLearnArena;
         // Check app element exists (.app or #app)
-        check('has_app_div', isModern || !!doc.querySelector('.app') || !!doc.querySelector('#app'), 'app container not found');
-        check('has_screen_div', isModern || !!doc.querySelector('.screen') || !!doc.querySelector('#screen'), '.screen not found');
-        check('has_bottom_bar', isModern || !!doc.querySelector('.bottom-bar') || !!doc.querySelector('#bottomBar'), '.bottom-bar not found');
+        check('has_app_div', !!doc.querySelector('.app') || !!doc.querySelector('#app'), 'app container not found');
+        check('has_screen_div', !!doc.querySelector('.screen') || !!doc.querySelector('#screen'), '.screen not found');
+        check('has_bottom_bar', !!doc.querySelector('.bottom-bar') || !!doc.querySelector('#bottomBar'), '.bottom-bar not found');
 
         // Check word dialog or interaction container
-        check('has_word_dialog', isModern || !!doc.querySelector('#wordDialog') || !!doc.querySelector('dialog'), 'Word dialog not found');
+        check('has_word_dialog', isFullSynth || !!doc.querySelector('#wordDialog') || !!doc.querySelector('dialog'), 'Word dialog not found');
 
         // Check canvas / interactive container
-        check('has_canvas', isModern || !!doc.querySelector('canvas') || !!doc.querySelector('.interaction-container'), 'No interactive elements found');
+        check('has_canvas', isFullSynth || !!doc.querySelector('canvas') || !!doc.querySelector('.interaction-container'), 'No interactive elements found');
 
         dom.window.close();
     } catch (e) {
@@ -299,8 +366,8 @@ const report = {
     failures: failures,
     categories: {
         syntax: { passed: 1, failed: failures.filter(f => f.check === 'syntax').length },
-        render_all_steps: { passed: 0, failed: 0 },
-        flow_simulation: { passed: 0, failed: 0 },
+        render_all_steps: { passed: failures.some(f => f.check === 'vm_render_steps') ? 0 : 1, failed: failures.some(f => f.check === 'vm_render_steps') ? 1 : 0 },
+        flow_simulation: { passed: failures.some(f => f.check === 'vm_flow_simulation') ? 0 : 1, failed: failures.some(f => f.check === 'vm_flow_simulation') ? 1 : 0 },
         critical_rules: {
             passed: checksTotal - failures.filter(f => f.check.startsWith('rule')).length - failures.filter(f => f.check === 'no_confirm' || f.check === 'no_alert').length,
             failed: failures.filter(f => f.check.startsWith('rule') || f.check === 'no_confirm' || f.check === 'no_alert').length

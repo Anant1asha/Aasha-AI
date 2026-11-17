@@ -1,9 +1,9 @@
 """LLEAgent — Stage 5: LLE (Language Learning Experience) Generation.
 
 For every distinct English word in body text, generates the LLE entry:
-  [Local_meaning] ([English_pronunciation_in_local_script])
+  हिंदी_अर्थ (अंग्रेज़ी_उच्चारण_देवनागरी_में)
 
-Reuses the existing WM and CONN dictionary entries from config/dictionaries/<lang>.json.
+Reuses the existing 296 WM and 46 CONN dictionary entries from config/defaults.json.
 Only generates net-new entries for chapter-specific terms.
 Output: lle.json
 """
@@ -20,84 +20,37 @@ from .base import BaseAgent
 
 logger = logging.getLogger(__name__)
 
-SYSTEM_PROMPT_TEMPLATE = """\
-You are a bilingual translator specializing in educational content \
-for Indian government-school students. The target language is {language_name} ({language_code}).
+SYSTEM_PROMPT = """\
+You are a Hindi-English bilingual translator specializing in educational content \
+for Indian government-school students.
 
 For each English word, provide:
-1. The {language_name} meaning (in {script} script)
-2. The English pronunciation written in {script} script
+1. The Hindi meaning (Devanagari script)
+2. The English pronunciation written in Devanagari script
 
-Format: {meaning_placeholder} ({pronunciation_placeholder})
+Format: हिंदी_अर्थ (अंग्रेज़ी_उच्चारण_देवनागरी_में)
 
-Example: "fraction" → "{example_fraction_meaning} ({example_fraction_pronunciation})"
+Example: "fraction" → "भिन्न (फ्रैक्शन)"
+         "numerator" → "अंश (न्यूमरेटर)"
 
 You must respond with valid JSON only matching this structure:
-{{
-  "translations": {{
-    "word1": "{meaning_placeholder} ({pronunciation_placeholder})",
-    "word2": "{meaning_placeholder} ({pronunciation_placeholder})"
-  }}
-}}
+{
+  "translations": {
+    "word1": "हिंदी (उच्चारण)",
+    "word2": "हिंदी (उच्चारण)"
+  }
+}
 
 Rules:
-- Use natural, commonly understood {language_name}
-- Pronunciation in {script} should match how the word sounds in English
+- Use natural, commonly understood Hindi
+- Pronunciation in Devanagari should match how the word sounds in English
 - Keep translations concise
-- For technical/math terms, use the standard {language_name} mathematical term
+- For technical/math terms, use the standard Hindi mathematical term
 """
-
-LANGUAGE_CONFIG = {
-    "hi": {
-        "name": "Hindi",
-        "script": "Devanagari",
-        "meaning_placeholder": "हिंदी_अर्थ",
-        "pronunciation_placeholder": "अंग्रेज़ी_उच्चारण_देवनागरी_में",
-        "example_fraction_meaning": "भिन्न",
-        "example_fraction_pronunciation": "फ्रैक्शन",
-        "fallback_msg": "इस शब्द का अर्थ अभी उपलब्ध नहीं है"
-    },
-    "ta": {
-        "name": "Tamil",
-        "script": "Tamil",
-        "meaning_placeholder": "தமிழ்_பொருள்",
-        "pronunciation_placeholder": "ஆங்கில_உச்சரிப்பு_தமிழில்",
-        "example_fraction_meaning": "பின்னம்",
-        "example_fraction_pronunciation": "ஃபிராக்‌ஷன்",
-        "fallback_msg": "இந்த வார்த்தையின் பொருள் தற்போது இல்லை"
-    },
-    "te": {
-        "name": "Telugu",
-        "script": "Telugu",
-        "meaning_placeholder": "తెలుగు_అర్థం",
-        "pronunciation_placeholder": "ఆంగ్ల_ఉచ్చారణ_తెలుగులో",
-        "example_fraction_meaning": "భిన్నం",
-        "example_fraction_pronunciation": "ఫ్రాక్షన్",
-        "fallback_msg": "ఈ పదం యొక్క అర్థం ప్రస్తుతం లేదు"
-    },
-    "mr": {
-        "name": "Marathi",
-        "script": "Devanagari",
-        "meaning_placeholder": "मराठी_अर्थ",
-        "pronunciation_placeholder": "इंग्रजी_उच्चार_देवनागरीत",
-        "example_fraction_meaning": "अपूर्णांक",
-        "example_fraction_pronunciation": "फ्रॅक्शन",
-        "fallback_msg": "या शब्दाचा अर्थ सध्या उपलब्ध नाही"
-    },
-    "bn": {
-        "name": "Bengali",
-        "script": "Bengali",
-        "meaning_placeholder": "বাংলা_অর্থ",
-        "pronunciation_placeholder": "ইংরেজি_উচ্চারণ_বাংলায়",
-        "example_fraction_meaning": "ভগ্নাংশ",
-        "example_fraction_pronunciation": "ফ্র্যাকশন",
-        "fallback_msg": "এই শব্দের অর্থ বর্তমানে উপলব্ধ নেই"
-    }
-}
 
 
 class LLEAgent(BaseAgent):
-    """Generates localized translations + phonics for English vocabulary."""
+    """Generates Hindi translations + phonics for English vocabulary."""
 
     # Words to skip (articles, prepositions, etc. already in baseline)
     STOP_WORDS = {
@@ -111,113 +64,20 @@ class LLEAgent(BaseAgent):
         "me", "him", "her", "us", "them", "my", "your", "his", "our", "their",
     }
 
-    def __init__(self, llm, dict_dir: str = "config/dictionaries"):
+    def __init__(self, llm, defaults_path: str = "config/defaults.json"):
         super().__init__(name="LLEAgent", stage="lle", llm=llm)
-        self.dict_dir = Path(dict_dir)
+        self.defaults_path = Path(defaults_path)
+        self._baseline_wm: dict[str, str] = {}
+        self._baseline_conn: dict[str, str] = {}
+        self._load_baseline()
 
-    def _load_baseline(self, lang: str) -> tuple[dict[str, str], dict[str, str]]:
-        """Load the baseline WM/CONN dictionaries from config/dictionaries/<lang>.json or defaults.json."""
-        baseline_wm, baseline_conn = {}, {}
-        
-        # If dict_dir was passed as a file path (e.g. config/defaults.json)
-        if self.dict_dir.is_file():
-            if lang == "hi":
-                lang_path = self.dict_dir
-            else:
-                lang_path = self.dict_dir.parent / "dictionaries" / f"{lang}.json"
-        else:
-            lang_path = self.dict_dir / f"{lang}.json"
-            if not lang_path.exists() and lang == "hi":
-                for alt in [self.dict_dir / "defaults.json", self.dict_dir.parent / "defaults.json"]:
-                    if alt.exists():
-                        lang_path = alt
-                        break
-
-        if lang_path.exists():
-            with open(lang_path, "r", encoding="utf-8") as f:
-                try:
-                    defaults = json.load(f)
-                    baseline_wm = defaults.get("WM", {})
-                    baseline_conn = defaults.get("CONN", {})
-                except json.JSONDecodeError:
-                    logger.warning(f"Failed to parse {lang_path}, using empty dictionaries.")
-        else:
-            logger.warning(f"Dictionary file {lang_path} not found. Using empty baseline.")
-
-        return baseline_wm, baseline_conn
-
-    def _get_config_dir(self) -> Path:
-        """Resolve the root config directory containing dictionaries and defaults."""
-        p = self.dict_dir
-        if p.is_file():
-            return p.parent
-        if p.name == "dictionaries":
-            return p.parent
-        return p
-
-    def _get_candidate_path(self, lang_code: str) -> Path:
-        """Get the path to the candidate review queue file for a language."""
-        return self._get_config_dir() / f"candidate_dictionary_{lang_code}.json"
-
-    def _stage_candidates(
-        self,
-        new_words: set[str],
-        lle: dict[str, Any],
-        lang_code: str,
-        chapter_id: str,
-        lang_conf: dict[str, Any],
-    ) -> int:
-        """Tier 1: Stage net-new words to candidate review queue with occurrence metadata."""
-        if not new_words:
-            return 0
-
-        candidate_path = self._get_candidate_path(lang_code)
-        candidates: dict[str, Any] = {}
-        if candidate_path.exists():
-            try:
-                with open(candidate_path, "r", encoding="utf-8") as f:
-                    candidates = json.load(f)
-            except Exception as e:
-                logger.warning(f"Could not read existing candidates from {candidate_path}: {e}")
-                candidates = {}
-
-        from datetime import datetime, timezone
-        now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-
-        staged_count = 0
-        for word in sorted(new_words):
-            translation = lle.get("WM", {}).get(word, "")
-            if word not in candidates:
-                candidates[word] = {
-                    "translation": translation,
-                    "frequency": 1,
-                    "chapters": [chapter_id] if chapter_id else [],
-                    "first_seen": now_str,
-                    "last_seen": now_str,
-                }
-                staged_count += 1
-            else:
-                candidates[word]["frequency"] = candidates[word].get("frequency", 0) + 1
-                chapters = candidates[word].setdefault("chapters", [])
-                if chapter_id and chapter_id not in chapters:
-                    chapters.append(chapter_id)
-                candidates[word]["last_seen"] = now_str
-                # If existing candidate was fallback and we now have a translation, update it
-                if (
-                    candidates[word].get("translation") == lang_conf.get("fallback_msg")
-                    and translation != lang_conf.get("fallback_msg")
-                ):
-                    candidates[word]["translation"] = translation
-
-        try:
-            candidate_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(candidate_path, "w", encoding="utf-8") as f:
-                json.dump(candidates, f, indent=2, ensure_ascii=False)
-            self.log(f"Staged {len(new_words)} net-new candidate words to {candidate_path.name}")
-        except Exception as e:
-            logger.error(f"Failed to write candidate queue to {candidate_path}: {e}")
-
-        return staged_count
+    def _load_baseline(self) -> None:
+        """Load the baseline WM/CONN dictionaries from config/defaults.json."""
+        if self.defaults_path.exists():
+            with open(self.defaults_path, "r", encoding="utf-8") as f:
+                defaults = json.load(f)
+            self._baseline_wm = defaults.get("WM", {})
+            self._baseline_conn = defaults.get("CONN", {})
 
     def _extract_words(self, spec: dict) -> set[str]:
         """Extract all distinct words from body text, questions, and instructions."""
@@ -252,16 +112,16 @@ class LLEAgent(BaseAgent):
 
         return words
 
-    def _classify_words(self, words: set[str], baseline_conn: dict, baseline_wm: dict) -> tuple[set[str], set[str], set[str]]:
+    def _classify_words(self, words: set[str]) -> tuple[set[str], set[str], set[str]]:
         """Partition words into: in-CONN, in-WM, net-new."""
         conn_words = set()
         wm_words = set()
         new_words = set()
 
         for word in words:
-            if word in baseline_conn:
+            if word in self._baseline_conn:
                 conn_words.add(word)
-            elif word in baseline_wm:
+            elif word in self._baseline_wm:
                 wm_words.add(word)
             else:
                 new_words.add(word)
@@ -271,41 +131,21 @@ class LLEAgent(BaseAgent):
     def run(self, work_dir: Path, context: dict[str, Any]) -> dict[str, Any]:
         spec = self._read_json(work_dir, "chapter_spec.json")
 
-        # Get language config
-        lang_code = context.get("language", "hi")
-        if lang_code not in LANGUAGE_CONFIG:
-            self.log(f"Warning: Unsupported language '{lang_code}', falling back to 'hi'")
-            lang_code = "hi"
-            
-        lang_conf = LANGUAGE_CONFIG[lang_code]
-        system_prompt = SYSTEM_PROMPT_TEMPLATE.format(
-            language_name=lang_conf["name"],
-            language_code=lang_code,
-            script=lang_conf["script"],
-            meaning_placeholder=lang_conf["meaning_placeholder"],
-            pronunciation_placeholder=lang_conf["pronunciation_placeholder"],
-            example_fraction_meaning=lang_conf["example_fraction_meaning"],
-            example_fraction_pronunciation=lang_conf["example_fraction_pronunciation"],
-        )
-
-        # Load baseline for this language
-        baseline_wm, baseline_conn = self._load_baseline(lang_code)
-
         # Extract all words
         words = self._extract_words(spec)
         self.log(f"Found {len(words)} distinct words in chapter text")
 
         # Classify
-        conn_words, wm_words, new_words = self._classify_words(words, baseline_conn, baseline_wm)
+        conn_words, wm_words, new_words = self._classify_words(words)
         self.log(
-            f"Reusing {len(conn_words)} CONN + {len(wm_words)} WM baseline entries for '{lang_code}', "
+            f"Reusing {len(conn_words)} CONN + {len(wm_words)} WM baseline entries, "
             f"{len(new_words)} net-new words to generate"
         )
 
         # Start with baseline
         lle = {
-            "CONN": dict(baseline_conn),
-            "WM": dict(baseline_wm),
+            "CONN": dict(self._baseline_conn),
+            "WM": dict(self._baseline_wm),
         }
 
         # Generate translations for net-new words
@@ -318,17 +158,15 @@ class LLEAgent(BaseAgent):
                 batch = word_list[i : i + batch_size]
 
                 user_prompt = f"""\
-Translate these English words to {lang_conf['name']} with pronunciation in {lang_conf['script']} script:
+Translate these English words to Hindi with pronunciation in Devanagari:
 
 {json.dumps(batch, ensure_ascii=False)}
 
-For each word, provide the {lang_conf['name']} meaning and English pronunciation in {lang_conf['script']} script.
-Format: {lang_conf['meaning_placeholder']} ({lang_conf['pronunciation_placeholder']})
+For each word, provide the Hindi meaning and English pronunciation in Devanagari.
+Format: हिंदी (उच्चारण)
 """
 
-                # Temperature is configured on the LLMAdapter instance
-                # (see adapter.py __init__), not per call.
-                result = self.llm.complete(system_prompt, user_prompt)
+                result = self.llm.complete(SYSTEM_PROMPT, user_prompt, temperature=0.2)
                 translations = result.get("translations", {})
 
                 for word, translation in translations.items():
@@ -339,23 +177,13 @@ Format: {lang_conf['meaning_placeholder']} ({lang_conf['pronunciation_placeholde
             # Words that didn't get translated get the fallback
             for word in word_list:
                 if word not in lle["WM"]:
-                    lle["WM"][word] = lang_conf["fallback_msg"]
-
-            # Tier 1 Staging: Stage candidates into review queue
-            chapter_id = (
-                context.get("title")
-                or context.get("job_id")
-                or (spec.get("chapter", {}) if isinstance(spec, dict) else {}).get("title")
-                or (spec.get("chapter", {}) if isinstance(spec, dict) else {}).get("storage_key")
-                or work_dir.name
-            )
-            self._stage_candidates(new_words, lle, lang_code, str(chapter_id), lang_conf)
+                    lle["WM"][word] = "इस शब्द का हिंदी अर्थ अभी उपलब्ध नहीं है"
         else:
             self.log("All words already in baseline dictionary — no LLM calls needed")
 
         output_path = self._write_json(work_dir, "lle.json", lle)
         self.log(
-            f"LLE complete for {lang_code}: {len(lle['CONN'])} CONN + {len(lle['WM'])} WM entries"
+            f"LLE complete: {len(lle['CONN'])} CONN + {len(lle['WM'])} WM entries"
         )
 
         return {
@@ -363,8 +191,4 @@ Format: {lang_conf['meaning_placeholder']} ({lang_conf['pronunciation_placeholde
             "conn_count": len(lle["CONN"]),
             "wm_count": len(lle["WM"]),
             "new_words": len(new_words),
-            "staged_candidates": len(new_words),
-            "language": lang_code,
         }
-
-

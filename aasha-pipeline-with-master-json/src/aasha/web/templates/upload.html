@@ -80,54 +80,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e
             <option value="anthropic">Anthropic</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Mode</label>
-          <select name="mode" id="modeSelect">
-            <option value="v5-engine" selected>V5 Engine (Standard)</option>
-            <option value="full-synthesis">Full Synthesis</option>
-          </select>
-        </div>
       </div>
-      
-      <div id="fullSynthesisOptions" style="display:none; margin-bottom: 16px; padding: 16px; background: #f1f5f9; border-radius: 8px;">
-        <h4 style="margin-bottom: 12px;">Full Synthesis Options</h4>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Board</label>
-            <select name="board">
-              <option value="CBSE">CBSE</option>
-              <option value="ICSE">ICSE</option>
-              <option value="State">State</option>
-              <option value="IB">IB</option>
-              <option value="Cambridge">Cambridge</option>
-              <option value="NIOS">NIOS</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Language</label>
-            <select name="language">
-              <option value="en">English</option>
-              <option value="hi">Hindi</option>
-              <option value="bn">Bengali</option>
-              <option value="ta">Tamil</option>
-              <option value="te">Telugu</option>
-              <option value="mr">Marathi</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Plugin Overrides</label>
-          <div style="display:flex; gap: 12px; font-size: 0.9rem;">
-            <label><input type="checkbox" name="plugin_desmos" checked> Desmos</label>
-            <label><input type="checkbox" name="plugin_geogebra" checked> GeoGebra</label>
-            <label><input type="checkbox" name="plugin_phet" checked> PhET</label>
-          </div>
-        </div>
-        <div class="note">
-          <strong>Assessment Structure:</strong> Generates 3 levels of assessment (Recall, Apply, Synthesize).
-        </div>
-      </div>
-
       <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Generate</button>
       <div class="note">Cost target: under $0.50 per chapter. Output: a single offline HTML file.</div>
     </form>
@@ -173,15 +126,6 @@ dropZone.addEventListener('drop', ev => {
     submitBtn.disabled = false;
   }
 });
-
-const modeSelect = document.getElementById('modeSelect');
-const fullSynthesisOptions = document.getElementById('fullSynthesisOptions');
-if (modeSelect && fullSynthesisOptions) {
-  modeSelect.addEventListener('change', (e) => {
-    fullSynthesisOptions.style.display = (e.target.value === 'full-synthesis') ? 'block' : 'none';
-  });
-}
-
 form.addEventListener('submit', async (ev) => {
   ev.preventDefault();
   const formData = new FormData(form);

@@ -2683,13 +2683,80 @@ function simViz(name, v){
 }
 
 
-/* === AASHA GENERIC CHAPTER SIM SUPPORT === */
+/* === AASHA GENERIC & DOMAIN-SPECIFIC CHAPTER SIM SUPPORT === */
+function vizCircuitOhm(V, R){
+  const I = +(V / R).toFixed(2);
+  const glow = Math.min(1, I / 6);
+  return svgOpen() +
+    '<rect x="60" y="50" width="360" height="150" rx="14" fill="none" stroke="#334155" stroke-width="4"/>' +
+    '<rect x="44" y="105" width="32" height="40" rx="6" fill="#0f766e"/><text x="60" y="130" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">'+V+'V</text>' +
+    '<rect x="190" y="34" width="100" height="32" rx="8" fill="#fde68a" stroke="#d97706" stroke-width="2"/><text x="240" y="55" text-anchor="middle" fill="#78350f" font-size="13" font-weight="700">R = '+R+' Ω</text>' +
+    '<circle cx="420" cy="125" r="24" fill="rgba(250,204,21,'+(0.25+0.75*glow)+')" stroke="#ca8a04" stroke-width="3"/><text x="420" y="130" text-anchor="middle" fill="#713f12" font-size="12" font-weight="700">'+I+'A</text>' +
+    '<text x="240" y="235" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="700">Ohm\'s Law: I = V ÷ R = '+V+' ÷ '+R+' = '+I+' A</text></svg>';
+}
+function vizMotionForce(F, m){
+  const a = +(F / m).toFixed(2);
+  const arrowW = Math.min(180, F * 6);
+  return svgOpen() +
+    '<line x1="40" y1="175" x2="440" y2="175" stroke="#94a3b8" stroke-width="4"/>' +
+    '<rect x="90" y="110" width="90" height="55" rx="10" fill="#1d4ed8"/><text x="135" y="143" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">'+m+' kg</text>' +
+    '<circle cx="110" cy="170" r="10" fill="#0f172a"/><circle cx="160" cy="170" r="10" fill="#0f172a"/>' +
+    '<line x1="185" y1="137" x2="'+(185+arrowW)+'" y2="137" stroke="#dc2626" stroke-width="6"/>' +
+    '<polygon points="'+(185+arrowW)+',127 '+(200+arrowW)+',137 '+(185+arrowW)+',147" fill="#dc2626"/>' +
+    '<text x="'+(195+arrowW/2)+'" y="118" text-anchor="middle" fill="#dc2626" font-size="13" font-weight="700">F = '+F+' N</text>' +
+    '<text x="240" y="225" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="700">Newton\'s 2nd Law: a = F ÷ m = '+a+' m/s²</text></svg>';
+}
+function vizLedgerBalance(rows, rate){
+  const total = rows * rate;
+  return svgOpen() +
+    '<rect x="50" y="35" width="380" height="165" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>' +
+    '<rect x="50" y="35" width="380" height="34" rx="12" fill="#0f766e"/><text x="240" y="57" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Verified Village Impact Ledger (SHA-256 Locked)</text>' +
+    '<text x="80" y="100" fill="#334155" font-size="14" font-weight="600">Validated Entries: '+rows+' rows</text>' +
+    '<text x="80" y="132" fill="#334155" font-size="14" font-weight="600">Per-Entry Value: '+rate+' units</text>' +
+    '<text x="80" y="168" fill="#0f766e" font-size="16" font-weight="800">Cross-Foot Checksum Total = '+total+' units ✓</text>' +
+    '<text x="240" y="232" text-anchor="middle" fill="#475569" font-size="13">Row Sum ('+total+') === Column Sum ('+total+')</text></svg>';
+}
+function vizDripFlow(emitters, lph){
+  const total = emitters * lph;
+  let drops = '';
+  const cnt = Math.min(10, emitters);
+  for(let k=0;k<cnt;k++){
+    const cx = 65 + k * 38;
+    drops += '<circle cx="'+cx+'" cy="110" r="5" fill="#0284c7"/><path d="M '+cx+' 122 C '+(cx-7)+' 138, '+(cx+7)+' 138, '+cx+' 150 Z" fill="#38bdf8"/>';
+  }
+  return svgOpen() +
+    '<rect x="40" y="92" width="400" height="12" rx="6" fill="#334155"/>' +
+    drops +
+    '<rect x="40" y="165" width="400" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>' +
+    '<text x="240" y="188" text-anchor="middle" fill="#166534" font-size="14" font-weight="700">Root-Zone Delivery: '+total+' L/hr (90% Jal Seva Efficiency)</text>' +
+    '<text x="240" y="230" text-anchor="middle" fill="#0f172a" font-size="14" font-weight="700">'+emitters+' Emitters × '+lph+' L/hr = '+total+' L/hr</text></svg>';
+}
 if (typeof SIM !== 'undefined') {
   SIM.generic_scale = function(cfg) {
     const c = cfg || { labelA:'Input (x)', labelB:'Output (y)', min:1, max:10, val:3, mult:4, unitA:'', unitB:'' };
     return '<input type="range" id="sGen" min="'+(c.min||1)+'" max="'+(c.max||10)+'" value="'+(c.val||3)+'" aria-label="value">' +
       '<div class="readout"><span>'+(c.labelA||'x')+' = <b id="oGA">'+(c.val||3)+'</b> '+(c.unitA||'')+'</span>' +
       '<span>'+(c.labelB||'y')+' = <b id="oGB">'+((c.val||3)*(c.mult||4))+'</b> '+(c.unitB||'')+'</span></div>';
+  };
+  SIM.circuit_ohm = function(cfg) {
+    const c = cfg || { min:1, max:12, val:4, mult:12 };
+    return '<input type="range" id="sGen" data-sim-kind="circuit_ohm" min="'+(c.min||1)+'" max="'+(c.max||12)+'" value="'+(c.val||4)+'" aria-label="resistance">' +
+      '<div class="readout"><span>Voltage = <b>12 V</b></span><span>R = <b id="oGA">'+(c.val||4)+'</b> Ω</span><span>Current I = <b id="oGB">'+(12/(c.val||4)).toFixed(2)+'</b> A</span></div>';
+  };
+  SIM.motion_force = function(cfg) {
+    const c = cfg || { min:1, max:20, val:6, mult:3 };
+    return '<input type="range" id="sGen" data-sim-kind="motion_force" min="'+(c.min||1)+'" max="'+(c.max||20)+'" value="'+(c.val||6)+'" aria-label="force">' +
+      '<div class="readout"><span>Force F = <b id="oGA">'+(c.val||6)+'</b> N</span><span>Mass = <b>'+(c.mult||3)+' kg</b></span><span>Accel a = <b id="oGB">'+((c.val||6)/(c.mult||3)).toFixed(2)+'</b> m/s²</span></div>';
+  };
+  SIM.ledger_balance = function(cfg) {
+    const c = cfg || { min:1, max:15, val:5, mult:40 };
+    return '<input type="range" id="sGen" data-sim-kind="ledger_balance" min="'+(c.min||1)+'" max="'+(c.max||15)+'" value="'+(c.val||5)+'" aria-label="rows">' +
+      '<div class="readout"><span>Rows = <b id="oGA">'+(c.val||5)+'</b></span><span>Total = <b id="oGB">'+((c.val||5)*(c.mult||40))+'</b></span></div>';
+  };
+  SIM.drip_flow = function(cfg) {
+    const c = cfg || { min:2, max:20, val:8, mult:4 };
+    return '<input type="range" id="sGen" data-sim-kind="drip_flow" min="'+(c.min||2)+'" max="'+(c.max||20)+'" value="'+(c.val||8)+'" aria-label="emitters">' +
+      '<div class="readout"><span>Emitters = <b id="oGA">'+(c.val||8)+'</b></span><span>Discharge = <b id="oGB">'+((c.val||8)*(c.mult||4))+'</b> L/hr</span></div>';
   };
 }
 const CUSTOM_SIMS = {{CUSTOM_SIMS_JSON}};
@@ -2764,6 +2831,18 @@ function render(){
       title = '<div class="kindrow"><span class="kind">Done</span></div><h1 data-lang>'+esc(s.t)+'</h1>';
       txt = '<p class="sub" data-lang>'+esc(s.s||"")+'</p><p class="b" data-lang>'+esc(s.b||"")+'</p>';
       vis = vizCard("star","open the arena next");
+      try {
+        if (window.parent && typeof window.parent.postMessage === "function") {
+          window.parent.postMessage({
+            type: "TEAS_CHAPTER_MASTERY",
+            chapterId: "{{CHAPTER_ID}}",
+            nodeId: "learn_complete",
+            mode: "learn",
+            score: 85,
+            timestamp: new Date().toISOString()
+          }, "*");
+        }
+      } catch (_e) {}
       break;
     default:
       title = '<h2 data-lang>'+esc(s.t||"")+'</h2>'; txt = '<p class="b" data-lang>'+esc(s.b||"")+'</p>';
@@ -2822,12 +2901,27 @@ function wireSim(name){
   const gen = document.getElementById("sGen");
   if(gen){
     const sObj = SLIDES[i] || {};
-    const cfg = sObj.simCfg || CUSTOM_SIMS[name] || {labelA:"Input",labelB:"Output",mult:4,val:3,caption:""};
+    const cfg = sObj.simCfg || CUSTOM_SIMS[name] || {labelA:"Input",labelB:"Output",mult:4,val:3,caption:"",simType:"generic_scale"};
+    const kind = gen.getAttribute("data-sim-kind") || cfg.simType || name;
     const upd=()=>{ const v=+gen.value; const m=cfg.mult||4;
       const ea=document.getElementById("oGA"), eb=document.getElementById("oGB");
       if(ea) ea.textContent=v;
-      if(eb) eb.textContent=(v*m);
-      setVis(simViz("generic_scale", {generic:true, val:v, mult:m, labelA:cfg.labelA||"Input", labelB:cfg.labelB||"Output", caption:cfg.caption||""}));
+      if(kind==="circuit_ohm"){
+        if(eb) eb.textContent=(12/v).toFixed(2);
+        setVis(vizCircuitOhm(12, v));
+      } else if(kind==="motion_force"){
+        if(eb) eb.textContent=(v/m).toFixed(2);
+        setVis(vizMotionForce(v, m));
+      } else if(kind==="ledger_balance"){
+        if(eb) eb.textContent=(v*m);
+        setVis(vizLedgerBalance(v, m));
+      } else if(kind==="drip_flow"){
+        if(eb) eb.textContent=(v*m);
+        setVis(vizDripFlow(v, m));
+      } else {
+        if(eb) eb.textContent=(v*m);
+        setVis(simViz("generic_scale", {generic:true, val:v, mult:m, labelA:cfg.labelA||"Input", labelB:cfg.labelB||"Output", caption:cfg.caption||""}));
+      }
     };
     gen.addEventListener("input", upd); upd();
     return;

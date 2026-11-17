@@ -152,13 +152,18 @@ class PhETPlugin(InteractionPlugin):
             "instruction": f"Explore: {request.concept} (PhET Simulation)",
             "sim_id": sim_id,
             "sim_url": sim_url,
-            "iframe_html": self._assets.get(sim_id, ""),
+            "srcdoc_b64": "",  # Filled by prepare() after downloading
             "concept": request.concept,
         }
 
     def prepare(self, request: InteractionRequest) -> None:
-        """Download and base64-encode the PhET simulation."""
-        from ..bundler import get_bundled_script
+        """Download and base64-encode the PhET simulation.
+
+        This is called before render_step to fetch the simulation HTML.
+        If the download fails, the step falls back to a link.
+        """
+        import requests
+        import base64
 
         sim_id = self._find_sim(request)
         if not sim_id:
@@ -166,12 +171,18 @@ class PhETPlugin(InteractionPlugin):
             return
 
         sim_url = PHET_URL_TEMPLATE.format(sim=sim_id)
-        
-        # Use the bundler to get the iframe and store it in _assets
-        # The step template will use this iframe directly or we store the srcdoc.
-        # Actually, get_bundled_script caches and returns the tag. We can store it.
-        iframe_tag = get_bundled_script(sim_id, sim_url, "text/html", is_iframe=True)
-        self._assets[sim_id] = iframe_tag
+
+        try:
+            response = requests.get(sim_url, timeout=30)
+            if response.status_code == 200:
+                b64 = base64.b64encode(response.content).decode("ascii")
+                self._assets[sim_id] = b64
+                logger.info(f"Downloaded PhET sim: {sim_id} ({len(response.content) // 1024} KB)")
+            else:
+                logger.warning(f"PhET download failed for {sim_id}: HTTP {response.status_code}")
+        except Exception as e:
+            logger.warning(f"PhET download error for {sim_id}: {e}")
+
         self._prepared = True
 
     def embed_assets(self) -> dict[str, str]:

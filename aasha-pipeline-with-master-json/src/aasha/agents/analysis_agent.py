@@ -2,7 +2,7 @@
 
 Analyzes the raw PDF extract using an LLM to identify concepts, worked examples,
 quiz opportunities, interactive visual opportunities, and key vocabulary.
-Output: pedagogy_map.json
+Output: content_map.json
 """
 
 from __future__ import annotations
@@ -13,63 +13,42 @@ from pathlib import Path
 from typing import Any
 
 from .base import BaseAgent
-from ..exercise import ExerciseExtractor
 
 logger = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = """\
-You are an expert pedagogue for any curriculum board (e.g. NCERT, CBSE, ICSE, State Boards).
-You analyze textbook content and identify the pedagogical structure of a chapter with high fidelity to the textbook.
+You are an expert pedagogue for Indian government-school curriculum (NCERT).
+You analyze textbook content and identify the pedagogical structure of a chapter.
 
 Your task: given the raw text extracted from a textbook chapter, identify:
 1. The chapter's core concepts (3-5 will become Nodes)
 2. Candidate worked examples (problems with their solution approach)
 3. Quiz opportunities (points where a check-for-understanding fits)
-4. Interactive visual opportunities with Hybrid Granular Tagging:
-   - pedagogical_verb: manipulate_ratio | simulate_gravity | label_diagram | chronological_order | circuit_builder | chemical_reaction | coordinate_geometry | balance_scale | explore_fractions
-   - candidate_foundations: ["JSXGraph", "Mafs", "PhET", "Fabric.js", "Mermaid", "Timeline", "Phonics", "VirtualLab"]
-   - suggested_model: pizza | bar | area | slider | numline | phet | mermaid | fabric | timeline | phonics
-5. Common student misconceptions and diagnostic traps:
-   - explanation must NEVER spoil or reveal the correct answer directly (L-Truth standard)
-6. Key domain vocabulary (subject-specific terms needing bilingual definitions, avoiding common words)
-7. Mathematical expressions insulated into clean KaTeX/LaTeX ($...$, \\(...\\)) using __AASHA_MATH_X__ placeholders if needed.
+4. Interactive visual opportunities (where a pizza/bar/area/slider model would help)
+5. Key vocabulary (terms needing Hindi translations beyond common words)
 
 You must respond with valid JSON only. The JSON must have this structure:
 {
   "chapter_title": "string",
   "concepts": [
-    {
-      "name": "string",
-      "summary": "string",
-      "key_ideas": ["string"],
-      "difficulty": "easy|medium|hard",
-      "pedagogical_verb": "string",
-      "candidate_foundations": ["string"]
-    }
+    {"name": "string", "summary": "string", "key_ideas": ["string"], "difficulty": "easy|medium|hard"}
   ],
   "worked_examples": [
     {"problem": "string", "approach": "string", "concept": "string"}
   ],
   "quiz_opportunities": [
-    {"concept": "string", "context": "string", "misconception_trap": "string"}
+    {"concept": "string", "context": "string"}
   ],
   "visual_opportunities": [
-    {
-      "concept": "string",
-      "suggested_model": "pizza|bar|area|slider|numline|phet|mermaid|fabric|timeline|phonics",
-      "pedagogical_verb": "string",
-      "candidate_foundations": ["string"]
-    }
+    {"concept": "string", "suggested_model": "pizza|bar|area|slider|numline"}
   ],
-  "vocabulary": ["string"],
-  "math_insulation_placeholders": []
+  "vocabulary": ["string"]
 }
 
 Rules:
 - Identify 3-5 core concepts only.
-- Maintain strict fidelity to textbook definitions and problems (do not hallucinate or substitute external curricula).
-- Concepts should be at the right difficulty level for the given grade (K-10).
-- Each concept should be independently teachable with intuitive, clear, lightweight language.
+- Concepts should be at the right difficulty level for the given grade.
+- Each concept should be independently teachable.
 - Vocabulary should include domain-specific terms (not common words like "the", "is").
 """
 
@@ -85,21 +64,6 @@ class AnalysisAgent(BaseAgent):
 
         subject = context.get("subject", "math")
         grade = context.get("grade", 4)
-        board = context.get("board", "NCERT")
-
-        # Classify subject domain using profiles module (if available)
-        # Note: Added as per requirements, we attempt to get domain
-        domain = subject
-        try:
-            from ..profiles import get_domain
-            domain = get_domain(subject, grade)
-        except ImportError:
-            pass
-
-        # Extract 100% of exercises
-        extractor = ExerciseExtractor()
-        extracted_exercises = extractor.extract(raw_extract)
-        exercises_list = [ex.to_dict() for ex in extracted_exercises]
 
         # Build user prompt from extracted text
         pages_text = []
@@ -111,9 +75,8 @@ class AnalysisAgent(BaseAgent):
             full_text = full_text[:30000] + "\n[...truncated...]"
 
         user_prompt = f"""\
-Subject: {subject} (Domain: {domain})
+Subject: {subject}
 Grade: {grade}
-Board: {board}
 
 Extracted text from the textbook chapter:
 
@@ -126,40 +89,36 @@ Analyze this chapter and identify its pedagogical structure. Focus on:
 4. Where interactive visuals (pizza/bar/area/slider) would help understanding
 5. Key vocabulary terms specific to this chapter
 
-Remember: this is for students in Grade {grade} ({board}). \
+Remember: this is for Indian government-school students in Grade {grade}. \
 Keep language simple and concepts age-appropriate.
 """
 
-        self.log(f"Analyzing content for {subject} Grade {grade} ({board})...")
+        self.log(f"Analyzing content for {subject} Grade {grade}...")
         content_map = self.llm.complete(SYSTEM_PROMPT, user_prompt)
 
         # Ensure required fields
         content_map.setdefault("chapter_title", "Untitled Chapter")
         content_map.setdefault("subject", subject)
         content_map.setdefault("grade", grade)
-        content_map.setdefault("board", board)
         content_map.setdefault("concepts", [])
         content_map.setdefault("worked_examples", [])
         content_map.setdefault("quiz_opportunities", [])
         content_map.setdefault("visual_opportunities", [])
         content_map.setdefault("vocabulary", [])
-        content_map["exercises"] = exercises_list
 
         # Validate concepts count
         if len(content_map["concepts"]) < 3:
             self.log(f"WARNING: Only {len(content_map['concepts'])} concepts identified (need 3-5)")
 
-        output_path = self._write_json(work_dir, "pedagogy_map.json", content_map)
+        output_path = self._write_json(work_dir, "content_map.json", content_map)
         self.log(
             f"Generated {len(content_map['concepts'])} concepts, "
             f"{len(content_map['worked_examples'])} worked examples, "
-            f"{len(content_map['vocabulary'])} vocabulary terms, "
-            f"{len(exercises_list)} exercises extracted"
+            f"{len(content_map['vocabulary'])} vocabulary terms"
         )
 
         return {
             "output_file": str(output_path),
             "concept_count": len(content_map["concepts"]),
             "example_count": len(content_map["worked_examples"]),
-            "exercise_count": len(exercises_list),
         }

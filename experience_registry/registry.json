@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-11-16T16:21:17.488538+00:00",
+  "last_updated": "2026-11-16T12:10:41.799107+00:00",
   "foundations": [
     {
       "id": "F01",
@@ -707,9 +707,6 @@
         "lilypad_river_hopper",
         "category_classification_sorter",
         "card_memory_matcher",
-        "boss_battle_rapid_fire",
-        "formula_lab_probe",
-        "timeline_spatial_sequencer",
         "procedural_web_audio_oscillator",
         "touch_responsive_controls",
         "progressive_pedagogical_hints",
@@ -718,37 +715,6 @@
       ],
       "reuse_strategy": "EXTRACT",
       "adapter": "Aasha-AI/experience_registry/adapters/aasha_gamified_assessment_adapter.js#AashaGamifiedAssessmentAdapter"
-    },
-    {
-      "id": "F28",
-      "name": "OpenMAIC Governed Interactive Simulation Primitives",
-      "repo": "https://github.com/THU-MAIC/OpenMAIC",
-      "license": "MIT",
-      "subjects": [
-        "Physics",
-        "Science",
-        "Mathematics",
-        "Kinematics"
-      ],
-      "classes": [
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12
-      ],
-      "mechanics": [
-        "multi_parameter_sliders",
-        "interactive_simulation_primitives",
-        "trajectory_kinematics_canvas",
-        "velocity_vector_decomposition",
-        "gravity_vacuum_drag_sandbox",
-        "offline_canvas_animation_loop"
-      ],
-      "reuse_strategy": "EXTRACT",
-      "adapter": "Aasha-AI/packages/iec/providers/openmaic/openmaic_adapter_provider.ts#OpenMAICAdapterProvider"
     }
   ],
   "secondary_libraries": {
@@ -3416,474 +3382,14 @@
         "offline_cdp_verified": true
       },
       "artifact_hash": "993f011a62733aef55af8aa4747e72e815c3a914d36964804aeb9c30e706b420"
-    },
+    }
+  ],
+  "certified_components": [
     {
-      "component_id": "AVR-P321-bio-mendelian-punnett-square-sim",
-      "version": "1.0.0",
-      "status": "APPROVED",
-      "title": "Mendelian Genetics: Punnett Square Monohybrid Cross Simulator",
-      "capability_contract": {
-        "capability_id": "cap:AVR-P321-bio-mendelian-punnett-square-sim",
-        "mechanics": [
-          "punnett_square",
-          "monohybrid_cross",
-          "genetic_ratio"
-        ],
-        "inputs": [
-          "allele_toggle",
-          "preset_select"
-        ],
-        "outputs": [
-          "phenotype_ratio",
-          "genotype_ratio",
-          "telemetry"
-        ],
-        "state": [
-          "parent1_alleles",
-          "parent2_alleles",
-          "offspring_matrix"
-        ],
-        "interaction_model": "direct_manipulative"
-      },
-      "mechanic_tags": [
-        "genetics",
-        "punnett_square",
-        "monohybrid_cross"
-      ],
-      "applicability": {
-        "subjects": [
-          "Science",
-          "Biology"
-        ],
-        "classes": [
-          10
-        ],
-        "boards": [
-          "NCERT",
-          "CBSE",
-          "ICSE",
-          "State Boards"
-        ]
-      },
-      "adapter": {
-        "class_name": "MendelianPunnettSquareAdapter",
-        "web_component_tag": "aasha-sim",
-        "source_path": "assets/cdn/interactives/AVR-P321-bio-mendelian-punnett-square-sim.html",
-        "telemetry_events": [
-          "PUNNETT_CROSS_CALCULATED"
-        ]
-      },
-      "dependencies": [],
-      "runtime": {
-        "offline": true,
-        "external_urls": []
-      },
-      "provenance": {
-        "source_type": "HARVESTED_OPEN_SOURCE",
-        "origin_file": "assets/cdn/interactives/AVR-P321-bio-mendelian-punnett-square-sim.html",
-        "source_hash": "8e8bca0c23cfcbd130a8b2bc4075a5cdbc6bb04475363f72ab06c14231bac7a3"
-      },
-      "license": {
-        "spdx_identifier": "MIT",
-        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
-        "license_status": "APPROVED"
-      },
-      "verification": {
-        "gates_passed": [
-          "FUNCTIONAL",
-          "CAPABILITY_CONTRACT",
-          "BROWSER_RUNTIME",
-          "OFFLINE",
-          "PROVENANCE",
-          "LICENSE",
-          "ACCESSIBILITY",
-          "PERFORMANCE",
-          "SECURITY_CHILD_SAFETY",
-          "MAINTAINABILITY",
-          "AASHA_INTEGRATION"
-        ],
-        "verified_at": "2026-11-04T04:20:31.485Z"
-      }
-    },
-    {
-      "component_id": "comp_candle_flame_convection",
-      "name": "Candle Flame Thermal Convection & Fire Triangle Lab",
-      "version": "1.0.0",
-      "status": "CERTIFIED",
-      "capability_contract": {
-        "capability_id": "cap:candle_flame_convection",
-        "mechanics": [
-          "canvas_particle_physics",
-          "convection_currents",
-          "thermal_probe",
-          "fire_triangle_cut_off"
-        ],
-        "inputs": [
-          "slider_drag",
-          "toggle_click"
-        ],
-        "outputs": [
-          "temperature_readout",
-          "zone_identification",
-          "state_change"
-        ],
-        "interaction_model": "direct_manipulative"
-      },
-      "mechanic_tags": [
-        "particle_physics",
-        "convection_simulation",
-        "thermal_probe",
-        "fire_triangle"
-      ],
-      "applicability": {
-        "subjects": [
-          "Science",
-          "Chemistry",
-          "Physics"
-        ],
-        "classes": [
-          6,
-          7,
-          8,
-          9,
-          10
-        ],
-        "boards": [
-          "NCERT",
-          "CBSE",
-          "ICSE",
-          "State Boards"
-        ]
-      },
-      "dependencies": [],
-      "runtime": {
-        "offline": true,
-        "external_urls": []
-      },
-      "provenance": {
-        "source_type": "HARVESTED_OPEN_SOURCE_CLEANROOM",
-        "origin": "eugenkeil/candle-animation + zufallsgenerator/firesimulation + PhET Energy concepts",
-        "license": "MIT"
-      },
-      "license": {
-        "spdx_identifier": "MIT",
-        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
-        "license_status": "APPROVED"
-      },
-      "verification": {
-        "gates_passed": [
-          "OFFLINE_INTEGRITY",
-          "BUNDLE_CEILING",
-          "CLEANROOM_ISOLATION",
-          "MOBILE_VIEWPORT",
-          "AASHA_CONTRACT"
-        ],
-        "verified_at": "2026-11-15T01:40:17.890903"
-      }
-    },
-    {
-      "component_id": "comp_biochemical_dropper_assay",
-      "name": "Biochemical Nutrient Dropper Assay Lab",
-      "version": "1.0.0",
-      "status": "CERTIFIED",
-      "capability_contract": {
-        "capability_id": "cap:biochemical_dropper_assay",
-        "mechanics": [
-          "dropper_liquid_physics",
-          "effervescence_bubbles",
-          "color_diffusion",
-          "spectroscopic_readout"
-        ],
-        "inputs": [
-          "sample_select",
-          "dropper_click"
-        ],
-        "outputs": [
-          "reaction_color_transition",
-          "diagnostic_finding",
-          "telemetry"
-        ],
-        "interaction_model": "virtual_dropper_lab"
-      },
-      "mechanic_tags": [
-        "chemical_assay",
-        "iodine_starch",
-        "biuret_protein",
-        "fat_translucency",
-        "liquid_diffusion"
-      ],
-      "applicability": {
-        "subjects": [
-          "Science",
-          "Biology",
-          "Chemistry"
-        ],
-        "classes": [
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12
-        ],
-        "boards": [
-          "NCERT",
-          "CBSE",
-          "ICSE",
-          "State Boards"
-        ]
-      },
-      "dependencies": [],
-      "runtime": {
-        "offline": true,
-        "external_urls": []
-      },
-      "provenance": {
-        "source_type": "HARVESTED_OPEN_SOURCE_CLEANROOM",
-        "origin": "Open-Source Chemical Assays & Virtual Science Labs",
-        "license": "MIT"
-      },
-      "license": {
-        "spdx_identifier": "MIT",
-        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
-        "license_status": "APPROVED"
-      },
-      "verification": {
-        "gates_passed": [
-          "OFFLINE_INTEGRITY",
-          "BUNDLE_CEILING",
-          "CLEANROOM_ISOLATION",
-          "MOBILE_VIEWPORT",
-          "AASHA_CONTRACT"
-        ],
-        "verified_at": "2026-11-15T01:40:17.890944"
-      }
-    },
-    {
-      "component_id": "comp_balance_scale_transposition",
-      "name": "Mechanical Balance Scale & Algebraic Transposition Lab",
-      "version": "1.0.0",
-      "status": "CERTIFIED",
-      "capability_contract": {
-        "capability_id": "cap:balance_scale_transposition",
-        "mechanics": [
-          "knife_edge_fulcrum_physics",
-          "damped_torque_oscillation",
-          "variable_weights",
-          "algebraic_solver"
-        ],
-        "inputs": [
-          "button_step",
-          "weight_add"
-        ],
-        "outputs": [
-          "tilt_angle",
-          "equilibrium_state",
-          "algebraic_step"
-        ],
-        "interaction_model": "physical_manipulative"
-      },
-      "mechanic_tags": [
-        "lever_physics",
-        "algebraic_equations",
-        "transposition",
-        "equality_explorer"
-      ],
-      "applicability": {
-        "subjects": [
-          "Mathematics"
-        ],
-        "classes": [
-          6,
-          7,
-          8,
-          9,
-          10
-        ],
-        "boards": [
-          "NCERT",
-          "CBSE",
-          "ICSE",
-          "State Boards"
-        ]
-      },
-      "dependencies": [],
-      "runtime": {
-        "offline": true,
-        "external_urls": []
-      },
-      "provenance": {
-        "source_type": "HARVESTED_OPEN_SOURCE_CLEANROOM",
-        "origin": "PhET Equality Explorer (cleanroom extract)",
-        "license": "MIT"
-      },
-      "license": {
-        "spdx_identifier": "MIT",
-        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
-        "license_status": "APPROVED"
-      },
-      "verification": {
-        "gates_passed": [
-          "OFFLINE_INTEGRITY",
-          "BUNDLE_CEILING",
-          "CLEANROOM_ISOLATION",
-          "MOBILE_VIEWPORT",
-          "AASHA_CONTRACT"
-        ],
-        "verified_at": "2026-11-15T01:40:17.890952"
-      }
-    },
-    {
-      "component_id": "comp_mendelian_punnett_matrix",
-      "name": "Mendelian Genetics & Punnett Matrix Simulator",
-      "version": "1.0.0",
-      "status": "CERTIFIED",
-      "capability_contract": {
-        "capability_id": "cap:mendelian_punnett_matrix",
-        "mechanics": [
-          "gamete_segregation",
-          "combinatorial_matrix",
-          "phenotypic_bar_graph",
-          "chromosome_cross"
-        ],
-        "inputs": [
-          "generation_select",
-          "allele_cross"
-        ],
-        "outputs": [
-          "phenotypic_ratio",
-          "genotypic_ratio",
-          "plant_phenotype_vine"
-        ],
-        "interaction_model": "matrix_combinatorial"
-      },
-      "mechanic_tags": [
-        "genetics",
-        "punnett_square",
-        "monohybrid_cross",
-        "dihybrid_cross",
-        "sex_determination"
-      ],
-      "applicability": {
-        "subjects": [
-          "Science",
-          "Biology"
-        ],
-        "classes": [
-          9,
-          10,
-          11,
-          12
-        ],
-        "boards": [
-          "NCERT",
-          "CBSE",
-          "ICSE",
-          "State Boards"
-        ]
-      },
-      "dependencies": [],
-      "runtime": {
-        "offline": true,
-        "external_urls": []
-      },
-      "provenance": {
-        "source_type": "HARVESTED_OPEN_SOURCE_CLEANROOM",
-        "origin": "APonder-Dev/Mendelian-Inheritance-Simulator + PhET Natural Selection (cleanroom)",
-        "license": "MIT"
-      },
-      "license": {
-        "spdx_identifier": "MIT",
-        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
-        "license_status": "APPROVED"
-      },
-      "verification": {
-        "gates_passed": [
-          "OFFLINE_INTEGRITY",
-          "BUNDLE_CEILING",
-          "CLEANROOM_ISOLATION",
-          "MOBILE_VIEWPORT",
-          "AASHA_CONTRACT"
-        ],
-        "verified_at": "2026-11-15T01:40:17.890958"
-      }
-    },
-    {
-      "component_id": "comp_fraction_pizza_blocks",
-      "name": "Fraction Pizza & Equivalent Blocks Manipulative",
-      "version": "1.0.0",
-      "status": "CERTIFIED",
-      "capability_contract": {
-        "capability_id": "cap:fraction_pizza_blocks",
-        "mechanics": [
-          "circular_sector_slicing",
-          "linear_fraction_strip",
-          "equivalence_chimes",
-          "percentage_calc"
-        ],
-        "inputs": [
-          "numerator_slider",
-          "denominator_slider",
-          "preset_click"
-        ],
-        "outputs": [
-          "fraction_display",
-          "decimal_conversion",
-          "percentage_bar"
-        ],
-        "interaction_model": "tactile_manipulative"
-      },
-      "mechanic_tags": [
-        "fractions",
-        "equivalent_fractions",
-        "pizza_sectors",
-        "percentage_conversion"
-      ],
-      "applicability": {
-        "subjects": [
-          "Mathematics"
-        ],
-        "classes": [
-          3,
-          4,
-          5,
-          6,
-          7,
-          8
-        ],
-        "boards": [
-          "NCERT",
-          "CBSE",
-          "ICSE",
-          "State Boards"
-        ]
-      },
-      "dependencies": [],
-      "runtime": {
-        "offline": true,
-        "external_urls": []
-      },
-      "provenance": {
-        "source_type": "HARVESTED_OPEN_SOURCE_CLEANROOM",
-        "origin": "KingsMath FractionPizza & PhET Fractions Intro (cleanroom)",
-        "license": "MIT"
-      },
-      "license": {
-        "spdx_identifier": "MIT",
-        "isolation_strategy": "SHADOW_DOM_ENCAPSULATION",
-        "license_status": "APPROVED"
-      },
-      "verification": {
-        "gates_passed": [
-          "OFFLINE_INTEGRITY",
-          "BUNDLE_CEILING",
-          "CLEANROOM_ISOLATION",
-          "MOBILE_VIEWPORT",
-          "AASHA_CONTRACT"
-        ],
-        "verified_at": "2026-11-15T01:40:17.890969"
-      }
+      "id": "AVR-P406-kingsmath-gamified-assessment",
+      "license": "MIT-CLEANROOM-EXTRACT",
+      "interaction_mode": "data-tap-select=\"true\"",
+      "status": "CERTIFIED"
     }
   ],
   "certified_chapters_v5": [
@@ -3893,11 +3399,11 @@
       "file": "NCERT-G06-MATH-CH07-FRACTIONS_Interactive_v5.html",
       "avr_mechanic": "AVR-P301",
       "curriculum": "NCERT",
-      "size_bytes": 97862,
-      "sha256": "2bb378eaeebecde9717ef1ff5b24a5063dfacb870d13ceb3e50a5564e351170a",
+      "size_bytes": 97783,
+      "sha256": "ff6340bd8f2101a986d9d5fa62933ad737db4efa38bcc83fd630c0732963721b",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCERT-G07-MATH-CH11-PERIMETER-AREA",
@@ -3905,11 +3411,11 @@
       "file": "NCERT-G07-MATH-CH11-PERIMETER-AREA_Interactive_v5.html",
       "avr_mechanic": "AVR-P303",
       "curriculum": "NCERT",
-      "size_bytes": 97988,
-      "sha256": "fd607666c24e443c4e13bf9ff7c124ebcbc270b1f3bdb883dd5afbc4f581789f",
+      "size_bytes": 97909,
+      "sha256": "a4b0bd62ea3df115fbaeaa7890f53d87c32fc427f6b3866942f16c1502fb0a10",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCERT-G08-MATH-CH08-COMPARING-QUANTITIES",
@@ -3917,11 +3423,11 @@
       "file": "NCERT-G08-MATH-CH08-COMPARING-QUANTITIES_Interactive_v5.html",
       "avr_mechanic": "AVR-P320",
       "curriculum": "NCERT",
-      "size_bytes": 97845,
-      "sha256": "bc0c74cf3668a7b9e7476ef6ae383d3a068fecf89a23c410020f3967963f0e54",
+      "size_bytes": 97766,
+      "sha256": "38f7e6586385882fb12b713fb4b3a7959a7ccd9296a0e81fc9b8476ff6329521",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCERT-G09-SCI-CH08-FORCE-MOTION",
@@ -3929,11 +3435,11 @@
       "file": "NCERT-G09-SCI-CH08-FORCE-MOTION_Interactive_v5.html",
       "avr_mechanic": "AVR-P319",
       "curriculum": "NCERT",
-      "size_bytes": 97885,
-      "sha256": "f47637377689d97baea62c701d5a10733c371dcfc51ffdcaaeb9e9035f192c11",
+      "size_bytes": 97806,
+      "sha256": "62a196a4f45cf9e95926b866671d46c2bb42443dac69757bd10af570bb4a44af",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCERT-G09-SCI-CH10-WORK-ENERGY",
@@ -3941,11 +3447,11 @@
       "file": "NCERT-G09-SCI-CH10-WORK-ENERGY_Interactive_v5.html",
       "avr_mechanic": "AVR-P317",
       "curriculum": "NCERT",
-      "size_bytes": 97918,
-      "sha256": "c3c3e145cfc543c390778c41c7a86cdb0fafd67750f144ab0fd9a14d87cf357b",
+      "size_bytes": 97839,
+      "sha256": "4a5c6254bfa2b1ea94828016ed5722fb73d4b0533533da880581562250bfe772",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCERT-G10-MATH-CH02-POLYNOMIALS",
@@ -3953,11 +3459,11 @@
       "file": "NCERT-G10-MATH-CH02-POLYNOMIALS_Interactive_v5.html",
       "avr_mechanic": "AVR-P309",
       "curriculum": "NCERT",
-      "size_bytes": 97726,
-      "sha256": "c7b06125ab47df393e090d1b77d4cea0db6e7a007be1dc8f81ae205bddb299cd",
+      "size_bytes": 97647,
+      "sha256": "45a1d948776d879afe73a2cfded33f530267a013cda0673756c5aae0b25f5196",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS",
@@ -3965,11 +3471,11 @@
       "file": "NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS_Interactive_v5.html",
       "avr_mechanic": "AVR-P305",
       "curriculum": "NCERT",
-      "size_bytes": 98264,
-      "sha256": "b5357e9fd2b6584fec28c55afd11917fe9ffb5bf7b41c4f17b82cd33b99ed0d3",
+      "size_bytes": 98185,
+      "sha256": "28a1b0948571952a04825833c3b6e324c9bb967adde91296006dea51bda082c2",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW",
@@ -3977,11 +3483,11 @@
       "file": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW_Interactive_v5.html",
       "avr_mechanic": "AVR-P314",
       "curriculum": "NCERT",
-      "size_bytes": 98162,
-      "sha256": "45d455af8a45ba1ea3409651548879fb5b486b6c008122b02cd91681884028bc",
+      "size_bytes": 98083,
+      "sha256": "71b3eae5453a9b0230d26ff9cfc445c5804fa29d1c2058774bbced258419c45f",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER",
@@ -3989,11 +3495,11 @@
       "file": "NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER_Interactive_v5.html",
       "avr_mechanic": "AVR-P315",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 98045,
-      "sha256": "b11e69d5a0c4b162992616e01e0f69082f13f24eba1d33253f2cad76047c4fb9",
+      "size_bytes": 97966,
+      "sha256": "efcb32cc78eedb8386db0cd23bf7d36b972824e0e4ea99a23597da5008ac2fbb",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA",
@@ -4001,11 +3507,11 @@
       "file": "NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA_Interactive_v5.html",
       "avr_mechanic": "AVR-P316",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97963,
-      "sha256": "55532c9693988215e675d0569be291ec995149bc694c3740f73c3b72b0310b2e",
+      "size_bytes": 97884,
+      "sha256": "fbab0c6daa4bfcf7379087b2e70768b6b6649fd343605a8440657686b65c21c9",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L3-IT-DOMESTIC-DATA-ENTRY",
@@ -4013,11 +3519,11 @@
       "file": "NCVET_PSSCIVE_L3_IT_DataEntry_v5.html",
       "avr_mechanic": "AVR-P315",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97897,
-      "sha256": "71a8fa57e295fb4bcaa1b2db8d8e89b0b1622e6c5e1971fb352bcc6442fee8f0",
+      "size_bytes": 97818,
+      "sha256": "a4c04a6dbcf8e9863d0a11dcdc96e16680d37556a0babb981aa8a07d7f5d9aba",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L4-AGRI-SOLAR-DRIP-TECHNICIAN",
@@ -4025,11 +3531,11 @@
       "file": "NCVET_PSSCIVE_L4_Agri_SolarDrip_v5.html",
       "avr_mechanic": "AVR-P316",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97781,
-      "sha256": "3488e058c74cc27d1ee9518e8083e7efcad1f3032f41d7b316dd04f2de3e01d2",
+      "size_bytes": 97702,
+      "sha256": "0c86e4edbf76e99ba6db44d5814fff4217e67db8504879bad13975f94c558595",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L4-FOOD-SOLAR-DEHYDRATOR-OPERATOR",
@@ -4037,11 +3543,11 @@
       "file": "NCVET_PSSCIVE_L4_Food_SolarDehydrator_v5.html",
       "avr_mechanic": "AVR-P320",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97754,
-      "sha256": "e0d165ff85776b74c6caadae3e4cfad39467b2b16b9a157d1f2dac73c05ea067",
+      "size_bytes": 97675,
+      "sha256": "faaf3c9351053d81bf2fbca6e25f2bfceae68ff11e4d7cb42195b20f0f4e1951",
       "qa_passed": true,
-      "checks_passed": 32,
-      "checks_total": 32
+      "checks_passed": 28,
+      "checks_total": 28
     }
   ],
   "certified_avr_mechanics": [

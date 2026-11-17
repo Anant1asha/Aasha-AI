@@ -1,19 +1,20 @@
 {
-  "schema_version": "2.2.0",
+  "schema_version": "2.0.0",
+  "base_version": "3.0.0-B2-LLE",
   "target_english_ratio": 0.6,
   "target_hindi_ratio": 0.4,
   "wm_count": 1129,
   "conn_count": 85,
-  "sources_harvested_via_node_vm": [
+  "sources_harvested": [
     {
-      "source": "Fractions_Gamified_v5_3.html",
-      "wm_extracted": 296,
-      "conn_extracted": 46
+      "source": "config/defaults.json",
+      "wm": 296,
+      "conn": 46
     },
     {
       "source": "Polynomials_Class10_Gamified_v5.html",
-      "wm_extracted": 361,
-      "conn_extracted": 46
+      "wm": 361,
+      "conn": 46
     }
   ],
   "WM": {

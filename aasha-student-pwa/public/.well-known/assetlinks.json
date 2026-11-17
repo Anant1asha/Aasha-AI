@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.annantaasha.learn.twa",
+      "sha256_cert_fingerprints": [
+        "AA:5A:A1:05:20:26:12:31:AA:5A:A1:05:20:26:12:31:AA:5A:A1:05:20:26:12:31:AA:5A:A1:05:20:26:12:31"
+      ]
+    }
+  }
+]

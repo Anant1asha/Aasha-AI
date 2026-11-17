@@ -1,34 +1,341 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="hi-IN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#14532d">
-  <meta name="description" content="Annanth Aasha Foundation — safe, interactive, school-book-first learning.">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
-  <title>Annanth Aasha Foundation — Universal Learning & Gamified Assessment Ecosystem</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>Aasha Learn — आशा ऑफ़लाइन शिक्षण और पुरस्कार (26 Certified Chapters)</title>
+  <style>
+    :root { --bg: #f8fafc; --primary: #0f766e; --text: #0f172a; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: calc(96px + env(safe-area-inset-bottom, 16px));
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--primary);
+      color: #ffffff;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      min-height: 68px;
+      padding-bottom: env(safe-area-inset-bottom, 12px);
+      background: #ffffff;
+      border-top: 1px solid #cbd5e1;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      z-index: 1000;
+    }
+    .nav-btn {
+      min-width: 44px;
+      min-height: 44px;
+      border: none;
+      background: transparent;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="app-header">
-      <div>
-        <div class="brand">🪔 Annanth Aasha Foundation</div>
-        <div class="tagline">Safe Learning. Real Impact. Universal K-12.</div>
-      </div>
-      <div id="status" class="status">Offline-ready</div>
-    </header>
-    <main id="app" aria-live="polite"></main>
-    <nav id="nav" class="bottom-nav" aria-label="Primary navigation"></nav>
-  </div>
+  <header class="top-bar">
+    <strong>🌟 Aasha Learn (26 Chapters Offline • 544 Hindi LLE Terms)</strong>
+    <button id="btn-toggle-facilitator" style="min-width:44px;min-height:44px;padding:8px 12px;border-radius:8px;border:none;background:#ffffff;color:#0f766e;font-weight:700;cursor:pointer;">
+      🏫 Facilitator View
+    </button>
+  </header>
+  <div id="toast-mount" style="padding:0 16px;"></div>
+  <main id="app-mount" style="padding:16px;"></main>
+  <div id="modal-mount"></div>
+  <input type="file" id="usb-cohort-pack-file-input" accept=".json,application/json" style="display:none;" />
+  <nav class="bottom-nav" aria-label="Primary Student Navigation">
+    <button class="nav-btn" data-tab="home">🏠 Home</button>
+    <button class="nav-btn" data-tab="learn">📚 Learn</button>
+    <button class="nav-btn" data-tab="practice">🎯 Practice</button>
+    <button class="nav-btn" data-tab="rewards">🏆 Rewards</button>
+    <button class="nav-btn" data-tab="store">🏪 Store</button>
+  </nav>
+  <script type="module">
+    import {
+      renderActiveTab,
+      renderChapterPlayerModal,
+      renderFacilitatorPinModal,
+      handleChapterMasteryMessage,
+      handlePinModalConfirm,
+      exportStudentProgressSnapshot,
+      toggleNcvetPracticalTask,
+      exportSignedNcvetPortfolio,
+      exportCohortMasteryCsv,
+      renderPrintableCohortAuditReportHtml,
+      exportSignedUsbCohortPack,
+      mergeSignedUsbCohortPack,
+      buildPhoneticReadAloudDrill,
+      speakLleTermOffline,
+      registerSharedTabletStudent,
+      switchActiveTabletStudent,
+      recordDailyLearningStreak,
+      completeCommunitySevaChallenge,
+      generateChapterLessonPlanHtml,
+      renderFacilitatorRestockModal,
+      restockStoreInventoryItem,
+      exportStoreInventoryAuditLedger,
+      authorCustomBilingualQuestion,
+      evaluateLowRamTabletBudget,
+      syncNowWithServer
+    } from './src/app.js';
 
-  <dialog id="wordDialog" class="word-dialog">
-    <div class="dlg-word" id="dlgWord">WORD</div>
-    <div class="dlg-hindi" id="dlgHindi">हिंदी अर्थ</div>
-    <div class="dlg-desc" id="dlgDesc">शब्दावली अर्थ (Key Concept Vocabulary)</div>
-    <button class="dlg-btn" id="closeWordDlg" onclick="document.getElementById('wordDialog').close()">ठीक है (OK)</button>
-  </dialog>
+    const STORAGE_KEY = 'aasha_student_pwa_state_v2';
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch (_) {}
+    const state = saved || {
+      studentId: 'stu_local_01',
+      studentName: 'Aasha Scholar',
+      coins: 150,
+      progress: {},
+      redemptions: [],
+      syncOutbox: [],
+      activeSubject: 'ALL',
+      activeGrade: 'ALL',
+      searchQuery: ''
+    };
+    let currentTab = 'home';
+    const mount = document.getElementById('app-mount');
+    const modalMount = document.getElementById('modal-mount');
+    const toastMount = document.getElementById('toast-mount');
 
-  <script type="module" src="src/app.js"></script>
+    function persistAndRefresh() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (_) {}
+      mount.innerHTML = renderActiveTab(state, currentTab);
+    }
+    persistAndRefresh();
+
+    document.querySelectorAll('.nav-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentTab = btn.getAttribute('data-tab') || 'home';
+        persistAndRefresh();
+      });
+    });
+
+    document.getElementById('btn-toggle-facilitator').addEventListener('click', () => {
+      currentTab = currentTab === 'facilitator' ? 'home' : 'facilitator';
+      persistAndRefresh();
+    });
+
+    document.body.addEventListener('input', (e) => {
+      if (e.target && e.target.id === 'learn-chapter-search-input') {
+        state.searchQuery = e.target.value || '';
+        persistAndRefresh();
+      }
+    });
+
+    document.body.addEventListener('click', async (e) => {
+      const redeemBtn = e.target.closest('.btn-redeem');
+      if (redeemBtn && !redeemBtn.disabled) {
+        const itemId = redeemBtn.getAttribute('data-item-id');
+        modalMount.innerHTML = renderFacilitatorPinModal('Fulfill Store Order', itemId);
+        return;
+      }
+      if (e.target && e.target.id === 'btn-sync-outbox') {
+        await syncNowWithServer(state);
+        persistAndRefresh();
+        return;
+      }
+      const target = e.target.closest('[data-action]');
+      if (!target) return;
+      const action = target.getAttribute('data-action');
+      if (action === 'launch-chapter' || action === 'launch-practice' || action === 'launch-arena' || action === 'switch-player-mode' || action === 'launch-remediation-group') {
+        const chId = target.getAttribute('data-chapter-id');
+        const mode = target.getAttribute('data-mode') || (action === 'launch-arena' || action === 'launch-practice' ? 'arena' : 'learn');
+        modalMount.innerHTML = renderChapterPlayerModal(chId, mode);
+      } else if (action === 'close-chapter-player' || action === 'cancel-pin-modal') {
+        modalMount.innerHTML = '';
+        persistAndRefresh();
+      } else if (action === 'confirm-pin-modal') {
+        const itemId = target.getAttribute('data-item-id');
+        const pinInput = document.getElementById('facilitator-pin-input');
+        const enteredPin = pinInput ? pinInput.value : '';
+        const res = handlePinModalConfirm(state, itemId, enteredPin);
+        toastMount.innerHTML = res.toastHtml || '';
+        if (res.ok) modalMount.innerHTML = '';
+        persistAndRefresh();
+      } else if (action === 'filter-subject') {
+        state.activeSubject = target.getAttribute('data-subject') || 'ALL';
+        persistAndRefresh();
+      } else if (action === 'filter-grade') {
+        state.activeGrade = target.getAttribute('data-grade') || 'ALL';
+        persistAndRefresh();
+      } else if (action === 'toggle-ncvet-task') {
+        const taskId = target.getAttribute('data-task-id');
+        toggleNcvetPracticalTask(state, taskId);
+        persistAndRefresh();
+      } else if (action === 'export-ncvet-portfolio') {
+        const port = exportSignedNcvetPortfolio(state);
+        const blob = new Blob([JSON.stringify(port, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${port.studentId}_ncvet_portfolio.json`;
+        a.click();
+      } else if (action === 'export-cohort-csv') {
+        const csv = exportCohortMasteryCsv(state.cohortSummary || {});
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'aasha_cohort_mastery_report.csv';
+        a.click();
+      } else if (action === 'export-cohort-printable') {
+        const htmlDoc = renderPrintableCohortAuditReportHtml(state.cohortSummary || {});
+        const blob = new Blob([htmlDoc], { type: 'text/html;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'aasha_cohort_printable_audit_report.html';
+        a.click();
+      } else if (action === 'export-student-snapshot') {
+        const snap = exportStudentProgressSnapshot(state);
+        const blob = new Blob([JSON.stringify(snap, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${snap.studentId}_aasha_backup.json`;
+        a.click();
+      } else if (action === 'export-usb-cohort-pack') {
+        const pack = exportSignedUsbCohortPack(state);
+        const blob = new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${pack.centerId}_usb_cohort_pack.json`;
+        a.click();
+      } else if (action === 'import-usb-cohort-pack') {
+        const fileInput = document.getElementById('usb-cohort-pack-file-input');
+        if (fileInput) fileInput.click();
+      } else if (action === 'speak-lle-word') {
+        const res = speakLleTermOffline({
+          termEn: target.getAttribute('data-term-en') || '',
+          meaningHi: target.getAttribute('data-meaning-hi') || '',
+          phoneticHi: target.getAttribute('data-phonetic-hi') || '',
+          syllablesHi: target.getAttribute('data-syllables-hi') || ''
+        });
+        toastMount.innerHTML = `<div id="lle-phonetic-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#e0f2fe;color:#0369a1;margin-top:10px;font-weight:600;">${res.drill.bilingualPrompt}</div>`;
+      } else if (action === 'player-read-aloud') {
+        const res = speakLleTermOffline({
+          termEn: target.getAttribute('data-title-en') || '',
+          meaningHi: target.getAttribute('data-title-hi') || ''
+        });
+        toastMount.innerHTML = `<div id="lle-phonetic-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#e0f2fe;color:#0369a1;margin-top:10px;font-weight:600;">${res.drill.bilingualPrompt}</div>`;
+      } else if (action === 'switch-tablet-student') {
+        const sid = target.getAttribute('data-student-id') || '';
+        const res = switchActiveTabletStudent(state, sid);
+        if (res.ok) {
+          toastMount.innerHTML = `<div id="tablet-switcher-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:10px;font-weight:600;">🔄 Active Learner: ${res.activeStudentName} (🪙 ${res.coins})</div>`;
+          persistAndRefresh();
+        }
+      } else if (action === 'register-tablet-student') {
+        const nextNum = Object.keys(state.tabletProfiles || {}).length + 1;
+        const newId = `stu_tablet_0${nextNum}`;
+        registerSharedTabletStudent(state, { studentId: newId, studentName: `Scholar ${nextNum}`, grade: 8, initialCoins: 100 });
+        switchActiveTabletStudent(state, newId);
+        persistAndRefresh();
+      } else if (action === 'daily-streak-checkin') {
+        const res = recordDailyLearningStreak(state);
+        toastMount.innerHTML = `<div id="streak-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#fef3c7;color:#92400e;margin-top:10px;font-weight:600;">🔥 ${res.streakDays}-Day Streak! (+${res.bonusAwarded} 🪙)</div>`;
+        persistAndRefresh();
+      } else if (action === 'complete-seva-challenge') {
+        const cid = target.getAttribute('data-challenge-id') || '';
+        const res = completeCommunitySevaChallenge(state, cid);
+        if (res.ok) {
+          toastMount.innerHTML = `<div id="seva-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:10px;font-weight:600;">🌱 Seva Challenge Complete! (+${res.rewardCoins} 🪙)</div>`;
+          persistAndRefresh();
+        }
+      } else if (action === 'export-chapter-lesson-plan') {
+        const chId = target.getAttribute('data-chapter-id') || 'NCERT-G06-MATH-CH07-FRACTIONS';
+        const planHtml = generateChapterLessonPlanHtml(chId);
+        const blob = new Blob([planHtml], { type: 'text/html;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${chId}_40min_lesson_plan.html`;
+        a.click();
+        toastMount.innerHTML = `<div id="lesson-plan-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:10px;font-weight:600;">📋 Exported 40-Min Lesson Plan (${chId})</div>`;
+      } else if (action === 'open-restock-modal') {
+        modalMount.innerHTML = renderFacilitatorRestockModal();
+      } else if (action === 'cancel-restock-modal') {
+        modalMount.innerHTML = '';
+      } else if (action === 'confirm-restock-modal') {
+        const itemId = document.getElementById('restock-item-select')?.value || '';
+        const qty = Number(document.getElementById('restock-qty-input')?.value || 0);
+        const pin = document.getElementById('restock-pin-input')?.value || '';
+        const res = restockStoreInventoryItem(state, itemId, qty, pin);
+        if (res.ok) {
+          modalMount.innerHTML = '';
+          toastMount.innerHTML = `<div id="restock-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:10px;font-weight:600;">📦 Restocked ${res.itemId} → ${res.newStock} units</div>`;
+          persistAndRefresh();
+        } else {
+          toastMount.innerHTML = `<div id="restock-toast" role="alert" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#fef2f2;color:#991b1b;margin-top:10px;font-weight:600;">❌ ${res.error}</div>`;
+        }
+      } else if (action === 'export-store-ledger') {
+        const ledger = exportStoreInventoryAuditLedger(state);
+        const blob = new Blob([JSON.stringify(ledger, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${ledger.centerId}_store_audit_ledger.json`;
+        a.click();
+      } else if (action === 'add-custom-bilingual-question') {
+        const res = authorCustomBilingualQuestion(state, {
+          chapterId: 'NCERT-G06-MATH-CH07-FRACTIONS',
+          promptEn: 'Which fraction represents 3 equal parts out of 4 in a village field?',
+          promptHi: 'खेत के 4 बराबर भागों में से 3 भाग कौन-सा भिन्न दर्शाता है?',
+          correctOption: '3/4',
+          wrongOption: '4/3',
+          misconceptionHi: 'आपने कुल भागों (हर) को अंश के स्थान पर रख दिया है; कुल बराबर भाग नीचे (हर में) लिखे जाते हैं।'
+        });
+        if (res.ok) {
+          state.cohortSummary = state.cohortSummary || {};
+          state.cohortSummary.customQuestions = state.customQuestions;
+          toastMount.innerHTML = `<div id="custom-quiz-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#f3e8ff;color:#581c87;margin-top:10px;font-weight:600;">🧪 Added L-Truth Verified MCQ (${res.totalCustomQuestions} total)</div>`;
+          persistAndRefresh();
+        }
+      } else if (action === 'run-tablet-benchmark') {
+        const b = evaluateLowRamTabletBudget({ deviceMemoryGb: navigator.deviceMemory || 2, heapUsedMb: 64 });
+        toastMount.innerHTML = `<div id="tablet-bench-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:10px;font-weight:600;">📱 TWA ${b.twaPackageId}: ${b.heapUsedMb}MB/${b.heapBudgetMb}MB (${b.recommendedRenderer})</div>`;
+      }
+    });
+
+
+    const usbFileInput = document.getElementById('usb-cohort-pack-file-input');
+    if (usbFileInput) {
+      usbFileInput.addEventListener('change', async (ev) => {
+        const file = ev.target.files && ev.target.files[0];
+        if (!file) return;
+        try {
+          const text = await file.text();
+          const res = mergeSignedUsbCohortPack(state, JSON.parse(text));
+          if (res.ok) {
+            toastMount.innerHTML = `<div role="status" style="min-height:44px;padding:12px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:12px;">✅ Merged USB Cohort Pack (${res.mergedStudentsCount} students, ${res.mergedChaptersCount} chapters)</div>`;
+            persistAndRefresh();
+          }
+        } catch (_) {}
+      });
+    }
+
+    window.addEventListener('message', (ev) => {
+      if (ev.data && ev.data.type === 'TEAS_CHAPTER_MASTERY') {
+        handleChapterMasteryMessage(state, ev.data);
+        persistAndRefresh();
+      }
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  </script>
 </body>
 </html>

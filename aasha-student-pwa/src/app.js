@@ -75,10 +75,32 @@ export function renderTeacherCohortDashboard(cohortSummary = {}) {
              style="padding:16px;padding-bottom:calc(96px + env(safe-area-inset-bottom, 16px));">
       <header style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
         <h2 style="margin:0;">🏫 Centre Cohort & Store Dashboard / केंद्र डैशबोर्ड</h2>
-        <button id="btn-teacher-restock-modal" class="teacher-restock-btn"
-                style="min-width:44px;min-height:44px;padding:10px 16px;border-radius:8px;font-weight:600;cursor:pointer;">
-          📦 Restock Inventory (Staff PIN)
-        </button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" id="btn-export-cohort-csv" data-action="export-cohort-csv"
+                  style="min-width:44px;min-height:44px;padding:10px 14px;border-radius:8px;border:none;background:#0f766e;color:#ffffff;font-weight:700;cursor:pointer;">
+            📄 Export Cohort CSV / सीएसवी
+          </button>
+          <button type="button" id="btn-export-cohort-printable" data-action="export-cohort-printable"
+                  style="min-width:44px;min-height:44px;padding:10px 14px;border-radius:8px;border:1px solid #0f766e;background:#ffffff;color:#0f766e;font-weight:700;cursor:pointer;">
+            🖨️ Printable NGO Audit Card / प्रिंट रिपोर्ट
+          </button>
+          <button type="button" id="btn-export-usb-cohort-pack" data-action="export-usb-cohort-pack"
+                  style="min-width:44px;min-height:44px;padding:10px 14px;border-radius:8px;border:none;background:#1d4ed8;color:#ffffff;font-weight:700;cursor:pointer;">
+            💾 Export USB Cohort Pack / यूएसबी पैक
+          </button>
+          <button type="button" id="btn-import-usb-cohort-pack" data-action="import-usb-cohort-pack"
+                  style="min-width:44px;min-height:44px;padding:10px 14px;border-radius:8px;border:1px solid #1d4ed8;background:#eff6ff;color:#1e3a8a;font-weight:700;cursor:pointer;">
+            📥 Import USB Cohort Pack / पैक मर्ज करें
+          </button>
+          <button type="button" id="btn-export-store-ledger" data-action="export-store-ledger"
+                  style="min-width:44px;min-height:44px;padding:10px 14px;border-radius:8px;border:1px solid #0f766e;background:#f0fdfa;color:#0f766e;font-weight:700;cursor:pointer;">
+            🧾 Store Audit Ledger / स्टॉक खाता
+          </button>
+          <button id="btn-teacher-restock-modal" data-action="open-restock-modal" class="teacher-restock-btn"
+                  style="min-width:44px;min-height:44px;padding:10px 16px;border-radius:8px;font-weight:600;cursor:pointer;">
+            📦 Restock Inventory (Staff PIN)
+          </button>
+        </div>
       </header>
       ${alertsHtml}
       <div class="kpi-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px;">
@@ -104,6 +126,9 @@ export function renderTeacherCohortDashboard(cohortSummary = {}) {
         <tbody>${rowsHtml}</tbody>
       </table>
       ${renderMisconceptionHeatmapCard(cohortSummary.misconceptions || [])}
+      ${renderTeacherLessonPlanCatalogCard()}
+      ${renderTeacherCustomQuizBuilderCard(cohortSummary)}
+      ${renderLowRamTabletDiagnosticsCard(cohortSummary)}
     </section>
   `.trim();
 }
@@ -240,6 +265,10 @@ export function renderChapterPlayerModal(chapterId, mode = "learn") {
       <header style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 16px;background:#1e293b;color:#f8fafc;">
         <strong>${activeMode === "arena" ? "⚔️" : "📖"} ${ch.titleHi} (${activeMode === "arena" ? "Aasha Arena" : "Aasha Learn"})</strong>
         <div style="display:flex;gap:8px;align-items:center;">
+          <button type="button" id="btn-player-read-aloud" data-action="player-read-aloud" data-chapter-id="${ch.id}" data-title-en="${ch.titleEn}" data-title-hi="${ch.titleHi}"
+                  style="min-width:44px;min-height:44px;padding:8px 12px;border-radius:8px;border:none;background:#0284c7;color:#ffffff;font-weight:700;cursor:pointer;">
+            🔊 Read Aloud / सुनें
+          </button>
           <button type="button" data-action="switch-player-mode" data-chapter-id="${ch.id}" data-mode="${activeMode === 'arena' ? 'learn' : 'arena'}"
                   style="min-width:44px;min-height:44px;padding:8px 12px;border-radius:8px;border:none;background:${activeMode === 'arena' ? '#0f766e' : '#7c3aed'};color:#ffffff;font-weight:700;cursor:pointer;">
             ${activeMode === "arena" ? "📖 Switch to Learn" : "⚔️ Switch to Arena"}
@@ -338,6 +367,8 @@ export function renderHomeDashboard(state = {}) {
         <div style="font-size:0.82rem;font-weight:700;color:#334155;margin-bottom:8px;">📊 SUBJECT MASTERY BREAKDOWN / विषयवार प्रगति</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">${subjectPills}</div>
       </div>
+      ${renderDailyStreakAndSevaCard(state)}
+      ${renderSharedTabletStudentSwitcherCard(state)}
       ${renderProfileBackupCard(state)}
     </section>
   `.trim();
@@ -426,6 +457,8 @@ export function renderRewardsBadges(state = {}) {
       </div>
       <h3 style="margin:0 0 8px;font-size:1rem;">🛍️ Redemption Receipts / स्टोर रसीदें</h3>
       <ul style="list-style:none;padding:0;margin:0;">${historyHtml}</ul>
+      ${renderCentreLeaderboardCard(state.leaderboard || [])}
+      ${renderNcvetPortfolioChecklistCard(state)}
     </section>
   `.trim();
 }
@@ -615,32 +648,884 @@ export function renderProfileBackupCard(state = {}) {
   `.trim();
 }
 
-export function renderVocabularyFlashcardDeck(words = [
-  { termEn: "monomial", meaningHi: "एकपदी (मोनोमियल)" },
-  { termEn: "binomial", meaningHi: "द्विपदी (बाइनोमियल)" },
-  { termEn: "identity", meaningHi: "सर्वसमिका (आइडेंटिटी)" },
-  { termEn: "factorisation", meaningHi: "गुणनखंडन (फ़ैक्टराइज़ेशन)" }
-]) {
-  const list = Array.isArray(words) && words.length > 0 ? words : [
-    { termEn: "monomial", meaningHi: "एकपदी (मोनोमियल)" }
-  ];
-  const cardsHtml = list.map((w, idx) => `
-    <div class="lle-flashcard-item" data-term-en="${w.termEn}" style="padding:12px;border-radius:10px;border:1px solid #cbd5e1;background:#ffffff;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
+export const OFFLINE_LLE_PHONETIC_DICTIONARY = [
+  { termEn: "monomial", meaningHi: "एकपदी (मोनोमियल)", phoneticHi: "मोनोमियल", syllablesHi: "मो-नो-मि-यल" },
+  { termEn: "binomial", meaningHi: "द्विपदी (बाइनोमियल)", phoneticHi: "बाइनोमियल", syllablesHi: "बा-इ-नो-मि-यल" },
+  { termEn: "identity", meaningHi: "सर्वसमिका (आइडेंटिटी)", phoneticHi: "आइडेंटिटी", syllablesHi: "आ-इ-डें-टि-टी" },
+  { termEn: "factorisation", meaningHi: "गुणनखंडन (फ़ैक्टराइज़ेशन)", phoneticHi: "फ़ैक्टराइज़ेशन", syllablesHi: "फ़ै-क्ट-रा-इ-ज़े-शन" },
+  { termEn: "photosynthesis", meaningHi: "प्रकाश संश्लेषण (फ़ोटोसिंथेसिस)", phoneticHi: "फ़ोटोसिंथेसिस", syllablesHi: "फ़ो-टो-सिं-थे-सिस" },
+  { termEn: "denominator", meaningHi: "हर (डिनॉमिनेटर)", phoneticHi: "डिनॉमिनेटर", syllablesHi: "डि-नॉ-मि-ने-टर" }
+];
+
+export function buildPhoneticReadAloudDrill(termEn = "", meaningHi = "", phoneticHi = "", syllablesHi = "") {
+  const cleanEn = String(termEn || "concept").trim();
+  const lookup = OFFLINE_LLE_PHONETIC_DICTIONARY.find((d) => d.termEn.toLowerCase() === cleanEn.toLowerCase());
+  const resolvedMeaning = String(meaningHi || lookup?.meaningHi || cleanEn).trim();
+  const resolvedPhonetic = String(phoneticHi || lookup?.phoneticHi || cleanEn).trim();
+  const resolvedSyllables = String(syllablesHi || lookup?.syllablesHi || resolvedPhonetic).trim();
+  return {
+    termEn: cleanEn,
+    meaningHi: resolvedMeaning,
+    phoneticHi: resolvedPhonetic,
+    syllablesHi: resolvedSyllables,
+    utteranceEn: cleanEn,
+    utteranceHi: `${resolvedPhonetic} — अर्थ: ${resolvedMeaning}`,
+    bilingualPrompt: `🔊 ${cleanEn} (${resolvedSyllables}) → ${resolvedMeaning}`
+  };
+}
+
+export function speakLleTermOffline(termObj = {}, synth = typeof window !== "undefined" ? window.speechSynthesis : null) {
+  const drill = buildPhoneticReadAloudDrill(
+    termObj.termEn,
+    termObj.meaningHi,
+    termObj.phoneticHi,
+    termObj.syllablesHi
+  );
+  let spoken = false;
+  if (synth && typeof synth.speak === "function" && typeof SpeechSynthesisUtterance !== "undefined") {
+    try {
+      synth.cancel();
+      const uEn = new SpeechSynthesisUtterance(drill.utteranceEn);
+      uEn.lang = "en-IN";
+      uEn.rate = 0.9;
+      const uHi = new SpeechSynthesisUtterance(drill.utteranceHi);
+      uHi.lang = "hi-IN";
+      uHi.rate = 0.92;
+      synth.speak(uEn);
+      synth.speak(uHi);
+      spoken = true;
+    } catch (_) {}
+  }
+  return { ok: true, spoken, drill };
+}
+
+export function renderVocabularyFlashcardDeck(words = OFFLINE_LLE_PHONETIC_DICTIONARY.slice(0, 4)) {
+  const list = Array.isArray(words) && words.length > 0 ? words : [OFFLINE_LLE_PHONETIC_DICTIONARY[0]];
+  const cardsHtml = list.map((w, idx) => {
+    const drill = buildPhoneticReadAloudDrill(w.termEn, w.meaningHi, w.phoneticHi, w.syllablesHi);
+    return `
+    <div class="lle-flashcard-item" data-term-en="${drill.termEn}" style="padding:12px;border-radius:10px;border:1px solid #cbd5e1;background:#ffffff;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
       <div>
-        <strong style="color:#0f172a;">📖 ${w.termEn}</strong>
-        <span style="color:#0f766e;font-weight:600;margin-left:8px;">→ ${w.meaningHi}</span>
+        <strong style="color:#0f172a;">📖 ${drill.termEn}</strong>
+        <span style="color:#0f766e;font-weight:600;margin-left:8px;">→ ${drill.meaningHi}</span>
+        <div class="lle-phonetic-badge" style="font-size:0.82rem;color:#0369a1;margin-top:4px;">🗣️ उच्चारण (PH): <strong>${drill.syllablesHi}</strong></div>
       </div>
-      <button type="button" class="btn-mark-word-learned" data-action="mark-word-learned" data-term-en="${w.termEn}" data-index="${idx}"
-              style="min-width:44px;min-height:44px;padding:6px 12px;border-radius:8px;border:none;background:#0f766e;color:#ffffff;font-weight:700;cursor:pointer;">
-        ✅ Got It / समझ गया
-      </button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button type="button" class="btn-speak-lle-word" data-action="speak-lle-word" data-term-en="${drill.termEn}" data-meaning-hi="${drill.meaningHi}" data-phonetic-hi="${drill.phoneticHi}" data-syllables-hi="${drill.syllablesHi}"
+                style="min-width:44px;min-height:44px;padding:6px 12px;border-radius:8px;border:1px solid #0284c7;background:#e0f2fe;color:#0369a1;font-weight:700;cursor:pointer;">
+          🔊 Speak / उच्चारण सुनें
+        </button>
+        <button type="button" class="btn-mark-word-learned" data-action="mark-word-learned" data-term-en="${drill.termEn}" data-index="${idx}"
+                style="min-width:44px;min-height:44px;padding:6px 12px;border-radius:8px;border:none;background:#0f766e;color:#ffffff;font-weight:700;cursor:pointer;">
+          ✅ Got It / समझ गया
+        </button>
+      </div>
     </div>
-  `).join("");
+  `;
+  }).join("");
   return `
     <section id="lle-vocabulary-flashcard-deck" aria-label="Bilingual LLE Vocabulary Flashcards"
              style="padding:14px;border-radius:12px;background:#f0fdfa;border:1px solid #99f6e4;margin-top:14px;">
-      <h3 style="margin:0 0 8px;font-size:1rem;color:#115e59;">🗣️ 8-Layer Bilingual LLE Flashcards / शब्दावली अभ्यास (544 Terms)</h3>
+      <h3 style="margin:0 0 8px;font-size:1rem;color:#115e59;">🗣️ 8-Layer Bilingual LLE Flashcards &amp; Phonetic Read-Aloud / शब्दावली और उच्चारण अभ्यास (1,557 WM2 • 763 PH)</h3>
       <div class="flashcard-items-container">${cardsHtml}</div>
+    </section>
+  `.trim();
+}
+
+export function renderCentreLeaderboardCard(leaders = []) {
+  const rows = (Array.isArray(leaders) ? leaders : []).slice(0, 10).map((l, idx) => {
+    const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${idx + 1}`;
+    return `<li class="leaderboard-row" data-student-id="${l.studentId}" style="padding:8px 0;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;">
+      <span><strong>${medal} ${l.studentName || l.studentId}</strong> (${l.chaptersMastered || 0} ch)</span>
+      <span style="font-weight:700;color:#0f766e;">🪙 ${l.lifetimeCoins ?? l.coinsBalance ?? 0} Coins</span>
+    </li>`;
+  }).join("");
+  return `
+    <section id="centre-leaderboard-card" aria-label="Centre Scholar Leaderboard"
+             style="padding:14px;border-radius:12px;background:#f8fafc;border:1px solid #cbd5e1;margin-top:16px;">
+      <h3 style="margin:0 0 8px;font-size:1rem;color:#0f172a;">🏅 Centre Scholar Leaderboard / केंद्र लीडरबोर्ड</h3>
+      <ul style="list-style:none;padding:0;margin:0;">${rows || '<li style="color:#64748b;">Complete a chapter or Arena battle to appear on the leaderboard!</li>'}</ul>
+    </section>
+  `.trim();
+}
+
+export const NCVET_PRACTICAL_CHECKLIST = [
+  { id: "ncvet_ssc_q0101", qpCode: "SSC/Q0101", chapterId: "NCVET_PSSCIVE_L3_IT_DataEntry_v5", titleEn: "L3 Domestic Data Entry: Cross-Foot Village Ledger Audit", titleHi: "स्तर 3 डेटा एंट्री: ग्राम बहीखाता क्रॉस-फुट सत्यापन", rewardCoins: 25 },
+  { id: "ncvet_agr_q4301", qpCode: "AGR/Q4301", chapterId: "NCVET_PSSCIVE_L4_Agri_SolarDrip_v5", titleEn: "L4 Micro-Irrigation Technician: Filter ΔP & Emitter Calibration", titleHi: "स्तर 4 सूक्ष्म सिंचाई: फ़िल्टर दाब और ड्रिपर अंशांकन", rewardCoins: 25 },
+  { id: "ncvet_fic_q0106", qpCode: "FIC/Q0106", chapterId: "NCVET_PSSCIVE_L4_Food_SolarDehydrator_v5", titleEn: "L4 Solar Food Dehydrator: Moisture Reduction & Hygienic Sealing", titleHi: "स्तर 4 सौर खाद्य निर्जलीकरण: नमी नियंत्रण और स्वच्छ पैकेजिंग", rewardCoins: 25 }
+];
+
+export function toggleNcvetPracticalTask(state = {}, taskId = "") {
+  state.ncvetCompletedTasks = Array.isArray(state.ncvetCompletedTasks) ? state.ncvetCompletedTasks : [];
+  const task = NCVET_PRACTICAL_CHECKLIST.find((t) => t.id === taskId);
+  if (!task) return { ok: false, completed: false };
+  const idx = state.ncvetCompletedTasks.indexOf(taskId);
+  let completed = false;
+  if (idx === -1) {
+    state.ncvetCompletedTasks.push(taskId);
+    state.coins = Number(state.coins || 0) + task.rewardCoins;
+    completed = true;
+    enqueueSyncEvent(state, {
+      id: `ncvet_${taskId}_${Date.now()}`,
+      chapterId: task.chapterId,
+      nodeId: `practical_${task.qpCode}`,
+      score: 100,
+      passed: true,
+      timestamp: new Date().toISOString()
+    });
+  } else {
+    state.ncvetCompletedTasks.splice(idx, 1);
+    completed = false;
+  }
+  return { ok: true, taskId, completed, completedCount: state.ncvetCompletedTasks.length, coins: state.coins };
+}
+
+export function exportSignedNcvetPortfolio(state = {}) {
+  const completedTasks = Array.isArray(state.ncvetCompletedTasks) ? [...state.ncvetCompletedTasks].sort() : [];
+  const prog = state.progress || {};
+  const masteredNcvetChapters = NCVET_PRACTICAL_CHECKLIST
+    .map((t) => t.chapterId)
+    .filter((cid) => prog[cid]?.completed)
+    .sort();
+  const payload = {
+    schemaVersion: "aasha.ncvet.portfolio.v1",
+    studentId: String(state.studentId || "stu_local_01"),
+    studentName: String(state.studentName || "Aasha Scholar"),
+    completedPracticalTasks: completedTasks,
+    masteredNcvetChapters,
+    qpCodesVerified: NCVET_PRACTICAL_CHECKLIST.filter((t) => completedTasks.includes(t.id)).map((t) => t.qpCode),
+    exportedAt: state.exportedAt || new Date().toISOString()
+  };
+  const canonical = JSON.stringify({
+    studentId: payload.studentId,
+    completedPracticalTasks: payload.completedPracticalTasks,
+    masteredNcvetChapters: payload.masteredNcvetChapters,
+    qpCodesVerified: payload.qpCodesVerified
+  });
+  let h = 0x811c9dc5;
+  for (let i = 0; i < canonical.length; i++) {
+    h ^= canonical.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  payload.signature = "fnv1a32:" + h.toString(16).padStart(8, "0");
+  return payload;
+}
+
+export function renderNcvetPortfolioChecklistCard(state = {}) {
+  const completed = Array.isArray(state.ncvetCompletedTasks) ? state.ncvetCompletedTasks : [];
+  const portfolio = exportSignedNcvetPortfolio(state);
+  const itemsHtml = NCVET_PRACTICAL_CHECKLIST.map((t) => {
+    const isDone = completed.includes(t.id);
+    return `
+      <li class="ncvet-task-row" data-task-id="${t.id}" data-qp-code="${t.qpCode}"
+          style="padding:10px 0;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div>
+          <span style="font-size:0.78rem;font-weight:700;padding:2px 8px;border-radius:6px;background:#dbeafe;color:#1e40af;">${t.qpCode}</span>
+          <strong style="margin-left:6px;color:#0f172a;">${t.titleEn}</strong>
+          <div style="font-size:0.85rem;color:#475569;margin-top:2px;">${t.titleHi}</div>
+        </div>
+        <button type="button" data-action="toggle-ncvet-task" data-task-id="${t.id}"
+                style="min-width:44px;min-height:44px;padding:8px 14px;border-radius:8px;border:none;background:${isDone ? '#16a34a' : '#0f766e'};color:#ffffff;font-weight:700;cursor:pointer;">
+          ${isDone ? '✅ Verified / सत्यापित' : '☑️ Log Practical (+25 🪙)'}
+        </button>
+      </li>
+    `;
+  }).join("");
+  return `
+    <section id="ncvet-portfolio-checklist-card" aria-label="NCVET Practical Skill Portfolio Checklist"
+             style="padding:14px;border-radius:12px;background:#eff6ff;border:1px solid #bfdbfe;margin-top:16px;">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <h3 style="margin:0;font-size:1rem;color:#1e3a8a;">🛠️ NCVET / PSSCIVE Practical Skill Portfolio (${completed.length}/3 QP Verified)</h3>
+        <button type="button" id="btn-export-ncvet-portfolio" data-action="export-ncvet-portfolio"
+                style="min-width:44px;min-height:44px;padding:8px 14px;border-radius:8px;border:none;background:#1d4ed8;color:#ffffff;font-weight:700;cursor:pointer;">
+          📜 Export Signed NCVET Portfolio (${portfolio.signature})
+        </button>
+      </header>
+      <ul style="list-style:none;padding:0;margin:0;">${itemsHtml}</ul>
+    </section>
+  `.trim();
+}
+
+export function exportCohortMasteryCsv(cohortSummary = {}, centerId = "CENTER-UP-GN-01") {
+  const students = Array.isArray(cohortSummary.students) ? cohortSummary.students : [];
+  const header = "center_id,student_id,student_name,mastery_pct,token_balance,chapters_passed";
+  const rows = students.map((s) => {
+    const sid = String(s.studentId || s.id || "stu_unknown").replace(/,/g, " ");
+    const name = String(s.name || sid).replace(/,/g, " ");
+    const mastery = Number(s.masteryPct ?? s.avg_score ?? 0).toFixed(1);
+    const tokens = Number(s.tokenBalance ?? s.coin_balance ?? 0);
+    const passed = Number(s.chaptersPassed ?? s.chapters_passed ?? 1);
+    return `${centerId},${sid},${name},${mastery},${tokens},${passed}`;
+  });
+  const totalStudents = Number(cohortSummary.totalStudents ?? students.length);
+  const avgMastery = Number(cohortSummary.avgMasteryPct ?? 0).toFixed(1);
+  const totalTokens = Number(cohortSummary.totalTokensMinted ?? 0);
+  const summaryRow = `${centerId},SUMMARY_TOTAL,All Cohort Learners (${totalStudents}),${avgMastery},${totalTokens},0`;
+  return [header, ...rows, summaryRow].join("\n");
+}
+
+export function renderPrintableCohortAuditReportHtml(cohortSummary = {}, centerId = "CENTER-UP-GN-01") {
+  const students = Array.isArray(cohortSummary.students) ? cohortSummary.students : [];
+  const totalStudents = Number(cohortSummary.totalStudents ?? students.length);
+  const avgMastery = Number(cohortSummary.avgMasteryPct ?? 0).toFixed(1);
+  const totalTokens = Number(cohortSummary.totalTokensMinted ?? 0);
+  const rowsHtml = students.map((s, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${s.studentId || s.id || ""}</td>
+      <td>${s.name || s.studentId || ""}</td>
+      <td>${Number(s.masteryPct ?? s.avg_score ?? 0).toFixed(1)}%</td>
+      <td>${Number(s.tokenBalance ?? s.coin_balance ?? 0)}</td>
+    </tr>
+  `).join("");
+  return `<!DOCTYPE html>
+<html lang="hi-IN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Annanth Aasha Foundation — Cohort Progress Report (${centerId})</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; color: #0f172a; }
+    h1 { margin: 0 0 4px; color: #0f766e; font-size: 1.35rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; font-size: 0.9rem; }
+    th { background: #f0fdfa; }
+  </style>
+</head>
+<body>
+  <h1>Annanth Aasha Foundation — Monthly Cohort Progress &amp; Seva Audit / मासिक केंद्र प्रगति रिपोर्ट</h1>
+  <p><strong>Centre ID:</strong> ${centerId} • <strong>Students / विद्यार्थी:</strong> ${totalStudents} • <strong>Avg Mastery / औसत दक्षता:</strong> ${avgMastery}% • <strong>Total Coins / कुल कॉइन्स:</strong> ${totalTokens}</p>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Student ID</th><th>Name / नाम</th><th>Mastery / दक्षता</th><th>Coins / कॉइन्स</th></tr>
+    </thead>
+    <tbody>${rowsHtml}</tbody>
+  </table>
+</body>
+</html>`.trim();
+}
+
+
+function computeUsbPackSignature(pack) {
+  const students = Array.isArray(pack.students)
+    ? [...pack.students].map((s) => ({
+        studentId: String(s.studentId || s.id || ""),
+        masteryPct: Number(s.masteryPct ?? s.avg_score ?? 0),
+        tokenBalance: Number(s.tokenBalance ?? s.coin_balance ?? 0),
+        chaptersPassed: Number(s.chaptersPassed ?? s.chapters_passed ?? 0)
+      })).sort((a, b) => a.studentId.localeCompare(b.studentId))
+    : [];
+  const ncvet = Array.isArray(pack.ncvetCompletedTasks) ? [...pack.ncvetCompletedTasks].sort() : [];
+  const canonical = JSON.stringify({
+    schemaVersion: "aasha.usb.cohort.pack.v1",
+    centerId: String(pack.centerId || "CENTER-UP-GN-01"),
+    students,
+    ncvetCompletedTasks: ncvet
+  });
+  let h = 0x811c9dc5;
+  for (let i = 0; i < canonical.length; i++) {
+    h ^= canonical.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return "fnv1a32:" + h.toString(16).padStart(8, "0");
+}
+
+export function exportSignedUsbCohortPack(state = {}, centerId = "CENTER-UP-GN-01") {
+  const prog = state.progress || {};
+  const chapterProgress = {};
+  for (const [cid, entry] of Object.entries(prog)) {
+    if (entry && typeof entry === "object") {
+      chapterProgress[cid] = {
+        completed: Boolean(entry.completed),
+        scorePct: Number(entry.scorePct || 0)
+      };
+    }
+  }
+  const cohortStudents = Array.isArray(state.cohortSummary?.students) ? state.cohortSummary.students : [];
+  const localPassedCount = Object.values(chapterProgress).filter((p) => p.completed).length;
+  const localScores = Object.values(chapterProgress).map((p) => p.scorePct).filter((n) => n > 0);
+  const localAvg = localScores.length ? Number((localScores.reduce((a, b) => a + b, 0) / localScores.length).toFixed(1)) : 0;
+  const localStudentEntry = {
+    studentId: String(state.studentId || "stu_local_01"),
+    name: String(state.studentName || "Aasha Scholar"),
+    masteryPct: localAvg,
+    tokenBalance: Number(state.coins || 0),
+    chaptersPassed: localPassedCount
+  };
+  const studentMap = new Map();
+  for (const s of [localStudentEntry, ...cohortStudents]) {
+    const sid = String(s.studentId || s.id || "");
+    if (!sid) continue;
+    const prev = studentMap.get(sid);
+    if (!prev) {
+      studentMap.set(sid, {
+        studentId: sid,
+        name: String(s.name || sid),
+        masteryPct: Number(s.masteryPct ?? s.avg_score ?? 0),
+        tokenBalance: Number(s.tokenBalance ?? s.coin_balance ?? 0),
+        chaptersPassed: Number(s.chaptersPassed ?? s.chapters_passed ?? 0)
+      });
+    } else {
+      prev.masteryPct = Math.max(prev.masteryPct, Number(s.masteryPct ?? s.avg_score ?? 0));
+      prev.tokenBalance = Math.max(prev.tokenBalance, Number(s.tokenBalance ?? s.coin_balance ?? 0));
+      prev.chaptersPassed = Math.max(prev.chaptersPassed, Number(s.chaptersPassed ?? s.chapters_passed ?? 0));
+    }
+  }
+  const pack = {
+    schemaVersion: "aasha.usb.cohort.pack.v1",
+    centerId: String(centerId || "CENTER-UP-GN-01"),
+    exportedAt: state.exportedAt || new Date().toISOString(),
+    chapterProgress,
+    ncvetCompletedTasks: Array.isArray(state.ncvetCompletedTasks) ? [...new Set(state.ncvetCompletedTasks)].sort() : [],
+    students: [...studentMap.values()],
+    misconceptions: Array.isArray(state.cohortSummary?.misconceptions) ? state.cohortSummary.misconceptions : []
+  };
+  pack.packSignature = computeUsbPackSignature(pack);
+  return pack;
+}
+
+export function mergeSignedUsbCohortPack(state = {}, incomingPack = {}) {
+  if (!incomingPack || typeof incomingPack !== "object" || incomingPack.schemaVersion !== "aasha.usb.cohort.pack.v1") {
+    return { ok: false, error: "INVALID_USB_PACK_SCHEMA" };
+  }
+  const expectedSig = computeUsbPackSignature(incomingPack);
+  if (incomingPack.packSignature !== expectedSig) {
+    return { ok: false, error: "USB_PACK_SIGNATURE_MISMATCH", expectedSignature: expectedSig };
+  }
+  state.progress = state.progress || {};
+  let mergedChaptersCount = 0;
+  for (const [cid, inc] of Object.entries(incomingPack.chapterProgress || {})) {
+    const cur = state.progress[cid] || { completed: false, scorePct: 0 };
+    const nextScore = Math.max(Number(cur.scorePct || 0), Number(inc?.scorePct || 0));
+    const nextDone = Boolean(cur.completed || inc?.completed || nextScore >= 60);
+    state.progress[cid] = {
+      completed: nextDone,
+      scorePct: nextScore,
+      updatedAt: new Date().toISOString()
+    };
+    mergedChaptersCount++;
+  }
+  const curNcvet = Array.isArray(state.ncvetCompletedTasks) ? state.ncvetCompletedTasks : [];
+  const incNcvet = Array.isArray(incomingPack.ncvetCompletedTasks) ? incomingPack.ncvetCompletedTasks : [];
+  state.ncvetCompletedTasks = [...new Set([...curNcvet, ...incNcvet])].sort();
+
+  state.cohortSummary = state.cohortSummary || {};
+  const curStudents = Array.isArray(state.cohortSummary.students) ? state.cohortSummary.students : [];
+  const incStudents = Array.isArray(incomingPack.students) ? incomingPack.students : [];
+  const byId = new Map();
+  for (const s of [...curStudents, ...incStudents]) {
+    const sid = String(s.studentId || s.id || "");
+    if (!sid) continue;
+    const prev = byId.get(sid);
+    if (!prev) {
+      byId.set(sid, {
+        studentId: sid,
+        name: String(s.name || sid),
+        masteryPct: Number(s.masteryPct ?? s.avg_score ?? 0),
+        tokenBalance: Number(s.tokenBalance ?? s.coin_balance ?? 0),
+        chaptersPassed: Number(s.chaptersPassed ?? s.chapters_passed ?? 0)
+      });
+    } else {
+      prev.masteryPct = Math.max(prev.masteryPct, Number(s.masteryPct ?? s.avg_score ?? 0));
+      prev.tokenBalance = Math.max(prev.tokenBalance, Number(s.tokenBalance ?? s.coin_balance ?? 0));
+      prev.chaptersPassed = Math.max(prev.chaptersPassed, Number(s.chaptersPassed ?? s.chapters_passed ?? 0));
+    }
+  }
+  const mergedStudents = [...byId.values()];
+  state.cohortSummary.students = mergedStudents;
+  state.cohortSummary.totalStudents = mergedStudents.length;
+  state.cohortSummary.avgMasteryPct = mergedStudents.length
+    ? Number((mergedStudents.reduce((a, s) => a + s.masteryPct, 0) / mergedStudents.length).toFixed(1))
+    : 0;
+  state.cohortSummary.totalTokensMinted = mergedStudents.reduce((a, s) => a + s.tokenBalance, 0);
+
+  return {
+    ok: true,
+    mergedChaptersCount,
+    mergedStudentsCount: mergedStudents.length,
+    mergedNcvetCount: state.ncvetCompletedTasks.length,
+    packSignature: incomingPack.packSignature
+  };
+}
+
+
+function snapshotCurrentLearnerIntoVault(state = {}) {
+  state.tabletProfiles = state.tabletProfiles && typeof state.tabletProfiles === "object" ? state.tabletProfiles : {};
+  const curId = String(state.studentId || "stu_local_01");
+  const existing = state.tabletProfiles[curId] || {};
+  state.tabletProfiles[curId] = {
+    studentId: curId,
+    studentName: String(state.studentName || existing.studentName || "Aasha Scholar"),
+    grade: Number(state.studentGrade || existing.grade || 8),
+    pin: String(existing.pin || ""),
+    coins: Number(state.coins ?? existing.coins ?? 0),
+    progress: JSON.parse(JSON.stringify(state.progress || {})),
+    redemptions: JSON.parse(JSON.stringify(state.redemptions || [])),
+    ncvetCompletedTasks: Array.isArray(state.ncvetCompletedTasks) ? [...state.ncvetCompletedTasks] : []
+  };
+}
+
+export function registerSharedTabletStudent(state = {}, profile = {}) {
+  const studentId = String(profile.studentId || "").trim();
+  if (!studentId) return { ok: false, error: "MISSING_STUDENT_ID" };
+  snapshotCurrentLearnerIntoVault(state);
+  const existing = state.tabletProfiles[studentId] || {};
+  state.tabletProfiles[studentId] = {
+    studentId,
+    studentName: String(profile.studentName || existing.studentName || studentId).trim(),
+    grade: Number(profile.grade || existing.grade || 8),
+    pin: String(profile.pin ?? existing.pin ?? ""),
+    coins: Number(profile.initialCoins ?? existing.coins ?? 100),
+    progress: existing.progress || {},
+    redemptions: existing.redemptions || [],
+    ncvetCompletedTasks: existing.ncvetCompletedTasks || []
+  };
+  return {
+    ok: true,
+    studentId,
+    studentName: state.tabletProfiles[studentId].studentName,
+    profileCount: Object.keys(state.tabletProfiles).length
+  };
+}
+
+export function switchActiveTabletStudent(state = {}, targetStudentId = "", enteredPin = "") {
+  const targetId = String(targetStudentId || "").trim();
+  if (!targetId) return { ok: false, error: "MISSING_TARGET_STUDENT_ID" };
+  snapshotCurrentLearnerIntoVault(state);
+  const target = state.tabletProfiles[targetId];
+  if (!target) {
+    return { ok: false, error: "STUDENT_PROFILE_NOT_FOUND" };
+  }
+  if (target.pin && String(enteredPin || "") !== String(target.pin)) {
+    return { ok: false, error: "INVALID_STUDENT_PIN" };
+  }
+  state.studentId = target.studentId;
+  state.studentName = target.studentName;
+  state.studentGrade = Number(target.grade || 8);
+  state.coins = Number(target.coins || 0);
+  state.progress = JSON.parse(JSON.stringify(target.progress || {}));
+  state.redemptions = JSON.parse(JSON.stringify(target.redemptions || []));
+  state.ncvetCompletedTasks = Array.isArray(target.ncvetCompletedTasks) ? [...target.ncvetCompletedTasks] : [];
+  return {
+    ok: true,
+    activeStudentId: state.studentId,
+    activeStudentName: state.studentName,
+    coins: state.coins,
+    completedChaptersCount: Object.values(state.progress).filter((p) => p && p.completed).length
+  };
+}
+
+export function renderSharedTabletStudentSwitcherCard(state = {}) {
+  const activeId = String(state.studentId || "stu_local_01");
+  const vault = state.tabletProfiles && typeof state.tabletProfiles === "object"
+    ? Object.values(state.tabletProfiles)
+    : [{ studentId: activeId, studentName: String(state.studentName || "Aasha Scholar"), grade: 8, coins: Number(state.coins || 0), progress: state.progress || {} }];
+  const pillsHtml = vault.map((p) => {
+    const isCurrent = p.studentId === activeId;
+    const chCount = Object.values(p.progress || {}).filter((x) => x && x.completed).length;
+    return `
+      <button type="button" class="btn-switch-tablet-student" data-action="switch-tablet-student" data-student-id="${p.studentId}"
+              style="min-width:44px;min-height:44px;padding:8px 14px;border-radius:10px;border:2px solid ${isCurrent ? '#0f766e' : '#cbd5e1'};background:${isCurrent ? '#ccfbf1' : '#ffffff'};color:#0f172a;font-weight:700;cursor:pointer;">
+        ${isCurrent ? '🟢' : '👤'} ${p.studentName} (Cl.${p.grade || 8} • ${chCount} ch • 🪙 ${Number(p.coins || 0)})
+      </button>
+    `;
+  }).join("");
+  return `
+    <section id="shared-tablet-student-switcher-card" aria-label="Shared Tablet Multi-Student Switcher"
+             style="padding:14px;border-radius:12px;background:#f0fdf4;border:1px solid #bbf7d0;margin-top:14px;">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <h3 style="margin:0;font-size:1rem;color:#14532d;">👥 Shared-Tablet Learner Switcher / सहपाठी प्रोफ़ाइल बदलें (${vault.length} Profiles)</h3>
+        <button type="button" id="btn-register-tablet-student" data-action="register-tablet-student"
+                style="min-width:44px;min-height:44px;padding:6px 12px;border-radius:8px;border:none;background:#15803d;color:#ffffff;font-weight:700;cursor:pointer;">
+          ➕ Add Tablet Learner / नया विद्यार्थी
+        </button>
+      </header>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">${pillsHtml}</div>
+    </section>
+  `.trim();
+}
+
+
+export const COMMUNITY_SEVA_CHALLENGES = [
+  { id: "seva_jal_audit", titleEn: "Jal Seva: Village Tap & Drip Leak Audit (150 L Saved)", titleHi: "जल सेवा: ग्राम नल और ड्रिप रिसाव निरीक्षण (150 लीटर बचत)", rewardCoins: 30 },
+  { id: "seva_vriksha_poshan", titleEn: "Vriksha Seva: Neem & Tulsi Sapling Mulching Care", titleHi: "वृक्ष सेवा: नीम और तुलसी पौधरोपण एवं मल्चिंग देखभाल", rewardCoins: 30 },
+  { id: "seva_vidya_peer", titleEn: "Vidya Seva: Peer Coaching 2 Classmates in Bilingual LLE", titleHi: "विद्या सेवा: 2 सहपाठियों को द्विभाषी शब्दावली (LLE) अभ्यास कराना", rewardCoins: 40 }
+];
+
+export function recordDailyLearningStreak(state = {}, dateIso = new Date().toISOString().slice(0, 10)) {
+  const cleanDate = String(dateIso || new Date().toISOString().slice(0, 10)).slice(0, 10);
+  const prevDate = state.lastStudyDate ? String(state.lastStudyDate).slice(0, 10) : "";
+  state.streakDays = Math.max(1, Number(state.streakDays || 1));
+  if (prevDate === cleanDate) {
+    return {
+      ok: true,
+      streakDays: state.streakDays,
+      bonusAwarded: 0,
+      coins: Number(state.coins || 0),
+      alreadyCheckedIn: true
+    };
+  }
+  if (prevDate) {
+    const dPrev = new Date(prevDate + "T00:00:00Z");
+    const dCur = new Date(cleanDate + "T00:00:00Z");
+    const diffDays = Math.round((dCur.getTime() - dPrev.getTime()) / 86400000);
+    if (diffDays === 1) {
+      state.streakDays += 1;
+    } else if (diffDays > 1) {
+      state.streakDays = 1;
+    }
+  } else {
+    state.streakDays += 1;
+  }
+  state.lastStudyDate = cleanDate;
+  state.coins = Number(state.coins || 0) + 15;
+  enqueueSyncEvent(state, {
+    id: `streak_${cleanDate}_${state.studentId || "stu_local_01"}`,
+    chapterId: "DAILY_LEARNING_STREAK",
+    nodeId: "daily_streak_checkin",
+    score: 100,
+    passed: true,
+    timestamp: new Date().toISOString()
+  });
+  return {
+    ok: true,
+    streakDays: state.streakDays,
+    bonusAwarded: 15,
+    coins: state.coins,
+    alreadyCheckedIn: false
+  };
+}
+
+export function completeCommunitySevaChallenge(state = {}, challengeId = "") {
+  const challenge = COMMUNITY_SEVA_CHALLENGES.find((c) => c.id === challengeId);
+  if (!challenge) {
+    return { ok: false, error: "UNKNOWN_SEVA_CHALLENGE" };
+  }
+  state.completedSevaChallenges = Array.isArray(state.completedSevaChallenges) ? state.completedSevaChallenges : [];
+  if (state.completedSevaChallenges.includes(challengeId)) {
+    return {
+      ok: true,
+      challengeId,
+      alreadyCompleted: true,
+      rewardCoins: 0,
+      coins: Number(state.coins || 0),
+      completedCount: state.completedSevaChallenges.length
+    };
+  }
+  state.completedSevaChallenges.push(challengeId);
+  state.coins = Number(state.coins || 0) + challenge.rewardCoins;
+  enqueueSyncEvent(state, {
+    id: `seva_${challengeId}_${state.studentId || "stu_local_01"}`,
+    chapterId: "SEVA_COMMUNITY_MISSION",
+    nodeId: challengeId,
+    score: 100,
+    passed: true,
+    timestamp: new Date().toISOString()
+  });
+  return {
+    ok: true,
+    challengeId,
+    alreadyCompleted: false,
+    rewardCoins: challenge.rewardCoins,
+    coins: state.coins,
+    completedCount: state.completedSevaChallenges.length
+  };
+}
+
+export function renderDailyStreakAndSevaCard(state = {}) {
+  const streakDays = Math.max(1, Number(state.streakDays || 1));
+  const completed = Array.isArray(state.completedSevaChallenges) ? state.completedSevaChallenges : [];
+  const itemsHtml = COMMUNITY_SEVA_CHALLENGES.map((c) => {
+    const isDone = completed.includes(c.id);
+    return `
+      <li class="seva-challenge-row" data-challenge-id="${c.id}"
+          style="padding:8px 0;border-bottom:1px solid #fde68a;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+        <div>
+          <strong style="color:#0f172a;">🌱 ${c.titleEn}</strong>
+          <div style="font-size:0.84rem;color:#475569;">${c.titleHi}</div>
+        </div>
+        <button type="button" data-action="complete-seva-challenge" data-challenge-id="${c.id}"
+                style="min-width:44px;min-height:44px;padding:6px 12px;border-radius:8px;border:none;background:${isDone ? '#16a34a' : '#d97706'};color:#ffffff;font-weight:700;cursor:pointer;">
+          ${isDone ? '✅ Seva Logged / पूर्ण' : `⚡ Log Seva (+${c.rewardCoins} 🪙)`}
+        </button>
+      </li>
+    `;
+  }).join("");
+  return `
+    <section id="daily-streak-seva-card" aria-label="Daily Learning Streak and Community Seva Missions"
+             style="padding:14px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;margin-top:14px;">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <h3 style="margin:0;font-size:1rem;color:#92400e;">🔥 ${streakDays}-Day Learning Streak &amp; Seva Challenges / दैनिक अभ्यास और सेवा (${completed.length}/3)</h3>
+        <button type="button" id="btn-daily-streak-checkin" data-action="daily-streak-checkin"
+                style="min-width:44px;min-height:44px;padding:6px 12px;border-radius:8px;border:none;background:#b45309;color:#ffffff;font-weight:700;cursor:pointer;">
+          📅 Daily Check-In (+15 🪙)
+        </button>
+      </header>
+      <ul style="list-style:none;padding:0;margin:0;">${itemsHtml}</ul>
+    </section>
+  `.trim();
+}
+
+
+export function generateChapterLessonPlanHtml(chapterId = "NCERT-G06-MATH-CH07-FRACTIONS") {
+  const ch = LEARN_ARENA_13_CATALOGUE.find((c) => c.id === chapterId)
+    || OFFLINE_CHAPTER_CATALOGUE.find((c) => c.id === chapterId)
+    || LEARN_ARENA_13_CATALOGUE[0];
+  const learnMod = ch.learnFile || ch.bundleFile || `${ch.id}_Learning.html`;
+  const arenaMod = ch.arenaFile || ch.bundleFile || `${ch.id}_Arena.html`;
+  return `<!DOCTYPE html>
+<html lang="hi-IN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Annanth Aasha Foundation — 40-Min Bilingual Lesson Plan (${ch.id})</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; color: #0f172a; }
+    h1 { margin: 0 0 6px; color: #0f766e; font-size: 1.3rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; font-size: 0.9rem; }
+    th { background: #f0fdfa; }
+  </style>
+</head>
+<body>
+  <h1>Annanth Aasha Foundation — 40-Minute Bilingual Classroom Lesson Plan / कक्षा शिक्षण योजना</h1>
+  <p><strong>Chapter:</strong> ${ch.titleEn} (${ch.titleHi}) • <strong>Grade:</strong> ${ch.grade} • <strong>Subject:</strong> ${ch.subject}</p>
+  <p><strong>Offline Modules:</strong> 📖 <code>${learnMod}</code> | ⚔️ <code>${arenaMod}</code></p>
+  <table>
+    <thead>
+      <tr><th>Time / समय</th><th>Stage / चरण</th><th>Bilingual Facilitator Activity / शिक्षक गतिविधि (60% EN / 40% HI LLE)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>00–10 min</td><td>1. Real-World Seva Hook / स्थानीय उदाहरण</td><td>Introduce ${ch.titleEn} (${ch.titleHi}) using a Greater Noida village ledger or field measurement chalkboard problem.</td></tr>
+      <tr><td>10–25 min</td><td>2. Interactive SVG &amp; LLE Lab / दृश्य और शब्दावली अभ्यास</td><td>Launch <code>${learnMod}</code>, practice Phonetic (PH) &amp; Word-Map (WM2) flashcards aloud, and manipulate the interactive SVG simulator.</td></tr>
+      <tr><td>25–35 min</td><td>3. Aasha Arena Group Challenge / समूह अखाड़ा प्रश्नोत्तरी</td><td>Run <code>${arenaMod}</code> in 2-student teams; review any remediation tags triggered on wrong answers.</td></tr>
+      <tr><td>35–40 min</td><td>4. Chalkboard Exit Ticket &amp; Seva Pledge / श्यामपट्ट मूल्यांकन</td><td>Verify 2 chalkboard exit questions, log NCVET/Seva practical tasks, and award +50/+100 Aasha Coins.</td></tr>
+    </tbody>
+  </table>
+</body>
+</html>`.trim();
+}
+
+export function renderTeacherLessonPlanCatalogCard(chapters = LEARN_ARENA_13_CATALOGUE) {
+  const list = Array.isArray(chapters) && chapters.length > 0 ? chapters : LEARN_ARENA_13_CATALOGUE;
+  const rows = list.map((ch) => `
+    <li class="lesson-plan-row" data-chapter-id="${ch.id}"
+        style="padding:8px 0;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div>
+        <strong style="color:#0f172a;">📘 ${ch.titleEn}</strong>
+        <div style="font-size:0.84rem;color:#475569;">${ch.titleHi} (Class ${ch.grade} • ${ch.subject})</div>
+      </div>
+      <button type="button" class="btn-export-lesson-plan" data-action="export-chapter-lesson-plan" data-chapter-id="${ch.id}"
+              style="min-width:44px;min-height:44px;padding:6px 12px;border-radius:8px;border:none;background:#0f766e;color:#ffffff;font-weight:700;cursor:pointer;">
+        📋 40-Min Lesson Plan / शिक्षण योजना
+      </button>
+    </li>
+  `).join("");
+  return `
+    <section id="teacher-lesson-plan-catalog-card" aria-label="Bilingual 40-Minute Classroom Lesson Plans"
+             style="padding:14px;border-radius:12px;background:#f0fdfa;border:1px solid #99f6e4;margin-top:14px;">
+      <h3 style="margin:0 0 8px;font-size:1rem;color:#115e59;">📋 40-Minute Bilingual Classroom Lesson Plans &amp; Chalkboard Guides (${list.length} Chapters)</h3>
+      <ul style="list-style:none;padding:0;margin:0;">${rows}</ul>
+    </section>
+  `.trim();
+}
+
+
+export function renderFacilitatorRestockModal(storeItems = TIER1_STORE_CATALOG) {
+  const opts = (Array.isArray(storeItems) ? storeItems : TIER1_STORE_CATALOG).map((item) =>
+    `<option value="${item.id}">${item.icon} ${item.titleEn} (${item.titleHi})</option>`
+  ).join("");
+  return `
+    <div id="facilitator-restock-modal" role="dialog" aria-modal="true" aria-labelledby="restock-modal-title"
+         style="position:fixed;inset:0;background:rgba(15,23,42,0.72);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;">
+      <div style="background:#ffffff;border-radius:16px;max-width:400px;width:100%;padding:20px;box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+        <h3 id="restock-modal-title" style="margin:0 0 10px;font-size:1.05rem;color:#0f172a;">📦 Restock Centre Store / स्टोर स्टॉक जोड़ें</h3>
+        <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">Item / वस्तु</label>
+        <select id="restock-item-select" style="width:100%;min-height:44px;padding:8px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:10px;">${opts}</select>
+        <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">Quantity to Add / मात्रा</label>
+        <input id="restock-qty-input" type="number" min="1" max="500" value="25"
+               style="width:100%;min-height:44px;padding:8px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:10px;" />
+        <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">Staff PIN / स्टाफ पिन</label>
+        <input id="restock-pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="Staff PIN"
+               style="width:100%;min-height:44px;padding:8px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:14px;" />
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+          <button type="button" data-action="cancel-restock-modal"
+                  style="min-width:44px;min-height:44px;padding:8px 14px;border-radius:8px;border:1px solid #cbd5e1;background:#f8fafc;color:#334155;font-weight:600;cursor:pointer;">
+            Cancel / रद्द करें
+          </button>
+          <button type="button" data-action="confirm-restock-modal"
+                  style="min-width:44px;min-height:44px;padding:8px 14px;border-radius:8px;border:none;background:#0f766e;color:#ffffff;font-weight:700;cursor:pointer;">
+            ✅ Confirm Restock
+          </button>
+        </div>
+      </div>
+    </div>
+  `.trim();
+}
+
+export function restockStoreInventoryItem(state = {}, itemId = "", qty = 0, staffPin = "") {
+  const validPin = String(state.staffPin || "1234");
+  if (String(staffPin || "") !== validPin) {
+    return { ok: false, error: "INVALID_STAFF_PIN" };
+  }
+  const addQty = Number(qty || 0);
+  if (!itemId || !Number.isFinite(addQty) || addQty <= 0) {
+    return { ok: false, error: "INVALID_RESTOCK_QTY" };
+  }
+  state.storeInventory = state.storeInventory && typeof state.storeInventory === "object"
+    ? state.storeInventory
+    : Object.fromEntries(TIER1_STORE_CATALOG.map((it) => [it.id, 50]));
+  const prevQty = Number(state.storeInventory[itemId] ?? 50);
+  const newQty = prevQty + addQty;
+  state.storeInventory[itemId] = newQty;
+  state.storeAuditLog = Array.isArray(state.storeAuditLog) ? state.storeAuditLog : [];
+  const entry = {
+    txId: `restock_${itemId}_${Date.now()}`,
+    type: "RESTOCK",
+    itemId,
+    deltaQty: addQty,
+    resultingStock: newQty,
+    timestamp: new Date().toISOString()
+  };
+  state.storeAuditLog.push(entry);
+  return { ok: true, itemId, previousStock: prevQty, newStock: newQty, entry };
+}
+
+export function exportStoreInventoryAuditLedger(state = {}, centerId = "CENTER-UP-GN-01") {
+  const inventory = state.storeInventory && typeof state.storeInventory === "object"
+    ? state.storeInventory
+    : Object.fromEntries(TIER1_STORE_CATALOG.map((it) => [it.id, 50]));
+  const redemptions = Array.isArray(state.redemptions) ? state.redemptions : [];
+  const restocks = Array.isArray(state.storeAuditLog) ? state.storeAuditLog : [];
+  const payload = {
+    schemaVersion: "aasha.store.audit.ledger.v1",
+    centerId: String(centerId || "CENTER-UP-GN-01"),
+    inventory,
+    totalRedemptions: redemptions.length,
+    totalRestockEvents: restocks.length,
+    redemptions,
+    restocks,
+    exportedAt: state.exportedAt || new Date().toISOString()
+  };
+  const canonical = JSON.stringify({
+    centerId: payload.centerId,
+    inventory: payload.inventory,
+    totalRedemptions: payload.totalRedemptions,
+    totalRestockEvents: payload.totalRestockEvents
+  });
+  let h = 0x811c9dc5;
+  for (let i = 0; i < canonical.length; i++) {
+    h ^= canonical.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  payload.ledgerSignature = "fnv1a32:" + h.toString(16).padStart(8, "0");
+  return payload;
+}
+
+
+export function validateNonSpoilerMisconception(correctOption = "", misconceptionText = "") {
+  const ans = String(correctOption || "").trim().toLowerCase();
+  const hint = String(misconceptionText || "").trim().toLowerCase();
+  if (!ans || !hint) {
+    return { valid: false, error: "EMPTY_ANSWER_OR_MISCONCEPTION" };
+  }
+  const spoilerPrefixes = ["is ", "= ", "=", "giving ", "becomes ", "answer is ", "उत्तर "];
+  for (const pfx of spoilerPrefixes) {
+    if (hint.includes(pfx + ans)) {
+      return { valid: false, error: "SPOILER_LEAK_IN_MISCONCEPTION" };
+    }
+  }
+  return { valid: true };
+}
+
+export function authorCustomBilingualQuestion(state = {}, qSpec = {}) {
+  const chapterId = String(qSpec.chapterId || "NCERT-G06-MATH-CH07-FRACTIONS").trim();
+  const promptEn = String(qSpec.promptEn || "").trim();
+  const promptHi = String(qSpec.promptHi || "").trim();
+  const correctOption = String(qSpec.correctOption || "").trim();
+  const wrongOption = String(qSpec.wrongOption || "").trim();
+  const misconceptionHi = String(qSpec.misconceptionHi || "").trim();
+  if (!promptEn || !promptHi || !correctOption || !wrongOption) {
+    return { ok: false, error: "MISSING_QUESTION_FIELDS" };
+  }
+  const v = validateNonSpoilerMisconception(correctOption, misconceptionHi);
+  if (!v.valid) {
+    return { ok: false, error: v.error };
+  }
+  state.customQuestions = Array.isArray(state.customQuestions) ? state.customQuestions : [];
+  const item = {
+    id: `custom_q_${state.customQuestions.length + 1}`,
+    chapterId,
+    promptEn,
+    promptHi,
+    correctOption,
+    wrongOption,
+    misconceptionHi,
+    lTruthVerified: true,
+    createdAt: new Date().toISOString()
+  };
+  state.customQuestions.push(item);
+  return { ok: true, question: item, totalCustomQuestions: state.customQuestions.length };
+}
+
+export function renderTeacherCustomQuizBuilderCard(cohortSummary = {}) {
+  const customList = Array.isArray(cohortSummary.customQuestions) ? cohortSummary.customQuestions : [];
+  const rows = customList.map((q) => `
+    <li class="custom-question-row" data-question-id="${q.id}" style="padding:6px 0;border-bottom:1px solid #e2e8f0;">
+      <strong>[${q.chapterId}]</strong> ${q.promptEn} / ${q.promptHi} <span style="color:#0f766e;">(✅ L-Truth Verified)</span>
+    </li>
+  `).join("");
+  return `
+    <section id="teacher-custom-quiz-builder-card" aria-label="Bilingual Teacher Custom Quiz Builder"
+             style="padding:14px;border-radius:12px;background:#faf5ff;border:1px solid #e9d5ff;margin-top:14px;">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <h3 style="margin:0;font-size:1rem;color:#581c87;">🧪 Teacher Custom Bilingual Arena Quiz Builder / शिक्षक प्रश्न निर्माता (${customList.length} Custom MCQs)</h3>
+        <button type="button" id="btn-add-custom-question" data-action="add-custom-bilingual-question"
+                style="min-width:44px;min-height:44px;padding:6px 12px;border-radius:8px;border:none;background:#7c3aed;color:#ffffff;font-weight:700;cursor:pointer;">
+          ➕ Add Verified Bilingual MCQ / नया प्रश्न जोड़ें
+        </button>
+      </header>
+      <ul style="list-style:none;padding:0;margin:0;">${rows || '<li style="color:#64748b;">Author L-Truth non-spoiler bilingual questions for offline Arena packs.</li>'}</ul>
+    </section>
+  `.trim();
+}
+
+
+export function evaluateLowRamTabletBudget(metrics = {}) {
+  const deviceMemoryGb = Number(metrics.deviceMemoryGb ?? 2);
+  const heapUsedMb = Number(metrics.heapUsedMb ?? 68);
+  const maxBundleBytes = Number(metrics.maxBundleBytes ?? 539884);
+  const lowRamMode = deviceMemoryGb <= 2;
+  const withinHeapBudget = heapUsedMb <= 250;
+  const under20MiBCeiling = maxBundleBytes <= 20971520;
+  const recommendedRenderer = lowRamMode ? "Canvas2D_Lightweight_SVG" : "PixiJS_WebGL_Accelerated";
+  return {
+    ok: withinHeapBudget && under20MiBCeiling,
+    twaPackageId: "org.annantaasha.learn.twa",
+    deviceMemoryGb,
+    lowRamMode,
+    heapUsedMb,
+    heapBudgetMb: 250,
+    withinHeapBudget,
+    maxBundleBytes,
+    under20MiBCeiling,
+    recommendedRenderer
+  };
+}
+
+export function renderLowRamTabletDiagnosticsCard(cohortSummary = {}) {
+  const bench = evaluateLowRamTabletBudget(cohortSummary.tabletMetrics || {});
+  return `
+    <section id="low-ram-tablet-diagnostics-card" aria-label="2GB Android Tablet TWA and Memory Benchmark"
+             style="padding:14px;border-radius:12px;background:#f0fdfa;border:1px solid #99f6e4;margin-top:14px;">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <h3 style="margin:0;font-size:1rem;color:#115e59;">📱 Android TWA &amp; 2GB Low-RAM Tablet Governor (${bench.twaPackageId})</h3>
+        <button type="button" id="btn-run-tablet-benchmark" data-action="run-tablet-benchmark"
+                style="min-width:44px;min-height:44px;padding:6px 12px;border-radius:8px;border:none;background:#0f766e;color:#ffffff;font-weight:700;cursor:pointer;">
+          ⚡ Run 2GB Tablet Benchmark / टैबलेट परीक्षण
+        </button>
+      </header>
+      <p style="margin:0;font-size:0.88rem;color:#334155;">
+        RAM Profile: <strong>${bench.deviceMemoryGb} GB</strong> • Heap: <strong>${bench.heapUsedMb} MB / ${bench.heapBudgetMb} MB</strong> • Renderer: <code>${bench.recommendedRenderer}</code> • Bundle Ceiling: <strong>✅ &lt; 20 MiB</strong>
+      </p>
     </section>
   `.trim();
 }

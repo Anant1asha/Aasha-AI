@@ -45,21 +45,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .stat.bump{transform:scale(1.3)}
 
 /* Screen */
-.screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 14px 90px;min-height:0;animation:slideIn .35s ease}
+.screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 14px 90px;min-height:calc(100vh - 120px);animation:slideIn .35s ease}
 @keyframes slideIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
-
-/* Physical Mobile Ergonomics & Viewport Containment */
-.btn, .tap-cell, .dd-tap-item, .choice-btn, .nav-btn, .sim-host, aasha-sim {
-  min-height: 44px;
-  min-width: 44px;
-}
-.sim-frame {
-  width: 100%;
-  height: 380px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: #fbfcfe;
-}
 
 /* Intro */
 .intro-icon{font-size:3.2rem;margin-bottom:8px;text-align:center;animation:pop .5s ease}
@@ -210,9 +197,6 @@ dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
 .css3d-block-filled{height:60px;background:linear-gradient(135deg,var(--blue),var(--blue-dk));border-radius:6px;box-shadow:0 4px 8px rgba(59,130,246,.3);border:1px solid rgba(255,255,255,.2)}
 .css3d-block-empty{height:8px;background:var(--border);border-radius:3px;margin-top:26px}
 .css3d-label{text-align:center;font-size:1.2rem;font-weight:800;margin-top:8px;color:var(--blue)}
-/* Math isolation and KaTeX typography */
-.math, [data-math] { font-style: italic; font-family: 'KaTeX_Math', 'Times New Roman', serif; }
-
 .css3d-controls{display:flex;gap:8px;justify-content:center;margin-top:10px}
 .css3d-btn{padding:6px 14px;background:var(--blue-lt);border:1px solid var(--blue);border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:600;color:var(--blue)}
 .css3d-btn:hover{background:var(--blue);color:#fff}
@@ -237,7 +221,7 @@ dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
 </style>
 </head>
 <body>
-<div class="app" id="app">
+<div class="app">
   <div class="brand-header">
     <div class="brand-logo">
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -317,8 +301,6 @@ dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
 <canvas id="confettiCanvas"></canvas>
 
 <script>
-/* MathIsolation and KaTeX offline rendering hook */
-window.__AASHA_MATH_ISOLATION__ = true;
 var WM={{WM_JSON}};
 
 
@@ -838,17 +820,15 @@ function drawPerimVsAreaCanvas(canvas){
 }
 
 
-// ── Worked Examples definitions ──
+// ── Worked Examples (Perimeter & Area) ──
+// ── Worked Example definitions (one entry per key referenced from NODES via t:"worked", we:"WE.key") ──
 var WE={{WE_JSON}};
 
-// ── Guided multi-step solve definitions ──
+// ── Guided multi-step solve definitions (referenced from NODES via t:"solve", sl:"SOLVE.key"); use {} if unused ──
 var SOLVE={{SOLVE_JSON}};
 
-// ── Storage key per chapter ──
-var STORAGE_KEY="{{STORAGE_KEY}}";
-if(!STORAGE_KEY||STORAGE_KEY.indexOf("{{")!==-1){STORAGE_KEY="aasha_chapter_v5";}
-
-// ── Concept Nodes — THE chapter content ──
+// ── Concept Nodes — THE chapter content. 3-5 nodes, one per concept, following the proven flow:
+// Intro -> Text -> Interactive Visual -> Worked Example -> Quiz -> ... -> Progress ──
 var NODES={{CONTENT_JSON}};
 var App={
   nIdx:0,sIdx:0,coins:0,xp:0,level:1,streak:0,selOpt:null,answered:false,
@@ -856,23 +836,11 @@ var App={
   tapCount:0,tapped:{},
 
   init:function(){
-    // Dereference any WE or SOLVE string references across all nodes
-    for(var i=0;i<NODES.length;i++){
-      for(var j=0;j<NODES[i].steps.length;j++){
-        var st=NODES[i].steps[j];
-        if(st.t==='worked'&&typeof st.we==='string'){
-          st.we=WE[st.we.replace(/^WE\./,'')]||{};
-        }
-        if(st.t==='solve'&&typeof st.sl==='string'){
-          st.sl=SOLVE[st.sl.replace(/^SOLVE\./,'')]||{};
-        }
-      }
-    }
-    try{var s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+    try{var s=JSON.parse(localStorage.getItem('aasha_pa_v5')||'{}');
     if(s.nIdx!==undefined&&s.ver==='v5f'&&s.nIdx>=0&&s.nIdx<NODES.length&&s.sIdx>=0&&s.sIdx<NODES[s.nIdx].steps.length){this.nIdx=s.nIdx;this.sIdx=s.sIdx;this.coins=s.coins||0;this.xp=s.xp||0;this.level=s.level||1;this.streak=s.streak||0;earnedBadges=s.badges||{};}}catch(e){}
     this.render();
   },
-  save:function(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({ver:'v5f',nIdx:this.nIdx,sIdx:this.sIdx,coins:this.coins,xp:this.xp,level:this.level,streak:this.streak,badges:earnedBadges}))}catch(e){}},
+  save:function(){try{localStorage.setItem('aasha_pa_v5',JSON.stringify({ver:'v5f',nIdx:this.nIdx,sIdx:this.sIdx,coins:this.coins,xp:this.xp,level:this.level,streak:this.streak,badges:earnedBadges}))}catch(e){}},
   updateStats:function(){
     document.getElementById('statCoins').textContent=this.coins;
     document.getElementById('statXp').textContent=this.xp;
@@ -894,13 +862,12 @@ var App={
     }
   },
   checkBadges:function(){
-    if(!BADGES||BADGES.length===0)return;
-    for(var i=0;i<BADGES.length;i++){
-      var b=BADGES[i];
-      var reqNode=Math.min(NODES.length-1, Math.floor(((i+1)/BADGES.length)*NODES.length));
-      if(this.nIdx>=reqNode&&!earnedBadges[b.id]){
-        earnedBadges[b.id]=true;
-        this.showBadge(b);
+    var checks=[{idx:1,id:"first"},{idx:6,id:"add"},{idx:9,id:"mult"},{idx:10,id:"div"},{idx:10,id:"champ"}];
+    for(var i=0;i<checks.length;i++){var c=checks[i];
+      if(this.nIdx>=c.idx&&!earnedBadges[c.id]){
+        earnedBadges[c.id]=true;
+        var b=BADGES.filter(function(x){return x.id===c.id})[0];
+        if(b)this.showBadge(b);
       }
     }
   },
@@ -975,47 +942,15 @@ var App={
     else if(step.t==='ix_area_grid')this.renderIXAreaGrid(step,cb);
     else if(step.t==='ix_area_split')this.renderIXAreaSplit(step,cb);
     else if(step.t==='ix_perim_vs_area')this.renderIXPerimVsArea(step,cb);
-    else if(step.t==='sim'||step.t==='phet'||step.resolved_interactive)this.renderSim(step,cb);
-  },
-
-  // ── Universal Resource Intelligence: Live Interactive Simulation ──
-  renderSim:function(step,cb){
-    var title = step.title || (step.resolved_interactive ? step.resolved_interactive.name : 'Interactive Simulation');
-    var instr = step.instruction || 'Interact with the visual model below to explore concepts.';
-    var simId = step.sim_id || (step.resolved_interactive ? step.resolved_interactive.resource_id : '');
-    var inlined = step.inlined_html || (window.__INLINED_SIMS__ && simId && window.__INLINED_SIMS__[simId]) || '';
-    
-    var simHtml = '';
-    if (inlined) {
-      var escSrcDoc = inlined.replace(/"/g, '&quot;');
-      simHtml = '<iframe class="sim-frame" sandbox="allow-scripts allow-same-origin" srcdoc="' + escSrcDoc + '" style="width:100%;height:380px;border:1px solid #dce2ea;border-radius:12px;background:#fbfcfe;"></iframe>';
-    } else {
-      simHtml = '<aasha-sim class="sim-host" data-resource="' + (simId || 'sim') + '" style="display:block;min-height:44px;min-width:44px;">' +
-        '<div class="game-card" style="text-align:center;padding:24px;">' +
-        '<div style="font-size:2.5rem;margin-bottom:8px;">🔬</div>' +
-        '<div style="font-weight:700;color:var(--text);font-size:1.1rem;">' + (step.title || 'Interactive Exploration') + '</div>' +
-        '<div style="color:#64748b;font-size:0.9rem;margin-top:6px;">' + (step.instruction || 'Hands-on simulation active.') + '</div>' +
-        '</div></aasha-sim>';
-    }
-
-    document.getElementById('screen').innerHTML = 
-      '<div class="instruction" style="min-height:44px;display:flex;align-items:center;justify-content:center;">' + rt(instr,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'') + '</div>' +
-      '<div class="sim-container" style="min-height:0;flex:1;display:flex;flex-direction:column;width:100%;margin-top:8px;">' + simHtml + '</div>';
-
-    document.getElementById('bottomBar').style.display = 'block';
-    cb.textContent = 'Continue';
-    cb.className = 'btn btn-primary';
-    cb.disabled = false;
   },
 
   renderIntro:function(step,cb){
-    var subHtml=step.sub?rt(step.sub,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,''):'';
-    document.getElementById('screen').innerHTML='<div style="text-align:center"><div class="intro-icon">'+(step.icon||'📖')+'</div><div class="intro-title">'+(step.title||'')+'</div><div class="intro-sub">'+subHtml+'</div></div>';
+    var subHtml=rt(step.sub,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'');
+    document.getElementById('screen').innerHTML='<div style="text-align:center"><div class="intro-icon">'+step.icon+'</div><div class="intro-title">'+step.title+'</div><div class="intro-sub">'+subHtml+'</div></div>';
     document.getElementById('bottomBar').style.display='block';cb.textContent='Start';cb.className='btn btn-primary';cb.disabled=false;
   },
   renderText:function(step,cb){
-    var txt=step.text||step.body||'';
-    document.getElementById('screen').innerHTML=rt(txt)+'<div class="hint">🔵 नीले शब्द = कनेक्टिंग वर्ड · किसी भी शब्द पर टैप करें हिंदी अर्थ देखने के लिए</div>';
+    document.getElementById('screen').innerHTML=rt(step.text)+'<div class="hint">🔵 नीले शब्द = कनेक्टिंग वर्ड · किसी भी शब्द पर टैप करें हिंदी अर्थ देखने के लिए</div>';
     document.getElementById('bottomBar').style.display='block';cb.textContent='Continue';cb.className='btn btn-primary';cb.disabled=false;
   },
 
@@ -1327,28 +1262,19 @@ var App={
 },
 
   renderProgress:function(step,node,cb){
-    this.coins+=(step.tokens||0);bumpStat('statCoins');
+    this.coins+=step.tokens;bumpStat('statCoins');
     this.xp+=(step.xp||20);bumpStat('statXp');
     this.streak++;this.updateStats();this.checkLevelUp();this.checkBadges();this.save();
     if(step.next){
-      var nIcon=node.icon||node.emoji||'⭐';
-      var txt=step.text||'Great work! You mastered this concept!';
-      var txtHtml=rt(txt,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'');
-      var nextTitle=typeof step.next==='string'?step.next:(NODES[this.nIdx+1]?NODES[this.nIdx+1].title:'Next Concept');
-      document.getElementById('screen').innerHTML='<div style="text-align:center"><div class="milestone-icon">'+nIcon+'</div><div class="milestone-text">'+txtHtml+'</div><div class="milestone-reward">+'+(step.tokens||0)+' 🪙 · +'+(step.xp||20)+' ⭐</div><div class="milestone-next">Next: '+nextTitle+'</div></div>';
+      document.getElementById('screen').innerHTML='<div style="text-align:center"><div class="milestone-icon">'+node.icon+'</div><div class="milestone-text">'+rt(step.text,true).replace(/^<div class="lle-text-sm">/,'').replace(/<\/div>$/,'')+'</div><div class="milestone-reward">+'+step.tokens+' 🪙 · +'+(step.xp||20)+' ⭐</div><div class="milestone-next">Next: '+step.next+'</div></div>';
       document.getElementById('bottomBar').style.display='block';cb.textContent='Next Concept →';cb.className='btn btn-green';cb.disabled=false;
-      playTone('correct');try{fireConfetti(25);}catch(e){}
+      playTone('correct');fireConfetti(25);
     }else{
-      var chips='';for(var i=0;i<NODES.length;i++){
-        var c=NODES[i].color||'#3b82f6';
-        var ic=NODES[i].icon||NODES[i].emoji||'✓';
-        chips+='<div class="chip" style="background:'+c+'20;color:'+c+'">'+ic+' ✓</div>';
-      }
-      var lvlName=LEVELS[this.level-1]?LEVELS[this.level-1].name:'Scholar';
-      document.getElementById('screen').innerHTML='<div style="text-align:center"><div class="complete-icon">🎉</div><div class="complete-title">Chapter Complete!</div><div class="complete-coins">🪙 '+this.coins+' · ⭐ '+this.xp+'</div><p style="color:var(--muted);font-size:.9rem;font-weight:600">Level '+this.level+': '+lvlName+'</p><div class="star-row"><span>⭐</span><span>⭐</span><span>⭐</span></div><div style="margin-top:10px;display:flex;gap:4px;justify-content:center;flex-wrap:wrap">'+chips+'</div></div>';
+      var chips='';for(var i=0;i<NODES.length;i++)chips+='<div class="chip" style="background:'+NODES[i].color+'20;color:'+NODES[i].color+'">'+NODES[i].icon+' ✓</div>';
+      document.getElementById('screen').innerHTML='<div style="text-align:center"><div class="complete-icon">🎉</div><div class="complete-title">Chapter Complete!</div><div class="complete-coins">🪙 '+this.coins+' · ⭐ '+this.xp+'</div><p style="color:var(--muted);font-size:.9rem;font-weight:600">Level '+this.level+': '+LEVELS[this.level-1].name+'</p><div class="star-row"><span>⭐</span><span>⭐</span><span>⭐</span></div><div style="margin-top:10px;display:flex;gap:4px;justify-content:center;flex-wrap:wrap">'+chips+'</div></div>';
       document.getElementById('progressFill').style.width='100%';
       document.getElementById('bottomBar').style.display='block';cb.textContent='Done 🎉';cb.className='btn btn-amber';cb.disabled=false;
-      playTone('complete');try{fireConfetti(120);}catch(e){}
+      playTone('complete');fireConfetti(120);
     }
   },
 
@@ -1426,30 +1352,6 @@ var App={
   goBack:function(){if(this.sIdx>0){this.sIdx--;this.tapCount=0;this.tapped={};this.weStepIdx=0;this.solveStepIdx=0;this.solveAnswered=false;this.answered=false;this.selOpt=null;this._qOpts=null;this._slqOpts=null;this.save();this.render();return;}if(this.nIdx>0){this.nIdx--;this.sIdx=NODES[this.nIdx].steps.length-1;this.tapCount=0;this.tapped={};this.weStepIdx=0;this.solveStepIdx=0;this.solveAnswered=false;this.answered=false;this.selOpt=null;this._qOpts=null;this._slqOpts=null;this.save();this.render();return;}},
   advance:function(){this.sIdx++;this.answered=false;this.selOpt=null;this.weStepIdx=0;this.weChecked=false;this.weCheckAnswered=false;this._weCheckRendered=false;this.weStepCheckPassed=false;this.weStepCheckAnswered=false;this.selStepOpt=null;this.solveStepIdx=0;this.solveAnswered=false;this._qOpts=null;this._slqOpts=null;if(this.sIdx>=NODES[this.nIdx].steps.length){this.nIdx++;this.sIdx=0;this.tapCount=0;this.tapped={};if(this.nIdx>=NODES.length){this.nIdx=NODES.length-1;this.sIdx=NODES[this.nIdx].steps.length-1;return;}}this.save();this.render();}
 };
-
-// ── AashaExperienceContract & <aasha-sim> Web Component Lifecycle ──
-window.AashaExperienceContract = window.AashaExperienceContract || {
-  version: '1.0.0',
-  init: function(el) { return true; },
-  emit: function(type, payload) {
-    window.__AASHA_EVENTS__ = (window.__AASHA_EVENTS__ || []).concat({
-      type: type,
-      payload: payload,
-      timestamp: Date.now()
-    });
-  }
-};
-if (typeof customElements !== 'undefined' && !customElements.get('aasha-sim')) {
-  class AashaSimComponent extends HTMLElement {
-    connectedCallback() {
-      if (window.AashaExperienceContract && typeof window.AashaExperienceContract.init === 'function') {
-        window.AashaExperienceContract.init(this);
-      }
-    }
-  }
-  customElements.define('aasha-sim', AashaSimComponent);
-}
-
 App.init();
 
 </script>

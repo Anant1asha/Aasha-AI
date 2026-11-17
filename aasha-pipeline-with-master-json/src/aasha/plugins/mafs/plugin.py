@@ -33,9 +33,4 @@ class MafsPlugin(InteractionPlugin):
         }
 
     def embed_assets(self) -> dict[str, str]:
-        from ..bundler import get_bundled_script
-        lib_js = get_bundled_script("mafs", "https://unpkg.com/mafs/dist/mafs.min.js")
-        return {
-            "mafs_lib": lib_js,
-            "mafs_css": ".mafs-container{width:400px;height:350px;border-radius:8px;overflow:hidden;margin:0 auto}"
-        }
+        return {"mafs_css": ".mafs-container{width:400px;height:350px;border-radius:8px;overflow:hidden;margin:0 auto}"}

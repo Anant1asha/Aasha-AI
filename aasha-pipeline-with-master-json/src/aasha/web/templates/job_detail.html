@@ -73,21 +73,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e
         <dl class="meta">
           <dt>Status</dt><dd id="metaStatus">{{ job.status }}</dd>
           <dt>Duration</dt><dd id="metaDuration">—</dd>
-          <dt>LLM Cost Total</dt><dd id="metaCost">${{ "%.4f"|format(job.cost_usd) }}</dd>
-          <dt>Costs by Agent</dt><dd id="metaCostsBreakdown">
-            {% if job.costs %}
-              <ul style="margin-left: 16px; font-size: 0.8rem; color: #64748b;">
-              {% for agent, cost in job.costs.items() %}
-                <li>{{ agent }}: ${{ "%.4f"|format(cost) }}</li>
-              {% endfor %}
-              </ul>
-            {% else %}
-              —
-            {% endif %}
-          </dd>
-          <dt>Plugin Summary</dt><dd id="metaPlugins">—</dd>
-          <dt>Exercises</dt><dd id="metaExercises">—</dd>
-          <dt>Assessments</dt><dd id="metaAssessments">—</dd>
+          <dt>LLM Cost</dt><dd id="metaCost">${{ "%.4f"|format(job.cost_usd) }}</dd>
           <dt>QA Checks</dt><dd id="metaQA">—</dd>
         </dl>
         <div id="actionButtons" style="margin-top:16px">
@@ -130,31 +116,6 @@ async function poll() {
   document.getElementById('metaStatus').textContent = job.status;
   if (job.cost_usd > 0) {
     document.getElementById('metaCost').textContent = '$' + job.cost_usd.toFixed(4);
-  }
-  
-  if (job.costs && Object.keys(job.costs).length > 0) {
-    const list = Object.entries(job.costs)
-      .map(([agent, cost]) => `<li>${agent}: $${cost.toFixed(4)}</li>`)
-      .join('');
-    document.getElementById('metaCostsBreakdown').innerHTML = `<ul style="margin-left:16px; font-size:0.8rem; color:#64748b;">${list}</ul>`;
-  }
-
-  // Populate from messages if available
-  if (job.messages && job.messages.length > 0) {
-    let exCount = 0;
-    let plugins = 0;
-    let assessXp = 0;
-    let qaPass = '—';
-    for (const m of job.messages) {
-      if (m.type === 'exercise.extracted') exCount += m.payload.count || 0;
-      if (m.type === 'interaction.assigned') plugins += m.payload.concepts || 0;
-      if (m.type === 'assessment.generated') assessXp += m.payload.total_xp || 0;
-      if (m.type === 'qa.result') qaPass = m.payload.passed ? 'Passed' : 'Failed';
-    }
-    if (exCount > 0) document.getElementById('metaExercises').textContent = `${exCount} extracted`;
-    if (plugins > 0) document.getElementById('metaPlugins').textContent = `${plugins} interactions`;
-    if (assessXp > 0) document.getElementById('metaAssessments').textContent = `${assessXp} XP total (Warmup/DeepDive/Boss)`;
-    document.getElementById('metaQA').textContent = qaPass;
   }
 
   // Show result if completed

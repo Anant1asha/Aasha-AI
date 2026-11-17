@@ -33,9 +33,6 @@ class FabricPlugin(InteractionPlugin):
         }
 
     def embed_assets(self) -> dict[str, str]:
-        from ..bundler import get_bundled_script
-        lib_js = get_bundled_script("fabric", "https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js")
-        
         css = ".fabric-canvas{border:1px solid #e2e8f0;border-radius:8px;display:block;margin:0 auto}"
         js = (
             "var renderFabric=function(c,config){\n"
@@ -43,4 +40,4 @@ class FabricPlugin(InteractionPlugin):
             "  el.innerHTML='<canvas id=\"'+c+'_cv\" width=400 height=350 class=fabric-canvas></canvas>';\n"
             "};"
         )
-        return {"fabric_lib": lib_js, "fabric_css": css, "fabric_js": js}
+        return {"fabric_css": css, "fabric_js": js}

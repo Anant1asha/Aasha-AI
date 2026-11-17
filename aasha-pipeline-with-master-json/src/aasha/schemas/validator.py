@@ -37,32 +37,20 @@ def _check_one_correct(opts: list[Option], context: str, result: ValidationResul
 def _check_misconceptions(opts: list[Option], context: str, result: ValidationResult) -> None:
     """Rule 7: Every wrong option has non-empty m that doesn't leak the answer."""
     correct_opts = [o.t for o in opts if o.c]
-    correct_text = correct_opts[0].lower().strip() if correct_opts else ""
-    # Match the correct answer as a whole token, not as a raw substring. A short
-    # answer such as "A", "B" or "6" otherwise collides with ordinary English
-    # (the article "a"), flagging every misconception as a leak.
-    leak_pattern = (
-        re.compile(r"(?<!\w)" + re.escape(correct_text) + r"(?!\w)")
-        if correct_text
-        else None
-    )
+    correct_text = correct_opts[0].lower() if correct_opts else ""
     for o in opts:
         if not o.c:
             if not o.m or not o.m.strip():
                 result.add_error(f"{context}: wrong option '{o.t[:40]}' has empty misconception")
-            elif leak_pattern is not None and leak_pattern.search(o.m.lower()):
+            elif correct_text and correct_text in o.m.lower():
                 result.add_error(
                     f"{context}: misconception for '{o.t[:40]}' leaks the correct answer"
                 )
 
 
-def _check_option_set(os: OptionSet | None, context: str, result: ValidationResult, require_opts: bool = False) -> None:
+def _check_option_set(os: OptionSet | None, context: str, result: ValidationResult) -> None:
     """Check a full option set: one correct, misconceptions present."""
     if os is None:
-        return
-    if os.opts is None:
-        if require_opts:
-            result.add_error(f"{context}: options are required but not populated")
         return
     if len(os.opts) < 3 or len(os.opts) > 4:
         result.add_error(f"{context}: expected 3-4 options, found {len(os.opts)}")
@@ -70,7 +58,7 @@ def _check_option_set(os: OptionSet | None, context: str, result: ValidationResu
     _check_misconceptions(os.opts, context, result)
 
 
-def validate_chapter_spec(spec_data: dict[str, Any], require_opts: bool = False) -> ValidationResult:
+def validate_chapter_spec(spec_data: dict[str, Any]) -> ValidationResult:
     """Run all 12 validation rules on a chapter spec dict.
 
     Returns a ValidationResult with errors (blocking) and warnings (non-blocking).
@@ -83,7 +71,10 @@ def validate_chapter_spec(spec_data: dict[str, Any], require_opts: bool = False)
         result.add_error(f"Schema validation failed: {e}")
         return result
 
-    # Rule 1: NODES is non-empty with 3-5 elements (enforced by schema)
+    # Rule 1: NODES is non-empty with 3-5 elements (enforced by schema and explicit check for Pydantic v1/v2 parity)
+    if len(spec.NODES) < 3 or len(spec.NODES) > 5:
+        result.add_error(f"Rule 1: NODES must have 3-5 elements, found {len(spec.NODES)}")
+        return result
     # Rule 2: Every node has title + non-empty steps (enforced by schema)
     # Rule 3: Every step has a valid t (enforced by schema)
 
@@ -104,7 +95,7 @@ def validate_chapter_spec(spec_data: dict[str, Any], require_opts: bool = False)
             ctx_step = f"{ctx_node} step[{s_idx}] ({step.t})"
 
             if step.t == "quiz" or step.t == "vq":
-                _check_option_set(step.q, ctx_step, result, require_opts=require_opts)
+                _check_option_set(step.q, ctx_step, result)
 
             if step.t == "worked" and step.we:
                 we_key = step.we.replace("WE.", "")
@@ -123,9 +114,9 @@ def validate_chapter_spec(spec_data: dict[str, Any], require_opts: bool = False)
                     # Check each inline check
                     for wi, ws in enumerate(we.steps):
                         if ws.check:
-                            _check_option_set(ws.check, f"{we_ctx} step[{wi}] inline check", result, require_opts=require_opts)
+                            _check_option_set(ws.check, f"{we_ctx} step[{wi}] inline check", result)
                     # Check end-of-WE check
-                    _check_option_set(we.check, f"{we_ctx} end check", result, require_opts=require_opts)
+                    _check_option_set(we.check, f"{we_ctx} end check", result)
 
             if step.t == "solve" and step.sl:
                 sl_key = step.sl.replace("SOLVE.", "")

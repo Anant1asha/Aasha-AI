@@ -65,6 +65,19 @@ class LearnArenaAssembler:
         return json.dumps(data, ensure_ascii=False, separators=(",", ":"))
 
     @staticmethod
+    def _pick_sim_type(text: str, subject: str) -> str:
+        low = text.lower()
+        if any(k in low for k in ("ohm", "circuit", "voltage", "current", "resistor", "electric")):
+            return "circuit_ohm"
+        if any(k in low for k in ("force", "motion", "newton", "momentum", "kinetic", "work", "energy", "acceleration")):
+            return "motion_force"
+        if any(k in low for k in ("ledger", "spreadsheet", "data entry", "checksum", "table", "coin", "interest", "profit")):
+            return "ledger_balance"
+        if any(k in low for k in ("drip", "emitter", "irrigation", "jal seva", "moisture", "dehydrator", "transpiration", "stomata")):
+            return "drip_flow"
+        return "generic_scale"
+
+    @staticmethod
     def _pick_pic(text: str, subject: str, idx: int) -> str:
         low = text.lower()
         if any(k in low for k in ("ratio", "fraction", "divide", "share")):
@@ -103,6 +116,7 @@ class LearnArenaAssembler:
         """Convert chapter_spec NODES, WE, SOLVE into action-gated Aasha Learn SLIDES."""
         ch = spec.get("chapter", {})
         title = ch.get("title", "Interactive Chapter")
+        chapter_id = ch.get("chapter_id") or ch.get("storage_key", "chapter")
         subject = ch.get("subject", "math")
         grade = ch.get("grade", 8)
         nodes = spec.get("NODES", [])
@@ -142,9 +156,10 @@ class LearnArenaAssembler:
                     })
                     text_added = True
                 elif st in ("ix_slider", "ix_bar", "ix_area", "ix_pizza", "phet") and not sim_added:
-                    sim_key = f"sim_n{n_idx}"
+                    sim_key = self._pick_sim_type(f"{title} {ntitle} {step.get('title', '')}", subject)
                     mult = max(2, int(step.get("target_num") or step.get("parts") or (n_idx + 3)))
                     custom_sims[sim_key] = {
+                        "simType": sim_key,
                         "labelA": step.get("title") or "Input (x)",
                         "labelB": "Scaled Result (y)",
                         "min": 1,
@@ -208,8 +223,9 @@ class LearnArenaAssembler:
                 })
 
             if not sim_added:
-                sim_key = f"sim_n{n_idx}"
+                sim_key = self._pick_sim_type(f"{title} {ntitle}", subject)
                 custom_sims[sim_key] = {
+                    "simType": sim_key,
                     "labelA": "Base Unit",
                     "labelB": "Scaled Value",
                     "min": 1,
@@ -359,6 +375,7 @@ class LearnArenaAssembler:
         """Return (learn_html, arena_html) strings."""
         ch = spec.get("chapter", {})
         title = ch.get("title", "Interactive Chapter")
+        chapter_id = ch.get("chapter_id") or ch.get("storage_key", "chapter")
         subject = ch.get("subject", "math")
         grade = ch.get("grade", 8)
         badge = f"{subject.title()} · Class {grade}"
@@ -369,6 +386,7 @@ class LearnArenaAssembler:
 
         learn_html = self.learn_template
         for ph_key, val in {
+            "{{CHAPTER_ID}}": chapter_id,
             "{{CHAPTER_TITLE}}": title,
             "{{CHAPTER_BADGE}}": badge,
             "{{WM2_JSON}}": self._serialize(wm2),
@@ -382,6 +400,7 @@ class LearnArenaAssembler:
 
         arena_html = self.arena_template
         for ph_key, val in {
+            "{{CHAPTER_ID}}": chapter_id,
             "{{CHAPTER_TITLE}}": title,
             "{{CHAPTER_BADGE}}": badge,
             "{{WM2_JSON}}": self._serialize(wm2),

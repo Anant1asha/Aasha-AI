@@ -1,24 +1,13 @@
 # Aasha Pipeline Configuration
-# API keys are NEVER stored here — read from environment variables only.
+# API keys are read from environment variables, never from this file.
 
 llm:
-  default_provider: openrouter
+  default_provider: openai
   providers:
-    openrouter:
-      # Tier-1 Anti-Bleed free model cascade (verified active & responsive on OpenRouter)
-      model: nvidia/nemotron-3.5-lightning:free
-      fallback_models:
-        - liquid/lfm-2.5-2.6b:free
-        - cohere/north-mini-code:free
-        - recursive/flint-v1.0:free
-      temperature: 0
-      rate_limit_delay: 3.0      # 3s mandatory backoff (anti-bleed policy)
     openai:
       model: gpt-4o-mini
       temperature: 0
     gemini:
-      # RESERVE — Tier-3 only. Requires explicit Super Admin authorization.
-      # ALLOW_PAID_GEMINI_FALLBACK=false enforced in run_pipeline.ps1
       model: gemini-1.5-flash
       temperature: 0
     anthropic:
@@ -26,9 +15,8 @@ llm:
       temperature: 0
   cache_dir: ./.llm_cache
   max_retries: 3
-  backoff_base: 3.0        # seconds — matches anti-bleed 3s policy
-  backoff_max: 30.0        # seconds
-  rate_limit_delay: 3.0
+  backoff_base: 1.0  # seconds
+  backoff_max: 30.0  # seconds
 
 pipeline:
   work_dir: ./work

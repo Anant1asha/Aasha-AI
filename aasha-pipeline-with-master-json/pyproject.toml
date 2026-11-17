@@ -41,7 +41,6 @@ dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
     "pytest-mock>=3.10",
-    "pytest-timeout>=2.2",
 ]
 
 [project.scripts]
@@ -53,4 +52,3 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-pythonpath = [".", "src"]

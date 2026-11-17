@@ -5093,6 +5093,22 @@ function afterAnswer(){
 function finish(){
   const win = G.hpP > G.hpE;
   const pct = G.list.length ? Math.round(G.right/G.list.length*100) : 0;
+  try {
+    if (window.parent && typeof window.parent.postMessage === "function") {
+      window.parent.postMessage({
+        type: "TEAS_CHAPTER_MASTERY",
+        chapterId: "{{CHAPTER_ID}}",
+        nodeId: "arena_" + (G.mode || "full"),
+        mode: "arena",
+        score: pct,
+        won: win,
+        right: G.right,
+        wrong: G.wrong,
+        bestCombo: G.best,
+        timestamp: new Date().toISOString()
+      }, "*");
+    }
+  } catch (_e) {}
   const stars = pct>=90?"★★★":pct>=70?"★★":pct>=45?"★":"";
   document.getElementById("ovcard").innerHTML = `<div class="kick">AASHA ARENA · RESULT</div>
     <h1>${win?"🏆 Victory!":"💪 Close one — go again"}</h1>
@@ -5104,9 +5120,9 @@ function finish(){
   lang(ov); ov.querySelectorAll(".mode").forEach(b=>b.onclick=()=>start(b.dataset.m));
 }
 function menu(){
-  document.getElementById("ovcard").innerHTML = `<div class="kick">AASHA ARENA · ENGLISH CLASS 8</div>
+  document.getElementById("ovcard").innerHTML = `<div class="kick">AASHA ARENA · {{CHAPTER_BADGE}}</div>
     <h1>🥋 Answer right. Land the strike.</h1>
-    <p class="small" data-lang>Every question is a blow. Answer correctly and <b>Samurai Mack</b> strikes Kenji; answer wrong and you take the hit. <b>85 questions</b> from five chapters of your English book. Tap any word for its <b>Hindi meaning</b> and pronunciation.</p>
+    <p class="small" data-lang>Every question is a blow. Answer correctly and <b>Samurai Mack</b> strikes Kenji; answer wrong and you take the hit. <b>{{CHAPTER_TITLE}}</b> — schoolbook-grounded questions and guided walkthroughs. Tap any word for its <b>Hindi meaning</b> and pronunciation.</p>
     <div class="modes">${Object.keys(MODES).map(k=>`<button class="mode" data-m="${k}"><span class="em">${MODES[k].em}</span><span><span class="t">${MODES[k].name}</span><br><span class="d">${MODES[k].d}</span></span></button>`).join("")}</div>
     <p class="small muted" style="opacity:.7">Questions: A.D. Memorial Public School, English Class 8. Fighters: Samurai Mack &amp; Kenji by LuizMelo (CC0). Icons: OpenMoji (CC BY-SA 4.0). Renderer: PixiJS (MIT) / Canvas2D.</p>`;
   const ov = document.getElementById("overlay"); ov.classList.add("show");

@@ -37,9 +37,6 @@ class H5PPlugin(InteractionPlugin):
         }
 
     def embed_assets(self) -> dict[str, str]:
-        from ..bundler import get_bundled_script
-        lib_js = get_bundled_script("h5p", "https://cdn.jsdelivr.net/npm/h5p-standalone@3.5.1/dist/main.bundle.js")
-        
         css = ".h5p-container{width:100%;max-width:420px;margin:0 auto;border-radius:12px;overflow:hidden}"
         js = (
             "var renderH5P=function(c,json){\n"
@@ -47,4 +44,4 @@ class H5PPlugin(InteractionPlugin):
             "  el.innerHTML='<div>H5P: '+json.library+'</div>';\n"
             "};"
         )
-        return {"h5p_lib": lib_js, "h5p_css": css, "h5p_js": js}
+        return {"h5p_css": css, "h5p_js": js}

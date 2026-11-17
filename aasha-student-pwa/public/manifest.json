@@ -1,0 +1,15 @@
+{
+  "id": "org.annantaasha.learn.twa",
+  "name": "Aasha Learn & Arena \u2014 Annanth Aasha Foundation Offline Classroom",
+  "short_name": "Aasha Learn",
+  "description": "Offline-first 60% English / 40% Hindi LLE & Gamified TEAS Learning Ecosystem (26 Certified Chapters)",
+  "lang": "hi-IN",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0f766e",
+  "background_color": "#f8fafc",
+  "twa_package_id": "org.annantaasha.learn.twa",
+  "low_ram_2gb_optimized": true
+}

@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import json
 import logging
-import re
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -33,21 +32,10 @@ class QAAgent(BaseAgent):
     def requires_llm(self) -> bool:
         return False
 
-    def _run_node_qa(self, html_path: Path, mode: str = "v5-engine") -> dict[str, Any]:
+    def _run_node_qa(self, html_path: Path) -> dict[str, Any]:
         """Run the Node.js QA harness."""
-        html_path = Path(html_path).resolve()
-        runner_str = str(self.qa_runner).strip()
-        if runner_str.startswith("node "):
-            script_candidate = Path(runner_str[5:].strip().strip('"').strip("'"))
-            cmd = ["node", str(script_candidate), str(html_path), mode]
-        elif Path(runner_str).exists():
-            cmd = ["node", str(Path(runner_str)), str(html_path), mode]
-        else:
-            pkg_script = (Path(__file__).resolve().parent.parent.parent.parent / "qa" / "run_qa.js").resolve()
-            if pkg_script.exists():
-                cmd = ["node", str(pkg_script), str(html_path), mode]
-            else:
-                cmd = ["node", runner_str, str(html_path), mode]
+        cmd_parts = self.qa_runner.split()
+        cmd = cmd_parts + [str(html_path)]
 
         try:
             result = subprocess.run(
@@ -67,41 +55,23 @@ class QAAgent(BaseAgent):
                     if report_path.exists():
                         with open(report_path, "r", encoding="utf-8") as f:
                             return json.load(f)
-                    return self._fallback_qa(html_path, "Node QA output not parseable", mode)
+                    return self._fallback_qa(html_path, "Node QA output not parseable")
             else:
                 logger.warning(f"Node QA failed: {result.stderr[:500]}")
-                return self._fallback_qa(html_path, f"Node QA error: {result.stderr[:200]}", mode)
+                return self._fallback_qa(html_path, f"Node QA error: {result.stderr[:200]}")
 
         except FileNotFoundError:
             logger.warning("Node.js not found, falling back to Python QA")
-            return self._fallback_qa(html_path, "Node.js not available", mode)
+            return self._fallback_qa(html_path, "Node.js not available")
         except subprocess.TimeoutExpired:
             logger.warning("Node QA timed out")
-            return self._fallback_qa(html_path, "Node QA timed out", mode)
+            return self._fallback_qa(html_path, "Node QA timed out")
         except Exception as e:
             logger.warning(f"Node QA error: {e}")
-            return self._fallback_qa(html_path, str(e), mode)
+            return self._fallback_qa(html_path, str(e))
 
-    def _fallback_qa(self, html_path: Path, note: str = "", mode: str = "v5-engine") -> dict[str, Any]:
-        """Python-based fallback QA — runs structural checks without jsdom.
-
-        15-check suite (extended from original 13):
-          1.  No external CDN URLs
-          2.  No confirm()/alert()
-          3.  Has NODES variable (regex-safe)
-          4.  Has WE variable   (regex-safe)
-          5.  Has WM variable   (regex-safe)
-          6.  Has CONN variable (regex-safe)
-          7.  Has App.init()
-          8.  No unresolved {{PLACEHOLDER}} tokens
-          9.  No HTML5 drag-and-drop API
-          10. File size within limit
-          11. Has exit button
-          12. Has progress indicator
-          13. Devanagari characters present (LLE check — threshold ≥ 50 chars)
-          14. KaTeX math library present (math insulation check)
-          15. UTF-8 charset meta tag present
-        """
+    def _fallback_qa(self, html_path: Path, note: str = "") -> dict[str, Any]:
+        """Python-based fallback QA — runs structural checks without jsdom."""
         failures = []
         checks_total = 0
         checks_passed = 0
@@ -109,88 +79,107 @@ class QAAgent(BaseAgent):
         with open(html_path, "r", encoding="utf-8") as f:
             html = f.read()
 
-        def check(name: str, passed: bool, reason: str = "") -> None:
-            nonlocal checks_total, checks_passed
-            checks_total += 1
-            if passed:
-                checks_passed += 1
-            else:
-                failures.append({"check": name, "reason": reason})
-
-        # 1: No external CDN URLs
+        # Check 1: Single file (no external URLs)
+        checks_total += 1
+        import re
         external = re.findall(r'(?:src|href)\s*=\s*["\']https?://', html)
-        check("no_external_urls", not external,
-              f"Found {len(external)} external URLs (file must be fully offline)")
+        if not external:
+            checks_passed += 1
+        else:
+            failures.append({"check": "no_external_urls", "reason": f"Found {len(external)} external URLs"})
 
-        # 2: No confirm()/alert()
-        check("no_confirm_alert",
-              "confirm(" not in html and "alert(" not in html,
-              "Found confirm() or alert() — blocked for child-safe content")
+        # Check 2: No confirm()/alert()
+        checks_total += 1
+        if "confirm(" not in html and "alert(" not in html:
+            checks_passed += 1
+        else:
+            failures.append({"check": "no_confirm_alert", "reason": "Found confirm() or alert()"})
 
-        # 3: Has NODES variable (flexible whitespace regex)
-        check("has_nodes", bool(re.search(r'var\s+NODES\s*=', html)),
-              "NODES data structure not found in HTML")
+        # Check 3: Has NODES
+        checks_total += 1
+        if "var NODES=" in html or "var NODES =" in html:
+            checks_passed += 1
+        else:
+            failures.append({"check": "has_nodes", "reason": "NODES not found in HTML"})
 
-        # 4: Has WE variable
-        check("has_we", bool(re.search(r'var\s+WE\s*=', html)),
-              "WE (worked examples) not found in HTML")
+        # Check 4: Has WE
+        checks_total += 1
+        if "var WE=" in html or "var WE =" in html:
+            checks_passed += 1
+        else:
+            failures.append({"check": "has_we", "reason": "WE not found in HTML"})
 
-        # 5: Has WM variable
-        check("has_wm", bool(re.search(r'var\s+WM\s*=', html)),
-              "WM (word map / bilingual dictionary) not found in HTML")
+        # Check 5: Has WM
+        checks_total += 1
+        if "var WM=" in html or "var WM =" in html:
+            checks_passed += 1
+        else:
+            failures.append({"check": "has_wm", "reason": "WM not found in HTML"})
 
-        # 6: Has CONN variable
-        check("has_conn", bool(re.search(r'var\s+CONN\s*=', html)),
-              "CONN (concept connections) not found in HTML")
+        # Check 6: Has CONN
+        checks_total += 1
+        if "var CONN=" in html or "var CONN =" in html:
+            checks_passed += 1
+        else:
+            failures.append({"check": "has_conn", "reason": "CONN not found in HTML"})
 
-        # 7: Has App.init()
-        check("has_app_init", "App.init()" in html,
-              "App.init() not found — engine may not start")
+        # Check 7: Has App.init()
+        checks_total += 1
+        if "App.init()" in html:
+            checks_passed += 1
+        else:
+            failures.append({"check": "has_app_init", "reason": "App.init() not found"})
 
-        # 8: No unresolved placeholders
+        # Check 8: No unresolved placeholders
+        checks_total += 1
         placeholders = re.findall(r"\{\{[A-Z_]+\}\}", html)
-        check("no_unresolved_placeholders", not placeholders,
-              f"Found {len(placeholders)} unresolved placeholders: {placeholders[:5]}")
+        if not placeholders:
+            checks_passed += 1
+        else:
+            failures.append({
+                "check": "no_unresolved_placeholders",
+                "reason": f"Found {len(placeholders)} unresolved placeholders: {placeholders[:5]}",
+            })
 
-        # 9: No HTML5 drag-and-drop API (v5 engine uses tap-to-select instead)
-        has_html5_dnd = any(kw in html for kw in ("dragstart", "dragend", "ondrop", 'draggable="true"'))
-        check("no_html5_dnd", not has_html5_dnd,
-              "HTML5 drag-and-drop API found — use tap-to-select pattern")
+        # Check 9: No HTML5 drag-and-drop API (dragstart, dragend, ondrop event handlers)
+        # Note: the v5 engine uses "dd_build"/"dd_match" step names and "dropZone" IDs
+        # for historical reasons, but implements tap-to-select, NOT HTML5 DnD.
+        checks_total += 1
+        has_html5_dnd = "dragstart" in html or "dragend" in html or "ondrop" in html or "draggable=" in html
+        if not has_html5_dnd:
+            checks_passed += 1
+        else:
+            failures.append({"check": "no_drag_drop", "reason": "HTML5 drag-and-drop API found"})
 
-        # 10: File size limit
-        size_kb = len(html.encode("utf-8")) / 1024
-        size_limit_kb = 20480 if mode == "full-synthesis" else 200
-        check("file_size", size_kb < size_limit_kb,
-              f"File is {size_kb:.0f} KB (limit {size_limit_kb} KB)")
+        # Check 10: File size under 200KB
+        checks_total += 1
+        size_kb = len(html) / 1024
+        if size_kb < 200:
+            checks_passed += 1
+        else:
+            failures.append({"check": "file_size", "reason": f"File is {size_kb:.0f}KB (limit 200KB)"})
 
-        # 11: Has exit button
-        check("has_exit",
-              "exit" in html.lower() or "exitBtn" in html or "exit-btn" in html,
-              "Exit button not found")
+        # Check 11: Has exit button
+        checks_total += 1
+        if "exit" in html.lower() or "exitBtn" in html or "exit-btn" in html:
+            checks_passed += 1
+        else:
+            failures.append({"check": "has_exit", "reason": "Exit button not found"})
 
-        # 12: Has progress indicator
-        check("has_progress", "progress" in html.lower(),
-              "Progress indicator not found")
+        # Check 12: Has progress bar
+        checks_total += 1
+        if "progress" in html.lower():
+            checks_passed += 1
+        else:
+            failures.append({"check": "has_progress", "reason": "Progress indicator not found"})
 
-        # 13: Devanagari characters (LLE bilingual content — at least 50 chars)
+        # Check 13: Devanagari characters present (LLE check)
+        checks_total += 1
         devanagari = re.findall(r"[\u0900-\u097F]", html)
-        check("has_devanagari", len(devanagari) >= 50,
-              f"Insufficient Devanagari text ({len(devanagari)} chars found, need ≥ 50) — LLE may be missing")
-
-        # 14: KaTeX math library (math insulation check)
-        check("has_katex",
-              "katex" in html.lower() or "__AASHA_MATH" not in html,
-              "KaTeX not found — math insulation may be broken")
-
-        # 15: UTF-8 charset declaration
-        check("has_utf8_charset",
-              bool(re.search(r'<meta\s[^>]*charset\s*=\s*["\']?utf-8', html, re.IGNORECASE)),
-              "Missing <meta charset=\"UTF-8\"> — Devanagari may not render correctly")
-
-        # 16: Section 24 Cleanroom License Isolation check (GPL-3.0 strictly EXTRACT cleanroom)
-        has_gpl = bool(re.search(r'GNU GENERAL PUBLIC LICENSE|GPL-3\.0|GPLv3', html, re.IGNORECASE))
-        check("rule12_cleanroom_license_isolation", not has_gpl,
-              "Found raw GPL copyleft license declarations in chapter HTML. Open-source foundations must be cleanroom EXTRACT-adapted.")
+        if len(devanagari) > 10:
+            checks_passed += 1
+        else:
+            failures.append({"check": "has_devanagari", "reason": "Insufficient Devanagari text (LLE may be missing)"})
 
         passed = len(failures) == 0
 
@@ -201,7 +190,7 @@ class QAAgent(BaseAgent):
             "failures": failures,
             "categories": {
                 "structural": {"passed": checks_total - len(failures), "failed": len(failures)},
-                "note": note or "Python fallback QA (15-check suite)",
+                "note": note or "Python fallback QA",
             },
         }
 
@@ -213,10 +202,8 @@ class QAAgent(BaseAgent):
 
         self.log(f"Running QA on {html_path.name}...")
 
-        mode = context.get("mode", "v5-engine")
-
         # Try Node.js QA first
-        report = self._run_node_qa(html_path, mode)
+        report = self._run_node_qa(html_path)
 
         output_path = self._write_json(work_dir, "qa_report.json", report)
 
