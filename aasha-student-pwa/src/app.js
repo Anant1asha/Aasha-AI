@@ -152,6 +152,7 @@ export function renderTeacherCohortDashboard(cohortSummary = {}) {
       ${renderTeacherBatchPackDownloadAndQrLanCard(cohortSummary)}
       ${renderCustomPdfMasterySyncCard(cohortSummary)}
       ${renderStudentOfflineLanPackImportCard(cohortSummary)}
+      ${renderParentProgressQrCard(cohortSummary)}
     </section>
   `.trim();
 }
@@ -3222,6 +3223,55 @@ export function renderStudentOfflineLanPackImportCard(stateOrSummary = {}) {
       <p style="margin:0;font-size:0.86rem;color:#1e40af;">
         Imported Custom PDF Modules: <strong>${mods.length}</strong> • Integrity: <code>${sha.slice(0, 16)}</code> • Cap: <strong>✅ &lt;= 20 MiB / Child HTML</strong>
       </p>
+    </section>
+  `.trim();
+}
+
+
+// Phase G82: Offline Parent Progress QR Card & Teacher Digest
+export function buildParentProgressQrCard(state = {}) {
+  const studentId = String(state.studentId || "STU-DEFAULT").trim();
+  const logs = Array.isArray(state.customPdfMasteryLog) ? state.customPdfMasteryLog : [];
+  const totalWmHits = logs.reduce((acc, l) => acc + Number(l.wmTapHits ?? 0), 0);
+  const avgScore = logs.length
+    ? Math.round(logs.reduce((acc, l) => acc + Number(l.scorePct ?? 0), 0) / logs.length)
+    : 0;
+  const seed = `${studentId}|${logs.length}|${avgScore}|${totalWmHits}`;
+  let rects = "";
+  for (let i = 0; i < 49; i++) {
+    if ((seed.charCodeAt(i % seed.length) + i * 5) % 2 === 1) {
+      rects += `<rect x="${6 + (i % 7) * 8}" y="${6 + Math.floor(i / 7) * 8}" width="6" height="6" fill="#0f172a"/>`;
+    }
+  }
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 68" width="68" height="68"><rect width="68" height="68" fill="#ffffff"/>${rects}</svg>`;
+  return {
+    ok: true,
+    studentId,
+    modulesCompleted: logs.length,
+    avgScorePct: avgScore,
+    totalWmTapHits: totalWmHits,
+    summaryEn: `${studentId}: ${logs.length} custom PDF modules, ${avgScore}% avg, ${totalWmHits} bilingual WM taps.`,
+    summaryHi: `${studentId}: ${logs.length} कस्टम PDF अध्याय, ${avgScore}% औसत, ${totalWmHits} द्विभाषी शब्द अभ्यास।`,
+    qrSvgDataUri: `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`,
+    offlineOnly: true
+  };
+}
+
+export function renderParentProgressQrCard(stateOrSummary = {}) {
+  const card = buildParentProgressQrCard(stateOrSummary);
+  return `
+    <section id="parent-progress-qr-card" aria-label="Offline Parent Progress QR Card"
+             style="padding:14px;border-radius:14px;background:#fefce8;border:1px solid #facc15;margin-top:14px;">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <h3 style="margin:0;font-size:1rem;color:#713f12;">👨‍👩‍👧 अभिभावक प्रगति QR कार्ड / Parent Progress QR Card (G82)</h3>
+      </header>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <img src="${card.qrSvgDataUri}" alt="Offline Parent Progress QR" width="68" height="68" style="border-radius:8px;border:1px solid #fde047;background:#ffffff;" />
+        <p style="margin:0;font-size:0.86rem;color:#854d0e;">
+          ${card.summaryHi}<br/>
+          <span>${card.summaryEn}</span>
+        </p>
+      </div>
     </section>
   `.trim();
 }

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-11-19T15:06:59Z",
+  "last_updated": "2026-11-18T22:04:26.431883+00:00",
   "foundations": [
     {
       "id": "F01",
@@ -3395,159 +3395,159 @@
   "certified_chapters_v5": [
     {
       "chapter_id": "NCERT-G06-MATH-CH07-FRACTIONS",
-      "title": "NCERT Class 6 Math Ch 07 \u2014 Fractions (\u092d\u093f\u0928\u094d\u0928)",
+      "title": "NCERT Class 6 Math Ch 07 — Fractions (भिन्न)",
       "file": "NCERT-G06-MATH-CH07-FRACTIONS_Interactive_v5.html",
       "avr_mechanic": "AVR-P301",
       "curriculum": "NCERT",
-      "size_bytes": 97783,
-      "sha256": "ff6340bd8f2101a986d9d5fa62933ad737db4efa38bcc83fd630c0732963721b",
+      "size_bytes": 105243,
+      "sha256": "c6bde6ab1e46f2c5b28e96116f927d0544455128ba88dda64fe55bb0acbe60d1",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G07-MATH-CH11-PERIMETER-AREA",
-      "title": "NCERT Class 7 Math Ch 11 \u2014 Perimeter & Area (\u092a\u0930\u093f\u092e\u093e\u092a \u0914\u0930 \u0915\u094d\u0937\u0947\u0924\u094d\u0930\u092b\u0932)",
+      "title": "NCERT Class 7 Math Ch 11 — Perimeter & Area (परिमाप और क्षेत्रफल)",
       "file": "NCERT-G07-MATH-CH11-PERIMETER-AREA_Interactive_v5.html",
       "avr_mechanic": "AVR-P303",
       "curriculum": "NCERT",
-      "size_bytes": 97909,
-      "sha256": "a4b0bd62ea3df115fbaeaa7890f53d87c32fc427f6b3866942f16c1502fb0a10",
+      "size_bytes": 105369,
+      "sha256": "0e0d1f8538ea7d4b91acc28f9cf610b44aebfdbfce3efed3f11d7e52acfcb833",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G08-MATH-CH08-COMPARING-QUANTITIES",
-      "title": "NCERT Class 8 Math Ch 08 \u2014 Comparing Quantities (\u0930\u093e\u0936\u093f\u092f\u094b\u0902 \u0915\u0940 \u0924\u0941\u0932\u0928\u093e)",
+      "title": "NCERT Class 8 Math Ch 08 — Comparing Quantities (राशियों की तुलना)",
       "file": "NCERT-G08-MATH-CH08-COMPARING-QUANTITIES_Interactive_v5.html",
       "avr_mechanic": "AVR-P320",
       "curriculum": "NCERT",
-      "size_bytes": 97766,
-      "sha256": "38f7e6586385882fb12b713fb4b3a7959a7ccd9296a0e81fc9b8476ff6329521",
+      "size_bytes": 105226,
+      "sha256": "7067d9aac215ba59476580b454c49f4f2450f225b0561d2dbbdb0c1f6a5f5eb5",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G09-SCI-CH08-FORCE-MOTION",
-      "title": "NCERT Class 9 Science Ch 08 \u2014 Force & Motion (\u092c\u0932 \u0924\u0925\u093e \u0917\u0924\u093f)",
+      "title": "NCERT Class 9 Science Ch 08 — Force & Motion (बल तथा गति)",
       "file": "NCERT-G09-SCI-CH08-FORCE-MOTION_Interactive_v5.html",
       "avr_mechanic": "AVR-P319",
       "curriculum": "NCERT",
-      "size_bytes": 97806,
-      "sha256": "62a196a4f45cf9e95926b866671d46c2bb42443dac69757bd10af570bb4a44af",
+      "size_bytes": 105266,
+      "sha256": "1f01f20733a4ee832a43a044c945df2dfcb0cdc86b2890b0aa9450d5ee5a3cee",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G09-SCI-CH10-WORK-ENERGY",
-      "title": "NCERT Class 9 Science Ch 10 \u2014 Work & Energy (\u0915\u093e\u0930\u094d\u092f \u0924\u0925\u093e \u090a\u0930\u094d\u091c\u093e)",
+      "title": "NCERT Class 9 Science Ch 10 — Work & Energy (कार्य तथा ऊर्जा)",
       "file": "NCERT-G09-SCI-CH10-WORK-ENERGY_Interactive_v5.html",
       "avr_mechanic": "AVR-P317",
       "curriculum": "NCERT",
-      "size_bytes": 97839,
-      "sha256": "4a5c6254bfa2b1ea94828016ed5722fb73d4b0533533da880581562250bfe772",
+      "size_bytes": 105299,
+      "sha256": "add70c27b705724ebe3e88ed8491a092e06efbdfb59ef8426b0d528d640fbadd",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G10-MATH-CH02-POLYNOMIALS",
-      "title": "NCERT Class 10 Math Ch 02 \u2014 Polynomials (\u092c\u0939\u0941\u092a\u0926)",
+      "title": "NCERT Class 10 Math Ch 02 — Polynomials (बहुपद)",
       "file": "NCERT-G10-MATH-CH02-POLYNOMIALS_Interactive_v5.html",
       "avr_mechanic": "AVR-P309",
       "curriculum": "NCERT",
-      "size_bytes": 97647,
-      "sha256": "45a1d948776d879afe73a2cfded33f530267a013cda0673756c5aae0b25f5196",
+      "size_bytes": 105107,
+      "sha256": "fb159493671c1e08cb6dd11e6522a381213560494394b26c82888a1a331306cb",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS",
-      "title": "NCERT Class 10 Science Ch 06 \u2014 Life Processes (\u091c\u0948\u0935 \u092a\u094d\u0930\u0915\u094d\u0930\u092e)",
+      "title": "NCERT Class 10 Science Ch 06 — Life Processes (जैव प्रक्रम)",
       "file": "NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS_Interactive_v5.html",
       "avr_mechanic": "AVR-P305",
       "curriculum": "NCERT",
-      "size_bytes": 98185,
-      "sha256": "28a1b0948571952a04825833c3b6e324c9bb967adde91296006dea51bda082c2",
+      "size_bytes": 105645,
+      "sha256": "72cf0bd2492c437c5185cb14752f9f0689139681728237dd12b481c4979ca9c8",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW",
-      "title": "NCERT Class 10 Science Ch 12 \u2014 Electricity & Ohm's Law (\u0935\u093f\u0926\u094d\u092f\u0941\u0924)",
+      "title": "NCERT Class 10 Science Ch 12 — Electricity & Ohm's Law (विद्युत)",
       "file": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW_Interactive_v5.html",
       "avr_mechanic": "AVR-P314",
       "curriculum": "NCERT",
-      "size_bytes": 98083,
-      "sha256": "71b3eae5453a9b0230d26ff9cfc445c5804fa29d1c2058774bbced258419c45f",
+      "size_bytes": 105543,
+      "sha256": "29a0788f10c81b43411d2d6da0e208d4f5b2ea5e6339f55033339c0a81b03a5a",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER",
-      "title": "NCVET PSSCIVE L3 IT \u2014 Digital Village Ledger (\u0921\u093f\u091c\u093f\u091f\u0932 \u0917\u094d\u0930\u093e\u092e \u092c\u0939\u0940\u0916\u093e\u0924\u093e)",
+      "title": "NCVET PSSCIVE L3 IT — Digital Village Ledger (डिजिटल ग्राम बहीखाता)",
       "file": "NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER_Interactive_v5.html",
       "avr_mechanic": "AVR-P315",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97966,
-      "sha256": "efcb32cc78eedb8386db0cd23bf7d36b972824e0e4ea99a23597da5008ac2fbb",
+      "size_bytes": 105426,
+      "sha256": "627fe9cb408e32ad0556b12c4cfc1b68f288966f65e47f02e124b88f105f19a8",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA",
-      "title": "NCVET PSSCIVE L4 Agri \u2014 Precision Drip Jal Seva (\u0938\u0942\u0915\u094d\u0937\u094d\u092e \u0938\u093f\u0902\u091a\u093e\u0908 \u091c\u0932 \u0938\u0947\u0935\u093e)",
+      "title": "NCVET PSSCIVE L4 Agri — Precision Drip Jal Seva (सूक्ष्म सिंचाई जल सेवा)",
       "file": "NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA_Interactive_v5.html",
       "avr_mechanic": "AVR-P316",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97884,
-      "sha256": "fbab0c6daa4bfcf7379087b2e70768b6b6649fd343605a8440657686b65c21c9",
+      "size_bytes": 105344,
+      "sha256": "6549709a72625d51c76a513debfa979dea4228eb95798926d8ea264cefb124a1",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L3-IT-DOMESTIC-DATA-ENTRY",
-      "title": "NCVET / PSSCIVE Level 3 \u2014 Domestic Data Entry & Digital Village Ledger",
+      "title": "NCVET / PSSCIVE Level 3 — Domestic Data Entry & Digital Village Ledger",
       "file": "NCVET_PSSCIVE_L3_IT_DataEntry_v5.html",
       "avr_mechanic": "AVR-P315",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97818,
-      "sha256": "a4c04a6dbcf8e9863d0a11dcdc96e16680d37556a0babb981aa8a07d7f5d9aba",
+      "size_bytes": 105278,
+      "sha256": "d64f7db91f5935414c4a3f6905d48a2e07b403919c5b284f78309ed544e3c142",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L4-AGRI-SOLAR-DRIP-TECHNICIAN",
-      "title": "NCVET / PSSCIVE Level 4 \u2014 Solar Micro-Irrigation & Jal Seva Technician",
+      "title": "NCVET / PSSCIVE Level 4 — Solar Micro-Irrigation & Jal Seva Technician",
       "file": "NCVET_PSSCIVE_L4_Agri_SolarDrip_v5.html",
       "avr_mechanic": "AVR-P316",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97702,
-      "sha256": "0c86e4edbf76e99ba6db44d5814fff4217e67db8504879bad13975f94c558595",
+      "size_bytes": 105162,
+      "sha256": "a5eadc2e80e6a3e18a4393de5723e17352432f882e7947f1426b2fe928e04842",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     },
     {
       "chapter_id": "NCVET-PSSCIVE-L4-FOOD-SOLAR-DEHYDRATOR-OPERATOR",
-      "title": "NCVET / PSSCIVE Level 4 \u2014 Rural Solar Food Dehydrator Unit Operator",
+      "title": "NCVET / PSSCIVE Level 4 — Rural Solar Food Dehydrator Unit Operator",
       "file": "NCVET_PSSCIVE_L4_Food_SolarDehydrator_v5.html",
       "avr_mechanic": "AVR-P320",
       "curriculum": "NCVET/PSSCIVE",
-      "size_bytes": 97675,
-      "sha256": "faaf3c9351053d81bf2fbca6e25f2bfceae68ff11e4d7cb42195b20f0f4e1951",
+      "size_bytes": 105135,
+      "sha256": "ef6ccde3faf37e5ddc207a10a5887bad1bc9e1d415d0e455a0d407bed1636d8e",
       "qa_passed": true,
-      "checks_passed": 28,
-      "checks_total": 28
+      "checks_passed": 32,
+      "checks_total": 32
     }
   ],
   "certified_avr_mechanics": [

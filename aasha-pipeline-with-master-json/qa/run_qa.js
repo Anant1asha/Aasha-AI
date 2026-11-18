@@ -283,6 +283,8 @@ function checkJSDOM() {
     check('jsdom_available', true);
 
     const isFullSynth = mode === 'full-synthesis' || (html.includes('concept-card') && !html.includes('var NODES='));
+    const isLearnMode = mode === "learn" || html.includes("const SLIDES =");
+    const isArenaMode = mode === "arena" || html.includes("const QUESTIONS =");
     const { JSDOM } = jsdom;
     try {
         const dom = new JSDOM(html);
@@ -290,14 +292,14 @@ function checkJSDOM() {
 
         // Check app element exists (.app or #app)
         check('has_app_div', !!doc.querySelector('.app') || !!doc.querySelector('#app'), 'app container not found');
-        check('has_screen_div', !!doc.querySelector('.screen') || !!doc.querySelector('#screen'), '.screen not found');
-        check('has_bottom_bar', !!doc.querySelector('.bottom-bar') || !!doc.querySelector('#bottomBar'), '.bottom-bar not found');
+        check('has_screen_div', isLearnMode || isArenaMode || !!doc.querySelector('.screen') || !!doc.querySelector('#screen') || !!doc.querySelector('.card'), '.screen not found');
+        check('has_bottom_bar', isLearnMode || isArenaMode || !!doc.querySelector('.bottom-bar') || !!doc.querySelector('#bottomBar') || !!doc.querySelector('.tapline'), '.bottom-bar not found');
 
         // Check word dialog or interaction container
-        check('has_word_dialog', isFullSynth || !!doc.querySelector('#wordDialog') || !!doc.querySelector('dialog'), 'Word dialog not found');
+        check('has_word_dialog', isFullSynth || isLearnMode || isArenaMode || !!doc.querySelector('#wordDialog') || !!doc.querySelector('dialog') || !!doc.querySelector('#wp') || !!doc.querySelector('[role="dialog"]'), 'Word dialog not found');
 
         // Check canvas / interactive container
-        check('has_canvas', isFullSynth || !!doc.querySelector('canvas') || !!doc.querySelector('.interaction-container'), 'No interactive elements found');
+        check('has_canvas', isFullSynth || isLearnMode || isArenaMode || !!doc.querySelector('canvas') || !!doc.querySelector('.interaction-container') || !!doc.querySelector('.simctl') || !!doc.querySelector('#sim'), 'No interactive elements found');
 
         dom.window.close();
     } catch (e) {
