@@ -16,13 +16,19 @@ venv/
 *.log
 .env
 .env.*
-.env.local
+.env *
+*cookie*
+*.cookie
 *.pem
 *.key
 *.pkcs8
 *private_key*
 .keys/
 secrets/
+
+# Cloud Drive sync artifacts & duplicates
+* ([0-9])*
+* ([0-9][0-9])*
 
 # Router: daily usage tracking (auto-generated, resets daily)
 router_usage.json

@@ -370,7 +370,7 @@ Examples:
         default=_default_provider,
         help=f"LLM provider (openai, gemini, anthropic, openrouter); default from config: {_default_provider}",
     )
-    parser.add_argument("--mode", default=None, choices=["v5-engine", "full-synthesis"], help="Pipeline mode: v5-engine (default, 6-agent flow) or full-synthesis (4-agent flow with plugin registry, exercise extractor, code synthesizer)")
+    parser.add_argument("--mode", default=None, choices=["v5-engine", "full-synthesis", "learn-arena"], help="Pipeline mode: v5-engine (default, 6-agent flow), full-synthesis (4-agent flow), or learn-arena (dual Aasha Learn + Arena)")
     parser.add_argument("--from-stage", dest="from_stage", help="Resume from stage. v5-engine: ingest, analyze, design, assess, lle, assemble, qa, output. full-synthesis: ingest, analyze, design, assess, synthesize, qa, output (also supports aliases: extract, structure, pedagogy)")
     parser.add_argument("--no-auto-rewind", dest="auto_rewind", action="store_false", default=True, help="Disable automatic rewinding to earlier stages when prerequisites are missing")
     parser.add_argument("--offline", action="store_true", help="Run 100%% offline with Tier-0 Deterministic Local Synthesizer (zero network, zero tokens, instant execution)")
