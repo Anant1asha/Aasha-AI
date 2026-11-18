@@ -2,13 +2,13 @@
   "schema_version": "2.1.0",
   "cache_version": "aasha-student-pwa-v2.2",
   "learn_arena_count": 26,
-  "generated_at_utc": "2026-11-20T17:48:45.747540+00:00",
+  "generated_at_utc": "2026-11-20T19:02:02.596929+00:00",
   "total_assets": 54,
   "certified_html5_modules_count": 21,
-  "total_precache_bytes": 28372248,
+  "total_precache_bytes": 28374362,
   "under_20mib_ceiling": true,
   "zero_external_urls": true,
-  "merkle_root_sha256": "75a508aabe5b3d941cd25ee5504686fb5429dd209f8230b7b758abedb086a6a6",
+  "merkle_root_sha256": "e22cd6972a9aab62827e1370194add09b3529014c22da590ebf55bf7cc1951ab",
   "assets": [
     {
       "rel_path": "AASHA_Visual_Mass_Harvest_Phase3/E2E_Regression_G39_Golden_Master_Hub_v5.html",
@@ -43,7 +43,7 @@
     {
       "rel_path": "AASHA_Visual_Mass_Harvest_Phase3/TenPack_SQLite_Studio_Facilitator_Bridge_Hub_v5.html",
       "size_bytes": 105107,
-      "sha256": "1c687326bba3f2cd2d02ce594951480b364bd73c00ea48c94a122e547ade505a"
+      "sha256": "6cf9eae58458417c8faa615d0e3b48a8a61d9ae091439f359249a0bbdf964a86"
     },
     {
       "rel_path": "AASHA_Visual_Mass_Harvest_Phase3/V7_System_Wide_Audit_And_Argon_Swarm_Observability_Hub_v5.html",
@@ -248,7 +248,7 @@
     {
       "rel_path": "Aasha-AI/aasha-pipeline-with-master-json/output/g3_10chapter_pack/teas_content.db.gz",
       "size_bytes": 48121,
-      "sha256": "12eb771147470eec253fcef740fa5c442f9410c7268fe8c88415ebb4fa4f9689"
+      "sha256": "857cbbbeb4427309450675f2872b945ddf005d1b23ec0498e023d8b4a6f93ccb"
     },
     {
       "rel_path": "Aasha-AI/aasha-student-pwa/index.html",
@@ -258,12 +258,12 @@
     {
       "rel_path": "Aasha-AI/aasha-student-pwa/public/teas_content.db.gz",
       "size_bytes": 48121,
-      "sha256": "12eb771147470eec253fcef740fa5c442f9410c7268fe8c88415ebb4fa4f9689"
+      "sha256": "857cbbbeb4427309450675f2872b945ddf005d1b23ec0498e023d8b4a6f93ccb"
     },
     {
       "rel_path": "Aasha-AI/aasha-student-pwa/src/app.js",
-      "size_bytes": 185049,
-      "sha256": "9a622ab193605708c2444bc1b76f6489e6661d067a364bde2b51047d3ee85279"
+      "size_bytes": 187163,
+      "sha256": "e6ea64a8135c358f7511a53b760bc97bb78308e2ae4a970b8ed9de9d9293539e"
     },
     {
       "rel_path": "Aasha-AI/aasha-student-pwa/src/rewards.js",
@@ -280,164 +280,5 @@
       "size_bytes": 5057,
       "sha256": "cea6f4711ee758eecd73a0db63a3bfa6891f8b5bf1ab7c2e93a022a1598682c1"
     }
-  ],
-  "learn_arena_modules": [
-    {
-      "chapter_id": "NCERT-G06-MATH-CH07-FRACTIONS",
-      "title": "Fractions on the Number Line & Equivalent Ratios",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G06-MATH-CH07-FRACTIONS_Learning.html",
-      "learn_size_bytes": 549434,
-      "learn_sha256": "eb59a3766f2edeeb5af313bac434e8eb1df37ab38e08ddaab4b50e79e2d0d734",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G06-MATH-CH07-FRACTIONS_Arena.html",
-      "arena_size_bytes": 1422828,
-      "arena_sha256": "df7526e971b1cd785f66bf1c9f82e1044d525cbae3d7c00a49aabc401da00bb9",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCERT-G07-MATH-CH11-PERIMETER-AREA",
-      "title": "Perimeter and Area of Polygons & Community Gardens",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G07-MATH-CH11-PERIMETER-AREA_Learning.html",
-      "learn_size_bytes": 549158,
-      "learn_sha256": "0a1d168deecd0c48ce89e2797158f57325847a63300cb934be7d0a79f04fe42a",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G07-MATH-CH11-PERIMETER-AREA_Arena.html",
-      "arena_size_bytes": 1422906,
-      "arena_sha256": "1054146a86047ce9dd5bfeabe0971ca255ce8e0ad922b54f83a0a636f787a9ba",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCERT-G08-MATH-CH08-COMPARING-QUANTITIES",
-      "title": "Comparing Quantities, Percentages & Cooperative Micro-Savings",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G08-MATH-CH08-COMPARING-QUANTITIES_Learning.html",
-      "learn_size_bytes": 549476,
-      "learn_sha256": "3ec901a57cae4b14912f84d47f0cd89dc8ae77653c05ab714a4669c5374ba20d",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G08-MATH-CH08-COMPARING-QUANTITIES_Arena.html",
-      "arena_size_bytes": 1423145,
-      "arena_sha256": "7249480212c3fcabcc62e618c30b77c0de5abe11d5e789cbc0776404c74bf9cf",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCERT-G09-SCI-CH08-FORCE-MOTION",
-      "title": "Force, Newton's Laws of Motion & Momentum Conservation",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G09-SCI-CH08-FORCE-MOTION_Learning.html",
-      "learn_size_bytes": 549426,
-      "learn_sha256": "cd080c3b3627e02dd651e25374a7e86b3978ec879a706132e6e014beb7e83f71",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G09-SCI-CH08-FORCE-MOTION_Arena.html",
-      "arena_size_bytes": 1423389,
-      "arena_sha256": "c1da05119ddffa21f96f0d5a8c38e99441d4c4366dfd1069fc52933f65f3b084",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCERT-G09-SCI-CH10-WORK-ENERGY",
-      "title": "Work, Kinetic & Potential Energy in Renewable Micro-Grids",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G09-SCI-CH10-WORK-ENERGY_Learning.html",
-      "learn_size_bytes": 549427,
-      "learn_sha256": "73c0fb8b5284076a3b485e640d6c31ae049742571ec170ce3103b13f0868b425",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G09-SCI-CH10-WORK-ENERGY_Arena.html",
-      "arena_size_bytes": 1423344,
-      "arena_sha256": "461e7ec13e60257711b30e7e97c21692101d10965dca94717f071944c5225b63",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCERT-G10-MATH-CH02-POLYNOMIALS",
-      "title": "Polynomial Zeros, Parabolic Graphs & Quadratic Modeling",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G10-MATH-CH02-POLYNOMIALS_Learning.html",
-      "learn_size_bytes": 549530,
-      "learn_sha256": "666ce155e482dcaccc03af40e7a87b4ac5af12fc48a426ac9e654a331cb37b3b",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G10-MATH-CH02-POLYNOMIALS_Arena.html",
-      "arena_size_bytes": 1423407,
-      "arena_sha256": "811c1847a3e71e1a056b4402f9aa96537ba1856b5a058451fc82ec03f492bd78",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS",
-      "title": "Life Processes, Stomatal Transpiration & Cellular Nutrition",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS_Learning.html",
-      "learn_size_bytes": 549609,
-      "learn_sha256": "7e792d073cf90ea3debd6fefab01bd545bcb7745d93c7ca87319197f4a1bfd33",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G10-SCI-CH06-LIFE-PROCESSES-PHOTOSYNTHESIS_Arena.html",
-      "arena_size_bytes": 1423608,
-      "arena_sha256": "8c29202a14353439675530a6cf69e7a3a45a2f0d380b469b3c65e929478cabe4",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW",
-      "title": "Electric Potential, Ohm's Law & Series-Parallel Solar Circuits",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW_Learning.html",
-      "learn_size_bytes": 549574,
-      "learn_sha256": "cc2bcf560a84c23c947e712b3537cc965f94279315fc4056f02958446ae1dbc3",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCERT-G10-SCI-CH12-ELECTRICITY-OHMS-LAW_Arena.html",
-      "arena_size_bytes": 1423540,
-      "arena_sha256": "9253d7212f1681d40144b023ff21d44c112d9f04717c0f1c8139bd8bdacfe55f",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER",
-      "title": "Offline-First Community Data Ledgers & Verifiable Impact Tables",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER_Learning.html",
-      "learn_size_bytes": 549592,
-      "learn_sha256": "5330d02b13ca180accb7dbb71f56fd0d04a662e7a0a58dd1adf8392b043f1ed3",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCVET-PSSCIVE-L3-IT-DIGITAL-VILLAGE-LEDGER_Arena.html",
-      "arena_size_bytes": 1423701,
-      "arena_sha256": "35a6796752a40aaf97e2af1e20bfb2e3c252bf431c5664fec03e10018e6f7516",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA",
-      "title": "Precision Drip Irrigation Hydraulics & Soil Moisture Budgeting",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA_Learning.html",
-      "learn_size_bytes": 549864,
-      "learn_sha256": "145c06deff47a2a27a4f77185f139cef98ed67c16c223d2db7fa30a87bcb7416",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g3_10chapter_pack\\NCVET-PSSCIVE-L4-AGRI-PRECISION-DRIP-JAL-SEVA_Arena.html",
-      "arena_size_bytes": 1424071,
-      "arena_sha256": "bb7adfdfb3664dd9c8e9fb335867fab66d7c4071d464782d8c8399cd625e7600",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCVET_PSSCIVE_L3_IT_DataEntry_v5",
-      "title": "NCVET Level 3 — Domestic Data Entry & Digital Village Ledger",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g36_ncvet_psscive_pack\\NCVET_PSSCIVE_L3_IT_DataEntry_Learning.html",
-      "learn_size_bytes": 549504,
-      "learn_sha256": "f664e3fd9f4b1e74630a64f9b0e03aaccffed4b6ff5aea3b2004cf816b736c79",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g36_ncvet_psscive_pack\\NCVET_PSSCIVE_L3_IT_DataEntry_Arena.html",
-      "arena_size_bytes": 1423578,
-      "arena_sha256": "30241860640f10fc20603ddf8ac194b1876017a65dedf1a1400eb14ffb9d151d",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCVET_PSSCIVE_L4_Agri_SolarDrip_v5",
-      "title": "NCVET Level 4 — Solar Micro-Irrigation & Jal Seva Technician",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g36_ncvet_psscive_pack\\NCVET_PSSCIVE_L4_Agri_SolarDrip_Learning.html",
-      "learn_size_bytes": 549303,
-      "learn_sha256": "5db3b8eefc31edd6f3250cfa23f58ff07b18b89c5fec46680b56836a181dd6e1",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g36_ncvet_psscive_pack\\NCVET_PSSCIVE_L4_Agri_SolarDrip_Arena.html",
-      "arena_size_bytes": 1423290,
-      "arena_sha256": "2293480f087af1feae7c0fed5de28a8a52d8b2da63f17706cb378faa7c06ff4d",
-      "arena_qa": "38/38"
-    },
-    {
-      "chapter_id": "NCVET_PSSCIVE_L4_Food_SolarDehydrator_v5",
-      "title": "NCVET Level 4 — Rural Solar Food Dehydrator Unit Operator",
-      "learn_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g36_ncvet_psscive_pack\\NCVET_PSSCIVE_L4_Food_SolarDehydrator_Learning.html",
-      "learn_size_bytes": 549843,
-      "learn_sha256": "70522dd977eed245374cddfcab12996c75a95c03d12fd0f414a0a4c4cbabc0f7",
-      "learn_qa": "37/37",
-      "arena_file": "Aasha-AI\\aasha-pipeline-with-master-json\\output\\g36_ncvet_psscive_pack\\NCVET_PSSCIVE_L4_Food_SolarDehydrator_Arena.html",
-      "arena_size_bytes": 1424131,
-      "arena_sha256": "aca0bfb3223c607f1fbf079fec129ef4d2800d28fc31154ec220083b41d5d0e9",
-      "arena_qa": "38/38"
-    }
-  ],
-  "updated_at": "2026-11-18T21:56:08.768126+00:00"
+  ]
 }

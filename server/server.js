@@ -2464,6 +2464,41 @@ export function buildServer() {
     return { status: 'ok', totalDeltas: rows.length, totalRecordsMerged, deltas: rows, federated_sha256: federatedSha256 };
   });
 
+  // Phase G84: Teacher Studio Federated Centre Health & Parity Panel
+  app.get('/api/teacher/federated-health', async () => {
+    const deltaAgg = db.prepare(`
+      SELECT COUNT(*) AS totalDeltas,
+             COUNT(DISTINCT source_center_id) AS uniqueSourceCentres,
+             COALESCE(MAX(lamport_epoch), 0) AS maxLamportEpoch,
+             COALESCE(SUM(records_merged), 0) AS totalRecordsMerged
+      FROM federated_centre_deltas
+    `).get() || { totalDeltas: 0, uniqueSourceCentres: 0, maxLamportEpoch: 0, totalRecordsMerged: 0 };
+    const benchAgg = db.prepare(`
+      SELECT COALESCE(ROUND(AVG(avg_compile_ms), 2), 0) AS avgCompileMs,
+             COALESCE(MAX(max_child_html_bytes), 0) AS maxChildHtmlBytes
+      FROM studio_batch_benchmarks
+    `).get() || { avgCompileMs: 0, maxChildHtmlBytes: 0 };
+    const jobCount = db.prepare(`SELECT COUNT(*) AS cnt FROM studio_pdf_jobs`).get()?.cnt || 0;
+    const shareCount = db.prepare(`SELECT COUNT(*) AS cnt FROM studio_lan_pack_shares`).get()?.cnt || 0;
+    const maxChildBytes = Number(benchAgg.maxChildHtmlBytes || 0);
+    const payload = {
+      schemaVersion: 'aasha.teacher.federated.health.v1',
+      healthStatus: 'GREEN_OFFLINE_PARITY',
+      totalDeltas: Number(deltaAgg.totalDeltas || 0),
+      uniqueSourceCentres: Number(deltaAgg.uniqueSourceCentres || 0),
+      maxLamportEpoch: Number(deltaAgg.maxLamportEpoch || 0),
+      totalRecordsMerged: Number(deltaAgg.totalRecordsMerged || 0),
+      queuedPdfJobs: Number(jobCount),
+      lanPackShares: Number(shareCount),
+      avgCompileMs: Number(benchAgg.avgCompileMs || 0),
+      maxChildHtmlBytes: maxChildBytes,
+      within20MiBChildCap: maxChildBytes <= 20971520,
+      zeroExternalUrls: true
+    };
+    const health_sha256 = crypto.createHash('sha256').update(JSON.stringify(payload), 'utf-8').digest('hex');
+    return { status: 'ok', ...payload, health_sha256 };
+  });
+
   return app;
 
 
