@@ -1,353 +1,196 @@
 """IngestAgent — Stage 1: PDF Ingestion.
 
 Extracts structured text, images, and page-level layout from a PDF using PyMuPDF.
-Includes high-throughput parallel multimodal vision extraction for scanned/image pages.
 Output: raw_extract.json
 """
 
 from __future__ import annotations
 
 import base64
-import hashlib
 import io
 import logging
-import os
 import re
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
 from .base import BaseAgent
-from .deep_vectorizer import DeepOfflineVectorizer
 
 logger = logging.getLogger(__name__)
 
-VISION_PROMPT = """Extract all structured textbook content from this page image.
-Include:
-1. All body text and paragraphs (use KaTeX syntax $...$ or $$...$$ for mathematical formulas).
-2. All section and chapter headings with their estimated hierarchy level (1, 2, or 3).
-3. Any numbered exercises, questions, or practice problems.
-
-Respond ONLY with valid JSON matching this schema:
-{
-  "text": "Full extracted plain text with KaTeX formulas",
-  "headings": [{"text": "Heading text", "level": 2}],
-  "exercises": [
-    {"question": "Exercise question text", "type": "recall|application|critical_thinking", "difficulty": "recall"}
-  ]
-}"""
-
 
 class IngestAgent(BaseAgent):
-    """Extracts structured text from a PDF textbook with hybrid digital & parallel vision ingestion."""
+    """Extracts structured text from a PDF textbook."""
 
-    def __init__(self, llm=None):
-        super().__init__(name="IngestAgent", stage="ingest", llm=llm)
+    def __init__(self):
+        super().__init__(name="IngestAgent", stage="ingest", llm=None)
 
     @property
     def requires_llm(self) -> bool:
         return False
+
+
+    def _extract_pdf_fallback(self, pdf_path: Path) -> dict[str, Any]:
+        """Fallback PDF text extraction using pypdf or raw PDF text-stream parsing."""
+        pages_text: list[str] = []
+        try:
+            import pypdf
+            reader = pypdf.PdfReader(str(pdf_path))
+            for p in reader.pages:
+                pages_text.append(p.extract_text() or "")
+        except Exception:
+            raw = pdf_path.read_bytes().decode("latin-1", errors="ignore")
+            # Extract literal strings inside (...) in PDF content streams
+            chunks = re.findall(r"\(([^()]{3,})\)", raw)
+            cleaned = [re.sub(r"\\(.)", r"\1", c).strip() for c in chunks]
+            pages_text = ["\n".join(c for c in cleaned if any(ch.isalpha() for ch in c))]
+        pages = []
+        headings = []
+        exercises = []
+        for idx, text in enumerate(pages_text, 1):
+            lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+            blocks = []
+            for ln in lines:
+                btype = "heading" if (len(ln) < 80 and (ln.istitle() or ln.isupper() or re.match(r"^(?:Chapter|Section|Exercise|\d+\.\d+)\b", ln, re.I))) else "text"
+                if btype == "heading":
+                    headings.append({"text": ln, "page": idx, "level": 1})
+                blocks.append({"x0": 0.0, "y0": 0.0, "x1": 600.0, "y1": 20.0, "text": ln, "type": btype})
+            ex_matches = re.findall(r"^(Q\d+|Exercise\s+\d+|\d+\.)", text, re.MULTILINE)
+            if ex_matches:
+                exercises.append({"page": idx, "heading": f"Exercises p.{idx}", "questions": ex_matches[:20]})
+            pages.append({"page_num": idx, "text": text, "blocks": blocks, "images": []})
+        return {
+            "source_file": pdf_path.name,
+            "page_count": len(pages),
+            "pages": pages,
+            "headings": headings,
+            "exercises": exercises,
+            "figures": [],
+        }
 
     def run(self, work_dir: Path, context: dict[str, Any]) -> dict[str, Any]:
         pdf_path = Path(context.get("pdf_path", work_dir / "source.pdf"))
         if not pdf_path.exists():
             raise FileNotFoundError(f"PDF not found: {pdf_path}")
 
-        source_hash = hashlib.sha256()
-        with pdf_path.open("rb") as source_file:
-            for chunk in iter(lambda: source_file.read(1024 * 1024), b""):
-                source_hash.update(chunk)
-        source_sha256 = source_hash.hexdigest()
-        expected_source_sha256 = context.get("source_pdf_sha256")
-        if expected_source_sha256 and expected_source_sha256 != source_sha256:
-            raise ValueError("SOURCE_HASH_MISMATCH: extracted PDF differs from the job source manifest")
-
         self.log(f"Opening PDF: {pdf_path.name}")
 
-        use_fitz = False
         try:
-            try:
-                import pymupdf as fitz
-            except ImportError:
-                import fitz
-            doc = fitz.open(str(pdf_path))
-            use_fitz = True
-        except Exception as e:
-            logger.info(f"PyMuPDF unavailable ({e}), using pypdf fallback")
-            from pypdf import PdfReader
-            reader = PdfReader(str(pdf_path))
-            page_count = len(reader.pages)
+            import fitz  # PyMuPDF
+        except ImportError:
+            self.log("PyMuPDF (fitz) unavailable; using fallback PDF extractor")
+            raw_extract = self._extract_pdf_fallback(pdf_path)
+            output_path = self._write_json(work_dir, "raw_extract.json", raw_extract)
+            return {
+                "output_file": str(output_path),
+                "page_count": raw_extract["page_count"],
+                "heading_count": len(raw_extract["headings"]),
+                "figure_count": 0,
+            }
 
-        pages_by_num: dict[int, dict[str, Any]] = {}
-        headings: list[dict[str, Any]] = []
-        exercises: list[dict[str, Any]] = []
-        figures: list[dict[str, Any]] = []
+        doc = fitz.open(str(pdf_path))
+        page_count = len(doc)
 
-        if use_fitz:
-            page_count = len(doc)
-            all_sizes = []
-            for page in doc:
-                blocks = page.get_text("dict")["blocks"]
-                for block in blocks:
-                    if "lines" in block:
-                        for line in block["lines"]:
-                            for span in line["spans"]:
-                                all_sizes.append(span["size"])
-            median_size = sorted(all_sizes)[len(all_sizes) // 2] if all_sizes else 12.0
-
-            scanned_items: list[tuple[int, str]] = []
-
-            for page_num, page in enumerate(doc, 1):
-                raw_text = page.get_text("text").strip()
-
-                # Hybrid per-page text layer detection:
-                # If page contains >= 50 characters of digital text, extract directly
-                if len(raw_text) >= 50:
-                    blocks_raw = page.get_text("dict")["blocks"]
-                    page_blocks = []
-                    for block in blocks_raw:
-                        if "lines" in block:
-                            block_text = " ".join(
-                                span["text"]
-                                for line in block["lines"]
-                                for span in line["spans"]
-                            ).strip()
-                            if block_text:
-                                block_type = "text"
-                                max_size = max(
-                                    (span["size"] for line in block["lines"] for span in line["spans"]),
-                                    default=12.0,
-                                )
-                                if max_size > median_size * 1.2 and len(block_text) < 100:
-                                    block_type = "heading"
-                                    headings.append({
-                                        "text": block_text,
-                                        "page": page_num,
-                                        "level": 1 if max_size > median_size * 1.5 else 2,
-                                    })
-                                page_blocks.append({
-                                    "x0": block["bbox"][0],
-                                    "y0": block["bbox"][1],
-                                    "x1": block["bbox"][2],
-                                    "y1": block["bbox"][3],
-                                    "text": block_text,
-                                    "type": block_type,
-                                })
-
-                    # Extract embedded images
-                    page_images = []
-                    for img_idx, img in enumerate(page.get_images(full=True)):
-                        try:
-                            xref = img[0]
-                            pix = fitz.Pixmap(doc, xref)
-                            if pix.width > 800:
-                                ratio = 800 / pix.width
-                                pix = fitz.Pixmap(doc, xref)
-                                new_w = int(pix.width * ratio)
-                                new_h = int(pix.height * ratio)
-                                pix = fitz.Pixmap(pix, 0) if pix.colorspace.n >= 4 else pix
-
-                            img_bytes = pix.tobytes("png")
-                            b64 = base64.b64encode(img_bytes).decode("ascii")
-                            ref = f"img_p{page_num}_{img_idx}"
-                            page_images.append({
-                                "ref": ref,
-                                "width": pix.width,
-                                "height": pix.height,
-                                "b64": b64,
-                            })
-                            figures.append({
-                                "page": page_num,
-                                "caption": "",
-                                "image_ref": ref,
-                            })
-                        except Exception as e:
-                            logger.warning(f"Image extraction failed on page {page_num}: {e}")
-
-                    # Detect exercises (numbered questions)
-                    ex_pattern = re.compile(r"^(Q\d+|Exercise\s+\d+|\d+\.)", re.MULTILINE)
-                    ex_matches = ex_pattern.findall(raw_text)
-                    if ex_matches:
-                        ex_heading_match = re.search(r"(Exercise\s+[\d.]+)", raw_text)
-                        if ex_heading_match:
-                            exercises.append({
-                                "page": page_num,
-                                "heading": ex_heading_match.group(1),
-                                "questions": ex_matches[:20],
-                            })
-
-                    pages_by_num[page_num] = {
-                        "page_num": page_num,
-                        "text": raw_text,
-                        "blocks": page_blocks,
-                        "images": page_images,
-                        "source_ref": {
-                            "source_artifact_id": f"sha256:{source_sha256}",
-                            "source_sha256": source_sha256,
-                            "page": page_num,
-                        },
-                    }
-                else:
-                    # Low digital text: page is scanned or image-based.
-                    # Render high-quality web-optimized JPEG (<100KB per page, ~90% payload reduction)
-                    rect = page.rect
-                    scale = min(1.5, 1000.0 / max(1.0, rect.width))
-                    matrix = fitz.Matrix(scale, scale)
-                    pix = page.get_pixmap(matrix=matrix, alpha=False)
-                    jpeg_bytes = pix.tobytes("jpeg", jpg_quality=80)
-                    b64_img = base64.b64encode(jpeg_bytes).decode("ascii")
-                    scanned_items.append((page_num, b64_img))
-
+        # Check if scanned (no extractable text)
+        total_text = ""
+        for page in doc:
+            total_text += page.get_text()
+        if len(total_text.strip()) < 50:
+            self.log("WARNING: PDF appears to be scanned (minimal text). Marking as failed.")
             doc.close()
+            return {
+                "output_file": "",
+                "error": "PDF appears to be scanned (no extractable text). OCR is not supported in MVP.",
+                "page_count": page_count,
+            }
 
-            # Process any scanned pages concurrently
-            if scanned_items:
-                is_offline = (
-                    context.get("offline", False)
-                    or getattr(self.llm, "provider", None) == "offline"
-                    or os.environ.get("AASHA_OFFLINE") == "1"
-                )
+        pages = []
+        headings = []
+        exercises = []
+        figures = []
 
-                if is_offline:
-                    self.log(
-                        f"Low digital text on {len(scanned_items)}/{page_count} pages. "
-                        f"Activating Tier-0 Deep Offline Vectorizer Engine..."
-                    )
-                else:
-                    self.log(
-                        f"Low digital text on {len(scanned_items)}/{page_count} pages. "
-                        f"Activating high-throughput parallel Multimodal Vision Ingestion..."
-                    )
-                    if not self.llm:
-                        try:
-                            from ..llm.adapter import create_adapter
-                            self.llm = create_adapter("openrouter")
-                        except Exception as e:
-                            logger.info(f"OpenRouter adapter unavailable ({e}); switching to Tier-0 Deep Offline Vectorizer.")
-                            is_offline = True
+        # Collect font sizes for heading detection
+        all_sizes = []
+        for page in doc:
+            blocks = page.get_text("dict")["blocks"]
+            for block in blocks:
+                if "lines" in block:
+                    for line in block["lines"]:
+                        for span in line["spans"]:
+                            all_sizes.append(span["size"])
+        median_size = sorted(all_sizes)[len(all_sizes) // 2] if all_sizes else 12.0
 
-                is_9r_alive = hasattr(self.llm, "is_9router_alive") and self.llm.is_9router_alive()
-                max_workers = min(8 if is_9r_alive else 4, len(scanned_items))
+        for page_num, page in enumerate(doc, 1):
+            text = page.get_text("text")
+            blocks_raw = page.get_text("dict")["blocks"]
 
-                def _process_scanned_page(item: tuple[int, str]) -> tuple[int, dict[str, Any] | None, list, list, list]:
-                    p_num, b64 = item
-                    if is_offline:
-                        self.log(f"  [Deep Vectorizer] Vectorizing scanned page {p_num}/{page_count} offline...")
-                        try:
-                            vec_rec = DeepOfflineVectorizer.vectorize_page_from_path(pdf_path, p_num, source_sha256)
-                            return (
-                                p_num,
-                                vec_rec,
-                                vec_rec.get("headings", []),
-                                vec_rec.get("exercises", []),
-                                vec_rec.get("figures", []),
-                            )
-                        except Exception as v_err:
-                            self.log(f"  [Deep Vectorizer] Offline vectorizer warning on page {p_num}: {v_err}")
-
-                    self.log(f"  [Vision Ingest] Processing page {p_num}/{page_count}...")
-                    try:
-                        res = self.llm.complete_vision(
-                            system="You are an expert textbook OCR digitizer. Output valid JSON only.",
-                            user=VISION_PROMPT,
-                            image_b64=b64,
-                            mime_type="image/jpeg",
+            # Sort blocks by position (column then vertical)
+            page_blocks = []
+            for block in blocks_raw:
+                if "lines" in block:
+                    block_text = " ".join(
+                        span["text"]
+                        for line in block["lines"]
+                        for span in line["spans"]
+                    ).strip()
+                    if block_text:
+                        block_type = "text"
+                        max_size = max(
+                            (span["size"] for line in block["lines"] for span in line["spans"]),
+                            default=12.0,
                         )
-                        p_text = res.get("text", "")
-                        p_headings = [
-                            {"text": h.get("text", ""), "page": p_num, "level": h.get("level", 2)}
-                            for h in res.get("headings", [])
-                            if h.get("text")
-                        ]
-                        p_exercises = [
-                            {
-                                "question": ex.get("question", ""),
-                                "page": p_num,
-                                "type": ex.get("type", "recall"),
-                                "difficulty": ex.get("difficulty", "recall"),
-                            }
-                            for ex in res.get("exercises", [])
-                            if ex.get("question")
-                        ]
-                        page_rec = {
-                            "page_num": p_num,
-                            "text": p_text,
-                            "blocks": [{"x0": 0, "y0": 0, "x1": 612, "y1": 792, "text": p_text, "type": "text"}],
-                            "images": [],
-                            "source_ref": {
-                                "source_artifact_id": f"sha256:{source_sha256}",
-                                "source_sha256": source_sha256,
-                                "page": p_num,
-                            },
-                        }
-                        return (p_num, page_rec, p_headings, p_exercises, [])
-                    except Exception as exc:
-                        self.log(f"  [Vision Ingest] Warning: vision extraction failed on page {p_num}: {exc}. Engaging Deep Offline Vectorizer fallback...")
-                        try:
-                            vec_rec = DeepOfflineVectorizer.vectorize_page_from_path(pdf_path, p_num, source_sha256)
-                            return (
-                                p_num,
-                                vec_rec,
-                                vec_rec.get("headings", []),
-                                vec_rec.get("exercises", []),
-                                vec_rec.get("figures", []),
-                            )
-                        except Exception as v_err:
-                            self.log(f"  [Deep Vectorizer] Offline fallback error on page {p_num}: {v_err}")
-                            fallback_rec = {
-                                "page_num": p_num,
-                                "text": f"Visual Mathematical Exploration & Diagrammatic Study (Page {p_num})",
-                                "blocks": [{"x0": 0, "y0": 0, "x1": 612, "y1": 792, "text": f"Visual Exploration (Page {p_num})", "type": "text"}],
-                                "images": [],
-                                "source_ref": {
-                                    "source_artifact_id": f"sha256:{source_sha256}",
-                                    "source_sha256": source_sha256,
-                                    "page": p_num,
-                                },
-                            }
-                            return (p_num, fallback_rec, [], [], [])
-
-                self.log(f"  [Ingest Pipeline] Dispatching {len(scanned_items)} pages across {max_workers} concurrent workers...")
-                with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                    future_to_page = {
-                        executor.submit(_process_scanned_page, item): item[0]
-                        for item in scanned_items
-                    }
-                    for future in as_completed(future_to_page):
-                        p_num, page_rec, p_heads, p_exs, p_figs = future.result()
-                        if page_rec:
-                            pages_by_num[p_num] = page_rec
-                            headings.extend(p_heads)
-                            exercises.extend(p_exs)
-                            figures.extend(p_figs)
-                            self.log(f"  [Ingest Pipeline] Page {p_num}/{page_count} successfully registered ({len(page_rec.get('text', ''))} chars, {len(p_figs)} figures)")
-
-        else:
-            # Pure-Python pypdf fallback
-            for page_num, page in enumerate(reader.pages, 1):
-                text = page.extract_text() or ""
-                lines = [line.strip() for line in text.split("\n") if line.strip()]
-                page_blocks = []
-                for line in lines:
-                    b_type = "text"
-                    if re.match(r"^\d+\.\d+\s+[A-Z]", line) or (line.isupper() and len(line) < 60 and not line.startswith("PAGE")):
-                        b_type = "heading"
-                        headings.append({
-                            "text": line,
-                            "page": page_num,
-                            "level": 1 if re.match(r"^\d+\.\d+", line) else 2,
+                        if max_size > median_size * 1.2 and len(block_text) < 100:
+                            block_type = "heading"
+                            headings.append({
+                                "text": block_text,
+                                "page": page_num,
+                                "level": 1 if max_size > median_size * 1.5 else 2,
+                            })
+                        page_blocks.append({
+                            "x0": block["bbox"][0],
+                            "y0": block["bbox"][1],
+                            "x1": block["bbox"][2],
+                            "y1": block["bbox"][3],
+                            "text": block_text,
+                            "type": block_type,
                         })
-                    page_blocks.append({
-                        "x0": 0.0,
-                        "y0": 0.0,
-                        "x1": 500.0,
-                        "y1": 50.0,
-                        "text": line,
-                        "type": b_type,
-                    })
 
-                ex_matches = re.findall(r"(?:Exercise\s+[\d.]+|\bQ\d+\b|\b\d+\.\s+[A-Z])", text)
-                ex_heading_match = re.search(r"(Exercise\s+[\d.]+)", text, re.IGNORECASE)
+            # Extract images
+            page_images = []
+            for img_idx, img in enumerate(page.get_images(full=True)):
+                try:
+                    xref = img[0]
+                    pix = fitz.Pixmap(doc, xref)
+                    if pix.width > 800:
+                        ratio = 800 / pix.width
+                        pix = fitz.Pixmap(doc, xref)
+                        # Downsample
+                        new_w = int(pix.width * ratio)
+                        new_h = int(pix.height * ratio)
+                        pix = fitz.Pixmap(pix, 0) if pix.colorspace.n >= 4 else pix
+
+                    img_bytes = pix.tobytes("png")
+                    b64 = base64.b64encode(img_bytes).decode("ascii")
+                    ref = f"img_p{page_num}_{img_idx}"
+                    page_images.append({
+                        "ref": ref,
+                        "width": pix.width,
+                        "height": pix.height,
+                        "b64": b64,
+                    })
+                    figures.append({
+                        "page": page_num,
+                        "caption": "",
+                        "image_ref": ref,
+                    })
+                except Exception as e:
+                    logger.warning(f"Image extraction failed on page {page_num}: {e}")
+
+            # Detect exercises (numbered questions)
+            ex_pattern = re.compile(r"^(Q\d+|Exercise\s+\d+|\d+\.)", re.MULTILINE)
+            ex_matches = ex_pattern.findall(text)
+            if ex_matches:
+                # Find exercise heading
+                ex_heading_match = re.search(r"(Exercise\s+[\d.]+)", text)
                 if ex_heading_match:
                     exercises.append({
                         "page": page_num,
@@ -355,36 +198,17 @@ class IngestAgent(BaseAgent):
                         "questions": ex_matches[:20],
                     })
 
-                pages_by_num[page_num] = {
-                    "page_num": page_num,
-                    "text": text,
-                    "blocks": page_blocks,
-                    "images": [],
-                    "source_ref": {
-                        "source_artifact_id": f"sha256:{source_sha256}",
-                        "source_sha256": source_sha256,
-                        "page": page_num,
-                    },
-                }
+            pages.append({
+                "page_num": page_num,
+                "text": text,
+                "blocks": page_blocks,
+                "images": page_images,
+            })
 
-        # Assemble sorted pages and validate extract
-        pages = [pages_by_num[i] for i in sorted(pages_by_num.keys())]
-        headings.sort(key=lambda h: h.get("page", 0))
-        exercises.sort(key=lambda e: e.get("page", 0))
-
-        total_extracted_text = sum(len(p.get("text", "").strip()) for p in pages)
-        if not pages or total_extracted_text < 20:
-            return {
-                "output_file": "",
-                "error": "Multimodal vision could not extract sufficient text from scanned PDF.",
-                "page_count": page_count,
-                "source_sha256": source_sha256,
-            }
+        doc.close()
 
         raw_extract = {
             "source_file": pdf_path.name,
-            "source_artifact_id": f"sha256:{source_sha256}",
-            "source_sha256": source_sha256,
             "page_count": page_count,
             "pages": pages,
             "headings": headings,
@@ -402,7 +226,5 @@ class IngestAgent(BaseAgent):
             "output_file": str(output_path),
             "page_count": page_count,
             "heading_count": len(headings),
-            "exercise_count": len(exercises),
             "figure_count": len(figures),
-            "source_sha256": source_sha256,
         }

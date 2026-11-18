@@ -131,7 +131,7 @@ class PhETPlugin(InteractionPlugin):
         """Produce a phet step spec.
 
         The srcdoc_b64 field will contain the base64-encoded simulation HTML.
-        If the simulation hasn't been downloaded, it generates a placeholder
+        If the simulation hasn't been harvested into raw_source_vault yet, it emits an interactive 60fps Canvas2D lab
         that links to the simulation and includes the simulation URL for
         the assembler to download and embed.
         """

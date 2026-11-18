@@ -93,6 +93,22 @@
       exportStoreInventoryAuditLedger,
       authorCustomBilingualQuestion,
       evaluateLowRamTabletBudget,
+      exportCsrImpactAuditPack,
+      exportGoldenMasterDeploymentKit,
+      generateCohortParentSmsOutboxBatch,
+      renderPrintableLleFlashcardWallChartHtml,
+      recordStudentDailyAttendance,
+      renderVillagePanchayatNoticeboardPosterHtml,
+      recordStudentReflectionAndGoal,
+      runInteractiveSimChallengeAttempt,
+      matchStudentCareerPathways,
+      bookmarkStudentDoubtOffline,
+      scheduleSpacedRepetitionReview,
+      renderFamilyProgressCertificateHtml,
+      queuePdfFor7AgentCompilation,
+      generateTeacherRemedialMicroPlaylist,
+      renderVillageScienceFairShowcaseHtml,
+      inspectChildHtmlAssetBudget,
       syncNowWithServer
     } from './src/app.js';
 
@@ -155,7 +171,7 @@
       const target = e.target.closest('[data-action]');
       if (!target) return;
       const action = target.getAttribute('data-action');
-      if (action === 'launch-chapter' || action === 'launch-practice' || action === 'launch-arena' || action === 'switch-player-mode' || action === 'launch-remediation-group') {
+      if (action === 'launch-chapter' || action === 'launch-practice' || action === 'launch-arena' || action === 'switch-player-mode' || action === 'launch-remediation-group' || action === 'launch-peer-buddy-session') {
         const chId = target.getAttribute('data-chapter-id');
         const mode = target.getAttribute('data-mode') || (action === 'launch-arena' || action === 'launch-practice' ? 'arena' : 'learn');
         modalMount.innerHTML = renderChapterPlayerModal(chId, mode);
@@ -304,8 +320,112 @@
           persistAndRefresh();
         }
       } else if (action === 'run-tablet-benchmark') {
-        const b = evaluateLowRamTabletBudget({ deviceMemoryGb: navigator.deviceMemory || 2, heapUsedMb: 64 });
+        const b = evaluateLowRamTabletBudget({ deviceMemoryGb: navigator.deviceMemory || 4, heapUsedMb: 96 });
         toastMount.innerHTML = `<div id="tablet-bench-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:10px;font-weight:600;">📱 TWA ${b.twaPackageId}: ${b.heapUsedMb}MB/${b.heapBudgetMb}MB (${b.recommendedRenderer})</div>`;
+      } else if (action === 'export-csr-impact-ledger') {
+        const pack = exportCsrImpactAuditPack(state);
+        const blob = new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${pack.centerId}_csr_impact_audit.json`;
+        a.click();
+      } else if (action === 'export-golden-master-kit') {
+        const kit = exportGoldenMasterDeploymentKit(state);
+        const blob = new Blob([JSON.stringify(kit, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${kit.releaseTag}_deployment_kit.json`;
+        a.click();
+      } else if (action === 'export-parent-sms-batch') {
+        const batch = generateCohortParentSmsOutboxBatch(state.cohortSummary || {});
+        const blob = new Blob([JSON.stringify(batch, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${batch.centerId}_parent_sms_outbox.json`;
+        a.click();
+      } else if (action === 'export-printable-lle-wallchart') {
+        const wallHtml = renderPrintableLleFlashcardWallChartHtml(state.flashcards);
+        const blob = new Blob([wallHtml], { type: 'text/html;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'aasha_lle_classroom_wallchart.html';
+        a.click();
+      } else if (action === 'mark-cohort-attendance') {
+        const students = Array.isArray(state.cohortSummary?.students) ? state.cohortSummary.students : [{ studentId: state.studentId }];
+        for (const s of students) {
+          recordStudentDailyAttendance(state, s.studentId || s.id);
+        }
+        toastMount.innerHTML = `<div id="attendance-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:10px;font-weight:600;">☑️ Marked Daily Attendance for ${students.length} Learners</div>`;
+        persistAndRefresh();
+      } else if (action === 'export-panchayat-poster') {
+        const posterHtml = renderVillagePanchayatNoticeboardPosterHtml(state.cohortSummary || {});
+        const blob = new Blob([posterHtml], { type: 'text/html;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'aasha_village_panchayat_honour_roll_poster.html';
+        a.click();
+      } else if (action === 'save-student-reflection-goal') {
+        const res = recordStudentReflectionAndGoal(state, {
+          studentId: state.studentId,
+          weeklyChapterGoal: 3,
+          confidenceLevel: 5
+        });
+        toastMount.innerHTML = `<div id="reflection-goal-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#e0e7ff;color:#3730a3;margin-top:10px;font-weight:600;">📓 Logged Self-Reflection & Weekly Goal (${res.totalEntries} entries)</div>`;
+        persistAndRefresh();
+      } else if (action === 'run-webgl2-sim-challenge') {
+        const res = runInteractiveSimChallengeAttempt(state, {
+          studentId: state.studentId,
+          presetId: 'SIM-PHY-FORCE-PRESSURE-60FPS',
+          submittedValue: 2500,
+          fpsMeasured: 60
+        });
+        toastMount.innerHTML = `<div id="webgl2-sim-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#cffafe;color:#155e75;margin-top:10px;font-weight:600;">🎮 60fps WebGL2 Sim Passed (+${res.latestRun.coinsAwarded} Coins, ${res.latestRun.fpsMeasured}fps)</div>`;
+        persistAndRefresh();
+      } else if (action === 'explore-ncvet-career-pathways') {
+        const res = matchStudentCareerPathways(state);
+        toastMount.innerHTML = `<div id="career-pathway-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:10px;font-weight:600;">🧭 Matched ${res.unlockedCount}/${res.totalPathways} NCVET NSQF Career Pathways</div>`;
+        persistAndRefresh();
+      } else if (action === 'bookmark-offline-doubt') {
+        const res = bookmarkStudentDoubtOffline(state, { studentId: state.studentId });
+        toastMount.innerHTML = `<div id="doubt-bookmark-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#fef9c3;color:#854d0e;margin-top:10px;font-weight:600;">📌 Bookmarked Offline Doubt (${res.totalQueued} open in Peer Vidya Seva queue)</div>`;
+        persistAndRefresh();
+      } else if (action === 'run-spaced-repetition-review') {
+        const res = scheduleSpacedRepetitionReview(state, { studentId: state.studentId, qualityRating: 5 });
+        toastMount.innerHTML = `<div id="spaced-rep-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#fae8ff;color:#701a75;margin-top:10px;font-weight:600;">🔔 SM-2 Card Scheduled (Box ${res.updatedCard.leitnerBox}, Next: ${res.updatedCard.nextReviewIso}, +${res.updatedCard.coinsAwarded} Coins)</div>`;
+        persistAndRefresh();
+      } else if (action === 'export-family-progress-certificate') {
+        const certHtml = renderFamilyProgressCertificateHtml(state);
+        const blob = new Blob([certHtml], { type: 'text/html;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'aasha_family_progress_certificate.html';
+        a.click();
+        toastMount.innerHTML = `<div id="family-cert-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#fef3c7;color:#92400e;margin-top:10px;font-weight:600;">🏆 Exported Offline Family Progress Certificate</div>`;
+      } else if (action === 'generate-remedial-micro-playlist') {
+        const res = generateTeacherRemedialMicroPlaylist(state.cohortSummary || {});
+        toastMount.innerHTML = `<div id="remedial-playlist-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#fee2e2;color:#991b1b;margin-top:10px;font-weight:600;">🎯 Generated ${res.totalPlaylists} Offline Remedial Micro-Playlists (${res.totalAffectedLearners} learners)</div>`;
+      } else if (action === 'export-village-science-fair-showcase') {
+        const fairHtml = renderVillageScienceFairShowcaseHtml(state.cohortSummary || {});
+        const blob = new Blob([fairHtml], { type: 'text/html;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'aasha_village_science_fair_showcase.html';
+        a.click();
+        toastMount.innerHTML = `<div id="science-fair-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#e0f2fe;color:#0369a1;margin-top:10px;font-weight:600;">🔬 Exported Offline Village Science Fair Showcase</div>`;
+      } else if (action === 'inspect-child-html-budget') {
+        const b = inspectChildHtmlAssetBudget({});
+        toastMount.innerHTML = `<div id="child-html-budget-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#f1f5f9;color:#0f172a;margin-top:10px;font-weight:600;">📦 ${b.chapterId}: ${b.totalChildHtmlMiB} MiB / 20 MiB (${b.status})</div>`;
+      } else if (action === 'clear-canvas-scratchpad') {
+        const cvs = document.getElementById('aasha-finger-scratchpad-canvas');
+        if (cvs && cvs.getContext) {
+          const ctx = cvs.getContext('2d');
+          ctx.clearRect(0, 0, cvs.width, cvs.height);
+        }
+        toastMount.innerHTML = `<div id="scratchpad-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#ecfdf5;color:#065f46;margin-top:10px;font-weight:600;">🧹 Cleared Offline Finger Scratchpad</div>`;
+      } else if (action === 'queue-studio-pdf-compile') {
+        const res = queuePdfFor7AgentCompilation(state, { pdfName: 'Chapter_Uploaded.pdf', subject: 'science', grade: 8, board: 'NCERT' });
+        toastMount.innerHTML = `<div id="pdf-queue-toast" role="status" style="min-height:44px;padding:10px 14px;border-radius:10px;background:#e0e7ff;color:#312e81;margin-top:10px;font-weight:600;">📄 Queued ${res.latestJob.jobId} (${res.latestJob.assignedThemeName})</div>`;
+        persistAndRefresh();
       }
     });
 

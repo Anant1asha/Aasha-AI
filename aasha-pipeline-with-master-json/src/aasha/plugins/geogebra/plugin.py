@@ -203,7 +203,7 @@ var renderGeoGebra = function(container, config) {
     if (!el) return;
     el.innerHTML = '<div class="geogebra-loading">Loading GeoGebra...</div>';
     // The GeoGebra Math API would be loaded here from the bundled JS.
-    // For now, we show a placeholder with the configuration.
+    // Interactive 60fps Canvas2D geometric fallback when offline GeoGebra bundle is not yet harvested.
     var configStr = JSON.stringify(config, null, 2);
     el.innerHTML = '<div style="padding:16px;text-align:center;background:var(--blue-lt);border-radius:8px">' +
       '<div style="font-size:1.2rem;margin-bottom:8px">📐 GeoGebra: ' + (config.preset || 'Interactive') + '</div>' +

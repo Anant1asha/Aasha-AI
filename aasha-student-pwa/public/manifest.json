@@ -1,6 +1,6 @@
 {
   "id": "org.annantaasha.learn.twa",
-  "name": "Aasha Learn & Arena \u2014 Annanth Aasha Foundation Offline Classroom",
+  "name": "Aasha Learn & Arena — Annanth Aasha Foundation Offline Classroom",
   "short_name": "Aasha Learn",
   "description": "Offline-first 60% English / 40% Hindi LLE & Gamified TEAS Learning Ecosystem (26 Certified Chapters)",
   "lang": "hi-IN",
@@ -11,5 +11,10 @@
   "theme_color": "#0f766e",
   "background_color": "#f8fafc",
   "twa_package_id": "org.annantaasha.learn.twa",
-  "low_ram_2gb_optimized": true
+  "low_ram_2gb_optimized": false,
+  "high_fidelity_4gb_5g_optimized": true,
+  "target_device_profile": "4GB_RAM_5G_SMARTPHONE_LATEST_GEN",
+  "offline_rationale": "UNSUPERVISED_HOME_DISTRACTION_FREE_STUDY",
+  "creative_freedom_policy": "FULL_HIGH_QUALITY_WEBGL2_PIXI_CANVAS_ANIMATION_SIM_VIDEO_UP_TO_20MIB_PER_CHILD_HTML",
+  "max_child_html_bytes": 20971520
 }

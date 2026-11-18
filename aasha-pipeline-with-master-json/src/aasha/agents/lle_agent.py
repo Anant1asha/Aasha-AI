@@ -72,12 +72,14 @@ class LLEAgent(BaseAgent):
         self._load_baseline()
 
     def _load_baseline(self) -> None:
-        """Load the baseline WM/CONN dictionaries from config/defaults.json."""
-        if self.defaults_path.exists():
-            with open(self.defaults_path, "r", encoding="utf-8") as f:
-                defaults = json.load(f)
-            self._baseline_wm = defaults.get("WM", {})
-            self._baseline_conn = defaults.get("CONN", {})
+        """Load compounding WM/CONN dictionaries (preferring defaults_expanded_v2.json + defaults.json)."""
+        v2_path = self.defaults_path.parent / "defaults_expanded_v2.json"
+        for candidate in (self.defaults_path, v2_path):
+            if candidate.exists():
+                with open(candidate, "r", encoding="utf-8") as f:
+                    defaults = json.load(f)
+                self._baseline_wm.update(defaults.get("WM", {}))
+                self._baseline_conn.update(defaults.get("CONN", {}))
 
     def _extract_words(self, spec: dict) -> set[str]:
         """Extract all distinct words from body text, questions, and instructions."""
@@ -180,6 +182,25 @@ Format: हिंदी (उच्चारण)
                     lle["WM"][word] = "इस शब्द का हिंदी अर्थ अभी उपलब्ध नहीं है"
         else:
             self.log("All words already in baseline dictionary — no LLM calls needed")
+
+        # Auto-save any newly translated words back into the compounding WM store (aasha_operational.db + defaults_expanded_v2.json)
+        if new_words:
+            try:
+                from src.aasha.orchestrator.compounding_wm_engine import autosave_and_disburse_chapter_wm
+                v2_path = self.defaults_path.parent / "defaults_expanded_v2.json"
+                if v2_path.exists():
+                    newly_added = {w: lle["WM"][w] for w in new_words if w in lle["WM"]}
+                    ch_meta = spec.get("chapter", {}) if isinstance(spec, dict) else {}
+                    autosave_and_disburse_chapter_wm(
+                        db_path=Path("aasha_operational.db"),
+                        defaults_v2_path=v2_path,
+                        chapter_id=str(ch_meta.get("chapter_id") or ch_meta.get("title") or "PDF_CHAPTER"),
+                        domain=str(ch_meta.get("subject") or "science"),
+                        module_text=" ".join(sorted(new_words)),
+                        new_terms=newly_added,
+                    )
+            except Exception as exc:
+                self.log(f"Compounding WM autosave skipped: {exc}")
 
         output_path = self._write_json(work_dir, "lle.json", lle)
         self.log(

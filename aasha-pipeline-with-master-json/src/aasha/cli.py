@@ -1,11 +1,8 @@
 """Aasha Pipeline CLI — build_chapter.py entry point.
 
 Usage:
-  # Single chapter (v5-engine mode, default)
+  # Single chapter
   python -m aasha.cli --pdf chapter.pdf --subject math --grade 4
-
-  # Single chapter (full-synthesis 4-agent mode)
-  python -m aasha.cli --pdf chapter.pdf --subject math --grade 4 --mode full-synthesis
 
   # Batch mode
   python -m aasha.cli --batch ./chapters/ --subject math --grade 4
@@ -20,9 +17,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import json
 import logging
-import os
 import sys
 import time
 from pathlib import Path
@@ -45,185 +40,61 @@ def setup_logging(verbose: bool = False):
 def run_single(args, config: Config) -> int:
     """Run a single chapter build."""
     orch = Orchestrator(config)
-    job_id = getattr(args, "job_id", None)
-    json_events = getattr(args, "json_events", False)
 
-    if job_id:
-        work_dir = orch._get_job_work_dir(job_id)
-        job_file = orch.jobs_dir / f"{job_id}.json"
-        if not work_dir.exists() and not job_file.exists():
-            print(f"Error: Job ID '{job_id}' not found in {orch.work_root} or {orch.jobs_dir}")
-            return 1
-        if json_events:
-            print(json.dumps({"event": "job_resumed", "job_id": job_id}), flush=True)
-        else:
-            print(f"Resuming existing job: {job_id}")
-    else:
-        if not args.pdf:
-            print("Error: --pdf required when not resuming via --job-id")
-            return 1
+    pdf_path = Path(args.pdf)
+    if not pdf_path.exists():
+        print(f"Error: PDF not found: {pdf_path}")
+        return 1
 
-        pdf_path = Path(args.pdf)
-        if not pdf_path.exists():
-            # Search in content/pdfs and common repository locations
-            search_candidates = [
-                Path("content/pdfs") / args.pdf,
-                Path("content/pdfs") / Path(args.pdf).name,
-                Path("../content/pdfs") / Path(args.pdf).name,
-                Path("../../content/pdfs") / Path(args.pdf).name,
-                Path("Aasha-AI/content/pdfs") / Path(args.pdf).name,
-                Path("c:/Users/admin/Downloads/NGO AI LLM/Aasha-AI/content/pdfs") / Path(args.pdf).name,
-            ]
-            for cand in search_candidates:
-                if cand.is_file():
-                    pdf_path = cand
-                    break
+    print(f"Creating job for: {pdf_path.name}")
+    job_id = orch.create_job(
+        pdf_path=pdf_path,
+        subject=args.subject,
+        grade=args.grade,
+        provider=args.provider,
+        mode=getattr(args, "mode", "v5-engine"),
+    )
+    print(f"Job ID: {job_id}")
 
-        if not pdf_path.exists():
-            print(f"Error: PDF not found: {args.pdf}")
-            return 1
-
-        # Validate PDF
-        if pdf_path.stat().st_size > 50 * 1024 * 1024:
-            print(f"Error: PDF exceeds max size of 50MB")
-            return 1
-
-        try:
-            import PyPDF2
-            with open(pdf_path, "rb") as f:
-                reader = PyPDF2.PdfReader(f)
-                num_pages = len(reader.pages)
-                if num_pages > 200:
-                    print(f"Error: PDF exceeds max page count of 200 (has {num_pages})")
-                    return 1
-                
-                # check text-based
-                text_found = False
-                for i in range(min(5, num_pages)):
-                    page = reader.pages[i]
-                    text = page.extract_text()
-                    if text and len(text.strip()) > 50:
-                        text_found = True
-                        break
-                
-                if not text_found:
-                    logger.info("PDF appears to be non-text based (scanned/images). Engaging Deep Offline Vectorizer / Multimodal Vision pipeline.")
-        except ImportError:
-            pass # Skip if PyPDF2 not installed
-        except Exception as e:
-            print(f"Error validating PDF: {e}")
-            return 1
-
-        effective_mode = args.mode or "v5-engine"
-        job_id = orch.create_job(
-            pdf_path=pdf_path,
-            subject=args.subject,
-            grade=args.grade,
-            provider=args.provider,
-            mode=effective_mode,
-        )
-
-        if json_events:
-            print(json.dumps({
-                "event": "job_created",
-                "job_id": job_id,
-                "pdf": str(pdf_path),
-                "subject": args.subject,
-                "grade": args.grade,
-                "mode": effective_mode
-            }), flush=True)
-        else:
-            print(f"Creating job for: {pdf_path.name}")
-            print(f"Job ID: {job_id}")
-
-    STAGE_ALIASES = {
-        "extract": "ingest",
-        "structure": "analyze",
-        "pedagogy": "design",
-        "assessment": "assess",
-        "synthesis": "synthesize",
-    }
-    raw_from_stage = args.from_stage if hasattr(args, "from_stage") and args.from_stage else None
-    from_stage = STAGE_ALIASES.get(raw_from_stage, raw_from_stage) if raw_from_stage else None
+    from_stage = args.from_stage if hasattr(args, "from_stage") and args.from_stage else None
 
     stage_labels = {
         "ingest": "Ingesting PDF", "analyze": "Analyzing content",
         "design": "Designing learning", "assess": "Generating assessments",
-        "lle": "Generating LLE", "assemble": "Assembling HTML",
-        "synthesize": "Synthesizing HTML", "qa": "Running QA",
-        "output": "Writing output",
+        "lle": "Generating LLE", "assemble": "Assembling HTML", "learn_arena": "Compiling Aasha Learn & Arena",
+        "qa": "Running QA", "output": "Writing output",
     }
 
     def log_callback(msg: str):
-        if json_events:
-            if "[ControlPlane] Pipeline PAUSED" in msg:
-                print(json.dumps({"event": "job_paused", "job_id": job_id, "message": msg}), flush=True)
-            elif "[ControlPlane] Pipeline RESUMED" in msg:
-                print(json.dumps({"event": "job_resumed", "job_id": job_id, "message": msg}), flush=True)
-            elif "[ControlPlane] Human Intervention APPROVED" in msg:
-                print(json.dumps({"event": "intervention_approved", "job_id": job_id, "message": msg}), flush=True)
-            elif "[Quarantine] Repair attempts exhausted" in msg:
-                print(json.dumps({"event": "quarantine_activated", "job_id": job_id, "message": msg}), flush=True)
-            else:
-                print(json.dumps({"event": "log", "message": msg}), flush=True)
-        else:
-            print(f"  {msg}")
+        print(f"  {msg}")
 
     start_time = time.time()
-    job = orch.run_pipeline(
-        job_id,
-        from_stage=from_stage,
-        log_callback=log_callback,
-        max_cost=args.max_cost,
-        mode=getattr(args, "mode", None),
-        auto_rewind=getattr(args, "auto_rewind", True),
-    )
+    job = orch.run_pipeline(job_id, from_stage=from_stage, log_callback=log_callback)
     duration = time.time() - start_time
 
-    if json_events:
-        html_path = job.outputs.get("html", "") if job.status == "completed" else ""
-        event_name = (
-            "pipeline_complete" if job.status == "completed"
-            else "pipeline_quarantined" if job.status == "quarantined"
-            else "pipeline_failed"
-        )
-        print(json.dumps({
-            "event": event_name,
-            "job_id": job_id,
-            "status": job.status,
-            "quarantined": getattr(job, "quarantined", False),
-            "quarantine_packet": getattr(job, "quarantine_packet", None),
-            "duration": duration,
-            "cost_usd": job.cost_usd,
-            "html_path": html_path,
-            "error_stage": job.error_stage if job.status != "completed" else None,
-            "error_message": job.error_message if job.status != "completed" else None
-        }), flush=True)
-
     print()
-    print(f"Status: {'PASS' if job.status == 'completed' else ('QUARANTINED' if job.status == 'quarantined' else 'FAIL')}")
+    print(f"Status: {'PASS' if job.status == 'completed' else 'FAIL'}")
     print(f"Duration: {duration:.1f}s")
     print(f"LLM Cost: ${job.cost_usd:.4f}")
 
     if job.status == "completed":
         html_path = job.outputs.get("html", "")
-        print(f"Output: {html_path}")
+        learn_path = job.outputs.get("learn_html", "")
+        arena_path = job.outputs.get("arena_html", "")
+        if learn_path or arena_path:
+            print(f"Learn Output: {learn_path}")
+            print(f"Arena Output: {arena_path}")
+        else:
+            print(f"Output: {html_path}")
         return 0
-    elif job.status == "quarantined":
-        print(f"Quarantined at stage: {job.error_stage}")
-        print(f"Action required: SUPER_ADMIN_INTERVENTION")
-        print(f"Details: {job.error_message}")
-        return 1
     else:
         print(f"Failed at stage: {job.error_stage}")
         print(f"Error: {job.error_message}")
-        print(f"To resume after fixing, run:")
-        print(f"python -m aasha.cli --job-id {job_id} --from-stage {job.error_stage}")
         return 1
 
 
 def run_batch(args, config: Config) -> int:
-    """Run batch mode over a directory of PDFs with optional concurrency."""
+    """Run batch mode over a directory of PDFs."""
     batch_dir = Path(args.batch)
     if not batch_dir.is_dir():
         print(f"Error: Directory not found: {batch_dir}")
@@ -234,95 +105,47 @@ def run_batch(args, config: Config) -> int:
         print(f"No PDFs found in {batch_dir}")
         return 1
 
-    workers = getattr(args, "parallel", 1) or 1
-    print(f"Processing {len(pdfs)} PDFs (concurrency={workers})...")
+    print(f"Processing {len(pdfs)} PDFs...")
     print()
 
     results = []
     total_cost = 0.0
     total_time = 0.0
 
-    def process_one(pdf_path: Path):
+    for i, pdf_path in enumerate(pdfs, 1):
+        print(f"[{i}/{len(pdfs)}] {pdf_path.name}...", end=" ", flush=True)
+
         orch = Orchestrator(config)
-        effective_mode = args.mode or "v5-engine"
         job_id = orch.create_job(
             pdf_path=pdf_path,
             subject=args.subject,
             grade=args.grade,
             provider=args.provider,
-            mode=effective_mode,
+            mode=getattr(args, "mode", "v5-engine"),
         )
+
         start = time.time()
-        job = orch.run_pipeline(job_id, max_cost=args.max_cost)
+        job = orch.run_pipeline(job_id)
         dur = time.time() - start
-        return job, dur, pdf_path.name
 
-    if workers > 1:
-        import concurrent.futures
-        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
-            future_to_pdf = {pool.submit(process_one, p): p for p in pdfs}
-            for i, future in enumerate(concurrent.futures.as_completed(future_to_pdf), 1):
-                job, dur, name = future.result()
-                total_cost += job.cost_usd
-                total_time += dur
-                if job.status == "completed":
-                    print(f"[{i}/{len(pdfs)}] {name}: PASS ({dur:.0f}s, ${job.cost_usd:.2f})")
-                    results.append(("pass", name, dur, job.cost_usd))
-                elif job.status == "quarantined":
-                    print(f"[{i}/{len(pdfs)}] {name}: QUARANTINED ({job.error_stage})")
-                    results.append(("quarantined", name, dur, job.cost_usd))
-                else:
-                    print(f"[{i}/{len(pdfs)}] {name}: FAIL ({job.error_stage})")
-                    results.append(("fail", name, dur, job.cost_usd))
-    else:
-        for i, pdf_path in enumerate(pdfs, 1):
-            print(f"[{i}/{len(pdfs)}] {pdf_path.name}...", end=" ", flush=True)
-            job, dur, name = process_one(pdf_path)
-            total_time += dur
-            total_cost += job.cost_usd
+        total_time += dur
+        total_cost += job.cost_usd
 
-            if job.status == "completed":
-                print(f"PASS ({dur:.0f}s, ${job.cost_usd:.2f})")
-                results.append(("pass", name, dur, job.cost_usd))
-            elif job.status == "quarantined":
-                print(f"QUARANTINED ({job.error_stage})")
-                results.append(("quarantined", name, dur, job.cost_usd))
-            else:
-                print(f"FAIL ({job.error_stage})")
-                results.append(("fail", name, dur, job.cost_usd))
+        if job.status == "completed":
+            print(f"PASS ({dur:.0f}s, ${job.cost_usd:.2f})")
+            results.append(("pass", pdf_path.name, dur, job.cost_usd))
+        else:
+            print(f"FAIL ({job.error_stage})")
+            results.append(("fail", pdf_path.name, dur, job.cost_usd))
 
     passed = sum(1 for r in results if r[0] == "pass")
-    quarantined = sum(1 for r in results if r[0] == "quarantined")
-    failed = len(results) - passed - quarantined
+    failed = len(results) - passed
 
     print()
-    print(f"Summary: {passed} built, {quarantined} quarantined, {failed} failed. "
+    print(f"Summary: {passed} built, {failed} failed. "
           f"Cost: ${total_cost:.2f}. Time: {total_time:.0f}s.")
 
-    return 0 if (failed == 0 and quarantined == 0) else 1
-
-
-def run_curriculum(args, config: Config) -> int:
-    """Run curriculum course compilation over multiple chapter PDFs."""
-    orch = Orchestrator(config)
-    effective_mode = args.mode or "v5-engine"
-    try:
-        manifest = orch.compile_curriculum(
-            sources=args.curriculum,
-            subject=args.subject or "auto",
-            grade=args.grade if hasattr(args, "grade") else 0,
-            provider=args.provider,
-            mode=effective_mode,
-            max_cost=args.max_cost,
-        )
-        print()
-        print(f"Curriculum Course Summary: {manifest['completed_chapters']}/{manifest['total_chapters']} chapters completed.")
-        print(f"Total Concepts: {manifest['total_concepts']} | Total XP: {manifest['total_xp']} | Cost: ${manifest['total_cost_usd']:.4f}")
-        print(f"Manifest: {orch.output_dir.resolve() / 'curriculum_manifest.json'}")
-        return 0 if manifest["completed_chapters"] > 0 else 1
-    except Exception as e:
-        print(f"Curriculum compilation failed: {e}")
-        return 1
+    return 0 if failed == 0 else 1
 
 
 def run_web(args, config: Config) -> int:
@@ -354,47 +177,26 @@ Examples:
         """,
     )
     parser.add_argument("--pdf", help="Path to a single PDF file")
-    parser.add_argument("--job-id", dest="job_id", help="Resume or execute an existing job by ID from work/ directory")
-    parser.add_argument("--batch", "--batch-dir", dest="batch", help="Directory of PDFs for batch processing")
-    parser.add_argument("--curriculum", dest="curriculum", help="Directory or list of PDFs to compile as a cohesive course with prerequisite DAG")
-    parser.add_argument("--parallel", "--workers", type=int, default=1, help="Number of parallel workers for batch processing (default: 1)")
-    parser.add_argument("--subject", default="auto", help="Subject (math, science, english, evs, social_studies, economics, financial_literacy, accounting, coding, auto)")
-    parser.add_argument("--grade", type=int, default=0, help="Grade level (1-12, default 0 for auto-detection)")
-    try:
-        _cfg = Config.load()
-        _default_provider = _cfg.llm.default_provider
-    except Exception:
-        _default_provider = "openai"
-    parser.add_argument(
-        "--provider",
-        default=_default_provider,
-        help=f"LLM provider (openai, gemini, anthropic, openrouter); default from config: {_default_provider}",
-    )
-    parser.add_argument("--mode", default=None, choices=["v5-engine", "full-synthesis", "learn-arena"], help="Pipeline mode: v5-engine (default, 6-agent flow), full-synthesis (4-agent flow), or learn-arena (dual Aasha Learn + Arena)")
-    parser.add_argument("--from-stage", dest="from_stage", help="Resume from stage. v5-engine: ingest, analyze, design, assess, lle, assemble, qa, output. full-synthesis: ingest, analyze, design, assess, synthesize, qa, output (also supports aliases: extract, structure, pedagogy)")
-    parser.add_argument("--no-auto-rewind", dest="auto_rewind", action="store_false", default=True, help="Disable automatic rewinding to earlier stages when prerequisites are missing")
-    parser.add_argument("--offline", action="store_true", help="Run 100%% offline with Tier-0 Deterministic Local Synthesizer (zero network, zero tokens, instant execution)")
+    parser.add_argument("--batch", help="Directory of PDFs for batch processing")
+    parser.add_argument("--subject", default="math", help="Subject (math, science, english, evs)")
+    parser.add_argument("--grade", type=int, default=4, help="Grade level (3-8)")
+    parser.add_argument("--provider", default="openai", help="LLM provider (offline, openai, gemini, anthropic)")
+    parser.add_argument("--mode", default="v5-engine", choices=["v5-engine", "full-synthesis", "learn-arena"], help="Compilation mode: v5-engine, full-synthesis, or learn-arena (dual Aasha Learn + Arena)")
+    parser.add_argument("--from-stage", dest="from_stage", help="Resume from stage (ingest, analyze, design, assess, lle, assemble, qa, output)")
     parser.add_argument("--web", action="store_true", help="Start the web UI")
-    parser.add_argument("--max-cost", type=float, default=0.50, help="Maximum cost in USD (default 0.50)")
-    parser.add_argument("--json-events", action="store_true", help="Output streaming line-delimited JSON events for IPC with TUI/GUI")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose logging")
     parser.add_argument("--config", default=None, help="Path to config.yaml (default: ./config.yaml)")
 
     args = parser.parse_args()
-    if getattr(args, "offline", False):
-        os.environ["AASHA_OFFLINE"] = "1"
-        args.provider = "offline"
     setup_logging(args.verbose)
 
     config = Config.load(args.config)
 
     if args.web:
         return run_web(args, config)
-    elif getattr(args, "curriculum", None):
-        return run_curriculum(args, config)
     elif args.batch:
         return run_batch(args, config)
-    elif args.pdf or getattr(args, "job_id", None):
+    elif args.pdf:
         return run_single(args, config)
     else:
         parser.print_help()

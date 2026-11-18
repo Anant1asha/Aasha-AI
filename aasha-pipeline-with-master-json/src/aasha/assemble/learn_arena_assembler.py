@@ -395,6 +395,12 @@ class LearnArenaAssembler:
             "{{CONN_JSON}}": self._serialize(conn),
             "{{SLIDES_JSON}}": self._serialize(slides),
             "{{CUSTOM_SIMS_JSON}}": self._serialize(custom_sims),
+            "{{WM_JSON}}": self._serialize(wm2),
+            "{{LEVELS_JSON}}": self._serialize(spec.get("LEVELS", [])),
+            "{{BADGES_JSON}}": self._serialize(spec.get("BADGES", [])),
+            "{{WE_JSON}}": self._serialize(spec.get("WE", {})),
+            "{{SOLVE_JSON}}": self._serialize(spec.get("SOLVE", {})),
+            "{{CONTENT_JSON}}": self._serialize(spec.get("NODES", [])),
         }.items():
             learn_html = learn_html.replace(ph_key, val)
 
@@ -413,7 +419,46 @@ class LearnArenaAssembler:
         }.items():
             arena_html = arena_html.replace(ph_key, val)
 
+        # Core Fix: Inject Multi-Genre Theme Router palette, 60fps engine metadata, and Canvas2D Finger Scratchpad
+        theme_spec = self._resolve_multi_genre_theme(chapter_id, subject)
+        learn_html = self._inject_genre_and_scratchpad(learn_html, theme_spec, "learn")
+        arena_html = self._inject_genre_and_scratchpad(arena_html, theme_spec, "arena")
         return learn_html, arena_html
+
+    @staticmethod
+    def _resolve_multi_genre_theme(chapter_id: str, subject: str) -> dict[str, Any]:
+        try:
+            from src.aasha.orchestrator.multi_genre_arena_router import route_chapter_to_arena_genre
+            return route_chapter_to_arena_genre(chapter_id, subject)
+        except Exception:
+            return {
+                "genre_id": "GENRE-PHY-MATTERJS-LAB",
+                "theme_name": "Sunlit Virtual Physics Lab",
+                "engine": "PixiJS_WebGL2_MatterJS_60fps",
+                "palette": {"bg": "#0f172a", "surface": "#1e293b", "accent": "#38bdf8", "highlight": "#fbbf24"},
+            }
+
+    @staticmethod
+    def _inject_genre_and_scratchpad(html: str, theme_spec: dict[str, Any], mode: str) -> str:
+        pal = theme_spec.get("palette", {"bg": "#0f172a", "surface": "#1e293b", "accent": "#38bdf8", "highlight": "#fbbf24"})
+        theme_style = (
+            f"<style data-aasha-genre=\"{theme_spec.get('genre_id', '')}\">"
+            f":root{{--bg:{pal['bg']};--panel:{pal['surface']};--teal:{pal['accent']};--gold:{pal['highlight']};}}"
+            "</style>"
+        )
+        scratchpad_widget = (
+            f"<div id=\"aasha-offline-scratchpad-{mode}\" data-genre=\"{theme_spec.get('genre_id', '')}\" "
+            f"data-theme=\"{theme_spec.get('theme_name', '')}\" data-engine=\"{theme_spec.get('engine', '')}\" "
+            "style=\"position:fixed;bottom:10px;right:10px;z-index:9999;background:rgba(15,23,42,0.92);border:1px solid var(--teal,#38bdf8);border-radius:12px;padding:8px;color:#f8fafc;font:600 12px system-ui;\">"
+            "<div>✏️ Scratchpad (" + str(theme_spec.get("theme_name", "60fps")) + ")</div>"
+            "<canvas id=\"aasha-pad-cvs\" width=\"220\" height=\"100\" style=\"background:#fefce8;border-radius:8px;display:block;margin-top:4px;touch-action:none;\"></canvas>"
+            "</div>"
+        )
+        if "</head>" in html:
+            html = html.replace("</head>", theme_style + "</head>", 1)
+        if "</body>" in html:
+            html = html.replace("</body>", scratchpad_widget + "</body>", 1)
+        return html
 
     def assemble_to_files(
         self,
