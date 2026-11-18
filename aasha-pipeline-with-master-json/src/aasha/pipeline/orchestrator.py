@@ -160,6 +160,7 @@ class Orchestrator:
         job_id: str,
         from_stage: str | None = None,
         log_callback=None,
+        **kwargs,
     ) -> Job:
         """Run the full pipeline for a job.
 
