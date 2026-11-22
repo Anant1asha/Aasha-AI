@@ -23,7 +23,7 @@
     "memory:prime": "tsx ../scripts/jagiye_maakiran.ts",
     "test:ltruth": "node benchmarks/qa_ltruth_benchmark.js",
     "test:master": "node ../tests/e2e_all_chapters_suite.js",
-    "test:server": "npm --prefix server test",
+    "test:server": "node --loader ../tests/esm_offline_server_loader.mjs ../tests/test_gap_v7_01_server_http_integration.mjs",
     "test:all": "node benchmarks/qa_ltruth_benchmark.js && node ../tests/e2e_all_chapters_suite.js && npm run test:server",
     "test": "npm run test:all",
     "validate": "npm run test:ltruth",

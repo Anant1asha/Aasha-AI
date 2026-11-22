@@ -34,8 +34,18 @@ class QAAgent(BaseAgent):
 
     def _run_node_qa(self, html_path: Path) -> dict[str, Any]:
         """Run the Node.js QA harness."""
-        cmd_parts = self.qa_runner.split()
-        cmd = cmd_parts + [str(html_path)]
+        canonical_qa = Path(__file__).resolve().parents[3] / "qa" / "run_qa.js"
+        if canonical_qa.exists():
+            cmd = ["node", str(canonical_qa), str(html_path)]
+            run_cwd = str(canonical_qa.parent)
+        else:
+            try:
+                import shlex
+                cmd_parts = shlex.split(self.qa_runner)
+            except Exception:
+                cmd_parts = self.qa_runner.split()
+            cmd = cmd_parts + [str(html_path)]
+            run_cwd = str(html_path.parent)
 
         try:
             result = subprocess.run(
@@ -43,7 +53,7 @@ class QAAgent(BaseAgent):
                 capture_output=True,
                 text=True,
                 timeout=120,
-                cwd=str(html_path.parent),
+                cwd=run_cwd,
             )
 
             if result.returncode == 0:
