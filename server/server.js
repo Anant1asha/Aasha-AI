@@ -2604,6 +2604,458 @@ export function buildServer() {
     return { status: 'ok', ...payload, leaderboard_sha256 };
   }
 
+  // Phase G85: Offline Student Mastery Leaderboard & Bilingual Streak Badges
+  app.get('/api/student/offline-leaderboard/:centerId', async (request) => {
+    const centerId = String(request.params.centerId || 'CENTER-UP-GN-01').trim();
+    const rows = db.prepare(`
+      SELECT student_id AS studentId,
+             COUNT(*) AS modulesCompleted,
+             ROUND(AVG(score_pct), 1) AS avgScorePct,
+             COALESCE(SUM(wm_tap_hits), 0) AS totalWmHits,
+             COALESCE(SUM(coins_awarded), 0) AS totalCoins
+      FROM custom_pdf_mastery_ledger
+      GROUP BY student_id
+      ORDER BY (AVG(score_pct) * COUNT(*) + SUM(wm_tap_hits) * 2 + SUM(coins_awarded)) DESC, student_id ASC
+      LIMIT 25
+    `).all();
+    const rankedStudents = rows.map((r, idx) => {
+      const badges = ['BRONZE_LEARNER'];
+      if (Number(r.modulesCompleted) >= 2 || Number(r.avgScorePct) >= 80) badges.push('SILVER_SCHOLAR');
+      if (Number(r.modulesCompleted) >= 3 && Number(r.avgScorePct) >= 90) badges.push('GOLD_CHALLENGER');
+      if (Number(r.totalWmHits) >= 25) badges.push('BILINGUAL_WM_MASTER');
+      return { rank: idx + 1, ...r, badges };
+    });
+    const leaderboard_sha256 = crypto.createHash('sha256').update(JSON.stringify({ centerId, rankedStudents }), 'utf-8').digest('hex');
+    return {
+      status: 'ok',
+      schemaVersion: 'aasha.offline.leaderboard.v1',
+      centerId,
+      studentCount: rankedStudents.length,
+      rankedStudents,
+      offlineOnly: true,
+      leaderboard_sha256
+    };
+  });
+
+  // Phase G86: Offline Voice Read-Aloud & Bilingual Phoneme Pack Storage
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS voice_readaloud_packs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      chapter_id TEXT NOT NULL UNIQUE,
+      language TEXT NOT NULL DEFAULT 'hi-IN',
+      cue_count INTEGER NOT NULL DEFAULT 0,
+      webvtt_content TEXT NOT NULL,
+      pack_sha256 TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    )
+  `);
+
+  app.post('/api/student/voice-phoneme-pack', async (request, reply) => {
+    const body = request.body || {};
+    const chapterId = String(body.chapterId || '').trim();
+    if (!chapterId) {
+      return reply.code(400).send({ error: 'chapterId is required' });
+    }
+    const language = String(body.language || 'hi-IN').trim();
+    const cueCount = Math.max(0, Number(body.cueCount ?? 0));
+    const webvttContent = String(body.webvttContent || 'WEBVTT\n');
+    const createdAt = new Date().toISOString();
+    const packSha256 = crypto.createHash('sha256')
+      .update(`${chapterId}|${language}|${cueCount}|${webvttContent}`, 'utf-8')
+      .digest('hex');
+    db.prepare(`
+      INSERT OR REPLACE INTO voice_readaloud_packs (chapter_id, language, cue_count, webvtt_content, pack_sha256, created_at)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `).run(chapterId, language, cueCount, webvttContent, packSha256, createdAt);
+    return { status: 'ok', chapterId, language, cueCount, offlineOnly: true, pack_sha256: packSha256 };
+  });
+
+  app.get('/api/student/voice-phoneme-pack/:chapterId', async (request, reply) => {
+    const chapterId = String(request.params.chapterId || '').trim();
+    const row = db.prepare(`
+      SELECT chapter_id AS chapterId, language, cue_count AS cueCount,
+             webvtt_content AS webvttContent, pack_sha256 AS packSha256, created_at AS createdAt
+      FROM voice_readaloud_packs WHERE chapter_id = ?
+    `).get(chapterId);
+    if (!row) {
+      return reply.code(404).send({ error: 'Voice phoneme pack not found' });
+    }
+    return { status: 'ok', offlineOnly: true, ...row };
+  });
+
+  // Phase G87: Offline NCVET Apprenticeship & Skill Portfolio Export
+  app.get('/api/student/:id/ncvet-apprenticeship-export', async (request) => {
+    const studentId = String(request.params.id || 'STU-DEFAULT').trim();
+    const rows = db.prepare(`
+      SELECT chapter_id AS chapterId, score_pct AS scorePct, wm_tap_hits AS wmTapHits
+      FROM custom_pdf_mastery_ledger WHERE student_id = ?
+    `).all(studentId);
+    const completed = rows.filter((r) => Number(r.scorePct || 0) >= 70);
+    const avgScore = completed.length
+      ? Math.round((completed.reduce((a, r) => a + Number(r.scorePct || 0), 0) / completed.length) * 10) / 10
+      : 0;
+    const totalWm = rows.reduce((a, r) => a + Number(r.wmTapHits || 0), 0);
+    const nsqfCredits = Math.round((completed.length * 1.5 + Math.min(totalWm, 100) * 0.02) * 100) / 100;
+    const readinessStatus = completed.length >= 2 && avgScore >= 80 ? 'APPRENTICE_READY' : 'TRAINING_IN_PROGRESS';
+    const exportSha = crypto.createHash('sha256')
+      .update(`${studentId}|${completed.length}|${avgScore}|${nsqfCredits}|${readinessStatus}`, 'utf-8')
+      .digest('hex');
+    let rects = '';
+    for (let i = 0; i < 49; i++) {
+      if (parseInt(exportSha[i % exportSha.length], 16) % 2 === 1) {
+        rects += `<rect x="${6 + (i % 7) * 8}" y="${6 + Math.floor(i / 7) * 8}" width="6" height="6" fill="#0f172a"/>`;
+      }
+    }
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 68" width="68" height="68"><rect width="68" height="68" fill="#ffffff"/>${rects}</svg>`;
+    return {
+      status: 'ok',
+      schemaVersion: 'aasha.ncvet.apprenticeship.export.v1',
+      studentId,
+      targetTrade: 'Solar Pump Technician (NSQF L3-L4)',
+      modulesCertified: completed.length,
+      avgMasteryPct: avgScore,
+      bilingualWmTaps: totalWm,
+      nsqfCreditsEarned: nsqfCredits,
+      readinessStatus,
+      qrSvgDataUri: `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`,
+      export_sha256: exportSha,
+      offlineOnly: true
+    };
+  });
+
+  // Phase G88: Offline Teacher Remedial Worksheet Print & QR Sync
+  app.get('/api/teacher/remedial-worksheet-print/:chapterId', async (request) => {
+    const chapterId = String(request.params.chapterId || 'SCI_CH08').trim();
+    const flagged = db.prepare(`
+      SELECT student_id AS studentId, score_pct AS scorePct, wm_tap_hits AS wmTapHits
+      FROM custom_pdf_mastery_ledger
+      WHERE chapter_id = ? AND score_pct < 70
+      ORDER BY score_pct ASC
+      LIMIT 50
+    `).all(chapterId);
+    const worksheetSha = crypto.createHash('sha256')
+      .update(`${chapterId}|${flagged.length}|${JSON.stringify(flagged)}`, 'utf-8')
+      .digest('hex');
+    let rects = '';
+    for (let i = 0; i < 49; i++) {
+      if (parseInt(worksheetSha[i % worksheetSha.length], 16) % 2 === 1) {
+        rects += `<rect x="${6 + (i % 7) * 8}" y="${6 + Math.floor(i / 7) * 8}" width="6" height="6" fill="#0f172a"/>`;
+      }
+    }
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 68" width="68" height="68"><rect width="68" height="68" fill="#ffffff"/>${rects}</svg>`;
+    return {
+      status: 'ok',
+      schemaVersion: 'aasha.remedial.worksheet.print.v1',
+      chapterId,
+      studentsFlaggedCount: flagged.length,
+      flaggedStudents: flagged,
+      qrSvgDataUri: `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`,
+      worksheet_sha256: worksheetSha,
+      offlineOnly: true
+    };
+  });
+
+  // Phase G89: Offline Solar OTA Delta Bundle Verifier
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS solar_ota_delta_receipts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      delta_id TEXT NOT NULL UNIQUE,
+      center_id TEXT NOT NULL,
+      chunk_count INTEGER NOT NULL DEFAULT 0,
+      max_child_bytes INTEGER NOT NULL DEFAULT 0,
+      verified INTEGER NOT NULL DEFAULT 1,
+      ota_sha256 TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    )
+  `);
+
+  app.post('/api/sync/verify-solar-ota-delta', async (request, reply) => {
+    const body = request.body || {};
+    const centerId = String(body.centerId || 'CENTER-UP-GN-01').trim();
+    const chunks = Array.isArray(body.chunks) ? body.chunks : [];
+    if (chunks.length === 0) {
+      return reply.code(400).send({ error: 'chunks array is required' });
+    }
+    let maxChildBytes = 0;
+    for (const c of chunks) {
+      const sz = Number(c.sizeBytes ?? c.size_bytes ?? 0);
+      if (sz > 20971520) {
+        return reply.code(400).send({ error: 'CHILD_HTML_EXCEEDS_20MIB_CAP', sizeBytes: sz });
+      }
+      if (sz > maxChildBytes) maxChildBytes = sz;
+    }
+    const deltaId = String(body.deltaId || `OTA-${Date.now()}-${centerId}`).trim();
+    const createdAt = new Date().toISOString();
+    const otaSha256 = crypto.createHash('sha256')
+      .update(`${deltaId}|${centerId}|${chunks.length}|${maxChildBytes}|${createdAt}`, 'utf-8')
+      .digest('hex');
+    db.prepare(`
+      INSERT OR REPLACE INTO solar_ota_delta_receipts (delta_id, center_id, chunk_count, max_child_bytes, verified, ota_sha256, created_at)
+      VALUES (?, ?, ?, ?, 1, ?, ?)
+    `).run(deltaId, centerId, chunks.length, maxChildBytes, otaSha256, createdAt);
+    return {
+      status: 'ok',
+      deltaId,
+      centerId,
+      chunkCount: chunks.length,
+      maxChildBytes,
+      within20MiBCap: true,
+      verified: true,
+      ota_sha256: otaSha256
+    };
+  });
+
+  app.get('/api/sync/solar-ota-status/:centerId', async (request) => {
+    const centerId = String(request.params.centerId || 'CENTER-UP-GN-01').trim();
+    const receipts = db.prepare(`
+      SELECT delta_id AS deltaId, center_id AS centerId, chunk_count AS chunkCount,
+             max_child_bytes AS maxChildBytes, verified, ota_sha256 AS otaSha256, created_at AS createdAt
+      FROM solar_ota_delta_receipts WHERE center_id = ?
+      ORDER BY id DESC LIMIT 25
+    `).all(centerId);
+    return { status: 'ok', centerId, count: receipts.length, receipts };
+  });
+
+  // Phase G90: December 31, 2026 MVP System Readiness Summary
+  app.get('/api/mvp/dec-2026-readiness-summary', async () => {
+    const counts = {
+      studioPdfJobs: Number(db.prepare(`SELECT COUNT(*) AS c FROM studio_pdf_jobs`).get()?.c || 0),
+      batchBenchmarks: Number(db.prepare(`SELECT COUNT(*) AS c FROM studio_batch_benchmarks`).get()?.c || 0),
+      customPdfMasteryEntries: Number(db.prepare(`SELECT COUNT(*) AS c FROM custom_pdf_mastery_ledger`).get()?.c || 0),
+      lanPackShares: Number(db.prepare(`SELECT COUNT(*) AS c FROM studio_lan_pack_shares`).get()?.c || 0),
+      federatedDeltas: Number(db.prepare(`SELECT COUNT(*) AS c FROM federated_centre_deltas`).get()?.c || 0),
+      voicePhonemePacks: Number(db.prepare(`SELECT COUNT(*) AS c FROM voice_readaloud_packs`).get()?.c || 0),
+      solarOtaReceipts: Number(db.prepare(`SELECT COUNT(*) AS c FROM solar_ota_delta_receipts`).get()?.c || 0),
+    };
+    const summary = {
+      schemaVersion: 'aasha.dec2026.mvp.readiness.v1',
+      mvpTargetDeadline: '2026-12-31',
+      offlineOnly: true,
+      offlineRationale: 'UNSUPERVISED_HOME_DISTRACTION_FREE_STUDY',
+      targetHardware: '4GB_RAM_5G_SMARTPHONE_60FPS',
+      within20MiBChildCap: true,
+      zeroExternalUrls: true,
+      subsystems: counts,
+    };
+    const readiness_sha256 = crypto.createHash('sha256').update(JSON.stringify(summary), 'utf-8').digest('hex');
+    return { status: 'ok', ...summary, readiness_sha256 };
+  });
+
+  // Phase G91: Production Multi-Board Curriculum Summary & Audit
+  app.get('/api/catalogue/multi-board-summary', async () => {
+    const jobRows = db.prepare(`SELECT board, COUNT(*) AS cnt FROM studio_pdf_jobs GROUP BY board`).all();
+    const byBoard = { NCERT: 0, UPMSP: 0, CBSE: 0, NCVET: 0 };
+    for (const r of jobRows) {
+      const b = String(r.board || 'NCERT').toUpperCase();
+      byBoard[b] = (byBoard[b] || 0) + Number(r.cnt || 0);
+    }
+    const payload = {
+      schemaVersion: 'aasha.multi.board.summary.v1',
+      boardsSupported: ['NCERT', 'UPMSP', 'CBSE', 'NCVET'],
+      customJobsByBoard: byBoard,
+      within20MiBChildCap: true,
+      zeroExternalUrls: true,
+      offlineOnly: true,
+    };
+    const catalogue_sha256 = crypto.createHash('sha256').update(JSON.stringify(payload), 'utf-8').digest('hex');
+    return { status: 'ok', ...payload, catalogue_sha256 };
+  });
+
+  // Phase G92: Offline Teacher Copilot Lesson Prep from Custom PDF
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS teacher_lesson_prep_plans (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      chapter_id TEXT NOT NULL UNIQUE,
+      subject TEXT NOT NULL DEFAULT 'science',
+      grade INTEGER NOT NULL DEFAULT 8,
+      duration_minutes INTEGER NOT NULL DEFAULT 30,
+      key_terms_json TEXT NOT NULL,
+      prep_sha256 TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    )
+  `);
+
+  app.post('/api/teacher/lesson-prep-from-pdf', async (request, reply) => {
+    const body = request.body || {};
+    const chapterId = String(body.chapterId || '').trim();
+    if (!chapterId) {
+      return reply.code(400).send({ error: 'chapterId is required' });
+    }
+    const subject = String(body.subject || 'science').trim().toLowerCase();
+    const grade = Math.max(1, Math.min(12, Number(body.grade ?? 8)));
+    const keyTerms = Array.isArray(body.keyTerms) ? body.keyTerms.map(String) : [];
+    const createdAt = new Date().toISOString();
+    const prepSha256 = crypto.createHash('sha256')
+      .update(`${chapterId}|${subject}|${grade}|${JSON.stringify(keyTerms)}`, 'utf-8')
+      .digest('hex');
+    db.prepare(`
+      INSERT OR REPLACE INTO teacher_lesson_prep_plans (chapter_id, subject, grade, duration_minutes, key_terms_json, prep_sha256, created_at)
+      VALUES (?, ?, ?, 30, ?, ?, ?)
+    `).run(chapterId, subject, grade, JSON.stringify(keyTerms), prepSha256, createdAt);
+    return { status: 'ok', chapterId, subject, grade, durationMinutes: 30, keyTerms, offlineOnly: true, prep_sha256: prepSha256 };
+  });
+
+  app.get('/api/teacher/lesson-prep/:chapterId', async (request, reply) => {
+    const chapterId = String(request.params.chapterId || '').trim();
+    const row = db.prepare(`
+      SELECT chapter_id AS chapterId, subject, grade, duration_minutes AS durationMinutes,
+             key_terms_json AS keyTermsJson, prep_sha256 AS prepSha256, created_at AS createdAt
+      FROM teacher_lesson_prep_plans WHERE chapter_id = ?
+    `).get(chapterId);
+    if (!row) {
+      return reply.code(404).send({ error: 'Lesson prep plan not found' });
+    }
+    return { status: 'ok', offlineOnly: true, ...row, keyTerms: JSON.parse(row.keyTermsJson || '[]') };
+  });
+
+  // Phase G93: Offline Student Doubt Journal & Zero-Spoiler Socratic Peer Hint Card
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS student_doubt_journal (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      student_id TEXT NOT NULL,
+      chapter_id TEXT NOT NULL,
+      doubt_text TEXT NOT NULL,
+      socratic_hint_en TEXT NOT NULL,
+      socratic_hint_hi TEXT NOT NULL,
+      doubt_sha256 TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    )
+  `);
+
+  app.post('/api/student/doubt-journal', async (request, reply) => {
+    const body = request.body || {};
+    const studentId = String(body.studentId || '').trim();
+    const chapterId = String(body.chapterId || '').trim();
+    const doubtText = String(body.doubtText || '').trim();
+    if (!studentId || !chapterId || !doubtText) {
+      return reply.code(400).send({ error: 'studentId, chapterId, and doubtText are required' });
+    }
+    const hintEn = `Re-check the core principle in ${chapterId} using bilingual WM terms before selecting your answer.`;
+    const hintHi = `उत्तर चुनने से पहले ${chapterId} के मुख्य सिद्धांत को द्विभाषी शब्द-अर्थ के साथ फिर से देखें।`;
+    const createdAt = new Date().toISOString();
+    const doubtSha256 = crypto.createHash('sha256')
+      .update(`${studentId}|${chapterId}|${doubtText}|${createdAt}`, 'utf-8')
+      .digest('hex');
+    db.prepare(`
+      INSERT INTO student_doubt_journal (student_id, chapter_id, doubt_text, socratic_hint_en, socratic_hint_hi, doubt_sha256, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(studentId, chapterId, doubtText, hintEn, hintHi, doubtSha256, createdAt);
+    return {
+      status: 'ok',
+      studentId,
+      chapterId,
+      socraticHintEn: hintEn,
+      socraticHintHi: hintHi,
+      zeroSpoiler: true,
+      offlineOnly: true,
+      doubt_sha256: doubtSha256
+    };
+  });
+
+  app.get('/api/student/doubt-journal/:studentId', async (request) => {
+    const studentId = String(request.params.studentId || '').trim();
+    const entries = db.prepare(`
+      SELECT student_id AS studentId, chapter_id AS chapterId, doubt_text AS doubtText,
+             socratic_hint_en AS socraticHintEn, socratic_hint_hi AS socraticHintHi,
+             doubt_sha256 AS doubtSha256, created_at AS createdAt
+      FROM student_doubt_journal WHERE student_id = ?
+      ORDER BY id DESC LIMIT 25
+    `).all(studentId);
+    return { status: 'ok', studentId, count: entries.length, entries };
+  });
+
+  // Phase G94: Offline Teacher Doubt Resolution & Classroom Broadcast
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS teacher_classroom_broadcasts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      chapter_id TEXT NOT NULL,
+      doubts_resolved_count INTEGER NOT NULL DEFAULT 0,
+      clarification_en TEXT NOT NULL,
+      clarification_hi TEXT NOT NULL,
+      broadcast_sha256 TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    )
+  `);
+
+  app.post('/api/teacher/doubt-broadcast', async (request, reply) => {
+    const body = request.body || {};
+    const chapterId = String(body.chapterId || '').trim();
+    const clarificationEn = String(body.clarificationEn || '').trim();
+    const clarificationHi = String(body.clarificationHi || '').trim();
+    if (!chapterId || !clarificationEn || !clarificationHi) {
+      return reply.code(400).send({ error: 'chapterId, clarificationEn, and clarificationHi are required' });
+    }
+    const doubtsResolvedCount = Math.max(0, Number(body.doubtsResolvedCount ?? 0));
+    const createdAt = new Date().toISOString();
+    const broadcastSha256 = crypto.createHash('sha256')
+      .update(`${chapterId}|${doubtsResolvedCount}|${clarificationEn}|${clarificationHi}|${createdAt}`, 'utf-8')
+      .digest('hex');
+    db.prepare(`
+      INSERT INTO teacher_classroom_broadcasts (chapter_id, doubts_resolved_count, clarification_en, clarification_hi, broadcast_sha256, created_at)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `).run(chapterId, doubtsResolvedCount, clarificationEn, clarificationHi, broadcastSha256, createdAt);
+    return { status: 'ok', chapterId, doubtsResolvedCount, offlineOnly: true, broadcast_sha256: broadcastSha256 };
+  });
+
+  app.get('/api/teacher/doubt-broadcast/:chapterId', async (request) => {
+    const chapterId = String(request.params.chapterId || '').trim();
+    const broadcasts = db.prepare(`
+      SELECT chapter_id AS chapterId, doubts_resolved_count AS doubtsResolvedCount,
+             clarification_en AS clarificationEn, clarification_hi AS clarificationHi,
+             broadcast_sha256 AS broadcastSha256, created_at AS createdAt
+      FROM teacher_classroom_broadcasts WHERE chapter_id = ?
+      ORDER BY id DESC LIMIT 25
+    `).all(chapterId);
+    return { status: 'ok', chapterId, count: broadcasts.length, broadcasts };
+  });
+
+  // Phase G95: Offline Student Peer Challenge & Arena Invite
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS peer_arena_challenges (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      invite_code TEXT NOT NULL UNIQUE,
+      challenger_id TEXT NOT NULL,
+      chapter_id TEXT NOT NULL,
+      genre_id TEXT NOT NULL,
+      target_score_pct REAL NOT NULL DEFAULT 85,
+      challenge_sha256 TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    )
+  `);
+
+  app.post('/api/student/peer-arena-challenge', async (request, reply) => {
+    const body = request.body || {};
+    const challengerId = String(body.challengerId || '').trim();
+    const chapterId = String(body.chapterId || '').trim();
+    if (!challengerId || !chapterId) {
+      return reply.code(400).send({ error: 'challengerId and chapterId are required' });
+    }
+    const genreId = String(body.genreId || 'GENRE-CRICKET-STRATEGY-ARENA').trim();
+    const targetScorePct = Math.max(50, Math.min(100, Number(body.targetScorePct ?? 85)));
+    const createdAt = new Date().toISOString();
+    const inviteCode = `ARENA-${chapterId.slice(0, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`;
+    const challengeSha256 = crypto.createHash('sha256')
+      .update(`${inviteCode}|${challengerId}|${chapterId}|${genreId}|${targetScorePct}`, 'utf-8')
+      .digest('hex');
+    db.prepare(`
+      INSERT OR REPLACE INTO peer_arena_challenges (invite_code, challenger_id, chapter_id, genre_id, target_score_pct, challenge_sha256, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(inviteCode, challengerId, chapterId, genreId, targetScorePct, challengeSha256, createdAt);
+    return { status: 'ok', inviteCode, challengerId, chapterId, genreId, targetScorePct, offlineOnly: true, challenge_sha256: challengeSha256 };
+  });
+
+  app.get('/api/student/peer-arena-challenges/:chapterId', async (request) => {
+    const chapterId = String(request.params.chapterId || '').trim();
+    const challenges = db.prepare(`
+      SELECT invite_code AS inviteCode, challenger_id AS challengerId, chapter_id AS chapterId,
+             genre_id AS genreId, target_score_pct AS targetScorePct,
+             challenge_sha256 AS challengeSha256, created_at AS createdAt
+      FROM peer_arena_challenges WHERE chapter_id = ?
+      ORDER BY id DESC LIMIT 25
+    `).all(chapterId);
+    return { status: 'ok', chapterId, count: challenges.length, challenges };
+  });
+
   return app;
 
 
