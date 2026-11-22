@@ -25,12 +25,15 @@ Thumbs.db
 
 # Project artifacts
 jobs/*
-output/*
 .llm_cache/*
 work/*
 !jobs/.gitkeep
-!output/.gitkeep
 !.llm_cache/.gitkeep
+
+# Output artifacts: ignore ad-hoc pipeline test outputs, but track official release packs
+output/*
+!output/g*/
+!output/.gitkeep
 
 # Secrets
 .env
